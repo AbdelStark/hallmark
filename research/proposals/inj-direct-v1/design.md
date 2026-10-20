@@ -88,7 +88,9 @@ regression probability 0.005 for every quantized candidate/seed. They are
 assumptions, not forecasts. Under IID root-group representatives, the required
 test counts are **7,831 benign groups and 1,375 positive groups**. The separate
 TPR minimum is 738; the larger positive count covers the regression gate.
-Recompute acceptance cutoffs for the frozen actual counts, not a favorable subset.
+Before fitting, recompute both power and acceptance cutoffs for the frozen actual
+counts, not a favorable subset. Discrete cutoffs mean passing a minimum count
+alone does not guarantee the power target at every larger count.
 The union bound supplies family power without assuming independent endpoints.
 It does not account for distribution shift, incorrect labels or hidden lineage.
 
