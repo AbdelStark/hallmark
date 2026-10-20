@@ -8,11 +8,12 @@ An offline research foundation: strict data/config/model contracts, exact group 
 
 ## Run
 
-Python 3.12 and uv. From this checkout:
+CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:
 
 ```sh
 uv sync --locked --extra train
 make check
+make check-train
 uv run --locked hallmark validate-data fixtures/smoke.jsonl
 uv run --locked hallmark schema experiment
 uv run --locked --extra train hallmark run configs/fixture.json --output runs/bootstrap

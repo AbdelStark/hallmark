@@ -1,6 +1,6 @@
 # Contributing privately
 
-Read [AGENTS.md](AGENTS.md), the [canonical spec](SPEC.md) and [evaluation contract](docs/EVALUATION.md). Keep changes bounded and test their negative path. Run `make check` and `make package-check`; run the explicit train-extra test when training or evaluation changes.
+Read [AGENTS.md](AGENTS.md), the [canonical spec](SPEC.md) and [evaluation contract](docs/EVALUATION.md). Keep changes bounded and test their negative path. Run `make check` and `make package-check`; run `make check-train` when training or evaluation changes. The latter fails if its required training tests skip or do not execute. Supported interpreters are CPython 3.12, 3.13 and 3.14; CI checks core/package and training separately on each.
 
 Do not add data, weights, secrets, private transcripts or generated run directories to git. A new dependency needs a concrete need and licence/supply-chain review. A model or dataset link is not permission to fetch or redistribute it. Use the locked local environment, never the system interpreter.
 

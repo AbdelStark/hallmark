@@ -18,7 +18,7 @@ These are actual declared constraints and lock selections, inspected at bootstra
 
 | Dependency | Constraint; locked version | Reason |
 |---|---|---|
-| Python | `>=3.12,<3.15`; local pin 3.12 | Modern typing; 3.12/3.13 CI definitions currently exist, 3.14 support must be tested before claiming it |
+| Python | `>=3.12,<3.15`; local pin 3.12 | CPython 3.12/3.13/3.14 core/package and required-train matrix; exact local/hosted evidence is recorded per change |
 | cbor2 | `>=5.6,<6`; 5.9.0 | Existing research deterministic CBOR; major change requires vectors |
 | pydantic | `>=2.10,<3`; 2.14.1 | Strict schemas; reject major API drift |
 | numpy | train extra `>=2,<3`; 2.5.4 | Explicit float64 fitting arrays |
