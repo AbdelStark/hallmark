@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "LabelMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Label",
+          "type": "integer"
+        },
+        "review": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Review",
+          "type": "string"
+        },
+        "source_label": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Source Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_label",
+        "label",
+        "review"
+      ],
+      "title": "LabelMapping",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "annotation_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Annotation Review",
+      "type": "string"
+    },
+    "data_card": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Data Card",
+      "type": "string"
+    },
+    "label_mapping": {
+      "items": {
+        "$ref": "#/$defs/LabelMapping"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Label Mapping",
+      "type": "array"
+    },
+    "license_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "License Id",
+      "type": "string"
+    },
+    "policy": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Policy",
+      "type": "string"
+    },
+    "privacy": {
+      "enum": [
+        "public",
+        "synthetic"
+      ],
+      "title": "Privacy",
+      "type": "string"
+    },
+    "purpose": {
+      "const": "inj.direct-study",
+      "title": "Purpose",
+      "type": "string"
+    },
+    "raw_files": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Raw Files",
+      "type": "array"
+    },
+    "review_kind": {
+      "enum": [
+        "human",
+        "fixture"
+      ],
+      "title": "Review Kind",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/source-manifest/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "transformation_recipe": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Transformation Recipe",
+      "type": "string"
+    },
+    "upstream_revision": {
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Upstream Revision",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "source_id",
+    "upstream_revision",
+    "license_id",
+    "policy",
+    "purpose",
+    "privacy",
+    "review_kind",
+    "raw_files",
+    "label_mapping",
+    "annotation_review",
+    "transformation_recipe",
+    "data_card"
+  ],
+  "title": "SourceManifest",
+  "type": "object"
+}

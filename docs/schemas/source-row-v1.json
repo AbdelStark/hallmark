@@ -1,0 +1,81 @@
+{
+  "additionalProperties": false,
+  "description": "Reviewed adapter output; text is unchanged by this importer.",
+  "properties": {
+    "difficult_negative": {
+      "title": "Difficult Negative",
+      "type": "boolean"
+    },
+    "family_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Family Id",
+      "type": "string"
+    },
+    "history_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "History Id"
+    },
+    "language": {
+      "const": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "parents": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Parents",
+      "type": "array"
+    },
+    "prompt": {
+      "maxLength": 32768,
+      "title": "Prompt",
+      "type": "string"
+    },
+    "record_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Record Id",
+      "type": "string"
+    },
+    "response": {
+      "maxLength": 32768,
+      "title": "Response",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/source-row/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "source_label": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Source Label",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "record_id",
+    "family_id",
+    "language",
+    "prompt",
+    "response",
+    "source_label",
+    "parents",
+    "history_id",
+    "difficult_negative"
+  ],
+  "title": "SourceRow",
+  "type": "object"
+}

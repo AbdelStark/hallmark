@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add caller-pinned source import, raw-row lineage sidecars and deterministic
+grouped splits. Preserve contrastive pairs, bind review/rights documents and
+reject rehashed leakage mutations. Ship synthetic fixtures, seven schemas and
+installed-package checks; real data and task-quality review remain unestablished.
+
 Execute bounded literal byte rules over complete prompts, carrying suffix state
 across chunks and checking exact program/profile/provenance identities. Add
 complete-input oracle tests, fixed vectors, schemas and installed-wheel checks.

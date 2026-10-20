@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "SourceApproval": {
+      "additionalProperties": false,
+      "description": "Exact metadata/notice/approval document hashes, not inferred legal permission.",
+      "properties": {
+        "approval_ref": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Approval Ref",
+          "type": "string"
+        },
+        "license_text": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "License Text",
+          "type": "string"
+        },
+        "purpose": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "restrictions": {
+          "$ref": "#/$defs/FileRef"
+        },
+        "revision": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Revision",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_text",
+        "purpose",
+        "approval_ref",
+        "restrictions"
+      ],
+      "title": "SourceApproval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "design": {
+      "const": "inj-direct-design/1",
+      "title": "Design",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "fixture_only": {
+      "title": "Fixture Only",
+      "type": "boolean"
+    },
+    "held_out_families": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "title": "Held Out Families",
+      "type": "array"
+    },
+    "held_out_sources": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Held Out Sources",
+      "type": "array"
+    },
+    "near_duplicate_review": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "policy": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Policy",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/data-import/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceApproval"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "policy",
+    "design",
+    "fixture_only",
+    "sources",
+    "near_duplicate_review",
+    "held_out_sources",
+    "held_out_families",
+    "evidence"
+  ],
+  "title": "DataImportPlan",
+  "type": "object"
+}

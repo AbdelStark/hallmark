@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "candidate_inventory": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Candidate Inventory",
+      "type": "string"
+    },
+    "disposition": {
+      "const": "retain-and-group-all-candidates",
+      "title": "Disposition",
+      "type": "string"
+    },
+    "evidence": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Evidence",
+      "type": "string"
+    },
+    "review_kind": {
+      "enum": [
+        "human",
+        "fixture"
+      ],
+      "title": "Review Kind",
+      "type": "string"
+    },
+    "reviewer": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Reviewer",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/near-duplicate-review/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "candidate_inventory",
+    "review_kind",
+    "reviewer",
+    "evidence",
+    "disposition"
+  ],
+  "title": "NearDuplicateReview",
+  "type": "object"
+}

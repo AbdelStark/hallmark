@@ -1013,3 +1013,62 @@ and the new full check and both package passes. Final pre-prose source identity:
 wheel `c71824e2fc237e9851bbbe299fe30fde5ccb3909123b80f66947ed5ad5fad402`,
 sdist `78383daf2085efb9cc7d11d9238a871a2ec141f6aac40e2a2fff5f50a8c9a50d`.
 Runtime/fixture wire identities remain unchanged by this schema correction.
+
+### W10 delivered
+
+[PR #70](https://github.com/AbdelStark/hallmark/pull/70) merged as
+`fa310ea2a4d1d484f1ef325eb7bfbf5f86a280ed`. Final head
+`19541ba307b456ce295545bd2740debbee69f6a1` passed all 24 push/PR jobs;
+[main run 39459269341](https://github.com/AbdelStark/hallmark/actions/runs/39459269341)
+passed all 12 jobs. Local, tracking and remote main matched the merge commit.
+Issue #11 is closed; #15 and #19 had stale dependency blockers removed.
+
+## 2026-10-20 — W14 source admission and lineage-first split
+
+Hypothesis: externally pinned source/review bytes and complete connected groups
+can produce reproducible frozen splits while rejecting substitutions and
+cross-split descendants. Baseline: 1,573 tests at the W10 merge above.
+Mutable paths: the additive import API, fixtures/checker, schemas/tests,
+package inventories and related decision/API/research documentation. The
+unrelated `.gitignore` edit remains unstaged.
+
+The [raw evidence](evidence/w14-lineage-data-admission-2026-10-20.json) precedes
+this entry. Initial validation passed 55 focused tests, 1,628 total tests and
+both package gates. Final review removed repeated held-out-set construction
+from the per-group loop and added UTF-8 byte-boundary and policy-mismatch cases.
+The final focused command passed 59 tests; `make check` passed 1,632 tests plus
+lock/lint/format/types, spec, software conformance and admission checks.
+All recorded initial/final runs passed. Development lint/type corrections
+preceded these retained runs.
+
+Twenty-five fixed-seed parent graphs match an independently computed reachability
+oracle. Split boundaries/group representatives match independent arithmetic,
+and changing labels/input ordering leaves assignments unchanged. The 26-row
+fixture has 21 groups: 11 train, five calibration and five test. Parents,
+cross-source descendants, shared histories and identical/ASCII-equivalent prompts
+stay together; contrasting labels remain separate records. Held-out source/family
+members move their complete component into the separate held-out cohort.
+The fixture reproduced byte for byte in a fresh directory; all seven schemas
+match their generated definitions.
+
+Source/licence/review changes, malformed JSON/UTF-8, missing parents, cycles,
+unknown labels, policy mismatches, stale near-review inventories and rehashed
+split/lineage mutations reject. Four injected sync failures retain partial
+output without a final manifest; existing/symlink targets cannot be overwritten.
+These checks do not establish physical power-loss or hostile-parent-path safety.
+
+Final `make package-check` and `make package-check-train` both passed repeated
+distributions, sdist rebuild and installed import fixtures. Their common source
+identity is `8f8a6b09485619d95ff7ad5de62b98a464c8c441b483566464de6bd67e42f4c2`;
+wheel SHA-256 `f7b93027de33840ce2d0ff3e2a6eb3574053d5557ccd1abf684a4a2b2c7c14e0`,
+sdist `dd608f800f8f426c033c1ae0fd92a1cd9d083a182e21c3b6e6df59816fb1f718`.
+These identify the candidate before this final evidence/prose addition;
+final-head hosted CI rebuilds the complete commit.
+
+[Decision 0021](../docs/decisions/0021-lineage-data-admission.md) records limits,
+exact identities, review/source-card gaps and trust boundaries. Every source
+and review is synthetic; mock public-mode tests bind declarations without
+authenticating a human. No real dataset, checkpoint, external inference or paid
+job was used. Lexical candidates cover ASCII case/whitespace only; reviewed
+semantic lineage and final measurement admission remain necessary. Historical
+results and the legacy 8 MiB loader are unchanged.

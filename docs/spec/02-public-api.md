@@ -355,6 +355,27 @@ enrollment, task quality or proof verification occurs. The literal matcher is
 part of the program, not the scalar score-projection DAG; see
 [semantics, provenance and limits](../decisions/0020-complete-byte-rule.md).
 
+`hallmark.data_admission` supplies the local W14 import surface:
+
+```python
+build_dataset(
+    plan, policy, *, expected_plan, documents, raw_files
+) -> tuple[DatasetManifest, dict[str, bytes]]
+verify_dataset(
+    manifest, files, plan, policy, *,
+    expected_dataset, expected_plan, documents, raw_files
+) -> None
+write_dataset(directory, manifest, files) -> None
+near_duplicate_candidates(rows) -> tuple[tuple[str, ...], ...]
+```
+
+The caller authenticates and externally pins the plan and resulting dataset.
+Evidence/raw dictionaries contain exact logical paths and bytes. Imports preserve
+lineage and text, group before splitting and reject changed source bytes or
+rehashed output mutations. Writing requires a fresh trusted local directory.
+See [contracts, recipe, limits and review obligations](../decisions/0021-lineage-data-admission.md);
+the marker fixture establishes no real-data quality or human review.
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).

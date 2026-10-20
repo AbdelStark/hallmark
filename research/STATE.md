@@ -124,6 +124,25 @@ matches, resource excess and inconsistent results reject. The scalar arithmetic
 DAG projects the Boolean match feature; it does not encode the matcher.
 The full extractor/state must be constrained by a future W19 proof.
 Patterns are authored harmless markers, not a measured injection detector.
+[PR #70](https://github.com/AbdelStark/hallmark/pull/70) merged as
+`fa310ea2a4d1d484f1ef325eb7bfbf5f86a280ed`; all 12
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39459269341) passed.
+Issue #11 is closed.
+
+W14 / issue #15 adds externally pinned source import, exact raw-row lineage,
+complete parent/history/prompt grouping and the frozen study split recipe.
+The [evidence](evidence/w14-lineage-data-admission-2026-10-20.json) records 59 new
+tests, 25 independent graph-oracle cases, seven reproduced schema snapshots and
+1,632 passing local tests, with both installed-package gates passing. The
+26-row synthetic fixture retains all contrastive examples in 21 groups.
+Changed source/review bytes, missing provenance, cycles, policy mismatches,
+rehashed cross-split descendants and resource excess reject.
+Four injected sync failures preserve partial directories without publishing
+the final manifest. Automatic near-candidate discovery covers ASCII
+case/whitespace equivalence only; broader semantic lineage, actual rights and
+human label review remain external obligations. See
+[decision 0021](../docs/decisions/0021-lineage-data-admission.md).
+No real source was downloaded/admitted or task quality measured.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
@@ -240,8 +259,8 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: deliver W10 / #11's complete-byte rule runtime, then implement W14 / #15's
-source/lineage import. Study permission is no longer a blocker.
+Next: finish W14 / #15's source/lineage import delivery, then re-evaluate W18 / #19
+and downstream W15 / #16 against live dependencies. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
