@@ -32,6 +32,7 @@ def main() -> None:
             "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
             "tests/test_reference.py",
+            "tests/test_wire.py",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -70,6 +71,18 @@ def main() -> None:
             check=True,
         )
         subprocess.run([str(env / "bin/hallmark"), "--help"], cwd=directory, check=True)
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "from hallmark.wire import encode, decode, H; "
+                "assert encode({'a': 1}) == bytes.fromhex('a1616101'); "
+                "assert decode(bytes.fromhex('a1616101')) == {'a': 1}; "
+                "assert len(H('policy', {'a': 1})) == 32",
+            ],
+            cwd=directory,
+            check=True,
+        )
         subprocess.run(
             [str(env / "bin/hallmark"), "validate-data", str(ROOT / "fixtures/smoke.jsonl")],
             cwd=directory,

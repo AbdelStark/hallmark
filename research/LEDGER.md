@@ -62,3 +62,27 @@ At the owner's request, PR #1 was merged as `f0f117285d2ccf82b122d1155b8a1fb56a2
 The owner then explicitly requested public visibility and instructed agents to keep it public unless explicitly asked otherwise. Executed `gh repo edit AbdelStark/hallmark --visibility public --accept-visibility-change-consequences`. Verification with `gh api repos/AbdelStark/hallmark` returned `private: false` and `visibility: public`; an unauthenticated HTTP request to the repository returned 200. AGENTS.md records the standing instruction, superseding the earlier private-repository instruction. The unrelated `.gitignore` edit was preserved. No research execution authority was expanded.
 
 Documentation validation: `uv run --locked python scripts/check_docs.py` passed; `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check` passed all gates with 29 tests. Package checks were not repeated for these instruction/state/ledger edits.
+
+## 2026-10-20: W01 strict v1 primitive encoding
+
+Hypothesis: a bounded RFC-0001 codec can give each supported value one canonical
+representation while preserving the existing research identities. Baseline:
+`48f2d7066b62a42f971cd10dbbc2cdbae720b82e`; the legacy contract fixture passed
+14 tests and the new fixture failed because `hallmark.wire` was absent. Mutable
+paths: new wire module/tests, package smoke, schema/API documentation, decision
+0003, changelog and this state/evidence record. No data, evaluation, training or
+legacy identity code changed.
+
+Saved [source/environment hashes and numeric results](evidence/w01-wire-2026-10-20.json)
+before this entry. The codec accepts only the restricted primitive types and 22
+domains, rejects duplicate/unsorted keys, overlong forms, trailing data, tags,
+invalid Unicode, integer overflow and resource excess. Fixed vectors, seeded
+differential checks against cbor2 and truncation tests passed: 108 codec tests.
+An initial mypy gate caught a redundant cast; it was removed. Final `make check`
+passed 137 tests plus lint, format, typing and documentation checks;
+`make package-check` passed including an isolated installed codec smoke.
+
+The separate v1 module preserves both recorded legacy digest fixtures. No artifact
+schema, signature, attestation, proof or security-review result is claimed.
+[Decision 0003](../docs/decisions/0003-v1-codec.md) records limits and the raw
+codec/schema boundary; owner review before enrollment remains outstanding.

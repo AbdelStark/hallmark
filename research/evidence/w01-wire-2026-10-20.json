@@ -1,0 +1,78 @@
+{
+  "schema_id": "hallmark/implementation-evidence/1",
+  "date": "2026-10-20",
+  "work_item": "W01",
+  "issue": "https://github.com/AbdelStark/hallmark/issues/2",
+  "baseline_commit": "48f2d7066b62a42f971cd10dbbc2cdbae720b82e",
+  "source_sha256": {
+    "src/hallmark/wire.py": "3c0ae98f4787dee2a1964ea89a025e620db5fc95fc329b34c1aeba918bfa8494",
+    "tests/test_wire.py": "e91f3e0313a95800bfbe9d87046aeab93ec1c1eb796ca6bccd82fbffd5d41233",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "scripts/check_package.py": "52795bbb56c541de5577353fba4a4cc4e64ee11f2ba2e7353b2b9e26f4e0a698",
+    "pyproject.toml": "e0c985bdb9272814ec0553e9344be7cedc4e018a4ca742601363c5e9b5f60d12",
+    "uv.lock": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "cbor2": "5.9.0",
+      "pydantic": "2.14.1",
+      "pytest": "9.1.1"
+    }
+  },
+  "checks": [
+    {
+      "command": "uv run --locked pytest tests/test_contracts.py -q",
+      "passed": 14,
+      "exit_code": 0,
+      "phase": "baseline"
+    },
+    {
+      "command": "uv run --locked pytest tests/test_wire.py -q",
+      "exit_code": 2,
+      "phase": "before",
+      "reason": "hallmark.wire module absent"
+    },
+    {
+      "command": "uv run --locked pytest tests/test_wire.py -q",
+      "passed": 108,
+      "exit_code": 0,
+      "phase": "after"
+    },
+    {
+      "command": "uv run --locked mypy",
+      "exit_code": 1,
+      "phase": "initial implementation",
+      "reason": "redundant bytes cast; removed before final gate"
+    },
+    {
+      "command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check",
+      "passed": 137,
+      "exit_code": 0,
+      "phase": "after"
+    },
+    {
+      "command": "make package-check",
+      "exit_code": 0,
+      "installed_wire_smoke": true,
+      "phase": "after"
+    }
+  ],
+  "limits": {
+    "max_bytes": 67108864,
+    "nesting": 16,
+    "max_items": 1048576
+  },
+  "evidence_class": "software-conformance",
+  "not_established": [
+    "artifact schema validity",
+    "independent security review",
+    "authenticated enrollment",
+    "hardware provenance",
+    "ZK proof",
+    "classifier quality"
+  ]
+}
