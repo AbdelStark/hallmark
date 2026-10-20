@@ -27,24 +27,11 @@ func graphAssignment(kind string, private bool) (frontend.Circuit, error) {
 	if private {
 		count += 40 + len(trace)
 	}
-	handle, err := os.Open("assignment.txt")
+	values, err := readAssignment(count)
 	if err != nil {
 		return nil, err
 	}
-	defer handle.Close()
-	raw, err := io.ReadAll(io.LimitReader(handle, 8193))
-	if err != nil || len(raw) > 8192 {
-		return nil, errors.New("invalid assignment")
-	}
-	lines := strings.Split(string(raw), "\n")
-	if len(lines) != count+1 || lines[count] != "" {
-		return nil, errors.New("invalid assignment shape")
-	}
-	for i, line := range lines[:count] {
-		n, err := number(line, 32)
-		if err != nil {
-			return nil, err
-		}
+	for i, n := range values {
 		switch {
 		case i < 100:
 			input.Public[i] = n
@@ -59,15 +46,49 @@ func graphAssignment(kind string, private bool) (frontend.Circuit, error) {
 	return c, nil
 }
 
+func readAssignment(count int) ([]uint64, error) {
+	handle, err := os.Open("assignment.txt")
+	if err != nil {
+		return nil, err
+	}
+	defer handle.Close()
+	raw, err := io.ReadAll(io.LimitReader(handle, 8193))
+	if err != nil || len(raw) > 8192 {
+		return nil, errors.New("invalid assignment")
+	}
+	lines := strings.Split(string(raw), "\n")
+	if len(lines) != count+1 || lines[count] != "" {
+		return nil, errors.New("invalid assignment shape")
+	}
+	values := make([]uint64, count)
+	for i, line := range lines[:count] {
+		n, err := number(line, 32)
+		if err != nil {
+			return nil, err
+		}
+		values[i] = n
+	}
+	return values, nil
+}
+
 func runGraph(command string) (int, error) {
 	kind, action, found := strings.Cut(command, "-")
-	if !found || (kind != "rule" && kind != "mlp") {
+	if !found || (kind != "rule" && kind != "mlp" && kind != "block") {
 		return 0, errors.New("invalid graph kind")
 	}
+	if kind == "block" {
+		return runRelation(action, &blockCircuit{}, blockAssignment)
+	}
+	prototype, _, _ := graph(kind)
+	return runRelation(action, prototype, func(private bool) (frontend.Circuit, error) {
+		return graphAssignment(kind, private)
+	})
+}
+
+func runRelation(action string, prototype frontend.Circuit, assignment func(bool) (frontend.Circuit, error)) (int, error) {
 	curve := ecc.BLS12_381
 	switch action {
 	case "setup":
-		prototype, _, _ := graph(kind)
 		ccs, err := frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
 		if err != nil {
 			return 0, err
@@ -86,7 +107,7 @@ func runGraph(command string) (int, error) {
 		}
 		return ccs.GetNbConstraints(), nil
 	case "prove":
-		assignment, err := graphAssignment(kind, true)
+		values, err := assignment(true)
 		if err != nil {
 			return 0, err
 		}
@@ -98,7 +119,7 @@ func runGraph(command string) (int, error) {
 		if err := read("pk.bin", pk); err != nil {
 			return 0, err
 		}
-		witness, err := frontend.NewWitness(assignment, curve.ScalarField())
+		witness, err := frontend.NewWitness(values, curve.ScalarField())
 		if err != nil {
 			return 0, err
 		}
@@ -108,7 +129,7 @@ func runGraph(command string) (int, error) {
 		}
 		return ccs.GetNbConstraints(), write("proof.bin", proof)
 	case "verify":
-		assignment, err := graphAssignment(kind, false)
+		values, err := assignment(false)
 		if err != nil {
 			return 0, err
 		}
@@ -119,7 +140,7 @@ func runGraph(command string) (int, error) {
 		if err := read("proof.bin", proof); err != nil {
 			return 0, err
 		}
-		witness, err := frontend.NewWitness(assignment, curve.ScalarField(), frontend.PublicOnly())
+		witness, err := frontend.NewWitness(values, curve.ScalarField(), frontend.PublicOnly())
 		if err != nil {
 			return 0, err
 		}

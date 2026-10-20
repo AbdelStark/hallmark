@@ -188,8 +188,23 @@ also records all 134 rule regression cases under the changed circuit, all
 MLP proof/key example against separately retained key and fixture pins.
 [Decision 0024](../docs/decisions/0024-bounded-mlp-proof-probe.md) preserves the
 eight-byte/synthetic-graph, setup, shared-library and security limitations.
-The general qualification runner, encoder operator block and complete admitted
-encoder remain open; no backend is selected.
+At that stage, the general qualification runner, encoder operator block and
+complete admitted encoder remained open; no backend was selected.
+
+W18's fixed integer attention/feed-forward block now passes all 233 real-worker
+checks. Its 64 proofs exhaust the four-token, two-position Boolean-mask domain;
+all five public-field mutations and all 89 private intermediate mutations
+reject. The 5,250-constraint circuit uses a 244-byte proof. The diagnostic roster
+took 62.70 seconds, peaked at 39,223,296-byte process RSS and cost zero.
+The [raw evidence](evidence/w18-integer-attention-block-2026-10-20.json) also
+records exact reproduction of the earlier rule/MLP circuit hashes, all 18
+retained proofs verified under the rebuilt worker, fresh proof/rejection cases,
+18 cubic regression cases and fresh verification of the published block example.
+`make check` passes 1,764 tests; both installed-package gates pass.
+See [decision 0025](../docs/decisions/0025-integer-attention-block-probe.md).
+This is a five-field standalone block, not the complete Hallmark proof statement.
+Tokenizer, layer normalization, full encoder/input binding, qualification runner
+and independent setup/security review remain open. No backend is selected.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
@@ -306,8 +321,9 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: continue W18 / #19 beyond the declaration and bounded rule/MLP probes:
-qualification runner/API, operator block and complete admitted encoder, with exact input/key
+Next: continue W18 / #19 beyond the declaration, bounded rule/MLP and attention
+block probes: qualification runner/API and complete admitted encoder, including
+layer normalization and full input binding, with exact input/key
 enrollment, security/setup review and measured costs. W14 / #15 is delivered;
 W15 / #16's data/model work is dependency-ready. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights

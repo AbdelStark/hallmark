@@ -1242,3 +1242,77 @@ qualification. No `hallmark qualify`, encoder operator block or complete
 admitted encoder is supplied. The backend record and small proofs cannot
 replace those remaining gates. No HF token, paid job, private input or genuine
 hardware evidence was used. Repository visibility remains public.
+
+## 2026-10-20 — W18 exhaustive integer attention block
+
+Hypothesis: a fixed integer attention/feed-forward block can produce real proofs
+that match every arithmetic-oracle tensor for every admitted input/mask pair,
+while rejecting changed intermediate values. Baseline: rule/MLP proofs and
+1,747 local tests, with no attention-block evidence. Mutable paths: the optional
+Go block and shared process code, frozen oracle/controller, boundary tests and
+research documentation. No Python runtime acceptance path or dependency changes.
+
+The [raw evidence](evidence/w18-integer-attention-block-2026-10-20.json) precedes
+this entry. [Decision 0025](../docs/decisions/0025-integer-attention-block-probe.md)
+fixes the four-entry embedding vocabulary, two token positions, exact tables,
+signed rounding, residual/MLP weights, masked pooling and five public fields.
+The independent Python arithmetic implementation exhausts all 64 token/mask
+combinations and checks masked-token invariance before proving. Two hand-derived
+single-token results cover negative max pooling and signed half ties.
+
+The pre-build protocol/source snapshot is
+`runs/w18-block-1792522883989554000`. It records the prior measured intervals
+(retaining nested duplication), an additional conservative preflight allowance,
+fresh-run limits and actual storage. The same 14 reviewed modules, `go.mod`,
+`go.sum` and isolated Go executable hashes match the earlier reviewed pins.
+The offline-cache build produced
+`3befb4b0075de7415e4f91a50ece56cf97e3649201dc677c66581f2bd46ccdc3`.
+Fixture SHA-256:
+`4526e21b5fe001d81611c5ccd5bb23f7347cdcc79c5ed75a56776944f581c7bb`.
+Build, run and regression helper sources and commands are retained locally;
+portable controller commands are in the [probe README](probes/gnark/README.md).
+
+The block passed all 233 checks in 62.698 seconds. Every one of the 64 valid
+inputs produced an actual proof verified in a fresh process. All five public
+mutations and all 89 private intermediate mutations rejected, as did invalid
+tokens/masks/scores, field aliases, signed overflow in assignment transport,
+noncanonical decimal input, changed/trailing proof bytes and a second setup key.
+The circuit has 5,250 constraints, a 133,167-byte R1CS, 1,599,991-byte proving
+key, 732-byte verifier key and 244-byte proof. Peak process RSS was
+39,223,296 bytes and cumulative worker CPU 203.779 seconds. Proof processes
+took 0.363–0.403 seconds; verifier processes took 0.025–0.284 seconds.
+These include startup and artifact loading and are one finite-domain diagnostic
+roster, not pure prover timing, p95 or a full-encoder feasibility measurement.
+
+The shared worker refactor passed 30 rule/MLP regression cases and 18 cubic
+cases in 131.824 seconds.
+Fresh setups reproduced both previous R1CS hashes byte-for-byte. Fresh empty-input
+proofs verified, invalid padding/public fields and a wrong key rejected, and
+all 18 retained proofs verified under their separately pinned original keys.
+The published block proof/key example was decoded
+from the evidence and verified again in a new process with independently retained
+key/fixture pins. Verification still shares gnark with the prover.
+
+The recorded case-file sum for the block is 289,708,535 bytes; a complete
+post-run inventory including metadata is 290,309,998 bytes. The regression's
+full inventory including its nested cubic run is 603,653,502 bytes.
+Both meet their recorded limits. The protocol/source/command/result files stay
+in the ignored fresh directory, with the same 2026-11-19 retention limit and
+no scheduler. No failure or earlier result was overwritten.
+
+`make check` passed 1,764 tests, including 17 new exhaustive-fixture, malformed
+input, stale-pin, failure-retention and sanitized-path checks. Both package gates
+passed; the required training extra executed. The common pre-evidence/prose
+source identity is
+`ef439b2cdc190d52d8bf0884eff90f59d161adf7ef2954a536bac98d12db06b9`;
+sdist SHA-256 `814046250fba3371d3dbc778e8b553656cf84418061d2acea616ae760fb08a4c`.
+The unchanged runtime wheel is
+`4c79ab355f919c4bb4dd9a54bc2aebf233a06597275d68c184ae851273344d5b`.
+Final-head CI must rebuild the complete documentation/evidence candidate.
+
+This proves the stated tiny block only. It has no tokenizer, complete input
+commitment, layer normalization, trained model or full encoder. The power-of-two
+and reciprocal tables define its arithmetic; no float-parent equivalence is
+claimed. Local setup, shared verifier, independent review and complete graph
+qualification remain unresolved. `qualified_backend` stays false; W18 remains
+open. No HF token, GPU job, paid compute or private input was used.

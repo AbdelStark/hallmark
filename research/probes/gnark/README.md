@@ -1,6 +1,6 @@
 # Optional local proof probes
 
-This directory contains three real-proof experiments for W18, not a qualified
+This directory contains four real-proof experiments for W18, not a qualified
 Hallmark backend. The Python runtime has no new dependency or acceptance path.
 See [decision 0022](../../../docs/decisions/0022-local-proof-probes.md) and the
 [MLP extension](../../../docs/decisions/0024-bounded-mlp-proof-probe.md) for the
@@ -13,11 +13,21 @@ MLP in `mlp-fixture.json`. `input.go` binds the complete salted input hash and
 Classifier enrollment tags and weights are synthetic. A successful result
 always contains `qualified_backend: false`.
 
+`block.go` is a separate integer attention/feed-forward relation with five
+public fields and 89 private intermediate values. Its fixture exhausts all
+64 token/mask inputs. It exercises finite lookup, masking, signed rounding,
+residuals and pooling; it does not implement a tokenizer, layer normalization,
+the complete input hash or a complete encoder. See
+[decision 0025](../../../docs/decisions/0025-integer-attention-block-probe.md).
+
 The [initial evidence](../../evidence/w18-proof-probes-2026-10-20.json) retains
 the original failed/corrected rule candidate. The
 [MLP and regression evidence](../../evidence/w18-backend-contract-and-mlp-2026-10-20.json)
 records the changed circuit identities and new setups. No historical proof is
 reassigned to a changed source graph.
+The [block evidence](../../evidence/w18-integer-attention-block-2026-10-20.json)
+records the exhaustive block run and reproduction of those earlier circuit
+identities under the shared worker.
 
 Before building, review the
 [source](../../proposals/backend-v1/candidate-review.md) and
@@ -51,6 +61,11 @@ uv run --locked python scripts/check_gnark_rule_probe.py \
   --binary BINARY --expected-binary BUILD_SHA256 \
   --fixture research/probes/gnark/mlp-fixture.json \
   --expected-fixture FROZEN_FIXTURE_SHA256 --output ANOTHER_FRESH_DIRECTORY
+
+uv run --locked python scripts/check_gnark_block_probe.py \
+  --binary BINARY --expected-binary BUILD_SHA256 \
+  --fixture research/probes/gnark/block-fixture.json \
+  --expected-fixture FROZEN_FIXTURE_SHA256 --output BLOCK_FRESH_DIRECTORY
 ```
 
 Take pins from the reviewed build/protocol record, independently of worker
@@ -63,6 +78,9 @@ and adds a real invalid-prover attempt for each of its 22 private layer values.
 The MLP is one fixed three-unit graph with signed ties-to-even rescaling,
 ReLU and complete chunk aggregation; it is not an arbitrary graph importer.
 Run these experiments sequentially under the recorded budget.
+The block controller proves every input/mask combination, checks every recorded
+intermediate, and rejects field aliases, malformed assignments, changed proofs
+and the wrong setup key. It uses explicit finite selection for its small tables.
 
 `make check` runs offline boundary and fixture-reproduction tests. It does not
 download Go, build the backend or prove these relations. OS sandbox tests skip
@@ -74,6 +92,7 @@ The generated fixtures reproduce with:
 ```text
 uv run --locked python scripts/build_gnark_rule_fixture.py
 uv run --locked python scripts/build_gnark_mlp_fixture.py
+uv run --locked python scripts/build_gnark_block_fixture.py
 ```
 
 Do not commit toolchains, module caches, binaries, proving keys or local run

@@ -71,9 +71,12 @@ func read(name string, value io.ReaderFrom) error {
 }
 
 func run(args []string) (int, error) {
-	if len(args) == 1 && (args[0] == "rule-setup" || args[0] == "rule-prove" || args[0] == "rule-verify" ||
-		args[0] == "mlp-setup" || args[0] == "mlp-prove" || args[0] == "mlp-verify") {
-		return runGraph(args[0])
+	if len(args) == 1 {
+		switch args[0] {
+		case "rule-setup", "rule-prove", "rule-verify", "mlp-setup", "mlp-prove", "mlp-verify",
+			"block-setup", "block-prove", "block-verify":
+			return runGraph(args[0])
+		}
 	}
 	curve := ecc.BLS12_381
 	if len(args) == 1 && args[0] == "setup" {
