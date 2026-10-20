@@ -24,7 +24,11 @@
         "Run make check and add tests/test_wire.py",
         "Update schema documentation with actual exported types"
       ],
-      "out_of_scope": "Changing old research encodings or adding algorithm negotiation"
+      "out_of_scope": "Changing old research encodings or adding algorithm negotiation",
+      "issue": {
+        "number": 2,
+        "url": "https://github.com/AbdelStark/hallmark/issues/2"
+      }
     },
     {
       "id": "W02",
@@ -51,7 +55,11 @@
         "Run make check with tests/test_openings.py",
         "Document v0 versus v1 migration and opening privacy"
       ],
-      "out_of_scope": "B3 tokenization circuits or converting old runs to receipts"
+      "out_of_scope": "B3 tokenization circuits or converting old runs to receipts",
+      "issue": {
+        "number": 3,
+        "url": "https://github.com/AbdelStark/hallmark/issues/3"
+      }
     },
     {
       "id": "W03",
@@ -78,7 +86,11 @@
         "Run make check with model-manifest golden and negative cases",
         "Emit and document model schema snapshot"
       ],
-      "out_of_scope": "Loading a real model or downloading weights"
+      "out_of_scope": "Loading a real model or downloading weights",
+      "issue": {
+        "number": 4,
+        "url": "https://github.com/AbdelStark/hallmark/issues/4"
+      }
     },
     {
       "id": "W04",
@@ -106,7 +118,11 @@
         "Run make check with tests/test_classifier_manifest.py",
         "Publish schema snapshots and exact field semantics"
       ],
-      "out_of_scope": "Claiming graph/backend qualification from schema validity"
+      "out_of_scope": "Claiming graph/backend qualification from schema validity",
+      "issue": {
+        "number": 5,
+        "url": "https://github.com/AbdelStark/hallmark/issues/5"
+      }
     },
     {
       "id": "W05",
@@ -134,7 +150,11 @@
         "Run make check with policy/request schema tests",
         "Document that the named policy is a proposal until admitted"
       ],
-      "out_of_scope": "Cascades, multi-turn inputs or deployment approval"
+      "out_of_scope": "Cascades, multi-turn inputs or deployment approval",
+      "issue": {
+        "number": 6,
+        "url": "https://github.com/AbdelStark/hallmark/issues/6"
+      }
     },
     {
       "id": "W06",
@@ -164,7 +184,11 @@
         "Run make check with tests/test_receipt_contracts.py",
         "Emit versioned schema snapshots without an acceptance stub"
       ],
-      "out_of_scope": "Accepting mock signatures as hardware or mock artifacts as proofs"
+      "out_of_scope": "Accepting mock signatures as hardware or mock artifacts as proofs",
+      "issue": {
+        "number": 7,
+        "url": "https://github.com/AbdelStark/hallmark/issues/7"
+      }
     },
     {
       "id": "W07",
@@ -191,7 +215,11 @@
         "Run make check with bundle/result vectors",
         "Document total limits and separate opening exchange"
       ],
-      "out_of_scope": "Network retrieval, archive extraction or partial bundle acceptance"
+      "out_of_scope": "Network retrieval, archive extraction or partial bundle acceptance",
+      "issue": {
+        "number": 8,
+        "url": "https://github.com/AbdelStark/hallmark/issues/8"
+      }
     },
     {
       "id": "W08",
@@ -220,7 +248,11 @@
         "Run make check with tests/test_enrollment.py",
         "Document externally retained checkpoint provisioning"
       ],
-      "out_of_scope": "Global transparency or automatic root discovery"
+      "out_of_scope": "Global transparency or automatic root discovery",
+      "issue": {
+        "number": 9,
+        "url": "https://github.com/AbdelStark/hallmark/issues/9"
+      }
     },
     {
       "id": "W09",
@@ -246,7 +278,11 @@
         "Run make check and make package-check with offline registry-check fixtures",
         "Document governance and equivocation limits"
       ],
-      "out_of_scope": "Creating operational signing keys without owner custody approval"
+      "out_of_scope": "Creating operational signing keys without owner custody approval",
+      "issue": {
+        "number": 10,
+        "url": "https://github.com/AbdelStark/hallmark/issues/10"
+      }
     },
     {
       "id": "W10",
@@ -274,7 +310,11 @@
         "Run make check with tests/test_rule.py",
         "Document rule coverage limits and approved pattern provenance"
       ],
-      "out_of_scope": "Calling a literal rule a general injection detector"
+      "out_of_scope": "Calling a literal rule a general injection detector",
+      "issue": {
+        "number": 11,
+        "url": "https://github.com/AbdelStark/hallmark/issues/11"
+      }
     },
     {
       "id": "W11",
@@ -301,7 +341,11 @@
         "Run make check with tests/test_integer_mlp.py",
         "Publish numerical profile and export contract"
       ],
-      "out_of_scope": "Unproved external embeddings or hidden weights"
+      "out_of_scope": "Unproved external embeddings or hidden weights",
+      "issue": {
+        "number": 12,
+        "url": "https://github.com/AbdelStark/hallmark/issues/12"
+      }
     },
     {
       "id": "W12",
@@ -329,7 +373,11 @@
         "Run make check plus admitted graph-conformance command recorded in evidence",
         "Document actual tokenizer/runtime pins and every float approximation"
       ],
-      "out_of_scope": "Inferring full encoder support from a tiny operator test"
+      "out_of_scope": "Inferring full encoder support from a tiny operator test",
+      "issue": {
+        "number": 13,
+        "url": "https://github.com/AbdelStark/hallmark/issues/13"
+      }
     },
     {
       "id": "W13",
@@ -355,7 +403,11 @@
         "Validate protocol on a harmless fixture with no downloads; add admission-negative tests",
         "Update research/STATE.md and LEDGER.md with decision and evidence pointers"
       ],
-      "out_of_scope": "Approving policy adoption, accepting gated terms or spending resources by writing a proposal"
+      "out_of_scope": "Approving policy adoption, accepting gated terms or spending resources by writing a proposal",
+      "issue": {
+        "number": 14,
+        "url": "https://github.com/AbdelStark/hallmark/issues/14"
+      }
     },
     {
       "id": "W14",
@@ -381,7 +433,11 @@
         "Run make check on harmless fixture imports and leakage mutations",
         "Document source licence/purpose/privacy and data-card gaps without committing real data"
       ],
-      "out_of_scope": "Unapproved dataset downloads or legal approval inferred from config"
+      "out_of_scope": "Unapproved dataset downloads or legal approval inferred from config",
+      "issue": {
+        "number": 15,
+        "url": "https://github.com/AbdelStark/hallmark/issues/15"
+      }
     },
     {
       "id": "W15",
@@ -409,7 +465,11 @@
         "Run make check and explicit one-thread train tests on fixtures; attach admitted real-run commands separately",
         "Preserve existing negative baseline and label comparison evidence accurately"
       ],
-      "out_of_scope": "Teacher distillation or tuning on test"
+      "out_of_scope": "Teacher distillation or tuning on test",
+      "issue": {
+        "number": 16,
+        "url": "https://github.com/AbdelStark/hallmark/issues/16"
+      }
     },
     {
       "id": "W16",
@@ -438,7 +498,11 @@
         "Run fixture train/export tests and attach exact approved-host commands/results",
         "Publish export/profile/source hashes and failures with no checkpoints in git"
       ],
-      "out_of_scope": "Unbounded sweeps, teacher inference or silently switching architecture"
+      "out_of_scope": "Unbounded sweeps, teacher inference or silently switching architecture",
+      "issue": {
+        "number": 17,
+        "url": "https://github.com/AbdelStark/hallmark/issues/17"
+      }
     },
     {
       "id": "W17",
@@ -465,7 +529,11 @@
         "Run make check with tests/test_group_evaluation.py",
         "Record evaluator/source/data identities and no post-test threshold selection"
       ],
-      "out_of_scope": "Population safety claims or treating descendants as independent"
+      "out_of_scope": "Population safety claims or treating descendants as independent",
+      "issue": {
+        "number": 18,
+        "url": "https://github.com/AbdelStark/hallmark/issues/18"
+      }
     },
     {
       "id": "W18",
@@ -492,7 +560,11 @@
         "Run make check for adapter boundary fixtures; attach authorized qualification commands and raw costs",
         "Select a backend only after whole-graph gate, retaining failed candidates"
       ],
-      "out_of_scope": "Proving campaigns without approved host/budget or mock success"
+      "out_of_scope": "Proving campaigns without approved host/budget or mock success",
+      "issue": {
+        "number": 19,
+        "url": "https://github.com/AbdelStark/hallmark/issues/19"
+      }
     },
     {
       "id": "W19",
@@ -520,7 +592,11 @@
         "Run adapter tests and record admitted real proof command/hash",
         "Document setup/witness/prove/verify cost and all failures"
       ],
-      "out_of_scope": "ZK claims based only on witness simulation"
+      "out_of_scope": "ZK claims based only on witness simulation",
+      "issue": {
+        "number": 20,
+        "url": "https://github.com/AbdelStark/hallmark/issues/20"
+      }
     },
     {
       "id": "W20",
@@ -548,7 +624,11 @@
         "Run adapter tests and record admitted real proof command/hash",
         "Report actual setup/witness/prove/verify measurements"
       ],
-      "out_of_scope": "Proving only a head over unbound embeddings"
+      "out_of_scope": "Proving only a head over unbound embeddings",
+      "issue": {
+        "number": 21,
+        "url": "https://github.com/AbdelStark/hallmark/issues/21"
+      }
     },
     {
       "id": "W21",
@@ -577,7 +657,11 @@
         "Run graph adapter tests and attach exact authorized full-graph command/cost/failure records",
         "Keep v1 blocked if any unsupported operation or budget failure remains"
       ],
-      "out_of_scope": "Claiming encoder completion from a layer import or tiny graph"
+      "out_of_scope": "Claiming encoder completion from a layer import or tiny graph",
+      "issue": {
+        "number": 22,
+        "url": "https://github.com/AbdelStark/hallmark/issues/22"
+      }
     },
     {
       "id": "W22",
@@ -606,7 +690,11 @@
         "Run offline adapter tests and record actual authorized-host qualification evidence",
         "Document hardware assumptions and missing evidence as blockers"
       ],
-      "out_of_scope": "Purchasing host access or replacing hardware evidence with signatures"
+      "out_of_scope": "Purchasing host access or replacing hardware evidence with signatures",
+      "issue": {
+        "number": 23,
+        "url": "https://github.com/AbdelStark/hallmark/issues/23"
+      }
     },
     {
       "id": "W23",
@@ -633,7 +721,11 @@
         "Run loader fixtures and attach approved host mutation commands/results",
         "Document storage, credential and hardware-path assumptions"
       ],
-      "out_of_scope": "Multi-node serving, stochastic generation or remote model code"
+      "out_of_scope": "Multi-node serving, stochastic generation or remote model code",
+      "issue": {
+        "number": 24,
+        "url": "https://github.com/AbdelStark/hallmark/issues/24"
+      }
     },
     {
       "id": "W24",
@@ -665,7 +757,11 @@
         "Run gateway failure fixtures plus admitted genuine host checks",
         "Document pending proofs and exact release/blocked envelope behavior"
       ],
-      "out_of_scope": "Streaming partial responses or treating native pass as proven"
+      "out_of_scope": "Streaming partial responses or treating native pass as proven",
+      "issue": {
+        "number": 25,
+        "url": "https://github.com/AbdelStark/hallmark/issues/25"
+      }
     },
     {
       "id": "W25",
@@ -693,7 +789,11 @@
         "Run make check with tests/test_receipt_store.py",
         "Document monitored versus OS-enforced limits and retention approval"
       ],
-      "out_of_scope": "Background schedulers, infinite retries or physical-erasure claims"
+      "out_of_scope": "Background schedulers, infinite retries or physical-erasure claims",
+      "issue": {
+        "number": 26,
+        "url": "https://github.com/AbdelStark/hallmark/issues/26"
+      }
     },
     {
       "id": "W26",
@@ -725,7 +825,11 @@
         "Run make check with assembler tamper/recovery tests",
         "Document complete versus pending collection commands and evidence pointers"
       ],
-      "out_of_scope": "Recursive aggregation, sampled-out status or network fetching"
+      "out_of_scope": "Recursive aggregation, sampled-out status or network fetching",
+      "issue": {
+        "number": 27,
+        "url": "https://github.com/AbdelStark/hallmark/issues/27"
+      }
     },
     {
       "id": "W27",
@@ -756,7 +860,11 @@
         "Run make check with tests/test_verify_a.py",
         "Record verified evidence and clock/trust identities in result"
       ],
-      "out_of_scope": "Inferring all-traffic coverage or trusting bundle-provided roots"
+      "out_of_scope": "Inferring all-traffic coverage or trusting bundle-provided roots",
+      "issue": {
+        "number": 28,
+        "url": "https://github.com/AbdelStark/hallmark/issues/28"
+      }
     },
     {
       "id": "W28",
@@ -788,7 +896,11 @@
         "Run make check with tests/test_verify_b.py and actual admitted proof cases",
         "Document claim strengths and never emit safe or mock verified status"
       ],
-      "out_of_scope": "B3 private tokenization or partial proof acceptance"
+      "out_of_scope": "B3 private tokenization or partial proof acceptance",
+      "issue": {
+        "number": 29,
+        "url": "https://github.com/AbdelStark/hallmark/issues/29"
+      }
     },
     {
       "id": "W29",
@@ -817,7 +929,11 @@
         "Run make check and make package-check with CLI tests",
         "Publish schema snapshots, private examples and migration notes"
       ],
-      "out_of_scope": "Hosted API service or implicit credential/network discovery"
+      "out_of_scope": "Hosted API service or implicit credential/network discovery",
+      "issue": {
+        "number": 30,
+        "url": "https://github.com/AbdelStark/hallmark/issues/30"
+      }
     },
     {
       "id": "W30",
@@ -841,7 +957,11 @@
         "Run make check with tests/test_error_privacy.py",
         "Document stable error/exit contracts and historical diagnostic limits"
       ],
-      "out_of_scope": "Silently sanitizing or rehashing old research bundles"
+      "out_of_scope": "Silently sanitizing or rehashing old research bundles",
+      "issue": {
+        "number": 31,
+        "url": "https://github.com/AbdelStark/hallmark/issues/31"
+      }
     },
     {
       "id": "W31",
@@ -867,7 +987,11 @@
         "Run make check with tests/test_events.py",
         "Document no telemetry and private metadata retention"
       ],
-      "out_of_scope": "Hosted logging or per-user trace analytics"
+      "out_of_scope": "Hosted logging or per-user trace analytics",
+      "issue": {
+        "number": 32,
+        "url": "https://github.com/AbdelStark/hallmark/issues/32"
+      }
     },
     {
       "id": "W32",
@@ -896,7 +1020,11 @@
         "Run make check on synthetic timing fixtures; attach separately approved host measurements",
         "Document actual hardware/software/precision/concurrency and monitoring limits"
       ],
-      "out_of_scope": "Claiming measured performance from estimates or omitting failures"
+      "out_of_scope": "Claiming measured performance from estimates or omitting failures",
+      "issue": {
+        "number": 33,
+        "url": "https://github.com/AbdelStark/hallmark/issues/33"
+      }
     },
     {
       "id": "W33",
@@ -932,7 +1060,11 @@
         "Run make check-conformance and self-test a deliberately wrong expected result",
         "Document source/evidence identity and corpus migration rules"
       ],
-      "out_of_scope": "Committing private transcripts or treating software fixtures as genuine evidence"
+      "out_of_scope": "Committing private transcripts or treating software fixtures as genuine evidence",
+      "issue": {
+        "number": 34,
+        "url": "https://github.com/AbdelStark/hallmark/issues/34"
+      }
     },
     {
       "id": "W34",
@@ -959,7 +1091,11 @@
         "Run make check-independent and attach approved reviewer provenance",
         "Document common-mode proof-library and review limits"
       ],
-      "out_of_scope": "Adding collaborators without authority or wrapping the primary verifier"
+      "out_of_scope": "Adding collaborators without authority or wrapping the primary verifier",
+      "issue": {
+        "number": 35,
+        "url": "https://github.com/AbdelStark/hallmark/issues/35"
+      }
     },
     {
       "id": "W35",
@@ -991,7 +1127,11 @@
         "Record exact commands/source/trust/host/corpus/evidence and repeat fresh-directory reproduction",
         "Update STATE and ledger with failures and residuals"
       ],
-      "out_of_scope": "Claiming exhaustive security or changing the corpus to rescue failures"
+      "out_of_scope": "Claiming exhaustive security or changing the corpus to rescue failures",
+      "issue": {
+        "number": 36,
+        "url": "https://github.com/AbdelStark/hallmark/issues/36"
+      }
     },
     {
       "id": "W36",
@@ -1015,7 +1155,11 @@
         "Run local matrix and inspect hosted checks on the exact commit; preserve billing-unavailable status if blocked",
         "Document Python support and owner action required for hosted account blocks"
       ],
-      "out_of_scope": "Changing billing settings or enabling ongoing runners without authority"
+      "out_of_scope": "Changing billing settings or enabling ongoing runners without authority",
+      "issue": {
+        "number": 37,
+        "url": "https://github.com/AbdelStark/hallmark/issues/37"
+      }
     },
     {
       "id": "W37",
@@ -1039,7 +1183,11 @@
         "Run make package-check and archive/content/secret checks",
         "Document actual dependency licences/restrictions and no public licence"
       ],
-      "out_of_scope": "Publishing packages or redistributing model/data assets"
+      "out_of_scope": "Publishing packages or redistributing model/data assets",
+      "issue": {
+        "number": 38,
+        "url": "https://github.com/AbdelStark/hallmark/issues/38"
+      }
     },
     {
       "id": "W38",
@@ -1063,7 +1211,11 @@
         "Run make check-spec and make check",
         "Keep historical source packet and legacy results immutable"
       ],
-      "out_of_scope": "Generic documentation unrelated to the v1 spec"
+      "out_of_scope": "Generic documentation unrelated to the v1 spec",
+      "issue": {
+        "number": 39,
+        "url": "https://github.com/AbdelStark/hallmark/issues/39"
+      }
     },
     {
       "id": "W39",
@@ -1095,7 +1247,11 @@
         "Run make check, make package-check, make check-spec, make check-conformance and make check-independent",
         "Document owner release decision separately from preparing the packet"
       ],
-      "out_of_scope": "Tagging/public publishing without explicit owner authority"
+      "out_of_scope": "Tagging/public publishing without explicit owner authority",
+      "issue": {
+        "number": 40,
+        "url": "https://github.com/AbdelStark/hallmark/issues/40"
+      }
     },
     {
       "id": "W40",
@@ -1123,7 +1279,55 @@
         "Record demo commands, costs, failures and review provenance",
         "No sharing occurs before the owner authorizes each reviewer and content perimeter"
       ],
-      "out_of_scope": "Public marketing, outreach or adding reviewers merely to close an issue"
+      "out_of_scope": "Public marketing, outreach or adding reviewers merely to close an issue",
+      "issue": {
+        "number": 41,
+        "url": "https://github.com/AbdelStark/hallmark/issues/41"
+      }
     }
-  ]
+  ],
+  "spec_commit": "ad058ad74a6dc23ae95cc523d7bf468a06d4c4ce",
+  "spec_pr": "https://github.com/AbdelStark/hallmark/pull/1",
+  "tracking": {
+    "0001": {
+      "number": 42,
+      "url": "https://github.com/AbdelStark/hallmark/issues/42"
+    },
+    "0002": {
+      "number": 43,
+      "url": "https://github.com/AbdelStark/hallmark/issues/43"
+    },
+    "0003": {
+      "number": 44,
+      "url": "https://github.com/AbdelStark/hallmark/issues/44"
+    },
+    "0004": {
+      "number": 45,
+      "url": "https://github.com/AbdelStark/hallmark/issues/45"
+    },
+    "0005": {
+      "number": 46,
+      "url": "https://github.com/AbdelStark/hallmark/issues/46"
+    },
+    "0006": {
+      "number": 47,
+      "url": "https://github.com/AbdelStark/hallmark/issues/47"
+    },
+    "0007": {
+      "number": 48,
+      "url": "https://github.com/AbdelStark/hallmark/issues/48"
+    },
+    "0008": {
+      "number": 49,
+      "url": "https://github.com/AbdelStark/hallmark/issues/49"
+    },
+    "0009": {
+      "number": 50,
+      "url": "https://github.com/AbdelStark/hallmark/issues/50"
+    },
+    "0010": {
+      "number": 51,
+      "url": "https://github.com/AbdelStark/hallmark/issues/51"
+    }
+  }
 }

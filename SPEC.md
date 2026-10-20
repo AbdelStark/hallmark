@@ -39,3 +39,7 @@ Read the overview, relevant section and RFC, then its work item. RFCs are concre
 ## Execution boundary
 
 v1 retains genuine confidential serving, rule/MLP/encoder proofs, B1/B2, independent verification and private reviewer reproduction. [The work map](docs/spec/11-requirements.md) covers every implementation deliverable. Current code is not v1. Data/model access, paid or GPU compute, hardware hosts, collaborators, policy adoption and release remain explicitly admitted actions. This specification publication authorizes none of those by implication.
+
+## Implementation tracker
+
+The [live implementation tracker](docs/roadmap/IMPLEMENTATION.md) links all 40 work issues, 10 subsystem trackers, dependencies and owned open questions.
