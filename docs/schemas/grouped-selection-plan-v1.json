@@ -1,0 +1,306 @@
+{
+  "$defs": {
+    "FitCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "byte-logistic",
+            "char-ngram",
+            "byte-mlp"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "mlp": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MlpFitConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ngram": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NgramConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "ngram",
+        "mlp"
+      ],
+      "title": "FitCandidate",
+      "type": "object"
+    },
+    "MlpFitConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "chunk_bytes": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Chunk Bytes",
+          "type": "integer"
+        },
+        "epochs": {
+          "maximum": 10000,
+          "minimum": 1,
+          "title": "Epochs",
+          "type": "integer"
+        },
+        "hidden_width": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Hidden Width",
+          "type": "integer"
+        },
+        "l2": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "L2",
+          "type": "number"
+        },
+        "learning_rate": {
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Learning Rate",
+          "type": "number"
+        },
+        "max_feature_values": {
+          "maximum": 2097152,
+          "minimum": 256,
+          "title": "Max Feature Values",
+          "type": "integer"
+        },
+        "max_prompt_bytes": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Max Prompt Bytes",
+          "type": "integer"
+        },
+        "max_rows": {
+          "maximum": 100000,
+          "minimum": 2,
+          "title": "Max Rows",
+          "type": "integer"
+        },
+        "momentum": {
+          "exclusiveMaximum": 1,
+          "minimum": 0,
+          "title": "Momentum",
+          "type": "number"
+        },
+        "policy_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/mlp-fit-config/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "seed": {
+          "exclusiveMaximum": 4294967296,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "tolerance": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "schema_id",
+        "policy_id",
+        "seed",
+        "hidden_width",
+        "chunk_bytes",
+        "max_prompt_bytes",
+        "max_rows",
+        "max_feature_values",
+        "epochs",
+        "learning_rate",
+        "momentum",
+        "l2",
+        "tolerance"
+      ],
+      "title": "MlpFitConfig",
+      "type": "object"
+    },
+    "NgramConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "c": {
+          "exclusiveMinimum": 0,
+          "maximum": 1000,
+          "title": "C",
+          "type": "number"
+        },
+        "max_events": {
+          "maximum": 4194304,
+          "minimum": 1,
+          "title": "Max Events",
+          "type": "integer"
+        },
+        "max_features": {
+          "maximum": 65536,
+          "minimum": 1,
+          "title": "Max Features",
+          "type": "integer"
+        },
+        "max_iter": {
+          "maximum": 10000,
+          "minimum": 1,
+          "title": "Max Iter",
+          "type": "integer"
+        },
+        "max_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Max N",
+          "type": "integer"
+        },
+        "min_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Min N",
+          "type": "integer"
+        },
+        "schema_id": {
+          "const": "hallmark/ngram-fit-config/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "tolerance": {
+          "maximum": 1,
+          "minimum": 1e-12,
+          "title": "Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "schema_id",
+        "min_n",
+        "max_n",
+        "max_features",
+        "max_events",
+        "c",
+        "tolerance",
+        "max_iter"
+      ],
+      "title": "NgramConfig",
+      "type": "object"
+    },
+    "TrainingBounds": {
+      "additionalProperties": false,
+      "properties": {
+        "max_prompt_bytes": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Max Prompt Bytes",
+          "type": "integer"
+        },
+        "max_rows": {
+          "maximum": 100000,
+          "minimum": 2,
+          "title": "Max Rows",
+          "type": "integer"
+        },
+        "max_total_bytes": {
+          "maximum": 33554432,
+          "minimum": 1,
+          "title": "Max Total Bytes",
+          "type": "integer"
+        },
+        "policy_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Policy Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_id",
+        "max_rows",
+        "max_prompt_bytes",
+        "max_total_bytes"
+      ],
+      "title": "TrainingBounds",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bounds": {
+      "$ref": "#/$defs/TrainingBounds"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/FitCandidate"
+      },
+      "maxItems": 16,
+      "minItems": 3,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "chunk_bytes": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Chunk Bytes",
+      "type": "integer"
+    },
+    "folds": {
+      "maximum": 5,
+      "minimum": 5,
+      "title": "Folds",
+      "type": "integer"
+    },
+    "schema_id": {
+      "const": "hallmark/grouped-selection-plan/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "seeds": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Seeds",
+      "type": "array"
+    },
+    "target_fpr": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Target Fpr",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "bounds",
+    "chunk_bytes",
+    "seeds",
+    "folds",
+    "target_fpr",
+    "candidates"
+  ],
+  "title": "SelectionPlan",
+  "type": "object"
+}

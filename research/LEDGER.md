@@ -1145,3 +1145,77 @@ policy quality, hardware provenance or a proof. The complete W15 roster, grouped
 selection, MLP calibration/evaluation and admitted real-data commands remain open.
 W18's staged proof work stays separate in draft PR #72. The unrelated `.gitignore`
 edit remains unstaged, and repository visibility remains public.
+
+## 2026-10-20 — W15 grouped comparisons and native calibration
+
+Hypothesis: finite, train-only grouped selection can preserve split isolation and
+every candidate failure, followed by separately pinned native calibration and
+evaluation. Baseline: `865691f0fe455045f24543f0f5de333a5a2dae5f` in draft PR #73,
+with 1,665 tests and MLP fitting/resume but no grouped comparison pipeline.
+Mutable paths: additive baseline/selection/calibration APIs, fixture/checker,
+schemas/tests, package checks and documentation. The historical logistic trainer,
+evaluator, datasets and previous MLP experiment remain unchanged.
+[Decision 0028](../docs/decisions/0028-grouped-baseline-selection.md) preceded the run.
+
+The [numeric evidence](evidence/w15-grouped-comparisons-2026-10-20.json) was saved
+before this prose. Raw snapshots/logs/fit states are retained under
+`runs/w15-grouped-selection-1792528940558781000`. Protocol SHA-256:
+`7974d63824ad53ee0137f9f163a365e3c8b12baebccd71f5eab2b7f287a09285`;
+receipt `8240caf7da59550237723e2f6c5ce747cce5e5108fbd4cf3973747df430e16a2`;
+pre-run source inventory
+`56f5a904f868dae836b73cf2be8f7a849d550a035e29a725cc14cb41e082c97d`.
+
+The frozen fixture has 100 train rows in 50 groups, plus 20 calibration and 20
+test rows in disjoint groups. Five declared candidates and three seeds produce
+75 rotations: three folds fit, one selects an internal threshold, and one
+validates. Only fitting rows supply vocabulary or optimizer inputs. Group and
+representative assignment are label-independent. Exact rational ranking selects
+per family and seed, with lexical candidate ties. Controls never fit/calibrate.
+Every nonconverged or failed candidate remains in the report.
+
+Two fresh one-thread runs reproduced all 31 substantive artifacts byte for byte.
+Each retains 15 deliberately nonconverged MLP rotations and refits/calibrates/
+evaluates nine selected models. All nine primary test reports contain ten group
+representatives; all-row reports contain 20 descendants. The authored-marker
+logistic and character models each have TP=5, FP=0, TN=5, FN=0. The deliberately
+loose-tolerance MLP has TP=0 and FN=5 for every seed; FP counts are 0/1/2 and TN
+counts 5/4/3. These are unacceptable as task-quality results, not hidden by the
+software pipeline's pass. Neither MLP fixture configuration is a real study
+candidate, and no result is an injection-policy estimate.
+
+Recorded command times were 2.282 and 2.165 seconds; macOS `time -l` peak RSS was
+142,442,496 and 141,213,696 bytes. Source/raw files occupied 8,016,420 bytes before
+the receipt. Cost was $0; no model/dataset download, private upload, HF token or
+paid job was used. These two fixture observations do not establish latency
+percentiles or production throughput.
+
+All 44 focused tests pass. They check outer-label rejection before serialization
+or optional imports, group/representative invariance, fitting-only vocabularies,
+exact decimal allowances and blocking ties, resource limits, malformed numeric
+types, preserved long-input floor rejection, explicit liblinear nonconvergence,
+candidate ties, wrong fit/calibration pins and overlapping groups/prompts. A
+development check found that numeric literals accepted float-valued seeds/folds;
+strict integer fields and regression cases corrected that before this protocol.
+The final fixture/schema snapshots reproduce, and injected controller failure
+retains an incomplete directory without a final result.
+
+`make check` passed 1,709 tests plus lock/lint/format/types, spec, software
+conformance and admission. `make check-train` executed all 35 selected tests.
+Both package gates passed, including the core-only contract path and actual
+installed three-seed grouped comparisons. Their common pre-prose source identity
+is `d9b7a89726fb7b24624c778438c713197ef0b8b1049e5ad5ea0bfad39bafa2b8`;
+wheel `5754530a3759c13a35653480bc599d4c63e1be27a5f2434565aac769d3896326`,
+sdist `5dea06cf58fa65aeff0f8c2be01e88a50c97cd0990e3269d69ed0fc9db501b7c`.
+These gates consumed another 58.399 seconds; final-head hosted checks rebuild the
+complete source including this evidence and prose.
+
+The separate [guard source review](evidence/w15-guard-source-selection-2026-10-20.json)
+retains current public metadata and base-model notices. Under delegated selection,
+[decision 0029](../docs/decisions/0029-guard-source-selection.md) chooses the pinned
+published guard for bounded qualification using its explicit model grants. It
+does not approve acquiring unnamed unlicensed upstream training data, endorse
+the archived project's metrics, or resolve contamination. The local raw metadata
+is in `runs/w15-guard-metadata-1792528650785139000`; no weights/tokenizer or runtime
+packages were acquired. Exact runtime review, asset hashes, complete-input guard
+execution and final real-data admission remain the next W15 gates. This PR stays
+draft; W18's proof work stays separate. The unrelated `.gitignore` edit is preserved.

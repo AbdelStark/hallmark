@@ -45,7 +45,7 @@ FileRef byte hashes. The owner's delegation does not resolve licence conflicts.
 | Proposed source | Purpose | Remaining hold |
 |---|---|---|
 | [deepset/prompt-injections](https://huggingface.co/datasets/deepset/prompt-injections) at `4f61ecb038e9c3fb77e21034b22511b523772cdd` | Exploratory import/label audit | Apache-2.0 versus CC-BY-4.0 metadata conflict; parent lineage and label provenance missing. Preview examples were exposed, so this is not an unseen confirmatory source. |
-| [protectai/deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) at `90c9989b1a342275dd0d1a95aad283c04e075671` | Task-matched guard | Archived project; underlying rights and overlap need review. Full-coverage adaptation and dependencies remain unqualified. |
+| [protectai/deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) at `90c9989b1a342275dd0d1a95aad283c04e075671` | Task-matched guard | [Selected for bounded asset/runtime qualification](../../../docs/decisions/0029-guard-source-selection.md) under the reviewed model grants. Exact bytes, full-coverage runtime and contamination review remain unqualified; upstream unnamed data are not approved. |
 | [google/bert_uncased_L-2_H-128_A-2](https://huggingface.co/google/bert_uncased_L-2_H-128_A-2) at `30b0a37ccaaa32f332884b96992754e246e48c5f` | Compact encoder | Full notice/provenance, tokenizer/runtime and actual checkpoint review pending. Integer export and proof qualification are separate later gates. |
 | Independent confirmatory source | Once-only evaluation | Eligible source, lineage and audited labels are not selected. |
 

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add exact-text character n-grams, fixed controls and five grouped train-internal
+selection rotations. Retain every convergence/unsupported-input failure, then
+calibrate and evaluate separately pinned native models with overlap rejection.
+Record guard source selection; actual guard runtime/data admission remains open.
+
 Add train-only record-level byte MLP fitting, externally pinned optimizer resume
 and explicit integer export. Check three authored-marker seeds, full 32,768-byte
 inputs, numerical gradients and installed core/train paths. Preserve the historical

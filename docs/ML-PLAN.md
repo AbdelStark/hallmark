@@ -32,9 +32,13 @@ and integer calibration; it rejects multi-chunk training records. The separate
 maximum chunk logit, exact same-environment optimizer resume and power-of-two PTQ
 into the [native MLP runtime](decisions/0014-integer-mlp-runtime.md). It accepts
 train rows only and preserves complete prompt bytes. Its synthetic fixture checks
-software behavior, not policy quality. Grouped model selection, the full comparison
-roster, MLP calibration/evaluation, teacher inference, encoder training, distillation,
-QAT, ONNX export and proving remain unimplemented on this branch.
+software behavior, not policy quality. The
+[grouped comparison API](decisions/0028-grouped-baseline-selection.md) adds fixed
+controls, character n-grams, train-internal candidate selection and separate native
+MLP calibration/evaluation. The guard is
+[selected for asset/runtime qualification](decisions/0029-guard-source-selection.md);
+it is not yet executed. The full roster, admitted real-data runs, teacher inference,
+encoder training, distillation, QAT and proving remain unfinished on this branch.
 
 ## Operator and system bake-off
 

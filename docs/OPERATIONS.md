@@ -95,8 +95,46 @@ authenticate training or produce a proof. Omitting `--output` checks the fixture
 contracts without importing NumPy or training; both installed-package gates use
 that core path, and the train package gate also executes all three seeds.
 
-The whole baseline comparison, grouped selection and admitted real-data commands
-remain work for issue #16. Do not treat this fixture as a measurement admission.
+The full baseline roster and admitted real-data commands remain work for issue
+#16. Do not treat this fixture as a measurement admission.
+
+## Grouped comparison fixture
+
+`grouped_selection(train_rows, plan)` accepts only training records and a frozen
+`SelectionPlan`. It preserves five rotations for every declared candidate and
+seed, with group-disjoint fitting, internal threshold selection and validation.
+It retains ineligible/nonconverged candidates and reports missing guard/encoder
+comparisons. Pass-all and block-all remain fixed controls.
+
+Refit a selected candidate with `fit_candidate(train_rows, candidate, plan, seed)`.
+Save the returned `record` and its identity before calibration. The returned
+`Fitted` object is in-process state; do not pickle it or treat its JSON record as
+authenticated training. `calibrate_fitted(..., expected_fit=pin, target_fpr="0.01")`
+accepts calibration rows only. Retain its identity separately before calling
+`evaluate_fitted(..., expected_fit=pin, expected_calibration=calibration_pin)` on
+test rows. The joint MLP allocation is `"0.0035"`; standalone learned comparisons
+use `"0.01"`. Wrong pins, nonconverged fits and group/prompt overlap reject.
+
+The character baseline saves exact vocabulary, coefficients, solver settings,
+iterations, seed and environment identities. Its liblinear solver supports only
+a fresh fit, not optimizer resume. The MLP retains its explicit optimizer checkpoint.
+Native score evaluation does not enroll a proof backend or authenticate training.
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+  uv run --locked --extra train python scripts/check_selection.py \
+  fixtures/grouped-selection.json --expected-fixture "$(cat fixtures/grouped-selection.sha256)" \
+  --output runs/grouped-selection-fixture
+```
+
+Use a fresh output directory. This fixed software fixture performs 75 fold fits,
+retains 15 deliberately nonconverged MLP attempts, and refits/calibrates/evaluates
+nine selected models. Its loose successful-MLP tolerance exercises the pipeline;
+neither MLP configuration is a real study candidate. All artifacts stay local.
+Omitting `--output` validates contracts without importing optional libraries.
+Both installed-package gates check that path; the train package gate executes
+the entire fixture. Guard integration, reviewed real data and a final admitted
+measurement command are still pending; none is replaced by a synthetic pass.
 
 ## Failure and interruption
 

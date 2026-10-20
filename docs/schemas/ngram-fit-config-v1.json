@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "c": {
+      "exclusiveMinimum": 0,
+      "maximum": 1000,
+      "title": "C",
+      "type": "number"
+    },
+    "max_events": {
+      "maximum": 4194304,
+      "minimum": 1,
+      "title": "Max Events",
+      "type": "integer"
+    },
+    "max_features": {
+      "maximum": 65536,
+      "minimum": 1,
+      "title": "Max Features",
+      "type": "integer"
+    },
+    "max_iter": {
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Iter",
+      "type": "integer"
+    },
+    "max_n": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Max N",
+      "type": "integer"
+    },
+    "min_n": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Min N",
+      "type": "integer"
+    },
+    "schema_id": {
+      "const": "hallmark/ngram-fit-config/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "tolerance": {
+      "maximum": 1,
+      "minimum": 1e-12,
+      "title": "Tolerance",
+      "type": "number"
+    }
+  },
+  "required": [
+    "schema_id",
+    "min_n",
+    "max_n",
+    "max_features",
+    "max_events",
+    "c",
+    "tolerance",
+    "max_iter"
+  ],
+  "title": "NgramConfig",
+  "type": "object"
+}

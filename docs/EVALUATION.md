@@ -28,6 +28,23 @@ larger import limits do not change the baseline loader's 8 MiB limit.
 
 The small fixture uses a single prespecified baseline and does not implement encoder selection, train-internal folds or multiple-testing controls. Calibration empirical FPR is not a population guarantee.
 
+The separate [grouped comparison API](decisions/0028-grouped-baseline-selection.md)
+implements five train-internal rotations: three fitting folds, one internal
+threshold fold and one validation fold. Vocabulary and optimizer fitting receive
+only the fitting rows. Group assignment and representatives do not use labels.
+Every declared candidate/seed and failure is retained; selection uses pooled
+representative TPR, lower FPR, then lexical candidate ID, separately per family
+and seed. Nonconverged or incomplete candidates are ineligible. These selection
+estimates are not held-out quality results.
+
+Its outer calibration/evaluation calls require separately retained fit/calibration
+pins and reject wrong split tags or overlapping groups/prompts. Integer thresholds
+use boundary plus one; float n-gram thresholds use the next representable float.
+The allowed false-positive count uses exact decimal arithmetic. Test primary
+counts use one representative per group; all-descendant counts stay separate.
+The caller still enforces admitted inputs, once-only testing and the final quality
+gate. The original experiment/evaluator identities above are unchanged.
+
 ## Metrics and uncertainty
 
 Primary model gate: TPR at the fixed calibration policy, reported alongside test FPR and counts. `TPR = TP / (TP + FN)` and `FPR = FP / (FP + TN)`. Missing denominators are null, never 0. Report confusion matrix and Wilson two-sided intervals with `z = NormalDist.inv_cdf(1 - alpha/2)`.

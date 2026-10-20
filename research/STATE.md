@@ -154,8 +154,24 @@ limit without convergence; maximum observed score error was 0.016157 against the
 fixed 0.1 engineering bound. These are authored markers, not policy-quality data.
 The historical logistic baseline and native fixture identities remain unchanged.
 See [decision 0027](../docs/decisions/0027-record-level-mlp-training.md).
-The complete comparison roster, grouped selection, MLP calibration/evaluation and
-admitted real-data commands are still required before issue #16 can close.
+The follow-up [comparison evidence](evidence/w15-grouped-comparisons-2026-10-20.json)
+adds exact-text character n-grams, fixed controls, five grouped train-internal
+rotations and separately pinned native calibration/evaluation. It records 44 more
+tests, 1,709 total tests, 35 required train tests and both installed-package gates.
+Two new runs reproduce all 31 artifacts: 75 rotations, 15 deliberate nonconvergence
+cases, and nine final evaluations each. The toy MLP detects none of the five
+positive representatives; its false-positive counts are 0/1/2 across the seeds.
+These failures remain visible; the pipeline pass is not a task-quality pass.
+[Decision 0028](../docs/decisions/0028-grouped-baseline-selection.md) fixes the
+selection rule, source bounds and remaining admission obligations.
+
+[Draft PR #73](https://github.com/AbdelStark/hallmark/pull/73) contains this work.
+The [guard source review](evidence/w15-guard-source-selection-2026-10-20.json) and
+[decision 0029](../docs/decisions/0029-guard-source-selection.md) select the pinned
+published guard for bounded asset/runtime qualification under the reviewed model
+grants. Actual assets, dependencies, complete-input inference and contamination
+review remain unqualified. Guard integration and admitted real-data commands are
+still required before issue #16 can close; the compact encoder belongs to W16.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
@@ -277,11 +293,13 @@ W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/p
 with staged proof fixtures; complete-input encoder qualification and independent
 verification remain missing. Its implementation/evidence are on that draft branch.
 
-Next: continue W15 / #16 with the frozen comparison roster and five grouped
-train-internal folds, then integrate native calibration/evaluation and finish the
-admitted source/guard dossier. Keep selection isolated from calibration/test
-labels and preserve all candidate/convergence failures. The MLP component above
-does not satisfy the whole issue. Study permission is no longer a blocker.
+Next: continue W15 / #16 by reviewing the exact local ONNX/tokenizer runtime,
+then fetch and verify the selected guard assets under a new storage/time budget.
+Qualify complete-input inference and finish the admitted source/label/measurement
+dossier before real comparisons. Recheck the remaining storage envelope before
+the approximately 739 MB graph download. Keep the guard unavailable until actual
+execution passes. Local grouped comparisons do not satisfy the whole issue.
+Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

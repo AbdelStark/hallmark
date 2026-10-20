@@ -79,8 +79,11 @@ This supplies native arithmetic, not trained-policy quality or a proof.
 The optional [MLP trainer](docs/decisions/0027-record-level-mlp-training.md) fits
 one loss per complete record, resumes pinned optimizer checkpoints and exports
 the native integer graph. Its three-seed marker fixture checks numerical and
-resume behavior. The full baseline comparison and real-data quality evaluation
-remain unfinished; see the [fixture command](docs/OPERATIONS.md#mlp-training-fixture).
+resume behavior; see the [fixture command](docs/OPERATIONS.md#mlp-training-fixture).
+The [grouped comparison pipeline](docs/decisions/0028-grouped-baseline-selection.md)
+adds pass/block controls, the preserved byte-logistic floor, exact-text character
+n-grams, five train-internal folds and separate native calibration/evaluation.
+Guard runtime integration and admitted real-data evaluation remain unfinished.
 
 The [literal byte-rule runtime](docs/decisions/0020-complete-byte-rule.md) scans
 every prompt byte with bounded state across chunk boundaries. It binds exact
