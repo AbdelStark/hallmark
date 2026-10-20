@@ -337,10 +337,10 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: continue W18 / #19 beyond the declaration, bounded rule/MLP and attention
-block probes: qualification runner/API and complete admitted encoder, including
-layer normalization and full input binding, with exact input/key
-enrollment, security/setup review and measured costs. W14 / #15 is delivered;
+Next: continue W18 / #19 beyond the staged qualification command and bounded
+rule/MLP/attention probes: complete admitted encoder at empty, near-boundary and
+maximum length, including layer normalization and full input binding, with exact
+input/key enrollment, independent verification/security/setup review and measured costs. W14 / #15 is delivered;
 W15 / #16's data/model work is dependency-ready. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
@@ -350,7 +350,7 @@ The [hardware/reviewer options](proposals/inj-direct-v1/compute-and-review-optio
 are prepared; procurement and contact remain owner choices when those gates are
 ready. Neither blocks ordinary local implementation.
 
-In parallel only when explicitly authorized, qualify a tiny real proof graph before selecting a larger encoder. The goal is a measured statement and cost record, not a mock end-to-end demo. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
+Keep further proof work sequential within the remaining approved budget. The tiny graphs already have real proof evidence; they do not qualify a larger encoder. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
 
 ## Resume
 
