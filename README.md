@@ -28,7 +28,8 @@ Choose a fresh output directory on every run. Outputs contain the integer model,
 
 ## Start here
 
-- [Technical specification](docs/SPEC.md): claims, commitments, arithmetic, binding modes and verifier obligations.
+- [Canonical specification](SPEC.md): proposed v1 scope, typed contracts, RFCs and complete implementation work map.
+- [Baseline technical contract](docs/SPEC.md): existing research commitments, arithmetic and evidence limits.
 - [Research program](research/PROGRAM.md): hypotheses, controls, ablations and stop gates.
 - [ML and data plan](docs/ML-PLAN.md): encoder bake-off, Laya teacher, distilled student and licence review.
 - [Evaluation contract](docs/EVALUATION.md): frozen splits, thresholds, uncertainty and artifact replay.
