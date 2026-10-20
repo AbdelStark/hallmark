@@ -6,6 +6,10 @@ Each W identifier is one bounded implementation PR, with its exact scope, accept
 
 The source anchors below use named goals/sections from the immutable [PRD](../../research/source/product-requirements.txt), [hybrid packet](../../research/source/hybrid-specification.txt) and [ML packet](../../research/source/ml-engineering.txt). Derived controls explain their rationale in the linked RFC; they are not invented product features.
 
+The [coverage register](../roadmap/coverage.json) assigns every specification section
+and named invariant to work items. The [gate](../SPEC-CHECK.md) checks structural
+completeness; semantic review and each issue's acceptance evidence remain required.
+
 ## Source requirement disposition
 
 | Source intent | v1 disposition | Work coverage |

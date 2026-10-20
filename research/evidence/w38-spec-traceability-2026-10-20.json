@@ -1,0 +1,218 @@
+{
+  "schema_id": "hallmark/w38-spec-traceability-evidence/1",
+  "date": "2026-10-20",
+  "issue": 39,
+  "base_commit": "56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb",
+  "evidence_class": "software-checks",
+  "baseline": {
+    "base_commit": "56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb",
+    "command": [
+      "make",
+      "-f",
+      "baseline-Makefile",
+      "check-spec"
+    ],
+    "exit_code": 2,
+    "output": "make: *** No rule to make target `check-spec'.  Stop.\n",
+    "output_sha256": "7356e744ef83fb187061575218fd510545ca94ed684d8acacbcca1de39d9fe1a",
+    "broken_anchor_errors": [],
+    "source_sha256": {
+      "Makefile": "3754d8eb901a8acdfcf36d54303a20ef60cc78ee884b761ed8f4383fdee1d203",
+      "check_docs.py": "3ebed4668e3ecf381a3bec7f82a22d1653f1afe82b8d72cfa184ab454df3ba9f",
+      "README.md": "a2a1376661bdc1e266f97a7a1638b0e4c6f5ac59b969a0f32da6be6e66894572"
+    }
+  },
+  "source_sha256": {
+    ".github/workflows/check.yml": "c4bcea21f757a8f274c4fac33d2857beea861819a2ff175e68b0887fa30fd328",
+    "Makefile": "c8eedc1941865b7af70225cfa5fba505b82b1687974fd13663412a12e2517e88",
+    "docs/rfcs/RFC-0001-wire.md": "d25e2ec7c74d6b371f957d345068c117e804cc162afcf774b6385edf7212aa89",
+    "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
+    "docs/rfcs/RFC-0003-integer.md": "b12e3c18d0aaf39ec3d406f5d328b850633905ea65108a7d91f947a724868814",
+    "docs/rfcs/RFC-0004-ml.md": "48b6012dce9a5b9affc6435a3e4370389a0bfc1770696916cfd5b895dda8cd63",
+    "docs/rfcs/RFC-0005-proofs.md": "a501edcc4188020c8c4e31d279754e8229c301f97000ea6c89dc1ed2acda2f9d",
+    "docs/rfcs/RFC-0006-hardware.md": "153a95499fe54f4cb2f850b34aef21f3a36d253c22482d6ad3b7e0c05b60eac3",
+    "docs/rfcs/RFC-0007-verifier.md": "383e0d36b14f83f6924e8ff6e2bdb85ba213c790d5b9083a34d7d1e2e47fd4e5",
+    "docs/rfcs/RFC-0008-operations.md": "7bf59016e3c607ffc187c75f8994538dfc82aba23c42ba6719414a1e5f20ffa7",
+    "docs/rfcs/RFC-0009-conformance.md": "b840757e19c41223da6008786e487844448fcad5e47b4909192ccf0d01850ded",
+    "docs/rfcs/RFC-0010-release.md": "cf46824f30f1fe7c9eb144628a200e3440c8df686d4538858163dc333d53c782",
+    "docs/roadmap/IMPLEMENTATION.md": "f3c13cc75ea340a7dcac827d52a0e58a176371f4c2f2dd86047b1d05fcefd9e1",
+    "docs/roadmap/coverage.json": "a9eda2870b1e91679bcb8c1bc3c910b0945a71dcbd65de3801b06a21577f797c",
+    "docs/roadmap/work-items.json": "2b5496950fc533947715aab22e3f278c61a934c29505d2abbb02d3226145af10",
+    "docs/spec/00-overview.md": "758dbd22407238b12ce3b12473b1a148c9b451469cc91ee301809e5cf7105add",
+    "docs/spec/01-architecture.md": "5b8bc86b7e920a84aa7cae967f0f2f0697f6708fd2acbd1538d1e44ba66d0ae4",
+    "docs/spec/02-public-api.md": "5e14f753ccbc7ba8e6fe1b0f4cc567479ea86291f4b53aa1b5bfc04c7f27b77b",
+    "docs/spec/03-data-model.md": "288ddafc43d636b458a6237cf22ce9885eb2dbb0a40d5a7176f3f42ca54c1f3d",
+    "docs/spec/04-error-model.md": "86d201100790e7df1b811161a3812204e5ae03fbfac4dbcb1610786d902fda2a",
+    "docs/spec/05-observability.md": "a8d68c06bd3eb80cff12de82e63e9dfbf03661dd3731176b796b7bfe2307da67",
+    "docs/spec/06-security.md": "f0e18a9f94b44276de96f5267c2cb02101ccaaf2fb880b170d98ba8315f3b376",
+    "docs/spec/07-testing-strategy.md": "d8867808e3817a368b72fbf5a9de3d647b83e2d9b56107122eece3aa4c6b88e9",
+    "docs/spec/08-performance-budget.md": "f3324688cc17ebc8cf572f503a3ce13efea2ffc57ced81a8913d29b795c3cff8",
+    "docs/spec/09-release-and-versioning.md": "b3506ecdd77df9da3f13886b1167a33e18b5cf6cea9d48a3dc20d676a15a1130",
+    "docs/spec/10-glossary.md": "32c41760dbce72c992a4361ab26bbdab405fc430d0b6179a2557c9882066c9a4",
+    "docs/spec/11-requirements.md": "7b79816578fb82a006b4bca92aaf8cbf95766047fd719efc151b3c7dfad17c3a",
+    "pyproject.toml": "dca51595c02a0cc6cdd90b5173313dc2b483074c4ad43b012a911687e3ef3692",
+    "research/evidence/w37-dependencies-2026-10-20.json": "d9e4e695238c0810e80dfc22d31d4b9e8f362ac0096a71c10f624342daa665c7",
+    "scripts/build_conformance.py": "27646e25fc85573b27c5ddaa956fb04ecb9e2d5af2835e5bd1f8ba6858fe0615",
+    "scripts/build_mlp_fixture.py": "5ed66e815c11d69a14a0e5f2bc3f6bb91196980af7c257f2f4bc722e9e24c2d4",
+    "scripts/check_conformance.py": "7edaf42ac11e04e5cc3cd6aa6ebec288733c39fedae91621c963f7dd74f30f6a",
+    "scripts/check_docs.py": "bb2fa45805f6d19ca0f0322a8abe5fa5b2ba8ead7adf1d590aecb744398a299c",
+    "scripts/check_event_storage.py": "3472cdf6194382f9a346e60eeecbc107053c996efd45a631d6eee17faafd16d5",
+    "scripts/check_installed_train.py": "ccbf1ccfbd3afa099643692d2f97f13b240667dde7c951e3d6a59ff9bb3ed332",
+    "scripts/check_mlp_vectors.py": "0a094dad8a72217dfe2ddb2933f68614664ddc2502681f1db8993cea5ef7b117",
+    "scripts/check_package.py": "42a5ab758d20551582deeaa99c6c4f7ee43606bbcb5262f04f92e27c23e5cdc2",
+    "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
+    "scripts/check_spec.py": "78f41fd98b9b7a4a2b3b80a16a26b8b8455298a68a88ed2a5b7b04afbfe4cd44",
+    "scripts/package_inventory.py": "b0b4c1d80fa676e16427e52237712ed554b6aa6bccd2966f281d1c9be0ddffb0",
+    "scripts/reproduce_package.py": "992116202d8134990e011d66f600fcb4fd0147e03c277e8e6a16432e3ce4a734",
+    "src/hallmark/__init__.py": "e1687dfa545112140e5fa13d0e3a209252c3f8f88bca6c8751f3f06c74de4d94",
+    "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/cli.py": "183985477292755a3707e4a8ce4f3ed4aa57c24035b89cd9b4c0a711d07a53f0",
+    "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+    "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+    "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+    "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/manifests.py": "44b6bd717d0ee7ba6f4b5dc5e21e4ca1aa640a3f84c1f3b86e53c12fc002fdda",
+    "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+    "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+    "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+    "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+    "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+    "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+    "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/test_doc_check.py": "8105840c042a5e1a12dbd35265db57b4c1d50440f879ce470ff9fa96083d23a2",
+    "tests/test_spec_check.py": "49e6b25a01d1afa05c266f4f80f356e2ae13ab5acb714f1af7ef073a93c84f29",
+    "uv.lock": "e27754f978d055a45b3ee36a38a750f0fadebb229f252323d5bb29db6311ee1f"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "pydantic": "2.14.1",
+      "cbor2": "5.9.0",
+      "pytest": "9.1.1",
+      "cryptography": "50.0.2"
+    }
+  },
+  "checks": [
+    {
+      "phase": "focused",
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "pytest",
+        "tests/test_doc_check.py",
+        "tests/test_spec_check.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.563,
+      "output_sha256": "e47e463a3ad93167dbc5a6bbb2c14c04e24473a897e471ee7513090111e12697",
+      "pytest_summaries": [
+        "54 passed in 0.42s"
+      ]
+    },
+    {
+      "phase": "check",
+      "command": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.115,
+      "output_sha256": "3f2fcc9c0a3689baf674e5e6b2d5305a8c3d6088a33a637bb5b308582647dd18",
+      "pytest_summaries": [
+        "============================= 1392 passed in 8.10s ============================="
+      ]
+    },
+    {
+      "phase": "package",
+      "command": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.271,
+      "output_sha256": "62fd4610e426ac29eea02573a1990ed6133c25d6cdc8e23c7a888fec2cabaf8d",
+      "pytest_summaries": [],
+      "package_result": {
+        "status": "passed",
+        "source_id": "a0041cb17d54d01f6062520e372f3ecb65464a1681560da09d5cca5a4b2f5d41",
+        "distributions": {
+          "hallmark_research-0.1.0.tar.gz": "4721e28e46276f1e8c0733678982bdcd50c933c646270a7f83ad3572a761456d",
+          "hallmark_research-0.1.0-py3-none-any.whl": "da20dbc02441fd0746687ff627669298ae8fb252f0b87302e9ab34b71384b2e1"
+        },
+        "installed_train_checked": false,
+        "retained_directory_name": "package-check-vkwc26eu"
+      }
+    },
+    {
+      "phase": "train",
+      "command": [
+        "make",
+        "package-check-train"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 27.732,
+      "output_sha256": "1fa62845af27c4ff997878e0ed8ad90336a6ced837c3f9d15f98246d4961f011",
+      "pytest_summaries": [],
+      "package_result": {
+        "status": "passed",
+        "source_id": "a0041cb17d54d01f6062520e372f3ecb65464a1681560da09d5cca5a4b2f5d41",
+        "distributions": {
+          "hallmark_research-0.1.0.tar.gz": "4721e28e46276f1e8c0733678982bdcd50c933c646270a7f83ad3572a761456d",
+          "hallmark_research-0.1.0-py3-none-any.whl": "da20dbc02441fd0746687ff627669298ae8fb252f0b87302e9ab34b71384b2e1"
+        },
+        "installed_train_checked": true,
+        "retained_directory_name": "package-check-_87a1ia6"
+      }
+    }
+  ],
+  "counts": {
+    "new_tests": 53,
+    "focused_tests": 54,
+    "total_tests": 1392,
+    "spec_sections": 51,
+    "invariants": 18,
+    "work_items": 40,
+    "rfcs": 10,
+    "live_issues_and_trackers": 50,
+    "dependency_edges": 106
+  },
+  "live_audit": {
+    "path": "research/evidence/w38-live-issues-2026-10-20.json",
+    "sha256": "88ca3b4cf64d4332b515756620750e0aaefa8235e6900ff614cc50901083eac3"
+  },
+  "negative_cases": [
+    "missing requirement",
+    "broken local anchor",
+    "orphan issue mapping",
+    "cyclic dependency",
+    "stale tracker metadata",
+    "unowned section/invariant",
+    "RFC template/owner/date drift",
+    "historical source mutation",
+    "live scope/acceptance/label/milestone/dependency drift",
+    "unavailable GitHub API",
+    "existing audit output refusal"
+  ],
+  "limits": [
+    "Structural coverage is not semantic completeness or implementation acceptance.",
+    "Live metadata is a dated observation; offline CI performs no GitHub reads.",
+    "Markdown support is limited to the documented repository forms.",
+    "Candidate source/artifact hashes precede this evidence and ledger prose.",
+    "No policy, data, hardware, proof, independent review or release gate is supplied."
+  ]
+}

@@ -1,0 +1,904 @@
+{
+  "schema_id": "hallmark/spec-check/1",
+  "checked_at": "2026-10-20T14:29:49.370227+00:00",
+  "status": "passed",
+  "live": "matched",
+  "sections": 51,
+  "invariants": 18,
+  "rfcs": 10,
+  "work_items": 40,
+  "dependency_edges": 106,
+  "source_sha256": {
+    "docs/rfcs/RFC-0001-wire.md": "d25e2ec7c74d6b371f957d345068c117e804cc162afcf774b6385edf7212aa89",
+    "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
+    "docs/rfcs/RFC-0003-integer.md": "b12e3c18d0aaf39ec3d406f5d328b850633905ea65108a7d91f947a724868814",
+    "docs/rfcs/RFC-0004-ml.md": "48b6012dce9a5b9affc6435a3e4370389a0bfc1770696916cfd5b895dda8cd63",
+    "docs/rfcs/RFC-0005-proofs.md": "a501edcc4188020c8c4e31d279754e8229c301f97000ea6c89dc1ed2acda2f9d",
+    "docs/rfcs/RFC-0006-hardware.md": "153a95499fe54f4cb2f850b34aef21f3a36d253c22482d6ad3b7e0c05b60eac3",
+    "docs/rfcs/RFC-0007-verifier.md": "383e0d36b14f83f6924e8ff6e2bdb85ba213c790d5b9083a34d7d1e2e47fd4e5",
+    "docs/rfcs/RFC-0008-operations.md": "7bf59016e3c607ffc187c75f8994538dfc82aba23c42ba6719414a1e5f20ffa7",
+    "docs/rfcs/RFC-0009-conformance.md": "b840757e19c41223da6008786e487844448fcad5e47b4909192ccf0d01850ded",
+    "docs/rfcs/RFC-0010-release.md": "cf46824f30f1fe7c9eb144628a200e3440c8df686d4538858163dc333d53c782",
+    "docs/roadmap/IMPLEMENTATION.md": "f3c13cc75ea340a7dcac827d52a0e58a176371f4c2f2dd86047b1d05fcefd9e1",
+    "docs/roadmap/coverage.json": "a9eda2870b1e91679bcb8c1bc3c910b0945a71dcbd65de3801b06a21577f797c",
+    "docs/roadmap/work-items.json": "2b5496950fc533947715aab22e3f278c61a934c29505d2abbb02d3226145af10",
+    "docs/spec/00-overview.md": "758dbd22407238b12ce3b12473b1a148c9b451469cc91ee301809e5cf7105add",
+    "docs/spec/01-architecture.md": "5b8bc86b7e920a84aa7cae967f0f2f0697f6708fd2acbd1538d1e44ba66d0ae4",
+    "docs/spec/02-public-api.md": "5e14f753ccbc7ba8e6fe1b0f4cc567479ea86291f4b53aa1b5bfc04c7f27b77b",
+    "docs/spec/03-data-model.md": "288ddafc43d636b458a6237cf22ce9885eb2dbb0a40d5a7176f3f42ca54c1f3d",
+    "docs/spec/04-error-model.md": "86d201100790e7df1b811161a3812204e5ae03fbfac4dbcb1610786d902fda2a",
+    "docs/spec/05-observability.md": "a8d68c06bd3eb80cff12de82e63e9dfbf03661dd3731176b796b7bfe2307da67",
+    "docs/spec/06-security.md": "f0e18a9f94b44276de96f5267c2cb02101ccaaf2fb880b170d98ba8315f3b376",
+    "docs/spec/07-testing-strategy.md": "d8867808e3817a368b72fbf5a9de3d647b83e2d9b56107122eece3aa4c6b88e9",
+    "docs/spec/08-performance-budget.md": "f3324688cc17ebc8cf572f503a3ce13efea2ffc57ced81a8913d29b795c3cff8",
+    "docs/spec/09-release-and-versioning.md": "b3506ecdd77df9da3f13886b1167a33e18b5cf6cea9d48a3dc20d676a15a1130",
+    "docs/spec/10-glossary.md": "32c41760dbce72c992a4361ab26bbdab405fc430d0b6179a2557c9882066c9a4",
+    "docs/spec/11-requirements.md": "7b79816578fb82a006b4bca92aaf8cbf95766047fd719efc151b3c7dfad17c3a",
+    "scripts/check_docs.py": "bb2fa45805f6d19ca0f0322a8abe5fa5b2ba8ead7adf1d590aecb744398a299c",
+    "scripts/check_spec.py": "78f41fd98b9b7a4a2b3b80a16a26b8b8455298a68a88ed2a5b7b04afbfe4cd44"
+  },
+  "response_sha256": "bafeab337c372c81463b1e769ddbf95aff1d5531aec00663e347e773836c2788",
+  "issues": [
+    {
+      "number": 2,
+      "url": "https://github.com/AbdelStark/hallmark/issues/2",
+      "title": "wire: implement strict v1 encoding and domain-separated identities",
+      "state": "closed",
+      "updated_at": "2026-10-20T09:30:21Z",
+      "labels": [
+        "area:wire",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "d52d0a65749e4b5c183ed5c24f94d84499c465ed1d12063bf6753a80dd5f1e73"
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/AbdelStark/hallmark/issues/3",
+      "title": "wire: implement transcript and complete-input opening contracts",
+      "state": "closed",
+      "updated_at": "2026-10-20T11:58:28Z",
+      "labels": [
+        "area:wire",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0003",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "c294b32f737b17cab175e79844e497a81fd60643b9ad8a88d9ec0cd523c35e64"
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/AbdelStark/hallmark/issues/4",
+      "title": "wire: add immutable model and generation manifest schemas",
+      "state": "closed",
+      "updated_at": "2026-10-20T10:35:55Z",
+      "labels": [
+        "area:wire",
+        "effort:s",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0006",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "57987c27eb523a69e89d4fd9c5ddf8bdf2801cc2aea99ba8bd3173f76880b848"
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/AbdelStark/hallmark/issues/5",
+      "title": "wire: add classifier and numerical profile manifest schemas",
+      "state": "closed",
+      "updated_at": "2026-10-20T10:40:15Z",
+      "labels": [
+        "area:wire",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "f10a5d65cb4dbd2606429118ccc7d77fd32b200afb83c3bc9e908f165ae99f95"
+    },
+    {
+      "number": 6,
+      "url": "https://github.com/AbdelStark/hallmark/issues/6",
+      "title": "wire: add policy and external request expectation schemas",
+      "state": "closed",
+      "updated_at": "2026-10-20T10:57:05Z",
+      "labels": [
+        "area:wire",
+        "effort:s",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0007",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "425a260b4f448e2a688488f25d9e9b01b3bc9ebeb3341a8bb357e957cf09c013"
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/AbdelStark/hallmark/issues/7",
+      "title": "wire: add receipt, epoch and proof artifact schemas",
+      "state": "closed",
+      "updated_at": "2026-10-20T11:23:47Z",
+      "labels": [
+        "area:wire",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0005",
+        "spec:rfc-0006",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "16ff611fecdea9c022067379a8ad4682f386bb8c93fdc7d35028a1cb93a9cde8"
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/AbdelStark/hallmark/issues/8",
+      "title": "wire: add bounded offline bundle and result schemas",
+      "state": "closed",
+      "updated_at": "2026-10-20T12:08:04Z",
+      "labels": [
+        "area:wire",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0007",
+        "type:feature"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "37d873e2cd5e805df59e0a75563ec5075afc0c79ee8acf83e86be40d230e4c02"
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/AbdelStark/hallmark/issues/9",
+      "title": "registry: implement external trust and rollback-safe enrollment",
+      "state": "closed",
+      "updated_at": "2026-10-20T11:41:28Z",
+      "labels": [
+        "area:registry",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0002",
+        "type:security"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "d7d7a1b79dbd92d09eea161dcef49507bec75e31fa90c22e65ede2ea7b8cf173"
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/AbdelStark/hallmark/issues/10",
+      "title": "registry: sign snapshots and implement rotation and retirement",
+      "state": "closed",
+      "updated_at": "2026-10-20T12:27:56Z",
+      "labels": [
+        "area:registry",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0002",
+        "type:security"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "424427c7dffb528c355e39699bbe1c66426500700d49f91c8761f83ca530211a"
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/AbdelStark/hallmark/issues/11",
+      "title": "classifiers: implement the complete-input integer rule program",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:02Z",
+      "labels": [
+        "area:classifiers",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0003",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "45ba1e56e58daf5e734ded15e1eaa3277e0dc1f6905ebdb8181fb9894b03605e"
+    },
+    {
+      "number": 12,
+      "url": "https://github.com/AbdelStark/hallmark/issues/12",
+      "title": "classifiers: implement the byte-feature integer MLP runtime",
+      "state": "closed",
+      "updated_at": "2026-10-20T13:17:03Z",
+      "labels": [
+        "area:classifiers",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0003",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "453589ba758fb2eab4662a2d6a1120ef777f07c6d618e97f5c054a8a68a4ab7e"
+    },
+    {
+      "number": 13,
+      "url": "https://github.com/AbdelStark/hallmark/issues/13",
+      "title": "classifiers: execute the qualified encoder integer graph",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:25Z",
+      "labels": [
+        "area:classifiers",
+        "blocked",
+        "effort:l",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "3043aa881c491fea77f1f2f7c01b142139a441daea22dc0cfed52f5cbcef0822"
+    },
+    {
+      "number": 14,
+      "url": "https://github.com/AbdelStark/hallmark/issues/14",
+      "title": "research: prepare the single-policy data and resource admission",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:27Z",
+      "labels": [
+        "area:research",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0004",
+        "spec:rfc-0006",
+        "spec:rfc-0008",
+        "type:docs"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "a5e536635a7669556ef0f2eea50a324af49c8d25010e03a50b809efbcaffe568"
+    },
+    {
+      "number": 15,
+      "url": "https://github.com/AbdelStark/hallmark/issues/15",
+      "title": "research: implement lineage-preserving data admission and splitting",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:29Z",
+      "labels": [
+        "area:research",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0004",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "18881a9facd3358ab501ec7dc25ba5c0be79cd1f95bdcdb1fb08f5badb1c828b"
+    },
+    {
+      "number": 16,
+      "url": "https://github.com/AbdelStark/hallmark/issues/16",
+      "title": "research: implement frozen baseline and MLP training comparisons",
+      "state": "open",
+      "updated_at": "2026-10-20T13:16:16Z",
+      "labels": [
+        "area:research",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0004",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "ac3e71b4e26d1f19f42b256de21cfa97e43b97191cfaf5217f9eccdd52bb5847"
+    },
+    {
+      "number": 17,
+      "url": "https://github.com/AbdelStark/hallmark/issues/17",
+      "title": "research: train and export one compact encoder reproducibly",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:33Z",
+      "labels": [
+        "area:research",
+        "blocked",
+        "effort:l",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0004",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "52f44171efb29776d6abf3d1bbb86bc19a9a6999ff02d299ad27680d4c73eb3b"
+    },
+    {
+      "number": 18,
+      "url": "https://github.com/AbdelStark/hallmark/issues/18",
+      "title": "research: add frozen slice reports and group-aware comparisons",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:34Z",
+      "labels": [
+        "area:research",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0004",
+        "type:test"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "bb314fcd62e220c03cc0fcd38ec5ead23b3037dde95bc008ad4cc4e0833684bc"
+    },
+    {
+      "number": 19,
+      "url": "https://github.com/AbdelStark/hallmark/issues/19",
+      "title": "proofs: qualify a pinned backend and exact full-graph profile",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:36Z",
+      "labels": [
+        "area:proofs",
+        "blocked",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "39151f2f02fbfd8b534e9f53a5c603a6315f34e3d913034e5ec8b51cf6d03591"
+    },
+    {
+      "number": 20,
+      "url": "https://github.com/AbdelStark/hallmark/issues/20",
+      "title": "proofs: prove and verify the complete byte-rule decision",
+      "state": "open",
+      "updated_at": "2026-10-20T08:36:38Z",
+      "labels": [
+        "area:proofs",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "8e59199a18d56599da28fdcfceecf0d592e879237ecfd293d73edbe940711be6"
+    },
+    {
+      "number": 21,
+      "url": "https://github.com/AbdelStark/hallmark/issues/21",
+      "title": "proofs: prove and verify the bounded integer MLP decision",
+      "state": "open",
+      "updated_at": "2026-10-20T13:16:19Z",
+      "labels": [
+        "area:proofs",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "afb5179cadb0a518a27b0cf92cc252bb415545f01f2e9d31a95a9c58b3e1246b"
+    },
+    {
+      "number": 22,
+      "url": "https://github.com/AbdelStark/hallmark/issues/22",
+      "title": "proofs: prove and verify the entire qualified encoder",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:08Z",
+      "labels": [
+        "area:proofs",
+        "blocked",
+        "effort:l",
+        "priority:p1",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "3920c039941627d79396f39953844cdc328e34c00854c45170aa7665b146a26e"
+    },
+    {
+      "number": 23,
+      "url": "https://github.com/AbdelStark/hallmark/issues/23",
+      "title": "hardware: qualify genuine epoch and accelerator evidence",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:10Z",
+      "labels": [
+        "area:hardware",
+        "blocked",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0006",
+        "type:security"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "6d1e0ef90709a6ac5038093e7fabd40d19604247d974ca12d1de62ad89ac27c7"
+    },
+    {
+      "number": 24,
+      "url": "https://github.com/AbdelStark/hallmark/issues/24",
+      "title": "hardware: bind loaded model and protected response path",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:12Z",
+      "labels": [
+        "area:hardware",
+        "blocked",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0006",
+        "type:security"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "fa3fd311fd9dcb16d058c4f6f4e7cb38893c531e0fa72f6f81b01ceb28a9421d"
+    },
+    {
+      "number": 25,
+      "url": "https://github.com/AbdelStark/hallmark/issues/25",
+      "title": "hardware: gate release with all enrolled integer classifiers",
+      "state": "open",
+      "updated_at": "2026-10-20T13:16:22Z",
+      "labels": [
+        "area:hardware",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0006",
+        "spec:rfc-0007",
+        "type:security"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "82f1394de6a95a6c3d9cef1c8fca91f63a07e4aed2cc2a9f056d9789f7a22d6f"
+    },
+    {
+      "number": 26,
+      "url": "https://github.com/AbdelStark/hallmark/issues/26",
+      "title": "receipts: implement bounded encrypted proof spool and recovery",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:16Z",
+      "labels": [
+        "area:receipts",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0007",
+        "type:security"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "3370ed42ffa344fb8a8a82d4e067ff4a6dea73369e9abc66a975c6fd2a6ca7a1"
+    },
+    {
+      "number": 27,
+      "url": "https://github.com/AbdelStark/hallmark/issues/27",
+      "title": "receipts: assemble complete offline C0 evidence bundles",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:17Z",
+      "labels": [
+        "area:receipts",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0007",
+        "type:feature"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "95a6fb2817e07e8b7518483b3f769cbe0e384c7692cfc2953bbdc1c0ec87bdae"
+    },
+    {
+      "number": 28,
+      "url": "https://github.com/AbdelStark/hallmark/issues/28",
+      "title": "verification: verify enrollment, receipt and hardware claim A",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:19Z",
+      "labels": [
+        "area:verification",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0002",
+        "spec:rfc-0006",
+        "spec:rfc-0007",
+        "type:security"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "d2fe5581a38b5e4ab4b80bee89a1481eecd5922bda2e96e8481d8601131a8e0a"
+    },
+    {
+      "number": 29,
+      "url": "https://github.com/AbdelStark/hallmark/issues/29",
+      "title": "verification: verify B1 and B2 proofs and all-pass composition",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:21Z",
+      "labels": [
+        "area:verification",
+        "blocked",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0003",
+        "spec:rfc-0005",
+        "spec:rfc-0007",
+        "type:security"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "56d53ac5cc08132e85c9a315894b3fa36f67b19a10e7f47337ff4b295ce80511"
+    },
+    {
+      "number": 30,
+      "url": "https://github.com/AbdelStark/hallmark/issues/30",
+      "title": "verification: expose typed v1 CLI and supported library API",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:22Z",
+      "labels": [
+        "area:verification",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0007",
+        "type:feature"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "e161a755baff36e5738142668ceb01d7c1d47957773f92ccaff9474a18768deb"
+    },
+    {
+      "number": 31,
+      "url": "https://github.com/AbdelStark/hallmark/issues/31",
+      "title": "operations: add typed errors and redact all trust-boundary failures",
+      "state": "closed",
+      "updated_at": "2026-10-20T09:39:25Z",
+      "labels": [
+        "area:operations",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0008",
+        "type:security"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "0de458df2a900de391873b388d3ab6f17881dbbcc72ed8fe0467d88a19000a5a"
+    },
+    {
+      "number": 32,
+      "url": "https://github.com/AbdelStark/hallmark/issues/32",
+      "title": "operations: add bounded local events and immutable failure records",
+      "state": "closed",
+      "updated_at": "2026-10-20T13:40:09Z",
+      "labels": [
+        "area:operations",
+        "effort:s",
+        "priority:p1",
+        "spec:rfc-0008",
+        "type:feature"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "0bbe2422db102f963909f727ff24ec09054f6d161f0e66bc99ba0f9a75f874b6"
+    },
+    {
+      "number": 33,
+      "url": "https://github.com/AbdelStark/hallmark/issues/33",
+      "title": "operations: measure full-path cost with raw samples and caps",
+      "state": "open",
+      "updated_at": "2026-10-20T13:39:21Z",
+      "labels": [
+        "area:operations",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0005",
+        "spec:rfc-0008",
+        "type:perf"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "d323086d0a7660689b0882830bae7c8fd4f859b0a7c9e418a5b32d7bf306b75e"
+    },
+    {
+      "number": 34,
+      "url": "https://github.com/AbdelStark/hallmark/issues/34",
+      "title": "conformance: freeze v1 golden and adversarial evidence corpus",
+      "state": "closed",
+      "updated_at": "2026-10-20T12:55:19Z",
+      "labels": [
+        "area:conformance",
+        "effort:m",
+        "priority:p0",
+        "spec:rfc-0001",
+        "spec:rfc-0009",
+        "type:test"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "ae2ffc46aa996150325c070629e878fe5133684121497685e61f818e90d49573"
+    },
+    {
+      "number": 35,
+      "url": "https://github.com/AbdelStark/hallmark/issues/35",
+      "title": "conformance: build a separately implemented offline verifier",
+      "state": "open",
+      "updated_at": "2026-10-20T12:54:23Z",
+      "labels": [
+        "area:conformance",
+        "blocked",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0009",
+        "type:feature"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "2cf20472ae6db02cb0fa513b4859ac232f37ba3ceffd44be664f4b91fdb708c3"
+    },
+    {
+      "number": 36,
+      "url": "https://github.com/AbdelStark/hallmark/issues/36",
+      "title": "conformance: execute the genuine hybrid mutation and recovery suite",
+      "state": "open",
+      "updated_at": "2026-10-20T12:54:26Z",
+      "labels": [
+        "area:conformance",
+        "blocked",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0006",
+        "spec:rfc-0007",
+        "spec:rfc-0009",
+        "type:test"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "63a497699fa19552c0ae9a7328f08896a3b6ddf6e38ba70496d54351358c124a"
+    },
+    {
+      "number": 37,
+      "url": "https://github.com/AbdelStark/hallmark/issues/37",
+      "title": "delivery: enforce core, train and gated integration CI",
+      "state": "closed",
+      "updated_at": "2026-10-20T09:57:41Z",
+      "labels": [
+        "area:delivery",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0010",
+        "type:ci"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "bb1c3a1a0208e8fcb68b27a3cea993258938c53803a664c0ae35f97579269cf7"
+    },
+    {
+      "number": 38,
+      "url": "https://github.com/AbdelStark/hallmark/issues/38",
+      "title": "delivery: make private builds reproducible and verify inventories",
+      "state": "closed",
+      "updated_at": "2026-10-20T14:18:50Z",
+      "labels": [
+        "area:delivery",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0010",
+        "type:ci"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "d3f6f01be80ceafdea51b0f4cc236c69abf68adbaa64759d030349e72a8612d3"
+    },
+    {
+      "number": 39,
+      "url": "https://github.com/AbdelStark/hallmark/issues/39",
+      "title": "delivery: enforce spec traceability and contributor documentation",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:45Z",
+      "labels": [
+        "area:delivery",
+        "effort:m",
+        "priority:p2",
+        "spec:rfc-0010",
+        "type:docs"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "7234c1f7dafa2c5593142b8191681ff67129c7d7416d98a76ec90d16775db953"
+    },
+    {
+      "number": 40,
+      "url": "https://github.com/AbdelStark/hallmark/issues/40",
+      "title": "delivery: assemble the evidence-bound private v1 release packet",
+      "state": "open",
+      "updated_at": "2026-10-20T14:17:41Z",
+      "labels": [
+        "area:delivery",
+        "blocked",
+        "effort:m",
+        "priority:p1",
+        "spec:rfc-0010",
+        "type:docs"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "31a014cba6344fcfc85e20e84276e387b6bed5aec7de4e5e155c1a045ec177de"
+    },
+    {
+      "number": 41,
+      "url": "https://github.com/AbdelStark/hallmark/issues/41",
+      "title": "delivery: reproduce the three-role demo with authorized reviewers",
+      "state": "open",
+      "updated_at": "2026-10-20T08:37:49Z",
+      "labels": [
+        "area:delivery",
+        "blocked",
+        "effort:m",
+        "priority:p2",
+        "spec:rfc-0007",
+        "spec:rfc-0009",
+        "spec:rfc-0010",
+        "type:docs"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "bf70b172ddb229412879d6f815d6365d2cb731c7a3cc42324c6c6c4b5474a186"
+    },
+    {
+      "number": 42,
+      "url": "https://github.com/AbdelStark/hallmark/issues/42",
+      "title": "[Tracking] Wire encoding and transcript binding",
+      "state": "open",
+      "updated_at": "2026-10-20T12:55:24Z",
+      "labels": [
+        "area:wire",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0001",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v0.2",
+      "body_sha256": "9dd4f468b9b363e575e696cce710495f975b39e238c6e06d74cf7197898656e8"
+    },
+    {
+      "number": 43,
+      "url": "https://github.com/AbdelStark/hallmark/issues/43",
+      "title": "[Tracking] External enrollment and registry history",
+      "state": "open",
+      "updated_at": "2026-10-20T12:27:15Z",
+      "labels": [
+        "area:registry",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0002",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "2bbbf8ba2c62295f2ac05b8dcb2731868467fcc8a6e731db8521f9dcb49ffc07"
+    },
+    {
+      "number": 44,
+      "url": "https://github.com/AbdelStark/hallmark/issues/44",
+      "title": "[Tracking] Exact integer classifiers and complete inputs",
+      "state": "open",
+      "updated_at": "2026-10-20T13:16:14Z",
+      "labels": [
+        "area:classifiers",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0003",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "3420ae7a0db98e0562d38006ee81e6fafa51ac7af7f37f454df1a6a06874d107"
+    },
+    {
+      "number": 45,
+      "url": "https://github.com/AbdelStark/hallmark/issues/45",
+      "title": "[Tracking] Data admission and frozen ML evaluation",
+      "state": "open",
+      "updated_at": "2026-10-20T08:38:06Z",
+      "labels": [
+        "area:research",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0004",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "2b1253c4b172d972576095a0fb720adad23bba51266076c63c780af51bb17d4f"
+    },
+    {
+      "number": 46,
+      "url": "https://github.com/AbdelStark/hallmark/issues/46",
+      "title": "[Tracking] Real proof qualification and adapters",
+      "state": "open",
+      "updated_at": "2026-10-20T11:22:55Z",
+      "labels": [
+        "area:proofs",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0005",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "7e806a28323b75b42fe57c8c4bf28dd34b73f5a29e566dc55416c45178ae4f9d"
+    },
+    {
+      "number": 47,
+      "url": "https://github.com/AbdelStark/hallmark/issues/47",
+      "title": "[Tracking] Genuine hardware evidence and release gating",
+      "state": "open",
+      "updated_at": "2026-10-20T11:22:56Z",
+      "labels": [
+        "area:hardware",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0006",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "9357b7079202dc985770c87b004a371b0fa6828bfb1d93d4ffaded4b9bd1af15"
+    },
+    {
+      "number": 48,
+      "url": "https://github.com/AbdelStark/hallmark/issues/48",
+      "title": "[Tracking] Receipt lifecycle and offline verification",
+      "state": "open",
+      "updated_at": "2026-10-20T12:07:36Z",
+      "labels": [
+        "area:verification",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0007",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "49cc51fcda0b748f51e17892af7df798f7be341efb1be329038937a5faa93d18"
+    },
+    {
+      "number": 49,
+      "url": "https://github.com/AbdelStark/hallmark/issues/49",
+      "title": "[Tracking] Errors, private events and cost accounting",
+      "state": "open",
+      "updated_at": "2026-10-20T13:38:52Z",
+      "labels": [
+        "area:operations",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0008",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v0.3",
+      "body_sha256": "80bde7ba04f57d1fed96b182803c5ddcd9410e39e45752c8ef1f7cabe30c18de"
+    },
+    {
+      "number": 50,
+      "url": "https://github.com/AbdelStark/hallmark/issues/50",
+      "title": "[Tracking] Independent verifier and negative corpus",
+      "state": "open",
+      "updated_at": "2026-10-20T12:54:20Z",
+      "labels": [
+        "area:conformance",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0009",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "b6f52a7f26578c4fa1f378a4c53f09e5f7c6e001470c2ec8ca9ed7b940fb1365"
+    },
+    {
+      "number": 51,
+      "url": "https://github.com/AbdelStark/hallmark/issues/51",
+      "title": "[Tracking] Private release and reviewer reproduction",
+      "state": "open",
+      "updated_at": "2026-10-20T14:17:39Z",
+      "labels": [
+        "area:delivery",
+        "effort:l",
+        "priority:p0",
+        "spec:rfc-0010",
+        "tracking",
+        "type:tracking"
+      ],
+      "milestone": "v1.0",
+      "body_sha256": "44b22107d575764628282e44ef5666a19581c71feb79ed34156dcbb742661e5b"
+    }
+  ]
+}

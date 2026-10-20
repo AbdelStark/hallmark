@@ -43,7 +43,7 @@ hardware libraries have no admitted version yet. Their implementation issues mus
 
 Use one bounded PR per work item, link its requirement and RFC, and attach the exact validation command/result. Owners review protocol, arithmetic, evaluation and security changes. PR CI is read-only, offline except locked package installation, and never runs untrusted code on a privileged hardware host. Optional integration jobs run only after explicit admission on an isolated approved host.
 
-Package and docs checks must include root SPEC, all sections/RFCs and the roadmap in the sdist. The wheel contains code/type metadata only, with no fixtures or private evidence. `make check-spec` must validate internal anchors, RFC templates, requirement coverage and tracker links. The private release checklist requires hosted tests on the final commit; billing-blocked jobs remain a blocking dependency, not a software pass.
+Package and docs checks must include root SPEC, all sections/RFCs and the roadmap in the sdist. The wheel contains code/type metadata only, with no fixtures or private evidence. `make check-spec` now validates internal anchors, RFC templates, requirement coverage and tracker links; the explicit [live audit](../SPEC-CHECK.md#live-issue-audit) checks current GitHub metadata. Offline CI does not establish current issue state. The private release checklist requires hosted tests on the final commit; billing-blocked jobs remain a blocking dependency, not a software pass.
 
 
 ## Implemented reproducible package gate

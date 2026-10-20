@@ -1,0 +1,447 @@
+{
+  "schema_id": "hallmark/spec-coverage/1",
+  "sections": {
+    "docs/spec/00-overview.md#authority-and-precedence": [
+      "W13",
+      "W38",
+      "W39"
+    ],
+    "docs/spec/00-overview.md#thesis-and-users": [
+      "W13",
+      "W28"
+    ],
+    "docs/spec/00-overview.md#v1-boundary": [
+      "W22",
+      "W24",
+      "W28",
+      "W35",
+      "W40"
+    ],
+    "docs/spec/00-overview.md#milestones-and-acceptance": [
+      "W13",
+      "W18",
+      "W22",
+      "W35",
+      "W39",
+      "W40"
+    ],
+    "docs/spec/01-architecture.md#current-modules": [
+      "W38"
+    ],
+    "docs/spec/01-architecture.md#target-boundaries": [
+      "W01",
+      "W08",
+      "W10",
+      "W14",
+      "W18",
+      "W22",
+      "W25",
+      "W27",
+      "W30",
+      "W33",
+      "W36"
+    ],
+    "docs/spec/01-architecture.md#data-flow": [
+      "W22",
+      "W24",
+      "W25",
+      "W26",
+      "W27",
+      "W28"
+    ],
+    "docs/spec/02-public-api.md#existing-v01-surface": [
+      "W29",
+      "W30"
+    ],
+    "docs/spec/02-public-api.md#v1-supported-interfaces": [
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W11",
+      "W18",
+      "W26",
+      "W27",
+      "W28",
+      "W29",
+      "W31",
+      "W33"
+    ],
+    "docs/spec/02-public-api.md#compatibility": [
+      "W29",
+      "W39"
+    ],
+    "docs/spec/03-data-model.md#existing-research-contracts": [
+      "W38"
+    ],
+    "docs/spec/03-data-model.md#v1-types": [
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W13",
+      "W14",
+      "W18",
+      "W22",
+      "W25",
+      "W29",
+      "W30",
+      "W31",
+      "W32",
+      "W33",
+      "W39"
+    ],
+    "docs/spec/03-data-model.md#invariants": [
+      "W01",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W08"
+    ],
+    "docs/spec/03-data-model.md#evolution": [
+      "W01",
+      "W33",
+      "W39"
+    ],
+    "docs/spec/04-error-model.md#contract-and-ordering": [
+      "W30"
+    ],
+    "docs/spec/04-error-model.md#state-and-retry-rules": [
+      "W25",
+      "W26",
+      "W30"
+    ],
+    "docs/spec/04-error-model.md#implemented-diagnostic-boundary": [
+      "W30"
+    ],
+    "docs/spec/05-observability.md#local-event-contract": [
+      "W31"
+    ],
+    "docs/spec/05-observability.md#metrics-and-costs": [
+      "W32"
+    ],
+    "docs/spec/05-observability.md#audit-evidence": [
+      "W13",
+      "W32",
+      "W39"
+    ],
+    "docs/spec/05-observability.md#implemented-event-storage": [
+      "W31"
+    ],
+    "docs/spec/06-security.md#trust-boundaries": [
+      "W08",
+      "W09",
+      "W22",
+      "W23",
+      "W27",
+      "W28"
+    ],
+    "docs/spec/06-security.md#threat-responses": [
+      "W18",
+      "W22",
+      "W23",
+      "W24",
+      "W27",
+      "W28",
+      "W35"
+    ],
+    "docs/spec/06-security.md#review-and-incident-handling": [
+      "W09",
+      "W35",
+      "W39"
+    ],
+    "docs/spec/07-testing-strategy.md#existing-gate": [
+      "W36"
+    ],
+    "docs/spec/07-testing-strategy.md#required-layers": [
+      "W10",
+      "W11",
+      "W12",
+      "W15",
+      "W16",
+      "W17",
+      "W18",
+      "W22",
+      "W33",
+      "W34",
+      "W35",
+      "W36",
+      "W37"
+    ],
+    "docs/spec/07-testing-strategy.md#independent-verifier-and-corpus": [
+      "W33",
+      "W34",
+      "W35"
+    ],
+    "docs/spec/07-testing-strategy.md#acceptance-commands": [
+      "W33",
+      "W34",
+      "W35",
+      "W36",
+      "W37",
+      "W38",
+      "W40"
+    ],
+    "docs/spec/08-performance-budget.md#current-authority": [
+      "W13"
+    ],
+    "docs/spec/08-performance-budget.md#proposed-v1-envelopes": [
+      "W13",
+      "W18",
+      "W22",
+      "W25",
+      "W32"
+    ],
+    "docs/spec/08-performance-budget.md#measurement-procedure": [
+      "W32"
+    ],
+    "docs/spec/09-release-and-versioning.md#private-delivery-gates": [
+      "W37",
+      "W39",
+      "W40"
+    ],
+    "docs/spec/09-release-and-versioning.md#compatibility": [
+      "W29",
+      "W39"
+    ],
+    "docs/spec/09-release-and-versioning.md#dependency-inventory": [
+      "W37"
+    ],
+    "docs/spec/09-release-and-versioning.md#contributor-and-automation-workflow": [
+      "W36",
+      "W37",
+      "W38",
+      "W39"
+    ],
+    "docs/spec/09-release-and-versioning.md#implemented-reproducible-package-gate": [
+      "W37"
+    ],
+    "docs/spec/10-glossary.md#glossary": [
+      "W38"
+    ],
+    "docs/spec/11-requirements.md#coverage-rule": [
+      "W38"
+    ],
+    "docs/spec/11-requirements.md#source-requirement-disposition": [
+      "W38",
+      "W39"
+    ],
+    "docs/spec/11-requirements.md#work-items": [
+      "W38"
+    ],
+    "docs/spec/11-requirements.md#cross-cutting-closure": [
+      "W38"
+    ],
+    "docs/rfcs/RFC-0001-wire.md#proposed-design": [
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W33"
+    ],
+    "docs/rfcs/RFC-0002-registry.md#proposed-design": [
+      "W08",
+      "W09",
+      "W27"
+    ],
+    "docs/rfcs/RFC-0003-integer.md#proposed-design": [
+      "W02",
+      "W04",
+      "W10",
+      "W11",
+      "W12",
+      "W15",
+      "W16",
+      "W19",
+      "W20",
+      "W21",
+      "W28"
+    ],
+    "docs/rfcs/RFC-0004-ml.md#proposed-design": [
+      "W13",
+      "W14",
+      "W15",
+      "W16",
+      "W17"
+    ],
+    "docs/rfcs/RFC-0005-proofs.md#proposed-design": [
+      "W04",
+      "W06",
+      "W12",
+      "W18",
+      "W19",
+      "W20",
+      "W21",
+      "W28",
+      "W32"
+    ],
+    "docs/rfcs/RFC-0006-hardware.md#proposed-design": [
+      "W03",
+      "W06",
+      "W13",
+      "W22",
+      "W23",
+      "W24",
+      "W27",
+      "W35"
+    ],
+    "docs/rfcs/RFC-0007-verifier.md#proposed-design": [
+      "W05",
+      "W07",
+      "W24",
+      "W25",
+      "W26",
+      "W27",
+      "W28",
+      "W29",
+      "W35",
+      "W40"
+    ],
+    "docs/rfcs/RFC-0008-operations.md#proposed-design": [
+      "W13",
+      "W30",
+      "W31",
+      "W32"
+    ],
+    "docs/rfcs/RFC-0009-conformance.md#proposed-design": [
+      "W33",
+      "W34",
+      "W35",
+      "W40"
+    ],
+    "docs/rfcs/RFC-0010-release.md#proposed-design": [
+      "W36",
+      "W37",
+      "W38",
+      "W39",
+      "W40"
+    ]
+  },
+  "invariants": {
+    "INV-CLAIMS": [
+      "W07",
+      "W27",
+      "W28",
+      "W29"
+    ],
+    "INV-QUALITY": [
+      "W13",
+      "W17"
+    ],
+    "INV-COMPLETE-V1": [
+      "W39",
+      "W40"
+    ],
+    "INV-COMMON-INPUT": [
+      "W02",
+      "W05",
+      "W06",
+      "W19",
+      "W20",
+      "W21",
+      "W28"
+    ],
+    "INV-IDENTITY": [
+      "W01",
+      "W03",
+      "W04",
+      "W05",
+      "W08"
+    ],
+    "INV-NO-CYCLE": [
+      "W01",
+      "W02",
+      "W04",
+      "W06"
+    ],
+    "INV-SCHEMA": [
+      "W01",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08"
+    ],
+    "INV-TIME": [
+      "W06",
+      "W08",
+      "W27"
+    ],
+    "INV-EXTERNAL-EXPECTATION": [
+      "W05",
+      "W27",
+      "W28",
+      "W29"
+    ],
+    "INV-ONE-WRITER": [
+      "W24",
+      "W25",
+      "W26"
+    ],
+    "INV-FAIL-CLOSED": [
+      "W24",
+      "W25",
+      "W26"
+    ],
+    "INV-ERROR-PRIVACY": [
+      "W30",
+      "W31"
+    ],
+    "INV-ERROR-TRUTH": [
+      "W30",
+      "W31"
+    ],
+    "INV-NETWORK": [
+      "W27",
+      "W28"
+    ],
+    "INV-KEYS": [
+      "W09",
+      "W22",
+      "W25"
+    ],
+    "INV-BUDGET": [
+      "W13",
+      "W18",
+      "W25",
+      "W32"
+    ],
+    "INV-CONFORMANCE": [
+      "W33",
+      "W34",
+      "W35"
+    ],
+    "INV-NO-SUBSTITUTION": [
+      "W18",
+      "W19",
+      "W20",
+      "W21",
+      "W22",
+      "W23",
+      "W24",
+      "W33",
+      "W34",
+      "W35"
+    ]
+  },
+  "historical_sources": {
+    "research/source/hybrid-specification.txt": "cbb42270e5322f8859ed8db64577e38bba28888a60f15d44bc18777f6e22d1e5",
+    "research/source/ml-engineering.txt": "5343f6d31f40f0aebc9a67adbeb66061b0622e304fe5b8a2eab88b8a170a40b1",
+    "research/source/product-requirements.txt": "0b816dd5faac0f09fa353565a1f1445cfd6832333a0e144d7e93fa88f37f0ef7"
+  }
+}

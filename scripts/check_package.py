@@ -96,6 +96,9 @@ def main() -> None:
     parser.add_argument("--train", action="store_true")
     args = parser.parse_args()
     root = args.source.resolve()
+    subprocess.run(
+        [sys.executable, str(root / "scripts/check_spec.py")], cwd=root, check=True, timeout=10
+    )
     wheels = list(args.dist.glob("*.whl"))
     sdists = list(args.dist.glob("*.tar.gz"))
     if len(wheels) != 1 or len(sdists) != 1:
@@ -131,6 +134,8 @@ def main() -> None:
             "docs/roadmap/work-items.json",
             "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
+            "scripts/check_spec.py",
+            "docs/roadmap/coverage.json",
             "scripts/build_conformance.py",
             "scripts/check_conformance.py",
             "scripts/build_mlp_fixture.py",

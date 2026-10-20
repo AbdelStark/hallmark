@@ -7,3 +7,9 @@ Report concerns privately to the repository owner through an existing approved p
 The local threat boundary assumes a trusted operator/filesystem and reviewed Python dependencies. Hashes detect changes relative to an independently retained identity; they do not authenticate the original source. Input bounds and symlink checks are defensive validation, not a sandbox against concurrent filesystem attacks. Agent instructions and CODEOWNERS are workflow guidance, not enforced process isolation or branch protection.
 
 Real proof or hardware integration requires separate security review, enrolled identities, negative tests and explicit residual-risk acceptance. Policy incompleteness, distribution shift, adaptive attacks and unobserved compute remain even when execution is genuinely verified.
+
+Specification/link checks and issue closure do not establish security. Review the
+[implemented and proposed API](docs/spec/02-public-api.md) before relying on a
+capability; hashes, schemas and reported acceptance fields do not replace real
+verification. Changes to a trust boundary need its negative tests and exact
+[requirement mapping](docs/SPEC-CHECK.md).

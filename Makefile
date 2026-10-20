@@ -1,4 +1,4 @@
-.PHONY: check check-train check-conformance test package-check package-check-train smoke
+.PHONY: check check-train check-conformance check-spec test package-check package-check-train smoke
 
 check:
 	uv lock --check
@@ -6,8 +6,11 @@ check:
 	uv run --locked ruff format --check .
 	uv run --locked mypy
 	uv run --locked pytest
-	uv run --locked python scripts/check_docs.py
+	$(MAKE) check-spec
 	$(MAKE) check-conformance
+
+check-spec:
+	uv run --locked python scripts/check_spec.py
 
 check-conformance:
 	uv run --locked python scripts/check_conformance.py --corpus tests/vectors/v1/corpus.json --expected-corpus "$$(cat tests/vectors/v1/corpus.id)" --software-only --self-test
