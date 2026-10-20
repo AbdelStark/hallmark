@@ -1,6 +1,6 @@
 # Hallmark agent contract
 
-Hallmark is private research. Read [research/STATE.md](research/STATE.md) first, then the document for the task below. Keep claims proportional to the evidence: a replay is software checking, an attestation needs genuine hardware evidence, and a ZK claim needs a real proof checked against independently enrolled inputs.
+Hallmark is research in a public repository. Read [research/STATE.md](research/STATE.md) first, then the document for the task below. Keep claims proportional to the evidence: a replay is software checking, an attestation needs genuine hardware evidence, and a ZK claim needs a real proof checked against independently enrolled inputs.
 
 ## Work loop
 
@@ -12,7 +12,9 @@ Hallmark is private research. Read [research/STATE.md](research/STATE.md) first,
 
 ## Authority and resources
 
-The current user requested private repo creation and initialization, including this initial publication. Further public release, new collaborators, issues/comments/messages, uploads of transcripts/checkpoints, paid compute and ongoing schedulers require specific authority. Prepared plans and available credentials do not supply it. Keep fixtures local and harmless. Use the locked environment; no system-package installs or unreviewed model code.
+On 2026-10-20, the owner explicitly requested public repository visibility. Keep the repository public; change it to private only if the owner explicitly asks. This supersedes the earlier private-repository instruction.
+
+Publication of additional private material, new collaborators, issues/comments/messages, uploads of transcripts/checkpoints, paid compute and ongoing schedulers require specific authority. Prepared plans and available credentials do not supply it. Keep fixtures local and harmless. Use the locked environment; no system-package installs or unreviewed model code.
 
 Default autonomous work is one local CPU fixture task, at most 60 seconds per command, one training thread, no external inference or dataset/model download. Longer research, proving and GPU runs need a recorded budget and suitable authorized host. [Run contract](research/AUTHORITY.json) describes the bootstrap scope; it is a declaration, not an OS sandbox or a transfer of old spending approvals.
 

@@ -1,6 +1,6 @@
 # Research state
 
-Updated: 2026-10-20. Phase: private software foundation, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
+Updated: 2026-10-20. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
 
 ## Implemented
 
@@ -12,7 +12,7 @@ TEE evidence, authenticated registry, ZK proving/verification, independent verif
 
 ## Next bounded task
 
-The [proposed v1 corpus](../SPEC.md) defines the full hybrid POC, with 10 draft RFCs and explicit owner-review gates. [PR #1](https://github.com/AbdelStark/hallmark/pull/1) contains the corpus and [implementation tracker](../docs/roadmap/IMPLEMENTATION.md): 40 work issues, 10 RFC trackers and 102 implementation dependency edges. The [live audit](evidence/spec-publication-2026-10-20.json) checked all issue bodies, labels, milestones, comments and child checklists. This is specification/backlog delivery, not implementation or new scientific evidence; see [decision 0002](../docs/decisions/0002-v1-specification-scope.md). The repository is private; prior public exposure remains unassessed.
+The [proposed v1 corpus](../SPEC.md) defines the full hybrid POC, with 10 draft RFCs and explicit owner-review gates. Merged [PR #1](https://github.com/AbdelStark/hallmark/pull/1) contains the corpus and [implementation tracker](../docs/roadmap/IMPLEMENTATION.md): 40 work issues, 10 RFC trackers and 102 implementation dependency edges. The [live audit](evidence/spec-publication-2026-10-20.json) checked all issue bodies, labels, milestones, comments and child checklists. This is specification/backlog delivery, not implementation or new scientific evidence; see [decision 0002](../docs/decisions/0002-v1-specification-scope.md). The owner explicitly authorized public repository visibility on 2026-10-20; the standing visibility instruction is in [AGENTS.md](../AGENTS.md).
 
 Local Python 3.12 train-enabled and Python 3.13 core-only gates pass, including isolated wheel checks. Hosted CI could not start because GitHub reports an account billing/spending-limit block. Do not treat the red hosted run as an executed test failure or report it as green; see the ledger. Billing settings were not changed.
 
@@ -22,4 +22,4 @@ In parallel only when explicitly authorized, qualify a tiny real proof graph bef
 
 ## Resume
 
-Inspect git state and actual installed environment, read the latest ledger entry, then take one falsifiable gate. Run the smallest relevant negative test. Update this state and the ledger with evidence, limits and a concrete next step. Current authority is [bootstrap-only](AUTHORITY.json).
+Inspect git state and actual installed environment, read the latest ledger entry, then take one falsifiable gate. Run the smallest relevant negative test. Update this state and the ledger with evidence, limits and a concrete next step. Research-run authority remains [bootstrap-only](AUTHORITY.json); repository visibility follows [AGENTS.md](../AGENTS.md).

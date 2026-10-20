@@ -54,3 +54,11 @@ Final local checks after adding the tracker: `OMP_NUM_THREADS=1 OPENBLAS_NUM_THR
 Hosted spec run [39393331644](https://github.com/AbdelStark/hallmark/actions/runs/39393331644) on `ad058ad` completed without starting any job steps. Its check annotation reports an account payment/spending-limit block. This is unavailable hosted execution, not a test failure or pass; final-head delivery/check state is reported on the PR. Billing was not changed.
 
 The deliverable is the proposed corpus plus filed backlog, not a completed v1 system. Next bounded research work is the admission proposal in issue #14. Hardware/proof/data campaigns, independent implementer access, policy adoption and reviewer sharing remain gated. Prior public exposure is unassessed.
+
+## 2026-10-20: owner-authorized merge and public visibility
+
+At the owner's request, PR #1 was merged as `f0f117285d2ccf82b122d1155b8a1fb56a2a2217`; local and remote `main` matched. Its tree matches the previously validated PR head `3951d1f49c9e5f91c0ef4c592c973d95dfa0828a`. Hosted run [39396000433](https://github.com/AbdelStark/hallmark/actions/runs/39396000433) started no job steps because of the same account billing/spending-limit block.
+
+The owner then explicitly requested public visibility and instructed agents to keep it public unless explicitly asked otherwise. Executed `gh repo edit AbdelStark/hallmark --visibility public --accept-visibility-change-consequences`. Verification with `gh api repos/AbdelStark/hallmark` returned `private: false` and `visibility: public`; an unauthenticated HTTP request to the repository returned 200. AGENTS.md records the standing instruction, superseding the earlier private-repository instruction. The unrelated `.gitignore` edit was preserved. No research execution authority was expanded.
+
+Documentation validation: `uv run --locked python scripts/check_docs.py` passed; `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check` passed all gates with 29 tests. Package checks were not repeated for these instruction/state/ledger edits.
