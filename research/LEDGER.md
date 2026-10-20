@@ -897,3 +897,60 @@ measurement authority. [The actual proposal](proposals/inj-direct-v1/README.md)
 retains null quality/power/budget and reviewer choices. W13 remains open and
 blocked for owner/relying-party review; a draft PR is the next delivery step.
 No prior research result is reused and no full MVP, hardware or proof claim is made.
+
+### W13 preparation delivered
+
+[PR #68](https://github.com/AbdelStark/hallmark/pull/68) merged as
+`346f9bcc1940985c90053a719eb2ed4fea4671b6`. Push run `39444024829`, PR run
+`39444100293` and [main run `39452888007`](https://github.com/AbdelStark/hallmark/actions/runs/39452888007)
+each passed all 12 jobs. This delivery did not itself adopt the study.
+
+## 2026-10-20 — W13 owner approval and delegated study design
+
+The owner approved the English single-turn study and its quality targets, acting
+as prototype decision owner; delegated evaluation design and licence-reviewed
+public source/software selection; approved the local four-thread/16-GiB/20-GiB,
+two-hour/job, six-hour/$0 envelope; and authorized conditional HF GPU Jobs,
+preferring the Mac. The owner requested hardware/reviewer options only.
+[Decision 0019](../docs/decisions/0019-approved-study-scope.md) normalizes this
+authority without publishing a private transcript or credential.
+
+Hypothesis: the current authority and proposal can agree on the approved scope
+without admitting unresolved sources or an incomplete measurement dossier.
+Baseline: 1,474 tests at the PR #68 merge. Mutable paths: authority, proposal,
+agent workflow, study/resource docs, the power calculation and admission tests.
+No runtime contract, marker fixture, historical experiment, dataset or model
+changed. Pass criterion: coherent authority/budget/roles, reproducible power
+calculation, continued refusal of the incomplete protocol, and local/package gates.
+
+The [raw validation record](evidence/w13-study-approval-2026-10-20.json) precedes
+this entry. `make check` passed 1,476 tests plus lock/lint/format/types, spec,
+software conformance and admission gates. The first focused lint check caught
+one overlong assertion; formatting fixed it before the passing gate.
+The two new tests compare approval/budget/role records and reproduce the fixed
+power script with independent exact-tail/confidence-bound cross-checks.
+`make check-train` required and passed both training-marked tests.
+`make package-check` passed repeated build equality, installed-wheel checks and
+extracted-sdist validation. Its source ID is
+`5d6697994c9f7fc4ab1c6ac43d6c88eed6caa54900bf04a14ccfe42d1c38dd26`,
+wheel SHA-256 `d8d481d1eacefeb8d6f9ee92eb3134d92ac2e5265874638aae95d2be76876cde`,
+sdist SHA-256 `77478a534c5dc8dc83916c0b2fb941410931168919b6789de71fb43914e92ea7`.
+The wheel is unchanged; these identities precede this evidence/ledger addition.
+Final-commit CI rebuilds the final source.
+
+The [power evidence](evidence/w13-design-power-2026-10-20.json) records code and
+lock hashes, environment, exact cutoffs and conditional probabilities. With 15
+Bonferroni-controlled one-sided bounds and family power at least 0.90 under the
+specified alternatives, the design requires 7,831 independent benign groups and
+1,375 positive groups. Those are planning quantities, not measured model quality.
+Unknown lineage, label audit, actual asset/split/candidate/evaluator identities
+and the final enrolled review pin remain concrete measurement dependencies.
+
+The [options evidence](evidence/w13-compute-options-2026-10-20.json) records local
+hardware and unauthenticated public provider metadata, including the HF price
+inventory. Reviewer-site direct HTTP attempts failed; the browser reader supplied
+the cited public pages. The [options brief](proposals/inj-direct-v1/compute-and-review-options.md)
+compares local/HF research, Azure/GCP genuine hardware and independent review.
+No account pricing/quota/credit state was checked, no paid job launched, and no
+reviewer contacted. Existing source licence holds are preserved. The old
+fixture-only authority is superseded; W10 implementation can proceed.

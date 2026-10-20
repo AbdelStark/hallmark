@@ -2,6 +2,8 @@
 
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -296,15 +298,66 @@ def test_protocol_schema_cannot_accept_a_draft(artifacts: Any) -> None:
         AdmissionProtocol.model_validate(value)
 
 
-def test_actual_proposal_remains_unapproved() -> None:
+def test_approved_study_still_refuses_incomplete_measurement_admission() -> None:
     value = json.loads((ROOT / "research/proposals/inj-direct-v1/proposal.json").read_text())
     assert value["measurement_permitted"] is False
-    assert value["asset_access_permitted"] is False
+    assert value["asset_access_permitted"] is True
     assert all(source["admission_status"] == "hold" for source in value["sources"])
-    assert all(v is None for v in value["quality"].values())
-    assert all(v is None for v in value["budget"].values())
+    assert all(v is not None for v in value["quality"].values())
+    assert all(v is not None for v in value["budget"].values())
+    assert value["evaluator"] is None
+    assert value["sampling"]["split_manifest"] is None
+    assert value["review"]["independently_enrolled_review"] is None
     with pytest.raises(ValidationError):
         AdmissionProtocol.model_validate(value)
+
+
+def test_study_budget_and_roles_match_current_authority() -> None:
+    authority = json.loads((ROOT / "research/AUTHORITY.json").read_text())
+    proposal = json.loads((ROOT / "research/proposals/inj-direct-v1/proposal.json").read_text())
+    budget, local = proposal["budget"], authority["local"]
+    for key in ("max_memory_bytes", "max_disk_bytes", "max_cost_minor", "currency", "host"):
+        assert budget[key] == local[key]
+    assert budget["max_wall_seconds"] == local["max_total_seconds"]
+    assert budget["max_job_seconds"] == local["max_job_seconds"]
+    assert budget["threads"] == local["training_threads"]
+    assert budget["jobs"] == local["concurrent_jobs"]
+    assert proposal["relying_party"]["designated_owner"] == authority["relying_party"]["owner"]
+    assert proposal["relying_party"]["approved_role"] == authority["relying_party"]["role"]
+    assert proposal["review"]["owner_approval"] == authority["approval_ref"]
+    assert (ROOT / authority["approval_ref"]).is_file()
+    assert authority["source_selection"]["ambiguous_licences"] is False
+    assert authority["hugging_face_jobs"]["authorized_if_needed"] is True
+    assert authority["hugging_face_jobs"]["private_uploads"] is False
+    assert authority["hardware_procurement"] == authority["reviewer_contact"] == "options-only"
+    assert authority["public_repository"] is True
+    assert authority["make_private_only_on_explicit_request"] is True
+
+
+@pytest.mark.train
+def test_design_power_reproduces_with_exact_tail_cross_checks() -> None:
+    pytest.importorskip("scipy")
+    script = ROOT / "scripts/plan_admission_power.py"
+    expected = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=55,
+    )
+    actual = json.loads(result.stdout)
+    assert actual["source_sha256"] == expected["source_sha256"]
+    assert actual["lock_sha256"] == expected["lock_sha256"]
+    assert actual["observed_model_performance"] is False
+    for observed, frozen in zip(actual["frozen_counts"], expected["frozen_counts"], strict=True):
+        assert observed["endpoint"] == frozen["endpoint"]
+        assert observed["groups"] == frozen["groups"]
+        assert observed["maximum_events"] == frozen["maximum_events"]
+        assert observed["conditional_power"] == pytest.approx(
+            frozen["conditional_power"], abs=1e-12
+        )
 
 
 def test_nested_budget_change_requires_new_review(artifacts: Any) -> None:

@@ -146,10 +146,23 @@ The [evidence](evidence/w13-admission-preparation-2026-10-20.json) records
 81 new tests, 1,474 total local tests, byte-identical marker/schema reproduction
 and both installed-package gates. The first package attempt rejected unstaged
 files missing from its tracked-only snapshot; the complete staged candidate passed.
-Source/model/host holds and unapproved quality/power/cost terms remain explicit.
-The real proposal rejects as an admitted protocol. Conditional power calculations
-are illustrative only; no asset access, measurement or owner/relying-party
-approval occurred. W13 remains open pending review; these checks grant no authority.
+At that stage, source/model/host holds and unapproved quality/power/cost terms
+remained explicit. [PR #68](https://github.com/AbdelStark/hallmark/pull/68) merged
+as `346f9bcc1940985c90053a719eb2ed4fea4671b6`; all 12
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39452888007) passed.
+
+The owner subsequently approved the prototype study, targets, delegated evaluation
+design/public source selection, bounded local budget and conditional HF Jobs.
+[Decision 0019](../docs/decisions/0019-approved-study-scope.md) and
+[AUTHORITY](AUTHORITY.json) record that authority. The
+[frozen design](proposals/inj-direct-v1/design.md) fills quality/power/cost and
+retention terms, including an exact conditional power plan. The
+[approval-update evidence](evidence/w13-study-approval-2026-10-20.json) records
+1,476 passing local tests. Existing source holds remain; actual file/split,
+candidate/evaluator and independently enrolled final review identities are still
+missing, so the proposal correctly rejects as a measurement admission.
+The source-selection and engineering work is authorized now. No dataset/model
+asset, paid job, private upload, hardware evidence or independent review occurred.
 
 ## Not implemented or established
 
@@ -212,18 +225,18 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: owner/relying-party review of the [W13 / issue #14](https://github.com/AbdelStark/hallmark/issues/14)
-[proposal](proposals/inj-direct-v1/README.md). Designate the relying party; resolve
-source rights and lineage; choose joint-policy quality, effect/power and subgroup
-criteria; approve retention and a named host/resource envelope. The draft proposes
-one English single-turn prompt-injection assay; nobody has adopted it.
-[Decision 0018](../docs/decisions/0018-admission-proposal.md) records the proposed
-contract semantics. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and
-[EVALUATION](../docs/EVALUATION.md). No data/model download, external inference,
-GPU job or background campaign until the missing authority is recorded.
+Next: deliver the W13 approval update, then implement W10 / #11's complete-byte
+rule runtime, followed by W14 / #15's source/lineage import. Study permission is
+no longer a blocker. Under [AUTHORITY](AUTHORITY.json), review public source rights
+and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
+data, candidate and evaluator identities before measurement. Use
+[PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md).
+The [hardware/reviewer options](proposals/inj-direct-v1/compute-and-review-options.md)
+are prepared; procurement and contact remain owner choices when those gates are
+ready. Neither blocks ordinary local implementation.
 
 In parallel only when explicitly authorized, qualify a tiny real proof graph before selecting a larger encoder. The goal is a measured statement and cost record, not a mock end-to-end demo. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
 
 ## Resume
 
-Inspect git state and actual installed environment, read the latest ledger entry, then take one falsifiable gate. Run the smallest relevant negative test. Update this state and the ledger with evidence, limits and a concrete next step. Research-run authority remains [bootstrap-only](AUTHORITY.json); repository visibility follows [AGENTS.md](../AGENTS.md).
+Inspect git state and actual installed environment, read the latest ledger entry, then take one falsifiable gate. Run the smallest relevant negative test. Update this state and the ledger with evidence, limits and a concrete next step. Use the current [approved research authority](AUTHORITY.json); repository visibility follows [AGENTS.md](../AGENTS.md).

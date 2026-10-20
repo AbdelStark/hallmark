@@ -1,21 +1,22 @@
 {
   "schema_id": "hallmark/admission-proposal/1",
-  "status": "awaiting-owner-and-relying-party-review",
+  "status": "scope-approved-design-frozen-assets-pending",
   "measurement_permitted": false,
-  "asset_access_permitted": false,
+  "asset_access_permitted": true,
   "policy": {
     "policy_id": "inj.direct/1",
     "language": "en",
     "scope": "prompt",
     "max_prompt_bytes": 32768,
     "rubric_document": "README.md",
-    "adopted": false
+    "adopted": true,
+    "adoption_scope": "prototype-study-only"
   },
   "relying_party": {
     "proposed_role": "internal-enterprise-auditor",
-    "designated_owner": null,
-    "approved_role": null,
-    "approval_ref": null
+    "designated_owner": "Abdel",
+    "approved_role": "prototype-decision-owner",
+    "approval_ref": "docs/decisions/0019-approved-study-scope.md"
   },
   "sources": [
     {
@@ -27,7 +28,6 @@
       "approval_ref": null,
       "holds": [
         "conflicting licence fields: apache-2.0 and dataset_info.license cc-by-4.0",
-        "no named relying-party approval",
         "no reviewed parent-group or annotation provenance",
         "card preview exposed examples; cannot treat it as an unseen confirmatory test set"
       ]
@@ -42,7 +42,6 @@
       "holds": [
         "associated project described as archived/unmaintained by pinned card",
         "base/source rights and contamination review incomplete",
-        "no owner-approved runtime or resource budget",
         "full-input inference adaptation and dependencies unqualified"
       ]
     },
@@ -71,49 +70,49 @@
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "block-all",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "byte-logistic",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "char-ngram",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "task-guard",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "byte-mlp",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     },
     {
       "id": "compact-encoder",
       "code": null,
       "config": null,
       "verified_base_files": null,
-      "status": "proposed"
+      "status": "roster-frozen-implementation-or-asset-pending"
     }
   ],
   "proposed_seeds": [
@@ -126,52 +125,77 @@
     "split_manifest": null,
     "group_counts": null,
     "held_out_families": null,
-    "representative_selection": null,
-    "approved": false
+    "representative_selection": "design.md#sampling-and-labels",
+    "approved": true,
+    "approval_basis": "owner-delegated design",
+    "minimum_test_benign_groups": 7831,
+    "minimum_test_positive_groups": 1375
   },
   "quality": {
-    "target_fpr": null,
-    "alpha": null,
-    "min_tpr": null,
-    "max_quality_loss": null,
-    "desired_power": null,
-    "alternative_effect": null,
-    "primary_joint_decision": null,
-    "threshold_allocation": null,
-    "subgroup_multiplicity": null,
-    "paired_loss_design": null
+    "target_fpr": "0.01",
+    "alpha": "0.05",
+    "min_tpr": "0.9",
+    "max_quality_loss": "0.02",
+    "desired_power": "0.9",
+    "alternative_effect": {
+      "fpr": "0.005",
+      "tpr": "0.95",
+      "positive_quantization_regression": "0.005"
+    },
+    "primary_joint_decision": "any(rule, integer-byte-mlp, integer-compact-encoder) blocks; all three seeds",
+    "threshold_allocation": {
+      "rule": "0.003",
+      "byte-mlp": "0.0035",
+      "compact-encoder": "0.0035"
+    },
+    "subgroup_multiplicity": "15 primary one-sided exact bounds, alpha/15; slices descriptive, insufficient slices inconclusive",
+    "paired_loss_design": "Upper bound positive float-block/integer-pass regressions at 0.02 for each quantized candidate and seed; report improvements and net TPR loss"
   },
   "evaluator": null,
-  "power_plan": null,
+  "power_plan": "design.md#quality-multiplicity-and-conditional-power",
   "budget": {
-    "host": null,
-    "hardware": null,
-    "max_wall_seconds": null,
-    "max_cost_minor": null,
-    "currency": null,
-    "max_memory_bytes": null,
-    "max_disk_bytes": null,
-    "threads": null,
-    "jobs": null,
-    "max_proof_seconds": null,
-    "max_verify_seconds": null,
-    "max_native_overhead_basis_points": null,
-    "approved_by": null,
-    "approval_ref": null
+    "host": "owner-mac-arm64",
+    "hardware": "../../evidence/w13-compute-options-2026-10-20.json",
+    "max_wall_seconds": 21600,
+    "max_cost_minor": 0,
+    "currency": "USD-cent",
+    "max_memory_bytes": 17179869184,
+    "max_disk_bytes": 21474836480,
+    "threads": 4,
+    "jobs": 1,
+    "max_proof_seconds": 7200,
+    "max_verify_seconds": 60,
+    "max_native_overhead_basis_points": 1000,
+    "approved_by": "Abdel",
+    "approval_ref": "docs/decisions/0019-approved-study-scope.md",
+    "max_job_seconds": 7200,
+    "design_basis": "Local resource envelope owner-approved; stage caps and overhead target agent-specified"
   },
   "retention": {
     "proposed_witness_max_hours": 24,
-    "dataset_max_hours": null,
-    "checkpoint_max_hours": null,
-    "access_roles": null,
-    "deletion_verification": null,
-    "approval_ref": null
+    "dataset_max_hours": 720,
+    "checkpoint_max_hours": 720,
+    "access_roles": [
+      "owner",
+      "authorized-research-agent"
+    ],
+    "deletion_verification": "Expiry inventory and absence check; foreground cleanup, no scheduler; no SSD erasure claim",
+    "approval_ref": "docs/decisions/0019-approved-study-scope.md",
+    "design_basis": "agent-specified within delegated study design"
   },
   "review": {
-    "owner_approval": null,
-    "relying_party_approval": null,
+    "owner_approval": "docs/decisions/0019-approved-study-scope.md",
+    "relying_party_approval": "docs/decisions/0019-approved-study-scope.md",
     "independently_enrolled_review": null
   },
   "metadata_evidence": "../../evidence/w13-public-metadata-2026-10-20.json",
-  "illustrative_power_evidence": "../../evidence/w13-power-scenarios-2026-10-20.json"
+  "illustrative_power_evidence": "../../evidence/w13-power-scenarios-2026-10-20.json",
+  "asset_access_condition": "Only exact public revisions with completed licence/provenance review under delegated selection authority; held sources remain excluded.",
+  "design_document": "design.md",
+  "remaining_measurement_holds": [
+    "Exact admitted source bytes and split inventory",
+    "Human label audit and adjudication",
+    "Candidate code/configuration/asset and evaluator identities",
+    "Authenticated and independently enrolled final admission review pin"
+  ]
 }

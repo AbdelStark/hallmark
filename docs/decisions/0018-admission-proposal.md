@@ -4,6 +4,10 @@ Date: 2026-10-20. Status: engineering proposal awaiting owner/relying-party revi
 Scope: [W13](https://github.com/AbdelStark/hallmark/issues/14).
 No scientific protocol is adopted and no prior experiment is reused.
 
+Subsequent scope approval and delegated design are recorded in
+[decision 0019](0019-approved-study-scope.md). The statements below describe
+this decision's original proposal stage; its binding semantics remain unchanged.
+
 The [concrete proposal](../../research/proposals/inj-direct-v1/README.md) names one
 assay, seven comparisons and explicit holds. Its proposal schema is distinct from
 `AdmissionProtocol`; incomplete or null terms cannot pass as an admitted protocol.
