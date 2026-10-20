@@ -1,0 +1,83 @@
+{
+  "additionalProperties": false,
+  "description": "An ordered rule/MLP/encoder declaration, not policy admission or a verdict.",
+  "properties": {
+    "classifiers": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        },
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        },
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        }
+      ],
+      "title": "Classifiers",
+      "type": "array"
+    },
+    "combination": {
+      "const": "all-pass",
+      "title": "Combination",
+      "type": "string"
+    },
+    "language": {
+      "const": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "max_prompt_bytes": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Max Prompt Bytes",
+      "type": "integer"
+    },
+    "max_response_bytes": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Max Response Bytes",
+      "type": "integer"
+    },
+    "rubric": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Rubric",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/policy/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "scope": {
+      "const": "prompt",
+      "title": "Scope",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "rubric",
+    "classifiers",
+    "combination",
+    "language",
+    "scope",
+    "max_prompt_bytes",
+    "max_response_bytes"
+  ],
+  "title": "Policy",
+  "type": "object"
+}

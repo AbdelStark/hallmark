@@ -248,3 +248,41 @@ remain. Exact-head hosted checks must pass before integration.
 The work map now records W04's actual dependency on W03's file references (104
 edges total); historical audits are untouched. After W04, #6 policy/request
 expectations is the next contract gate, then #3 transcript/input binding.
+
+Delivery: [PR #56](https://github.com/AbdelStark/hallmark/pull/56) merged W04 as
+`f456b4a749d795f2f22f19e5d2ae5fd90b099539`; issue #5 closed. All six exact-head
+PR and [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39409355612)
+passed. The repository remained public.
+
+## 2026-10-20: W05 policies and caller request expectations
+
+Hypothesis: strict policy/request records plus explicit resolved manifests and
+caller expectations can reject classifier substitution, expectation mismatches
+and byte-limit violations before later binding or verification. Baseline:
+`f456b4a749d795f2f22f19e5d2ae5fd90b099539`, with 261 passing model/classifier tests.
+Mutable paths: the new policy module, tests, schema/vector fixtures, package check
+and specification/evidence/tracker docs. Legacy datasets, evaluators, training
+protocols, research hashes and the existing model/classifier modules are unchanged.
+Pass criterion: all #6 schema/mutation/continuity/byte-limit cases, `make check`
+and isolated distribution checks pass with no fallback to sender-supplied trust.
+
+Saved [source/config/environment hashes and numeric results](evidence/w05-policy-requests-2026-10-20.json)
+before this entry. The selected local gate passes: 95 policy/request tests and all
+261 manifest regressions, 561 total tests under `make check`, and
+`make package-check` including installed-wheel decoding and explicit expectation
+comparison. Runs used the locked Python 3.12.12/macOS arm64 environment, one training
+thread and harmless synthetic fixtures. All commands completed below 60 seconds.
+
+Negative cases include coordinated digest/manifest reordering, duplicate kinds
+with distinct identities, changed audience/nonce/interaction/model/policy,
+required nullable continuity, malformed sequences/predecessors, oversize
+multibyte prompts, invalid Unicode, unchecked copies and sanitized errors.
+Exact UTF-8 is preserved, and repeated checks perform no I/O or nonce consumption.
+The fixed vector's nonce and interaction bytes are public test values.
+
+[Decision 0007](../docs/decisions/0007-policy-request-contracts.md) records the
+versioned external expectation, classifier resolution and comparison boundaries.
+`inj.direct/1` remains a proposal until owner/relying-party admission. These checks
+do not authenticate enrollment, prove freshness or history, execute classifiers,
+or verify hardware/proofs. No data/model download or policy adoption occurred.
+Exact-head hosted checks must pass before integration; W02 / #3 is next.

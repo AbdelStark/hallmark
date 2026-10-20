@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "ChainExpectation": {
+      "additionalProperties": false,
+      "properties": {
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        },
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sequence",
+        "previous"
+      ],
+      "title": "ChainExpectation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Required caller expectations; encoding cannot attest to nonce randomness.",
+  "properties": {
+    "audience": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Audience",
+      "type": "string"
+    },
+    "continuity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChainExpectation"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "interaction_id": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Interaction Id",
+      "type": "string"
+    },
+    "model": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Model",
+      "type": "string"
+    },
+    "nonce": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Nonce",
+      "type": "string"
+    },
+    "policy": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Policy",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/request-expectation/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "audience",
+    "nonce",
+    "interaction_id",
+    "model",
+    "policy",
+    "continuity"
+  ],
+  "title": "RequestExpectation",
+  "type": "object"
+}

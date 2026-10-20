@@ -39,6 +39,13 @@ installed-wheel profile/parameter validation. Checks cover topology and, against
 exact hashed parameters, operation shapes, masks, scales and conservative integer
 range envelopes. These are static contracts, not an executed or qualified graph.
 
+W05 / issue #6 adds frozen policy, request and caller-expectation contracts.
+Its [evidence](evidence/w05-policy-requests-2026-10-20.json) records 95 new tests,
+all 261 model/classifier regressions, 561 total local tests and installed-wheel
+validation. Checks resolve exactly rule/MLP/encoder in order, compare independently
+supplied expectations and enforce continuity shape and UTF-8 byte limits. They do
+not admit policy/data, authenticate enrollment or consume nonces.
+
 ## Not implemented or established
 
 TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -57,9 +64,13 @@ and #31 in [PR #53](https://github.com/AbdelStark/hallmark/pull/53).
 passing on `6b2a6acda5813ddcdf9d14554a99ada8ad2e6245`. All three merge-commit CI
 runs passed. W03 / #4 is merged in [PR #55](https://github.com/AbdelStark/hallmark/pull/55);
 [merge-commit CI](https://github.com/AbdelStark/hallmark/actions/runs/39406784978)
-passed on `f844342c18af85d8cb0b1160521c58938f9d87ea`. W04 / #5 is locally validated;
-exact-head hosted delivery is next. Then implement #6 and #3 in that order:
-#3 needs #6's validated request expectation for context hashing. The current work
+passed on `f844342c18af85d8cb0b1160521c58938f9d87ea`. W04 / #5 is merged in
+[PR #56](https://github.com/AbdelStark/hallmark/pull/56), with all six
+[merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39409355612)
+passing on `f456b4a749d795f2f22f19e5d2ae5fd90b099539`.
+W05 / #6 is locally validated; exact-head hosted delivery is next. Then implement
+#3, which needs #6's validated request expectation for context hashing. Reassess
+the newly available #7 receipt and #9 enrollment contracts after #6. The current work
 map has 104 dependency edges, including W04's reuse of W03 file references;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,
