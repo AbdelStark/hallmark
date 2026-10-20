@@ -388,3 +388,6 @@ task quality, full-study completion or independent verification. Default runs
 reject fixture data. `make check-comparison` explicitly uses invented approvals,
 authored rows and a tiny ONNX marker graph; `make package-check-comparison` also
 executes that fixture against an installed wheel.
+Read the result status from stdout JSON. Optional native libraries can emit host
+device warnings on stderr even when execution succeeds; retain that diagnostic
+stream privately. Exceptions handled by the CLI use sanitized error JSON.

@@ -239,7 +239,15 @@ def test_nonconverged_family_is_preserved_and_command_reports_partial(dossier, t
         text=True,
         timeout=30,
     )
-    assert process.returncode == 3 and not process.stderr
+    assert process.returncode == 3, process.stderr
+    assert str(tmp_path) not in process.stderr
+    assert json.loads(process.stdout) == {
+        "schema_id": "hallmark/comparison-run-result/1",
+        "fixture_only": True,
+        "baseline_complete": False,
+        "full_study_complete": False,
+        "quality_claim": False,
+    }
     result = json.loads((output / "result.json").read_text())
     assert not result["baseline_complete"] and not result["quality_claim"]
     assert len(result["evaluated"]) == 7

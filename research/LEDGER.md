@@ -1324,3 +1324,16 @@ PR #73 stays draft: the real-data command is implemented, but an actual reviewed
 source/label/contamination dossier is still missing. `docs/OPERATIONS.md` provides
 the exact invocation template, required layout, external-pin and resource
 obligations. No real-data or final study claim is made by this increment.
+
+The first hosted Linux comparison check on `5027e50` failed one test after 30
+passed: ONNX Runtime emitted a native device-discovery warning while the command
+correctly returned partial-result exit 3. The test had incorrectly required an
+empty diagnostic stream. The correction checks the exact stdout status and
+absence of private input paths, retaining exit-code, missing-family, convergence
+and sanitized-exception checks. Execution code and measured source/input/output
+identities are unchanged. The failed
+[job](https://github.com/AbdelStark/hallmark/actions/runs/39500956450/job/118898010242)
+log is retained in the raw experiment directory; its failure is not reported as
+a passing package check. All 31 corrected comparison tests pass locally in
+10.54 seconds (`portability-tests.log`); hosted jobs must pass on the corrected
+commit.
