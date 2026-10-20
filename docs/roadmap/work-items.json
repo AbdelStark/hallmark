@@ -107,7 +107,8 @@
       ],
       "milestone": "v0.2",
       "depends_on": [
-        "W01"
+        "W01",
+        "W03"
       ],
       "scope": [
         "Add ClassifierManifest, InputProfile and typed arithmetic graph schemas",

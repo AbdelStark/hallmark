@@ -61,6 +61,25 @@ root and byte budget; it does not load a model or confer trust. See
 [model manifest decision](../decisions/0005-model-manifests.md) for path rules,
 platform and concurrency limits, and the JSON projection.
 
+`hallmark.classifier_manifest` implements `InputProfile`, `ClassifierManifest`,
+`TensorSpec`, `NodeSpec` and `ArithmeticProfile`. The three top-level artifacts
+have the same `encode`, `decode` and `identity` methods as model manifests, in
+their own fixed domains. `PARAMETERS` exposes the typed operator-parameter schema.
+
+```python
+arithmetic.validate_parameters(files: dict[str, bytes]) -> None
+classifier.validate_profiles(
+    inputs: InputProfile, arithmetic: ArithmeticProfile, *, parameters: dict[str, bytes]
+) -> None
+```
+
+Parsing validates fields, ranges, arity and graph topology. The explicit parameter
+step verifies raw file hashes and then parameter-dependent shapes, scales,
+conservative range bounds and masks; it performs no I/O or classifier execution.
+`validate_profiles` also checks the classifier's profile identities and scalar
+score/encoding obligations. See [exact semantics and limits](../decisions/0006-classifier-contracts.md).
+These checks do not qualify a graph/backend or authenticate supplied references.
+
 The primitive value decoder alone does not validate an artifact schema or authenticity.
 Generic schema dispatch and the following artifact interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).

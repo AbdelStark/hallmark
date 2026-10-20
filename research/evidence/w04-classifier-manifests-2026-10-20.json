@@ -1,0 +1,134 @@
+{
+  "schema_id": "hallmark/implementation-evidence/1",
+  "date": "2026-10-20",
+  "work_item": "W04",
+  "issue": "https://github.com/AbdelStark/hallmark/issues/5",
+  "baseline_commit": "f844342c18af85d8cb0b1160521c58938f9d87ea",
+  "source_sha256": {
+    "src/hallmark/manifests.py": "44b6bd717d0ee7ba6f4b5dc5e21e4ca1aa640a3f84c1f3b86e53c12fc002fdda",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/test_manifests.py": "d75f7b0f230bfc8fccaaf0e421bf584293b89d5565268107313e5e05af58041c",
+    "tests/test_classifier_manifest.py": "2561e8318afdce4190de5a7bf4c9e282a8bd2cb67c86b3f7bab56ff4869260d1",
+    "scripts/check_package.py": "e68fab014b602313155932a97cd678bb21f969268f133bbe87cc169677d5ade4",
+    "fixtures/wire/model-manifest-v1.json": "b1b4627a9e6245ce967993c2faf76c787e5ba93299facfb7e6c7d77df4f5815a",
+    "fixtures/wire/classifier-v1.json": "c16d336edad03872070bcdfccebf0a7d0a40fbcab176d056faa616795f58b6ee",
+    "docs/schemas/model-manifest-v1.json": "4c7339aceb6e1c03ba03059e1b774f7ace2f413fd32777d2a9eeb439afcf9b98",
+    "docs/schemas/classifier-v1.json": "3b66694db820c93e04540dd0d31bd1a8a4b3fc9dd2af8c01b9a373ff5099889a",
+    "docs/schemas/input-profile-v1.json": "ee8da59a4a9251bd7e9882bd785670cfc1349bab026ff2eed754fbb3b87b0571",
+    "docs/schemas/arithmetic-v1.json": "626efaaed92502ef89fed455d870e028bf836637c43fcb08cbec437030670619",
+    "docs/schemas/operator-parameters-v1.json": "d58da03a681d15f0a73bfcfa797b02ed9058ad96af821dd0716f8beef967f458",
+    "pyproject.toml": "e1d96a2d6988e9e818ce835c4fb5c13ef0ce8b92a45203c55f72ade4f21b7cb5",
+    "uv.lock": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156",
+    "configs/fixture.json": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+    "fixtures/smoke.jsonl": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "pydantic": "2.14.1",
+      "cbor2": "5.9.0",
+      "pytest": "9.1.1"
+    },
+    "mypy": "1.20.2"
+  },
+  "baseline": {
+    "command": "uv run --locked pytest tests/test_manifests.py -q",
+    "passed": 128,
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "phase": "focused",
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "pytest",
+        "tests/test_classifier_manifest.py",
+        "tests/test_manifests.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.822,
+      "output_sha256": "bb9436139e4d1ef14fd4b59009f7934107b008e399e1beca47a070d97e534130",
+      "pytest_summaries": [
+        "261 passed in 0.40s"
+      ]
+    },
+    {
+      "phase": "check",
+      "command": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.059,
+      "output_sha256": "d15e905e1f6036b1e3b8b9287b90fcaa40638eadcf0d07bbc91900a46b4cf654",
+      "pytest_summaries": [
+        "============================= 466 passed in 4.90s =============================="
+      ]
+    },
+    {
+      "phase": "package",
+      "command": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.584,
+      "output_sha256": "e331f12ae7b8e8de5a630a57c8109111466987ef9c876465fe10ebdc3d9265d9",
+      "pytest_summaries": []
+    }
+  ],
+  "tests": {
+    "classifier_contracts": 133,
+    "model_regressions": 128,
+    "focused_passed": 261,
+    "full_passed": 466,
+    "skipped": 0,
+    "training_extra_present": true
+  },
+  "golden": {
+    "input_profile": {
+      "encoded_bytes": 169,
+      "identity": "126acef247fbed0c399d643d3bed39d4405ba501a0f5e3f07943097c416aa727"
+    },
+    "arithmetic": {
+      "encoded_bytes": 994,
+      "identity": "f964c29525535a42cdfa35cc0dce9c050dc4fd8d48f21978605d7e300b0ab313"
+    },
+    "classifier": {
+      "encoded_bytes": 405,
+      "identity": "2fd9780c8860227bf96c5c9cbd3834ab7d1a9bacbcc0cd482b2c966a3acb7580"
+    }
+  },
+  "retained_development_failures": [
+    {
+      "phase": "initial classifier tests",
+      "passed": 120,
+      "failed": 1,
+      "output_sha256": "8ad12281ef41c42fb3d743234bb8172c8a223263601306b35ddfe3551d6b2b54",
+      "process_exit_code_captured": false,
+      "reason": "Identity test replaced needed root weights with other roots, making declarations unused. Changed test to a topology-preserving input permutation."
+    },
+    {
+      "phase": "strict typing",
+      "reason": "Pydantic TypeAdapter uses TypeForm for a union. Enabled the locked mypy TypeForm feature instead of suppressing the boundary."
+    }
+  ],
+  "evidence_class": "software-fixture-validation",
+  "not_established": [
+    "independent wire or arithmetic review",
+    "actual external tensor content or program semantics",
+    "classifier execution or quality",
+    "real model training",
+    "backend qualification",
+    "real proofs",
+    "hardware evidence",
+    "enrollment or owner adoption"
+  ]
+}

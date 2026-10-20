@@ -4,13 +4,22 @@ import hashlib
 import os
 import stat
 from pathlib import Path
-from typing import Annotated, Literal, NewType
+from typing import Annotated, Any, ClassVar, Literal, NewType, Self, cast
 
 from pydantic import ConfigDict, Field, ValidationError, WithJsonSchema, field_validator
 
 from hallmark.contracts import Contract, Identifier
 from hallmark.errors import HallmarkError
-from hallmark.wire import DEFAULT_LIMITS, H, WireError, WireLimits, WireValue, decode, encode
+from hallmark.wire import (
+    DEFAULT_LIMITS,
+    Domain,
+    H,
+    WireError,
+    WireLimits,
+    WireValue,
+    decode,
+    encode,
+)
 
 ArtifactDigest = NewType("ArtifactDigest", bytes)
 FileSHA256 = NewType("FileSHA256", bytes)
@@ -21,6 +30,14 @@ Digest32 = Annotated[ArtifactDigest, Field(min_length=32, max_length=32), _DIGES
 FileHash32 = Annotated[FileSHA256, Field(min_length=32, max_length=32), _DIGEST_JSON]
 
 
+def _wire_value(value: Any) -> WireValue:
+    if isinstance(value, dict):
+        return {key: _wire_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_wire_value(item) for item in value]
+    return cast(WireValue, value)
+
+
 class _Record(Contract):
     model_config = ConfigDict(
         revalidate_instances="always",
@@ -28,6 +45,39 @@ class _Record(Contract):
         ser_json_bytes="hex",
         val_json_bytes="hex",
     )
+
+    def _validated(self) -> Self:
+        try:
+            return type(self).model_validate(self)
+        except ValidationError:
+            pass
+        raise WireError("INPUT_INVALID")
+
+    def _wire(self) -> WireValue:
+        # Recheck instances because Pydantic's construct/copy APIs bypass validation.
+        return _wire_value(self._validated().model_dump(mode="python"))
+
+    def encode(self, *, limits: WireLimits = DEFAULT_LIMITS) -> bytes:
+        """Return canonical CBOR after full schema revalidation."""
+        return encode(self._wire(), limits=limits)
+
+    @classmethod
+    def decode(cls, raw: bytes, *, limits: WireLimits = DEFAULT_LIMITS) -> Self:
+        """Validate canonical CBOR and this exact schema, without accessing files."""
+        value = decode(raw, limits=limits)
+        try:
+            return cls.model_validate(value)
+        except ValidationError:
+            pass
+        raise WireError("INPUT_INVALID")
+
+
+class _Artifact(_Record):
+    _domain: ClassVar[Domain]
+
+    def identity(self) -> ArtifactDigest:
+        """Hash the complete validated artifact in its fixed v1 domain."""
+        return ArtifactDigest(H(self._domain, self._wire()))
 
 
 class FileRef(_Record):
@@ -64,9 +114,10 @@ class GenerationConfig(_Record):
     seed: Annotated[int, Field(ge=0, le=0)]
 
 
-class ModelManifest(_Record):
+class ModelManifest(_Artifact):
     """Frozen v1 model record; its identity binds every field, not its provenance."""
 
+    _domain = "model"
     schema_id: Literal["hallmark/model/1"]
     files: Annotated[
         tuple[FileRef, ...],
@@ -90,51 +141,6 @@ class ModelManifest(_Record):
         if any(a.path >= b.path for a, b in zip(files, files[1:], strict=False)):
             raise ValueError("file paths must be sorted and unique")
         return files
-
-    def _validated(self) -> "ModelManifest":
-        try:
-            return ModelManifest.model_validate(self)
-        except ValidationError:
-            pass
-        raise WireError("INPUT_INVALID")
-
-    def _wire(self) -> dict[str, WireValue]:
-        # Recheck instances because Pydantic's construct/copy APIs bypass validation.
-        model = self._validated()
-        return {
-            "schema_id": model.schema_id,
-            "files": [
-                {"path": ref.path, "size": ref.size, "sha256": ref.sha256} for ref in model.files
-            ],
-            "architecture": model.architecture,
-            "tokenizer": model.tokenizer,
-            "chat_template": model.chat_template,
-            "runtime": model.runtime,
-            "numerical_mode": model.numerical_mode,
-            "generation": {
-                "max_new_tokens": model.generation.max_new_tokens,
-                "sampling": model.generation.sampling,
-                "seed": model.generation.seed,
-            },
-        }
-
-    def encode(self, *, limits: WireLimits = DEFAULT_LIMITS) -> bytes:
-        """Return canonical CBOR after full schema revalidation."""
-        return encode(self._wire(), limits=limits)
-
-    @classmethod
-    def decode(cls, raw: bytes, *, limits: WireLimits = DEFAULT_LIMITS) -> "ModelManifest":
-        """Validate canonical CBOR and its exact model schema, without accessing files."""
-        value = decode(raw, limits=limits)
-        try:
-            return cls.model_validate(value)
-        except ValidationError:
-            pass
-        raise WireError("INPUT_INVALID")
-
-    def identity(self) -> ArtifactDigest:
-        """Return H('model', complete manifest), distinct from raw file SHA-256."""
-        return ArtifactDigest(H("model", self._wire()))
 
 
 def _verify_file(root_fd: int, ref: FileRef, seen: set[tuple[int, int]]) -> None:

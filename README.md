@@ -11,6 +11,12 @@ binds ordered files, architecture, tokenizer, template, runtime and greedy gener
 settings. Explicit rooted file checks reject links and mismatches. This does not
 load a model or attest to execution; [schema and limits](docs/decisions/0005-model-manifests.md).
 
+The [classifier contract API](docs/decisions/0006-classifier-contracts.md) binds
+input recipes, integer graph metadata and classifier identities. Supplied hashed
+operator files are checked for topology, shapes, masks, scales and conservative
+range bounds. This is static validation; classifier execution and proof/backend
+qualification remain separate work.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

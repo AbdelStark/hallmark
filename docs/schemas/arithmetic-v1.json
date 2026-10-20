@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "NodeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 1,
+          "title": "Inputs",
+          "type": "array"
+        },
+        "op": {
+          "$ref": "#/$defs/Operation"
+        },
+        "output": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Output",
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/$defs/FileRef"
+        }
+      },
+      "required": [
+        "id",
+        "op",
+        "inputs",
+        "output",
+        "parameters"
+      ],
+      "title": "NodeSpec",
+      "type": "object"
+    },
+    "Operation": {
+      "enum": [
+        "gather",
+        "affine",
+        "add",
+        "multiply",
+        "reshape",
+        "transpose",
+        "masked-reduce",
+        "relu",
+        "lookup"
+      ],
+      "type": "string"
+    },
+    "TensorSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "fractional_bits": {
+          "maximum": 30,
+          "minimum": 0,
+          "title": "Fractional Bits",
+          "type": "integer"
+        },
+        "maximum": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Maximum",
+          "type": "integer"
+        },
+        "minimum": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Minimum",
+          "type": "integer"
+        },
+        "name": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "shape": {
+          "items": {
+            "maximum": 18446744073709551615,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Shape",
+          "type": "array"
+        },
+        "signed_bits": {
+          "maximum": 32,
+          "minimum": 2,
+          "title": "Signed Bits",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "shape",
+        "signed_bits",
+        "fractional_bits",
+        "minimum",
+        "maximum"
+      ],
+      "title": "TensorSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/NodeSpec"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Nodes",
+      "type": "array"
+    },
+    "output": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Output",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/arithmetic/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "tensors": {
+      "items": {
+        "$ref": "#/$defs/TensorSpec"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Tensors",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "tensors",
+    "nodes",
+    "output"
+  ],
+  "title": "ArithmeticProfile",
+  "type": "object"
+}

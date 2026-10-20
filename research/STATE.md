@@ -32,6 +32,13 @@ identity, a JSON schema snapshot and explicit rooted file inspection. Its
 inspection is bounded and rejects links, aliases, nonregular files and detected
 mismatches or concurrent changes; it does not load or attest to a model.
 
+W04 / issue #5 adds frozen input/classifier/arithmetic contracts and typed operator
+parameter files. Its [evidence](evidence/w04-classifier-manifests-2026-10-20.json)
+records 133 classifier tests, all 128 model regressions, 466 total local tests and
+installed-wheel profile/parameter validation. Checks cover topology and, against
+exact hashed parameters, operation shapes, masks, scales and conservative integer
+range envelopes. These are static contracts, not an executed or qualified graph.
+
 ## Not implemented or established
 
 TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -48,9 +55,12 @@ and #31 in [PR #53](https://github.com/AbdelStark/hallmark/pull/53).
 #37 is merged in [PR #54](https://github.com/AbdelStark/hallmark/pull/54), with
 [merge-commit CI](https://github.com/AbdelStark/hallmark/actions/runs/39404113385)
 passing on `6b2a6acda5813ddcdf9d14554a99ada8ad2e6245`. All three merge-commit CI
-runs passed. W03 / #4 is locally validated; exact-head hosted delivery is next.
-Then implement #5, #6 and #3 in that order: #3 needs #6's validated request
-expectation for context hashing. The current work map has 103 dependency edges;
+runs passed. W03 / #4 is merged in [PR #55](https://github.com/AbdelStark/hallmark/pull/55);
+[merge-commit CI](https://github.com/AbdelStark/hallmark/actions/runs/39406784978)
+passed on `f844342c18af85d8cb0b1160521c58938f9d87ea`. W04 / #5 is locally validated;
+exact-head hosted delivery is next. Then implement #6 and #3 in that order:
+#3 needs #6's validated request expectation for context hashing. The current work
+map has 104 dependency edges, including W04's reuse of W03 file references;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,
 real proofs, genuine hardware and independent verification remain required for

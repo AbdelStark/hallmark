@@ -1,0 +1,133 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "arithmetic": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Arithmetic",
+      "type": "string"
+    },
+    "backend": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Backend",
+      "type": "string"
+    },
+    "input_profile": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Profile",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "rule",
+        "mlp",
+        "encoder"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "labels": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "type": "string"
+        }
+      ],
+      "title": "Labels",
+      "type": "array"
+    },
+    "program": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Program",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/classifier/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "scope": {
+      "const": "prompt",
+      "title": "Scope",
+      "type": "string"
+    },
+    "setup": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Setup",
+      "type": "string"
+    },
+    "threshold": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Threshold",
+      "type": "integer"
+    },
+    "tokenizer": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Tokenizer"
+    },
+    "verifier_key": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Verifier Key",
+      "type": "string"
+    },
+    "weights": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Weights"
+    }
+  },
+  "required": [
+    "schema_id",
+    "kind",
+    "program",
+    "weights",
+    "tokenizer",
+    "input_profile",
+    "arithmetic",
+    "threshold",
+    "scope",
+    "labels",
+    "backend",
+    "verifier_key",
+    "setup"
+  ],
+  "title": "ClassifierManifest",
+  "type": "object"
+}

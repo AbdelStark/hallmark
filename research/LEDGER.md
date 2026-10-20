@@ -201,3 +201,50 @@ The live #3/#6 dependency correction is now mirrored in the work map and tracker
 W02 requires W05 for typed request expectation/context binding. The current graph
 has 103 edges; the original publication audit remains an immutable 102-edge record.
 Next implementation order after W03: #5, #6, then #3.
+
+Delivery: [PR #55](https://github.com/AbdelStark/hallmark/pull/55) merged W03 as
+`f844342c18af85d8cb0b1160521c58938f9d87ea`; issue #4 closed. All six exact-head
+PR and [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39406784978)
+passed. The repository remained public.
+
+## 2026-10-20: W04 classifier and arithmetic contracts
+
+Hypothesis: immutable classifier/profile identities plus exact parameter-file
+binding can reject malformed topology, shapes, masks and integer range
+declarations without loading a model or executing a graph. Baseline:
+`f844342c18af85d8cb0b1160521c58938f9d87ea`, with 128 passing model-manifest tests.
+Mutable paths: v1 contracts/shared serializer, tests, schema/vector fixtures,
+package checks, the mypy TypeForm option and specification/evidence/tracker docs.
+The legacy dataset, evaluator, training protocol and research hashes are unchanged.
+
+Saved [source/config/environment hashes and numeric results](evidence/w04-classifier-manifests-2026-10-20.json)
+before this entry. The selected gate passes locally: 133 classifier contract tests,
+all 128 model regressions, 466 total tests under `make check`, and
+`make package-check` with an isolated installed-wheel classifier/profile/parameter
+check. The locked Python 3.12.12/macOS arm64 environment used one training thread
+and synthetic local metadata. No model, dataset or proof backend was downloaded.
+
+Each allowed operator family has positive and negative shape/range cases.
+Further cases cover duplicate producers, forward references/cycles, unused
+declarations, boolean/integer confusion, capacity boundaries, parameter
+hash/schema mismatches, masking, lookup bounds, overflow, negative ties-to-even,
+mixed scales, immutable nested records and unvalidated copies. Large tensor
+dimensions are checked as bounded-rank metadata without allocating their data.
+The initial identity-mutation test accidentally left unused roots; correcting
+the test preserved the validator's rejection. Its failed output hash is retained.
+
+The checked parameter union uses Pydantic's TypeForm annotation. Enabling the
+locked mypy implementation's TypeForm support resolved its typing error without
+suppressing checks. The shared serializer preserves all prior model golden bytes,
+identity and schema projection.
+
+[Decision 0006](../docs/decisions/0006-classifier-contracts.md) records the exact
+operator files, scale/rounding rules, graph bounds and separate parsing/parameter
+validation phases. Static interval bounds are conservative and do not validate
+actual external tensors, program semantics, classifier quality, backend behavior,
+hardware, proofs or independent verification. WIRE-REVIEW/INTEGER-GRAPH owner gates
+remain. Exact-head hosted checks must pass before integration.
+
+The work map now records W04's actual dependency on W03's file references (104
+edges total); historical audits are untouched. After W04, #6 policy/request
+expectations is the next contract gate, then #3 transcript/input binding.
