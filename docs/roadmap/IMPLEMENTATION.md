@@ -14,8 +14,8 @@ Current dependency graph: 106 edges. W02 now depends on W05 for the typed extern
 request expectation used by context hashing; the original 102-edge publication
 audit is preserved. W04 reuses W03 file-reference contracts, so that implementation dependency is now explicit.
 W07 embeds signed registries and uses private opening types, so its W08 and W02 dependencies are explicit.
-Next sequence: deliver W09 (#10), reassess newly unblocked W33 (#34), then W11 (#12),
-W31 (#32), W37 (#38) and W38 (#39), subject to their actual prerequisites.
+W09, W33, W11, W31 and W37 are merged. W38 (#39) is the next actionable item;
+other implementation issues retain their admission or evidence dependencies.
 
 Merged delivery: [W01 evidence](../../research/evidence/w01-wire-2026-10-20.json),
 [W30 evidence](../../research/evidence/w30-errors-2026-10-20.json) and
@@ -41,28 +41,30 @@ on `866d36a69762104847f1ded8253829a4e11dd786`. Operational root custody remains 
 W07 is merged in [PR #61](https://github.com/AbdelStark/hallmark/pull/61). All six
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39419869358) passed
 on `302a861043636094295c4dc06832e4a8c06afe87`.
-W09's [local evidence](../../research/evidence/w09-registry-rotation-2026-10-20.json)
-passes; exact-head hosted delivery is next. Its software implements authoring,
-retirement and dual-authorized transitions; operational root custody remains open.
+W09, W33, W11 and W31 have merged hosted receipts in [STATE](../../research/STATE.md).
+W37 is merged in [PR #66](https://github.com/AbdelStark/hallmark/pull/66); all 12
+[merge jobs](https://github.com/AbdelStark/hallmark/actions/runs/39437824044) passed on
+`56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb`. These are software delivery results;
+operational roots, scientific admission, genuine evidence and independent review remain open.
 
 ## Milestone: v0.2
 
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
 |---|---|---|---|---|---|---|---|---|
-| [#2](https://github.com/AbdelStark/hallmark/issues/2) | W01 | wire: implement strict v1 encoding and domain-separated identities | wire | p0 | m | 0001 | Merged; PR #52 | None |
-| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Merged; PR #58 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
-| [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Merged; PR #55 | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
-| [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Merged; PR #56 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4) |
-| [#6](https://github.com/AbdelStark/hallmark/issues/6) | W05 | wire: add policy and external request expectation schemas | wire | p0 | s | 0001, 0007 | Merged; PR #57 | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
-| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Merged; PR #59 | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
-| [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Merged; PR #61 | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#9](https://github.com/AbdelStark/hallmark/issues/9) |
-| [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Merged; PR #60 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
-| [#10](https://github.com/AbdelStark/hallmark/issues/10) | W09 | registry: sign snapshots and implement rotation and retirement | registry | p0 | m | 0002 | Local gates passed; hosted delivery pending; operational roots unenrolled | [#9](https://github.com/AbdelStark/hallmark/issues/9) |
+| [#2](https://github.com/AbdelStark/hallmark/issues/2) | W01 | wire: implement strict v1 encoding and domain-separated identities | wire | p0 | m | 0001 | Merged; [PR #52](https://github.com/AbdelStark/hallmark/pull/52) | None |
+| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Merged; [PR #58](https://github.com/AbdelStark/hallmark/pull/58) | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Merged; [PR #55](https://github.com/AbdelStark/hallmark/pull/55) | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
+| [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Merged; [PR #56](https://github.com/AbdelStark/hallmark/pull/56) | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4) |
+| [#6](https://github.com/AbdelStark/hallmark/issues/6) | W05 | wire: add policy and external request expectation schemas | wire | p0 | s | 0001, 0007 | Merged; [PR #57](https://github.com/AbdelStark/hallmark/pull/57) | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
+| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Merged; [PR #59](https://github.com/AbdelStark/hallmark/pull/59) | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Merged; [PR #61](https://github.com/AbdelStark/hallmark/pull/61) | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#9](https://github.com/AbdelStark/hallmark/issues/9) |
+| [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Merged; [PR #60](https://github.com/AbdelStark/hallmark/pull/60) | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#10](https://github.com/AbdelStark/hallmark/issues/10) | W09 | registry: sign snapshots and implement rotation and retirement | registry | p0 | m | 0002 | Merged; [PR #62](https://github.com/AbdelStark/hallmark/pull/62) | [#9](https://github.com/AbdelStark/hallmark/issues/9) |
 | [#14](https://github.com/AbdelStark/hallmark/issues/14) | W13 | research: prepare the single-policy data and resource admission | research | p0 | m | 0004, 0006, 0008 | Open; blocked | None |
-| [#31](https://github.com/AbdelStark/hallmark/issues/31) | W30 | operations: add typed errors and redact all trust-boundary failures | operations | p0 | m | 0008 | Merged; PR #53 | None |
-| [#34](https://github.com/AbdelStark/hallmark/issues/34) | W33 | conformance: freeze v1 golden and adversarial evidence corpus | conformance | p0 | m | 0001, 0009 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#3](https://github.com/AbdelStark/hallmark/issues/3), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#8](https://github.com/AbdelStark/hallmark/issues/8), [#9](https://github.com/AbdelStark/hallmark/issues/9), [#10](https://github.com/AbdelStark/hallmark/issues/10), [#31](https://github.com/AbdelStark/hallmark/issues/31) |
-| [#37](https://github.com/AbdelStark/hallmark/issues/37) | W36 | delivery: enforce core, train and gated integration CI | delivery | p1 | m | 0010 | Merged; PR #54 | None |
-| [#38](https://github.com/AbdelStark/hallmark/issues/38) | W37 | delivery: make private builds reproducible and verify inventories | delivery | p1 | m | 0010 | Open | None |
+| [#31](https://github.com/AbdelStark/hallmark/issues/31) | W30 | operations: add typed errors and redact all trust-boundary failures | operations | p0 | m | 0008 | Merged; [PR #53](https://github.com/AbdelStark/hallmark/pull/53) | None |
+| [#34](https://github.com/AbdelStark/hallmark/issues/34) | W33 | conformance: freeze v1 golden and adversarial evidence corpus | conformance | p0 | m | 0001, 0009 | Merged; [PR #63](https://github.com/AbdelStark/hallmark/pull/63) | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#3](https://github.com/AbdelStark/hallmark/issues/3), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#8](https://github.com/AbdelStark/hallmark/issues/8), [#9](https://github.com/AbdelStark/hallmark/issues/9), [#10](https://github.com/AbdelStark/hallmark/issues/10), [#31](https://github.com/AbdelStark/hallmark/issues/31) |
+| [#37](https://github.com/AbdelStark/hallmark/issues/37) | W36 | delivery: enforce core, train and gated integration CI | delivery | p1 | m | 0010 | Merged; [PR #54](https://github.com/AbdelStark/hallmark/pull/54) | None |
+| [#38](https://github.com/AbdelStark/hallmark/issues/38) | W37 | delivery: make private builds reproducible and verify inventories | delivery | p1 | m | 0010 | Merged; [PR #66](https://github.com/AbdelStark/hallmark/pull/66) | None |
 | [#39](https://github.com/AbdelStark/hallmark/issues/39) | W38 | delivery: enforce spec traceability and contributor documentation | delivery | p2 | m | 0010 | Open | None |
 
 ## Milestone: v0.3
@@ -70,7 +72,7 @@ retirement and dual-authorized transitions; operational root custody remains ope
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
 |---|---|---|---|---|---|---|---|---|
 | [#11](https://github.com/AbdelStark/hallmark/issues/11) | W10 | classifiers: implement the complete-input integer rule program | classifiers | p1 | m | 0003 | Open; blocked | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#14](https://github.com/AbdelStark/hallmark/issues/14) |
-| [#12](https://github.com/AbdelStark/hallmark/issues/12) | W11 | classifiers: implement the byte-feature integer MLP runtime | classifiers | p1 | m | 0003 | Open | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
+| [#12](https://github.com/AbdelStark/hallmark/issues/12) | W11 | classifiers: implement the byte-feature integer MLP runtime | classifiers | p1 | m | 0003 | Merged; [PR #64](https://github.com/AbdelStark/hallmark/pull/64) | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
 | [#13](https://github.com/AbdelStark/hallmark/issues/13) | W12 | classifiers: execute the qualified encoder integer graph | classifiers | p1 | l | 0003, 0005 | Open; blocked | [#5](https://github.com/AbdelStark/hallmark/issues/5), [#19](https://github.com/AbdelStark/hallmark/issues/19) |
 | [#15](https://github.com/AbdelStark/hallmark/issues/15) | W14 | research: implement lineage-preserving data admission and splitting | research | p0 | m | 0004 | Open; blocked | [#14](https://github.com/AbdelStark/hallmark/issues/14) |
 | [#16](https://github.com/AbdelStark/hallmark/issues/16) | W15 | research: implement frozen baseline and MLP training comparisons | research | p1 | m | 0003, 0004 | Open; blocked | [#12](https://github.com/AbdelStark/hallmark/issues/12), [#15](https://github.com/AbdelStark/hallmark/issues/15) |
@@ -84,7 +86,7 @@ retirement and dual-authorized transitions; operational root custody remains ope
 | [#24](https://github.com/AbdelStark/hallmark/issues/24) | W23 | hardware: bind loaded model and protected response path | hardware | p0 | l | 0006 | Open; blocked | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#23](https://github.com/AbdelStark/hallmark/issues/23) |
 | [#25](https://github.com/AbdelStark/hallmark/issues/25) | W24 | hardware: gate release with all enrolled integer classifiers | hardware | p0 | m | 0006, 0007 | Open; blocked | [#6](https://github.com/AbdelStark/hallmark/issues/6), [#11](https://github.com/AbdelStark/hallmark/issues/11), [#12](https://github.com/AbdelStark/hallmark/issues/12), [#13](https://github.com/AbdelStark/hallmark/issues/13), [#24](https://github.com/AbdelStark/hallmark/issues/24), [#26](https://github.com/AbdelStark/hallmark/issues/26) |
 | [#26](https://github.com/AbdelStark/hallmark/issues/26) | W25 | receipts: implement bounded encrypted proof spool and recovery | receipts | p0 | m | 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7), [#14](https://github.com/AbdelStark/hallmark/issues/14), [#23](https://github.com/AbdelStark/hallmark/issues/23) |
-| [#32](https://github.com/AbdelStark/hallmark/issues/32) | W31 | operations: add bounded local events and immutable failure records | operations | p1 | s | 0008 | Open | [#31](https://github.com/AbdelStark/hallmark/issues/31) |
+| [#32](https://github.com/AbdelStark/hallmark/issues/32) | W31 | operations: add bounded local events and immutable failure records | operations | p1 | s | 0008 | Merged; [PR #65](https://github.com/AbdelStark/hallmark/pull/65) | [#31](https://github.com/AbdelStark/hallmark/issues/31) |
 | [#33](https://github.com/AbdelStark/hallmark/issues/33) | W32 | operations: measure full-path cost with raw samples and caps | operations | p1 | m | 0005, 0008 | Open; blocked | [#14](https://github.com/AbdelStark/hallmark/issues/14), [#19](https://github.com/AbdelStark/hallmark/issues/19), [#32](https://github.com/AbdelStark/hallmark/issues/32) |
 
 ## Milestone: v1.0
@@ -171,7 +173,9 @@ All ten RFCs remain Draft. Resolution checkpoints are proposed review dates, not
 | Independent implementer/reviewer and permitted sharing | 2026-11-09 | [#35](https://github.com/AbdelStark/hallmark/issues/35) |
 | Ownership/licences, hosted execution and two authorized reviewers | 2026-11-09 | [#37](https://github.com/AbdelStark/hallmark/issues/37), [#38](https://github.com/AbdelStark/hallmark/issues/38), [#40](https://github.com/AbdelStark/hallmark/issues/40), [#41](https://github.com/AbdelStark/hallmark/issues/41) |
 
-Decisions made without inventing missing approval: propose one English single-turn prompt-injection assay; use greedy stand-in generation, public classifier weights, all-pass policy and all-response C0 proofs; retain B1 and B2 with separate trust; defer cascades/sampling/B3/recursion/distillation; use a private branch/PR; restore private repository visibility before publication. [Decision 0002](../decisions/0002-v1-specification-scope.md) records the rationale and limits.
+Decisions made without inventing missing approval: propose one English single-turn prompt-injection assay; use greedy stand-in generation, public classifier weights, all-pass policy and all-response C0 proofs; retain B1 and B2 with separate trust; defer cascades/sampling/B3/recursion/distillation; preserve the historical private publication decision. The owner subsequently authorized
+public visibility; keep the repository public unless explicitly asked otherwise (see
+[AGENTS](../../AGENTS.md)). Package licensing, research sharing and reviewer access remain separate gates. [Decision 0002](../decisions/0002-v1-specification-scope.md) records the rationale and limits.
 
 ## Completion standard
 

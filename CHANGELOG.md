@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add `make check-spec` for local anchors, RFC ownership/template checks, exact
+work-map/tracker agreement and section/invariant coverage. Add an explicit
+read-only live issue audit with immutable results. Run the offline gate in CI
+and from the sdist; update contributor, API, security and release guidance.
+
 Pin the full build dependency set, compare repeated wheel/sdist bytes and rebuild
 the wheel from its source archive. Add exact source/archive/dependency inventories,
 credential-pattern and archive safety checks, and installed core/train contracts.

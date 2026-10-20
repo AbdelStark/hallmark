@@ -772,3 +772,71 @@ its wheel hash is unchanged and its sdist hash is
 These candidate IDs precede this follow-up record/prose. The original evidence
 and failed runs are preserved. Corrected exact-head Linux/macOS checks remain
 the next delivery gate; no platform success is inferred from local validation.
+
+
+## 2026-10-20 — W38 specification traceability
+
+Selected #39 after W37 delivery. Hypothesis: a bounded offline gate can reject
+missing requirements, broken anchors and orphan issue mappings while preserving
+the historical packet; an explicit live query can establish current work/issue
+metadata agreement without giving normal CI network access. Mutable paths were
+scripts, focused tests, Makefile, the coverage register and maintainer docs.
+No runtime, fixture, model/data, conformance or old-evidence files changed.
+
+The [raw evidence](evidence/w38-spec-traceability-2026-10-20.json) was saved before
+this entry. Against base `56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb`,
+`make check-spec` exited 2 because the target was absent; the old doc checker
+accepted a fixture with a missing same-file fragment. The new isolated tests
+reject that fragment and missing/orphan requirement rows, issue mappings, cycles,
+tracker drift, unknown coverage owners, malformed RFC sections/questions and
+historical source changes. Fake API failures retain a failed result without raw
+provider output, and a pre-existing result is preserved before any network call.
+
+Focused validation passed 54 tests (53 new); `make check` passed 1,392 tests,
+lock/lint/format/type checks, all local links and the frozen software corpus.
+The spec gate covers 51 sections, 18 invariants, 40 work IDs, 10 RFCs and 106 edges.
+Both `make package-check` and `make package-check-train` passed, including spec
+validation from the extracted sdist and the existing installed contracts. The
+candidate source ID is `a0041cb17d54d01f6062520e372f3ecb65464a1681560da09d5cca5a4b2f5d41`;
+wheel SHA-256 is `da20dbc02441fd0746687ff627669298ae8fb252f0b87302e9ab34b71384b2e1`,
+sdist SHA-256 is `4721e28e46276f1e8c0733678982bdcd50c933c646270a7f83ad3572a761456d`.
+The hashes identify the candidate before evidence/prose; final-commit CI rebuilds it.
+
+The [live audit](evidence/w38-live-issues-2026-10-20.json), produced by
+`uv run --locked python scripts/check_spec.py --live --output research/evidence/w38-live-issues-2026-10-20.json`,
+matched all 50 work/tracker issues: actual titles, scopes, acceptance criteria,
+labels, milestones, forward dependency edges and tracker children. It records
+observation time, source/response/body hashes and issue states. It is a dated
+observation, not a permanent GitHub guarantee. The earlier successful live audit
+remains local; no failed scientific or hosted outcome is hidden by these checks.
+
+[Decision 0017](../docs/decisions/0017-spec-traceability.md) defines the limits.
+The checker supports the documented repository Markdown forms; structural coverage
+cannot establish that an implementation satisfies the requirement's meaning.
+Owner questions remain open and all RFCs remain Draft. Public visibility persists;
+licensing, data/policy admission, hardware/proofs and independent review remain separate.
+
+W37's [main CI](https://github.com/AbdelStark/hallmark/actions/runs/39437824044)
+passed all 12 jobs after [PR #66](https://github.com/AbdelStark/hallmark/pull/66).
+W38 exact-head hosted delivery is next. Afterward reassess the full remaining
+backlog; the broader MVP is not complete merely because its local foundation is green.
+
+
+### W38 parser review correction and final local candidate
+
+Review found nested repetition in the new Markdown target regex. An isolated
+10,014-byte unfinished-link probe exceeded a one-second limit and was terminated;
+the probe and candidate source hashes remain retained. Removing the nested
+quantifier makes that input plain text without exponential backtracking. Added
+a regression; [final validation](evidence/w38-final-validation-2026-10-20.json)
+records 55 focused tests (54 new), 1,393 total tests and both package gates passing.
+The prior candidate evidence above is preserved.
+
+The final candidate source is
+`f29c9340099fa787e7f8380888f33d0e738b3e54f9af1a392ab524040188a458`;
+its wheel hash is unchanged and its sdist hash is
+`0f141689018b583aa8487cfc2b508f61955e1f65285a24432e920c3f614ca46b`.
+These identities precede this follow-up record/prose. A fresh explicit live audit
+matched exactly the original 50-issue metadata inventory and response hash;
+the follow-up records its own time and source hashes. Hosted final-head validation
+is still required before merge. No historical packet, corpus or prior run changed.

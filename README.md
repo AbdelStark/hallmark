@@ -109,3 +109,7 @@ The existing hybrid design is preserved in the [source packet](research/source/R
 
 Public repository visibility does not change the current [licence status](LICENSE.md).
 See [contributing](CONTRIBUTING.md) and [security and evidence boundaries](SECURITY.md).
+
+Contributor setup, required checks and evidence boundaries are in
+[CONTRIBUTING](CONTRIBUTING.md). `make check-spec` checks local anchors and
+requirement coverage; the [explicit live audit](docs/SPEC-CHECK.md) checks issue metadata.

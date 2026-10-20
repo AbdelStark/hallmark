@@ -128,6 +128,18 @@ Linux/macOS CI now covers core/package and required-train/package on CPython
 3.12–3.14. This is engineering reproducibility within a recorded environment, not
 package publication, an open-source licence, scientific validity or a release packet.
 
+W38 / issue #39 adds the offline `make check-spec` gate and an explicit read-only
+live issue audit. Its [initial evidence](evidence/w38-spec-traceability-2026-10-20.json) and
+[final validation](evidence/w38-final-validation-2026-10-20.json) record
+54 new tests, 55 focused tests and 1,393 total local tests; both package
+gates also execute the spec check from the extracted sdist. The
+[live observation](evidence/w38-live-issues-2026-10-20.json) matches 40 work issues,
+10 trackers, 106 dependency edges, labels, milestones, scope and acceptance.
+Local coverage names 51 sections and 18 invariants. Missing requirements, anchors,
+orphan mappings, cycles, unowned questions and metadata drift reject. Historical
+source/corpus/legacy results are unchanged. Structural agreement and issue state
+are not semantic completeness, approval or scientific/security evidence.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -177,8 +189,11 @@ passing on `e8c9d0be603d477e3861b6843538477974b97354`.
 W31 / #32 is merged in [PR #65](https://github.com/AbdelStark/hallmark/pull/65), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39432180583)
 passing on `5e23f44ca51a58760ff1c139c114b7db52c5c1c5`.
-W37 / #38 is locally validated; exact-head hosted delivery is next. Then implement
-#39 traceability and reassess the actual remaining prerequisites. The current work map has 106 dependency edges, including W04's reuse
+W37 / #38 is merged in [PR #66](https://github.com/AbdelStark/hallmark/pull/66),
+with all 12 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39437824044)
+passing on `56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb`.
+W38 / #39 is locally validated; exact-head hosted delivery is next. Then audit
+the remaining admission and integration prerequisites against the complete MVP. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #39 spec traceability and the remaining admission/integration work. Research,

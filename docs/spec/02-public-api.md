@@ -1,5 +1,10 @@
 # Public API
 
+Implementation status is stated for each interface below. Use
+[STATE](../../research/STATE.md) for delivery evidence and
+[the contributor workflow](../../CONTRIBUTING.md) for checks. The section/work
+mapping is structural traceability, not a promise that proposed functions exist.
+
 ## Existing v0.1 surface
 
 The existing research CLI is:

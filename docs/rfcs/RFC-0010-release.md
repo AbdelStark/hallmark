@@ -50,8 +50,8 @@ Keep 0.1.0 research behavior intact. Land the spec on its own review branch, the
 W37 now implements [reproducible package checks](../PACKAGING.md) and records
 [dependency licence metadata](../DEPENDENCIES.md). Repository visibility is public;
 package publication, licensing, privileged integrations and reviewer access remain
-separate owner decisions. W38 traceability and the full W39/W40 release packet
-are not supplied by this build gate.
+separate owner decisions. W38 adds the [offline specification gate and explicit live issue audit](../SPEC-CHECK.md).
+The full W39/W40 release packet and reviewer evidence remain outstanding.
 
 ## Testing Strategy
 
