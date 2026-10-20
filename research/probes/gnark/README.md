@@ -98,3 +98,33 @@ uv run --locked python scripts/build_gnark_block_fixture.py
 Do not commit toolchains, module caches, binaries, proving keys or local run
 directories. Public synthetic proof/key examples and numeric costs may be
 retained as explicit research evidence; they are not operational trust anchors.
+
+## Run the staged qualification command
+
+The installed command uses the same controllers and a single protocol/budget:
+
+```text
+uv run --locked hallmark qualify APPROVED_PROTOCOL.json \
+  --expected-protocol EXTERNALLY_RETAINED_HPROTOCOL --output FRESH_DIRECTORY
+```
+
+Prepare the strict [protocol schema](../../../docs/schemas/qualification-protocol-v1.json)
+with `hallmark.qualification.QualificationProtocol`. Its `identity().hex()` is the
+typed `H(protocol)` pin, not the JSON file SHA-256. File references are relative to
+the protocol's trusted parent. `controller_sha256()` pins the installed controller
+and local boundary helper sources; the eight file references pin the exact binary,
+rule/MLP/block fixtures, source/licence review, dependency review, build and authority
+records. Review and retain that protocol identity outside the output before execution.
+The shipped protocol fixture is a structural marker and must never be executed.
+
+The stages run installation → rule → MLP → block without skipping or retrying.
+The command preserves snapshots, plans, setup/proof artifacts, costs and failures.
+The output must be new. Shared wall/verifier deadlines and measured CPU/RSS/storage
+bounds apply across stages. Process CPU/per-file limits and the macOS sandbox do
+not provide a hard aggregate memory/storage quota. Use a trusted output parent and
+account for existing runs within the owner's total storage/time envelope.
+
+Even all 541 checks passing returns exit **3**, `status: incomplete` and explicit
+missing qualification gates. Read the JSON result; exit 3 alone may instead be a
+resource or execution failure. No complete encoder or independent setup/security
+review is supplied. See [decision 0026](../../../docs/decisions/0026-staged-qualification-command.md).

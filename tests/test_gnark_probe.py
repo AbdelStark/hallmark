@@ -1,6 +1,5 @@
 """Probe boundaries run offline; actual proofs require the separately admitted build."""
 
-import importlib.util
 import json
 import os
 import platform
@@ -13,21 +12,10 @@ from types import SimpleNamespace
 
 import pytest
 
+from hallmark import _gnark_graph_probe as rule_probe
+from hallmark import _gnark_probe as probe
+
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location(
-    "check_gnark_probe", ROOT / "scripts/check_gnark_probe.py"
-)
-probe = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(probe)
-sys.path.insert(0, str(ROOT / "scripts"))
-try:
-    spec = importlib.util.spec_from_file_location(
-        "check_gnark_rule_probe", ROOT / "scripts/check_gnark_rule_probe.py"
-    )
-    rule_probe = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(rule_probe)
-finally:
-    sys.path.pop(0)
 mac = pytest.mark.skipif(
     platform.system() != "Darwin" or platform.machine() != "arm64",
     reason="the admitted OS worker is macOS arm64 only",
@@ -206,7 +194,7 @@ def test_failed_worker_cannot_publish_success(tmp_path, monkeypatch, fault):
     binary = tmp_path / "binary"
     binary.write_bytes(b"not an executable")
 
-    def failed_worker(_binary, directory, _args):
+    def failed_worker(_binary, directory, _args, **_kwargs):
         report = {
             "schema_id": "hallmark.gnark-installation-probe/1",
             "status": "passed",

@@ -1,6 +1,5 @@
 """Offline operator-block boundaries; real proof results are separate evidence."""
 
-import importlib.util
 import json
 import subprocess
 import sys
@@ -8,17 +7,10 @@ from pathlib import Path
 
 import pytest
 
+from hallmark import _gnark_block_probe as probe
+
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "research/probes/gnark/block-fixture.json"
-sys.path.insert(0, str(ROOT / "scripts"))
-try:
-    spec = importlib.util.spec_from_file_location(
-        "check_gnark_block_probe", ROOT / "scripts/check_gnark_block_probe.py"
-    )
-    probe = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(probe)
-finally:
-    sys.path.pop(0)
 
 
 def test_frozen_exhaustive_fixture_and_signed_transport():

@@ -203,8 +203,24 @@ retained proofs verified under the rebuilt worker, fresh proof/rejection cases,
 `make check` passes 1,764 tests; both installed-package gates pass.
 See [decision 0025](../docs/decisions/0025-integer-attention-block-probe.md).
 This is a five-field standalone block, not the complete Hallmark proof statement.
-Tokenizer, layer normalization, full encoder/input binding, qualification runner
-and independent setup/security review remain open. No backend is selected.
+At that stage, tokenizer, layer normalization, full encoder/input binding, the
+qualification runner and independent setup/security review remained open.
+
+W18 now exposes `hallmark qualify` with a caller-pinned protocol, safe input
+snapshots and shared execution/storage limits. The
+[raw evidence](evidence/w18-staged-qualification-2026-10-20.json) records all
+541 actual worker cases passing in order: installation 18, rule 134, MLP 156
+and attention block 233. Fresh setups reproduce the prior graph circuit hashes.
+The command reports `incomplete` with exit 3 and `qualified_backend: false`.
+Its diagnostic run took 1059.29 seconds, peaked at 677,314,560-byte worker
+RSS and retained 5,926,016,680 bytes. Initial package validation overlapped
+by 8.59 seconds; these are not isolated latency measurements. All 1,807 local
+tests and both installed-package gates pass. See
+[decision 0026](../docs/decisions/0026-staged-qualification-command.md).
+The full admitted encoder, operational program/key enrollment, independent
+verifier/security/hiding evidence and accepted setup lineage remain missing.
+Review-file hashes bind documents without authenticating their approval or
+adjudicating their claims. No backend is selected; W18 remains open.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.

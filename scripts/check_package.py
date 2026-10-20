@@ -126,6 +126,8 @@ def main() -> None:
         assert "hallmark/admission.py" in names
         assert "hallmark/data_admission.py" in names
         assert "hallmark/backend.py" in names
+        for module in ("qualification", "_gnark_probe", "_gnark_graph_probe", "_gnark_block_probe"):
+            assert f"hallmark/{module}.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -169,6 +171,11 @@ def main() -> None:
             "docs/schemas/lineage-v1.json",
             "docs/schemas/split-manifest-v1.json",
             "docs/schemas/dataset-manifest-v1.json",
+            "scripts/build_qualification_fixture.py",
+            "scripts/check_qualification_fixture.py",
+            "tests/test_qualification.py",
+            "fixtures/wire/qualification-protocol-v1.json",
+            "docs/schemas/qualification-protocol-v1.json",
             "scripts/build_backend_fixture.py",
             "scripts/check_backend_fixture.py",
             "tests/test_backend.py",
@@ -448,6 +455,16 @@ def main() -> None:
     )
     subprocess.run(
         [str(python), str(root / "scripts/check_event_storage.py")],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
+    subprocess.run(
+        [
+            str(python),
+            str(root / "scripts/check_qualification_fixture.py"),
+            str(root / "fixtures/wire/qualification-protocol-v1.json"),
+        ],
         cwd=directory,
         check=True,
         timeout=15,

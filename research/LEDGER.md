@@ -1316,3 +1316,79 @@ and reciprocal tables define its arithmetic; no float-parent equivalence is
 claimed. Local setup, shared verifier, independent review and complete graph
 qualification remain unresolved. `qualified_backend` stays false; W18 remains
 open. No HF token, GPU job, paid compute or private input was used.
+
+
+## 2026-10-20 — W18 staged qualification command
+
+Hypothesis: the existing real-proof controllers retain their correctness and
+failure behavior under one externally pinned protocol and shared budget.
+Baseline: standalone installation/rule/MLP/block controllers, 1,764 local tests
+and no installed qualification command. Mutable paths: packaged controllers,
+CLI, shared rooted file reader, tests, protocol schema/marker and documentation.
+The Go source/binary, arithmetic and frozen graph inputs remain unchanged.
+[Decision 0026](../docs/decisions/0026-staged-qualification-command.md) fixes the
+scope and criterion before execution. The [raw numeric evidence](evidence/w18-staged-qualification-2026-10-20.json)
+precedes this prose.
+
+The frozen plan/source snapshot is `runs/w18-qualification-1792524845681991000`.
+Protocol identity: `713f73c35a0fd80543c00dc1f8c8ff16205d8a20f28b89be33a2233c017ea766`.
+Controller identity: `004a15d94fbc6f271c27319d76b8855cbbb3c5aa422a45cfee5496f23dcb1b06`.
+Binary SHA-256: `3befb4b0075de7415e4f91a50ece56cf97e3649201dc677c66581f2bd46ccdc3`.
+The protocol pins the reviewed source/licence, dependency, build and authority
+records alongside all fixtures. The run retained them before execution; it does
+not authenticate approval or adjudicate those documents' claims.
+
+The exact command is retained in `command.json`; its portable form is:
+
+```text
+uv run --locked hallmark qualify APPROVED_PROTOCOL.json \
+  --expected-protocol 713f73c35a0fd80543c00dc1f8c8ff16205d8a20f28b89be33a2233c017ea766 \
+  --output FRESH_DIRECTORY
+```
+
+All 541 real cases pass in the prescribed order: installation 18, rule 134,
+MLP 156 and block 233. Fresh setups reproduce the earlier rule, MLP and block
+R1CS hashes exactly. Actual proofs verify in fresh processes; mutations to all
+100 public fields for rule/MLP, all 22/89 MLP/block intermediate values, aliases,
+proof bytes and setup keys reject. Complete raw case inventories and costs are
+retained. The evidence generator rehashes every stored file against the case
+records; no earlier experiment or failure is overwritten.
+
+The command correctly exits 3 with `status: incomplete`, not a qualification.
+Elapsed time is 1059.285s; worker peak RSS is 677,314,560 bytes;
+summed worker CPU is 3852.295s. The output contains
+4,424 files totaling 5,926,016,680 bytes, below its 6 GiB cap.
+The shared deadline was 1,200 seconds, four threads, one research worker at a
+time and zero spend. Prior recorded intervals plus a conservative preflight
+allowance were 4955.640s; the new 1,500-second reservation
+fit the study's 7,200-second proving envelope. The actual combined runs/dist
+allocation stayed below the owner's 20 GiB cap. Retention is through 2026-11-19;
+no scheduler was started. Installed-package validation overlapped the first
+8.59 seconds. These timings include startup, artifact I/O and checks, and are
+not isolated prover latency, p95 or an encoder-feasibility measurement.
+
+`make check` passes 1,807 tests, including 43 new protocol/controller cases.
+Tests cover wrong pins, duplicate JSON keys, incorrect fixture kinds, unsafe
+paths, hardlinks/FIFOs, source changes after snapshotting, resource limits,
+failure retention, interruption, private CLI errors and a live deadline that
+kills/reaps the worker while retaining timeout costs. Marker-worker tests never
+count as proof evidence. The common rooted reader retains all 128 model-file
+regressions. A transient import-order lint failure is retained in `check-02`;
+the final `check-03` passes without weakening checks.
+
+Both installed-package gates pass, including the actual training extra. Their
+common pre-evidence/prose source identity is
+`4aa11d2a4bd163f3a9889f64ef835067826b9dc97bd916f8bbe790d44e9b7d0e`;
+wheel SHA-256 is
+`2bb327c94c931195eb6ea7de4f1dc20dc95789b9e9b6de7060744379277fc4dd`.
+Final-head hosted CI must rebuild the completed documentation/evidence candidate.
+The standalone script paths remain compatibility commands for the packaged
+controllers; an additional 18-case real cubic run passed through the legacy
+script entry point in 1.41 seconds. No dependency or Go rebuild was required.
+
+Whole-encoder proofs at empty/near-boundary/maximum length, operational key/
+program enrollment, an independent verifier/security/hiding review and accepted
+setup lineage remain open. RSS/aggregate storage checks are postconditions,
+not hard OS quotas. Local setup and shared gnark verification remain research
+limitations. `qualified_backend` stays false and PR #72 stays draft. No HF token,
+GPU job, paid compute, private upload or operational acceptance occurred.

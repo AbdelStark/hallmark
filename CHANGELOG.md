@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add `hallmark qualify` with an externally pinned protocol, safe input snapshots
+and a shared deadline/storage budget across the existing real-proof probes. Keep
+standalone commands compatible. Passing available stages reports incomplete with
+exit 3; full-encoder and independent qualification evidence remain unavailable.
+
 Add the RFC-0005 backend declaration, caller-enrolled file/program/hiding-claim
 checks, a synthetic schema/vector and installed-package checks. These bind
 declarations without executing or selecting a backend. Separate local proof

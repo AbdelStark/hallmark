@@ -54,6 +54,10 @@ def main(argv: list[str] | None = None) -> int:
     registry.add_argument("--old-trust", type=Path)
     registry.add_argument("--transition", type=Path)
     registry.add_argument("--previous", type=Path)
+    qualify_parser = sub.add_parser("qualify", help="run pinned local backend qualification stages")
+    qualify_parser.add_argument("protocol", type=Path)
+    qualify_parser.add_argument("--expected-protocol", required=True)
+    qualify_parser.add_argument("--output", type=Path, required=True)
     stage: Stage = "parse"
     result: dict[str, Any]
     try:
@@ -67,6 +71,12 @@ def main(argv: list[str] | None = None) -> int:
             result = {"manifest_sha256": run_experiment(args.config, args.output)}
         elif args.command == "audit-run":
             result = audit_run(args.run_directory, args.dataset, args.expected_manifest)
+        elif args.command == "qualify":
+            from hallmark.qualification import qualify
+
+            result = qualify(args.protocol, args.expected_protocol, args.output)
+            print(json.dumps(result, sort_keys=True, allow_nan=False))
+            return 3
         elif args.command == "registry-check":
             from hallmark.registry_cli import check_registry
 
