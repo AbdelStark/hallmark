@@ -143,6 +143,33 @@ case/whitespace equivalence only; broader semantic lineage, actual rights and
 human label review remain external obligations. See
 [decision 0021](../docs/decisions/0021-lineage-data-admission.md).
 No real source was downloaded/admitted or task quality measured.
+[PR #71](https://github.com/AbdelStark/hallmark/pull/71) merged as
+`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`; all 12
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39466963984) passed.
+Issue #15 is closed.
+
+W18 / issue #19 now has actual local Groth16/BLS12-381 proof probes using
+pinned, licence-reviewed gnark and an isolated Go toolchain. The
+[raw evidence](evidence/w18-proof-probes-2026-10-20.json) records an 18-case
+cubic installation probe and a 134-case complete eight-byte marker/hash probe.
+Nine native rule vectors produced real proofs checked in fresh processes;
+mutating each of the 100 public fields, witness/padding/counts, proof bytes and
+the setup key rejected. The rule circuit has 206,801 constraints and a 292-byte
+proof. Its diagnostic run took 321.90 seconds with 709,033,984-byte peak process
+RSS and zero spend. These are small-program observations, not full-encoder costs.
+
+The first rule candidate failed because its hash-domain length was wrong;
+its source hashes, setup, numeric costs and failure remain intact. Earlier
+toolchain/module/sandbox failures are also retained. The corrected runner denies
+forks/network, checks expected artifacts and measured resource limits, and has
+31 offline boundary/fixture tests. `make check` passes 1,663 tests; both
+installed-package gates pass. The published synthetic proof/key example also
+reverifies from its encoded evidence under separately pinned key/fixture inputs.
+See [decision 0022](../docs/decisions/0022-local-proof-probes.md) and the
+[source review](proposals/backend-v1/candidate-review.md) for licence/setup/gadget
+limits. Classifier enrollment tags are synthetic, setup is local, and verification
+shares the proving library. Neither hiding nor independent security review is
+established. `qualified_backend` is always false; W18 remains open.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
@@ -200,7 +227,7 @@ Issue #14 is closed as admission preparation, not completed measurement.
 
 ## Not implemented or established
 
-TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Next bounded task
 
@@ -259,8 +286,10 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: finish W14 / #15's source/lineage import delivery, then re-evaluate W18 / #19
-and downstream W15 / #16 against live dependencies. Study permission is no longer a blocker.
+Next: continue W18 / #19 beyond the local proof probes: qualification manifest/API,
+bounded MLP, operator block and complete admitted encoder, with exact input/key
+enrollment, security/setup review and measured costs. W14 / #15 is delivered;
+W15 / #16's data/model work is dependency-ready. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

@@ -1072,3 +1072,99 @@ authenticating a human. No real dataset, checkpoint, external inference or paid
 job was used. Lexical candidates cover ASCII case/whitespace only; reviewed
 semantic lineage and final measurement admission remain necessary. Historical
 results and the legacy 8 MiB loader are unchanged.
+
+### W14 delivered
+
+[PR #71](https://github.com/AbdelStark/hallmark/pull/71) merged as
+`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`. Final head
+`0bc7f3c8cf4c13b11f6633ee6193a832a2f2628b` passed all 24 push/PR jobs;
+[main run 39466963984](https://github.com/AbdelStark/hallmark/actions/runs/39466963984)
+passed all 12 jobs. Local, tracking and remote main matched the merge commit.
+Issue #15 is closed. The repository remains public.
+
+## 2026-10-20 — W18 real local proof probes, backend still unqualified
+
+Hypothesis: a reviewed local backend can produce genuine proofs of the exact
+salted complete-input commitment and a tiny native rule while rejecting changed
+public bindings and invalid witnesses. Baseline: 1,632 tests and no real proof
+backend execution at the W14 merge. Mutable paths: optional Go probes, their
+Python controllers, frozen harmless fixture, tests, source reviews and research
+documentation. The unrelated `.gitignore` edit remains unstaged.
+
+The [raw evidence](evidence/w18-proof-probes-2026-10-20.json), including source/
+environment pins, numeric costs, failures and one public proof/key example,
+precedes this entry. The
+[source review](proposals/backend-v1/candidate-review.md) holds EZKL on unresolved
+licence admission and chooses gnark v0.16.4 only for experiments. Fourteen
+compiled modules match the reviewed licence/version/checksum inventory.
+The isolated Go 1.26.8 archive was checked against its official SHA-256;
+system tools were not replaced.
+
+Preserved preparation failures: the archive extractor initially rejected the
+ordinary `go` root directory before extraction; the full upstream module graph
+failed on an unavailable optional Solidity checker; two initial sandbox attempts
+aborted in Apple's loader before Go ran. The corrected profile imports the OS
+`dyld-support.sb`. The selected compilation closure is verified; the optional
+full module graph is not. No failure was relabeled as a pass.
+
+The original 18-case cubic probe produced a 244-byte real Groth16 proof and
+verified it in fresh processes. The final binary and tightened worker profile
+repeated all 18 cases successfully in a new directory. Wrong inputs/keys,
+field aliases, malformed proof bytes and invalid witnesses reject.
+Randomized repeated proofs differ, which alone does not demonstrate privacy.
+
+The first rule experiment's setup completed, but the real prover rejected the
+empty input. The circuit encoded 16 for a 17-byte domain tag. Its source was
+retained with every reconstructed file verified against the original pre-build
+hash; setup and failure artifacts were not overwritten. It also exposed a
+platform limitation: `RLIMIT_CPU=40` was requested, but setup used 97.43 CPU
+seconds and the failed proof process used 58.81. The new experiment computes
+the tag length, requests a documented 120-second case budget and rejects
+measured CPU overages after exit. This fits the approved owner envelope;
+the OS request is not claimed to be a hard aggregate CPU boundary.
+
+The corrected experiment passed 134 cases in 321.904 seconds. Nine vectors
+cover empty input, canonical CBOR's small/wide byte representations, UTF-8,
+four-byte and near/maximum boundaries, cross-chunk matching and a final-byte
+match. Each produced an actual proof checked in a fresh verifier process.
+All 100 public-field mutations, out-of-range/alias values, changed private
+inputs, nonzero padding, omitted last byte, wrong count/verdict, corrupted or
+trailing proof bytes and a second setup's key reject.
+
+The circuit has 206,801 constraints, an 18,147,793-byte R1CS, 77,729,235-byte
+proving key, 5,536-byte verifier key and 292-byte proof. Valid proof processes
+took 15.856–16.208 seconds and verifier processes 0.031–0.062 seconds, including
+startup and artifact loading. Peak process RSS was 709,033,984 bytes; cumulative
+worker CPU was 1,173.542 seconds and measured output was 1,739,947,438 bytes.
+This is one diagnostic roster, not a repeated latency study, pure prover
+timing, p95 estimate or full-encoder extrapolation.
+
+Thirty-one offline tests cover file and identity boundaries, fixture reproduction,
+failed-result handling, sanitized CLI failures and the Mac sandbox. The live
+loopback control succeeds outside the worker and is denied inside; unrelated
+file reads, inherited sentinel variables and child-process creation reject,
+and a timed-out process is reaped. An initial curl control could not read its
+TLS configuration; the final test uses a local TCP utility without expanding
+permissions. `make check` passes 1,663 tests plus lock/lint/format/types, spec,
+software conformance and admission gates.
+
+The [decision](../docs/decisions/0022-local-proof-probes.md) bounds the claim:
+synthetic classifier tags, local research setup, shared verifier library,
+upstream gadget soundness warning, unqualified hiding/security, soft memory
+limit and post-run aggregate resource checks. No `BackendQualification` artifact,
+`hallmark qualify`, bounded MLP or complete encoder is implemented or qualified.
+W18 stays open. No real dataset/model, HF token, paid job or hardware evidence
+was used; local experimental assets have a 2026-11-19 retention limit without
+an ongoing scheduler.
+
+Both `make package-check` and `make package-check-train` passed repeated
+distributions, sdist rebuild and installed core/train checks. Their common
+pre-prose source identity is
+`539d4bff99a59f56265e42b568b30a6ac55df8042708e99be24ebb87b448d36d`;
+wheel SHA-256 `f7b93027de33840ce2d0ff3e2a6eb3574053d5557ccd1abf684a4a2b2c7c14e0`,
+sdist `0a7e21a490fe86cf8a1745b8ce98ea8a90b4e66465d034e19e21cc210a5aff63`.
+Final-head CI must rebuild the complete evidence/prose candidate. The public
+synthetic key/proof example was decoded from the evidence file and verified
+again in a fresh sandbox, with the key and expected fixture independently
+pinned from the preceding experiment records. This checks the published
+example transport; it does not establish independent implementation or enrollment.
