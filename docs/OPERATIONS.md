@@ -182,3 +182,44 @@ A collection `pending`, `failed` or `expired` status is not a partial valid bund
 make the referenced evidence true. See [the contract decision](decisions/0011-offline-bundle-contracts.md)
 for exact claim, status and privacy boundaries. Full assembly and verification
 remain W26–W28.
+
+## Private local events
+
+Choose a fresh path beneath an owner-controlled local directory outside git.
+Set `max_bytes` from the approved run budget (4 KiB–1 MiB). For an admitted
+operation, use:
+
+```python
+from pathlib import Path
+from hallmark.events import EventLog, inspect_events
+from hallmark.wire import encode
+
+path = Path("/private/approved/run-events")  # Parent must already exist.
+with EventLog(path, max_bytes=16384) as log:
+    with log.attempt():
+        with log.stage("parse"):
+            payload = encode({"fixture": 1})
+summary = inspect_events(path, max_bytes=16384)
+assert summary.status == "complete"
+```
+
+Only the finite stage and monotonic timing are logged; `payload` is not.
+The self-contained harmless fixture uses a temporary directory:
+
+```sh
+uv run --locked python scripts/check_event_storage.py
+```
+
+It retains a failed attempt and explicitly retries once. In actual runs a retry
+requires a transient `HallmarkError(..., retryable=True)`, unchanged inputs/key/
+setup and remaining original admission budget. No retry happens automatically.
+A storage failure may leave only a partial stream/pending marker; preserve the
+entire directory. Do not edit or resume it, delete failures to improve a summary,
+or infer completion from the last stage. Inspection while a writer is live fails.
+
+Treat events and receipts as private metadata, with the same access, backup and
+retention policy as the run. Keep them out of git and sharing tools; there is no
+telemetry, upload or cleanup scheduler. Local permissions are not encryption.
+After ambiguous filesystem failures, quarantine the archive. See the
+[storage decision](decisions/0015-private-event-storage.md) for filesystem and
+power-loss limits. Legacy `run` artifacts do not gain this boundary retroactively.

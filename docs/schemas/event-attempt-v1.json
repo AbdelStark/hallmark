@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "ErrorCode": {
+      "enum": [
+        "INPUT_INVALID",
+        "LIMIT_EXCEEDED",
+        "TRUST_MISSING",
+        "REGISTRY_INVALID",
+        "ARTIFACT_RETIRED",
+        "REQUEST_MISMATCH",
+        "STALE_EVIDENCE",
+        "SIGNATURE_INVALID",
+        "ATTESTATION_INVALID",
+        "MEASUREMENT_UNKNOWN",
+        "OPENING_FAILED",
+        "INPUT_BINDING_FAILED",
+        "PROOF_INVALID",
+        "VERDICT_MISMATCH",
+        "POLICY_BLOCKED",
+        "PROOF_PENDING",
+        "RESOURCE_EXHAUSTED",
+        "STORAGE_FAILED",
+        "INTERNAL_ERROR"
+      ],
+      "type": "string"
+    },
+    "Stage": {
+      "enum": [
+        "parse",
+        "enroll",
+        "attest",
+        "bind",
+        "execute",
+        "prove",
+        "verify",
+        "store"
+      ],
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/event-attempt/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "run_id": {
+      "pattern": "^[0-9a-f]{12}4[0-9a-f]{3}[89ab][0-9a-f]{15}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "attempt": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "status": {
+      "enum": [
+        "complete",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "event_count": {
+      "maximum": 4096,
+      "minimum": 0,
+      "title": "Event Count",
+      "type": "integer"
+    },
+    "events_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Events Sha256",
+      "type": "string"
+    },
+    "code": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stage": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Stage"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retryable": {
+      "title": "Retryable",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "run_id",
+    "attempt",
+    "status",
+    "event_count",
+    "events_sha256",
+    "code",
+    "stage",
+    "retryable"
+  ],
+  "title": "AttemptRecord",
+  "type": "object"
+}

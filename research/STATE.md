@@ -16,7 +16,7 @@ W30 / issue #31 adds typed errors and sanitized CLI failures, including argparse
 filesystem/Unicode and child-process errors. Its
 [evidence](evidence/w30-errors-2026-10-20.json) records the reproduced path leak,
 52 privacy tests, 189 total local tests and an installed CLI error check.
-Historical run artifacts remain unchanged; versioned events are still W31.
+Historical run artifacts remain unchanged; new versioned events are described below.
 
 W36 / issue #37 adds `make check-train` and a required-execution pytest guard.
 The [evidence](evidence/w36-ci-2026-10-20.json) records 16 guard tests and fresh
@@ -104,6 +104,16 @@ paths are checked before execution; resource limits reject rather than truncate.
 The exported weights are synthetic markers. Private traces are not proof evidence,
 and no policy training, quality evaluation or backend qualification occurred.
 
+W31 / issue #32 adds bounded private POSIX event storage, allowlisted schemas,
+random run IDs, exclusive writers and immutable attempt/failure records. Its
+[evidence](evidence/w31-private-events-2026-10-20.json) records 101 event tests,
+156 focused regressions, 1,273 total tests and installed-wheel persistence.
+Nine sync-failure points and four process-exit cases never produced an accepted
+complete attempt. Failed attempts survive an explicit permitted retry; unknown
+metadata, duplicate ordinals and unsafe files reject. Metadata remains private;
+this does not authenticate execution, qualify physical power-loss behavior or
+implement W32 full-path cost measurement.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -147,12 +157,14 @@ passing on `9357288387bfbcdf0ad28ae34f54b37fe70a1333`.
 W33 / #34 is merged in [PR #63](https://github.com/AbdelStark/hallmark/pull/63), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39425868492)
 passing on `89de51b49cfbf10040384967b289a32b9709cb02`.
-W11 / #12 is locally validated; exact-head hosted delivery is next. Then implement
-#32 bounded local events before #38 reproducible packaging and #39 traceability,
-checking their actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
+W11 / #12 is merged in [PR #64](https://github.com/AbdelStark/hallmark/pull/64), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39428839904)
+passing on `e8c9d0be603d477e3861b6843538477974b97354`.
+W31 / #32 is locally validated; exact-head hosted delivery is next. Then reassess
+#38 reproducible packaging and #39 traceability, checking their actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
-before #32 events, #38 reproducible packaging and #39 spec traceability. Research,
+before #38 reproducible packaging and #39 spec traceability. Research,
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 

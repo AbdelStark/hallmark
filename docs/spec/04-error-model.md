@@ -69,5 +69,6 @@ not execute a verifier or replace the detailed check order above.
 helpers still raise their existing exceptions; callers exposing those failures
 must apply the diagnostic boundary. Existing run files, source/diff snapshots and
 the legacy two-field `failure.json` are preserved, not sanitized or rehashed.
-Versioned events and immutable failure records remain W31 / issue #32.
+Versioned local events and immutable attempt/failure records are implemented in
+`hallmark.events`; see [observability](05-observability.md#implemented-event-storage).
 [Decision 0004](../decisions/0004-error-boundary.md) records the compatibility change.

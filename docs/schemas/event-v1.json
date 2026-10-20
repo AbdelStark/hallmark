@@ -1,0 +1,113 @@
+{
+  "$defs": {
+    "ErrorCode": {
+      "enum": [
+        "INPUT_INVALID",
+        "LIMIT_EXCEEDED",
+        "TRUST_MISSING",
+        "REGISTRY_INVALID",
+        "ARTIFACT_RETIRED",
+        "REQUEST_MISMATCH",
+        "STALE_EVIDENCE",
+        "SIGNATURE_INVALID",
+        "ATTESTATION_INVALID",
+        "MEASUREMENT_UNKNOWN",
+        "OPENING_FAILED",
+        "INPUT_BINDING_FAILED",
+        "PROOF_INVALID",
+        "VERDICT_MISMATCH",
+        "POLICY_BLOCKED",
+        "PROOF_PENDING",
+        "RESOURCE_EXHAUSTED",
+        "STORAGE_FAILED",
+        "INTERNAL_ERROR"
+      ],
+      "type": "string"
+    },
+    "Stage": {
+      "enum": [
+        "parse",
+        "enroll",
+        "attest",
+        "bind",
+        "execute",
+        "prove",
+        "verify",
+        "store"
+      ],
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/event/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "run_id": {
+      "pattern": "^[0-9a-f]{12}4[0-9a-f]{3}[89ab][0-9a-f]{15}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "attempt": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "ordinal": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Ordinal",
+      "type": "integer"
+    },
+    "stage": {
+      "$ref": "#/$defs/Stage"
+    },
+    "outcome": {
+      "enum": [
+        "started",
+        "completed",
+        "failed"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "elapsed_ns": {
+      "anyOf": [
+        {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Elapsed Ns"
+    },
+    "code": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_id",
+    "run_id",
+    "attempt",
+    "ordinal",
+    "stage",
+    "outcome",
+    "elapsed_ns",
+    "code"
+  ],
+  "title": "Event",
+  "type": "object"
+}

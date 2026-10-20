@@ -51,6 +51,11 @@ checks 156 software cases and reports 32 unavailable hardware/proof obligations.
 `make check-conformance` checks software scope and its failure self-tests.
 The full-evidence gate remains incomplete; there is no independent verifier.
 
+The [private event log](docs/decisions/0015-private-event-storage.md) retains
+allowlisted stage events and failed attempts, with bounded storage and durable
+completion checks. It has no telemetry; metadata stays under the run's private
+retention policy. Full-path cost measurement remains separate work.
+
 The [native byte-count MLP](docs/decisions/0014-integer-mlp-runtime.md) now executes
 bound affine/ReLU/affine exports with exact signed rescaling, full prompt coverage
 and strict threshold comparison. Fixed and generated vectors check every layer.

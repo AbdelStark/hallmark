@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add bounded private POSIX event storage, random run IDs, strict event/attempt
+schemas and explicit single-retry retention. Check durable completion separately
+from stage completion, reject unsafe or tampered files and suppress external
+exception chains. Preserve legacy run artifacts and omit hosted telemetry.
+
 Add bounded native byte-count MLP execution, explicit weight/program exports,
 exact ties-to-even rescaling and private per-layer traces. Reject int32 partial-sum
 overflow, conflicting file paths and over-budget inputs without truncation.
