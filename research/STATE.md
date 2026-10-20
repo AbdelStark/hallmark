@@ -171,6 +171,26 @@ limits. Classifier enrollment tags are synthetic, setup is local, and verificati
 shares the proving library. Neither hiding nor independent security review is
 established. `qualified_backend` is always false; W18 remains open.
 
+W18 now also implements the RFC-0005 `BackendQualification` declaration and
+caller-pinned file/program/claimed-hiding checks. These are structural bindings,
+not a qualification result; see
+[decision 0023](../docs/decisions/0023-backend-declaration-contract.md).
+The bounded synthetic integer MLP produced nine actual proofs and passed
+156 cases, including all 100 public-field mutations and all 22 private layer
+mutations. Its circuit has 208,717 constraints and a 292-byte proof.
+The diagnostic run took 654.92 seconds with 704,036,864-byte peak process RSS
+and zero spend. Some offline software/package checks ran concurrently on the
+host, so these are not isolated latency measurements. `make check` passes
+1,747 tests; both installed-package gates pass.
+The [new raw evidence](evidence/w18-backend-contract-and-mlp-2026-10-20.json)
+also records all 134 rule regression cases under the changed circuit, all
+18 cubic cases under the final binary, and fresh verification of the published
+MLP proof/key example against separately retained key and fixture pins.
+[Decision 0024](../docs/decisions/0024-bounded-mlp-proof-probe.md) preserves the
+eight-byte/synthetic-graph, setup, shared-library and security limitations.
+The general qualification runner, encoder operator block and complete admitted
+encoder remain open; no backend is selected.
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -286,8 +306,8 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: continue W18 / #19 beyond the local proof probes: qualification manifest/API,
-bounded MLP, operator block and complete admitted encoder, with exact input/key
+Next: continue W18 / #19 beyond the declaration and bounded rule/MLP probes:
+qualification runner/API, operator block and complete admitted encoder, with exact input/key
 enrollment, security/setup review and measured costs. W14 / #15 is delivered;
 W15 / #16's data/model work is dependency-ready. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights

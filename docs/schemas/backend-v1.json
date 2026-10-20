@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "RFC-0005 record of claims, not evidence that those claims have been verified.",
+  "properties": {
+    "build": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Build",
+      "type": "string"
+    },
+    "conformance": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Conformance",
+      "type": "string"
+    },
+    "costs": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Costs",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 1024,
+      "minItems": 1,
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "license_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "License Review",
+      "type": "string"
+    },
+    "proof_system": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Proof System",
+      "type": "string"
+    },
+    "public_input_layout": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "schema_id": {
+      "const": "hallmark/backend/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "security_parameters": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "security_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Security Review",
+      "type": "string"
+    },
+    "setup": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Setup",
+      "type": "string"
+    },
+    "source": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Source",
+      "type": "string"
+    },
+    "supported_programs": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Supported Programs",
+      "type": "array"
+    },
+    "verifier": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Verifier",
+      "type": "string"
+    },
+    "zero_knowledge": {
+      "title": "Zero Knowledge",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "source",
+    "dependencies",
+    "build",
+    "proof_system",
+    "security_parameters",
+    "zero_knowledge",
+    "setup",
+    "supported_programs",
+    "public_input_layout",
+    "verifier",
+    "license_review",
+    "security_review",
+    "conformance",
+    "costs"
+  ],
+  "title": "BackendQualification",
+  "type": "object"
+}

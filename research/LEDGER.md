@@ -1168,3 +1168,77 @@ synthetic key/proof example was decoded from the evidence file and verified
 again in a fresh sandbox, with the key and expected fixture independently
 pinned from the preceding experiment records. This checks the published
 example transport; it does not establish independent implementation or enrollment.
+
+## 2026-10-20 — W18 backend declarations and bounded MLP proof
+
+Hypothesis: the same reviewed backend can prove the exact frozen integer MLP,
+including signed ties-to-even arithmetic, all intermediate values, complete
+chunk aggregation and salted input binding. Baseline: the prior tiny rule proof
+and 1,663 local tests. Mutable paths: the optional Go graph probes, shared input
+constraints/controller, MLP fixture, additive backend record/file validator,
+distribution checks and documentation. No historical experiment is overwritten.
+
+The [raw evidence](evidence/w18-backend-contract-and-mlp-2026-10-20.json)
+retains the protocol, source/build/dependency pins, every case's costs and
+artifact hashes, validation logs' hashes and a public synthetic proof/key
+example. Executed helper commands and source copies remain in the ignored
+run's `commands/`; portable controller invocations are documented in the
+[probe README](probes/gnark/README.md).
+
+[Decision 0023](../docs/decisions/0023-backend-declaration-contract.md) implements
+the RFC-0005 `BackendQualification` record and caller-pinned dependency/metadata
+file checks. The record binds opaque evidence identities, declared program
+coverage and a claimed hiding flag. It does not resolve reviews, authenticate
+setup, execute a verifier or establish qualification. Tests explicitly permit
+a separately enrolled true declaration to pass structural binding without
+mistaking it for evidence of hiding.
+
+The new protocol and complete source snapshot were written to
+`runs/w18-graphs-1792520823690561000` before compilation. The selected 14 module
+versions match the previous reviewed inventory, with `GOPROXY=off` and the
+unchanged isolated Go 1.26.8 toolchain. The build succeeded as
+`15c749c564acd18e56870c7412f9c6fbc6c713679f34bf2fec63641c32f9e107`.
+The nine-vector MLP fixture SHA-256 is
+`db1e5792c87d8e66617ba39a9ecb588dcb637e885211d5f241bdaf632b51f1fd`.
+The native implementation and separate arithmetic formula agree on all layers
+when reproducing that fixture.
+
+The actual MLP run passed all 156 cases in 654.918 seconds. Nine proofs verified
+in fresh processes. All 100 public-field mutations, 22 private layer mutations,
+invalid private inputs/padding/counts, proof corruption/trailing bytes and a
+second setup's key rejected. The 208,717-constraint circuit has an
+18,170,074-byte R1CS, 78,166,557-byte proving key, 5,536-byte verifier key and
+292-byte proof. Peak process RSS was 704,036,864 bytes, cumulative worker CPU
+2,477.395 seconds, and measured artifacts 3,867,731,554 bytes. No case exceeded
+the requested measured CPU budget; the largest used 98.541 CPU seconds.
+
+Valid proof processes took 15.824–16.092 seconds, including startup and artifact
+loading; verifier processes took 0.029–0.294 seconds. Offline software/package
+validation also ran on the host during part of this experiment. These costs
+are a single diagnostic roster, not an isolated latency study or p95 estimate.
+The shared input refactor changes circuit/key identity, so the rule regression
+uses a separate fresh setup rather than reusing the earlier proof.
+
+That regression passed all 134 cases in 320.919 seconds, with 692,666,368-byte
+peak process RSS and 1,739,957,340 measured artifact bytes. The final binary
+also passed all 18 cubic installation cases. The published MLP example was
+decoded from the evidence and verified in another fresh process, using the
+key and fixture pins retained from the original run. The confirmation took
+2.005 seconds in total. Fresh processes still share the same gnark verifier;
+this does not establish independent implementation or operational enrollment.
+
+`make check` passed 1,747 tests, including 77 backend tests and 38 probe
+boundary/fixture tests. Both package gates passed, including installed backend
+fixture checks and the required training extra. Their common source identity
+before final evidence/prose was
+`7a455d4a696b47978a3fb95eaa2bb111ae140696377fd90af86632c382066831`;
+wheel SHA-256 `4c79ab355f919c4bb4dd9a54bc2aebf233a06597275d68c184ae851273344d5b`,
+sdist `e1855343b8b09154dd4386b713d1ce7795434bc094c9de1e20de67c5f589e014`.
+
+[Decision 0024](../docs/decisions/0024-bounded-mlp-proof-probe.md) retains the
+limits: one fixed synthetic MLP with an eight-byte input bound, local setup,
+shared verifier library, upstream gadget warning and no security/hiding
+qualification. No `hallmark qualify`, encoder operator block or complete
+admitted encoder is supplied. The backend record and small proofs cannot
+replace those remaining gates. No HF token, paid job, private input or genuine
+hardware evidence was used. Repository visibility remains public.

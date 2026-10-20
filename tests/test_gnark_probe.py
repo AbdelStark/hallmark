@@ -242,10 +242,11 @@ def test_failed_worker_cannot_publish_success(tmp_path, monkeypatch, fault):
     assert not (output / "result.json").exists()
 
 
-def test_frozen_rule_fixture_reproduces_and_matches_source_constants():
-    fixture = ROOT / "research/probes/gnark/rule-fixture.json"
+@pytest.mark.parametrize("kind", ["rule", "mlp"])
+def test_frozen_graph_fixture_reproduces_and_matches_source_constants(kind):
+    fixture = ROOT / f"research/probes/gnark/{kind}-fixture.json"
     reproduced = subprocess.run(
-        [sys.executable, str(ROOT / "scripts/build_gnark_rule_fixture.py")],
+        [sys.executable, str(ROOT / f"scripts/build_gnark_{kind}_fixture.py")],
         cwd=ROOT,
         capture_output=True,
         check=True,
@@ -253,16 +254,34 @@ def test_frozen_rule_fixture_reproduces_and_matches_source_constants():
     )
     assert reproduced.stdout == fixture.read_bytes()
     value = rule_probe.validate_fixture(reproduced.stdout)
-    source = (ROOT / "research/probes/gnark/rule.go").read_text()
+    source = (ROOT / f"research/probes/gnark/{kind}.go").read_text()
     for record in ("classifier", "input_profile"):
         assert value["records"][record]["identity_hex"] in source
     for case in value["cases"]:
         private = rule_probe.assignment(case, True).splitlines()
         public = rule_probe.assignment(case, False).splitlines()
-        assert len(private) == 140 and len(public) == 100
+        assert len(private) == (162 if kind == "mlp" else 140) and len(public) == 100
         assert private[:100] == public
         assert list(map(int, public)) == case["public"]
         assert all(str(int(line)).encode() == line for line in private)
+        if kind == "mlp":
+            assert [int(n) - 2**31 for n in private[140:]] == case["trace"]
+
+
+@pytest.mark.parametrize("fault", ["missing", "length", "bool", "low", "high", "rule-trace"])
+def test_graph_fixture_rejects_invalid_layer_traces(fault):
+    value = json.loads((ROOT / "research/probes/gnark/mlp-fixture.json").read_text())
+    case = value["cases"][0]
+    if fault == "missing":
+        del case["trace"]
+    elif fault == "length":
+        case["trace"].pop()
+    elif fault == "rule-trace":
+        value["schema_id"] = "hallmark.gnark-rule-fixture/1"
+    else:
+        case["trace"][0] = {"bool": False, "low": -(2**31) - 1, "high": 2**31}[fault]
+    with pytest.raises(ValueError):
+        rule_probe.validate_fixture(json.dumps(value).encode())
 
 
 @pytest.mark.parametrize(

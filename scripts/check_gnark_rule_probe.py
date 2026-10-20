@@ -1,4 +1,4 @@
-"""Run a pinned eight-byte rule experiment; never publish backend qualification."""
+"""Run a pinned eight-byte rule or MLP experiment; never publish backend qualification."""
 
 import argparse
 import json
@@ -14,18 +14,21 @@ MAX_ARTIFACT = 256 * 1024 * 1024
 
 def assignment(case, private):
     fields = case["public"] + (case["salt"] + case["units"] if private else [])
+    if private:
+        fields += [n + 2**31 for n in case.get("trace", [])]
     return ("".join(f"{n}\n" for n in fields)).encode("ascii")
 
 
 def validate_fixture(raw):
     value = json.loads(raw)
     if (
-        value["schema_id"] != "hallmark.gnark-rule-fixture/1"
+        value["schema_id"] not in ("hallmark.gnark-rule-fixture/1", "hallmark.gnark-mlp-fixture/1")
         or value["qualified_backend"] is not False
         or len(value["cases"]) != 9
     ):
         raise ValueError("invalid frozen fixture")
     names = set()
+    mlp = value["schema_id"] == "hallmark.gnark-mlp-fixture/1"
     for case in value["cases"]:
         name = case["name"]
         if not re.fullmatch("[a-z][a-z0-9-]{0,63}", name) or name in names:
@@ -38,6 +41,15 @@ def validate_fixture(raw):
                 or any(type(n) is not int or not 0 <= n <= 2**32 - 1 for n in case[key])
             ):
                 raise ValueError("invalid assignment")
+        if mlp:
+            if (
+                type(case.get("trace")) is not list
+                or len(case["trace"]) != 22
+                or any(type(n) is not int or not -(2**31) <= n < 2**31 for n in case["trace"])
+            ):
+                raise ValueError("invalid private layer trace")
+        elif "trace" in case:
+            raise ValueError("unexpected private layer trace")
     return value
 
 
@@ -49,6 +61,7 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
     if digest(raw_binary) != expected_binary or digest(raw_fixture) != expected_fixture:
         raise ValueError("input identity mismatch")
     frozen = validate_fixture(raw_fixture)
+    kind = "mlp" if frozen["schema_id"] == "hallmark.gnark-mlp-fixture/1" else "rule"
     output.mkdir(mode=0o700)
     output = output.resolve()
     binary = output / "probe"
@@ -57,7 +70,7 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
     json_new(
         output / "protocol.json",
         {
-            "schema_id": "hallmark.gnark-rule-protocol/1",
+            "schema_id": f"hallmark.gnark-{kind}-protocol/1",
             "binary_sha256": expected_binary,
             "fixture_sha256": expected_fixture,
             "runner_sha256": digest(Path(__file__).read_bytes()),
@@ -67,7 +80,10 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
             "platform": platform.platform(),
             "qualified_backend": False,
             "private_inputs": False,
-            "statement": "Exact H(input), 0..8 bytes, BAD marker, chunk size 4, 100 public fields.",
+            "statement": (
+                f"Exact H(input), 0..8 bytes, frozen {kind}, chunk size 4, 100 public fields."
+            ),
+            "private_trace_fields": 22 if kind == "mlp" else 0,
             "limits": {
                 "total_seconds": 1800,
                 "case_seconds": 120,
@@ -129,13 +145,13 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
         return {name: read_regular(directory / name, MAX_ARTIFACT) for name in outputs}
 
     try:
-        setup = case("setup", "rule-setup", {}, ("circuit.r1cs", "pk.bin", "vk.bin"))
+        setup = case("setup", f"{kind}-setup", {}, ("circuit.r1cs", "pk.bin", "vk.bin"))
         key_pin = digest(setup["vk.bin"])
         proving = {name: setup[name] for name in ("circuit.r1cs", "pk.bin")}
         for vector in frozen["cases"]:
             proof = case(
                 "prove-" + vector["name"],
-                "rule-prove",
+                f"{kind}-prove",
                 proving | {"assignment.txt": assignment(vector, True)},
                 ("proof.bin",),
             )
@@ -144,14 +160,14 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
                 "proof.bin": proof["proof.bin"],
                 "assignment.txt": assignment(vector, False),
             }
-            case("verify-" + vector["name"], "rule-verify", verifier)
+            case("verify-" + vector["name"], f"{kind}-verify", verifier)
         # The last vector supplies a valid proof for every public-field mutation.
         for i in range(100):
             changed = {**vector, "public": list(vector["public"])}
             changed["public"][i] ^= 1
             case(
                 f"public-{i:03d}",
-                "rule-verify",
+                f"{kind}-verify",
                 verifier | {"assignment.txt": assignment(changed, False)},
                 expected=1,
             )
@@ -165,16 +181,16 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
             changed["public"][index] = value
             case(
                 name,
-                "rule-verify",
+                f"{kind}-verify",
                 verifier | {"assignment.txt": assignment(changed, False)},
                 expected=1,
             )
         for name, key, index, value in (
-            ("changed-witness", "units", 0, ord("y")),
+            ("changed-witness", "units", 0, vector["units"][0] ^ 1),
             ("byte-range", "units", 0, 256),
             ("salt-range", "salt", 0, 256),
             ("nonzero-padding", "units", 7, ord("D")),
-            ("changed-verdict", "public", 99, 1),
+            ("changed-verdict", "public", 99, 1 - vector["public"][99]),
             ("omitted-final-byte", "public", 96, vector["public"][96] - 1),
             ("wrong-chunk-count", "public", 97, 1),
         ):
@@ -182,21 +198,31 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
             changed[key][index] = value
             case(
                 name,
-                "rule-prove",
+                f"{kind}-prove",
                 proving | {"assignment.txt": assignment(changed, True)},
                 expected=1,
             )
+        if kind == "mlp":
+            for i in range(22):
+                changed = {**vector, "trace": list(vector["trace"])}
+                changed["trace"][i] ^= 1
+                case(
+                    f"trace-{i:02d}",
+                    "mlp-prove",
+                    proving | {"assignment.txt": assignment(changed, True)},
+                    expected=1,
+                )
         for name, raw in (
             ("changed-proof", bytes([proof["proof.bin"][0] ^ 1]) + proof["proof.bin"][1:]),
             ("trailing-proof", proof["proof.bin"] + b"\0"),
         ):
-            case(name, "rule-verify", verifier | {"proof.bin": raw}, expected=1)
-        second = case("other-setup", "rule-setup", {}, ("circuit.r1cs", "pk.bin", "vk.bin"))
+            case(name, f"{kind}-verify", verifier | {"proof.bin": raw}, expected=1)
+        second = case("other-setup", f"{kind}-setup", {}, ("circuit.r1cs", "pk.bin", "vk.bin"))
         if digest(second["vk.bin"]) == key_pin:
             raise ValueError("independent random setups unexpectedly agree")
-        case("wrong-key", "rule-verify", verifier | {"vk.bin": second["vk.bin"]}, expected=1)
+        case("wrong-key", f"{kind}-verify", verifier | {"vk.bin": second["vk.bin"]}, expected=1)
         result = {
-            "schema_id": "hallmark.gnark-rule-result/1",
+            "schema_id": f"hallmark.gnark-{kind}-result/1",
             "status": "passed",
             "qualified_backend": False,
             "binary_sha256": expected_binary,
@@ -214,7 +240,7 @@ def check(binary, expected_binary, fixture, expected_fixture, output):
     except BaseException:
         json_new(
             output / "failure.json",
-            {"schema_id": "hallmark.gnark-rule-failure/1", "cases": cases},
+            {"schema_id": f"hallmark.gnark-{kind}-failure/1", "cases": cases},
         )
         raise
 

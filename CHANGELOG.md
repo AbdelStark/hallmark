@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add the RFC-0005 backend declaration, caller-enrolled file/program/hiding-claim
+checks, a synthetic schema/vector and installed-package checks. These bind
+declarations without executing or selecting a backend. Separate local proof
+probes retain genuine small-circuit results, failures and measured costs.
+
 Add caller-pinned source import, raw-row lineage sidecars and deterministic
 grouped splits. Preserve contrastive pairs, bind review/rights documents and
 reject rehashed leakage mutations. Ship synthetic fixtures, seven schemas and

@@ -29,8 +29,10 @@ No curation framework is needed for 52 synthetic records. Add NeMo Curator or eq
 The training baseline implements only float64 logistic fitting, power-of-two PTQ
 and integer calibration. The separate [native MLP runtime](decisions/0014-integer-mlp-runtime.md)
 executes explicitly exported integer weights; it does not train or calibrate them.
-Teacher inference, encoder training, distillation, QAT, ONNX export and proving
-remain unimplemented. Training long inputs is rejected until a justified
+Teacher inference, encoder training, distillation, QAT, ONNX export and proofs
+for operational classifiers remain unimplemented. The bounded synthetic
+[rule and MLP probes](decisions/0024-bounded-mlp-proof-probe.md) are separate
+backend experiments. Training long inputs is rejected until a justified
 multiple-instance or chunk-labeling objective exists.
 
 ## Operator and system bake-off
