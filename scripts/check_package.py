@@ -25,6 +25,11 @@ def main() -> None:
         for required in (
             "uv.lock",
             "docs/SPEC.md",
+            "SPEC.md",
+            "docs/spec/11-requirements.md",
+            "docs/rfcs/RFC-0001-wire.md",
+            "docs/roadmap/work-items.json",
+            "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
             "tests/test_reference.py",
         ):

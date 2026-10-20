@@ -28,3 +28,29 @@ Hosted execution: the first private GitHub run could not start any steps because
 The local Python 3.13 core-only check caught a mypy configuration gap: the optional NumPy import was not exempted when NumPy was absent. Adding it to the existing missing-optional-import override fixes that environment without installing training dependencies into core. The train-enabled environment still checks against installed NumPy types. This is a tooling fix, not a model, data or evaluation change.
 
 Final local matrix: Python 3.12.12 with the train extra, `make check`, 29 passed; fresh Python 3.13.11 core-only environment, `make check`, 28 passed and the optional train test skipped. Both passed strict typing, lint/format and docs checks. Fresh installed-wheel/CLI checks passed on both interpreter versions. Linux/hosted CI remains unexecuted because of the account block; these are local macOS results, not substituted hosted passes.
+
+## 2026-10-20: v1 specification corpus and implementation decomposition
+
+Hypothesis: the historical hybrid POC can be expressed as one coherent, typed v1 contract with every implementation deliverable mapped to a bounded work item, while preserving the existing research evidence. Baseline: commit `1024ae9a0598ae842e86eaf98c479c5d11ea1f23`, no issues or PRs, software foundation only. Mutable paths: root specification/navigation, `docs/spec/`, `docs/rfcs/`, `docs/roadmap/`, decision 0002, state/ledger/evidence and source-distribution inclusion. Runtime, evaluator, dataset, fixture config and old results were not changed. The existing `.gitignore` edit is unrelated and was preserved.
+
+Raw identities/counts and commands were saved first in [spec bootstrap evidence](evidence/spec-bootstrap-2026-10-20.json). Local validation: smallest contract/reference/docs fixture, 18 passed; `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check`, 29 passed; `make package-check`, passed including isolated installed CLI. The initial formatting gate failed on Python signatures inside a documentation code block; formatting was corrected and the full gate rerun successfully. The structural audit checked 23 index/section/RFC files, all 10 exact RFC templates, local anchors, 40 unique work items and an acyclic dependency graph. Archive inspection found every corpus/work-map path and no harness, runs, data, checkpoints or environment-secret paths.
+
+The corpus preserves genuine hardware, rule/MLP/encoder proofs, B1/B2, complete-input binding, independent verification and private reviewer reproduction. Open questions have owners and resolution checkpoints. Drafting a requirement or filing its issue does not perform the experiment or authorize its resources. No statistical, hardware, proof, performance or security result was produced.
+
+Privacy correction: live repository metadata showed public visibility and disabled issues. Before publishing this corpus, visibility was changed to private and verified; issues were enabled under the explicit specification/backlog request. This does not establish whether older public material was copied. No collaborators or billing settings were changed.
+
+Acceptance requires both the pushed corpus/PR and the complete live issue set with tracker and dependency links. Publication receipts are recorded in the follow-up entry after filing; the local checks alone do not complete that gate.
+
+### Private publication and live backlog audit
+
+Phase 1 was committed in four logical commits and pushed as `spec/bootstrap-2026-10-20`; corpus commit `ad058ad74a6dc23ae95cc523d7bf468a06d4c4ce` is the immutable reference used by the issues. [PR #1](https://github.com/AbdelStark/hallmark/pull/1) remains open for owner review.
+
+Phase 2 used `gh label list/create`, `gh api` for milestones, `gh issue create --body-file`, `gh issue edit --body-file` and `gh issue comment --body-file`. Initial `gh issue list --state all --limit 200` found no issues. Created 40 implementation issues (#2–#41) and ten RFC trackers (#42–#51), with exactly one type/area/priority/effort label per issue, applicable RFC labels, and milestones v0.2/v0.3/v1.0. The total milestone counts, including trackers, are 16/19/15. No issue was closed or represented as implemented.
+
+The [live publication audit](evidence/spec-publication-2026-10-20.json) was saved before this summary. It fetched all 50 live issues and compared their complete bodies with the work map, checked metadata and pinned references, validated all 102 implementation dependency edges and all 50 dependency comments, and compared each tracker checklist with its exact child set. Missing labels, unmapped items and missing children: zero. The [tracker](../docs/roadmap/IMPLEMENTATION.md) and [work map](../docs/roadmap/work-items.json) carry all returned issue URLs and owner/date resolution gates.
+
+Final local checks after adding the tracker: `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check`, 29 passed; `make package-check`, passed. The source distribution includes the tracker and complete corpus; forbidden harness/run/data/checkpoint/secret paths were absent. Runtime, evaluation code, fixture/config, tests and lock remained unchanged from the baseline. Documentation structure/anchor checks passed.
+
+Hosted spec run [39393331644](https://github.com/AbdelStark/hallmark/actions/runs/39393331644) on `ad058ad` completed without starting any job steps. Its check annotation reports an account payment/spending-limit block. This is unavailable hosted execution, not a test failure or pass; final-head delivery/check state is reported on the PR. Billing was not changed.
+
+The deliverable is the proposed corpus plus filed backlog, not a completed v1 system. Next bounded research work is the admission proposal in issue #14. Hardware/proof/data campaigns, independent implementer access, policy adoption and reviewer sharing remain gated. Prior public exposure is unassessed.

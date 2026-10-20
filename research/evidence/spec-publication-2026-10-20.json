@@ -1,0 +1,58 @@
+{
+  "schema_id": "hallmark/spec-publication-audit/1",
+  "date": "2026-10-20",
+  "spec_commit": "ad058ad74a6dc23ae95cc523d7bf468a06d4c4ce",
+  "pr": "https://github.com/AbdelStark/hallmark/pull/1",
+  "private": true,
+  "implementation_issues": 40,
+  "tracking_issues": 10,
+  "issues_total": 50,
+  "by_area": {
+    "classifiers": 4,
+    "conformance": 4,
+    "delivery": 6,
+    "hardware": 4,
+    "operations": 4,
+    "proofs": 5,
+    "receipts": 2,
+    "registry": 3,
+    "research": 6,
+    "verification": 4,
+    "wire": 8
+  },
+  "by_milestone": {
+    "v0.2": 16,
+    "v0.3": 19,
+    "v1.0": 15
+  },
+  "dependency_edges": 102,
+  "issue_bodies_checked": 50,
+  "dependency_comment_issues_checked": 50,
+  "missing_labels": 0,
+  "unmapped_work_items": 0,
+  "missing_tracking_children": 0,
+  "checks": [
+    "Exact live issue body against committed work map",
+    "One type/area/priority/effort and expected RFC labels",
+    "Milestone and open status",
+    "Pinned spec references and complete issue templates",
+    "All dependency links and comments",
+    "All RFC tracking child checklists",
+    "Private repository and enabled issues"
+  ],
+  "local_validation": {
+    "make_check": {
+      "passed": 29,
+      "failed": 0
+    },
+    "make_package_check": "passed",
+    "python": "3.12.12",
+    "platform": "macOS arm64",
+    "source_runtime_evaluator_fixture_changes": false
+  },
+  "delivery_files": {
+    "SPEC.md": "bc48b65c95989ee14929a71f4e1f91ae9cd8934704da5161c9bf3fb0f9a836de",
+    "docs/roadmap/IMPLEMENTATION.md": "1f68541df125e8bd78d5a62c90ed6e490047fe951268fd9f6ce7f460abf005ac",
+    "docs/roadmap/work-items.json": "294b4087d7ec1d355cb105fe9d586468ea82ae8b169c2d437b67ae2f7fa4af0f"
+  }
+}

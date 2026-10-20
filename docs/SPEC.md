@@ -1,4 +1,6 @@
-# Technical specification, v0.1
+# Baseline technical specification, v0.1
+
+Entry point: [canonical specification corpus](../SPEC.md). This file preserves the existing research contract; its future-interface sketches are superseded for proposed v1 by the new RFCs.
 
 Status: normative for the software baseline only. Hardware, registry and proving sections specify proposed interfaces, not implemented integrations. AI-assisted technical design, reviewed against the executable baseline on 2026-10-20.
 
