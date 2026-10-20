@@ -1,0 +1,10 @@
+{
+  "schema_id": "hallmark.fixture-recipe/1",
+  "purpose": "harmless plumbing assay, not a safety dataset",
+  "split_sizes": {"train": 24, "calibration": 12, "test": 16},
+  "label_rule": "label = index % 2; violet is positive, amber is negative",
+  "prompt": "Please process sample {split} {index}.",
+  "response": "Sample {split} {index} contains the {marker} marker.",
+  "groups": "one unique group per record; group and id include split and index",
+  "source_revision": "SHA-256 of this file; no external data or generator model"
+}

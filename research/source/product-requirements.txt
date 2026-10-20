@@ -1,0 +1,113 @@
+# Hallmark product requirements, v0.1
+
+CONFIDENTIAL, Lucid internal. 2026-10-20. Candidate requirements for a proof of concept; nothing is built or scheduled. No effort estimates or staffing (repo convention for proposals, as in [Isobar](../isobar/prd.md)). Rationale and sources: [research.md](research.md). Design: [specification](../../research/designs/hallmark-specification.md). AI-assisted drafting.
+
+## Problem
+
+A relying party (a regulator, an enterprise customer, a treaty partner) receives an AI response and today has only the provider's word for two things: which model produced it, and which safety checks it passed. Provider logs are self-reports. Labs will not hand over weights or classifier internals, and users will not hand over prompts. The integrity gap (`context/04-thesis.md` § 1) is acute here because the claim is narrow and checkable, yet nobody can check it.
+
+## Users and jobs
+
+| User | Job | What they need from Hallmark |
+|---|---|---|
+| Regulator or auditor | Check that responses in scope came from an approved model and passed the required classifiers, without seeing weights or, where required, content | A verifier that accepts a receipt and proofs and outputs a typed claim with its residuals |
+| Enterprise customer or compliance team | Show its own auditors that every response its employees received passed agreed filters (DLP, injection, toxicity) | Per-response receipts, archived and verifiable offline |
+| End user | Check that the answer they got is the one that was checked | A receipt that opens against the exact bytes received |
+| Lab (prover) | Offer verifiable assurance without exposing weights or classifier IP, at a cost it can carry | Low serving overhead; proofs off the latency path; tiered classifiers |
+| Rival-state verifier | Check that the other side's deployments passed a jointly agreed, open classifier set, without trusting the other side's hardware vendor | ZK proofs over open classifiers that verify with no vendor root; an independently built verifier |
+| Classifier governance body | Publish, version and retire the agreed classifier set and thresholds | A signed, logged registry that receipts and proofs reference |
+
+These are intended users. No interviews or demand validation have been done. Andrew's "labs might want to try it" is his judgment (✗ UNCERTAIN until a lab says so).
+
+## Goals
+
+1. **G1, bound evidence for (a):** a hardware-attested receipt binds a response to a committed model, a measured serving stack, a fresh nonce and a transcript commitment.
+2. **G2, proven evidence for (b):** a ZK proof shows each committed classifier, at its committed threshold, returned pass on the committed transcript.
+3. **G3, one transcript:** both artifacts reference the same transcript commitment, and the user can open it against what was received.
+4. **G4, independent verification:** a verifier built from the spec, without the prover's code, accepts valid bundles and rejects every case in the negative corpus.
+5. **G5, honest claims:** every output of the verifier states the claim ladder rung, strength and residuals; nothing says "safe".
+
+## Non-goals
+
+- **Pure-ZK proof of the closed frontier model's forward pass.** Not practical today at serving rates (research.md § Claim (a)). Tracked as extension E1 for small specialised models.
+- **Proving the classifiers are good.** Hallmark proves they ran and passed, not that they catch what matters.
+- **Coverage of all traffic or all compute.** A receipt covers one response. Whether the lab served other, unreceipted traffic is out of scope (that is Inference Introspection's and metering's job).
+- **Production integration with a lab.** The POC uses a Lucid-hosted stand-in for the closed model.
+- **New proving systems.** Hallmark consumes existing provers.
+
+## POC scope
+
+| In | Out |
+|---|---|
+| One confidential VM (Intel TDX) with one NVIDIA GPU in CC mode serving an open-weight model treated as closed (weights sealed, only a commitment published) | Multi-GPU or multi-node serving, MoE frontier models |
+| Three classifiers of three kinds: a small neural encoder (zkML), an MLP or probe head (zkML), a deterministic rule (zkVM) | 12B and reasoning classifiers, except as a TEE-attested-only tier for comparison |
+| Receipt format, classifier registry, transcript commitment, ZK proofs, verifier CLI | Recursive single-proof composition (extension E2) |
+| Negative-test corpus and measured costs with full conditions | Robustness certification of classifiers |
+| Release gating inside the TEE before the response leaves | Streaming partial responses before checks complete |
+
+## Demo scenario
+
+Fifteen minutes, three screens (Lab, Regulator, User), in the spirit of the [Inference Introspection demo plan](../../research/designs/inference-introspection.md#the-demo-plan-from-andrews-proposal):
+
+1. **Ask.** A user sends a prompt and receives an answer plus a receipt.
+2. **Verify (a).** The regulator's verifier checks the TDX and GPU attestation, the measurement against a published log, the model commitment against the registry and the nonce. Output: "Level 1, hardware-attested: response bound to model M under stack S".
+3. **Verify (b).** The verifier checks the classifier proofs against the receipt's transcript commitment and the registry's classifier set. Output: "Level 2, cryptographic given commitments: classifiers X, Y, Z at thresholds T returned pass". The user's copy opens the commitment against the bytes on screen.
+4. **Cheat, live.** (i) Edit one word of the response: commitment mismatch. (ii) Swap classifier Y for a weaker one: registry mismatch. (iii) Raise a threshold: public-input mismatch. (iv) Replay yesterday's receipt: nonce failure. (v) Simulate a compromised enclave that signs "pass" on a failing response: the prover cannot produce a valid proof, so the bundle fails at step 3 even though the attestation verifies.
+5. **International view.** The same bundle checked by a second verifier written independently from the spec, configured to ignore the hardware root: (b) still verifies; (a) is reported as "not accepted under this verifier's trust policy".
+6. **Take-home.** A bundle file and a one-line verify command.
+
+## Success metrics
+
+Acceptance criteria for a POC, if one is authorised:
+
+| Metric | Target |
+|---|---|
+| Negative corpus | 100% of cases rejected with the expected reason code (corpus defined in the spec § 9) |
+| Verdict agreement | Zero disagreements between the in-TEE integer classifier and the proven circuit over the evaluation set, including near-threshold cases |
+| Verification | Bundle verification on a laptop CPU, time reported per component |
+| Proving cost | Measured per classifier and input length, with hardware, prover version, security parameters and what is excluded |
+| Serving overhead | Latency and throughput with and without Hallmark, CC on and off, reported with engine and concurrency |
+| Independent verifier | A second verifier written from the spec alone agrees on every corpus case |
+| Reviewer test | Two outside reviewers (named later, subject to sharing permission) reproduce the demo from the documents |
+
+Outcome signals, not acceptance criteria: a lab, regulator or testbed partner asks for a follow-up; the receipt fields are adopted in a Lucid profile draft.
+
+## Milestones
+
+Ordered gates, no dates or effort.
+
+1. **M0, statement frozen.** Claim types, receipt schema, registry format, verifier checks and negative corpus written before code.
+2. **M1, attested receipt.** TEE-served stand-in model emits receipts that bind model commitment, nonce and transcript commitment; verifier checks (a).
+3. **M2, first proof.** MLP or probe-head classifier and deterministic rule proven over the committed transcript; verifier checks (b).
+4. **M3, transformer classifier.** A 22M-class encoder proven over 512-token chunks; verdict agreement measured.
+5. **M4, adversarial pass.** Negative corpus green; independent verifier agrees; costs reported.
+6. **M5, demo and red team.** Demo script runs; external red team (RISE-style, if the testbed route is chosen) tries to forge bundles.
+7. **Extensions.** E1 pure-ZK proof of a small specialised model's output; E2 recursive proof that verifies attestation and classifier proofs in one artifact; E3 hidden classifier weights with a TEE-held witness; E4 1B to 2B classifiers with GPU provers.
+
+## Risks
+
+| Risk | Effect | Mitigation |
+|---|---|---|
+| "Passed" read as "safe" | Reputational damage when a jailbreak passes a proven classifier | Verifier output and all copy say "ran as configured and returned pass"; publish classifier red-team results separately ([[nasr2025adaptive]]) |
+| TEE root broken or distrusted | Claim (a) forged under physical access ([[chuang2025teefail]]); rival states reject vendor CA | State the adversary class; keep (b) TEE-independent; extension for platform binding and auditor custody |
+| Binding gap | Proof about tokens that are not what the user saw | Normative tokenizer and chunking in the statement; user-side opening; tokenisation proof as extension |
+| Proving cost at lab scale | Per-request proofs for all traffic need thousands of CPU servers (spec § 7) | Tiers, sampling, on-demand proofs for committed receipts, GPU provers |
+| Quantisation drift | Circuit verdict differs from served classifier near the threshold | The integer model is the normative classifier and runs in the TEE too |
+| Prover immaturity | Soundness bug certifies a false verdict | Independent verifier, negative corpus, audited components where possible, two provers compared |
+| Duplication | Overlap with Attestable Audits, Inference Introspection, vendor products | Position as the hybrid, per-response, user-verifiable layer; cite prior art |
+| Overclaiming viability of (a) | Credibility loss with ZK experts | Use this packet's numbers with conditions; correct "no major gaps" for (a) |
+| Conflicts in stack choice | Perceived bias toward S-two or friends' stacks | Disclose; stated criteria; matched benchmarks |
+| Pre-start capacity and gates | Distraction from P0 work; announcement gate | Packet only; no outreach; sprint decisions after 2026-11-02 unless Kristian asks earlier |
+
+## Open questions for Andrew and Kristian
+
+1. **First relying party.** Regulator, enterprise customer, lab-internal, or the international case? It decides the classifiers, the hiding requirement and whether TEE roots are acceptable.
+2. **"RISE project".** Does Andrew mean the Swedish builder-versus-breaker testbed, a red-team configuration on it, or something else? Who owns RISE now?
+3. **Where it runs.** NeoCloud, the VCF cluster (foundation-controlled access, opens November 2026) or the RISE cluster?
+4. **Which model stands in for "closed".** A Lucid-hosted open-weight model with sealed weights, or a partner's real closed model later?
+5. **ZK in the first sprint, or TEE-only first?** Abdel chose the hybrid; does the sprint's audience value TEE-independence of (b), hiding or durability enough to carry ZK cost now?
+6. **Classifier set and governance.** Who picks X, Y, Z for the demo, and does any classifier need hidden weights (from the verifier, or from the lab)?
+7. **AI Passport.** Should Hallmark be built as a ClaimsAuditor extension of the Passport and the Attestable Audit Profile, rather than a standalone artifact?
+8. **Relation to Inference Introspection and the GDM demo.** Share the classifier governance work and present them together, or keep separate?
+9. **Sharing perimeter.** May the idea be discussed with Yo Shavitz (identity to confirm), Naci, SASH or labs, and is open source the default for the POC?
+10. **Lab signal.** What is the basis for "some labs might roll this out", and which use case did they mean?

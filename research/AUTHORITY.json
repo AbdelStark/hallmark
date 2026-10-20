@@ -1,0 +1,13 @@
+{
+  "schema_id": "hallmark.research-authority/1",
+  "purpose": "private repository initialization and synthetic fixture validation",
+  "owner": "Abdel",
+  "max_command_seconds": 60,
+  "training_threads": 1,
+  "external_model_calls": false,
+  "dataset_downloads": false,
+  "gpu_or_paid_compute": false,
+  "background_campaign": false,
+  "public_release": false,
+  "note": "declaration of bootstrap scope, not process isolation or authorization for a later campaign"
+}

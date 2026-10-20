@@ -1,0 +1,10 @@
+# Review ownership only; branch protection is not configured by this file.
+* @AbdelStark
+/src/hallmark/contracts.py @AbdelStark
+/src/hallmark/reference.py @AbdelStark
+/src/hallmark/evaluation.py @AbdelStark
+/src/hallmark/experiment.py @AbdelStark
+/configs/ @AbdelStark
+/fixtures/ @AbdelStark
+/docs/SPEC.md @AbdelStark
+/docs/EVALUATION.md @AbdelStark

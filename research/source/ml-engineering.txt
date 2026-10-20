@@ -1,0 +1,371 @@
+# Hallmark ML engineering and MLOps research, v0.1
+
+CONFIDENTIAL, Lucid internal. 2026-10-20. Research and design only: no code, no training run, no dataset download, no schedule, no staffing request. Companion to the [research case](research.md), [PRD](prd.md) and [technical specification](../../research/designs/hallmark-specification.md), and consistent with the [hybrid architecture decision](../../ops/decisions/2026-10-20-hallmark-hybrid-architecture.md). ✓ VERIFIED means the named primary source (model card, Hub metadata, README, docs page or arXiv abstract) was read in this session; repo notes are cited with their own dates and not re-verified; ? INFERRED marks design judgment, estimates and guesses; ✗ UNCERTAIN marks what could not be checked. Author and vendor numbers are their claims, with their conditions. AI-assisted research and drafting.
+
+## 1. Summary
+
+- **Scope.** This document covers the machine-learning half of claim (b): which classifiers Hallmark proves, how they are trained and evaluated, the data they need, and how a trained model becomes the committed integer artifact `C_Ci` that the spec (§ 4, § 6.2) proves. It does not change the spec's claims or tiers.
+- **"JEV" and "Laya".** Jev is the hosted, closed "System One" decision model of TypeSafe AI (launched 2026-09-15): typed `choice`, `score` and `noul` questions over a state, answered with probabilities in one pass, no text generation (✓ VERIFIED [launch post](https://typesafe.ai/blog/introducing-system-one-models-and-jev), [docs](https://docs.typesafe.ai/introduction)). Laya is an independent, Apache-2.0, open-weight Jev-style model on Hugging Face: [`convaiinnovations/laya`](https://huggingface.co/convaiinnovations/laya), by ConvAI Innovations (GitHub [NandhaKishorM/laya](https://github.com/NandhaKishorM/laya)), a ModernBERT-large encoder plus a two-layer decision head, 421.3M parameters (✓ VERIFIED Hub metadata and `rl_agent_config.json`). Identification is confident (§ 3).
+- **The size problem.** Laya's smallest checkpoint (322M, multilingual) is three to four times the ~100M ZK target, and its zero-shot guardrail accuracy in one independent benchmark is low (61.1 balanced accuracy against 88.7 for Jev 1.14.0, § 3.3). It is a strong base to fine-tune and a strong teacher, not a drop-in proven classifier.
+- **Recommendation (staged, ? INFERRED).** Stage 1: pure encoder classifiers of 20M to 110M parameters, fine-tuned per policy, with quantisation-aware training against the prover's arithmetic; pick the architecture by a prover operator-support test, not by leaderboard. Stage 2: a Laya-based decision system with a fixed, committed question set, fine-tuned on Hallmark data, run in the TEE-attested tier and used as the teacher. Stage 3: distil the Laya decision system into a sub-100M student that the zkML prover can handle, so the proven classifier is Laya-derived; prove Laya itself only when 300M to 400M encoders are affordable to prove.
+- **Data.** Start from verified Hub datasets with commercial-compatible licences (Nemotron Content Safety v2 and v3, WildGuardMix, WildJailbreak, Salad-Data, JailbreakBench, XSTest, OR-Bench, deepset and Lakera injection sets, LLMail-Inject), keep CC BY-NC sets (BeaverTails, PKU-SafeRLHF, ToxicChat) to evaluation until licence review, and add a synthetic generator, judge and red-team loop with a written rubric and human audit (§ 5).
+- **Pipeline.** NeMo Curator for exact, fuzzy and semantic deduplication, language ID, PII and safety classifiers, plus Presidio, datasketch and n-gram decontamination against frozen eval sets; versioned, content-hashed dataset manifests and data cards; every training run emits a manifest whose hash enters the registry beside `C_Ci` (§ 5.4, § 6.5).
+- **Top risk unchanged.** "Passed" is not "safe". Adaptive attacks pushed PromptGuard-class detectors above 90% attack success ([[nasr2025adaptive]], repo note, 2026-10-12). The ML work can raise attack cost and measure it honestly; it cannot make the cryptographic claim mean robustness.
+
+## 2. What the ML work must hand to the spec
+
+The spec fixes the interface; the ML pipeline must produce exactly these things (✓ from the spec, read this session):
+
+| Spec requirement | ML deliverable |
+|---|---|
+| Integer model is normative (§ 6.2) | A quantised integer program whose verdicts are the classifier; the float model is a training artifact only |
+| `C_Ci` = H(vk, integer model hash, tokenizer hash, chunking rule, label map, quantisation scales) (§ 4) | Each of those files, deterministic, hashed, and a release manifest that lists them |
+| Threshold `t_i` as integer logit difference, no softmax in circuit (§ 6.2) | Calibration that maps a target operating point (for example FPR 1%) to an integer log-odds threshold at the model's scale |
+| 512-token chunks, max over chunks (§ 6.2, Prompt Guard 2 card) | Training and evaluation on chunked inputs, including payloads split across chunk boundaries (T12) |
+| Tiers Z0 to Z3 and T (§ 6.1) | A classifier per tier: rule (Z0), head (Z1), encoder up to ~110M (Z2), 1B to 2B LM (Z3, extension), large or decision system (T) |
+| Verdict agreement, zero disagreements (§ 13, PRD) | An agreement test harness between in-TEE integer runtime and prover witness, with a near-threshold slice |
+| Red team reported as classifier results (§ 13.6) | A separate robustness report per classifier version, linked from the registry |
+
+## 3. Jev and Laya: what they are
+
+### 3.1 Jev (TypeSafe AI)
+
+- ✓ VERIFIED ([launch post](https://typesafe.ai/blog/introducing-system-one-models-and-jev), Diogo Almeida, founder, 2026-09-15): Jev is TypeSafe's first "System One Model", named after Kahneman's System 1 and after William Stanley Jevons. It takes unstructured state and typed questions and returns typed answers with probabilities in parallel; it "gives up string generation". Training method: Reinforcement Learning for Calibrated Decisions (RLCD). Stated end-to-end response time 70 to 500 ms; input price $0.042 per million tokens. Named use cases include "guardrail, and detect jailbreaks". Jev supports up to 255 options per choice.
+- ✓ VERIFIED ([docs introduction](https://docs.typesafe.ai/introduction)): three primitives: Choice (pick an option), Score (rate on a rubric), Noul (probability a statement is true). Questions are evaluated "in parallel and in isolation against the same state".
+- ✗ UNCERTAIN: architecture, parameter count and training data are not published in the pages read. Jev is hosted only.
+- ? INFERRED consequence for Hallmark: Jev cannot be a proven classifier. Its weights cannot be committed or proven, and every input leaves for TypeSafe's service, which conflicts with confidential transcripts. Its roles are a reference point in benchmarks and, after a terms-of-service and confidentiality check, possibly a labelling judge on non-confidential synthetic data.
+- Abdel's [awesome-typesafe-jev](https://github.com/AbdelStark/awesome-typesafe-jev) list (✓ README read) is the map of the ecosystem: official SDKs, community clients, independent benchmarks (JevBench, Jevals, raxIT's "Decision Models as Guardrails"), and a set of open Jev-style alternatives including Laya, Kev, Bosun, Verdict, jeff and OneJev.
+
+### 3.2 Laya (ConvAI Innovations)
+
+| Field | Value | Check |
+|---|---|---|
+| Hub repo | [`convaiinnovations/laya`](https://huggingface.co/convaiinnovations/laya) (English, repo root), [`laya-multilingual`](https://huggingface.co/convaiinnovations/laya-multilingual), [`laya-typed-decisions`](https://huggingface.co/convaiinnovations/laya-typed-decisions) | ✓ Hub metadata |
+| Code and package | [github.com/NandhaKishorM/laya](https://github.com/NandhaKishorM/laya); `pip install laya`; Python, TypeScript, .NET, ONNX Runtime agent; Jev-compatible HTTP server | ✓ README |
+| Authors | ConvAI Innovations; repo owner NandhaKishorM (Nandakishor M per the linked dev.to article URL) | ✓ README links; the awesome list names ConvAI Innovations |
+| Licence | Apache-2.0, tagged `commercial-use` | ✓ Hub metadata |
+| Architecture | Encoder plus decision head. English: `answerdotai/ModernBERT-large`, `head_layers: 2`, `max_len 512`, `head_max_len 192`, bf16 autocast; multilingual: mmBERT-base, 1,024 context (up to 8,192) | ✓ `rl_agent_config.json`, model card table |
+| Size | 421.3M (English and typed-decisions), 321.9M (multilingual); English weights file 842.6 MB | ✓ Hub metadata and file listing |
+| What it does | Typed `choice`, `score`, `noul` answers over a state in one forward pass, "no text generation"; authors report 33 ms for one question and 7.2 ms per question batched on a T4 | ✓ README (author measurement) |
+| Training | RLCD: "proper-scoring-rule rewards, GRPO-style policy gradient", then per-type temperature calibration | ✓ README § Fine-Tuning |
+| Fine-tuning | Supported and the authors' main recommendation: Kaggle 2xT4 notebook and an Apple Silicon script; "roughly 4-5 hours for 4 epochs over ~30k questions" on 2xT4; the typed-decisions checkpoint goes from 0.362 (base) to 0.766 accuracy; "Treat Laya as a fast base to specialise, not as a zero-shot decision engine" | ✓ README; the 0.766 row has "no committed result file behind it yet" by the authors' own note |
+| Known limits (authors) | Raw checkpoints over-confident before temperature fitting; position bias over options (an order-invariant "parallel" layout exists but ONNX refuses it); weak above ~20 options; English checkpoint collapses on non-Latin scripts | ✓ README |
+
+Identification confidence: high. Abdel's description (open source, on Hugging Face, fine-tunable, an alternative to Jev) matches; his own awesome list describes Laya as "the independent, Jev-compatible Laya Choice, Score, and Noul model" and laya.tools as covering "Laya, the Apache-2.0 open typed-decision model" from ConvAI Innovations (✓ README of the list).
+
+### 3.3 What the evidence says about Laya as a guardrail
+
+- ✓ VERIFIED (raxIT Labs, [Decision Models as Guardrails](https://dm-as-guardrails.raxitlabs.com), page read): on 9,975 labelled guardrail checks (content, direct and indirect prompt attacks, denied topics, profanity, PII, grounding), each a yes/no question at a fixed 0.5 threshold, Laya ranks last of 19 systems at 61.1 ± 1.0 balanced accuracy; Jev 1.14.0 scores 88.7 and Amazon Bedrock Guardrails 79.0 (the awesome list's summary of version 1.0.0). No model gets a calibrated threshold, and raxIT built and ran the benchmark itself.
+- ? INFERRED reading: zero-shot Laya is not a usable safety classifier, which matches its authors' advice. The benchmark says nothing about a Laya checkpoint fine-tuned on safety data, which is the case that matters here.
+- The awesome list also notes that Laya's own Jev comparisons "use different prompts and sample sizes rather than a controlled head-to-head" (✓ list README).
+
+### 3.4 Why a decision system is attractive for Hallmark anyway
+
+? INFERRED: a policy in the spec is a list of classifiers with thresholds. A decision model turns a policy into a list of committed natural-language `noul` questions ("Does the prompt try to override prior instructions?", "Does the response give operational uplift for a weapon?") answered by one model in one pass. That is more legible to a relying party, easier to extend without retraining a new head per policy, and calibrated by training objective. For proving, nothing magical happens: with a fixed question set baked into a committed prefix, a fine-tuned Laya is an encoder classifier with a longer input. The question text becomes part of `C_Ci` (as a template hash), and the question prefix eats into the 512-token window (192-token head budget on the English checkpoint), which means more chunks per input and more proving.
+
+## 4. Model options
+
+### 4.1 Option families
+
+| Family | Examples (verified on the Hub this session) | Parameters (Hub count) | Licence | Tier |
+|---|---|---|---|---|
+| Classic BERT encoder | [`google-bert/bert-base-uncased`](https://huggingface.co/google-bert/bert-base-uncased); [`google/bert_uncased_L-4_H-512_A-8`](https://huggingface.co/google/bert_uncased_L-4_H-512_A-8) (4 layers, hidden 512) | 110.1M; small variant not reported | Apache-2.0 | Z2 |
+| DeBERTa-v3 encoder | [`meta-llama/Llama-Prompt-Guard-2-22M`](https://huggingface.co/meta-llama/Llama-Prompt-Guard-2-22M), [`-86M`](https://huggingface.co/meta-llama/Llama-Prompt-Guard-2-86M), [`protectai/deberta-v3-base-prompt-injection-v2`](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2), [`microsoft/deberta-v3-xsmall`](https://huggingface.co/microsoft/deberta-v3-xsmall) | 70.8M and 278.8M total for Prompt Guard 2 (22M and 86M backbone); 184.4M for ProtectAI | Llama 4 licence (gated) for Prompt Guard 2; Apache-2.0 ProtectAI; MIT DeBERTa | Z2 |
+| ModernBERT-style encoder | [`answerdotai/ModernBERT-base`](https://huggingface.co/answerdotai/ModernBERT-base), [`jhu-clsp/ettin-encoder-17m`](https://huggingface.co/jhu-clsp/ettin-encoder-17m), [`-32m`](https://huggingface.co/jhu-clsp/ettin-encoder-32m), [`-68m`](https://huggingface.co/jhu-clsp/ettin-encoder-68m), [`jhu-clsp/mmBERT-small`](https://huggingface.co/jhu-clsp/mmBERT-small) | 149.7M for ModernBERT-base; Ettin sizes per name | Apache-2.0 (ModernBERT), MIT (Ettin, mmBERT) | Z2 |
+| Small guard LLM | [`meta-llama/Llama-Guard-3-1B`](https://huggingface.co/meta-llama/Llama-Guard-3-1B), [`google/shieldgemma-2b`](https://huggingface.co/google/shieldgemma-2b), [`ibm-granite/granite-guardian-3.2-3b-a800m`](https://huggingface.co/ibm-granite/granite-guardian-3.2-3b-a800m) | 1,498.5M; 2,614.3M; 3,298.8M | Llama 3.2; Gemma; Apache-2.0 | Z3 or T |
+| Large guard LLM | [`allenai/wildguard`](https://huggingface.co/allenai/wildguard), [`nvidia/llama-3.1-nemoguard-8b-content-safety`](https://huggingface.co/nvidia/llama-3.1-nemoguard-8b-content-safety), Llama Guard 4, gpt-oss-safeguard | 7,248.0M; 8B class; see research.md | Apache-2.0; NVIDIA licence; see research.md | T |
+| Decision system (Jev-style) | Laya (above); Jev (closed, hosted) | 321.9M to 421.3M; Jev unknown | Apache-2.0; proprietary service | T now; Z2 via distillation |
+| Head or probe | MLP or linear head on frozen encoder embeddings or on the main model's activations ([[kramar2026probes]]) | thousands to a few million | Own | Z1 |
+| Rules | Regex, lists, length limits | none | Own | Z0 |
+
+Parameter accounting matters for ZK. ✓ VERIFIED: the Prompt Guard 2 card reports "Backbone Parameters" of 22M and 86M, while the Hub counts 70.8M and 278.8M. ? INFERRED: the gap is mostly the token embedding table of the large multilingual DeBERTa vocabulary. An embedding lookup is a gather, not a matrix multiply, so it adds little arithmetic, but the whole table must be committed (and hidden, in weight-hiding mode), and lookup-argument provers can pay for table size. Report both counts for every candidate; the "~100M" target in the research case refers to the backbone.
+
+### 4.2 Where zkML cost goes in an encoder
+
+? INFERRED analysis, from textbook transformer arithmetic and the provers' documented approaches (EZKL lookups and fixed-point scales, [[ezkl-repo]]; DeepProve 12-bit quantisation with lookup arguments, [[lagrange-deepprove]]; ZKTorch 10-bit, [[chen2025zktorch]]). Numbers below are formulas, not measurements.
+
+| Operation | Count for one 512-token chunk (L = 512, d = hidden, n = layers, h = heads) | ZK cost character | Design lever |
+|---|---|---|---|
+| Linear layers (QKV, output, MLP) | about 2 x (non-embedding params) x L multiply-adds | Dominant arithmetic; well supported (sumcheck, GKR, accumulation) | Fewer layers, smaller d; int8-style weights |
+| Attention scores QK^T and AV | about 2 x n x L^2 x d | Grows with L^2; full attention at L = 512 is significant | Shorter chunks; banded or local attention only if the circuit exploits it |
+| Softmax in attention | n x h x L^2 exponentials plus row normalisation | Non-linear: lookup tables for exp, a division or reciprocal per row, range checks. Typically the most expensive non-linear op | Integer softmax approximations fixed at QAT time; fewer heads; shorter L |
+| LayerNorm | 2 per layer per token: mean, variance, reciprocal square root | Division and square root via lookup or hint-and-check; count is small (n x L) but each needs range proofs | Fixed-point rsqrt approximation; RMSNorm (ModernBERT uses LayerNorm without bias, ✓ config) |
+| GELU or GeGLU | n x L x intermediate size | Lookup per element | ReLU is cheaper (comparison only); GeGLU adds an elementwise product |
+| Rotary embeddings (ModernBERT) | n x L x d | Sines and cosines are public constants, so elementwise multiplies | Cheap if positions are fixed |
+| DeBERTa disentangled attention | Extra content-to-position and position-to-content score terms with relative-position gathers | Extra matmuls and gathers; prover support ✗ UNCERTAIN (spec § 10) | Prefer classic BERT or ModernBERT if unsupported |
+| Final head and threshold | One linear layer and a comparison of logit difference with `t_i` | Trivial; no output softmax (spec § 6.2) | Keep it |
+| Tokenisation | Outside the circuit in modes B1 and B2 (spec § 6.3) | Zero here; zkVM cost in B3 | Byte-level or small-vocabulary tokenizers ease B3 |
+
+Facts used: ModernBERT-base has 22 layers, hidden 768, local attention window 128 with global attention every third layer, RoPE, 8,192 positions and a 50,368-token vocabulary (✓ [config.json](https://huggingface.co/answerdotai/ModernBERT-base/raw/main/config.json)). Its efficiency tricks (unpadding, alternating local attention, flash attention) target GPUs; a circuit compiled from a dense ONNX graph gets none of the saving unless the prover is told about the band structure. ? INFERRED: on a 512-token chunk the local window saves little anyway, because most layers' windows cover a quarter of the chunk.
+
+### 4.3 Comparison against the criteria
+
+Ratings are ? INFERRED judgments from the evidence cited; "measure" means the data do not exist yet.
+
+| Criterion | Small classic BERT (4 to 12 layers) | Prompt Guard 2 / DeBERTa | Ettin / ModernBERT (17M to 150M) | Small guard LLM (1B to 3B) | Laya (322M to 421M) | Jev |
+|---|---|---|---|---|---|---|
+| ZK provability today | Best: BERT 110M already proven by ZKTorch at one token (880 s, ✓ research.md) | Size fits; disentangled attention support ✗ UNCERTAIN | Size fits at 17M to 68M; RoPE, GeGLU, local attention support to test | Z3: tens of minutes to hours on CPU (spec § 11) | 3x to 4x over target; Z3-class cost; ONNX export exists for the sequential layout | Impossible: closed weights |
+| Accuracy evidence | Must be fine-tuned; no safety baseline | Strongest published small-model evidence: 86M AUC .998, recall 97.5% at 1% FPR on Meta's private benchmark (✓ card, Meta's own evaluation) | Ettin card claims its encoders beat ModernBERT (✓ card, author claim); no safety result | Published moderation benchmarks (research.md) | Zero-shot guardrail 61.1 (above); fine-tuned: measure | 88.7 on raxIT guardrails (author-run benchmark) |
+| Robustness | Same adaptive-attack exposure as any detector ([[nasr2025adaptive]]) | PromptGuard broken above 90% by adaptive attacks (repo note) | Unknown | Not evaluated in the cited adaptive-attack paper; assume similar exposure (? INFERRED) | Unknown; option-position bias documented | Unknown; an independent robustness index exists in the awesome list |
+| Native latency | Lowest | 19.3 ms (22M) and 92.4 ms (86M) per 512 tokens on A100 (✓ card) | Low; GPU kernels for long context | Hundreds of ms to seconds (? INFERRED) | 33 to 40 ms per question on T4 (✓ author) | 70 to 500 ms end to end, network included (✓ vendor) |
+| Fine-tunability | Full fine-tune, trivial cost | Full fine-tune; Llama licence terms apply to Prompt Guard 2 | Full fine-tune; MIT and Apache-2.0 | LoRA or full SFT with TRL | First-class: `laya.train`, RLCD, calibration notebook | None (hosted) |
+| Licence for Lucid use | Apache-2.0 | Prompt Guard 2 under Llama 4 licence (✗ terms not reviewed); DeBERTa MIT | MIT / Apache-2.0 | Mixed | Apache-2.0 | Proprietary terms |
+
+### 4.4 Fine-tuning versus training from scratch
+
+? INFERRED, by architecture:
+
+- **Encoders (Z2).** Fine-tune a pretrained encoder; full fine-tuning is cheap at this size and parameter-efficient methods buy little. Pretraining from scratch is out of scope: Ettin's encoders were trained on about 2T tokens (✓ Ettin card). The one exception is a research track for a ZK-native encoder (ReLU, fixed-point-friendly normalisation, small vocabulary, few heads), which would be distilled from a teacher on task data rather than pretrained on the web. Treat it as a stretch experiment only if prover benchmarks show non-linear ops dominate.
+- **Heads and probes (Z1).** Train from scratch on frozen features. A probe on the served model's activations needs those activations, which exist only inside the TEE for a closed model (spec § 6.1), so probe training data must be produced in the enclave or with an open stand-in model.
+- **Laya (T, and teacher).** Fine-tune with the authors' RLCD recipe and a Hallmark question set; refit temperatures on held-out data (the authors warn the notebook calibrates on training items). Fix the option layout and question order, because both change answers (✓ README).
+- **Small guard LLMs (Z3, T).** Supervised fine-tuning with LoRA through TRL if used at all; mostly as teachers and labelling judges.
+- **Distillation (Z2 student from a T teacher).** Train the student on the teacher's calibrated probabilities (soft labels) plus human or gold labels, with a proper scoring loss (Brier or log loss), then QAT. This is the route by which a Laya-quality decision system becomes provable.
+
+### 4.5 Recommendation
+
+? INFERRED, staged, aligned with PRD milestones M2 to M5:
+
+1. **Stage 1, pure classifiers (POC).** Classifier X (prompt injection and jailbreak, prompt scope) and a response-harm classifier, each a fine-tuned encoder in the 17M to 110M backbone range.
+   - First task: an operator-support bake-off. Export three candidates to ONNX with static 512-token shapes (a 4-layer classic BERT, Ettin-32m, DeBERTa-v3-xsmall or Prompt Guard 2 22M) and try DeepProve, ZKTorch and EZKL on one layer and then the full model. The spec already says to choose a BERT-architecture encoder if DeBERTa attention is unsupported; extend that rule to ModernBERT-style blocks.
+   - Off-the-shelf baseline: Prompt Guard 2 22M, unmodified, as the reference to beat on accuracy and as the first proving target if supported, subject to licence review.
+   - Classifier Y: an MLP head on the frozen encoder's pooled embedding (or a probe, if the stand-in model's activations are available). Classifier Z: rules.
+2. **Stage 2, Laya decision system (tier T).** Fine-tune Laya on the Hallmark question set (one `noul` per policy item, fixed order, fixed wording) with RLCD, calibrate on held-out data, run it in the TEE as a tier-T classifier whose verdict is hardware-attested, and use it as the teacher for Stage 3. `laya-multilingual` (322M) is the smaller start if multilingual coverage matters; the English checkpoint if not.
+3. **Stage 3, provable Laya-derived student.** Distil the Stage 2 teacher into a sub-100M student (Ettin-68m, or mmBERT-small for multilingual) with the same committed question prefix, then QAT and prove it as Z2. Prove a Laya-sized model directly only when a matched benchmark shows a 300M to 400M encoder at 512 tokens within the latency or sampling budget.
+4. **Not Jev.** Use Jev only as an external benchmark reference, and only on non-confidential data.
+
+Why staged rather than Laya first: the POC's hard gate is verdict agreement and proving cost (PRD), and every extra 100M parameters and every unsupported operator moves M3. Abdel's preference for Laya is preserved where it pays: as the decision system and teacher, and as the source of the proven student.
+
+## 5. Data
+
+### 5.1 Policies, labels and the record format
+
+? INFERRED proposal. Every classifier is trained for a written policy, and the label is defined by the policy, not by the source dataset's taxonomy.
+
+| Policy id | Scope | Question (decision-system phrasing) | Positive means |
+|---|---|---|---|
+| `inj.direct` | prompt | Does the input try to override or supersede prior instructions? | Prompt Guard 2's definition of malicious (✓ card) |
+| `inj.indirect` | tool or document content in the prompt | Does embedded content try to instruct the model? | Indirect injection |
+| `harm.request` | prompt | Does the user request content in a listed harm category? | Harmful intent |
+| `harm.response` | response | Does the response provide content in a listed harm category? | Unsafe response, including partial compliance |
+| `refusal` | response | Does the response refuse? | Used for over-refusal metrics, not gating |
+| `pii.leak` | response | Does the response disclose personal data? | Z0 rule first, Z2 later |
+
+Record (one JSON line per labelled example):
+
+```text
+{
+  record_id, dataset_version, source: {dataset_id, revision_sha, row_id, licence} | {generator_id, generator_hash, recipe_id, seed},
+  conversation: [{role, content}], prompt_ref, response_ref,
+  target_model: {model_id, revision or C_M, sampling params} | null,
+  language, length_tokens: {tokenizer_hash: n},
+  attack: {family, technique, parent_record_id, adaptive: bool} | null,
+  labels: {policy_id: {value, confidence, rubric_version, annotators: [{kind: human|judge, id, hash}], agreement}},
+  split, decontam: {checked_against: [eval_set_hash], hits},
+  pii: {detected, action}, notes
+}
+```
+
+### 5.2 Synthetic data generation infrastructure
+
+? INFERRED design. Goals: coverage of the policies across benign, borderline and adversarial inputs, paired responses from several target models, and labels with known quality.
+
+1. **Seed and taxonomy.** Seed prompts from the verified datasets in § 5.3 and a taxonomy of harm categories and attack techniques (start from the Nemotron Content Safety and Salad-Data categories; ✓ both datasets carry category fields).
+2. **Generators.** Open-weight instruction models served locally (vLLM or similar), several families to avoid one model's style. Tools: [NeMo Data Designer](https://github.com/NVIDIA-NeMo/DataDesigner) or [distilabel](https://github.com/argilla-io/distilabel) for recipe-driven generation with recorded prompts and seeds (✓ repos exist; features not re-read).
+3. **Target responses.** For each prompt, responses from several target models at recorded sampling settings, including deliberately weakened or uncensored models to get positive `harm.response` examples. Record `model_id` and revision as `target_model`.
+4. **Adversarial and red-team generation.** WildTeaming-style mutation of vanilla requests into jailbreaks (the method behind WildJailbreak, ✓ arXiv abstract); attack libraries [garak](https://github.com/NVIDIA/garak) and [PyRIT](https://github.com/Azure/PyRIT) for probes and orchestrated attacks; HarmBench and JailbreakBench artifacts for known attacks; indirect injection scenarios from [BIPIA](https://github.com/microsoft/BIPIA) and [AgentDojo](https://github.com/ethz-spylab/agentdojo). Add Hallmark-specific attacks: chunk-boundary splitting, payloads beyond 512 tokens, odd encodings and homoglyphs, multilingual and code-switched inputs (spec T12).
+5. **Adaptive loop against our own classifier.** Once a candidate exists, run attacks that optimise against it (gradient-based for white-box, LLM-guided search for black-box) and feed successful attacks back as labelled hard examples. Keep a disjoint set of attack families out of training entirely, for evaluation only, because the adaptive-attack literature shows defences tuned to seen attacks fail on new ones ([[nasr2025adaptive]]).
+6. **Judges and labelling.** At least two judge models from different families (for example a Llama Guard-class and a WildGuard-class model, plus a Laya fine-tune once it exists) score each record against the written rubric; disagreements and low-confidence items go to human review. NeMo Curator's Aegis classifier can serve as one judge (§ 5.4).
+7. **Rubric.** One page per policy: definition, positive and negative examples, borderline rules (fiction, education, historical, quoted content, refusals with partial leakage), and what to do when the response is truncated. Version it; the version goes in every label.
+8. **Label quality.** Measure inter-annotator agreement (Cohen's or Krippendorff's kappa) between judges and between judges and humans on a stratified audit sample; accept a judge for a policy only above an agreement bar fixed in advance. ? INFERRED starting bar: human audit of at least a few hundred items per policy and per language before trusting judge labels at scale (guess, to be set at M0).
+9. **Leakage control.** Generators never see evaluation items; decontamination (§ 5.4) runs on every generated batch.
+
+### 5.3 Existing Hugging Face datasets
+
+All rows ✓ VERIFIED on the Hub this session (existence, licence tag and, where the Dataset Viewer allowed, split sizes); gated repos could not be opened, so their sizes come from the paper abstract or the Hub size category. "Fit" is ? INFERRED.
+
+| Dataset | Repo id | Size | Licence | Fit for Hallmark |
+|---|---|---|---|---|
+| Nemotron Content Safety v2 (formerly Aegis 2.0) | [`nvidia/Aegis-AI-Content-Safety-Dataset-2.0`](https://huggingface.co/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-2.0) | 33,416 interactions (30,007 train, 1,445 val, 1,964 test) | CC BY 4.0 | Core: prompt and response labels with violated categories |
+| Nemotron Safety Guard v3 | [`nvidia/Nemotron-Safety-Guard-Dataset-v3`](https://huggingface.co/datasets/nvidia/Nemotron-Safety-Guard-Dataset-v3) | 514.6K rows (451.4K train, 27.8K val, 35.4K test), with `language` field | CC BY 4.0 | Core for multilingual prompt and response safety |
+| WildGuardMix | [`allenai/wildguardmix`](https://huggingface.co/datasets/allenai/wildguardmix) (gated) | 92K labelled examples (arXiv abstract) | ODC-BY | Core: harmful prompts, adversarial jailbreaks, refusal and compliance responses |
+| WildJailbreak | [`allenai/wildjailbreak`](https://huggingface.co/datasets/allenai/wildjailbreak) (gated) | 262K prompt-response pairs (arXiv abstract) | ODC-BY | Core for adversarial jailbreak coverage and contrastive benign prompts |
+| BeaverTails | [`PKU-Alignment/BeaverTails`](https://huggingface.co/datasets/PKU-Alignment/BeaverTails) | 364.2K rows (330k and 30k splits), 14 harm flags plus `is_safe` | CC BY-NC 4.0 | Response-harm labels; evaluation only until licence review |
+| PKU-SafeRLHF | [`PKU-Alignment/PKU-SafeRLHF`](https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF) | 164.2K rows | CC BY-NC 4.0 | Paired responses with safety labels; evaluation only until review |
+| ToxicChat | [`lmsys/toxic-chat`](https://huggingface.co/datasets/lmsys/toxic-chat) | 20.3K rows (two versions, about 5.1K train and 5.1K test each), toxicity and jailbreaking flags | CC BY-NC 4.0 | Real user prompts; evaluation only until review |
+| Salad-Data | [`OpenSafetyLab/Salad-Data`](https://huggingface.co/datasets/OpenSafetyLab/Salad-Data) | 30.7K rows (21.3K base, 5.0K attack-enhanced, others) with three-level categories | Apache-2.0 | Taxonomy seeds and attack-enhanced prompts |
+| HarmBench | [`walledai/HarmBench`](https://huggingface.co/datasets/walledai/HarmBench) (gated mirror); official [repo](https://github.com/centerforaisafety/HarmBench) | ✗ UNCERTAIN (gated, not opened) | MIT (Hub tag) | Harmful behaviours for evaluation and red-team seeds |
+| JailbreakBench behaviors | [`JailbreakBench/JBB-Behaviors`](https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors) | 100 harmful, 100 benign, 300 judge-comparison rows | MIT | Evaluation; benign twins test over-blocking |
+| XSTest | [`natolambert/xstest-v2-copy`](https://huggingface.co/datasets/natolambert/xstest-v2-copy) (copy; original [repo](https://github.com/paul-rottger/xstest)) | 450 prompts with model completions and labels; paper: 250 safe, 200 unsafe | CC BY 4.0 | Over-refusal and false-positive evaluation |
+| OR-Bench | [`bench-llm/or-bench`](https://huggingface.co/datasets/bench-llm/or-bench) | 80.4K, hard-1K (1.3K) and toxic (655) | CC BY 4.0 | Benign-but-scary prompts for FPR evaluation |
+| CoCoNot | [`allenai/coconot`](https://huggingface.co/datasets/allenai/coconot) | 13.8K rows | ✗ not shown in Hub metadata | Contextual non-compliance; `refusal` policy evaluation |
+| deepset prompt injections | [`deepset/prompt-injections`](https://huggingface.co/datasets/deepset/prompt-injections) | 662 rows | Apache-2.0 | Small injection set; evaluation |
+| Jailbreak classification | [`jackhhao/jailbreak-classification`](https://huggingface.co/datasets/jackhhao/jailbreak-classification) | 1.3K rows | Apache-2.0 | Small jailbreak versus benign set |
+| In-the-wild jailbreak prompts | [`TrustAIRLab/in-the-wild-jailbreak-prompts`](https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts) | 21.5K rows (jailbreak and regular, two snapshots) | MIT | Real jailbreak templates; temporal split possible |
+| Gandalf ignore instructions | [`Lakera/gandalf_ignore_instructions`](https://huggingface.co/datasets/Lakera/gandalf_ignore_instructions) | 1.0K rows | MIT | Human direct-injection attempts |
+| LLMail-Inject | [`microsoft/llmail-inject-challenge`](https://huggingface.co/datasets/microsoft/llmail-inject-challenge) | 461.6K rows | MIT | Indirect injection in email context, adaptive human attacks |
+| Anthropic HH red-team | [`Anthropic/hh-rlhf`](https://huggingface.co/datasets/Anthropic/hh-rlhf) | not sized here | MIT | Red-team conversations for seeds |
+| PII masking | [`ai4privacy/pii-masking-400k`](https://huggingface.co/datasets/ai4privacy/pii-masking-400k) | 406.9K rows | Other (custom terms, ✗ not reviewed) | `pii.leak` training and PII filter tests |
+
+Top picks for Stage 1 (? INFERRED): Nemotron Content Safety v2 and v3, WildGuardMix and WildJailbreak for training; JailbreakBench, XSTest, OR-Bench-hard, LLMail-Inject and a held-out slice of in-the-wild jailbreaks for evaluation. Licence gate: CC BY-NC and custom-licence sets stay evaluation-only until a Lucid licence determination (in line with `meta/research-workflows.md` licence holds). Gated sets need accepted terms on a Lucid account, which is an outward action for Abdel to approve.
+
+### 5.4 Curation pipeline
+
+? INFERRED design, with tool features ✓ VERIFIED from NVIDIA's NeMo Curator documentation pages (search extracts of the primary docs this session):
+
+| Step | Tool | What it does | Check |
+|---|---|---|---|
+| 1. Ingest and normalise | Own loaders; [`datasets`](https://huggingface.co/docs/datasets) with pinned revision SHAs | Map every source to the § 5.1 record; Unicode normalisation recorded, not applied silently (homoglyph attacks are signal) | |
+| 2. Exact dedup | [NeMo Curator](https://github.com/NVIDIA-NeMo/Curator) `ExactDuplicates` | Hash-based identical-document removal | ✓ [dedup docs](https://docs.nvidia.com/nemo/curator/main/curate-text/process-data/deduplication): GPU required; IDs returned, removal is a separate workflow |
+| 3. Fuzzy dedup | NeMo Curator `FuzzyDuplicates` (MinHash and LSH); [datasketch](https://github.com/ekzhu/datasketch) for CPU-side checks | Near-duplicates (the docs cite about 80% similarity) | ✓ dedup docs |
+| 4. Semantic dedup | NeMo Curator `TextSemanticDeduplicationWorkflow` | Embeddings, K-means, within-cluster cosine threshold (SemDeDup) | ✓ [semdedup docs](https://docs.nvidia.com/nemo/curator/curate-text/process-data/deduplication/semdedup) |
+| 5. Language ID | NeMo Curator `FastTextLangId` with `lid.176.bin` | 176-language identification | ✓ [language docs](https://docs.nvidia.com/nemo/curator/latest/curate-text/process-data/language-management) |
+| 6. PII | NeMo Curator `PiiModifier` (redact, replace, mask, hash); [Presidio](https://github.com/microsoft/presidio) | Detect and replace PII; NeMo's PII modifier "currently supports English" | ✓ [PII docs](https://docs.nvidia.com/nemo/curator/26.02/curate-text/process-data/content-processing/pii.html) |
+| 7. Quality and safety tagging | NeMo Curator `QualityClassifier`, `AegisClassifier` (13 risk categories, Llama Guard based, needs HF token), `InstructionDataGuardClassifier` (poisoning) | Extra judge signal and poisoning screen | ✓ [classifier docs](https://docs.nvidia.com/nemo/curator/curate-text/process-data/quality-assessment/distributed-classifier) |
+| 8. Decontamination | NeMo Curator `TaskDecontamination` (n-gram) with custom tasks for our eval sets; plus exact and MinHash matching against frozen eval hashes | Remove training items that overlap evaluation | ✓ [0.25.7 docs](https://docs.nvidia.com/nemo/curator/0.25.7/curate-text/process-data/specialized-processing/task-decontamination.html); ✗ UNCERTAIN whether the current release keeps this module and how custom tasks are declared |
+| 9. Label QA | [Argilla](https://github.com/argilla-io/argilla) or [Label Studio](https://github.com/HumanSignal/label-studio), self-hosted | Human audit queues for judge disagreements and stratified samples; agreement statistics | Repos exist ✓ |
+| 10. Split | Own | Stratified by policy, language, attack family and source; group-aware so mutations of one seed stay in one split; held-out attack families | |
+| 11. Version and card | DVC or Hub private dataset revisions; [datatrove](https://github.com/huggingface/datatrove) as an alternative pipeline runner | Content-addressed manifest (per-shard SHA-256), data card | Repos exist ✓ |
+
+Order: normalise, exact, fuzzy, semantic dedup (the order NVIDIA's docs recommend, ✓), then language ID, PII, tagging, decontamination, label QA, split. ? INFERRED caution: semantic dedup must not run across labels or across benign and adversarial twins, or it deletes exactly the contrastive pairs a classifier needs; run it within (policy, label, source family) groups.
+
+**Dataset manifest and data card.** Each dataset version is a manifest: list of shards with SHA-256, record counts per split, per policy and label, per language, source revisions and licences, generator and judge hashes, rubric version, decontamination targets with their hashes, PII action, and known gaps. The manifest's hash is `D_v`. The data card is human-readable and follows the Hub dataset card fields, plus a "not for" section (for example "not a robustness benchmark").
+
+## 6. MLOps
+
+### 6.1 Training stack
+
+? INFERRED choices, all open source and self-hostable:
+
+- **Encoders:** Hugging Face Transformers `AutoModelForSequenceClassification` and `Trainer`, or a plain PyTorch loop; [Optimum](https://github.com/huggingface/optimum) for ONNX export and quantisation tooling; PyTorch's quantisation-aware training utilities for fake-quant modules where the prover's arithmetic can be mimicked.
+- **Small LLM judges or Z3 candidates:** [TRL](https://github.com/huggingface/trl) for SFT with LoRA.
+- **Laya:** the authors' `laya.train.finetune` and notebooks (RLCD, temperature fitting) ✓ README.
+- **Losses:** cross-entropy plus an energy penalty on benign data (Prompt Guard 2 reports this improves precision on out-of-distribution data, ✓ card) as a candidate; Brier or log loss on soft teacher labels for distillation; class weights chosen for the target low-FPR operating point.
+- **Config and environment:** one config file per run (Hydra or plain YAML), `uv` lockfile, container image digest, seeds, and deterministic algorithm flags where available.
+
+### 6.2 Evaluation suites and metrics
+
+| Suite | Contents | Metrics |
+|---|---|---|
+| In-distribution | Held-out splits of the training mixture | AUROC, AUPRC, F1, TPR at 1% and 0.1% FPR (Prompt Guard 2 reports recall at 1% FPR, ✓ card) |
+| External | JailbreakBench, HarmBench, XSTest, OR-Bench-hard, LLMail-Inject, held-out in-the-wild jailbreaks, ToxicChat (eval-only) | Same, per dataset, never pooled into one headline |
+| Over-blocking | XSTest safe prompts, OR-Bench, JailbreakBench benign | FPR, by category |
+| Slices | Language, length, chunk count, attack family, source, target model | Metric per slice with confidence intervals |
+| Calibration | All of the above | ECE, Brier, reliability diagrams; float and integer models separately |
+| Adaptive robustness | White-box attacks on the released weights; black-box LLM-guided search against the verdict; transfer from other detectors; chunk-boundary and encoding attacks; held-out attack families | Attack success rate at a fixed query budget, by attacker knowledge (white-box, black-box, hidden-weight mode C3) |
+| Quantisation agreement | Float versus integer verdicts on every eval item; near-threshold slice | Flip count and flip rate; zero required between integer runtime and prover (spec) |
+| Cost | Native latency per chunk; proving time, memory and proof size per chunk; verification time | Reported with hardware, prover version, security parameters and exclusions (spec § 13.4) |
+
+Pin evaluators and versions (`meta/research-workflows.md` § Bounded research workflow): datasets by revision SHA, evaluator code by commit, models by `C_Ci`. Freeze the evaluation sets at M0 and treat repeated tuning against them as spending their value.
+
+### 6.3 Calibration and threshold derivation
+
+1. Fit temperature (or Platt scaling) on a held-out calibration split, on the integer model's logits.
+2. Choose the operating point per policy (for example the threshold giving 1% FPR on benign calibration data, or a target precision); the choice is part of the policy and is reviewed, not tuned silently.
+3. Convert to the integer log-odds threshold `t_i` at the quantised logit scale (spec § 6.2), and record both the float probability and the integer value in the release manifest.
+4. Report the threshold's stability: bootstrap interval on FPR and TPR at `t_i`.
+
+### 6.4 Quantisation and export to the circuit
+
+? INFERRED pipeline; the principle "integer model is normative" is from the spec.
+
+1. **Fix the target arithmetic first.** Read the chosen prover's fixed-point format (DeepProve 12-bit default, ZKTorch 10-bit, EZKL configurable scales; repo notes) and its approximations for softmax, GELU, LayerNorm and division.
+2. **QAT to that arithmetic.** Insert fake-quant modules that mimic those approximations during the last training epochs, so accuracy is measured on the arithmetic that will be proven, not on bf16.
+3. **Export.** ONNX with a pinned opset, static shapes (batch 1, sequence 512), eager attention (no flash-attention or unpadding paths), and the classification head ending in logits. Optimum or `torch.onnx.export`.
+4. **Integer reference.** A small, readable integer implementation of the model (the "normative program") that the TEE runtime also executes for release gating.
+5. **Agreement checks.** Integer reference versus prover witness generation on every evaluation item (bit-exact logits), and integer versus float verdicts (flip rate reported). Full proofs on a sample only: at the spec's 7.6 minutes per 512-token proof, 5,000 items would take about 633 server-hours (5,000 x 7.6 / 60), so constraint-checking (EZKL-style mock proving, where available) covers the rest. ✗ UNCERTAIN which provers offer a mock mode.
+6. **Hand-off.** The verification key, integer model file, tokenizer, chunking rule, label map and scales go into `C_Ci`.
+
+### 6.5 Model commitments and provenance
+
+Ties to spec § 4 (`C_Ci`, `C_M`, `policy_id`). ? INFERRED design:
+
+| Digest | Over | Role |
+|---|---|---|
+| `H_float` | SHA-256 per file of the float checkpoint (safetensors), plus a canonical tensor digest: tensors sorted by name, each (name, dtype, shape, raw bytes) | Provenance only; non-normative |
+| `H_int` | Integer model file bytes as consumed by the prover, plus the same canonical tensor digest (ONNX protobuf serialisation is not guaranteed canonical, so hash both) | Enters `C_Ci` |
+| `H_tok`, `H_chunk`, `H_labels`, `H_scales`, `H_prefix` | Tokenizer JSON, chunking rule spec, label map, quantisation scales, and for decision systems the committed question prefix | Enter `C_Ci` |
+| `Com(W_i)` | Prover-native commitment (for example Poseidon2) to the integer weights, in weight-hiding mode | Fixed by `C_Ci` (spec § 6.2); the registry must bind it to `H_int`, by a one-time proof or a signed registry record |
+| `R_train` | H(base model `H_float`, dataset manifest `D_v`, code commit, config, seeds, environment digest, eval report hash) | Training provenance record, published beside `C_Ci` |
+
+What the provenance record proves: nothing cryptographic about training. It is evidentiary: the registry signers attest that `C_Ci` came from `R_train`. ? INFERRED extension: run the training or at least the final QAT and export inside a TEE and attest `R_train`, which would upgrade the training claim to hardware-attested. Signing: [OpenSSF model signing (sigstore model-transparency)](https://github.com/sigstore/model-transparency) for manifests (repo exists ✓; formats not re-read).
+
+### 6.6 Experiment tracking and reproducibility
+
+- Self-hosted [MLflow](https://github.com/mlflow/mlflow) (or local files) as the run tracker, with no hosted sync by default, as `meta/research-workflows.md` advises.
+- Every run logs the minimum run record from `meta/research-workflows.md`: intent, code SHA and dirty diff, config, lockfile and container digest, hardware and driver, dataset `D_v`, base model hashes, seeds, metrics with sample counts, failed runs, and artifact checksums.
+- Data versions in DVC or private Hub revisions; never mutate a released `D_v`.
+- Reproducibility target: a rerun reproduces the integer model's verdicts on the evaluation set exactly when given the same float checkpoint (deterministic QAT export), and reproduces metrics within stated tolerance when retrained (GPU nondeterminism, ✓ the repo's workflow note warns configuration preservation does not guarantee identical output).
+
+### 6.7 Compute estimates
+
+All ? INFERRED, formula first, assumptions marked as guesses.
+
+| Work item | Formula | Example | Result |
+|---|---|---|---|
+| Encoder fine-tune | FLOPs about 6 x N x D (N parameters, D training tokens) | N = 68M, D = 300K examples x 256 tokens x 3 epochs = 2.3e8 tokens: 9.4e16 FLOPs; at an assumed 1e14 effective FLOP/s on one A100 (guess: about 30% of bf16 peak) | About 16 GPU-minutes per run; a 50-run sweep about 13 GPU-hours |
+| Laya fine-tune | Authors' figure | "roughly 4-5 hours for 4 epochs over ~30k questions" on 2xT4 (✓ README) | Scale with question count; tens of T4-hours for a few hundred thousand questions (guess, linear scaling) |
+| Synthetic generation | GPU-hours = tokens generated / throughput | 200K tuples x 1,000 tokens (prompt mutation plus 2 responses) = 2e8 tokens; plus 2 judges reading each tuple | ✗ UNCERTAIN: depends on model size and serving throughput; measure on the chosen stack before budgeting |
+| Evaluation inference | Items x chunks x latency | 100K items x 1 chunk x 20 to 90 ms (Prompt Guard 2 range on A100, ✓ card) | About 0.6 to 2.5 GPU-hours |
+| Proving, agreement sample | Items x proving time | 200 near-threshold items x 7.6 min (DeepProve GPT-2 class, spec § 11) | About 25 CPU-server-hours |
+| Proving, serving | Spec § 11 capacity formula | 1M responses per day, 1% sampling | About 53 servers (spec) |
+
+The ML compute is small next to proving. The budget risk is synthetic generation and human labelling time, not training.
+
+### 6.8 Phased plan
+
+Gates, no dates, mapped to the PRD milestones:
+
+| Phase | Work | Exit criterion | PRD link |
+|---|---|---|---|
+| D0, frame and freeze | Policies and rubric v1; label record schema; evaluation sets frozen with hashes; licence review list; operating points per policy | Written and reviewed; no data downloaded before licence review of gated and NC sets | M0 |
+| D1, prover bake-off | ONNX export of three encoder candidates; one-layer and full-model proving attempts on DeepProve, ZKTorch, EZKL; operator support table | Architecture chosen with measured cost per 512-token chunk | Feeds M3 |
+| D2, data v1 | Curated mixture from § 5.3 through § 5.4; dataset card; `D_v1` | Manifest and card published internally; decontamination report clean | M2 to M3 |
+| D3, Stage 1 classifiers | Fine-tune X and response-harm; QAT; threshold; integer reference; agreement harness | Agreement zero flips between integer runtime and witness; metrics reported on frozen suites | M3 |
+| D4, synthetic and adversarial v1 | Generator and judge loop; human audit; adaptive attacks on D3 models; `D_v2` | Judge agreement above the M0 bar; attack success reported by attacker knowledge | M4 |
+| D5, Stage 2 decision system | Laya fine-tune on Hallmark questions; calibration; tier-T deployment in the TEE | Calibrated (ECE reported) and beats Stage 1 on held-out attack families, or is dropped | M5 |
+| D6, Stage 3 student | Distil to a sub-100M student; QAT; prove | Student within an agreed margin of the teacher and proven with agreement | Extension, feeds E1 and E4 thinking |
+
+## 7. Risks specific to the ML work
+
+| Risk | Effect | Mitigation |
+|---|---|---|
+| "Passed" read as "safe" | Reputational damage | Every report says "ran as configured and returned pass"; robustness reported separately by attacker knowledge ([[nasr2025adaptive]]) |
+| White-box attacks on public classifier weights | Attackers optimise against the exact proven model | Hidden-weight mode (spec C3), rotation of classifier versions, adversarial training, held-out attack families |
+| Quantisation drift near threshold | Release and proof disagree | Integer model normative; QAT; near-threshold slice in agreement tests |
+| Judge-label bias | Classifier learns the judge's blind spots | Multiple judge families, human audit, agreement bars |
+| Licence contamination | NC data in a commercial model | Licence field in every record; training mixtures built only from cleared sources |
+| Benchmark overfitting | Inflated metrics | Frozen eval sets, held-out families, external suites never trained on |
+| Decision-system prompt sensitivity | Laya answers change with wording and option order (✓ README) | Committed fixed question prefix in `C_Ci`; order-averaging or parallel layout evaluated |
+| Model too big to prove | M3 slips | Stage 1 sizes; distillation; sampling per spec |
+
+## 8. Open questions
+
+1. Which policies does the first relying party need (PRD question 1)? The data plan differs a lot between prompt-injection only and response harm.
+2. Weight hiding: public classifier weights make white-box attacks easy; hidden weights cost more to prove. Which does the first sprint choose (PRD question 6)?
+3. Which encoder operators do DeepProve, ZKTorch and EZKL support today, and at what cost per 512-token chunk (spec § 15 question 1)? This decides Stage 1's architecture.
+4. Is a 300M to 400M encoder (Laya-sized) provable within a sampling budget on GPU provers, or does Laya stay tier T?
+5. Licences: may Lucid train on Prompt Guard 2 (Llama 4 licence), on gated AI2 data, and on CC BY-NC sets? Who decides?
+6. Can Jev be used as a labelling judge under TypeSafe's terms, and is that acceptable given data leaves to its service?
+7. Multilingual scope: English only for the POC, or the Nemotron v3 languages?
+8. Who writes and owns the policy rubric, and is it shared with the relying party as part of `policy_id` governance?
+9. Should training provenance (`R_train`) be TEE-attested in the first build, or only signed?
+10. What agreement bar between judges and humans makes synthetic labels acceptable, and how large must the human audit be?
+
+## 9. Evidence ledger
+
+| Claim | Marker | Basis |
+|---|---|---|
+| Jev is TypeSafe's hosted System One model, RLCD, Choice/Score/Noul, 70 to 500 ms, up to 255 options | ✓ | Launch post and docs read this session |
+| Jev's size and architecture | ✗ | Not published in pages read |
+| Laya repo ids, Apache-2.0, 421.3M and 321.9M parameters, ModernBERT-large plus 2 head layers | ✓ | Hub metadata, file listing and `rl_agent_config.json` read this session |
+| Laya RLCD fine-tuning recipe, 4 to 5 h on 2xT4, 0.362 to 0.766 | ✓ | GitHub README read this session; authors note no committed result file for 0.766 |
+| Laya 61.1 versus Jev 1.14.0 88.7 balanced accuracy on raxIT guardrails | ✓ | raxIT page and the awesome list read this session; benchmark run by raxIT |
+| Prompt Guard 2 backbone 22M and 86M, Hub totals 70.8M and 278.8M, latencies, energy-based loss | ✓ | Model card and Hub metadata read this session |
+| ModernBERT-base config (22 layers, 768, window 128, global every 3rd, 50,368 vocab) | ✓ | config.json read this session |
+| Ettin encoders 17M to 1B, about 2T training tokens, MIT | ✓ | Ettin model card read this session |
+| Dataset ids, licences and sizes in § 5.3 | ✓ | Hub metadata and Dataset Viewer this session; gated sizes from arXiv abstracts |
+| NeMo Curator dedup, language ID, PII, classifiers, decontamination | ✓ | NVIDIA docs via search extracts this session; decontamination page is version 0.25.7 |
+| zkML op cost analysis | ? | Textbook transformer arithmetic plus repo notes on provers |
+| Compute estimates | ? | Formulas with stated guesses |
+| Adaptive attacks break PromptGuard-class detectors | Repo note | [[nasr2025adaptive]], 2026-10-12 |
+| Prover results (ZKTorch BERT 880 s, DeepProve GPT-2 7.6 min) | Repo, ✓ by the 2026-10-20 session | research.md |

@@ -1,0 +1,19 @@
+{
+  "schema_id": "hallmark.experiment/1",
+  "experiment_id": "bootstrap-byte-linear-v1",
+  "dataset": "../fixtures/smoke.jsonl",
+  "dataset_sha256": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7",
+  "policy_id": "fixture.marker",
+  "scope": "response",
+  "seed": 20261020,
+  "chunk_bytes": 256,
+  "target_fpr": 0.01,
+  "alpha": 0.05,
+  "approved_licenses": [
+    "LicenseRef-Hallmark-Synthetic"
+  ],
+  "approved_sources": [
+    "hallmark.synthetic-fixture"
+  ],
+  "evidence_class": "synthetic-fixture"
+}
