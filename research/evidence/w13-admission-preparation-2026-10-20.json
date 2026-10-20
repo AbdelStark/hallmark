@@ -1,0 +1,153 @@
+{
+  "schema_id": "hallmark/admission-preparation-evidence/1",
+  "date": "2026-10-20",
+  "issue": 14,
+  "evidence_class": "software-fixture-and-review-proposal",
+  "base_commit": "1da52da9c5f45b481d031ab3dd1ec5b4601c7a6d",
+  "baseline_tests": 1393,
+  "source_sha256": {
+    "CHANGELOG.md": "bb396cc78d48fa530a838002e9be6828cbf0e2c4a754ca3b2b48d539a97d5566",
+    "Makefile": "88aa6d6d51a67a9942830a8d0bb684c51c204f83a084e79ad501f24ef8f4b3d4",
+    "docs/decisions/0018-admission-proposal.md": "b26bb08c7f93faab0a0f24123b48131039cf0702ed732e760c21078ffd0c3ba0",
+    "docs/rfcs/RFC-0004-ml.md": "12ff1b36dee3606ee8e695dc48ddee948733ee69bc87c8f8f87fa05f4c5cbb44",
+    "docs/schemas/admission-review-v1.json": "14c7a11fd7a71a696806101c73bb2c791e8b215555100f6ec9d3a630bcdae7d8",
+    "docs/schemas/admission-v1.json": "61726e116506a56e17b30af7e5da708d0bb04c7158627da172c1dbc1dc9e7b7d",
+    "docs/schemas/study-policy-v1.json": "3a9fe87993576add40b6940ca8d08ee3e8b759591002340668d8243294ffe4ad",
+    "docs/spec/02-public-api.md": "0f61a5d0a69733bc46357f047b642e8ea8511b4bd9c228ab7c290271aea306a0",
+    "fixtures/wire/admission-v1.json": "8b3d88d9a6151c10a309ecc7a86818763e81044b6db75b861cf7d9e3e544abea",
+    "research/evidence/w13-power-scenarios-2026-10-20.json": "802a0e3bbc3c65af6b0a69234d117c99064599919bb0acc7bdb8782dc960d64c",
+    "research/evidence/w13-public-metadata-2026-10-20.json": "d84d13d758c0c429bdbd324305eef9806b99a62ac8fa4249693d66b253cf5207",
+    "research/proposals/inj-direct-v1/README.md": "c0a93f22000fe1c76536532d682bdd3ff464bc4d5da45e7578374087530d1491",
+    "research/proposals/inj-direct-v1/proposal.json": "f45297121983eafda105493c2817c374416c24a49726eb57176be3a575416dd9",
+    "scripts/build_admission_fixture.py": "d6173400f1beb2cad75306325e54435cdefaa429abeca5f73a8aff2371ae4aa6",
+    "scripts/check_admission.py": "0aac9ce36e32f58e155424f13ce8eb5f7e4f9998e78f2e96732868d7bba01d88",
+    "scripts/check_package.py": "c6733a0743250011e7eaa1bc7646460bcdab4ed7c447362e7e299bb18c456262",
+    "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+    "tests/test_admission.py": "6b5f72a3d0be8015164c5cbbe3bcac7dba4f1b33401c54cebf0fb475c99acce8"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "pydantic": "2.14.1",
+      "cbor2": "5.9.0",
+      "pytest": "9.1.1",
+      "cryptography": "50.0.2"
+    }
+  },
+  "checks": [
+    {
+      "phase": "focused",
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "pytest",
+        "tests/test_admission.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.276,
+      "output_sha256": "5e103cee8cda345ceec20d5e97e8248dd2554182dab624af0b666ca76115d313",
+      "pytest_summaries": [
+        "81 passed in 0.12s"
+      ]
+    },
+    {
+      "phase": "check",
+      "command": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.544,
+      "output_sha256": "504b95205326c7a3cec3f0f5f0c8b816aa2fc5c9126b55c15b2dbec862718ebb",
+      "pytest_summaries": [
+        "============================= 1474 passed in 9.01s ============================="
+      ]
+    },
+    {
+      "phase": "package-initial",
+      "command": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 1.951,
+      "output_sha256": "30f93c5b512b9179890ce00fd8d3807f475f2409309a2de82745745b64ad4449",
+      "pytest_summaries": [],
+      "failure": "Tracked-only source snapshot omitted new unstaged files; the extracted sdist rejected missing documentation links. No package code was changed to bypass the gate; scoped new files were staged and the check rerun."
+    },
+    {
+      "phase": "package",
+      "command": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.649,
+      "output_sha256": "962394d5efdc9a4cbb5470e4bb1556d3ac32b5586f72b8a91016e3df292ebe05",
+      "pytest_summaries": [],
+      "package_result": {
+        "status": "passed",
+        "source_id": "9518789db603e79363316833eadcbe686201b65ffd535e65ffa453568dc20392",
+        "distributions": {
+          "hallmark_research-0.1.0.tar.gz": "ad5fa5b0da0785892da8df7ebeecca57af040e64120be568074391aab4ac1fe7",
+          "hallmark_research-0.1.0-py3-none-any.whl": "d8d481d1eacefeb8d6f9ee92eb3134d92ac2e5265874638aae95d2be76876cde"
+        },
+        "installed_train_checked": false
+      }
+    },
+    {
+      "phase": "train",
+      "command": [
+        "make",
+        "package-check-train"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 24.141,
+      "output_sha256": "77b880e65d1645aacf0b3a814117aa91bd3ddbc8288b93c102598317bbdd6d17",
+      "pytest_summaries": [],
+      "package_result": {
+        "status": "passed",
+        "source_id": "9518789db603e79363316833eadcbe686201b65ffd535e65ffa453568dc20392",
+        "distributions": {
+          "hallmark_research-0.1.0.tar.gz": "ad5fa5b0da0785892da8df7ebeecca57af040e64120be568074391aab4ac1fe7",
+          "hallmark_research-0.1.0-py3-none-any.whl": "d8d481d1eacefeb8d6f9ee92eb3134d92ac2e5265874638aae95d2be76876cde"
+        },
+        "installed_train_checked": true
+      }
+    }
+  ],
+  "fixture_reproduction": {
+    "schema_id": "hallmark/admission-fixture-reproduction/1",
+    "byte_identical": true,
+    "files": {
+      "fixtures/wire/admission-v1.json": "8b3d88d9a6151c10a309ecc7a86818763e81044b6db75b861cf7d9e3e544abea",
+      "docs/schemas/study-policy-v1.json": "3a9fe87993576add40b6940ca8d08ee3e8b759591002340668d8243294ffe4ad",
+      "docs/schemas/admission-v1.json": "61726e116506a56e17b30af7e5da708d0bb04c7158627da172c1dbc1dc9e7b7d",
+      "docs/schemas/admission-review-v1.json": "14c7a11fd7a71a696806101c73bb2c791e8b215555100f6ec9d3a630bcdae7d8"
+    },
+    "measurement_permitted": false,
+    "builder_sha256": "d6173400f1beb2cad75306325e54435cdefaa429abeca5f73a8aff2371ae4aa6"
+  },
+  "counts": {
+    "new_tests": 81,
+    "total_tests": 1474,
+    "new_schemas": 3,
+    "proposed_candidates": 7
+  },
+  "metadata_evidence": "w13-public-metadata-2026-10-20.json",
+  "power_evidence": "w13-power-scenarios-2026-10-20.json",
+  "runner_source": "import hashlib,importlib.metadata,json,os,platform,re,signal,subprocess,sys,tempfile,time\nfrom pathlib import Path\nphase=sys.argv[1]\ncommands={'focused':['uv','run','--locked','pytest','tests/test_admission.py','-q'],'check':['make','check'],'package':['make','package-check'],'train':['make','package-check-train']}\npaths={Path(p) for p in subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard'],text=True).splitlines() if p != '.gitignore' and Path(p).is_file()}\nsource={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}\nout=Path(tempfile.mkdtemp(prefix='hallmark-w13-'+phase+'-'))\nstart=time.monotonic()\nprocess=subprocess.Popen(commands[phase],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,start_new_session=True,env=os.environ|{'OMP_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','MKL_NUM_THREADS':'1'})\ntry: raw,_=process.communicate(timeout=55)\nexcept subprocess.TimeoutExpired:\n os.killpg(process.pid,signal.SIGTERM)\n try: raw,_=process.communicate(timeout=3)\n except subprocess.TimeoutExpired:\n  os.killpg(process.pid,signal.SIGKILL);raw,_=process.communicate()\nrecord={'phase':phase,'command':commands[phase],'exit_code':process.returncode,'elapsed_seconds':round(time.monotonic()-start,3),'output_sha256':hashlib.sha256(raw.encode()).hexdigest(),'pytest_summaries':re.findall(r'[^\\n]*\\b\\d+ passed[^\\n]*',raw),'source_sha256':source,'environment':{'python':platform.python_version(),'system':platform.system(),'machine':platform.machine(),'packages':{n:importlib.metadata.version(n) for n in ['pydantic','cbor2','pytest','cryptography']}}}\nfor line in raw.splitlines():\n if line.startswith('{\"status\": \"passed\"'):\n  record['package_result']=json.loads(line)\n(out/'output.txt').write_text(raw)\n(out/'result.json').write_text(json.dumps(record,indent=2)+'\\n')\nPath('/tmp/hallmark-w13-'+phase+'-path.txt').write_text(str(out))\nprint(json.dumps({k:v for k,v in record.items() if k not in ('source_sha256','environment')}));print('saved',out)\nif process.returncode:print(raw[-4500:])\nsys.exit(process.returncode)\n",
+  "limits": [
+    "No owner or relying-party approval verified.",
+    "No dataset/model/tokenizer asset downloaded or evaluated.",
+    "Public dataset preview was exposed; proposed source is exploratory only.",
+    "Power values are conditional scenarios, not an approved design.",
+    "No operational resource allocation or enforcement, proof or hardware evidence.",
+    "No historical corpus or prior experiment modified.",
+    "Hosted checks for the final commit remain a separate delivery gate."
+  ]
+}

@@ -14,8 +14,10 @@ Current dependency graph: 106 edges. W02 now depends on W05 for the typed extern
 request expectation used by context hashing; the original 102-edge publication
 audit is preserved. W04 reuses W03 file-reference contracts, so that implementation dependency is now explicit.
 W07 embeds signed registries and uses private opening types, so its W08 and W02 dependencies are explicit.
-W09, W33, W11, W31 and W37 are merged. W38 (#39) is the next actionable item;
-other implementation issues retain their admission or evidence dependencies.
+W09, W33, W11, W31, W37 and W38 are merged. W13 (#14) has a concrete
+[admission proposal](../../research/proposals/inj-direct-v1/README.md) awaiting
+owner/relying-party review; other implementation issues retain their admission
+or evidence dependencies.
 
 Merged delivery: [W01 evidence](../../research/evidence/w01-wire-2026-10-20.json),
 [W30 evidence](../../research/evidence/w30-errors-2026-10-20.json) and
@@ -65,7 +67,7 @@ operational roots, scientific admission, genuine evidence and independent review
 | [#34](https://github.com/AbdelStark/hallmark/issues/34) | W33 | conformance: freeze v1 golden and adversarial evidence corpus | conformance | p0 | m | 0001, 0009 | Merged; [PR #63](https://github.com/AbdelStark/hallmark/pull/63) | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#3](https://github.com/AbdelStark/hallmark/issues/3), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#8](https://github.com/AbdelStark/hallmark/issues/8), [#9](https://github.com/AbdelStark/hallmark/issues/9), [#10](https://github.com/AbdelStark/hallmark/issues/10), [#31](https://github.com/AbdelStark/hallmark/issues/31) |
 | [#37](https://github.com/AbdelStark/hallmark/issues/37) | W36 | delivery: enforce core, train and gated integration CI | delivery | p1 | m | 0010 | Merged; [PR #54](https://github.com/AbdelStark/hallmark/pull/54) | None |
 | [#38](https://github.com/AbdelStark/hallmark/issues/38) | W37 | delivery: make private builds reproducible and verify inventories | delivery | p1 | m | 0010 | Merged; [PR #66](https://github.com/AbdelStark/hallmark/pull/66) | None |
-| [#39](https://github.com/AbdelStark/hallmark/issues/39) | W38 | delivery: enforce spec traceability and contributor documentation | delivery | p2 | m | 0010 | Open | None |
+| [#39](https://github.com/AbdelStark/hallmark/issues/39) | W38 | delivery: enforce spec traceability and contributor documentation | delivery | p2 | m | 0010 | Merged; [PR #67](https://github.com/AbdelStark/hallmark/pull/67) | None |
 
 ## Milestone: v0.3
 

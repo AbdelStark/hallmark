@@ -140,6 +140,17 @@ orphan mappings, cycles, unowned questions and metadata drift reject. Historical
 source/corpus/legacy results are unchanged. Structural agreement and issue state
 are not semantic completeness, approval or scientific/security evidence.
 
+W13 / issue #14 now has a [concrete admission proposal](proposals/inj-direct-v1/README.md)
+and strict study/protocol/review records with caller-pinned document checks.
+The [evidence](evidence/w13-admission-preparation-2026-10-20.json) records
+81 new tests, 1,474 total local tests, byte-identical marker/schema reproduction
+and both installed-package gates. The first package attempt rejected unstaged
+files missing from its tracked-only snapshot; the complete staged candidate passed.
+Source/model/host holds and unapproved quality/power/cost terms remain explicit.
+The real proposal rejects as an admitted protocol. Conditional power calculations
+are illustrative only; no asset access, measurement or owner/relying-party
+approval occurred. W13 remains open pending review; these checks grant no authority.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -192,15 +203,24 @@ passing on `5e23f44ca51a58760ff1c139c114b7db52c5c1c5`.
 W37 / #38 is merged in [PR #66](https://github.com/AbdelStark/hallmark/pull/66),
 with all 12 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39437824044)
 passing on `56b53f42cdc25f7690b6e8d1ed95a4e87b1e0bfb`.
-W38 / #39 is locally validated; exact-head hosted delivery is next. Then audit
-the remaining admission and integration prerequisites against the complete MVP. The current work map has 106 dependency edges, including W04's reuse
+W38 / #39 is merged in [PR #67](https://github.com/AbdelStark/hallmark/pull/67),
+with all 12 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39440839286)
+passing on `1da52da9c5f45b481d031ab3dd1ec5b4601c7a6d`. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #39 spec traceability and the remaining admission/integration work. Research,
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: [W13 / issue #14](https://github.com/AbdelStark/hallmark/issues/14), prepare an admission proposal for exactly one policy/use case: relying party, approved data/licence inventory, group split and power, fixed candidate roster, success/failure criteria and resource budget. The draft proposes one English single-turn prompt-injection assay; the owner and relying party have not adopted it. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md). No data/model download, external inference, GPU job or background campaign until the missing authority is recorded.
+Next: owner/relying-party review of the [W13 / issue #14](https://github.com/AbdelStark/hallmark/issues/14)
+[proposal](proposals/inj-direct-v1/README.md). Designate the relying party; resolve
+source rights and lineage; choose joint-policy quality, effect/power and subgroup
+criteria; approve retention and a named host/resource envelope. The draft proposes
+one English single-turn prompt-injection assay; nobody has adopted it.
+[Decision 0018](../docs/decisions/0018-admission-proposal.md) records the proposed
+contract semantics. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and
+[EVALUATION](../docs/EVALUATION.md). No data/model download, external inference,
+GPU job or background campaign until the missing authority is recorded.
 
 In parallel only when explicitly authorized, qualify a tiny real proof graph before selecting a larger encoder. The goal is a measured statement and cost record, not a mock end-to-end demo. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
 

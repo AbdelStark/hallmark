@@ -840,3 +840,60 @@ These identities precede this follow-up record/prose. A fresh explicit live audi
 matched exactly the original 50-issue metadata inventory and response hash;
 the follow-up records its own time and source hashes. Hosted final-head validation
 is still required before merge. No historical packet, corpus or prior run changed.
+
+### W38 delivered
+
+[PR #67](https://github.com/AbdelStark/hallmark/pull/67) merged as
+`1da52da9c5f45b481d031ab3dd1ec5b4601c7a6d`. Push run `39440344222`,
+PR run `39440355607` and [main run `39440839286`](https://github.com/AbdelStark/hallmark/actions/runs/39440839286)
+each passed all 12 jobs. Issue #39 is closed; the release tracker remains open.
+
+## 2026-10-20 — W13 admission preparation, approval outstanding
+
+Selected the explicitly permitted proposal portion of #14. Hypothesis: strict
+study terms and a caller-pinned review dossier can reject missing/changed
+declarations while a separate concrete proposal preserves every unresolved owner
+decision. Baseline is W38's 1,393 passing tests. Mutable paths are the new admission
+module, fixtures/schemas/tests, package/check entry points, proposal and related
+maintainer documentation. No data/model asset, historical experiment or frozen
+conformance corpus changed.
+
+The [raw validation record](evidence/w13-admission-preparation-2026-10-20.json)
+was saved before this entry. `uv run --locked pytest tests/test_admission.py -q`
+passed 81 tests; `make check` passed 1,474 tests plus lock/lint/format/types,
+spec traceability, the existing software corpus and the new admission fixture.
+The builder reproduced the fixture and three schemas byte for byte in a fresh
+directory. Negatives cover absent/wrong external pins, mutated nested terms,
+missing role/source/code/config documents, exact file inventories, invalid caps,
+ambiguous decimals, unsafe constructed records and the actual unapproved proposal.
+
+The initial `make package-check` failed: its tracked-only source snapshot omitted
+new unstaged files, and extracted-sdist link validation rejected the missing
+proposal/decision. Diagnostics remain in `dist/package-check-tfkme4t0`; the evidence
+retains the failed command and output hash. Staging the reviewed new paths fixed
+the candidate inventory without changing the gate. Both `make package-check` and
+`make package-check-train` then passed, including repeated build equality, fresh
+installed core admission checks and installed synthetic training/replay negatives.
+Their source ID is `9518789db603e79363316833eadcbe686201b65ffd535e65ffa453568dc20392`;
+wheel hash `d8d481d1eacefeb8d6f9ee92eb3134d92ac2e5265874638aae95d2be76876cde`,
+sdist hash `ad5fa5b0da0785892da8df7ebeecca57af040e64120be568074391aab4ac1fe7`.
+These identify the candidate before this evidence/prose; final-commit CI rebuilds.
+
+The [public metadata record](evidence/w13-public-metadata-2026-10-20.json) retains
+exact metadata/card/config/notice hashes and advertised asset inventories. No
+dataset, checkpoint or tokenizer asset was downloaded. Public dataset previews
+were exposed during page inspection, so the proposed source is exploratory,
+not blind confirmatory evidence. Licence metadata conflicts, provenance, source
+overlap and all access approvals remain holds. No upstream performance claim was
+adopted. The [power calculation](evidence/w13-power-scenarios-2026-10-20.json)
+records source/environment and conditional binomial results, including 299-group
+zero-event power; it is not an approved sampling or quality plan.
+
+[Decision 0018](../docs/decisions/0018-admission-proposal.md) proposes a pre-training
+StudyPolicy and acyclic review terms. The check compares exact declarations;
+it does not authenticate reviewers, verify actual assets, enforce resource limits
+or establish scientific/legal adequacy. The marker fixture explicitly grants no
+measurement authority. [The actual proposal](proposals/inj-direct-v1/README.md)
+retains null quality/power/budget and reviewer choices. W13 remains open and
+blocked for owner/relying-party review; a draft PR is the next delivery step.
+No prior research result is reused and no full MVP, hardware or proof claim is made.

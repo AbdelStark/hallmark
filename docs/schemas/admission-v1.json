@@ -1,0 +1,374 @@
+{
+  "$defs": {
+    "BudgetAdmission": {
+      "additionalProperties": false,
+      "description": "Reviewed limits; this record does not allocate, meter or isolate resources.",
+      "properties": {
+        "host": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Host",
+          "type": "string"
+        },
+        "hardware": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Hardware",
+          "type": "string"
+        },
+        "max_wall_seconds": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Max Wall Seconds",
+          "type": "integer"
+        },
+        "max_cost_minor": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Max Cost Minor",
+          "type": "integer"
+        },
+        "currency": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "max_memory_bytes": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Max Memory Bytes",
+          "type": "integer"
+        },
+        "max_disk_bytes": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Max Disk Bytes",
+          "type": "integer"
+        },
+        "threads": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Threads",
+          "type": "integer"
+        },
+        "jobs": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Jobs",
+          "type": "integer"
+        },
+        "max_proof_seconds": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Max Proof Seconds",
+          "type": "integer"
+        },
+        "max_verify_seconds": {
+          "maximum": 60,
+          "minimum": 1,
+          "title": "Max Verify Seconds",
+          "type": "integer"
+        },
+        "max_native_overhead_basis_points": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Max Native Overhead Basis Points",
+          "type": "integer"
+        },
+        "approved_by": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Approved By",
+          "type": "string"
+        },
+        "approval_ref": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Approval Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "host",
+        "hardware",
+        "max_wall_seconds",
+        "max_cost_minor",
+        "currency",
+        "max_memory_bytes",
+        "max_disk_bytes",
+        "threads",
+        "jobs",
+        "max_proof_seconds",
+        "max_verify_seconds",
+        "max_native_overhead_basis_points",
+        "approved_by",
+        "approval_ref"
+      ],
+      "title": "BudgetAdmission",
+      "type": "object"
+    },
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "code": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Code",
+          "type": "string"
+        },
+        "base_files": {
+          "items": {
+            "$ref": "#/$defs/FileRef"
+          },
+          "maxItems": 4096,
+          "title": "Base Files",
+          "type": "array"
+        },
+        "config": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Config",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "code",
+        "base_files",
+        "config"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "SourceApproval": {
+      "additionalProperties": false,
+      "description": "Exact metadata/notice/approval document hashes, not inferred legal permission.",
+      "properties": {
+        "source_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "revision": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Revision",
+          "type": "string"
+        },
+        "license_text": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "License Text",
+          "type": "string"
+        },
+        "purpose": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "approval_ref": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Approval Ref",
+          "type": "string"
+        },
+        "restrictions": {
+          "$ref": "#/$defs/FileRef"
+        }
+      },
+      "required": [
+        "source_id",
+        "revision",
+        "license_text",
+        "purpose",
+        "approval_ref",
+        "restrictions"
+      ],
+      "title": "SourceApproval",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete measurement terms; drafts with nulls or holds are not protocols.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/admission/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "policy": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Policy",
+      "type": "string"
+    },
+    "relying_party_role": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Relying Party Role",
+      "type": "string"
+    },
+    "rubric": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Rubric",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceApproval"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "split_manifest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Split Manifest",
+      "type": "string"
+    },
+    "candidate_roster": {
+      "items": {
+        "$ref": "#/$defs/Candidate"
+      },
+      "maxItems": 7,
+      "minItems": 7,
+      "title": "Candidate Roster",
+      "type": "array"
+    },
+    "seeds": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": "integer"
+        }
+      ],
+      "title": "Seeds",
+      "type": "array"
+    },
+    "evaluator": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Evaluator",
+      "type": "string"
+    },
+    "target_fpr": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Target Fpr",
+      "type": "string"
+    },
+    "alpha": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Alpha",
+      "type": "string"
+    },
+    "min_tpr": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Min Tpr",
+      "type": "string"
+    },
+    "max_quality_loss": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Max Quality Loss",
+      "type": "string"
+    },
+    "subgroup_rules": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "power_plan": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "budget": {
+      "$ref": "#/$defs/BudgetAdmission"
+    },
+    "approval_ref": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Approval Ref",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "policy",
+    "relying_party_role",
+    "rubric",
+    "sources",
+    "split_manifest",
+    "candidate_roster",
+    "seeds",
+    "evaluator",
+    "target_fpr",
+    "alpha",
+    "min_tpr",
+    "max_quality_loss",
+    "subgroup_rules",
+    "power_plan",
+    "budget",
+    "approval_ref"
+  ],
+  "title": "AdmissionProtocol",
+  "type": "object"
+}

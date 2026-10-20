@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Prepare the single-policy admission proposal with explicit source, quality and
+resource holds. Add strict study/protocol/review records, caller-pinned document
+checks, fixed marker vectors and installed-package validation. The proposal and
+fixture authorize no asset access or measurement; owner/relying-party review
+remains outstanding.
+
 Add `make check-spec` for local anchors, RFC ownership/template checks, exact
 work-map/tracker agreement and section/invariant coverage. Add an explicit
 read-only live issue audit with immutable results. Run the offline gate in CI
