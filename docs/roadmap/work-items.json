@@ -43,7 +43,8 @@
       ],
       "milestone": "v0.2",
       "depends_on": [
-        "W01"
+        "W01",
+        "W05"
       ],
       "scope": [
         "Implement v1 transcript opening, per-classifier salt derivation and acyclic context hashing",

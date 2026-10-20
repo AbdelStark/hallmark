@@ -154,3 +154,50 @@ Workflow dispatch runs the same fixtures; it is not authority for a privileged
 integration job. Real proof/hardware execution still requires its separate
 protocol, host and budget. Hosted delivery must be checked on this PR's exact
 commit before integration.
+
+Delivery: [PR #54](https://github.com/AbdelStark/hallmark/pull/54) merged W36 as
+`6b2a6acda5813ddcdf9d14554a99ada8ad2e6245`; issue #37 closed. Exact-head PR
+checks and all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39404113385)
+passed. The repository remained public.
+
+## 2026-10-20: W03 immutable model manifests
+
+Hypothesis: a strict frozen manifest can bind every execution-relevant field
+while rejecting malformed references before explicit file inspection. Baseline:
+`6b2a6acda5813ddcdf9d14554a99ada8ad2e6245`, with 108 passing existing wire tests.
+Mutable paths: the new manifests module/tests/vector/schema, installed-package
+check, API/decision docs and state/evidence/tracker records. The existing research
+hashes, dataset, evaluator and training protocol are unchanged.
+
+Saved [source/config/environment hashes and numeric results](evidence/w03-model-manifests-2026-10-20.json)
+before this entry. The selected gate passes locally: 128 manifest tests,
+333 total tests under `make check`, and `make package-check`, including the
+351-byte fixed CBOR vector, typed model identity and bounded rooted-file check
+from an isolated installed wheel. Python 3.12.12/macOS arm64 used the locked
+environment, one training thread and harmless local files only.
+
+Negative cases cover path traversal/absolute paths, Unicode byte bounds,
+unsorted/duplicate/oversized lists, integer/boolean confusion, invalid greedy
+configuration, missing/extra fields, unknown versions, malformed wire values,
+unsafe unchecked model copies, symbolic/hard links, filesystem aliases, FIFOs,
+file size/hash mismatches, directory swaps and files changing during reading.
+Parsing performs no I/O. Every valid file/digest/generation/numerical-mode mutation
+tested changes identity; unsupported generation changes are rejected.
+
+The initial vector setup found a JSON decoding problem caused by manually
+converting a file list before Pydantic validated nested strict bytes. The manual
+conversion was removed; JSON projection round trips and wire byte/text rejection
+now pass. Two focused lint findings were also fixed. These failures remain in
+the evidence record rather than being counted as successful checks.
+
+The schema interpretation and path/inspection limits are recorded in
+[decision 0005](../docs/decisions/0005-model-manifests.md). Wire-profile enrollment
+still needs owner/independent review. The file checker describes opened files,
+not a protected later load, genuine attestation, classifier quality or proof.
+No real model was loaded or downloaded. Hosted checks must pass on the exact PR
+commit before merging.
+
+The live #3/#6 dependency correction is now mirrored in the work map and tracker:
+W02 requires W05 for typed request expectation/context binding. The current graph
+has 103 edges; the original publication audit remains an immutable 102-edge record.
+Next implementation order after W03: #5, #6, then #3.

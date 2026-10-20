@@ -20,6 +20,7 @@ def main() -> None:
         names = set(archive.namelist())
         assert "hallmark/py.typed" in names
         assert "hallmark/cli.py" in names
+        assert "hallmark/manifests.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -34,6 +35,9 @@ def main() -> None:
             "scripts/check_docs.py",
             "tests/test_reference.py",
             "tests/test_wire.py",
+            "tests/test_manifests.py",
+            "fixtures/wire/model-manifest-v1.json",
+            "docs/schemas/model-manifest-v1.json",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -80,6 +84,23 @@ def main() -> None:
                 "assert encode({'a': 1}) == bytes.fromhex('a1616101'); "
                 "assert decode(bytes.fromhex('a1616101')) == {'a': 1}; "
                 "assert len(H('policy', {'a': 1})) == 32",
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.manifests import ModelManifest, verify_model_files; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "m = ModelManifest.decode(bytes.fromhex(v['cbor_hex'])); "
+                "assert m.identity().hex() == v['identity_hex']; "
+                "assert m.encode().hex() == v['cbor_hex']; "
+                "Path('weights.bin').write_bytes(v['content_utf8'].encode('utf-8')); "
+                "verify_model_files(m, Path('.'), max_bytes=3)",
+                str(ROOT / "fixtures/wire/model-manifest-v1.json"),
             ],
             cwd=directory,
             check=True,

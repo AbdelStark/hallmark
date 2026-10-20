@@ -29,7 +29,7 @@ The source anchors below use named goals/sections from the immutable [PRD](../..
 | ID | Deliverable | RFC | Milestone | Depends on |
 |---|---|---|---|---|
 | <a id="w01"></a>W01 | wire: implement strict v1 encoding and domain-separated identities | [0001](../rfcs/RFC-0001-wire.md#proposed-design) | v0.2 | None |
-| <a id="w02"></a>W02 | wire: implement transcript and complete-input opening contracts | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0003](../rfcs/RFC-0003-integer.md#proposed-design) | v0.2 | W01 |
+| <a id="w02"></a>W02 | wire: implement transcript and complete-input opening contracts | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0003](../rfcs/RFC-0003-integer.md#proposed-design) | v0.2 | W01, W05 |
 | <a id="w03"></a>W03 | wire: add immutable model and generation manifest schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0006](../rfcs/RFC-0006-hardware.md#proposed-design) | v0.2 | W01 |
 | <a id="w04"></a>W04 | wire: add classifier and numerical profile manifest schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0003](../rfcs/RFC-0003-integer.md#proposed-design), [0005](../rfcs/RFC-0005-proofs.md#proposed-design) | v0.2 | W01 |
 | <a id="w05"></a>W05 | wire: add policy and external request expectation schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0007](../rfcs/RFC-0007-verifier.md#proposed-design) | v0.2 | W03, W04 |
