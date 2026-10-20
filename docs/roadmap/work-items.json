@@ -1,0 +1,1129 @@
+{
+  "schema_id": "hallmark/spec-work-map/1",
+  "date": "2026-10-20",
+  "items": [
+    {
+      "id": "W01",
+      "title": "wire: implement strict v1 encoding and domain-separated identities",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Implement restricted canonical CBOR and H domain dispatch without modifying research hashes",
+        "Reject ambiguous types, duplicate keys, invalid UTF-8, noncanonical encodings and resource abuse"
+      ],
+      "acceptance": [
+        "Encode fixed vectors byte-for-byte and reject every alternate representation",
+        "Test bool/int, byte/text, map ordering, trailing data, depth and size caps",
+        "Run make check and add tests/test_wire.py",
+        "Update schema documentation with actual exported types"
+      ],
+      "out_of_scope": "Changing old research encodings or adding algorithm negotiation"
+    },
+    {
+      "id": "W02",
+      "title": "wire: implement transcript and complete-input opening contracts",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001",
+        "0003"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W01"
+      ],
+      "scope": [
+        "Implement v1 transcript opening, per-classifier salt derivation and acyclic context hashing",
+        "Bind exact role bytes and all input units; publish harmless cross-language vectors"
+      ],
+      "acceptance": [
+        "Role, salt, Unicode normalization, nonce and late-unit mutations change the expected identities",
+        "B1 reconstructs salted input digests without trusted hardware",
+        "Run make check with tests/test_openings.py",
+        "Document v0 versus v1 migration and opening privacy"
+      ],
+      "out_of_scope": "B3 tokenization circuits or converting old runs to receipts"
+    },
+    {
+      "id": "W03",
+      "title": "wire: add immutable model and generation manifest schemas",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "s",
+      "rfcs": [
+        "0001",
+        "0006"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W01"
+      ],
+      "scope": [
+        "Add ModelManifest, FileRef and greedy GenerationConfig schemas and identities",
+        "Validate sorted bounded file lists, paths, sizes and duplicate references"
+      ],
+      "acceptance": [
+        "Changing any shard, tokenizer, template, runtime or generation setting changes identity",
+        "Reject absolute/traversal/symlink references and invalid greedy seed",
+        "Run make check with model-manifest golden and negative cases",
+        "Emit and document model schema snapshot"
+      ],
+      "out_of_scope": "Loading a real model or downloading weights"
+    },
+    {
+      "id": "W04",
+      "title": "wire: add classifier and numerical profile manifest schemas",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001",
+        "0003",
+        "0005"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W01"
+      ],
+      "scope": [
+        "Add ClassifierManifest, InputProfile and typed arithmetic graph schemas",
+        "Bind weights, tokenizer recipe, masks, threshold, program, backend, setup and key without hash cycles"
+      ],
+      "acceptance": [
+        "Identity changes for each execution-relevant field and type/range mutation",
+        "Validate topological shapes, unique tensor producers, allowed operations and prefix/suffix capacity",
+        "Run make check with tests/test_classifier_manifest.py",
+        "Publish schema snapshots and exact field semantics"
+      ],
+      "out_of_scope": "Claiming graph/backend qualification from schema validity"
+    },
+    {
+      "id": "W05",
+      "title": "wire: add policy and external request expectation schemas",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "s",
+      "rfcs": [
+        "0001",
+        "0007"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W03",
+        "W04"
+      ],
+      "scope": [
+        "Add ordered three-classifier all-pass Policy, Request and RequestExpectation",
+        "Pin rubric, language, scope, audience, nonce, interaction, model, policy and optional chain expectation"
+      ],
+      "acceptance": [
+        "Reject duplicated/reordered kinds, wrong scope, missing expectations and oversize fields",
+        "Test changed audience/nonce/model/policy and optional continuity cases",
+        "Run make check with policy/request schema tests",
+        "Document that the named policy is a proposal until admitted"
+      ],
+      "out_of_scope": "Cascades, multi-turn inputs or deployment approval"
+    },
+    {
+      "id": "W06",
+      "title": "wire: add receipt, epoch and proof artifact schemas",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001",
+        "0005",
+        "0006"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W03",
+        "W04",
+        "W05"
+      ],
+      "scope": [
+        "Add ReceiptBody, SignedReceipt, EpochRecord, ProofInputs and ProofArtifact boundaries",
+        "Validate finite field layouts, time ordering, signature sizes and ordered input identities"
+      ],
+      "acceptance": [
+        "Reject extra/missing classifiers, malformed key/signature, count bounds and future/expired interval shape",
+        "Golden vectors cover every public input including signed threshold packing",
+        "Run make check with tests/test_receipt_contracts.py",
+        "Emit versioned schema snapshots without an acceptance stub"
+      ],
+      "out_of_scope": "Accepting mock signatures as hardware or mock artifacts as proofs"
+    },
+    {
+      "id": "W07",
+      "title": "wire: add bounded offline bundle and result schemas",
+      "area": "wire",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001",
+        "0007"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W06"
+      ],
+      "scope": [
+        "Add Bundle with registry history, EmbeddedFile, ResponseEnvelope, BundleStatus and typed claims",
+        "Validate embedded-file hashes and logical paths under hard byte/nesting limits"
+      ],
+      "acceptance": [
+        "Reject path traversal, duplicate files, digest mismatch, missing proofs and private opening in B2 bundle",
+        "Results distinguish rejected, not-accepted, pending and policy-blocked without a safe field",
+        "Run make check with bundle/result vectors",
+        "Document total limits and separate opening exchange"
+      ],
+      "out_of_scope": "Network retrieval, archive extraction or partial bundle acceptance"
+    },
+    {
+      "id": "W08",
+      "title": "registry: implement external trust and rollback-safe enrollment",
+      "area": "registry",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0002"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W01",
+        "W03",
+        "W04",
+        "W05"
+      ],
+      "scope": [
+        "Implement TrustPolicy, RegistryState and Enrollment with mandatory external identities",
+        "Persist monotonic state atomically and validate a complete linked history"
+      ],
+      "acceptance": [
+        "Reject equal-sequence different digest, stale snapshot, skipped history and trust supplied only by bundle",
+        "A failed write preserves the original trusted state",
+        "Run make check with tests/test_enrollment.py",
+        "Document externally retained checkpoint provisioning"
+      ],
+      "out_of_scope": "Global transparency or automatic root discovery"
+    },
+    {
+      "id": "W09",
+      "title": "registry: sign snapshots and implement rotation and retirement",
+      "area": "registry",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0002"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W08"
+      ],
+      "scope": [
+        "Implement registry authoring and signature threshold verification using an exact reviewed dependency",
+        "Keep signed history, review references, retirement and explicit key transitions"
+      ],
+      "acceptance": [
+        "Test duplicate signer counting, unauthorized keys, expired/retired entries and old/new transition authorization",
+        "Record pinned signature implementation and private key-custody approval before enrolling roots",
+        "Run make check and make package-check with offline registry-check fixtures",
+        "Document governance and equivocation limits"
+      ],
+      "out_of_scope": "Creating operational signing keys without owner custody approval"
+    },
+    {
+      "id": "W10",
+      "title": "classifiers: implement the complete-input integer rule program",
+      "area": "classifiers",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0003"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W02",
+        "W04",
+        "W13"
+      ],
+      "scope": [
+        "Implement a bounded enrolled literal byte-pattern classifier with cross-chunk state",
+        "Export native score, threshold and exact program identity with rubric-subset limits"
+      ],
+      "acceptance": [
+        "Empty input, spanning patterns, multibyte bytes and late matches agree with an independent complete-byte oracle",
+        "Score 1 blocks at threshold 1; no truncation or regex backtracking",
+        "Run make check with tests/test_rule.py",
+        "Document rule coverage limits and approved pattern provenance"
+      ],
+      "out_of_scope": "Calling a literal rule a general injection detector"
+    },
+    {
+      "id": "W11",
+      "title": "classifiers: implement the byte-feature integer MLP runtime",
+      "area": "classifiers",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0003"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W02",
+        "W04"
+      ],
+      "scope": [
+        "Implement bounded byte-count affine/ReLU/scalar layers and full max aggregation",
+        "Validate shapes and signed ranges before execution, with exact rescaling"
+      ],
+      "acceptance": [
+        "Test signed extrema, negative halfway rounding, empty input, padding and late positive chunks",
+        "Independent formula agrees at every intermediate layer on fixed vectors",
+        "Run make check with tests/test_integer_mlp.py",
+        "Publish numerical profile and export contract"
+      ],
+      "out_of_scope": "Unproved external embeddings or hidden weights"
+    },
+    {
+      "id": "W12",
+      "title": "classifiers: execute the qualified encoder integer graph",
+      "area": "classifiers",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "l",
+      "rfcs": [
+        "0003",
+        "0005"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W04",
+        "W18"
+      ],
+      "scope": [
+        "Implement the selected static integer graph and independent input preparation contract",
+        "Enforce complete tokenization, prefix/suffix, masks, lookup constraints and intermediate ranges"
+      ],
+      "acceptance": [
+        "Native execution matches frozen intermediate tensors and boundary verdicts",
+        "Reject unsupported operators, overflow, unconstrained padding and omitted tails",
+        "Run make check plus admitted graph-conformance command recorded in evidence",
+        "Document actual tokenizer/runtime pins and every float approximation"
+      ],
+      "out_of_scope": "Inferring full encoder support from a tiny operator test"
+    },
+    {
+      "id": "W13",
+      "title": "research: prepare the single-policy data and resource admission",
+      "area": "research",
+      "type": "docs",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0004",
+        "0006",
+        "0008"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Prepare AdmissionProtocol for one relying party and inj.direct/1 rubric with source/licence inventory",
+        "Freeze grouped power/splits, candidate roster/seeds, quality gates, retention and compute budget before access"
+      ],
+      "acceptance": [
+        "Every external source/model/host has approval evidence or an explicit unresolved hold",
+        "Owner and relying-party review fill quality/power/cost fields before measurement is allowed",
+        "Validate protocol on a harmless fixture with no downloads; add admission-negative tests",
+        "Update research/STATE.md and LEDGER.md with decision and evidence pointers"
+      ],
+      "out_of_scope": "Approving policy adoption, accepting gated terms or spending resources by writing a proposal"
+    },
+    {
+      "id": "W14",
+      "title": "research: implement lineage-preserving data admission and splitting",
+      "area": "research",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0004"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W13"
+      ],
+      "scope": [
+        "Add normalized-record lineage sidecars, source approval checks and immutable dataset/split manifests",
+        "Group parents and descendants before splitting; report near-duplicate review without deleting contrastive pairs"
+      ],
+      "acceptance": [
+        "Reject unapproved source/licence, changed bytes and cross-split descendants",
+        "Human-reviewed label mappings and difficult negatives have provenance pointers",
+        "Run make check on harmless fixture imports and leakage mutations",
+        "Document source licence/purpose/privacy and data-card gaps without committing real data"
+      ],
+      "out_of_scope": "Unapproved dataset downloads or legal approval inferred from config"
+    },
+    {
+      "id": "W15",
+      "title": "research: implement frozen baseline and MLP training comparisons",
+      "area": "research",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0003",
+        "0004"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W11",
+        "W14"
+      ],
+      "scope": [
+        "Add pass-all/block-all, character n-gram and approved guard comparisons beside byte logistic and MLP",
+        "Use fixed train-internal grouped folds, explicit precision/seeds and record-level long-input objective"
+      ],
+      "acceptance": [
+        "Test fitting and selection cannot access calibration/test labels",
+        "Record all candidate configs, RNG/optimizer/resume identities and convergence failures",
+        "Run make check and explicit one-thread train tests on fixtures; attach admitted real-run commands separately",
+        "Preserve existing negative baseline and label comparison evidence accurately"
+      ],
+      "out_of_scope": "Teacher distillation or tuning on test"
+    },
+    {
+      "id": "W16",
+      "title": "research: train and export one compact encoder reproducibly",
+      "area": "research",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "l",
+      "rfcs": [
+        "0003",
+        "0004"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W12",
+        "W14",
+        "W15"
+      ],
+      "scope": [
+        "Train the admitted encoder under three fixed seeds with explicit device/dtype and resume state",
+        "Export the qualified exact integer graph before calibration and preserve float parent provenance"
+      ],
+      "acceptance": [
+        "Repeat a selected run in fresh directories and report substantive agreement and nondeterminism",
+        "Test resume identity mismatch, invalid quantization ranges and near-threshold flips",
+        "Run fixture train/export tests and attach exact approved-host commands/results",
+        "Publish export/profile/source hashes and failures with no checkpoints in git"
+      ],
+      "out_of_scope": "Unbounded sweeps, teacher inference or silently switching architecture"
+    },
+    {
+      "id": "W17",
+      "title": "research: add frozen slice reports and group-aware comparisons",
+      "area": "research",
+      "type": "test",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0004"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W14",
+        "W15"
+      ],
+      "scope": [
+        "Implement versioned reports with low-FPR counts, uncertainty, slices and paired group bootstrap",
+        "Separate float/integer drift, adaptive exploratory sets and confirmatory test decisions"
+      ],
+      "acceptance": [
+        "Test threshold ties, no benign calibration, null denominator, insufficient power and correlated resampling",
+        "Fixed seed yields reproducible 10000-resample comparison and retains every training seed",
+        "Run make check with tests/test_group_evaluation.py",
+        "Record evaluator/source/data identities and no post-test threshold selection"
+      ],
+      "out_of_scope": "Population safety claims or treating descendants as independent"
+    },
+    {
+      "id": "W18",
+      "title": "proofs: qualify a pinned backend and exact full-graph profile",
+      "area": "proofs",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "l",
+      "rfcs": [
+        "0005"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W04",
+        "W13"
+      ],
+      "scope": [
+        "Implement qualification runner and BackendQualification manifest with reviewed licence/setup/dependency pins",
+        "Progress from tiny graph to operator block and full admitted encoder with correctness and cost records"
+      ],
+      "acceptance": [
+        "Real verifier checks actual proofs; changed inputs/keys and field aliases reject",
+        "Record unsupported operators, full graph failures, hiding/security parameters and setup lineage",
+        "Run make check for adapter boundary fixtures; attach authorized qualification commands and raw costs",
+        "Select a backend only after whole-graph gate, retaining failed candidates"
+      ],
+      "out_of_scope": "Proving campaigns without approved host/budget or mock success"
+    },
+    {
+      "id": "W19",
+      "title": "proofs: prove and verify the complete byte-rule decision",
+      "area": "proofs",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0003",
+        "0005"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W10",
+        "W18"
+      ],
+      "scope": [
+        "Implement real rule proof adapter over complete salted input with cross-chunk matching",
+        "Bind context, manifest, counts, threshold and verdict to externally enrolled key/setup"
+      ],
+      "acceptance": [
+        "Valid real proof verifies; mutate each public input and omit a boundary match to force rejection",
+        "Native and constrained program agree on empty/max/boundary vectors",
+        "Run adapter tests and record admitted real proof command/hash",
+        "Document setup/witness/prove/verify cost and all failures"
+      ],
+      "out_of_scope": "ZK claims based only on witness simulation"
+    },
+    {
+      "id": "W20",
+      "title": "proofs: prove and verify the bounded integer MLP decision",
+      "area": "proofs",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0003",
+        "0005"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W11",
+        "W18"
+      ],
+      "scope": [
+        "Implement MLP relation with full input commitment, all chunks, ranges and ties-to-even rescaling",
+        "Bind enrolled program/weights/key/setup and interaction context"
+      ],
+      "acceptance": [
+        "Real proof accepts valid vectors and rejects field aliases, wrong threshold, wrong key and omitted chunks",
+        "Compare intermediate integer tensors at boundary cases",
+        "Run adapter tests and record admitted real proof command/hash",
+        "Report actual setup/witness/prove/verify measurements"
+      ],
+      "out_of_scope": "Proving only a head over unbound embeddings"
+    },
+    {
+      "id": "W21",
+      "title": "proofs: prove and verify the entire qualified encoder",
+      "area": "proofs",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "l",
+      "rfcs": [
+        "0003",
+        "0005"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W12",
+        "W16",
+        "W18"
+      ],
+      "scope": [
+        "Implement full graph proof with tokenizer input digest, masks, complete chunks and max decision",
+        "Constrain all integer approximations/lookups and enrolled setup/key identity"
+      ],
+      "acceptance": [
+        "Full proofs verify on the admitted corpus subset and all public-input mutations reject",
+        "Zero host/circuit verdict disagreements on complete frozen evaluation; report witness-only versus full-proof coverage",
+        "Run graph adapter tests and attach exact authorized full-graph command/cost/failure records",
+        "Keep v1 blocked if any unsupported operation or budget failure remains"
+      ],
+      "out_of_scope": "Claiming encoder completion from a layer import or tiny graph"
+    },
+    {
+      "id": "W22",
+      "title": "hardware: qualify genuine epoch and accelerator evidence",
+      "area": "hardware",
+      "type": "security",
+      "priority": "p0",
+      "effort": "l",
+      "rfcs": [
+        "0006"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W03",
+        "W06",
+        "W09",
+        "W13"
+      ],
+      "scope": [
+        "Implement pinned platform verifier with offline CPU/accelerator collateral and common epoch challenge",
+        "Record approved host, device association, firmware/TCB/debug/freshness policy and exact evidence packing"
+      ],
+      "acceptance": [
+        "Genuine evidence passes; stale/revoked/debug/wrong-key/wrong-device cases reject",
+        "Demonstrate CPU-to-accelerator linkage rather than separate quote validity",
+        "Run offline adapter tests and record actual authorized-host qualification evidence",
+        "Document hardware assumptions and missing evidence as blockers"
+      ],
+      "out_of_scope": "Purchasing host access or replacing hardware evidence with signatures"
+    },
+    {
+      "id": "W23",
+      "title": "hardware: bind loaded model and protected response path",
+      "area": "hardware",
+      "type": "security",
+      "priority": "p0",
+      "effort": "l",
+      "rfcs": [
+        "0006"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W03",
+        "W22"
+      ],
+      "scope": [
+        "Implement measured loader and exclusive inference path using exact manifest files/runtime/settings",
+        "Terminate authenticated requester channel inside measured gateway and bind actual model execution"
+      ],
+      "acceptance": [
+        "Weight swap after hashing, unmeasured runtime and response-path bypass tests fail",
+        "Qualification records genuine measurement and actual loaded-file evidence",
+        "Run loader fixtures and attach approved host mutation commands/results",
+        "Document storage, credential and hardware-path assumptions"
+      ],
+      "out_of_scope": "Multi-node serving, stochastic generation or remote model code"
+    },
+    {
+      "id": "W24",
+      "title": "hardware: gate release with all enrolled integer classifiers",
+      "area": "hardware",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0006",
+        "0007"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W05",
+        "W10",
+        "W11",
+        "W12",
+        "W23",
+        "W25"
+      ],
+      "scope": [
+        "Execute all three enrolled integer classifiers before releasing any response",
+        "Bind full input/context in signed receipt after durable encrypted witness storage"
+      ],
+      "acceptance": [
+        "Classifier block/error, stale epoch, storage failure and changed policy release no response",
+        "Native/proven verdict mismatch stops serving and emits typed error",
+        "Run gateway failure fixtures plus admitted genuine host checks",
+        "Document pending proofs and exact release/blocked envelope behavior"
+      ],
+      "out_of_scope": "Streaming partial responses or treating native pass as proven"
+    },
+    {
+      "id": "W25",
+      "title": "receipts: implement bounded encrypted proof spool and recovery",
+      "area": "receipts",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0007"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W06",
+        "W13",
+        "W22"
+      ],
+      "scope": [
+        "Implement one-use AES-256-GCM witness encryption, sealed key references, rollback-resistant lifecycle state, atomic journal and exclusive foreground jobs",
+        "Enforce pending/ready/failed/expired/blocked transitions, one bounded retry and retention key deletion"
+      ],
+      "acceptance": [
+        "Crash at every write, duplicate nonce, concurrent claim, disk full and timeout never create partial ready state",
+        "Ciphertext/associated-data tampering, key reuse and expiry rollback reject; expiry deletes the per-receipt key and cannot return to ready",
+        "Run make check with tests/test_receipt_store.py",
+        "Document monitored versus OS-enforced limits and retention approval"
+      ],
+      "out_of_scope": "Background schedulers, infinite retries or physical-erasure claims"
+    },
+    {
+      "id": "W26",
+      "title": "receipts: assemble complete offline C0 evidence bundles",
+      "area": "receipts",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0007"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W07",
+        "W09",
+        "W19",
+        "W20",
+        "W21",
+        "W24",
+        "W25"
+      ],
+      "scope": [
+        "Collect signed receipt, epoch/collateral, registry/history and all three verified proofs",
+        "Publish atomically with exact file identities, size caps and opening supplied separately"
+      ],
+      "acceptance": [
+        "Reject missing/extra classifiers, inconsistent context, duplicate paths and partially written proofs",
+        "B2 collection never embeds raw transcript/opening",
+        "Run make check with assembler tamper/recovery tests",
+        "Document complete versus pending collection commands and evidence pointers"
+      ],
+      "out_of_scope": "Recursive aggregation, sampled-out status or network fetching"
+    },
+    {
+      "id": "W27",
+      "title": "verification: verify enrollment, receipt and hardware claim A",
+      "area": "verification",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0002",
+        "0006",
+        "0007"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W08",
+        "W09",
+        "W22",
+        "W26"
+      ],
+      "scope": [
+        "Implement external request/time comparisons, signature consistency, registry history and genuine hardware verification",
+        "Emit accepted/rejected/not-accepted claim A with explicit assumptions and residuals"
+      ],
+      "acceptance": [
+        "Reject replay, audience/model/policy mismatch, retirement, chain mismatch and stale collateral with exact codes",
+        "B1 B-only trust can decline A without asserting invalid hardware",
+        "Run make check with tests/test_verify_a.py",
+        "Record verified evidence and clock/trust identities in result"
+      ],
+      "out_of_scope": "Inferring all-traffic coverage or trusting bundle-provided roots"
+    },
+    {
+      "id": "W28",
+      "title": "verification: verify B1 and B2 proofs and all-pass composition",
+      "area": "verification",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0003",
+        "0005",
+        "0007"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W02",
+        "W19",
+        "W20",
+        "W21",
+        "W27"
+      ],
+      "scope": [
+        "Implement independent B1 openings/input reconstruction and B2 hardware-dependent binding",
+        "Verify exact ordered proof inputs and policy aggregation under enrolled backend/key/setup"
+      ],
+      "acceptance": [
+        "Altered text, salt, tokenizer, tail, threshold, proof context and classifier roster all reject",
+        "B1 B-only can accept B while declining hardware; B2 cannot",
+        "Run make check with tests/test_verify_b.py and actual admitted proof cases",
+        "Document claim strengths and never emit safe or mock verified status"
+      ],
+      "out_of_scope": "B3 private tokenization or partial proof acceptance"
+    },
+    {
+      "id": "W29",
+      "title": "verification: expose typed v1 CLI and supported library API",
+      "area": "verification",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0007"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W07",
+        "W26",
+        "W28",
+        "W30"
+      ],
+      "scope": [
+        "Add verify, inspect, registry-check and qualify with mandatory external trust/expectations",
+        "Export typed supported interfaces and preserve legacy research command behavior"
+      ],
+      "acceptance": [
+        "Installed CLI returns documented JSON and 0/1/2/3 exit codes",
+        "Inspect reports verified false; missing trust/opening and research bundle inputs reject",
+        "Run make check and make package-check with CLI tests",
+        "Publish schema snapshots, private examples and migration notes"
+      ],
+      "out_of_scope": "Hosted API service or implicit credential/network discovery"
+    },
+    {
+      "id": "W30",
+      "title": "operations: add typed errors and redact all trust-boundary failures",
+      "area": "operations",
+      "type": "security",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0008"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Implement HallmarkError taxonomy, deterministic stage precedence and safe CLI translation",
+        "Sanitize validation, path, Unicode and child-process errors without changing integer arithmetic"
+      ],
+      "acceptance": [
+        "Sentinel input/path/provider strings never appear in stdout/stderr/events across every failure class",
+        "Unexpected exceptions cannot return accepted and receive a local random diagnostic ID",
+        "Run make check with tests/test_error_privacy.py",
+        "Document stable error/exit contracts and historical diagnostic limits"
+      ],
+      "out_of_scope": "Silently sanitizing or rehashing old research bundles"
+    },
+    {
+      "id": "W31",
+      "title": "operations: add bounded local events and immutable failure records",
+      "area": "operations",
+      "type": "feature",
+      "priority": "p1",
+      "effort": "s",
+      "rfcs": [
+        "0008"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W30"
+      ],
+      "scope": [
+        "Implement allowlisted Event stream with monotonic ordinals and one writer per run",
+        "Retain failed attempts and enforce private event storage/size policy"
+      ],
+      "acceptance": [
+        "Unknown event fields/content-derived identifiers reject",
+        "Disk failure and duplicate ordinal tests do not fabricate a complete run",
+        "Run make check with tests/test_events.py",
+        "Document no telemetry and private metadata retention"
+      ],
+      "out_of_scope": "Hosted logging or per-user trace analytics"
+    },
+    {
+      "id": "W32",
+      "title": "operations: measure full-path cost with raw samples and caps",
+      "area": "operations",
+      "type": "perf",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0005",
+        "0008"
+      ],
+      "milestone": "v0.3",
+      "depends_on": [
+        "W13",
+        "W18",
+        "W31"
+      ],
+      "scope": [
+        "Implement fixed CostStage samples, bounded process lifecycle and fresh cost manifests",
+        "Measure setup/witness/prove/verify/native/attestation/serialization and matched confidential-mode baselines"
+      ],
+      "acceptance": [
+        "Test exact nearest-rank p50/p95, failed denominators, cold/warm split and setup amortization",
+        "Timeout/OOM and descendants terminate within admission limits, with failures preserved",
+        "Run make check on synthetic timing fixtures; attach separately approved host measurements",
+        "Document actual hardware/software/precision/concurrency and monitoring limits"
+      ],
+      "out_of_scope": "Claiming measured performance from estimates or omitting failures"
+    },
+    {
+      "id": "W33",
+      "title": "conformance: freeze v1 golden and adversarial evidence corpus",
+      "area": "conformance",
+      "type": "test",
+      "priority": "p0",
+      "effort": "m",
+      "rfcs": [
+        "0001",
+        "0009"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [
+        "W01",
+        "W02",
+        "W03",
+        "W04",
+        "W05",
+        "W06",
+        "W07",
+        "W08",
+        "W09",
+        "W30"
+      ],
+      "scope": [
+        "Implement Case/corpus schemas and harmless golden/mutation vectors for every rejection obligation",
+        "Map each case to its requirement, parent mutation and exact expected reason"
+      ],
+      "acceptance": [
+        "Include all original PRD cheats and complete parser/identity/arithmetic/retirement cases",
+        "Mark real-proof/hardware cases unavailable until actual evidence exists; never count skips as pass",
+        "Run make check-conformance and self-test a deliberately wrong expected result",
+        "Document source/evidence identity and corpus migration rules"
+      ],
+      "out_of_scope": "Committing private transcripts or treating software fixtures as genuine evidence"
+    },
+    {
+      "id": "W34",
+      "title": "conformance: build a separately implemented offline verifier",
+      "area": "conformance",
+      "type": "feature",
+      "priority": "p0",
+      "effort": "l",
+      "rfcs": [
+        "0009"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W33",
+        "W28"
+      ],
+      "scope": [
+        "Implement independent parsing, hashing, token binding, integer execution and policy verification from the frozen spec",
+        "Record source/dependency separation and disclose shared proof libraries"
+      ],
+      "acceptance": [
+        "No imports/shared implementation with primary verifier for required independent layers",
+        "Both implementations agree on every corpus status/code/input digest; deliberate mismatch fails",
+        "Run make check-independent and attach approved reviewer provenance",
+        "Document common-mode proof-library and review limits"
+      ],
+      "out_of_scope": "Adding collaborators without authority or wrapping the primary verifier"
+    },
+    {
+      "id": "W35",
+      "title": "conformance: execute the genuine hybrid mutation and recovery suite",
+      "area": "conformance",
+      "type": "test",
+      "priority": "p0",
+      "effort": "l",
+      "rfcs": [
+        "0006",
+        "0007",
+        "0009"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W26",
+        "W27",
+        "W28",
+        "W33",
+        "W34"
+      ],
+      "scope": [
+        "Produce real-hardware/proof hybrid cases on an admitted host and compare both verifiers",
+        "Exercise model/path substitution, forged pass, token/tail changes, replay and lifecycle recovery"
+      ],
+      "acceptance": [
+        "Valid B1/B2 cases pass; every named negative rejects for the expected reason",
+        "No required genuine case unavailable or mocked in v1 acceptance",
+        "Record exact commands/source/trust/host/corpus/evidence and repeat fresh-directory reproduction",
+        "Update STATE and ledger with failures and residuals"
+      ],
+      "out_of_scope": "Claiming exhaustive security or changing the corpus to rescue failures"
+    },
+    {
+      "id": "W36",
+      "title": "delivery: enforce core, train and gated integration CI",
+      "area": "delivery",
+      "type": "ci",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0010"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Keep read-only offline core jobs and ensure train-extra job fails on skip",
+        "Validate supported interpreter matrix and separate admitted manual integration from PR execution"
+      ],
+      "acceptance": [
+        "Train job actually executes its test and a forced skip causes failure",
+        "No PR gets privileged host access/secrets or private evidence upload",
+        "Run local matrix and inspect hosted checks on the exact commit; preserve billing-unavailable status if blocked",
+        "Document Python support and owner action required for hosted account blocks"
+      ],
+      "out_of_scope": "Changing billing settings or enabling ongoing runners without authority"
+    },
+    {
+      "id": "W37",
+      "title": "delivery: make private builds reproducible and verify inventories",
+      "area": "delivery",
+      "type": "ci",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0010"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Pin the build environment/backend and produce source/distribution/dependency inventories",
+        "Include root SPEC/corpus/roadmap in sdist and preserve typed minimal wheel"
+      ],
+      "acceptance": [
+        "Two builds under the same fixed environment/epoch have explained hash equality or a failing gate",
+        "Installed core and train contracts work on supported platforms; no runs/keys/private data in archives",
+        "Run make package-check and archive/content/secret checks",
+        "Document actual dependency licences/restrictions and no public licence"
+      ],
+      "out_of_scope": "Publishing packages or redistributing model/data assets"
+    },
+    {
+      "id": "W38",
+      "title": "delivery: enforce spec traceability and contributor documentation",
+      "area": "delivery",
+      "type": "docs",
+      "priority": "p2",
+      "effort": "m",
+      "rfcs": [
+        "0010"
+      ],
+      "milestone": "v0.2",
+      "depends_on": [],
+      "scope": [
+        "Add make check-spec for local anchors, RFC templates, owned open questions and requirement/issue coverage",
+        "Update contributor/API/security/release docs and keep the implementation tracker consistent"
+      ],
+      "acceptance": [
+        "Missing requirement, broken anchor and orphan issue entries fail isolated negative fixtures",
+        "Every normative deliverable maps to a work item and live issue with milestone/labels",
+        "Run make check-spec and make check",
+        "Keep historical source packet and legacy results immutable"
+      ],
+      "out_of_scope": "Generic documentation unrelated to the v1 spec"
+    },
+    {
+      "id": "W39",
+      "title": "delivery: assemble the evidence-bound private v1 release packet",
+      "area": "delivery",
+      "type": "docs",
+      "priority": "p1",
+      "effort": "m",
+      "rfcs": [
+        "0010"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W17",
+        "W29",
+        "W32",
+        "W35",
+        "W36",
+        "W37",
+        "W38"
+      ],
+      "scope": [
+        "Implement ReleaseManifest and assemble source/build/evidence/licence inventory with limitations",
+        "Apply compatibility/changelog/deprecation rules and require actual hosted and independent evidence"
+      ],
+      "acceptance": [
+        "Every release field resolves to reviewed immutable evidence and no pending gate is called passed",
+        "Missing approval, licence inventory, hosted execution or conformance blocks release",
+        "Run make check, make package-check, make check-spec, make check-conformance and make check-independent",
+        "Document owner release decision separately from preparing the packet"
+      ],
+      "out_of_scope": "Tagging/public publishing without explicit owner authority"
+    },
+    {
+      "id": "W40",
+      "title": "delivery: reproduce the three-role demo with authorized reviewers",
+      "area": "delivery",
+      "type": "docs",
+      "priority": "p2",
+      "effort": "m",
+      "rfcs": [
+        "0007",
+        "0009",
+        "0010"
+      ],
+      "milestone": "v1.0",
+      "depends_on": [
+        "W39"
+      ],
+      "scope": [
+        "Create provider/auditor/user terminal demo with exact opening and both claim strengths",
+        "Demonstrate all five cheats and B1 hardware-declined mode, then obtain two authorized reproduction reports"
+      ],
+      "acceptance": [
+        "Every cheat rejects for the declared reason and pending state stays unverified",
+        "Two individually authorized reviewers reproduce from clean environments with exact evidence identities",
+        "Record demo commands, costs, failures and review provenance",
+        "No sharing occurs before the owner authorizes each reviewer and content perimeter"
+      ],
+      "out_of_scope": "Public marketing, outreach or adding reviewers merely to close an issue"
+    }
+  ]
+}
