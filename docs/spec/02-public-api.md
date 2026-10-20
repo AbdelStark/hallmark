@@ -275,6 +275,13 @@ def collect(receipt_id: Digest, store: ReceiptStore) -> BundleStatus: ...
 
 There is no default network fetch, credential discovery or automatic paid fallback. Proof collection is explicit; a foreground worker is bounded and stops when its admitted queue is exhausted.
 
+The implemented corpus API is `hallmark.conformance.load_corpus(path)` and
+`run_corpus(corpus, root, expected_corpus=..., primary=..., software_only=False)`.
+It returns a `ConformanceReport` for named component checks, with no accepted
+hardware/proof claim. Default scope fails on unavailable required evidence;
+the explicit software scope retains unavailable counts. See
+[runner semantics and bounds](../decisions/0013-frozen-conformance-corpus.md).
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).

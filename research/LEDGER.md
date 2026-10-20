@@ -536,3 +536,49 @@ passing. W09 exact-head hosted delivery is next. Its completion makes #34's
 software corpus dependencies available; reassess that gate before #12, then
 #32/#38/#39. The full MVP still requires admitted data, real classifiers, proof
 and hardware integration, and independent verification.
+
+## 2026-10-20 — W33 frozen component conformance
+
+Hypothesis: a caller-pinned corpus can compare exact component outcomes and
+detect wrong expectations while preserving every unavailable genuine-evidence
+obligation. Baseline: `9357288387bfbcdf0ad28ae34f54b37fe70a1333`, with 205 parser/
+registry tests passing. Mutable paths were the corpus contracts/adapters, builder,
+runner, schema snapshots, tests/vectors, package/Make checks and their documentation.
+Pass criterion: every executable vector matches, a deliberately wrong expectation
+fails, full scope rejects required unavailable evidence, and local/package gates
+pass without treating the primary implementation as independent.
+
+Saved [source/config/environment hashes and numeric results](evidence/w33-conformance-2026-10-20.json)
+before this entry. The frozen identity is
+`febda826f0d2cb8c195c8637014f8ca1f5f017cfea709030ca5fbe76d5a9093e`.
+There are 188 cases: 156 component matches, zero mismatches and 32 unavailable
+real-proof/hardware/hybrid obligations. All 15 original PRD cheats and all 19
+error codes remain mapped. The builder reproduces every frozen byte using the
+frozen source snapshots and refuses an existing destination.
+
+The first builder candidate failed on an incorrect fixture key. The second
+expected a profile's inclusive 32,768-byte limit to reject; the implementation
+correctly accepted it, producing one mismatch and exit 1. Preserved both failed
+directories. A new candidate added separate exact-limit, max-plus-one and complete
+tail cases. Expected values were not copied from runner output.
+
+All 46 harness tests and 205 parser/registry regressions passed. `make check`
+passed 1,097 tests, lint, format, typing, documentation links and the software
+conformance self-tests. `make package-check` passed with all pinned corpus files
+in the sdist and both runner scopes against the installed wheel. Software scope
+exits 0; full-evidence scope exits 3 with all 32 unavailable cases retained. The
+wrong-expectation self-test requires exactly one mismatch/exit 1. Tests reject
+wrong pins, changed files, unsafe paths, invalid ancestry, missing contexts and
+falsified report counts. Unexpected implementation exceptions abort the run.
+
+[Decision 0013](../docs/decisions/0013-frozen-conformance-corpus.md) defines the
+source snapshots, raw request hash, typed corpus identity, component-only accepted
+flag, bounds and immutable migration. Every executed case reports both claims
+not accepted. Full graph arithmetic, actual evidence, independent implementation/
+review, operational trust and policy quality remain absent. No private transcript,
+operational key, data/model download, external inference or paid run was introduced.
+
+W09 was merged in [PR #62](https://github.com/AbdelStark/hallmark/pull/62), with all
+six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39422275382) passing.
+W33 exact-head hosted delivery is next. #35/#36 still require the complete verifier
+and genuine evidence work. After delivery, reassess #12 before #32/#38/#39.

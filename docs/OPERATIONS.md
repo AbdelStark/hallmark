@@ -36,6 +36,23 @@ that authority. If hosted jobs cannot start because of account billing or limits
 retain the unavailable run/annotation; the owner must resolve account settings.
 Agents must not change billing or replace unavailable hosted evidence with a local pass.
 
+## Conformance corpus
+
+Before full-system work, run the frozen software corpus:
+
+```sh
+make check-conformance
+uv run --locked python scripts/check_conformance.py --corpus tests/vectors/v1/corpus.json --expected-corpus "$(cat tests/vectors/v1/corpus.id)" --self-test
+```
+
+The first command explicitly checks software components and exits 0 after
+156 matches. The second requests all required evidence and currently exits 3,
+reporting 32 unavailable cases. Neither counts missing evidence as passed;
+both leave `independent:null`. The pin above is the reviewed repository fixture
+pin, not operational enrollment. Use an independently approved pin when checking
+another corpus. Preserve failures and use a new directory/identity for corrections;
+see [conformance reproduction](decisions/0013-frozen-conformance-corpus.md).
+
 ## Research run
 
 Freeze config and evaluate a fresh directory. Set BLAS/OpenMP thread variables to 1 for the bootstrap. Save the printed manifest hash outside the bundle. Run `audit-run` with that hash and the exact dataset. Inspect the report's evidence class, counts, uncertainty and missing mechanisms before writing a conclusion. A hash supplied by the bundle's author does not authenticate that author.

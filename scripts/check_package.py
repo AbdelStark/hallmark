@@ -31,6 +31,8 @@ def main() -> None:
         assert "hallmark/registry_history.py" in names
         assert "hallmark/registry_cli.py" in names
         assert "hallmark/bundles.py" in names
+        assert "hallmark/conformance.py" in names
+        assert "hallmark/conformance_checks.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -43,6 +45,14 @@ def main() -> None:
             "docs/roadmap/work-items.json",
             "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
+            "scripts/build_conformance.py",
+            "scripts/check_conformance.py",
+            "tests/test_conformance.py",
+            "tests/vectors/v1/corpus.json",
+            "tests/vectors/v1/corpus.id",
+            "docs/schemas/conformance-case-v1.json",
+            "docs/schemas/conformance-corpus-v1.json",
+            "docs/schemas/conformance-report-v1.json",
             "scripts/check_opening_vectors.mjs",
             "scripts/check_registry_vectors.py",
             "tests/test_reference.py",
@@ -92,6 +102,9 @@ def main() -> None:
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
+        for path in (ROOT / "tests/vectors/v1").rglob("*"):
+            if path.is_file():
+                assert path.relative_to(ROOT).as_posix() in names
     with tempfile.TemporaryDirectory(prefix="hallmark-wheel-") as directory:
         env = Path(directory) / "venv"
         subprocess.run(["uv", "venv", "--python", sys.executable, str(env)], check=True)
@@ -313,6 +326,29 @@ def main() -> None:
             cwd=directory,
             check=True,
         )
+        corpus = ROOT / "tests/vectors/v1"
+        for extra, expected_exit in ((["--software-only"], 0), ([], 3)):
+            conformance = subprocess.run(
+                [
+                    str(python),
+                    str(ROOT / "scripts/check_conformance.py"),
+                    "--corpus",
+                    str(corpus / "corpus.json"),
+                    "--expected-corpus",
+                    (corpus / "corpus.id").read_text().strip(),
+                    "--self-test",
+                    *extra,
+                ],
+                cwd=directory,
+                text=True,
+                capture_output=True,
+                timeout=15,
+            )
+            assert conformance.returncode == expected_exit and not conformance.stderr
+            report = json.loads(conformance.stdout)
+            assert report["matched"] == 156 and report["mismatched"] == 0
+            assert len(report["unavailable"]) == 32 and report["self_tested"]
+            assert not report["all_required_executed"] and report["independent"] is None
         failed = subprocess.run(
             [str(env / "bin/hallmark"), "schema", "PRIVATE_ERROR_SENTINEL"],
             cwd=directory,

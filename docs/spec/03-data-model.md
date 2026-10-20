@@ -103,6 +103,13 @@ Both thresholds are independently required. Decoding is not authorization.
 
 **INV-TIME:** `issued_at < expires_at`, all timestamps are Unix seconds, and verification uses a caller clock. There is no silent skew allowance.
 
+W33 adds `hallmark/conformance-case/1`, `hallmark/conformance-corpus/1` and
+`hallmark/conformance-report/1` records. The corpus binds source and input file
+hashes, independently supplied fixture contexts, exact expected outcomes and
+mutation ancestry. The report distinguishes observed component outcomes from
+unavailable evidence and has `independent:null`. See the
+[schema and identity decision](../decisions/0013-frozen-conformance-corpus.md).
+
 ## Evolution
 
 New or changed semantics require a new schema ID, explicit decoder dispatch, migration fixtures and a decision. No “best effort” decoding or coercion. Optional fields are explicitly null; omission is invalid. Artifact paths are identifiers inside a bundle, not permission to access the filesystem. The research JSON format remains distinct from the v1 binary wire format.
