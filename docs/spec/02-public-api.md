@@ -12,7 +12,15 @@ hallmark audit-run DIRECTORY --dataset DATASET --expected-manifest SHA256
 hallmark predict MODEL TEXT_FILE
 ```
 
-Success writes one JSON object on stdout and exits 0. Current handled input/runtime/filesystem failures write text to stderr and exit 2; argument errors also exit 2. Current diagnostics are not a complete redaction contract. Research `predict` returns `{score: int, pass: bool}`. `audit-run` returns `research-replay-matched`, which is not a proof acceptance.
+Success writes one JSON object on stdout and exits 0. CLI failures write one
+`hallmark/error/1` JSON object to stderr: `code`, `stage`, `retryable` and
+`diagnostic_id` (null except for an unexpected failure). Invalid input/arguments
+exit 2; storage, resource and unexpected execution failures exit 3. Messages,
+paths, argument values, exception notes/causes and subprocess output are omitted.
+Unexpected failures get a fresh random diagnostic ID. See the
+[error contract](04-error-model.md#implemented-diagnostic-boundary).
+Research `predict` returns `{score: int, pass: bool}`. `audit-run` returns
+`research-replay-matched`, which is not a proof acceptance.
 
 Current importable contracts are `Record`, `Experiment`, `LinearArtifact`, `RunManifest` in `hallmark.contracts`. Internal helpers are not a stable SDK. Do not promise stability for `dict[str, Any]` research reports beyond their schema ID.
 

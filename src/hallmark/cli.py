@@ -4,19 +4,24 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
-
-from pydantic import ValidationError
+from typing import Any, NoReturn
 
 from hallmark.contracts import Contract, Experiment, LinearArtifact, Record, RunManifest
 from hallmark.data import dataset_summary, load_records
+from hallmark.errors import HallmarkError, Stage, sanitize_exception
 from hallmark.experiment import audit_run, run_experiment
 from hallmark.integrity import load_contract
 from hallmark.reference import decision
 
 
+class _Parser(argparse.ArgumentParser):
+    def error(self, message: str) -> NoReturn:
+        # argparse's message may contain arbitrary argument text or a private path.
+        raise HallmarkError("INPUT_INVALID", "parse")
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = _Parser(prog="hallmark", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     schemas: dict[str, type[Contract]] = {
         "record": Record,
@@ -38,9 +43,11 @@ def main(argv: list[str] | None = None) -> int:
     predict = sub.add_parser("predict", help="integer baseline prediction on a local text file")
     predict.add_argument("model", type=Path)
     predict.add_argument("text_file", type=Path)
-    args = parser.parse_args(argv)
+    stage: Stage = "parse"
     result: dict[str, Any]
     try:
+        args = parser.parse_args(argv)
+        stage = "execute"
         if args.command == "schema":
             result = schemas[args.contract].model_json_schema()
         elif args.command == "validate-data":
@@ -58,12 +65,10 @@ def main(argv: list[str] | None = None) -> int:
             )
         print(json.dumps(result, sort_keys=True, allow_nan=False))
         return 0
-    except ValidationError:
-        print("input contract rejected; content omitted from diagnostic", file=sys.stderr)
-        return 2
-    except (ValueError, RuntimeError, OSError) as exc:
-        print(str(exc), file=sys.stderr)
-        return 2
+    except Exception as exc:
+        failure = sanitize_exception(exc, stage=stage)
+    print(json.dumps(failure.as_dict(), sort_keys=True, allow_nan=False), file=sys.stderr)
+    return failure.exit_code
 
 
 if __name__ == "__main__":

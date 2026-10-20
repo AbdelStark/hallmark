@@ -1,0 +1,78 @@
+{
+  "schema_id": "hallmark/implementation-evidence/1",
+  "date": "2026-10-20",
+  "work_item": "W30",
+  "issue": "https://github.com/AbdelStark/hallmark/issues/31",
+  "baseline_commit": "516143e0fb7ae696ab76a1a6d8a314496a60f6a3",
+  "source_sha256": {
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/cli.py": "9d62f6c62fd427a25b0509ee3ea47203f4e2729ca22b29a926539daa8678e293",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "scripts/check_package.py": "f5bc6c9fa56c6dbce6297f21f4d5609148d9efcb66fa6f1cda2cb5fa9cb8ed10",
+    "pyproject.toml": "e0c985bdb9272814ec0553e9344be7cedc4e018a4ca742601363c5e9b5f60d12",
+    "uv.lock": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "cbor2": "5.9.0",
+      "pydantic": "2.14.1",
+      "pytest": "9.1.1"
+    }
+  },
+  "baseline_reproduction": {
+    "fixture": "cli.main(['validate-data', '/missing/PRIVATE_SENTINEL_31/input.jsonl']) with captured stderr",
+    "exit_code": 2,
+    "sentinel_in_stderr": true
+  },
+  "checks": [
+    {
+      "command": "uv run --locked pytest tests/test_error_privacy.py -q",
+      "passed": 52,
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --locked mypy",
+      "phase": "initial",
+      "exit_code": 1,
+      "errors": 10,
+      "reason": "error attributes needed explicit annotations; fixed"
+    },
+    {
+      "command": "make check",
+      "phase": "initial",
+      "exit_code": 2,
+      "reason": "Ruff required explicit zip strictness in the stage-order test; fixed"
+    },
+    {
+      "command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check",
+      "passed": 189,
+      "exit_code": 0
+    },
+    {
+      "command": "make package-check",
+      "exit_code": 0,
+      "installed_cli_error_smoke": true
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "error_codes_exercised": 19,
+  "evidence_class": "software-conformance",
+  "not_established": [
+    "versioned event persistence",
+    "process isolation",
+    "historical bundle sanitization",
+    "provider integration",
+    "hardware evidence",
+    "ZK proofs"
+  ]
+}

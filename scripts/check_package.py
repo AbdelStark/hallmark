@@ -1,5 +1,6 @@
 """Check distribution contents and install/run the wheel in a fresh environment."""
 
+import json
 import subprocess
 import sys
 import tarfile
@@ -88,6 +89,16 @@ def main() -> None:
             cwd=directory,
             check=True,
         )
+        failed = subprocess.run(
+            [str(env / "bin/hallmark"), "schema", "PRIVATE_ERROR_SENTINEL"],
+            cwd=directory,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert failed.returncode == 2 and not failed.stdout
+        assert "PRIVATE_ERROR_SENTINEL" not in failed.stderr
+        assert json.loads(failed.stderr)["code"] == "INPUT_INVALID"
     print("Wheel/sdist contents and isolated installed CLI passed.")
 
 
