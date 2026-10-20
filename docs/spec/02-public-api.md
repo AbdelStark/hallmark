@@ -18,10 +18,30 @@ Current importable contracts are `Record`, `Experiment`, `LinearArtifact`, `RunM
 
 ## v1 supported interfaces
 
-The following are target signatures; none is implemented by this documentation change. Types are defined in [data model](03-data-model.md#v1-types).
+The primitive codec in `hallmark.wire` is implemented:
 
 ```python
-def encode(value: WireValue) -> bytes: ...
+def encode(value: WireValue, *, limits: WireLimits = DEFAULT_LIMITS) -> bytes: ...
+def decode(raw: bytes, *, limits: WireLimits = DEFAULT_LIMITS) -> WireValue: ...
+def H(kind: Domain, value: WireValue, *, limits: WireLimits = DEFAULT_LIMITS) -> bytes: ...
+```
+
+`WireValue`, `Domain`, `DOMAINS`, `WireLimits`, `DEFAULT_LIMITS` and `WireError` are
+exported by that module. Only exact built-in host types are accepted; tuples,
+subclasses, floats and non-text map keys fail. `H` returns 32 raw bytes and accepts
+only the 22 RFC-0001 domains. `WireError` carries `code` (`INPUT_INVALID` or
+`LIMIT_EXCEEDED`), `stage="parse"` and `retryable=False`, with no offending value.
+
+`WireLimits(max_bytes=67108864, nesting=16, max_items=1048576)` can only lower these
+hard limits. Nesting counts containers (including empty ones); item count includes
+containers, leaves and map keys. Both encode and decode enforce these bounds.
+Limits are resource policy, not part of an artifact's identity.
+
+This value decoder validates canonical bytes, not an artifact schema or authenticity.
+Schema dispatch and the following artifact interfaces remain targets. Their types are
+defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
+
+```python
 def decode(raw: bytes, schema: type[T], limits: Limits) -> T: ...
 def enroll(
     snapshot: SignedRegistry, trust: TrustPolicy, state: RegistryState, now: int
