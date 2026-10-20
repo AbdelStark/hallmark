@@ -35,6 +35,11 @@ retained checkpoint. A local SQLite transaction persists verified state and reje
 stale writers. [Provisioning](docs/OPERATIONS.md#external-registry-checkpoint-provisioning)
 requires owner-approved roots; the shipped keys are public test fixtures.
 
+The [offline bundle contracts](docs/decisions/0011-offline-bundle-contracts.md)
+check embedded bytes, logical paths, declared evidence bindings and caller limits.
+Openings travel separately. Collection states and reported verification results
+remain distinct; parsing a reported accepted result does not verify its evidence.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

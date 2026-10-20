@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add bounded offline bundle, private response-envelope, collection-status and
+reported-result contracts. Check exact embedded files, ordered proof declarations,
+caller limits and claim consistency; keep openings separate from bundles. Publish
+schema snapshots and structural vectors without an evidence-verification path.
+
 Add external registry trust, Ed25519 threshold verification, complete linked
 history checks and transactional SQLite checkpoints. Pin the reviewed signature
 dependency, publish schemas/signed vectors and document separate owner provisioning.

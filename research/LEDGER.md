@@ -425,3 +425,54 @@ W06's final head `2fb4bf170503bc7bc4bea4b1c155bdc5fd0e51da` was merged in
 passed on this turn's baseline. W08 exact-head hosted checks are next, then #8,
 #10 and #12 according to actual prerequisites. The work map now mirrors #8's
 necessary #9 dependency, for 105 edges; the original publication audit is unchanged.
+
+## 2026-10-20: W07 offline bundle, response and reported-result contracts
+
+Hypothesis: strict bounded containers can reject malformed embedded files,
+incomplete or inconsistent declarations, private protocol records and contradictory
+collection/claim reports without turning parsing into evidence verification.
+Baseline: `866d36a69762104847f1ded8253829a4e11dd786`, with 233 passing receipt and
+enrollment tests. Mutable paths: one bundle-contract module, focused tests,
+schemas/vectors, package checks and relevant spec/evidence/tracker docs.
+Pass criterion: #8's path/file/proof/privacy and status cases reject, total/caller
+limits hold, and `make check`/`make package-check` pass. Existing identities,
+evaluators and research protocols remain unchanged.
+
+The smallest fixture round-tripped a 3,998-byte structural bundle; its receipt,
+hardware and proof bytes remained unverified. Saved
+[source/config/environment hashes and numeric results](evidence/w07-bundle-contracts-2026-10-20.json)
+before this entry. All 91 bundle/result tests and 233 receipt/enrollment regressions
+pass. `make check` passes 954 tests and static/doc gates. `make package-check`
+passes decoding/re-encoding all 17 structural/report examples and bounded bundle
+parsing from the installed wheel. Four schema snapshots are frozen. Targeted lint
+initially found an unused test import and an overlong package-check literal;
+both were fixed before the recorded final gates. Commands used one training
+thread and stayed below 60 seconds.
+
+Cases include traversal/locators, duplicate or unsorted paths, exact sizes/hashes,
+missing/mismatched collateral, three ordered proof declarations, receipt/epoch
+links, caller depth/byte/per-proof caps, total container overhead, missing/extra
+fields, canonical private records disguised as files, response/opening binding,
+UTF-8 boundaries, blocked/failed/expired payload omission, collection status/error
+coherence, claim strengths, residuals/assumptions, pending versus rejected proofs,
+policy block and external required-claim checks. A parsing test replaces file
+opening, socket creation and registry verification with failure guards. Malformed
+copies are revalidated before use; private payloads are omitted from repr/errors.
+
+[Decision 0011](../docs/decisions/0011-offline-bundle-contracts.md) records canonical
+wire limits, separate opening exchange and the boundary between reported claims
+and an actual verifier. Canonical embedded opening/response records are rejected;
+arbitrary opaque or differently encoded bytes still need an admitted artifact
+inventory. No signatures, hardware or proofs become accepted through parsing.
+Full artifact closure, release persistence/recovery, worker time/RSS enforcement,
+operational enrollment and independent verification remain downstream gates.
+No new dependency, data/model retrieval, external inference, hardware host, GPU
+job or paid compute was used.
+
+W08 was merged in [PR #60](https://github.com/AbdelStark/hallmark/pull/60) at
+`866d36a69762104847f1ded8253829a4e11dd786`, with all six
+[merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39416596651)
+passing. W07 now explicitly depends on completed W02 for its private opening type;
+source and live #8/#3 dependency records agree. The 106-edge work graph is acyclic;
+the original 102-edge publication audit is unchanged. W07 exact-head hosted checks
+are next, followed by #10 and #12 according to actual prerequisites.

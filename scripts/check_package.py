@@ -27,6 +27,7 @@ def main() -> None:
         assert "hallmark/receipts.py" in names
         assert "hallmark/enrollment.py" in names
         assert "hallmark/registry_store.py" in names
+        assert "hallmark/bundles.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -48,6 +49,12 @@ def main() -> None:
             "tests/test_openings.py",
             "tests/test_receipt_contracts.py",
             "tests/test_enrollment.py",
+            "tests/test_bundles.py",
+            "fixtures/wire/bundles-v1.json",
+            "docs/schemas/bundle-v1.json",
+            "docs/schemas/response-envelope-v1.json",
+            "docs/schemas/bundle-status-v1.json",
+            "docs/schemas/verification-result-v1.json",
             "fixtures/wire/enrollment-v1.json",
             "docs/schemas/trust-v1.json",
             "docs/schemas/registry-v1.json",
@@ -256,6 +263,30 @@ def main() -> None:
                 "assert r.trust.hex() == v['trust']['identity_hex']; "
                 "r.require_entry('model', t.accepted_models[0], issued_at=100)",
                 str(ROOT / "fixtures/wire/enrollment-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.enrollment import TrustPolicy; "
+                "from hallmark.bundles import Bundle, BundleStatus, ResponseEnvelope, "
+                "VerificationResult, decode_bundle; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "t = TrustPolicy.decode(bytes.fromhex(v['external_trust_cbor_hex'])); "
+                "types = {'bundle': Bundle, 'bundle-status': BundleStatus, "
+                "'response-envelope': ResponseEnvelope, "
+                "'verification-result': VerificationResult}; "
+                "records = [types[r['kind']].decode(bytes.fromhex(r['cbor_hex'])) "
+                "for r in v['records']]; "
+                "assert all(obj.encode().hex() == r['cbor_hex'] "
+                "for obj, r in zip(records, v['records'], strict=True)); "
+                "b = decode_bundle(records[0].encode(), limits=t.limits); "
+                "assert len(b.proofs) == 3 and not hasattr(b, 'accepted')",
+                str(ROOT / "fixtures/wire/bundles-v1.json"),
             ],
             cwd=directory,
             check=True,

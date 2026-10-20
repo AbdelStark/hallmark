@@ -1,0 +1,119 @@
+{
+  "$defs": {
+    "CollectionState": {
+      "enum": [
+        "pending",
+        "ready",
+        "blocked",
+        "failed",
+        "expired"
+      ],
+      "type": "string"
+    },
+    "ErrorCode": {
+      "enum": [
+        "INPUT_INVALID",
+        "LIMIT_EXCEEDED",
+        "TRUST_MISSING",
+        "REGISTRY_INVALID",
+        "ARTIFACT_RETIRED",
+        "REQUEST_MISMATCH",
+        "STALE_EVIDENCE",
+        "SIGNATURE_INVALID",
+        "ATTESTATION_INVALID",
+        "MEASUREMENT_UNKNOWN",
+        "OPENING_FAILED",
+        "INPUT_BINDING_FAILED",
+        "PROOF_INVALID",
+        "VERDICT_MISMATCH",
+        "POLICY_BLOCKED",
+        "PROOF_PENDING",
+        "RESOURCE_EXHAUSTED",
+        "STORAGE_FAILED",
+        "INTERNAL_ERROR"
+      ],
+      "type": "string"
+    },
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reported collection state, not evidence that a referenced bundle was verified.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/bundle-status/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "receipt_id": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "state": {
+      "$ref": "#/$defs/CollectionState"
+    },
+    "bundle": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FileRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_id",
+    "receipt_id",
+    "state",
+    "bundle",
+    "error"
+  ],
+  "title": "BundleStatus",
+  "type": "object"
+}
