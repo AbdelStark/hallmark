@@ -22,7 +22,9 @@ qualification remain separate work.
 
 The [policy/request contracts](docs/decisions/0007-policy-request-contracts.md)
 resolve the ordered classifier set and compare requests with explicit caller
-expectations. `inj.direct/1` remains a proposed policy pending admission.
+expectations. The [prototype `inj.direct/1` study](docs/decisions/0019-approved-study-scope.md)
+is approved; actual assets, measurement admission and production policy adoption
+remain separate gates.
 
 The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind exact
 transcript bytes, caller context and complete classifier input. Portable vectors
@@ -68,6 +70,12 @@ The [native byte-count MLP](docs/decisions/0014-integer-mlp-runtime.md) now exec
 bound affine/ReLU/affine exports with exact signed rescaling, full prompt coverage
 and strict threshold comparison. Fixed and generated vectors check every layer.
 This supplies native arithmetic, not trained-policy quality or a proof.
+
+The [literal byte-rule runtime](docs/decisions/0020-complete-byte-rule.md) scans
+every prompt byte with bounded state across chunk boundaries. It binds exact
+patterns/provenance and blocks score one at threshold one. Independent complete-byte
+oracle tests cover early, spanning and late matches. The marker patterns establish
+matching behavior only; no general injection detection or proof is claimed.
 
 ## Run
 

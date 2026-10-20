@@ -2,11 +2,21 @@
 
 ## Unreleased
 
+Execute bounded literal byte rules over complete prompts, carrying suffix state
+across chunks and checking exact program/profile/provenance identities. Add
+complete-input oracle tests, fixed vectors, schemas and installed-wheel checks.
+Threshold equality blocks; fixtures make no policy-quality or proof claim.
+
+Record the owner's approved prototype study, delegated evaluation/public source
+selection and bounded local/HF research authority. Freeze conditional power and
+quality criteria and prepare hardware/reviewer options. Actual source and
+measurement dossier holds remain explicit.
+
 Prepare the single-policy admission proposal with explicit source, quality and
 resource holds. Add strict study/protocol/review records, caller-pinned document
 checks, fixed marker vectors and installed-package validation. The proposal and
-fixture authorize no asset access or measurement; owner/relying-party review
-remains outstanding.
+fixture initially authorized no asset access or measurement; the subsequent
+scope approval is recorded above.
 
 Add `make check-spec` for local anchors, RFC ownership/template checks, exact
 work-map/tracker agreement and section/invariant coverage. Add an explicit

@@ -114,6 +114,17 @@ metadata, duplicate ordinals and unsafe files reject. Metadata remains private;
 this does not authenticate execution, qualify physical power-loss behavior or
 implement W32 full-path cost measurement.
 
+W10 / issue #11 adds a bounded literal byte-rule program and complete-input native
+execution with suffix state across chunk boundaries. The
+[evidence](evidence/w10-complete-byte-rule-2026-10-20.json) records 97 new tests,
+1,000 seeded oracle comparisons, 11 reproduced fixed vectors and 1,573 total
+local tests, with both installed-package gates passing. Invalid bindings,
+parameter/provenance changes, padding-dependent
+matches, resource excess and inconsistent results reject. The scalar arithmetic
+DAG projects the Boolean match feature; it does not encode the matcher.
+The full extractor/state must be constrained by a future W19 proof.
+Patterns are authored harmless markers, not a measured injection detector.
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -163,6 +174,10 @@ candidate/evaluator and independently enrolled final review identities are still
 missing, so the proposal correctly rejects as a measurement admission.
 The source-selection and engineering work is authorized now. No dataset/model
 asset, paid job, private upload, hardware evidence or independent review occurred.
+[PR #69](https://github.com/AbdelStark/hallmark/pull/69) delivered this update as
+`7f547356a7f91e8d331a6963d0cf40603dd49b44`; all 12
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39457001526) passed.
+Issue #14 is closed as admission preparation, not completed measurement.
 
 ## Not implemented or established
 
@@ -225,9 +240,9 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: deliver the W13 approval update, then implement W10 / #11's complete-byte
-rule runtime, followed by W14 / #15's source/lineage import. Study permission is
-no longer a blocker. Under [AUTHORITY](AUTHORITY.json), review public source rights
+Next: deliver W10 / #11's complete-byte rule runtime, then implement W14 / #15's
+source/lineage import. Study permission is no longer a blocker.
+Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
 [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md).

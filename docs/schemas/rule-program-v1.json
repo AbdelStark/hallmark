@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "arithmetic": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Arithmetic",
+      "type": "string"
+    },
+    "input_profile": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Profile",
+      "type": "string"
+    },
+    "patterns": {
+      "items": {
+        "maxLength": 8192,
+        "minLength": 2,
+        "pattern": "^(?:[0-9a-fA-F]{2})+$",
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Patterns",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "schema_id": {
+      "const": "hallmark/rule-program/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "input_profile",
+    "arithmetic",
+    "patterns",
+    "provenance"
+  ],
+  "title": "RuleProgram",
+  "type": "object"
+}

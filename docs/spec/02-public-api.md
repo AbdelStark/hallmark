@@ -334,6 +334,27 @@ is intentionally inadmissible while choices remain null. See
 [decision 0018](../decisions/0018-admission-proposal.md) for the distinction from
 runtime policy, the acyclic review hash and the missing operational authority.
 
+`hallmark.rule` implements `RuleProgram` and private `RuleResult` records:
+
+```python
+execute_rule(
+    opening: TranscriptOpening,
+    classifier: ClassifierManifest,
+    program: RuleProgram,
+    inputs: InputProfile,
+    arithmetic: ArithmeticProfile,
+    *,
+    provenance: bytes,
+    parameters: dict[str, bytes],
+) -> RuleResult: ...
+```
+
+It checks exact identities and supplied files, then scans the complete prompt with
+bounded suffix state. Score one blocks at threshold one. No source retrieval,
+enrollment, task quality or proof verification occurs. The literal matcher is
+part of the program, not the scalar score-projection DAG; see
+[semantics, provenance and limits](../decisions/0020-complete-byte-rule.md).
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).

@@ -1,0 +1,77 @@
+{
+  "additionalProperties": false,
+  "description": "Private diagnostics: chunk scores disclose where literal matches end.",
+  "properties": {
+    "chunk_scores": {
+      "items": {
+        "maximum": 1,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 32768,
+      "minItems": 1,
+      "title": "Chunk Scores",
+      "type": "array"
+    },
+    "chunk_size": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Chunk Size",
+      "type": "integer"
+    },
+    "classifier": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Classifier",
+      "type": "string"
+    },
+    "input_digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/rule-result/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "score": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Score",
+      "type": "integer"
+    },
+    "threshold": {
+      "maximum": 1,
+      "minimum": 1,
+      "title": "Threshold",
+      "type": "integer"
+    },
+    "unit_count": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Unit Count",
+      "type": "integer"
+    },
+    "verdict": {
+      "title": "Verdict",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "classifier",
+    "input_digest",
+    "unit_count",
+    "chunk_size",
+    "chunk_scores",
+    "threshold",
+    "score",
+    "verdict"
+  ],
+  "title": "RuleResult",
+  "type": "object"
+}
