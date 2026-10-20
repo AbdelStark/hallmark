@@ -24,6 +24,7 @@ def main() -> None:
         assert "hallmark/classifier_manifest.py" in names
         assert "hallmark/policy.py" in names
         assert "hallmark/openings.py" in names
+        assert "hallmark/receipts.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -43,10 +44,12 @@ def main() -> None:
             "tests/test_classifier_manifest.py",
             "tests/test_policy.py",
             "tests/test_openings.py",
+            "tests/test_receipt_contracts.py",
             "fixtures/wire/model-manifest-v1.json",
             "fixtures/wire/classifier-v1.json",
             "fixtures/wire/policy-request-v1.json",
             "fixtures/wire/openings-v1.json",
+            "fixtures/wire/receipts-v1.json",
             "docs/schemas/model-manifest-v1.json",
             "docs/schemas/classifier-v1.json",
             "docs/schemas/input-profile-v1.json",
@@ -56,6 +59,12 @@ def main() -> None:
             "docs/schemas/request-expectation-v1.json",
             "docs/schemas/request-v1.json",
             "docs/schemas/transcript-opening-v1.json",
+            "docs/schemas/proof-inputs-v1.json",
+            "docs/schemas/proof-input-layout-v1.json",
+            "docs/schemas/epoch-v1.json",
+            "docs/schemas/receipt-v1.json",
+            "docs/schemas/signed-receipt-v1.json",
+            "docs/schemas/proof-artifact-v1.json",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -182,6 +191,39 @@ def main() -> None:
                 "p = InputProfile.decode(bytes.fromhex(v['profiles']['bytes']['cbor_hex'])); "
                 "assert input_commitment(o, c, p).hex() == case['inputs'][1]['digest_hex']",
                 str(ROOT / "fixtures/wire/openings-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.classifier_manifest import ClassifierManifest, InputProfile; "
+                "from hallmark.policy import Policy, RequestExpectation; "
+                "from hallmark.receipts import EpochRecord, ReceiptBody, SignedReceipt, "
+                "ProofInputs, ProofArtifact; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "e = EpochRecord.decode(bytes.fromhex(v['epoch']['cbor_hex'])); "
+                "s = SignedReceipt.decode(bytes.fromhex(v['signed_receipt']['cbor_hex'])); "
+                "r = ReceiptBody.decode(bytes.fromhex(v['receipt']['cbor_hex'])); "
+                "x = RequestExpectation.decode(bytes.fromhex(v['expected']['cbor_hex'])); "
+                "p = Policy.decode(bytes.fromhex(v['policy']['cbor_hex'])); "
+                "c = tuple(ClassifierManifest.decode(bytes.fromhex("
+                "v['classifiers'][kind]['cbor_hex'])) for kind in ('rule','mlp','encoder')); "
+                "i = tuple(InputProfile.decode(bytes.fromhex(v['profiles'][name]['cbor_hex'])) "
+                "for name in ('bytes','bytes','tokens')); "
+                "r.validate_expectation(x, now=v['now']); r.validate_policy(p, c, i); "
+                "s.validate_epoch(e, now=v['now']); "
+                "assert r.identity().hex() == v['receipt']['identity_hex']; "
+                "assert r.signing_bytes().hex() == v['receipt']['signing_bytes_hex']; "
+                "assert e.challenge().hex() == v['epoch']['challenge_hex']; "
+                "a = ProofArtifact.decode(bytes.fromhex(v['proofs'][1]['cbor_hex'])); "
+                "a.validate_inputs(r.inputs[1], c[1], i[1], max_proof_bytes=1024); "
+                "assert ProofInputs.from_fields(tuple(v['packing_only'][0]['fields']))"
+                ".threshold == -(2**31)",
+                str(ROOT / "fixtures/wire/receipts-v1.json"),
             ],
             cwd=directory,
             check=True,

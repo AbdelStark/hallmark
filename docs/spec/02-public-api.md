@@ -118,6 +118,33 @@ functions perform deterministic hash reconstruction only; they do not qualify a
 tokenizer, enroll inputs or verify proofs. See [exact preimages, B1 obligations,
 privacy and v0 migration](../decisions/0008-transcript-input-openings.md).
 
+`hallmark.receipts` implements `ProofInputs`, `ReceiptBody`, `SignedReceipt`,
+`EpochRecord` and `ProofArtifact` with checked CBOR encode/decode:
+
+```python
+inputs.to_fields() -> tuple[int, ...]
+ProofInputs.from_fields(fields: tuple[int, ...]) -> ProofInputs
+inputs.validate_profile(classifier: ClassifierManifest, profile: InputProfile) -> None
+body.identity() -> ArtifactDigest
+body.signing_bytes() -> bytes
+body.validate_expectation(expected: RequestExpectation, *, now: int) -> None
+body.validate_policy(policy: Policy, classifiers: ClassifierSet, profiles: ProfileSet) -> None
+epoch.identity() -> ArtifactDigest
+epoch.challenge() -> ArtifactDigest
+epoch.key_id() -> ArtifactDigest
+epoch.validate_time(now: int) -> None
+signed.validate_epoch(epoch: EpochRecord, *, now: int) -> None
+artifact.validate_inputs(
+    expected: ProofInputs, classifier: ClassifierManifest, profile: InputProfile,
+    *, max_proof_bytes: int,
+) -> None
+```
+
+`ClassifierSet` and `ProfileSet` are exact three-element tuples in rule/MLP/encoder
+order. These methods check structural and declared-reference consistency only.
+No signature, attestation or proof is verified. See [record semantics, exact
+100-field layout, time checks and payload caps](../decisions/0009-receipt-evidence-contracts.md).
+
 The primitive value decoder alone does not validate an artifact schema or authenticity.
 Generic schema dispatch and the following artifact interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).

@@ -25,6 +25,10 @@ The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind 
 transcript bytes, caller context and complete classifier input. Portable vectors
 include a separate JavaScript hash check; neither is proof or hardware evidence.
 
+The [receipt/epoch/proof containers](docs/decisions/0009-receipt-evidence-contracts.md)
+check declared identities, time intervals and public-input packing. They do not
+verify signatures, attestations or proofs.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

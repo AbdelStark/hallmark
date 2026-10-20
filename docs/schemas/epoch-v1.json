@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bounded opaque evidence; key/quote validity requires a qualified verifier.",
+  "properties": {
+    "accelerator_evidence": {
+      "maxLength": 33554432,
+      "minLength": 2,
+      "pattern": "^(?:[0-9a-fA-F]{2})*$",
+      "title": "Accelerator Evidence",
+      "type": "string"
+    },
+    "collateral": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Collateral",
+      "type": "array"
+    },
+    "cpu_evidence": {
+      "maxLength": 33554432,
+      "minLength": 2,
+      "pattern": "^(?:[0-9a-fA-F]{2})*$",
+      "title": "Cpu Evidence",
+      "type": "string"
+    },
+    "epoch_id": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Epoch Id",
+      "type": "string"
+    },
+    "expires_at": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Expires At",
+      "type": "integer"
+    },
+    "issued_at": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Issued At",
+      "type": "integer"
+    },
+    "key": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Key",
+      "type": "string"
+    },
+    "measurement": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Measurement",
+      "type": "string"
+    },
+    "model": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Model",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/epoch/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "epoch_id",
+    "key",
+    "model",
+    "measurement",
+    "issued_at",
+    "expires_at",
+    "cpu_evidence",
+    "accelerator_evidence",
+    "collateral"
+  ],
+  "title": "EpochRecord",
+  "type": "object"
+}

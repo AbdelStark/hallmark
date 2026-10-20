@@ -13,7 +13,7 @@ Local bootstrap checks: 29 tests, strict typing/lint/format, file links and inst
 Current dependency graph: 104 edges. W02 now depends on W05 for the typed external
 request expectation used by context hashing; the original 102-edge publication
 audit is preserved. W04 reuses W03 file-reference contracts, so that implementation dependency is now explicit.
-Next sequence: deliver W02 (#3), then W06 (#7); reassess W08 (#9) and W11 (#12).
+Next sequence: deliver W06 (#7), then W08 (#9); reassess W07 (#8) and W11 (#12).
 
 Merged delivery: [W01 evidence](../../research/evidence/w01-wire-2026-10-20.json),
 [W30 evidence](../../research/evidence/w30-errors-2026-10-20.json) and
@@ -26,17 +26,20 @@ on `f456b4a749d795f2f22f19e5d2ae5fd90b099539`.
 W05 is merged in [PR #57](https://github.com/AbdelStark/hallmark/pull/57). Its
 [main CI](https://github.com/AbdelStark/hallmark/actions/runs/39411367808) passed
 on `1d344d55b44efae9b0232c46d4553dfe59f49288`.
+W02 is merged in [PR #58](https://github.com/AbdelStark/hallmark/pull/58). Its
+[main CI](https://github.com/AbdelStark/hallmark/actions/runs/39412814966) passed
+on `fbd6c90f65e5e535f8dfb839012f1bd3bd544097`.
 
 ## Milestone: v0.2
 
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
 |---|---|---|---|---|---|---|---|---|
 | [#2](https://github.com/AbdelStark/hallmark/issues/2) | W01 | wire: implement strict v1 encoding and domain-separated identities | wire | p0 | m | 0001 | Merged; PR #52 | None |
-| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Local gates passed; hosted delivery pending | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Merged; PR #58 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Merged; PR #55 | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
 | [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Merged; PR #56 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4) |
 | [#6](https://github.com/AbdelStark/hallmark/issues/6) | W05 | wire: add policy and external request expectation schemas | wire | p0 | s | 0001, 0007 | Merged; PR #57 | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
-| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Open | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Local gates passed; hosted delivery pending | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7) |
 | [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Open | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#10](https://github.com/AbdelStark/hallmark/issues/10) | W09 | registry: sign snapshots and implement rotation and retirement | registry | p0 | m | 0002 | Open; blocked | [#9](https://github.com/AbdelStark/hallmark/issues/9) |
@@ -52,7 +55,7 @@ on `1d344d55b44efae9b0232c46d4553dfe59f49288`.
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
 |---|---|---|---|---|---|---|---|---|
 | [#11](https://github.com/AbdelStark/hallmark/issues/11) | W10 | classifiers: implement the complete-input integer rule program | classifiers | p1 | m | 0003 | Open; blocked | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#14](https://github.com/AbdelStark/hallmark/issues/14) |
-| [#12](https://github.com/AbdelStark/hallmark/issues/12) | W11 | classifiers: implement the byte-feature integer MLP runtime | classifiers | p1 | m | 0003 | Open; blocked | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
+| [#12](https://github.com/AbdelStark/hallmark/issues/12) | W11 | classifiers: implement the byte-feature integer MLP runtime | classifiers | p1 | m | 0003 | Open | [#3](https://github.com/AbdelStark/hallmark/issues/3), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
 | [#13](https://github.com/AbdelStark/hallmark/issues/13) | W12 | classifiers: execute the qualified encoder integer graph | classifiers | p1 | l | 0003, 0005 | Open; blocked | [#5](https://github.com/AbdelStark/hallmark/issues/5), [#19](https://github.com/AbdelStark/hallmark/issues/19) |
 | [#15](https://github.com/AbdelStark/hallmark/issues/15) | W14 | research: implement lineage-preserving data admission and splitting | research | p0 | m | 0004 | Open; blocked | [#14](https://github.com/AbdelStark/hallmark/issues/14) |
 | [#16](https://github.com/AbdelStark/hallmark/issues/16) | W15 | research: implement frozen baseline and MLP training comparisons | research | p1 | m | 0003, 0004 | Open; blocked | [#12](https://github.com/AbdelStark/hallmark/issues/12), [#15](https://github.com/AbdelStark/hallmark/issues/15) |

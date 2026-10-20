@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Add v1 receipt, epoch and proof-container schemas with exact 100-field public-input
+packing, offset-encoded signed thresholds, declared-reference/time checks and bounded
+opaque payloads. Publish fixed vectors and schema snapshots without a verification stub.
+
 Add v1 transcript openings, caller-bound context and salted complete-input hashes.
 Reconstruct all prompt bytes locally; require explicit independent token units
 and vocabulary bounds for encoders. Publish schema/preimage vectors and a separate
