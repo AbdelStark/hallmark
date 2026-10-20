@@ -128,6 +128,7 @@ def main() -> None:
         assert "hallmark/mlp_export.py" in names
         assert "hallmark/mlp_training.py" in names
         assert "hallmark/guard.py" in names
+        assert "hallmark/comparison_run.py" in names
         assert "hallmark/baselines.py" in names
         assert "hallmark/selection.py" in names
         assert "hallmark/comparison.py" in names
@@ -616,7 +617,9 @@ def main() -> None:
         )
         inventories["train"] = installed_inventory(root, train_python, wheels[0], directory)
     if args.guard:
-        guard_python = install(root, wheels[0], Path(directory) / "guard-env", guard=True)
+        guard_python = install(
+            root, wheels[0], Path(directory) / "guard-env", guard=True, train=args.train
+        )
         subprocess.run(
             [str(guard_python), str(root / "scripts/check_guard.py")],
             cwd=directory,
@@ -624,6 +627,13 @@ def main() -> None:
             timeout=45,
         )
         inventories["guard"] = installed_inventory(root, guard_python, wheels[0], directory)
+        if args.train:
+            subprocess.run(
+                [str(guard_python), str(root / "scripts/check_comparison_run.py")],
+                cwd=directory,
+                check=True,
+                timeout=55,
+            )
     if args.report:
         args.report.write_text(
             json.dumps(

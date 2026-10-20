@@ -343,3 +343,48 @@ telemetry, upload or cleanup scheduler. Local permissions are not encryption.
 After ambiguous filesystem failures, quarantine the archive. See the
 [storage decision](decisions/0015-private-event-storage.md) for filesystem and
 power-loss limits. Legacy `run` artifacts do not gain this boundary retroactively.
+
+## Caller-enrolled baseline comparisons
+
+`scripts/run_comparisons.py` joins reviewed admission, reproduced source import,
+train-only selection, final fitting, calibration and test scoring. Obtain the
+expected review identity from the authenticated reviewer outside the dossier.
+The command verifies its bindings; it cannot authenticate a human approval or
+replace label/contamination review. See [decision 0031](decisions/0031-admitted-comparison-command.md).
+
+Prepare an owner-controlled, read-only dossier containing `policy.cbor`,
+`protocol.cbor`, `review.cbor`, `comparison.json`, `import.cbor`, `dataset.cbor`,
+and the exact referenced files under `documents/`, `sources/` and `dataset/`.
+The [run-plan schema](../fixtures/comparison-run.schema.json) pins the import,
+dataset, selection, guard assets and guard runtime. Bind the exact bytes returned
+by `hallmark.comparison_run.execution_inventory()` into the admission evaluator
+and first six candidate code references; bind the comparison-plan bytes into
+their configuration references. Review these actual inventories and the source
+evidence before enrolling the review identity. The seventh candidate remains
+explicitly unavailable in this W15 path.
+
+After real admission, invoke with independently supplied paths and review pin:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  uv run --locked --extra train --extra guard python scripts/run_comparisons.py \
+  --dossier "$DOSSIER" --guard-assets "$GUARD_ASSETS" \
+  --expected-review "$REVIEW_ID" --output "$FRESH_OUTPUT"
+```
+
+This is a command template, not an admitted real-data run. The caller enforces
+the reviewed process time/memory and total working-storage limits, records a
+resource receipt, and prevents reuse of test data across separate output roots.
+The runner checks time between stages and its output-byte allowance; it cannot
+interrupt a blocked native operation. Roots and parent directories must remain
+under the caller's control. Keep dossiers, source rows and fitted artifacts out
+of git.
+
+All retained fit/calibration pins are written to `frozen.json` before test
+scoring. Failures preserve partial artifacts and sanitized `failure.json`;
+existing output directories are refused. Exit 0 means the W15 baseline roster
+executed; exit 3 retains an incomplete comparison result. Neither exit establishes
+task quality, full-study completion or independent verification. Default runs
+reject fixture data. `make check-comparison` explicitly uses invented approvals,
+authored rows and a tiny ONNX marker graph; `make package-check-comparison` also
+executes that fixture against an installed wheel.

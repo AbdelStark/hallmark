@@ -1277,3 +1277,50 @@ held-out rows, overlapping groups/prompts and existing output directories.
 PR #73 remains draft until admitted real-data commands satisfy the rest of W15.
 The compact encoder and full proof/hardware obligations remain separate work.
 The repository remains public and the unrelated `.gitignore` edit is preserved.
+
+## 2026-10-20 — W15 caller-enrolled comparison command (partial issue #16)
+
+[Decision 0031](../docs/decisions/0031-admitted-comparison-command.md) fixes a fresh
+engineering experiment joining admission, reproduced source import, grouped
+selection, final fits and calibration before test. Existing evaluator, grouping,
+study targets and historical results remain unchanged. The command checks an
+externally supplied review identity, exact source/config/runtime pins and dataset
+reproduction; it does not authenticate a human approval. Fixture-only mode cannot
+relabel authored data as real study evidence.
+
+The [raw numeric evidence](evidence/w15-comparison-command-2026-10-20.json) points
+to `runs/w15-comparison-command-1792531617672623000`. Protocol
+`c912d278451562cc2f15abc1b7191e2bc31dbdc7b9dc7c7ef931fb0c4a1dd6f2`
+was written before measurement with exact source/input identities, two commands,
+55 seconds per command, one thread, 2 GiB memory and 16 MiB new storage. Two fresh
+processes took 2.931/2.892 seconds and peaked at 272,400,384/270,286,848 bytes RSS.
+All 38 output artifacts match byte for byte. The full 200-row authored source,
+invented review dossier and tiny ONNX graph remain local. No downloaded data,
+HF token, GPU, paid compute or external inference was used in this experiment.
+
+The runner retains 75 train-internal rotations, including 15 deliberate
+nonconvergences, then nine selected final fits plus the fixed marker guard.
+Every fit/calibration identity is saved before scoring test. Negative results
+remain: each MLP seed misses all 20 positives; each character baseline has 2/20
+benign false positives. Logistic/marker-guard fixture results are not scientific
+quality evidence. Controls report their full errors; compact encoder is explicitly
+unavailable. `full_study_complete` and `quality_claim` remain false.
+
+Validation: `make check` passes 1,772 tests, `make check-train` executes 35 tests,
+`make check-guard` executes its graph plus 32 tests, `make check-comparison`
+executes the real CLI plus 31 binding/order/failure tests, and `make package-check`
+passes. The five gates total 63.908 seconds. The existing fork-rejection test
+emits Python's multithreaded-fork deprecation warning and passes. Raw logs are in
+the experiment's `gates/` directory. Core package source identity is
+`49bd4b6098c32ec95579924492abc3b442f40054245c3817147678fb10286ac5`, wheel
+`a8929702d6cb278097b1c62e7cf93b60c1af6ff081af0d18d178da0efa942b3f`, sdist
+`ded0fad4b12738742daa23a9d9c0bd66398299424fa359f55db011b67f3ec733`.
+These distributions precede this evidence prose. Another local combined-package
+environment would exceed the remaining 20 GiB allowance, so it was not run;
+Linux/macOS hosted jobs now require the installed combined comparison fixture.
+The storage-choice request remains pending and old evidence was not removed.
+
+PR #73 stays draft: the real-data command is implemented, but an actual reviewed
+source/label/contamination dossier is still missing. `docs/OPERATIONS.md` provides
+the exact invocation template, required layout, external-pin and resource
+obligations. No real-data or final study claim is made by this increment.

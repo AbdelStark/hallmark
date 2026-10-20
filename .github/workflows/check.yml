@@ -73,4 +73,5 @@ jobs:
         with:
           version: '0.9.18'
       - run: make check-guard
-      - run: make package-check-guard
+      - run: make check-comparison
+      - run: make package-check-comparison

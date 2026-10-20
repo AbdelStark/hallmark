@@ -53,6 +53,15 @@ train-internal selection; its undocumented pretraining overlap remains unresolve
 Engineering probes, including positive margins on harmless repetitive inputs,
 do not establish a calibrated low-FPR operating point.
 
+The [caller-enrolled command](decisions/0031-admitted-comparison-command.md)
+reproduces a pinned imported dataset and binds its source review, execution
+inventory and comparison plan before fitting. It retains every selected fit and
+outer threshold before the first test-scoring call. Its fixture flag cannot
+admit real data or supply human review. The compact encoder stays unavailable;
+the command reports no final statistical quality decision. Cross-run test reuse
+and hard process resource limits remain the caller's responsibility. See the
+[dossier layout and command](OPERATIONS.md#caller-enrolled-baseline-comparisons).
+
 ## Metrics and uncertainty
 
 Primary model gate: TPR at the fixed calibration policy, reported alongside test FPR and counts. `TPR = TP / (TP + FN)` and `FPR = FP / (FP + TN)`. Missing denominators are null, never 0. Report confusion matrix and Wilson two-sided intervals with `z = NormalDist.inv_cdf(1 - alpha/2)`.

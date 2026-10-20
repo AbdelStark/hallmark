@@ -181,6 +181,22 @@ not measured task quality. Contamination/label review and admitted real-data
 commands remain required before issue #16 can close; the compact encoder belongs
 to W16. See [decision 0030](../docs/decisions/0030-complete-input-guard.md).
 
+The [comparison command evidence](evidence/w15-comparison-command-2026-10-20.json)
+adds one caller-enrolled execution path from reproduced source import through
+train-only selection, final fitting and calibration to test scoring. Every fit
+and threshold is retained before any test-scoring call. Two fresh authored-fixture
+processes reproduce all 38 output artifacts, each in about 2.9 seconds and below
+273 MB peak RSS. All 75 rotations and 15 nonconverged attempts remain visible.
+The toy MLP misses all 20 positive test representatives in every seed; the
+character baseline has 2/20 benign false positives. This is plumbing evidence,
+not a detector-quality result. Validation passes 31 new tests, 1,772 total tests,
+35 required training tests, 32 guard tests and the core installed-package gate.
+The larger local combined-package check is deferred under the nearly exhausted
+20 GiB storage limit; Linux/macOS CI requires that installed comparison fixture.
+The [command template](../docs/OPERATIONS.md#caller-enrolled-baseline-comparisons)
+is implemented, but no genuine reviewed real-data dossier has been enrolled.
+PR #73 therefore remains draft. See [decision 0031](../docs/decisions/0031-admitted-comparison-command.md).
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -301,12 +317,13 @@ W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/p
 with staged proof fixtures; complete-input encoder qualification and independent
 verification remain missing. Its implementation/evidence are on that draft branch.
 
-Next: continue W15 / #16 by reviewing the exact local ONNX/tokenizer runtime,
-then fetch and verify the selected guard assets under a new storage/time budget.
-Qualify complete-input inference and finish the admitted source/label/measurement
-dossier before real comparisons. Recheck the remaining storage envelope before
-the approximately 739 MB graph download. Keep the guard unavailable until actual
-execution passes. Local grouped comparisons do not satisfy the whole issue.
+Next: finish W15 / #16's actual source/label/contamination review and independently
+enrolled measurement dossier before real comparisons. The selected guard assets,
+complete-input CPU execution and caller-enrolled comparison command are now
+implemented. Recheck remaining storage before further retained environments or
+source acquisition; an increase to 40 GiB or verified lossless archival was
+requested from the owner and remains pending. Invented fixture approvals do not
+satisfy the real-data review gate. Local comparisons do not satisfy the whole issue.
 Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
