@@ -286,3 +286,48 @@ versioned external expectation, classifier resolution and comparison boundaries.
 do not authenticate enrollment, prove freshness or history, execute classifiers,
 or verify hardware/proofs. No data/model download or policy adoption occurred.
 Exact-head hosted checks must pass before integration; W02 / #3 is next.
+
+Delivery: [PR #57](https://github.com/AbdelStark/hallmark/pull/57) merged W05 as
+`1d344d55b44efae9b0232c46d4553dfe59f49288`; issue #6 closed. All six exact-head
+PR and [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39411367808)
+passed. #3, #7 and #9 were unblocked after checking their live prerequisites.
+The repository remained public.
+
+## 2026-10-20: W02 exact transcript and input openings
+
+Hypothesis: the specified transcript/context/input preimages bind exact roles,
+caller expectations and every original input unit, reproducibly across two
+language implementations without hardware. Baseline:
+`1d344d55b44efae9b0232c46d4553dfe59f49288`, with 203 passing wire/policy tests.
+Mutable paths: a separate opening module, tests, schema/vector fixtures,
+JavaScript vector checker, package checks and specification/evidence/tracker docs.
+Pass criterion: all field, Unicode, salt, nonce and late-unit mutations change
+the corresponding identity or fail, both encoders match fixed vectors, and
+`make check`/`make package-check` pass. Legacy hashes and experiments stay unchanged.
+
+The first empty-opening fixture matched a literal CBOR preimage. Saved
+[source/config/environment hashes and numeric results](evidence/w02-openings-2026-10-20.json)
+before this entry. All 69 opening tests and 203 wire/policy regressions pass;
+`make check` passes 630 tests and static/doc checks. `make package-check` passes
+isolated installed-wheel transcript/context/byte-input reconstruction.
+Commands completed below 60 seconds in the locked Python 3.12.12/macOS arm64
+environment with one training thread; no data/model/backend was downloaded.
+
+Node v24.18.0, already installed, ran the separate JavaScript CBOR/hash checker
+using standard libraries only. It agrees on seven transcript/context and 13 input
+vectors, including U64 IDs stored as decimal strings to preserve exactness.
+Changing the final token without updating its committed preimage correctly
+causes an assertion failure; its output hash is retained as an expected negative
+result. This is a separately written implementation by the same contributor,
+not independent reviewer or full verifier acceptance. Node is optional developer
+tooling and was not added to package dependencies or mandatory CI.
+
+[Decision 0008](../docs/decisions/0008-transcript-input-openings.md) specifies raw
+UTF-8 role preimages, caller-bound context, per-classifier salts, limits, opening
+privacy and the incompatible v0/v1 formats. Byte input is derived from the whole
+prompt; token input requires independently computed original units and an explicit
+vocabulary bound. The helper validates integer ranges and hashes all supplied
+units, but cannot authenticate a tokenizer or prove text-to-token correspondence.
+Chunk execution, complete circuit coverage, enrollment, real proofs/hardware and
+independent verification remain separate gates. Synthetic salts are public test
+values. Exact-head hosted checks are next, then #7 receipt contracts.

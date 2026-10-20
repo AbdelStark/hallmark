@@ -25,6 +25,11 @@ Use a strict deterministic binary profile and separate v1 hash domains for immut
 
 ## Proposed Design
 
+W01–W05 implement the primitive codec and opening/manifest/policy contracts.
+[Decision 0008](../decisions/0008-transcript-input-openings.md) records the exact
+opening and input reconstruction boundary, vectors and cross-language check.
+Enrollment and independent review remain separate gates.
+
 `wire.encode` and `wire.decode` implement the [typed contracts](../spec/02-public-api.md#v1-supported-interfaces). `WireValue` is null, bool, integer in `[-2^63, 2^64-1]`, bytes, UTF-8 text, bounded list, or string-keyed map. No floats, tags, indefinite lengths or bignums. Use shortest representations and length-first ordering of encoded map keys; reject noncanonical input by bounded decoding with duplicate detection followed by byte comparison to canonical encoding. Bound nesting and byte sizes before allocating. Signatures are raw byte fields, not tagged objects.
 
 Define `H(kind, value) = SHA256(u32be(len(tag)) || tag || encode(value))`, where `tag=ASCII("hallmark/v1/"+kind)`. The finite domains are `model`, `classifier`, `policy`, `input-profile`, `program`, `arithmetic`, `backend`, `setup`, `registry`, `epoch`, `context`, `transcript`, `input-salt`, `input`, `receipt`, `key`, `trust`, `protocol`, `review`, `corpus`, `cost`, `release`. File references use SHA-256 of exact bytes. A raw file hash and a typed identity are distinct types even though both are 32 bytes.

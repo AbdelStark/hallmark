@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add v1 transcript openings, caller-bound context and salted complete-input hashes.
+Reconstruct all prompt bytes locally; require explicit independent token units
+and vocabulary bounds for encoders. Publish schema/preimage vectors and a separate
+JavaScript checker. Preserve legacy transcript hashes unchanged.
+
 Add v1 all-pass policy, request and caller-expectation contracts with schema
 snapshots and fixed vectors. Check resolved rule/MLP/encoder order, model/policy
 identities, explicit continuity and UTF-8 byte limits. No policy admission,

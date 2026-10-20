@@ -23,6 +23,7 @@ def main() -> None:
         assert "hallmark/manifests.py" in names
         assert "hallmark/classifier_manifest.py" in names
         assert "hallmark/policy.py" in names
+        assert "hallmark/openings.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -35,14 +36,17 @@ def main() -> None:
             "docs/roadmap/work-items.json",
             "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
+            "scripts/check_opening_vectors.mjs",
             "tests/test_reference.py",
             "tests/test_wire.py",
             "tests/test_manifests.py",
             "tests/test_classifier_manifest.py",
             "tests/test_policy.py",
+            "tests/test_openings.py",
             "fixtures/wire/model-manifest-v1.json",
             "fixtures/wire/classifier-v1.json",
             "fixtures/wire/policy-request-v1.json",
+            "fixtures/wire/openings-v1.json",
             "docs/schemas/model-manifest-v1.json",
             "docs/schemas/classifier-v1.json",
             "docs/schemas/input-profile-v1.json",
@@ -51,6 +55,7 @@ def main() -> None:
             "docs/schemas/policy-v1.json",
             "docs/schemas/request-expectation-v1.json",
             "docs/schemas/request-v1.json",
+            "docs/schemas/transcript-opening-v1.json",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -155,6 +160,28 @@ def main() -> None:
                 "assert p.identity().hex() == v['policy']['identity_hex']; "
                 "r.validate_against(e, model=m, policy=p, classifiers=c)",
                 str(ROOT / "fixtures/wire/policy-request-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.classifier_manifest import ClassifierManifest, InputProfile; "
+                "from hallmark.openings import TranscriptOpening, input_commitment; "
+                "from hallmark.policy import RequestExpectation; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); case = v['cases'][1]; "
+                "o = TranscriptOpening.decode(bytes.fromhex(case['opening']['cbor_hex'])); "
+                "e = RequestExpectation.decode(bytes.fromhex(v['expected']['cbor_hex'])); "
+                "o.verify_commitment(bytes.fromhex(case['transcript_hex'])); "
+                "assert o.context(e).hex() == case['context_hex']; "
+                "c = ClassifierManifest.decode("
+                "bytes.fromhex(v['classifiers']['mlp']['cbor_hex'])); "
+                "p = InputProfile.decode(bytes.fromhex(v['profiles']['bytes']['cbor_hex'])); "
+                "assert input_commitment(o, c, p).hex() == case['inputs'][1]['digest_hex']",
+                str(ROOT / "fixtures/wire/openings-v1.json"),
             ],
             cwd=directory,
             check=True,
