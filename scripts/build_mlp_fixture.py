@@ -1,21 +1,16 @@
 """Build public synthetic MLP vectors in a new file; expectations use integer division."""
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 
 from hallmark.classifier_manifest import (
-    ArithmeticProfile,
     ClassifierManifest,
     InputProfile,
-    NodeSpec,
-    TensorSpec,
 )
-from hallmark.integer_mlp import MlpProgram, MlpWeights
-from hallmark.manifests import FileRef
+from hallmark.integer_mlp import MlpWeights
+from hallmark.mlp_export import compile_mlp
 from hallmark.openings import TranscriptOpening
-from hallmark.wire import encode
 
 
 def rounded(value, source, target=0):
@@ -30,90 +25,12 @@ def rounded(value, source, target=0):
 
 def export(weights, inputs, *, first_fraction=1, hidden_fraction=0, last_fraction=1, threshold=2):
     """Fixture-only assembly of the documented explicit export; no training or admission."""
-    width = len(weights.hidden_bias)
-    parameters = {
-        f"params/{op}.cbor": encode({"schema_id": "hallmark/operator-parameters/1", "op": op})
-        for op in ("affine", "relu")
-    }
-
-    def ref(path, raw):
-        return FileRef(path=path, size=len(raw), sha256=hashlib.sha256(raw).digest())
-
-    def tensor(name, shape, low, high, fraction, bits=32):
-        return TensorSpec(
-            name=name,
-            shape=shape,
-            signed_bits=bits,
-            fractional_bits=fraction,
-            minimum=low,
-            maximum=high,
-        )
-
-    flat = [value for row in weights.hidden_weights for value in row]
-    low = min(0, min(flat) * inputs.chunk_size) * 256 + min(weights.hidden_bias)
-    high = max(0, max(flat) * inputs.chunk_size) * 256 + max(weights.hidden_bias)
-    zl, zh = (
-        rounded(low, first_fraction, hidden_fraction),
-        rounded(high, first_fraction, hidden_fraction),
-    )
-    hl, hh = max(0, zl), max(0, zh)
-    endpoints = [
-        value * weight
-        for value in (hl, hh)
-        for weight in (min(weights.output_weights), max(weights.output_weights))
-    ]
-    ol = min(endpoints) * width + weights.output_bias
-    oh = max(endpoints) * width + weights.output_bias
-    tensors = (
-        tensor("counts", (256,), 0, inputs.chunk_size, 0),
-        tensor("w1", (width, 256), min(flat), max(flat), first_fraction, 8),
-        tensor("b1", (width,), min(weights.hidden_bias), max(weights.hidden_bias), first_fraction),
-        tensor("hidden", (width,), zl, zh, hidden_fraction),
-        tensor("relu", (width,), hl, hh, hidden_fraction),
-        tensor(
-            "w2",
-            (1, width),
-            min(weights.output_weights),
-            max(weights.output_weights),
-            last_fraction,
-            8,
-        ),
-        tensor(
-            "b2", (1,), weights.output_bias, weights.output_bias, hidden_fraction + last_fraction
-        ),
-        tensor(
-            "score",
-            (1,),
-            rounded(ol, hidden_fraction + last_fraction),
-            rounded(oh, hidden_fraction + last_fraction),
-            0,
-        ),
-    )
-    arithmetic = ArithmeticProfile(
-        schema_id="hallmark/arithmetic/1",
-        tensors=tensors,
-        output="score",
-        nodes=tuple(
-            NodeSpec(
-                id=name,
-                op=op,
-                inputs=names,
-                output=out,
-                parameters=ref(f"params/{op}.cbor", parameters[f"params/{op}.cbor"]),
-            )
-            for name, op, names, out in (
-                ("hidden-affine", "affine", ("counts", "w1", "b1"), "hidden"),
-                ("activation", "relu", ("hidden",), "relu"),
-                ("output-affine", "affine", ("relu", "w2", "b2"), "score"),
-            )
-        ),
-    )
-    raw = weights.encode()
-    program = MlpProgram(
-        schema_id="hallmark/mlp-program/1",
-        input_profile=inputs.identity(),
-        arithmetic=arithmetic.identity(),
-        weights=ref("weights/mlp.cbor", raw),
+    program, arithmetic, raw, parameters = compile_mlp(
+        weights,
+        inputs,
+        first_fraction=first_fraction,
+        hidden_fraction=hidden_fraction,
+        last_fraction=last_fraction,
     )
     classifier = ClassifierManifest(
         schema_id="hallmark/classifier/1",

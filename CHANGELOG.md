@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add train-only record-level byte MLP fitting, externally pinned optimizer resume
+and explicit integer export. Check three authored-marker seeds, full 32,768-byte
+inputs, numerical gradients and installed core/train paths. Preserve the historical
+logistic baseline; grouped selection and real-data comparison remain unfinished.
+
 Add caller-pinned source import, raw-row lineage sidecars and deterministic
 grouped splits. Preserve contrastive pairs, bind review/rights documents and
 reject rehashed leakage mutations. Ship synthetic fixtures, seven schemas and

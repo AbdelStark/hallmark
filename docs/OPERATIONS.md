@@ -61,6 +61,43 @@ Freeze config and evaluate a fresh directory. Set BLAS/OpenMP thread variables t
 
 Compare repeated runs on model/config/predictions/results, not `source.json` byte equality: git state, Python version and platform metadata can differ and must be explained. Full scientific reproducibility and an independent verifier remain separate gates.
 
+## MLP training fixture
+
+The MLP fitting API accepts only training records. `fit_mlp(rows, config)`
+returns a checkpoint and epoch samples; it does not read a dataset or save files.
+To resume, pass `checkpoint=...` and its separately retained
+`expected_checkpoint=checkpoint.identity()`. Resume rejects changed training,
+configuration, implementation or recorded numerical environment. `steps` bounds
+an invocation without changing the frozen epoch limit. An epoch-limit result is
+explicitly nonconverged unless its tolerance criterion passed.
+
+`quantize_mlp(checkpoint, config)` returns integer weights and explicit scales.
+Pass them to `compile_mlp(..., hidden_fraction=0)` with the recorded first/last
+fractions and a matching byte input profile. Compare a native integer score
+divided by `score_scale` with the float logit. Calibrate on native integer scores;
+do not reuse a float threshold. Export does not enroll classifier/backend trust.
+
+Reproduce the authored marker fixture into a **new** local directory:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+  uv run --locked --extra train python scripts/check_mlp_training.py \
+  fixtures/mlp-training.json --expected-fixture "$(cat fixtures/mlp-training.sha256)" \
+  --output runs/mlp-training-fixture
+```
+
+The fixture fixes seeds 17/29/43 and saves the environment, configuration,
+partial/final/resumed optimizer checkpoints, epoch losses, export and numerical
+scores. All checkpoint outputs remain local. It checks fresh/resumed equality,
+complete byte coverage and a fixed numerical-error tolerance, including maximum
+length and Unicode. It does not select a policy, measure injection quality,
+authenticate training or produce a proof. Omitting `--output` checks the fixture
+contracts without importing NumPy or training; both installed-package gates use
+that core path, and the train package gate also executes all three seeds.
+
+The whole baseline comparison, grouped selection and admitted real-data commands
+remain work for issue #16. Do not treat this fixture as a measurement admission.
+
 ## Failure and interruption
 
 Keep failed output directories. Never overwrite a complete run or repair its hashes in place. Diagnose from a copy, issue a new experiment identity if the protocol changes, and record failed hypotheses in `research/LEDGER.md`. On resume, recheck source/data identity and actual environment; do not continue training from an undocumented checkpoint.

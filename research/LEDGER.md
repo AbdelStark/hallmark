@@ -1072,3 +1072,76 @@ authenticating a human. No real dataset, checkpoint, external inference or paid
 job was used. Lexical candidates cover ASCII case/whitespace only; reviewed
 semantic lineage and final measurement admission remain necessary. Historical
 results and the legacy 8 MiB loader are unchanged.
+
+### W14 delivered
+
+[PR #71](https://github.com/AbdelStark/hallmark/pull/71) merged as
+`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`; the corresponding
+[main run](https://github.com/AbdelStark/hallmark/actions/runs/39466963984) passed.
+
+## 2026-10-20 — W15 record-level MLP component
+
+Hypothesis and boundary are recorded in
+[decision 0027](../docs/decisions/0027-record-level-mlp-training.md): complete-input
+record-max fitting can resume exactly and export the existing native integer
+runtime without exposing calibration/test labels to fitting. Baseline: 1,632 tests
+at the W14 merge above, synthetic native MLP weights, and the unchanged logistic
+trainer's multi-chunk rejection. Mutable paths are the additive training/export
+API, shared fixture assembly, schemas/tests, package checks and documentation.
+No dataset, evaluator, policy threshold or historical result was retuned.
+
+The [machine-readable evidence](evidence/w15-record-mlp-training-2026-10-20.json)
+was saved before this prose. Raw local artifacts are retained at
+`runs/w15-mlp-training-1792527541853491000` with the protocol, source snapshots,
+environment, command logs, optimizer checkpoints, epoch traces and exports.
+Protocol SHA-256:
+`406c6d18fd70796b17246460acff8986d7e9c4fb8470411f88720211489a1d58`;
+receipt SHA-256:
+`5bdeb8c5a3428235fec47fd0c177ff79b890dae59fab6848b49b56de645df5cd`.
+The pre-run source inventory identity is
+`fca0528fd4eab344ed62315d7df070f9d76dc542407c695881e805a79546ed1e`.
+
+Two new directories reproduced all 27 substantive artifacts byte for byte.
+Each run fits the frozen 12 authored marker records for seeds 17/29/43, compares
+fresh fitting with a JSON checkpoint resumed after epoch 31, and executes seven
+native/float probes per seed. Probes include empty, Unicode, chunk boundaries,
+last-byte markers and the full 32,768-byte limit. Maximum absolute score errors
+were 0.0064575824, 0.0081562375 and 0.0161565061, below the predeclared 0.1
+engineering tolerance. Final losses were 0.3366060358, 0.4234531054 and
+0.3295476184. All three reached epoch 80 without convergence; none is reported
+as converged or as a successful policy detector.
+
+The two sequential one-thread commands took 0.671 and 0.371 seconds, with measured
+peak RSS 57,458,688 and 58,474,496 bytes. Source and raw evidence occupied
+3,262,607 bytes before the receipt. Cost was $0. NumPy 2.5.4 / CPython 3.12.12
+ran on the owner Mac; exact CPU features, extension and trainer hashes are in the
+environment record. No dataset/checkpoint download, external inference, GPU job,
+HF token access or private upload occurred. Timings are single fixture observations,
+not a performance distribution or proof-cost claim.
+
+The 108 focused tests passed, including 75 existing native-MLP cases and 33 new
+training/export checks. Numerical finite differences check the record-max
+subgradient away from ties; a separate tie case verifies first-max routing.
+Pre-import rejection covers nontraining rows, changed identities, invalid
+profiles, malformed shapes and resource limits. Checkpoint substitution, changed
+configuration/data/runtime/loss, CLI path disclosure and failed output retention
+are checked. The historical MLP fixture still reproduces unchanged.
+
+`make check` passed all 1,665 tests plus lock/lint/format/types, spec, software
+conformance and admission. `make check-train` executed all 17 selected tests.
+Both package gates passed, including core-only contract checks and actual
+installed-wheel three-seed training. Their shared pre-evidence source identity is
+`d12a88046b5cc57d36db75c1c04831bc6c87daaf166e92b6753d86f11b6eb6eb`;
+wheel `1fa14f03212f2154143e3963d1969b2017b890a11034b8025dd88e1db68c4627`,
+sdist `a2c789a76539e27868ddb0887d491387b945a9ee55cbef6f2a4bbd345495cc89`.
+Gate commands consumed another 42.942 seconds. Final-head hosted CI rebuilds the
+complete commit including this evidence and prose.
+
+All recorded runs passed; earlier development checks rejected a fractional native
+output. The correction preserves the integral-score contract through explicit
+score units instead of relaxing validation. Epoch-limit nonconvergence is retained.
+These are shared-implementation software checks, not independent authentication,
+policy quality, hardware provenance or a proof. The complete W15 roster, grouped
+selection, MLP calibration/evaluation and admitted real-data commands remain open.
+W18's staged proof work stays separate in draft PR #72. The unrelated `.gitignore`
+edit remains unstaged, and repository visibility remains public.

@@ -121,6 +121,8 @@ def main() -> None:
         assert "hallmark/conformance.py" in names
         assert "hallmark/conformance_checks.py" in names
         assert "hallmark/integer_mlp.py" in names
+        assert "hallmark/mlp_export.py" in names
+        assert "hallmark/mlp_training.py" in names
         assert "hallmark/rule.py" in names
         assert "hallmark/events.py" in names
         assert "hallmark/admission.py" in names
@@ -141,6 +143,14 @@ def main() -> None:
             "docs/roadmap/coverage.json",
             "scripts/build_conformance.py",
             "scripts/check_conformance.py",
+            "scripts/build_mlp_training_fixture.py",
+            "scripts/check_mlp_training.py",
+            "tests/test_mlp_training.py",
+            "fixtures/mlp-training.json",
+            "fixtures/mlp-training.sha256",
+            "docs/schemas/mlp-fit-config-v1.json",
+            "docs/schemas/mlp-checkpoint-v1.json",
+            "docs/schemas/mlp-quantization-v1.json",
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
             "scripts/build_rule_fixture.py",
@@ -446,6 +456,20 @@ def main() -> None:
         check=True,
         timeout=15,
     )
+    training_fixture = root / "fixtures/mlp-training.json"
+    training_pin = (root / "fixtures/mlp-training.sha256").read_text().strip()
+    subprocess.run(
+        [
+            str(python),
+            str(root / "scripts/check_mlp_training.py"),
+            str(training_fixture),
+            "--expected-fixture",
+            training_pin,
+        ],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
     corpus = root / "tests/vectors/v1"
     subprocess.run(
         [
@@ -525,6 +549,20 @@ def main() -> None:
                 str(root / "scripts/check_installed_train.py"),
                 str(root),
                 str(Path(directory) / "training-fixture"),
+            ],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
+        subprocess.run(
+            [
+                str(train_python),
+                str(root / "scripts/check_mlp_training.py"),
+                str(training_fixture),
+                "--expected-fixture",
+                training_pin,
+                "--output",
+                str(Path(directory) / "mlp-training-fixture"),
             ],
             cwd=directory,
             check=True,

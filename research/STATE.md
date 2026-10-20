@@ -144,6 +144,19 @@ human label review remain external obligations. See
 [decision 0021](../docs/decisions/0021-lineage-data-admission.md).
 No real source was downloaded/admitted or task quality measured.
 
+W15 / issue #16 now has the record-level MLP component: train-only complete-input
+max-logit fitting, pinned same-environment optimizer resume and explicit native
+integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
+records 33 new tests, 1,665 total tests, 17 required train tests and both installed
+package gates. Two fresh three-seed fixture runs produced 27 identical artifacts
+each, including checkpoint/history/export results. All seeds hit the 80-epoch
+limit without convergence; maximum observed score error was 0.016157 against the
+fixed 0.1 engineering bound. These are authored markers, not policy-quality data.
+The historical logistic baseline and native fixture identities remain unchanged.
+See [decision 0027](../docs/decisions/0027-record-level-mlp-training.md).
+The complete comparison roster, grouped selection, MLP calibration/evaluation and
+admitted real-data commands are still required before issue #16 can close.
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -259,8 +272,16 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: finish W14 / #15's source/lineage import delivery, then re-evaluate W18 / #19
-and downstream W15 / #16 against live dependencies. Study permission is no longer a blocker.
+W14 / #15 is merged in [PR #71](https://github.com/AbdelStark/hallmark/pull/71).
+W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72)
+with staged proof fixtures; complete-input encoder qualification and independent
+verification remain missing. Its implementation/evidence are on that draft branch.
+
+Next: continue W15 / #16 with the frozen comparison roster and five grouped
+train-internal folds, then integrate native calibration/evaluation and finish the
+admitted source/guard dossier. Keep selection isolated from calibration/test
+labels and preserve all candidate/convergence failures. The MLP component above
+does not satisfy the whole issue. Study permission is no longer a blocker.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

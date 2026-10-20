@@ -76,6 +76,12 @@ bound affine/ReLU/affine exports with exact signed rescaling, full prompt covera
 and strict threshold comparison. Fixed and generated vectors check every layer.
 This supplies native arithmetic, not trained-policy quality or a proof.
 
+The optional [MLP trainer](docs/decisions/0027-record-level-mlp-training.md) fits
+one loss per complete record, resumes pinned optimizer checkpoints and exports
+the native integer graph. Its three-seed marker fixture checks numerical and
+resume behavior. The full baseline comparison and real-data quality evaluation
+remain unfinished; see the [fixture command](docs/OPERATIONS.md#mlp-training-fixture).
+
 The [literal byte-rule runtime](docs/decisions/0020-complete-byte-rule.md) scans
 every prompt byte with bounded state across chunk boundaries. It binds exact
 patterns/provenance and blocks score one at threshold one. Independent complete-byte
