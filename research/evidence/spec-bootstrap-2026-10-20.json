@@ -1,0 +1,72 @@
+{
+  "schema_id": "hallmark/spec-bootstrap-evidence/1",
+  "date": "2026-10-20",
+  "stage": "phase-1-local",
+  "baseline_commit": "1024ae9a0598ae842e86eaf98c479c5d11ea1f23",
+  "source_hashes": {
+    "src/hallmark/__init__.py": "e1687dfa545112140e5fa13d0e3a209252c3f8f88bca6c8751f3f06c74de4d94",
+    "src/hallmark/cli.py": "cb8d2f464e582ced0e6556d2b756f9d7cb6cc108d764df8f88046eb13b50bfdb",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+    "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a"
+  },
+  "corpus_hashes": {
+    "SPEC.md": "cce34b7fcd48d9190861fed322d1281d5b5b6407d270b3610b821b0cc544000f",
+    "docs/spec/00-overview.md": "789b4d543e7bf02324eec7636f276db8adb61a8335c513c1c4034b462c549a4c",
+    "docs/spec/01-architecture.md": "5b8bc86b7e920a84aa7cae967f0f2f0697f6708fd2acbd1538d1e44ba66d0ae4",
+    "docs/spec/02-public-api.md": "99a88e360c90d5dd974a7cde287510cbc814521d642e7061111b20ce0f511524",
+    "docs/spec/03-data-model.md": "c8b528c679bf62cadd7211c3f86c604e7c3646e164b07b56f5d1fafa6b6969be",
+    "docs/spec/04-error-model.md": "7d8164dce64b11c13258748c3ac7d7dc355518421ee4d3060cba132d5d357032",
+    "docs/spec/05-observability.md": "e35fe4a4c89ac4b8f2645968bf28dd7581812df5ad6f8cb7c100bc8cc3bc98b5",
+    "docs/spec/06-security.md": "f0e18a9f94b44276de96f5267c2cb02101ccaaf2fb880b170d98ba8315f3b376",
+    "docs/spec/07-testing-strategy.md": "1715e2546583321266a3105dc6822dfc202c4ccaebc553bd4d44d91523806d2e",
+    "docs/spec/08-performance-budget.md": "f3324688cc17ebc8cf572f503a3ce13efea2ffc57ced81a8913d29b795c3cff8",
+    "docs/spec/09-release-and-versioning.md": "707736339a0f6bd1d242539a677f92a9fea1e28c2bb2bd148f0aaf0b8e373415",
+    "docs/spec/10-glossary.md": "32c41760dbce72c992a4361ab26bbdab405fc430d0b6179a2557c9882066c9a4",
+    "docs/spec/11-requirements.md": "ac425da2d279b45890135aaefe6f96a42e9513c4dcd6688cd77eccc4fc6a8816",
+    "docs/rfcs/RFC-0001-wire.md": "15b4ac09abe4e5680b1f100ad4c570a7d91ed975ea22560316185ad6735ff5aa",
+    "docs/rfcs/RFC-0002-registry.md": "df3a5cfc10f1d851fad51c07274957753c3fe75d440db451ace6a147b856c518",
+    "docs/rfcs/RFC-0003-integer.md": "2d9068672833cfe38fdd35339c47653091d6d618cc0b28b1d10d9da75755a895",
+    "docs/rfcs/RFC-0004-ml.md": "48b6012dce9a5b9affc6435a3e4370389a0bfc1770696916cfd5b895dda8cd63",
+    "docs/rfcs/RFC-0005-proofs.md": "59e7ce84afb4a720525c5f4ebe9771cbde5071dda351b6570d62d9c74c31527c",
+    "docs/rfcs/RFC-0006-hardware.md": "7f3999a5d9bf49f38d94d82394c4442e01df1cd98b6ba4eb7915c94677f4342f",
+    "docs/rfcs/RFC-0007-verifier.md": "383e0d36b14f83f6924e8ff6e2bdb85ba213c790d5b9083a34d7d1e2e47fd4e5",
+    "docs/rfcs/RFC-0008-operations.md": "65b79e3b4471c7f3443a87112f9bcac69be03903ffefc08bb27eb89a41bf4e00",
+    "docs/rfcs/RFC-0009-conformance.md": "bab20e8cc6bdf8e27489f22957cda4e29140136e00ac0856cd90b3fdee0f26e7",
+    "docs/rfcs/RFC-0010-release.md": "1e89536a51c94a79e98729d790d4da62f7969716e65aab3706a32bc78a900477",
+    "docs/roadmap/work-items.json": "b4c3509765b6e7a3b51e29bf7d8346e32033d04d94611374a6b516391d8fff1c"
+  },
+  "lock_sha256": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156",
+  "config_sha256": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+  "dataset_sha256": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7",
+  "python": "3.12.12 (main, Dec  9 2025, 19:05:33) [Clang 21.1.4 ]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "results": {
+    "smallest_fixture_tests": 18,
+    "make_check_passed": 29,
+    "make_check_failed": 0,
+    "rfc_count": 10,
+    "spec_index_section_rfc_files": 23,
+    "work_items": 40,
+    "dependency_cycles": 0,
+    "internal_anchor_failures": 0,
+    "package_check": "passed",
+    "archive_required_corpus_paths": 24,
+    "forbidden_archive_paths": 0
+  },
+  "commands": [
+    "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 uv run --locked pytest tests/test_contracts.py tests/test_reference.py tests/test_doc_check.py -q",
+    "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 make check",
+    "make package-check",
+    "python3 /tmp/hallmark_audit_spec.py"
+  ],
+  "limits": [
+    "Local macOS checks only; hosted result is recorded separately after publication.",
+    "Structural audit is an ad hoc local check; permanent check-spec enforcement is W38.",
+    "No model, data, hardware or proof qualification was performed."
+  ]
+}

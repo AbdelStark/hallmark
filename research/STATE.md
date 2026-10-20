@@ -12,6 +12,8 @@ TEE evidence, authenticated registry, ZK proving/verification, independent verif
 
 ## Next bounded task
 
+The [proposed v1 corpus](../SPEC.md) and [40-item work map](../docs/spec/11-requirements.md) now define the full hybrid POC, with 10 draft RFCs and owner-reviewed admission gates. The current task is to finish private publication, file the complete implementation issue set and commit the live tracker. This is specification work, not implementation or new research evidence; see [decision 0002](../docs/decisions/0002-v1-specification-scope.md).
+
 Local Python 3.12 train-enabled and Python 3.13 core-only gates pass, including isolated wheel checks. Hosted CI could not start because GitHub reports an account billing/spending-limit block. Do not treat the red hosted run as an executed test failure or report it as green; see the ledger. Billing settings were not changed.
 
 Prepare an admission proposal for exactly one policy/use case: relying party, approved data/licence inventory, group split and power, fixed candidate roster, success/failure criteria and resource budget. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md). No data/model download, external inference, GPU job or background campaign until the missing authority is recorded.
