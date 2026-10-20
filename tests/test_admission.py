@@ -338,7 +338,13 @@ def test_study_budget_and_roles_match_current_authority() -> None:
 def test_design_power_reproduces_with_exact_tail_cross_checks() -> None:
     pytest.importorskip("scipy")
     script = ROOT / "scripts/plan_admission_power.py"
-    expected = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
+    expected = json.loads(
+        (ROOT / "research/evidence/w15-design-power-lock-refresh-2026-10-20.json").read_text()
+    )
+    original = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
+    assert {k: v for k, v in expected.items() if k != "lock_sha256"} == {
+        k: v for k, v in original.items() if k != "lock_sha256"
+    }
     result = subprocess.run(
         [sys.executable, str(script)],
         cwd=ROOT,

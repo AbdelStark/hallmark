@@ -133,8 +133,51 @@ nine selected models. Its loose successful-MLP tolerance exercises the pipeline;
 neither MLP configuration is a real study candidate. All artifacts stay local.
 Omitting `--output` validates contracts without importing optional libraries.
 Both installed-package gates check that path; the train package gate executes
-the entire fixture. Guard integration, reviewed real data and a final admitted
+the entire fixture. Reviewed real data and a final admitted
 measurement command are still pending; none is replaced by a synthetic pass.
+
+## Local guard runtime
+
+`make check-guard` exercises an authored tiny graph with the optional locked
+`guard` extra. `make package-check-guard` repeats it through an isolated installed
+wheel. These commands download software dependencies only, never research models.
+CI runs this fixture on Linux/macOS CPython 3.12; actual model qualification is
+currently Mac CPU only.
+
+`LocalGuard(root, spec, expected_spec=spec_pin)` reads `model.onnx` and
+`tokenizer.json` under a caller-owned root into checked bytes. `GuardSpec` pins
+their byte counts/hashes, vocabulary, input/sequence limits and 1–4 CPU threads.
+The caller owns the process, filesystem and time/memory budget; this is not an
+OS sandbox. The adapter never downloads assets or uses credentials. Core imports
+do not import its optional runtimes.
+
+For the fixed pretrained comparison, retain `guard.record` and independently
+pin its identity before `bind_guard(guard, bounds, expected_runtime=runtime_pin)`.
+Use the returned in-process `Fitted` object with `calibrate_fitted` and
+`evaluate_fitted` exactly as above. The declared empty local training inventory
+does not establish clean upstream pretraining; contamination review remains an
+admission obligation.
+
+For bounded engineering probes, create a `GuardSpec` JSON and an input object
+with schema `hallmark/guard-probes/1`, `fixture_only: true` and at most 16 harmless
+prompt strings. Enroll their spec identity and input-file SHA-256 separately.
+Then, inside an admitted foreground controller with a fresh output directory:
+
+```sh
+HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 TOKENIZERS_PARALLELISM=false \
+  uv run --locked --extra guard python scripts/run_guard.py \
+  --assets "$GUARD_ASSETS" --spec "$GUARD_SPEC" --expected-spec "$GUARD_SPEC_PIN" \
+  --inputs "$GUARD_PROBES" --expected-inputs "$GUARD_PROBES_SHA256" \
+  --output "$GUARD_OUTPUT"
+```
+
+The [retained engineering evidence](../research/evidence/w15-guard-cpu-2026-10-20.json)
+contains the actual pins and numeric results. The full prompt enters the pinned,
+lossy tokenizer; no prefix/suffix is truncated. Contiguous 510-token blocks get
+CLS/SEP individually, with no padding. The maximum float64 difference between
+the two float32 logits is the record score. Positive margins on the two harmless
+maximum-length repetitive probes remain visible. This command neither calibrates
+a task decision nor grants real-data measurement admission.
 
 ## Failure and interruption
 

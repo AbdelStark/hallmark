@@ -13,7 +13,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def install(root: Path, wheel: Path, env: Path, *, train: bool = False) -> Path:
+def install(
+    root: Path, wheel: Path, env: Path, *, train: bool = False, guard: bool = False
+) -> Path:
     subprocess.run(
         ["uv", "venv", "--no-config", "--python", sys.executable, str(env)], check=True, timeout=30
     )
@@ -34,6 +36,7 @@ def install(root: Path, wheel: Path, env: Path, *, train: bool = False) -> Path:
             "--output-file",
             str(requirements),
             *(["--extra", "train"] if train else []),
+            *(["--extra", "guard"] if guard else []),
         ],
         cwd=root,
         stdout=subprocess.DEVNULL,
@@ -94,6 +97,7 @@ def main() -> None:
     parser.add_argument("--dist", type=Path, default=ROOT / "dist")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--train", action="store_true")
+    parser.add_argument("--guard", action="store_true")
     args = parser.parse_args()
     root = args.source.resolve()
     subprocess.run(
@@ -123,6 +127,7 @@ def main() -> None:
         assert "hallmark/integer_mlp.py" in names
         assert "hallmark/mlp_export.py" in names
         assert "hallmark/mlp_training.py" in names
+        assert "hallmark/guard.py" in names
         assert "hallmark/baselines.py" in names
         assert "hallmark/selection.py" in names
         assert "hallmark/comparison.py" in names
@@ -610,6 +615,15 @@ def main() -> None:
             timeout=45,
         )
         inventories["train"] = installed_inventory(root, train_python, wheels[0], directory)
+    if args.guard:
+        guard_python = install(root, wheels[0], Path(directory) / "guard-env", guard=True)
+        subprocess.run(
+            [str(guard_python), str(root / "scripts/check_guard.py")],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
+        inventories["guard"] = installed_inventory(root, guard_python, wheels[0], directory)
     if args.report:
         args.report.write_text(
             json.dumps(

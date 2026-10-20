@@ -1,4 +1,4 @@
-.PHONY: check check-train check-conformance check-spec check-admission test package-check package-check-train smoke
+.PHONY: check check-train check-guard check-conformance check-spec check-admission test package-check package-check-train package-check-guard smoke
 
 check:
 	uv lock --check
@@ -25,6 +25,10 @@ test:
 check-train:
 	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 uv run --locked --extra train pytest -m train --require-train
 
+check-guard:
+	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked --extra guard python scripts/check_guard.py
+	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked --extra guard pytest tests/test_guard.py
+
 smoke:
 	uv run --locked hallmark validate-data fixtures/smoke.jsonl
 
@@ -33,3 +37,6 @@ package-check:
 
 package-check-train:
 	uv run --locked python scripts/reproduce_package.py --train
+
+package-check-guard:
+	uv run --locked python scripts/reproduce_package.py --guard

@@ -83,7 +83,11 @@ resume behavior; see the [fixture command](docs/OPERATIONS.md#mlp-training-fixtu
 The [grouped comparison pipeline](docs/decisions/0028-grouped-baseline-selection.md)
 adds pass/block controls, the preserved byte-logistic floor, exact-text character
 n-grams, five train-internal folds and separate native calibration/evaluation.
-Guard runtime integration and admitted real-data evaluation remain unfinished.
+The optional [CPU guard adapter](docs/decisions/0030-complete-input-guard.md)
+scores every token chunk and joins the same pinned calibration/evaluation path.
+Seven authored probes ran twice on the selected real weights with identical
+results; this is execution evidence, not a policy-quality benchmark. Admitted
+real-data evaluation remains unfinished.
 
 The [literal byte-rule runtime](docs/decisions/0020-complete-byte-rule.md) scans
 every prompt byte with bounded state across chunk boundaries. It binds exact

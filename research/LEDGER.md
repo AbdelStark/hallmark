@@ -1219,3 +1219,61 @@ is in `runs/w15-guard-metadata-1792528650785139000`; no weights/tokenizer or run
 packages were acquired. Exact runtime review, asset hashes, complete-input guard
 execution and final real-data admission remain the next W15 gates. This PR stays
 draft; W18's proof work stays separate. The unrelated `.gitignore` edit is preserved.
+
+## 2026-10-20: W15 complete-input CPU guard and optional runtime
+
+Hypothesis: the selected pinned guard can score every content-token block of a
+32,768-byte prompt on the Mac and reproduce its numeric outputs in a fresh
+process. Baseline: metadata selection only; the publisher's example truncates.
+[Decision 0030](../docs/decisions/0030-complete-input-guard.md) freezes the
+complete-input max-margin adaptation before real inference. Mutable paths are
+the optional adapter, its comparison binding, tiny runtime fixture, packaging,
+tests and documentation. The previous learned baselines and evaluator are unchanged.
+
+The [dependency review](evidence/w15-guard-dependencies-2026-10-20.json) matches
+684 locked artifacts for 52 packages. Existing versions are unchanged. It records
+selected-wheel notice hashes and exact upstream Apache notices for the two wheels
+missing licence files. Acquisition verifies all five advertised model/tokenizer
+digests, including the 738,563,188-byte ONNX graph. Model/base notices accompany
+the ignored assets. No remote model code, pickle, HF token or paid job was used.
+
+The [CPU evidence](evidence/w15-guard-cpu-2026-10-20.json) retains raw scores,
+source/runtime/binary hashes, exact asset/spec/input identities and receipts.
+Raw model acquisition is `runs/w15-guard-assets-1792529768485391000`; execution is
+`runs/w15-guard-cpu-1792530020726182000`. Its protocol hash is
+`30e2e46c066c526ad4abf9a71278cee6445bfcc1afee486471a517205ca1bce1`, receipt
+`5113ada479ae8fa5267d64d5c0a09f6e6b4864376cc38c2f3b80f84aacd8e809`.
+Two four-thread CPU processes each score seven fixed harmless probes through 50
+chunks and reproduce all 11 substantive JSON files byte for byte. Times are
+7.253/7.008 seconds; peak RSS is 4,372,217,856/4,371,480,576 bytes. The maximum
+ASCII prompt has 5,463 tokens/11 chunks; the maximum Unicode prompt has 16,384
+tokens/33 chunks. Both are exactly 32,768 bytes. The late instruction is scored
+in its second chunk. Costs remain $0, with no external inference.
+
+Negative evidence remains explicit: the two maximum-length repetitive benign
+probes have margins +8.170272/+6.674934. Zero is not an admitted threshold, and
+these seven authored prompts cannot estimate a false-positive rate. The published
+tokenizer strips/normalizes text; full token coverage is not byte preservation.
+Upstream contamination, human label review, task-quality targets and independent
+verification remain unresolved. `bind_guard` adds the fixed pretrained model to
+the separate calibration/evaluation API without local fitting or test selection.
+
+Validation: 32 new guard tests; `make check` passes 1,741 tests; `make check-train`
+executes all 35 required tests; `make check-guard` executes the real tiny ONNX
+fixture and all 32 tests. Core packaging and a combined train/guard package gate
+pass through separate installed environments and reproduce identical distributions.
+Their pre-prose source identity is
+`76fb4bbbc68ec8b7217d494d5800a2cff9135cf1b792068a5d2095b8b30e1cf6`;
+wheel `2d5a12bb022de94eeeb5f2a8e8498887ebb2f76bffa0c9e9d4f3ffdc657c69ef`,
+sdist `3f72ce130a180ff8a749e233d49d1250feb949255bad98ed8c8b4ca4025dd52d`.
+The five passing gates consume 67.287 seconds. Raw logs/receipts are in
+`runs/w15-guard-gates-1792530308409104000`. The earlier failed full gate is kept:
+its only failure was the old statistical calculation's lock pin. A separately
+retained calculation reproduces every field except the new lock SHA; the original
+W13 record is untouched. Runtime tests also reject changed files/pins, links,
+external tensors, custom domains, oversized/invalid Unicode inputs, bad outputs,
+held-out rows, overlapping groups/prompts and existing output directories.
+
+PR #73 remains draft until admitted real-data commands satisfy the rest of W15.
+The compact encoder and full proof/hardware obligations remain separate work.
+The repository remains public and the unrelated `.gitignore` edit is preserved.

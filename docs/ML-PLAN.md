@@ -35,9 +35,10 @@ train rows only and preserves complete prompt bytes. Its synthetic fixture check
 software behavior, not policy quality. The
 [grouped comparison API](decisions/0028-grouped-baseline-selection.md) adds fixed
 controls, character n-grams, train-internal candidate selection and separate native
-MLP calibration/evaluation. The guard is
-[selected for asset/runtime qualification](decisions/0029-guard-source-selection.md);
-it is not yet executed. The full roster, admitted real-data runs, teacher inference,
+MLP calibration/evaluation. The guard uses a
+[pinned CPU runtime](decisions/0030-complete-input-guard.md) with complete token
+chunk coverage and separately calibrated maximum margins. Its real-weight
+authored probes are engineering evidence only. The full roster, admitted real-data runs, teacher inference,
 encoder training, distillation, QAT and proving remain unfinished on this branch.
 
 ## Operator and system bake-off

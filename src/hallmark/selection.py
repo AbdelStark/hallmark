@@ -24,6 +24,7 @@ from hallmark.classifier_manifest import ClassifierManifest, InputProfile
 from hallmark.contracts import Experiment, Identifier, LinearArtifact, Record
 from hallmark.errors import sanitize_exception
 from hallmark.evaluation import metrics
+from hallmark.guard import GuardSpec, LocalGuard
 from hallmark.integer_mlp import execute_mlp
 from hallmark.integrity import commitment
 from hallmark.manifests import ArtifactDigest
@@ -156,9 +157,41 @@ class Fitted:
     """In-process fit state. Persist its explicit record, never pickle this object."""
 
     record: dict[str, Any]
-    model: NgramFit | LinearArtifact | MlpCheckpoint
+    model: NgramFit | LinearArtifact | MlpCheckpoint | GuardSpec
     bounds: TrainingBounds
     mlp_config: MlpFitConfig | None = None
+    guard: LocalGuard | None = None
+
+
+def bind_guard(guard: LocalGuard, bounds: TrainingBounds, *, expected_runtime: str) -> Fitted:
+    """Freeze a caller-pinned pretrained baseline; no training or selection labels exist here."""
+    if type(guard) is not LocalGuard or type(bounds) is not TrainingBounds:
+        raise WireError("INPUT_INVALID")
+    bounds = bounds._validated()
+    if (
+        guard.identity != expected_runtime
+        or commitment("guard-runtime", guard.record) != expected_runtime
+        or guard.spec.identity() != guard.record["spec"]
+        or bounds.max_prompt_bytes != guard.spec.max_prompt_bytes
+    ):
+        raise WireError("INPUT_INVALID")
+    record = {
+        "schema_id": "hallmark/comparison-fit/1",
+        "candidate": {"kind": "task-guard", "id": "fixed-pretrained-guard"},
+        "runtime": expected_runtime,
+        "bounds": bounds.model_dump(mode="json"),
+        "model": guard.spec.model_dump(mode="json"),
+        "converged": True,
+        "optimizer": "none-frozen-pretrained",
+        "resume": "not-applicable",
+        "seed": None,
+        "backend_enrolled": False,
+        "training_groups": [],
+        "training_prompts": [],
+        "pretraining_contamination_reviewed": False,
+    }
+    record["identity"] = commitment("comparison-fit", record)
+    return Fitted(record, guard.spec, bounds, guard=guard)
 
 
 def fit_candidate(
@@ -248,6 +281,15 @@ def score_fitted(fitted: Fitted, prompts: tuple[str, ...]) -> tuple[int, ...] | 
         return tuple(score_ngram(fitted.model.model, prompt) for prompt in prompts)
     if isinstance(fitted.model, LinearArtifact):
         return tuple(linear_score(fitted.model, prompt) for prompt in prompts)
+    if isinstance(fitted.model, GuardSpec):
+        if (
+            fitted.guard is None
+            or fitted.guard.spec != fitted.model
+            or fitted.guard.identity != fitted.record["runtime"]
+            or commitment("guard-runtime", fitted.guard.record) != fitted.record["runtime"]
+        ):
+            raise WireError("INPUT_INVALID")
+        return tuple(float(fitted.guard.score(prompt)["score"]) for prompt in prompts)
     assert fitted.mlp_config is not None
     q = quantize_mlp(fitted.model, fitted.mlp_config)
     profile = InputProfile(

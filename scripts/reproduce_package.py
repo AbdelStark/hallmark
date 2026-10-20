@@ -126,7 +126,7 @@ def validate_build_inputs(files):
     locked = {p["name"]: p["version"] for p in lock["package"]}
     if any(locked.get(name) != version for name, version in expected.items()):
         raise ValueError("build dependency pins differ from lock")
-    review = json.loads(files["research/evidence/w37-dependencies-2026-10-20.json"])
+    review = json.loads(files["research/evidence/w15-guard-dependencies-2026-10-20.json"])
     reviewed = {p["name"]: p["version"] for p in review["packages"]}
     if (
         review["lock_sha256"] != digest(files["uv.lock"])
@@ -188,6 +188,7 @@ def main():
     parser.add_argument(
         "--train", action="store_true", help="also install and exercise train extra"
     )
+    parser.add_argument("--guard", action="store_true", help="exercise the tiny local guard graph")
     args = parser.parse_args()
     output_root = ROOT / "dist"
     output_root.mkdir(exist_ok=True)
@@ -347,6 +348,7 @@ def main():
                 "--report",
                 str(output / "installed-environments.json"),
                 *(["--train"] if args.train else []),
+                *(["--guard"] if args.guard else []),
             ],
             cwd=output,
             output=output / "installed-check.log",
@@ -372,6 +374,7 @@ def main():
                 (output / "installed-environments.json").read_bytes()
             ),
             "installed_train_checked": args.train,
+            "installed_guard_checked": args.guard,
             "secret_check": (
                 "reviewed paths, exact archive membership and recognizable "
                 "credential patterns; not a universal detector"
@@ -385,6 +388,7 @@ def main():
                     "source_id": source_id,
                     "distributions": equal_hashes,
                     "installed_train_checked": args.train,
+                    "installed_guard_checked": args.guard,
                     "retained": str(output),
                 }
             )

@@ -45,6 +45,14 @@ counts use one representative per group; all-descendant counts stay separate.
 The caller still enforces admitted inputs, once-only testing and the final quality
 gate. The original experiment/evaluator identities above are unchanged.
 
+The [fixed pretrained guard](decisions/0030-complete-input-guard.md) enters the
+same outer calibration/evaluation path through `bind_guard`. Its score is the
+maximum float64 logit margin over every contiguous content-token block, using the
+pinned lossy tokenizer and float32 CPU graph. It performs no local fitting or
+train-internal selection; its undocumented pretraining overlap remains unresolved.
+Engineering probes, including positive margins on harmless repetitive inputs,
+do not establish a calibrated low-FPR operating point.
+
 ## Metrics and uncertainty
 
 Primary model gate: TPR at the fixed calibration policy, reported alongside test FPR and counts. `TPR = TP / (TP + FN)` and `FPR = FP / (FP + TN)`. Missing denominators are null, never 0. Report confusion matrix and Wilson two-sided intervals with `z = NormalDist.inv_cdf(1 - alpha/2)`.

@@ -169,9 +169,17 @@ selection rule, source bounds and remaining admission obligations.
 The [guard source review](evidence/w15-guard-source-selection-2026-10-20.json) and
 [decision 0029](../docs/decisions/0029-guard-source-selection.md) select the pinned
 published guard for bounded asset/runtime qualification under the reviewed model
-grants. Actual assets, dependencies, complete-input inference and contamination
-review remain unqualified. Guard integration and admitted real-data commands are
-still required before issue #16 can close; the compact encoder belongs to W16.
+grants. The [CPU evidence](evidence/w15-guard-cpu-2026-10-20.json) now verifies
+all five acquired asset digests and executes the real ONNX graph locally. Two
+fresh processes reproduce all 11 output artifacts: seven authored probes, 50
+chunks per run, including 32,768-byte ASCII and Unicode prompts. Elapsed times
+are 7.253/7.008 seconds, with 4.372/4.371 GB peak RSS. The optional adapter joins
+the pinned calibration/evaluation API; its tiny installed-runtime fixture needs
+no research assets. The tokenizer remains lossy, and both maximum-length harmless
+repetitive probes have positive uncalibrated margins. These are software results,
+not measured task quality. Contamination/label review and admitted real-data
+commands remain required before issue #16 can close; the compact encoder belongs
+to W16. See [decision 0030](../docs/decisions/0030-complete-input-guard.md).
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
