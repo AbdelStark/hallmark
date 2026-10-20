@@ -4,7 +4,7 @@ Research on transcript-bound classifier verdicts. The intended system pairs hard
 
 ## Implemented now
 
-An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, signed registry, ZK proof, encoder fine-tune or safety benchmark is implemented or claimed.
+An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, ZK proof, encoder fine-tune or safety benchmark is implemented or claimed.
 
 The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
 binds ordered files, architecture, tokenizer, template, runtime and greedy generation
@@ -28,6 +28,12 @@ include a separate JavaScript hash check; neither is proof or hardware evidence.
 The [receipt/epoch/proof containers](docs/decisions/0009-receipt-evidence-contracts.md)
 check declared identities, time intervals and public-input packing. They do not
 verify signatures, attestations or proofs.
+
+The [registry enrollment API](docs/decisions/0010-external-enrollment.md) verifies
+Ed25519 signatures and complete successor links against external trust and a
+retained checkpoint. A local SQLite transaction persists verified state and rejects
+stale writers. [Provisioning](docs/OPERATIONS.md#external-registry-checkpoint-provisioning)
+requires owner-approved roots; the shipped keys are public test fixtures.
 
 ## Run
 

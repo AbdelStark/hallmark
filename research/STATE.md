@@ -61,9 +61,19 @@ ordered identities, exact profile count relations, caller expectations, interval
 opaque payload caps and the 100-element public-input layout. Synthetic signature,
 quote and proof bytes remain unverified; these contracts expose no acceptance result.
 
+W08 / issue #9 adds external trust, real Ed25519 threshold verification, bounded
+complete successor history and an atomic SQLite checkpoint store. Its
+[evidence](evidence/w08-enrollment-2026-10-20.json) records 88 new tests, 863 total
+local tests and installed-wheel enrollment/persistence. Rejections cover rollback,
+equivocation, skipped or incorrectly signed history, unknown/duplicate signers,
+freshness, retirement, stale writers and unsafe state files. Update/commit failures
+and process exit before commit preserve the prior checkpoint in the tested cases.
+The [dependency review](evidence/w08-dependency-review-2026-10-20.json) preceded
+installation. Fixture keys are public; operational root custody remains unenrolled.
+
 ## Not implemented or established
 
-TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Next bounded task
 
@@ -89,10 +99,14 @@ passing on `1d344d55b44efae9b0232c46d4553dfe59f49288`.
 W02 / #3 is merged in [PR #58](https://github.com/AbdelStark/hallmark/pull/58), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39412814966)
 passing on `fbd6c90f65e5e535f8dfb839012f1bd3bd544097`.
-W06 / #7 is locally validated; exact-head hosted delivery is next. Then implement
-#9 external enrollment. Reassess #8 bundle schemas and #12 integer MLP runtime
-against their actual prerequisites; #12 is now unblocked after #3. The current work
-map has 104 dependency edges, including W04's reuse of W03 file references;
+W06 / #7 is merged in [PR #59](https://github.com/AbdelStark/hallmark/pull/59), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39414504221)
+passing on `774887d0e40b82459d4f7ca8657400d9905577ad`.
+W08 / #9 is locally validated; exact-head hosted delivery is next. Then implement
+#8 bundle schemas, #10 registry authoring/rotation and #12 integer MLP runtime
+against their actual prerequisites; #12 is unblocked after #3. The current work
+map has 105 dependency edges, including W04's reuse of W03 file references and
+W07's embedded signed-registry dependency on W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,
 real proofs, genuine hardware and independent verification remain required for

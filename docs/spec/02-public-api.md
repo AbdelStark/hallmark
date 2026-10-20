@@ -146,14 +146,34 @@ No signature, attestation or proof is verified. See [record semantics, exact
 100-field layout, time checks and payload caps](../decisions/0009-receipt-evidence-contracts.md).
 
 The primitive value decoder alone does not validate an artifact schema or authenticity.
+`hallmark.enrollment` implements `Limits`, `TrustPolicy`, `RegistryEntry`,
+`RegistryBody`, `RegistrySignature`, `SignedRegistry`, `RegistryState` and the
+process-local `Enrollment` result:
+
+```python
+snapshot.verify_signatures(trust: TrustPolicy) -> None
+entry.validate_time(*, issued_at: int, now: int) -> None
+enroll(
+    snapshot: SignedRegistry, trust: TrustPolicy, state: RegistryState, now: int,
+    *, history: tuple[SignedRegistry, ...] = (),
+) -> Enrollment
+enrollment.require_entry(kind: EntryKind, digest: ArtifactDigest, *, issued_at: int) -> None
+```
+
+Trust and registry bodies expose complete typed identities; the wire records
+use checked `encode`/`decode`. `Enrollment` has no decoder or public constructor.
+`hallmark.registry_store` implements `provision_state(path, external_state)`,
+`read_state(path)` and `enroll_and_store(path, snapshot, trust, expected_state,
+now, *, history=())`. These functions require an owner-controlled local POSIX
+path, never infer a checkpoint from a bundle, and return only after a verified
+update commits. See [semantics and limits](../decisions/0010-external-enrollment.md)
+and [provisioning](../OPERATIONS.md#external-registry-checkpoint-provisioning).
+
 Generic schema dispatch and the following artifact interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
 
 ```python
 def decode(raw: bytes, schema: type[T], limits: Limits) -> T: ...
-def enroll(
-    snapshot: SignedRegistry, trust: TrustPolicy, state: RegistryState, now: int
-) -> Enrollment: ...
 def prepare_input(opening: TranscriptOpening, classifier: ClassifierManifest) -> PreparedInput: ...
 def prove(
     manifest: ClassifierManifest, inputs: ProofInputs, witness: Witness, budget: JobBudget

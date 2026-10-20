@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "EntryKind": {
+      "enum": [
+        "model",
+        "classifier",
+        "policy",
+        "backend",
+        "epoch-measurement"
+      ],
+      "type": "string"
+    },
+    "RegistryEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/EntryKind"
+        },
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Digest",
+          "type": "string"
+        },
+        "valid_from": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Valid From",
+          "type": "integer"
+        },
+        "valid_until": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Valid Until",
+          "type": "integer"
+        },
+        "retired_at": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Retired At"
+        },
+        "review": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Review",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "digest",
+        "valid_from",
+        "valid_until",
+        "retired_at",
+        "review"
+      ],
+      "title": "RegistryEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/registry/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "sequence": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "previous": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Previous"
+    },
+    "issued_at": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Issued At",
+      "type": "integer"
+    },
+    "expires_at": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Expires At",
+      "type": "integer"
+    },
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/RegistryEntry"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Entries",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "sequence",
+    "previous",
+    "issued_at",
+    "expires_at",
+    "entries"
+  ],
+  "title": "RegistryBody",
+  "type": "object"
+}

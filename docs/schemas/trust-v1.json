@@ -1,0 +1,182 @@
+{
+  "$defs": {
+    "Limits": {
+      "additionalProperties": false,
+      "description": "Caller ceilings; worker RSS enforcement belongs to the verifier worker.",
+      "properties": {
+        "bundle_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 67108864,
+          "title": "Bundle Bytes",
+          "type": "integer"
+        },
+        "proof_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 16777216,
+          "title": "Proof Bytes",
+          "type": "integer"
+        },
+        "nesting": {
+          "exclusiveMinimum": 0,
+          "maximum": 16,
+          "title": "Nesting",
+          "type": "integer"
+        },
+        "verify_seconds": {
+          "exclusiveMinimum": 0,
+          "maximum": 60,
+          "title": "Verify Seconds",
+          "type": "integer"
+        },
+        "worker_memory_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 2147483648,
+          "title": "Worker Memory Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "bundle_bytes",
+        "proof_bytes",
+        "nesting",
+        "verify_seconds",
+        "worker_memory_bytes"
+      ],
+      "title": "Limits",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Must come from the relying party's authenticated provisioning channel.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/trust/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "registry_keys": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Registry Keys",
+      "type": "array"
+    },
+    "signature_threshold": {
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Signature Threshold",
+      "type": "integer"
+    },
+    "min_registry_sequence": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Min Registry Sequence",
+      "type": "integer"
+    },
+    "accepted_models": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Accepted Models",
+      "type": "array"
+    },
+    "accepted_policies": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Accepted Policies",
+      "type": "array"
+    },
+    "accepted_backends": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Accepted Backends",
+      "type": "array"
+    },
+    "hardware_roots": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Hardware Roots",
+      "type": "array"
+    },
+    "measurements": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Measurements",
+      "type": "array"
+    },
+    "required_claims": {
+      "enum": [
+        "A+B",
+        "B"
+      ],
+      "title": "Required Claims",
+      "type": "string"
+    },
+    "binding": {
+      "enum": [
+        "B1",
+        "B2"
+      ],
+      "title": "Binding",
+      "type": "string"
+    },
+    "max_age_seconds": {
+      "exclusiveMinimum": 0,
+      "maximum": 18446744073709551615,
+      "title": "Max Age Seconds",
+      "type": "integer"
+    },
+    "limits": {
+      "$ref": "#/$defs/Limits"
+    }
+  },
+  "required": [
+    "schema_id",
+    "registry_keys",
+    "signature_threshold",
+    "min_registry_sequence",
+    "accepted_models",
+    "accepted_policies",
+    "accepted_backends",
+    "hardware_roots",
+    "measurements",
+    "required_claims",
+    "binding",
+    "max_age_seconds",
+    "limits"
+  ],
+  "title": "TrustPolicy",
+  "type": "object"
+}

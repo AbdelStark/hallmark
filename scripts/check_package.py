@@ -25,6 +25,8 @@ def main() -> None:
         assert "hallmark/policy.py" in names
         assert "hallmark/openings.py" in names
         assert "hallmark/receipts.py" in names
+        assert "hallmark/enrollment.py" in names
+        assert "hallmark/registry_store.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -45,6 +47,13 @@ def main() -> None:
             "tests/test_policy.py",
             "tests/test_openings.py",
             "tests/test_receipt_contracts.py",
+            "tests/test_enrollment.py",
+            "fixtures/wire/enrollment-v1.json",
+            "docs/schemas/trust-v1.json",
+            "docs/schemas/registry-v1.json",
+            "docs/schemas/signed-registry-v1.json",
+            "docs/schemas/registry-state-v1.json",
+            "research/evidence/w08-dependency-review-2026-10-20.json",
             "fixtures/wire/model-manifest-v1.json",
             "fixtures/wire/classifier-v1.json",
             "fixtures/wire/policy-request-v1.json",
@@ -224,6 +233,29 @@ def main() -> None:
                 "assert ProofInputs.from_fields(tuple(v['packing_only'][0]['fields']))"
                 ".threshold == -(2**31)",
                 str(ROOT / "fixtures/wire/receipts-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.enrollment import SignedRegistry, TrustPolicy, RegistryState; "
+                "from hallmark.registry_store import "
+                "provision_state, read_state, enroll_and_store; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "s = SignedRegistry.decode(bytes.fromhex(v['signed-registry']['cbor_hex'])); "
+                "t = TrustPolicy.decode(bytes.fromhex(v['trust']['cbor_hex'])); "
+                "c = RegistryState.decode(bytes.fromhex(v['registry-state']['cbor_hex'])); "
+                "p = Path('checkpoint.sqlite'); provision_state(p, c); "
+                "r = enroll_and_store(p, s, t, read_state(p), v['now']); "
+                "assert read_state(p) == r.state == c; "
+                "assert r.registry.hex() == v['registry']['identity_hex']; "
+                "assert r.trust.hex() == v['trust']['identity_hex']; "
+                "r.require_entry('model', t.accepted_models[0], issued_at=100)",
+                str(ROOT / "fixtures/wire/enrollment-v1.json"),
             ],
             cwd=directory,
             check=True,

@@ -205,7 +205,8 @@
       ],
       "milestone": "v0.2",
       "depends_on": [
-        "W06"
+        "W06",
+        "W08"
       ],
       "scope": [
         "Add Bundle with registry history, EmbeddedFile, ResponseEnvelope, BundleStatus and typed claims",

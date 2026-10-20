@@ -34,7 +34,7 @@ The source anchors below use named goals/sections from the immutable [PRD](../..
 | <a id="w04"></a>W04 | wire: add classifier and numerical profile manifest schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0003](../rfcs/RFC-0003-integer.md#proposed-design), [0005](../rfcs/RFC-0005-proofs.md#proposed-design) | v0.2 | W01, W03 |
 | <a id="w05"></a>W05 | wire: add policy and external request expectation schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0007](../rfcs/RFC-0007-verifier.md#proposed-design) | v0.2 | W03, W04 |
 | <a id="w06"></a>W06 | wire: add receipt, epoch and proof artifact schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0005](../rfcs/RFC-0005-proofs.md#proposed-design), [0006](../rfcs/RFC-0006-hardware.md#proposed-design) | v0.2 | W03, W04, W05 |
-| <a id="w07"></a>W07 | wire: add bounded offline bundle and result schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0007](../rfcs/RFC-0007-verifier.md#proposed-design) | v0.2 | W06 |
+| <a id="w07"></a>W07 | wire: add bounded offline bundle and result schemas | [0001](../rfcs/RFC-0001-wire.md#proposed-design), [0007](../rfcs/RFC-0007-verifier.md#proposed-design) | v0.2 | W06, W08 |
 | <a id="w08"></a>W08 | registry: implement external trust and rollback-safe enrollment | [0002](../rfcs/RFC-0002-registry.md#proposed-design) | v0.2 | W01, W03, W04, W05 |
 | <a id="w09"></a>W09 | registry: sign snapshots and implement rotation and retirement | [0002](../rfcs/RFC-0002-registry.md#proposed-design) | v0.2 | W08 |
 | <a id="w10"></a>W10 | classifiers: implement the complete-input integer rule program | [0003](../rfcs/RFC-0003-integer.md#proposed-design) | v0.3 | W02, W04, W13 |
