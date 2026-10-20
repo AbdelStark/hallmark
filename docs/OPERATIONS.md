@@ -47,3 +47,37 @@ Compare repeated runs on model/config/predictions/results, not `source.json` byt
 Keep failed output directories. Never overwrite a complete run or repair its hashes in place. Diagnose from a copy, issue a new experiment identity if the protocol changes, and record failed hypotheses in `research/LEDGER.md`. On resume, recheck source/data identity and actual environment; do not continue training from an undocumented checkpoint.
 
 If no authority for a needed resource exists, produce the smallest bounded proposal with host/data/cost/policy/kill criteria. Stop before the download, paid job, hosted API call or upload. Do not start a daemon, scheduler, remote runner or multi-agent campaign merely because this project is agent-native.
+## External registry checkpoint provisioning
+
+The owner must first approve signing-key custody and the exact signature-library
+revision through the private REGISTRY-ROOT record. No operational roots are
+provisioned by this repository. Fixture keys are public test data.
+
+1. Obtain the trust policy, accepted artifact identities, exact registry-body
+   digest and sequence through the relying party's authenticated channel.
+   Compare `trust.identity()` to the independently retained trust digest.
+   A bundle cannot provide this authority.
+2. Retain the digest/sequence outside the bundle and the verifier's working
+   storage. Create a fresh `RegistryState(schema_id="hallmark/registry-state/1",
+   sequence=approved_sequence, digest=approved_digest)`.
+3. In an owner-controlled local directory outside git, call
+   `provision_state(path, external_state)` from `hallmark.registry_store`.
+   The new SQLite file is mode 0600; existing files are refused. Do not reuse a
+   failed initialization without inspection.
+4. Read the checkpoint with `read_state(path)`, then call
+   `enroll_and_store(path, snapshot, trust, expected_state, now, history=history)`.
+   Supply each signed successor after the checkpoint and before the final
+   snapshot. A direct successor uses empty history. Use the relying party's clock.
+5. Require every used identity from the returned enrollment and resolve the
+   exact externally pinned policy/classifier manifests. Re-enroll at each new
+   verification clock; a saved enrollment result is not a credential.
+
+Failures leave the prior checkpoint in place; a concurrent writer or stale caller
+fails without retry. Read the current state and inspect the failure before retrying.
+Keep the database and SQLite journal together. Restore a whole-store backup only
+under owner re-enrollment with the independently retained checkpoint, never by
+trusting a bundle's latest claimed sequence. More than 1,024 intermediate snapshots
+requires a new authenticated checkpoint. Network filesystems, untrusted parent
+directories and malicious modification by the OS account are outside this store's
+guarantees. The [decision](decisions/0010-external-enrollment.md) specifies exact
+signature, time, persistence and resource boundaries.

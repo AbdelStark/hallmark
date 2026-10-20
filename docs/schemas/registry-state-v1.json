@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/registry-state/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "sequence": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "sequence",
+    "digest"
+  ],
+  "title": "RegistryState",
+  "type": "object"
+}

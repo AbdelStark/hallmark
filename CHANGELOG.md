@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add external registry trust, Ed25519 threshold verification, complete linked
+history checks and transactional SQLite checkpoints. Pin the reviewed signature
+dependency, publish schemas/signed vectors and document separate owner provisioning.
+Operational roots, snapshot authoring and key transitions remain separate gates.
+
 Add v1 receipt, epoch and proof-container schemas with exact 100-field public-input
 packing, offset-encoded signed thresholds, declared-reference/time checks and bounded
 opaque payloads. Publish fixed vectors and schema snapshots without a verification stub.

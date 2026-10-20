@@ -376,3 +376,52 @@ independently enrolled proof verification, complete circuit coverage and policy/
 admission remain required. Structural success does not establish any of them.
 Exact-head hosted checks are next, then #9 external enrollment; reassess #8 and #12
 against their actual dependencies.
+
+## 2026-10-20: W08 external registry enrollment and atomic checkpoints
+
+Hypothesis: mandatory external trust and a retained checkpoint, complete signed
+successor links and a transactional compare-and-swap update can reject rollback
+and substituted identities without losing the prior trusted state on failure.
+Baseline: `774887d0e40b82459d4f7ca8657400d9905577ad`, with 240 passing receipt/policy
+tests. Mutable paths: enrollment and checkpoint-store modules, signature dependency
+pin/lock, focused tests, schema/signed fixtures, package checks and relevant
+specification/evidence/tracker docs. Pass criterion: #9's trust, history, freshness,
+rollback and write-failure cases reject; offline local and package gates pass.
+
+The smallest signed fixture round-tripped under cryptography 50.0.2 / OpenSSL 4.0.3.
+The [dependency review](evidence/w08-dependency-review-2026-10-20.json) recorded exact
+versions, distributions/hashes, published licence metadata and primary security
+sources before installation; the final lock's new hashes match that inventory.
+No operational roots were created. Ed25519 verification is necessary for W08's
+history gate; W09 retains authoring, retained snapshot contents and key transitions.
+
+Saved [source/config/environment hashes and numeric results](evidence/w08-enrollment-2026-10-20.json)
+before this entry. All 88 enrollment tests and 240 receipt/policy regressions pass.
+`make check` passes 863 tests and static/doc gates; `make package-check` passes
+isolated installed-wheel signature verification, external-state provisioning and
+committed-state readback. The first full check failed on one overlong package-check
+source string; its failed result is preserved and the final gate passed after
+splitting that literal. Commands used one training thread and stayed below 60 s.
+
+Tests include equal-sequence different-digest rejection, skipped/reordered history,
+invalid intermediate signatures, threshold/duplicate/unknown signers, signature
+malleation and domain substitution, strict clocks, age/expiry boundaries, retirement,
+external allowlist intersection, history byte/nesting/deadline bounds, stale writers,
+concurrent locks, rejected writes, deferred-constraint commit failure, silent update
+suppression and process exit before commit. Stored checkpoints remain unchanged
+in the tested failure cases. Four schemas and a fixed signed corpus are shipped.
+
+[Decision 0010](../docs/decisions/0010-external-enrollment.md) documents caller-controlled
+provisioning, trust identity, chain semantics, process-local enrollment, retirement
+and SQLite/POSIX assumptions. Physical power loss, whole-store rollback, malicious
+OS-account changes and global equivocation prevention are not established. Process
+termination/RSS enforcement, operational root custody, receipt/hardware/proof
+verification and policy/data admission remain separate gates. No model/data
+retrieval, external inference, GPU or paid compute occurred.
+
+W06's final head `2fb4bf170503bc7bc4bea4b1c155bdc5fd0e51da` was merged in
+[PR #59](https://github.com/AbdelStark/hallmark/pull/59). All six
+[merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39414504221)
+passed on this turn's baseline. W08 exact-head hosted checks are next, then #8,
+#10 and #12 according to actual prerequisites. The work map now mirrors #8's
+necessary #9 dependency, for 105 edges; the original publication audit is unchanged.

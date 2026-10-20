@@ -10,10 +10,11 @@ The [machine-readable work map](work-items.json) contains exact scopes, tests, l
 
 Local bootstrap checks: 29 tests, strict typing/lint/format, file links and installed distribution passed. [Raw corpus evidence](../../research/evidence/spec-bootstrap-2026-10-20.json) and [live publication audit](../../research/evidence/spec-publication-2026-10-20.json) record the scope. The initial hosted spec checks had no executed steps because of the account billing/spending-limit block; final-head status is attached to the PR. No billing settings were changed.
 
-Current dependency graph: 104 edges. W02 now depends on W05 for the typed external
+Current dependency graph: 105 edges. W02 now depends on W05 for the typed external
 request expectation used by context hashing; the original 102-edge publication
 audit is preserved. W04 reuses W03 file-reference contracts, so that implementation dependency is now explicit.
-Next sequence: deliver W06 (#7), then W08 (#9); reassess W07 (#8) and W11 (#12).
+W07 embeds signed registry snapshots and therefore now explicitly depends on W08.
+Next sequence: deliver W08 (#9), then W07 (#8), W09 (#10) and W11 (#12), subject to their actual prerequisites.
 
 Merged delivery: [W01 evidence](../../research/evidence/w01-wire-2026-10-20.json),
 [W30 evidence](../../research/evidence/w30-errors-2026-10-20.json) and
@@ -30,6 +31,12 @@ W02 is merged in [PR #58](https://github.com/AbdelStark/hallmark/pull/58). Its
 [main CI](https://github.com/AbdelStark/hallmark/actions/runs/39412814966) passed
 on `fbd6c90f65e5e535f8dfb839012f1bd3bd544097`.
 
+W06 is merged in [PR #59](https://github.com/AbdelStark/hallmark/pull/59). Its
+[main CI](https://github.com/AbdelStark/hallmark/actions/runs/39414504221) passed
+on `774887d0e40b82459d4f7ca8657400d9905577ad`.
+W08's [local evidence](../../research/evidence/w08-enrollment-2026-10-20.json)
+passes; exact-head hosted delivery is next. Operational root custody remains open.
+
 ## Milestone: v0.2
 
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
@@ -39,9 +46,9 @@ on `fbd6c90f65e5e535f8dfb839012f1bd3bd544097`.
 | [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Merged; PR #55 | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
 | [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Merged; PR #56 | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4) |
 | [#6](https://github.com/AbdelStark/hallmark/issues/6) | W05 | wire: add policy and external request expectation schemas | wire | p0 | s | 0001, 0007 | Merged; PR #57 | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
-| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Local gates passed; hosted delivery pending | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
-| [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7) |
-| [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Open | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Merged; PR #59 | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7), [#9](https://github.com/AbdelStark/hallmark/issues/9) |
+| [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Local gates passed; hosted delivery pending | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#10](https://github.com/AbdelStark/hallmark/issues/10) | W09 | registry: sign snapshots and implement rotation and retirement | registry | p0 | m | 0002 | Open; blocked | [#9](https://github.com/AbdelStark/hallmark/issues/9) |
 | [#14](https://github.com/AbdelStark/hallmark/issues/14) | W13 | research: prepare the single-policy data and resource admission | research | p0 | m | 0004, 0006, 0008 | Open; blocked | None |
 | [#31](https://github.com/AbdelStark/hallmark/issues/31) | W30 | operations: add typed errors and redact all trust-boundary failures | operations | p0 | m | 0008 | Merged; PR #53 | None |

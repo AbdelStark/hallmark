@@ -21,6 +21,7 @@ These are actual declared constraints and lock selections, inspected at bootstra
 | Python | `>=3.12,<3.15`; local pin 3.12 | CPython 3.12/3.13/3.14 core/package and required-train matrix; exact local/hosted evidence is recorded per change |
 | cbor2 | `>=5.6,<6`; 5.9.0 | Existing research deterministic CBOR; major change requires vectors |
 | pydantic | `>=2.10,<3`; 2.14.1 | Strict schemas; reject major API drift |
+| cryptography | `==50.0.2`; 50.0.2 | Raw Ed25519 registry verification; [pre-install review](../../research/evidence/w08-dependency-review-2026-10-20.json) |
 | numpy | train extra `>=2,<3`; 2.5.4 | Explicit float64 fitting arrays |
 | scikit-learn | train extra `>=1.6,<2`; 1.9.1 | Existing logistic floor with recorded solver |
 | hatchling | build `>=1.27,<2` | Existing wheel/sdist backend; build isolation must gain an exact reviewed pin |
@@ -32,7 +33,11 @@ These are actual declared constraints and lock selections, inspected at bootstra
 
 Runtime transitives in `uv.lock`: annotated-types 0.8.0, pydantic-core 2.50.1, typing-extensions 4.16.0, typing-inspection 0.4.4; train dependency closure includes scipy 1.18.1, joblib 1.6.0, threadpoolctl 3.7.0, narwhals 2.27.1 and cloudpickle 3.1.2. Dev transitives are also exact in the lock. Transitive constraints are the resolved `==` versions, not independently widened ranges.
 
-New signature, model-runtime, tokenizer, proof and hardware libraries have no admitted version yet. Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
+The signature dependency's exact transitives are cffi 2.1.1 and pycparser 3.11;
+the linked review records all distribution hashes, licence metadata, target
+platforms and primary advisory sources. This software selection is not approval
+for operational signing-root custody. New model-runtime, tokenizer, proof and
+hardware libraries have no admitted version yet. Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
 
 ## Contributor and automation workflow
 
