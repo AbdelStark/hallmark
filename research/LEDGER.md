@@ -1337,3 +1337,76 @@ log is retained in the raw experiment directory; its failure is not reported as
 a passing package check. All 31 corrected comparison tests pass locally in
 10.54 seconds (`portability-tests.log`); hosted jobs must pass on the corrected
 commit.
+
+## 2026-10-20 — W15 public-source review and human audit handoff
+
+[Decision 0032](../docs/decisions/0032-public-source-review-pilot.md) bounds source
+preparation under the existing delegation. The
+[evidence](evidence/w15-source-review-2026-10-20.json) retains exact metadata,
+licence notices, acquisition plans/receipts and local raw pointers in
+`runs/w15-source-review-1792532338623341000`. No source is admitted for measurement.
+
+Gandalf revision `04737b65e90a6794ec227012e4a255a7def6344b` yields all 1,000 rows
+through the public viewer API. Every page reports that exact `x-revision`, the
+expected row count/indices and no truncation. This checks retrieved snapshots,
+not local Parquet decoding. Dolly revision
+`bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a` verifies the 13,085,339-byte JSONL against
+`2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec`.
+The predeclared empty-context filter retains 10,544 exact instructions and excludes
+4,467 context-dependent records. Acquisition totals 13,248,844 bytes in 4.555
+seconds. Source grants are MIT and CC BY-SA 3.0; copyright, attribution, licence
+and change notices accompany the local review adaptation. No raw rows are added
+to Git.
+
+The separate Mirza Akhi source at `011a9ae25b31feb48d23f837fdcbc3a6a4ee3b4e`
+has an explicit CC BY 4.0 grant. Its acquired CSV matches
+`eb748eb8104f0a736934bf4f3c96335801010b09e17467fd4aadc1c1ae7bbced`:
+5,441 unique prompts, 5,425 marked English, maximum 223 bytes. The generation
+recipe was inspected as text, never executed. Template ancestry and the original
+holdout need review; it is a possible supplemental stress set, not real-world
+validation. The Qualifire successor is auto-gated and was excluded without token
+access. PINT's full corpus remains held for task/provenance/rights review. A direct
+Creative Commons text download returned HTTP 403; the official browser-reader
+responses and repository notices are retained, without claiming raw HTTP-byte
+equivalence for those browser snapshots.
+
+Two fresh review builds reproduce all six files byte for byte. The 64-item packet
+SHA-256 is `0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e`.
+It hides proposed labels/source class per item and includes complete prompts,
+the frozen rubric, attribution and blank human response fields. A separate
+editable `human-response/labels.json` preserves the two original templates.
+No human identity, labels or agreement rate were invented. The owner was asked
+who will perform the review; no reviewer was contacted.
+
+Preflight finds 114 exact-duplicate groups. A fixed, non-fitted character-hashing
+screen retains all 563 pairs at cosine at least 0.90 and 172 multirow components;
+the largest has 33 rows. One two-row component crosses Gandalf's original splits.
+The tiny equality/unrelated-text fixture passes first. The full screen takes
+1.022 seconds in-script (1.80 seconds process wall time), with 216,514,560 bytes
+peak RSS. Pair/component files, code/dependency pins and the cross-split review
+example are retained. The screen proposes links; it cannot establish semantic
+or historical lineage, and no links are represented as human-approved.
+
+The complete study remains unmet: source identity is confounded with provisional
+class, language/label decisions and parent identities need review, and 1,000 total
+Gandalf rows cannot supply 1,375 independent positive test groups. These exposed
+public sources are exploratory. No acquired row was used for classifier fitting,
+guard inference or test scoring. No paid job or HF token access occurred. Frozen
+targets and old results are unchanged. PR #73 stays draft pending genuine review
+and final admission.
+
+Storage accounting was corrected to include the whole checkout, Git and caches;
+the earlier three-directory total omitted those bytes and the checkout was about
+0.9 MiB above the recorded 20 GiB cap. Only mypy's tagged, rebuildable SQLite cache
+was removed, restoring headroom. `storage-correction.json` records exact before/
+after bytes; no research run, failure, environment, asset or review artifact was
+removed or archived. Subsequent local validation disables mypy cache writes.
+The request for a larger retained-storage envelope remains pending.
+
+Validation with `MYPY_CACHE_DIR=/dev/null make check` passes all 1,772 existing
+tests, strict type/style checks and the spec/admission/conformance gates in
+32.696 seconds. The existing multithreaded-fork deprecation warning remains.
+Source-card Git blob checks, all acquisition file hashes, canonical candidate
+pairs/components and both blank packet builds also pass. Classifier source and
+dependency locks are unchanged. Distribution checks run in hosted CI; another
+retained local package environment does not fit the remaining storage allowance.

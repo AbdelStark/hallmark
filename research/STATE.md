@@ -197,6 +197,19 @@ The [command template](../docs/OPERATIONS.md#caller-enrolled-baseline-comparison
 is implemented, but no genuine reviewed real-data dossier has been enrolled.
 PR #73 therefore remains draft. See [decision 0031](../docs/decisions/0031-admitted-comparison-command.md).
 
+The [source review](evidence/w15-source-review-2026-10-20.json) now retains 1,000
+Gandalf viewer rows at an exact reported revision and Dolly's SHA-256-verified
+15,011-row JSONL. The fixed empty-context filter leaves 10,544 Dolly instruction
+candidates and excludes 4,467 rows. Two fresh builds reproduce a 64-item blank
+human label packet. These are review candidates, not admitted labels or data.
+The 114 exact-duplicate groups and a separate 563-pair lexical screen are retained;
+one candidate component crosses Gandalf's original splits. Missing historical
+parents and semantic lineage remain unresolved. A separately acquired 5,441-row
+public synthetic source cannot replace natural traffic or the study's power
+requirements. No detector was fitted/scored or HF token used. See the
+[human-review handoff](proposals/inj-direct-v1/source-review.md) and
+[decision 0032](../docs/decisions/0032-public-source-review-pilot.md).
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -317,10 +330,12 @@ W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/p
 with staged proof fixtures; complete-input encoder qualification and independent
 verification remain missing. Its implementation/evidence are on that draft branch.
 
-Next: finish W15 / #16's actual source/label/contamination review and independently
-enrolled measurement dossier before real comparisons. The selected guard assets,
-complete-input CPU execution and caller-enrolled comparison command are now
-implemented. Recheck remaining storage before further retained environments or
+Next: obtain actual human answers for W15 / #16's prepared pilot, resolve the
+lineage candidates and contamination limits, then freeze the independently
+enrolled measurement dossier before real comparisons. Public-source selection and
+acquisition have progressed; they supply no human labels or final approval.
+The selected guard assets, complete-input CPU execution and caller-enrolled
+comparison command are implemented. Recheck storage before further environments or
 source acquisition; an increase to 40 GiB or verified lossless archival was
 requested from the owner and remains pending. Invented fixture approvals do not
 satisfy the real-data review gate. Local comparisons do not satisfy the whole issue.
