@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "Claim": {
+      "additionalProperties": false,
+      "description": "A bounded reported claim; decoding it does not establish its truth.",
+      "properties": {
+        "status": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "not-accepted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "strength": {
+          "enum": [
+            "hardware-attested",
+            "cryptographic",
+            "none"
+          ],
+          "title": "Strength",
+          "type": "string"
+        },
+        "assumptions": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "residuals": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Residuals",
+          "type": "array"
+        }
+      },
+      "required": [
+        "status",
+        "strength",
+        "assumptions",
+        "residuals"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "INPUT_INVALID",
+        "LIMIT_EXCEEDED",
+        "TRUST_MISSING",
+        "REGISTRY_INVALID",
+        "ARTIFACT_RETIRED",
+        "REQUEST_MISMATCH",
+        "STALE_EVIDENCE",
+        "SIGNATURE_INVALID",
+        "ATTESTATION_INVALID",
+        "MEASUREMENT_UNKNOWN",
+        "OPENING_FAILED",
+        "INPUT_BINDING_FAILED",
+        "PROOF_INVALID",
+        "VERDICT_MISMATCH",
+        "POLICY_BLOCKED",
+        "PROOF_PENDING",
+        "RESOURCE_EXHAUSTED",
+        "STORAGE_FAILED",
+        "INTERNAL_ERROR"
+      ],
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reported verifier output only. No verifier or acceptance factory is supplied.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/verification-result/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "accepted": {
+      "title": "Accepted",
+      "type": "boolean"
+    },
+    "mode": {
+      "enum": [
+        "B1",
+        "B2"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "claim_a": {
+      "$ref": "#/$defs/Claim"
+    },
+    "claim_b": {
+      "$ref": "#/$defs/Claim"
+    },
+    "policy_pass": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Policy Pass"
+    },
+    "codes": {
+      "items": {
+        "$ref": "#/$defs/ErrorCode"
+      },
+      "maxItems": 64,
+      "title": "Codes",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 8192,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "accepted",
+    "mode",
+    "claim_a",
+    "claim_b",
+    "policy_pass",
+    "codes",
+    "evidence"
+  ],
+  "title": "VerificationResult",
+  "type": "object"
+}

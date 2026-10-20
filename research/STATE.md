@@ -71,9 +71,17 @@ and process exit before commit preserve the prior checkpoint in the tested cases
 The [dependency review](evidence/w08-dependency-review-2026-10-20.json) preceded
 installation. Fixture keys are public; operational root custody remains unenrolled.
 
+W07 / issue #8 adds bounded offline bundle, private response, collection-state and
+reported-result contracts. Its [evidence](evidence/w07-bundle-contracts-2026-10-20.json)
+records 91 new tests, 954 total local tests, four schemas and 17 structural/report
+vectors. It checks exact embedded files, declared evidence links, three ordered
+proofs, caller limits and status/claim consistency. Openings remain separate,
+including rejection of canonical private records embedded as files. These are
+container/report checks; a decoded accepted flag is not verified evidence.
+
 ## Not implemented or established
 
-TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Next bounded task
 
@@ -102,11 +110,13 @@ passing on `fbd6c90f65e5e535f8dfb839012f1bd3bd544097`.
 W06 / #7 is merged in [PR #59](https://github.com/AbdelStark/hallmark/pull/59), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39414504221)
 passing on `774887d0e40b82459d4f7ca8657400d9905577ad`.
-W08 / #9 is locally validated; exact-head hosted delivery is next. Then implement
-#8 bundle schemas, #10 registry authoring/rotation and #12 integer MLP runtime
-against their actual prerequisites; #12 is unblocked after #3. The current work
-map has 105 dependency edges, including W04's reuse of W03 file references and
-W07's embedded signed-registry dependency on W08;
+W08 / #9 is merged in [PR #60](https://github.com/AbdelStark/hallmark/pull/60), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39416596651)
+passing on `866d36a69762104847f1ded8253829a4e11dd786`.
+W07 / #8 is locally validated; exact-head hosted delivery is next. Then implement
+#10 registry authoring/rotation and #12 integer MLP runtime against their actual
+prerequisites. The current work map has 106 dependency edges, including W04's reuse
+of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,
 real proofs, genuine hardware and independent verification remain required for

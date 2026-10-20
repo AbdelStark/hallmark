@@ -16,14 +16,16 @@ schemas below remain implementation targets except `ModelManifest`, `FileRef`,
 `GenerationConfig`, `ClassifierManifest`, `InputProfile`, `Policy`, `Request`,
 `RequestExpectation`, `ChainExpectation`, `TranscriptOpening`, `ProofInputs`,
 `ReceiptBody`, `SignedReceipt`, `EpochRecord`, `ProofArtifact`, `RegistryBody`,
-`RegistryEntry`, `RegistrySignature`, `SignedRegistry`, `TrustPolicy`, `Limits`
-and `RegistryState`, implemented in
+`RegistryEntry`, `RegistrySignature`, `SignedRegistry`, `TrustPolicy`, `Limits`,
+`RegistryState`, `Bundle`, `EmbeddedFile`, `ResponseEnvelope`, `BundleStatus`,
+`Claim` and `VerificationResult`, implemented in
 [manifests.py](../../src/hallmark/manifests.py) and
 [classifier_manifest.py](../../src/hallmark/classifier_manifest.py), with
 [policy/request contracts](../../src/hallmark/policy.py) and
 [opening contracts](../../src/hallmark/openings.py) plus
 [receipt/evidence containers](../../src/hallmark/receipts.py) and
-[registry enrollment](../../src/hallmark/enrollment.py).
+[registry enrollment](../../src/hallmark/enrollment.py), with
+[offline bundle and result contracts](../../src/hallmark/bundles.py).
 `Enrollment` is an in-process verified result, with no wire decoder or public constructor.
 Primitive decoding does not validate fields, versions or cross-field invariants.
 The [model JSON schema](../schemas/model-manifest-v1.json) is a hex-byte projection;
@@ -40,6 +42,9 @@ The [receipt contract decision](../decisions/0009-receipt-evidence-contracts.md)
 defines structural/time checks, public-input packing and opaque evidence boundaries.
 The [enrollment decision](../decisions/0010-external-enrollment.md) defines signed
 history, trust limits, process-local admission and atomic checkpoint persistence.
+The [bundle contract decision](../decisions/0011-offline-bundle-contracts.md)
+defines exact embedded-file checks, private opening separation, total resource
+limits and the distinction between reported results and verified evidence.
 
 Notation below is a normative schema algebra, not executable Python. `B32` is exactly 32 bytes; `Digest=B32`; `U64` is integer 0 through 2^64−1 excluding booleans; `I32` is signed int32; `Id` is the existing restricted ASCII Identifier; `Text` is strict UTF-8. `Vec[T,n]` has exactly n elements, `List[T,a..b]` is bounded, and `Optional[T]` is T or null. Every map has the listed fields only. Each top-level artifact carries `schema_id: Id` with its specific `hallmark/<kind>/1` value. All digest identities use RFC-0001.
 

@@ -205,6 +205,7 @@
       ],
       "milestone": "v0.2",
       "depends_on": [
+        "W02",
         "W06",
         "W08"
       ],

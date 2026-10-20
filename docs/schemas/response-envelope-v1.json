@@ -1,0 +1,402 @@
+{
+  "$defs": {
+    "ChainExpectation": {
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        }
+      },
+      "required": [
+        "sequence",
+        "previous"
+      ],
+      "title": "ChainExpectation",
+      "type": "object"
+    },
+    "CollectionState": {
+      "enum": [
+        "pending",
+        "ready",
+        "blocked",
+        "failed",
+        "expired"
+      ],
+      "type": "string"
+    },
+    "ProofInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/proof-inputs/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Context",
+          "type": "string"
+        },
+        "classifier": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Classifier",
+          "type": "string"
+        },
+        "input_digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "unit_count": {
+          "maximum": 32768,
+          "minimum": 0,
+          "title": "Unit Count",
+          "type": "integer"
+        },
+        "chunk_count": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Chunk Count",
+          "type": "integer"
+        },
+        "threshold": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Threshold",
+          "type": "integer"
+        },
+        "verdict": {
+          "title": "Verdict",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_id",
+        "context",
+        "classifier",
+        "input_digest",
+        "unit_count",
+        "chunk_count",
+        "threshold",
+        "verdict"
+      ],
+      "title": "ProofInputs",
+      "type": "object"
+    },
+    "ReceiptBody": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/receipt/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "expected": {
+          "$ref": "#/$defs/RequestExpectation"
+        },
+        "issued_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Issued At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "epoch": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Epoch",
+          "type": "string"
+        },
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        },
+        "transcript": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Transcript",
+          "type": "string"
+        },
+        "inputs": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/ProofInputs"
+            },
+            {
+              "$ref": "#/$defs/ProofInputs"
+            },
+            {
+              "$ref": "#/$defs/ProofInputs"
+            }
+          ],
+          "title": "Inputs",
+          "type": "array"
+        },
+        "release": {
+          "enum": [
+            "released",
+            "blocked"
+          ],
+          "title": "Release",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "expected",
+        "issued_at",
+        "expires_at",
+        "epoch",
+        "sequence",
+        "previous",
+        "transcript",
+        "inputs",
+        "release"
+      ],
+      "title": "ReceiptBody",
+      "type": "object"
+    },
+    "RequestExpectation": {
+      "additionalProperties": false,
+      "description": "Required caller expectations; encoding cannot attest to nonce randomness.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/request-expectation/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "audience": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "nonce": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Nonce",
+          "type": "string"
+        },
+        "interaction_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Interaction Id",
+          "type": "string"
+        },
+        "model": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "policy": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Policy",
+          "type": "string"
+        },
+        "continuity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ChainExpectation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_id",
+        "audience",
+        "nonce",
+        "interaction_id",
+        "model",
+        "policy",
+        "continuity"
+      ],
+      "title": "RequestExpectation",
+      "type": "object"
+    },
+    "SignedReceipt": {
+      "additionalProperties": false,
+      "description": "Signature-shaped container only; no signature verification is implemented here.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/signed-receipt/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "body": {
+          "$ref": "#/$defs/ReceiptBody"
+        },
+        "key_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Key Id",
+          "type": "string"
+        },
+        "signature": {
+          "maxLength": 128,
+          "minLength": 128,
+          "pattern": "^[0-9a-fA-F]{128}$",
+          "title": "Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "body",
+        "key_id",
+        "signature"
+      ],
+      "title": "SignedReceipt",
+      "type": "object"
+    },
+    "TranscriptOpening": {
+      "additionalProperties": false,
+      "description": "Private opening; repr omits content/salt, but serialization discloses them.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/transcript-opening/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "system_ref": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "System Ref",
+          "type": "string"
+        },
+        "prompt": {
+          "description": "Exact UTF-8, at most 32768 bytes.",
+          "maxLength": 32768,
+          "title": "Prompt",
+          "type": "string"
+        },
+        "response": {
+          "description": "Exact UTF-8, at most 32768 bytes.",
+          "maxLength": 32768,
+          "title": "Response",
+          "type": "string"
+        },
+        "salt": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Salt",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "system_ref",
+        "prompt",
+        "response",
+        "salt"
+      ],
+      "title": "TranscriptOpening",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Private response channel only; serialization may disclose text and an opening.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/response-envelope/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "receipt": {
+      "$ref": "#/$defs/SignedReceipt"
+    },
+    "response": {
+      "anyOf": [
+        {
+          "maxLength": 32768,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Exact UTF-8, at most 32768 bytes.",
+      "title": "Response"
+    },
+    "opening": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TranscriptOpening"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proof_status": {
+      "$ref": "#/$defs/CollectionState"
+    }
+  },
+  "required": [
+    "schema_id",
+    "receipt",
+    "response",
+    "opening",
+    "proof_status"
+  ],
+  "title": "ResponseEnvelope",
+  "type": "object"
+}

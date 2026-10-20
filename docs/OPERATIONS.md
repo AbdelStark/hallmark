@@ -47,6 +47,7 @@ Compare repeated runs on model/config/predictions/results, not `source.json` byt
 Keep failed output directories. Never overwrite a complete run or repair its hashes in place. Diagnose from a copy, issue a new experiment identity if the protocol changes, and record failed hypotheses in `research/LEDGER.md`. On resume, recheck source/data identity and actual environment; do not continue training from an undocumented checkpoint.
 
 If no authority for a needed resource exists, produce the smallest bounded proposal with host/data/cost/policy/kill criteria. Stop before the download, paid job, hosted API call or upload. Do not start a daemon, scheduler, remote runner or multi-agent campaign merely because this project is agent-native.
+
 ## External registry checkpoint provisioning
 
 The owner must first approve signing-key custody and the exact signature-library
@@ -81,3 +82,23 @@ requires a new authenticated checkpoint. Network filesystems, untrusted parent
 directories and malicious modification by the OS account are outside this store's
 guarantees. The [decision](decisions/0010-external-enrollment.md) specifies exact
 signature, time, persistence and resource boundaries.
+
+## Offline bundles and private openings
+
+Use `decode_bundle(raw, limits=external_trust.limits)` for untrusted binary input.
+It checks the complete wire size/depth, exact embedded file hashes/references and
+per-proof limits. It returns a container, not an authenticated enrollment or a
+verified claim. Neither file paths nor registry entries trigger network/file reads.
+
+Keep the B1 opening in a separately authorized confidential exchange. Bundles in
+both modes reject opening fields and canonical embedded opening/response records.
+The assembler must also restrict its file inventory; opaque payloads are not a
+general-purpose secret-sanitization boundary. Response-envelope serialization can
+disclose its private response/opening and belongs only on the response channel.
+
+A collection `pending`, `failed` or `expired` status is not a partial valid bundle.
+`ready` names a complete file but does not authenticate it. A reported
+`VerificationResult` is also not a verifier: decoding an `accepted` flag does not
+make the referenced evidence true. See [the contract decision](decisions/0011-offline-bundle-contracts.md)
+for exact claim, status and privacy boundaries. Full assembly and verification
+remain W26–W28.

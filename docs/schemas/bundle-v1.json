@@ -1,0 +1,730 @@
+{
+  "$defs": {
+    "ChainExpectation": {
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        }
+      },
+      "required": [
+        "sequence",
+        "previous"
+      ],
+      "title": "ChainExpectation",
+      "type": "object"
+    },
+    "EmbeddedFile": {
+      "additionalProperties": false,
+      "description": "A logical name and exact bytes; never a filesystem or network operation.",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/FileRef"
+        },
+        "content": {
+          "maxLength": 134217728,
+          "pattern": "^(?:[0-9a-fA-F]{2})*$",
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref",
+        "content"
+      ],
+      "title": "EmbeddedFile",
+      "type": "object"
+    },
+    "EntryKind": {
+      "enum": [
+        "model",
+        "classifier",
+        "policy",
+        "backend",
+        "epoch-measurement"
+      ],
+      "type": "string"
+    },
+    "EpochRecord": {
+      "additionalProperties": false,
+      "description": "Bounded opaque evidence; key/quote validity requires a qualified verifier.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/epoch/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "epoch_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Epoch Id",
+          "type": "string"
+        },
+        "key": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Key",
+          "type": "string"
+        },
+        "model": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "measurement": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Measurement",
+          "type": "string"
+        },
+        "issued_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Issued At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "cpu_evidence": {
+          "maxLength": 33554432,
+          "minLength": 2,
+          "pattern": "^(?:[0-9a-fA-F]{2})*$",
+          "title": "Cpu Evidence",
+          "type": "string"
+        },
+        "accelerator_evidence": {
+          "maxLength": 33554432,
+          "minLength": 2,
+          "pattern": "^(?:[0-9a-fA-F]{2})*$",
+          "title": "Accelerator Evidence",
+          "type": "string"
+        },
+        "collateral": {
+          "items": {
+            "$ref": "#/$defs/FileRef"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Collateral",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_id",
+        "epoch_id",
+        "key",
+        "model",
+        "measurement",
+        "issued_at",
+        "expires_at",
+        "cpu_evidence",
+        "accelerator_evidence",
+        "collateral"
+      ],
+      "title": "EpochRecord",
+      "type": "object"
+    },
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "ProofArtifact": {
+      "additionalProperties": false,
+      "description": "Opaque proof bytes and declared inputs; parsing never verifies a proof.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/proof-artifact/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "backend": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Backend",
+          "type": "string"
+        },
+        "verifier_key": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Verifier Key",
+          "type": "string"
+        },
+        "public_inputs": {
+          "$ref": "#/$defs/ProofInputs"
+        },
+        "proof": {
+          "maxLength": 33554432,
+          "minLength": 2,
+          "pattern": "^(?:[0-9a-fA-F]{2})*$",
+          "title": "Proof",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "backend",
+        "verifier_key",
+        "public_inputs",
+        "proof"
+      ],
+      "title": "ProofArtifact",
+      "type": "object"
+    },
+    "ProofInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/proof-inputs/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Context",
+          "type": "string"
+        },
+        "classifier": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Classifier",
+          "type": "string"
+        },
+        "input_digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "unit_count": {
+          "maximum": 32768,
+          "minimum": 0,
+          "title": "Unit Count",
+          "type": "integer"
+        },
+        "chunk_count": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Chunk Count",
+          "type": "integer"
+        },
+        "threshold": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Threshold",
+          "type": "integer"
+        },
+        "verdict": {
+          "title": "Verdict",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_id",
+        "context",
+        "classifier",
+        "input_digest",
+        "unit_count",
+        "chunk_count",
+        "threshold",
+        "verdict"
+      ],
+      "title": "ProofInputs",
+      "type": "object"
+    },
+    "ReceiptBody": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/receipt/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "expected": {
+          "$ref": "#/$defs/RequestExpectation"
+        },
+        "issued_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Issued At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "epoch": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Epoch",
+          "type": "string"
+        },
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        },
+        "transcript": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Transcript",
+          "type": "string"
+        },
+        "inputs": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/ProofInputs"
+            },
+            {
+              "$ref": "#/$defs/ProofInputs"
+            },
+            {
+              "$ref": "#/$defs/ProofInputs"
+            }
+          ],
+          "title": "Inputs",
+          "type": "array"
+        },
+        "release": {
+          "enum": [
+            "released",
+            "blocked"
+          ],
+          "title": "Release",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "expected",
+        "issued_at",
+        "expires_at",
+        "epoch",
+        "sequence",
+        "previous",
+        "transcript",
+        "inputs",
+        "release"
+      ],
+      "title": "ReceiptBody",
+      "type": "object"
+    },
+    "RegistryBody": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/registry/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "minLength": 64,
+              "pattern": "^[0-9a-fA-F]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous"
+        },
+        "issued_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Issued At",
+          "type": "integer"
+        },
+        "expires_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/RegistryEntry"
+          },
+          "maxItems": 4096,
+          "minItems": 1,
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_id",
+        "sequence",
+        "previous",
+        "issued_at",
+        "expires_at",
+        "entries"
+      ],
+      "title": "RegistryBody",
+      "type": "object"
+    },
+    "RegistryEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/EntryKind"
+        },
+        "digest": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Digest",
+          "type": "string"
+        },
+        "valid_from": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Valid From",
+          "type": "integer"
+        },
+        "valid_until": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Valid Until",
+          "type": "integer"
+        },
+        "retired_at": {
+          "anyOf": [
+            {
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Retired At"
+        },
+        "review": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Review",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "digest",
+        "valid_from",
+        "valid_until",
+        "retired_at",
+        "review"
+      ],
+      "title": "RegistryEntry",
+      "type": "object"
+    },
+    "RegistrySignature": {
+      "additionalProperties": false,
+      "properties": {
+        "key_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Key Id",
+          "type": "string"
+        },
+        "signature": {
+          "maxLength": 128,
+          "minLength": 128,
+          "pattern": "^[0-9a-fA-F]{128}$",
+          "title": "Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key_id",
+        "signature"
+      ],
+      "title": "RegistrySignature",
+      "type": "object"
+    },
+    "RequestExpectation": {
+      "additionalProperties": false,
+      "description": "Required caller expectations; encoding cannot attest to nonce randomness.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/request-expectation/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "audience": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Audience",
+          "type": "string"
+        },
+        "nonce": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Nonce",
+          "type": "string"
+        },
+        "interaction_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Interaction Id",
+          "type": "string"
+        },
+        "model": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "policy": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Policy",
+          "type": "string"
+        },
+        "continuity": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ChainExpectation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_id",
+        "audience",
+        "nonce",
+        "interaction_id",
+        "model",
+        "policy",
+        "continuity"
+      ],
+      "title": "RequestExpectation",
+      "type": "object"
+    },
+    "SignedReceipt": {
+      "additionalProperties": false,
+      "description": "Signature-shaped container only; no signature verification is implemented here.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/signed-receipt/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "body": {
+          "$ref": "#/$defs/ReceiptBody"
+        },
+        "key_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Key Id",
+          "type": "string"
+        },
+        "signature": {
+          "maxLength": 128,
+          "minLength": 128,
+          "pattern": "^[0-9a-fA-F]{128}$",
+          "title": "Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "body",
+        "key_id",
+        "signature"
+      ],
+      "title": "SignedReceipt",
+      "type": "object"
+    },
+    "SignedRegistry": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/signed-registry/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "body": {
+          "$ref": "#/$defs/RegistryBody"
+        },
+        "signatures": {
+          "items": {
+            "$ref": "#/$defs/RegistrySignature"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Signatures",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_id",
+        "body",
+        "signatures"
+      ],
+      "title": "SignedRegistry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete-shaped evidence container, with no transcript-opening or trust field.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/bundle/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "receipt": {
+      "$ref": "#/$defs/SignedReceipt"
+    },
+    "epoch": {
+      "$ref": "#/$defs/EpochRecord"
+    },
+    "registry": {
+      "$ref": "#/$defs/SignedRegistry"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/SignedRegistry"
+      },
+      "maxItems": 1024,
+      "title": "History",
+      "type": "array"
+    },
+    "proofs": {
+      "maxItems": 3,
+      "minItems": 3,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/ProofArtifact"
+        },
+        {
+          "$ref": "#/$defs/ProofArtifact"
+        },
+        {
+          "$ref": "#/$defs/ProofArtifact"
+        }
+      ],
+      "title": "Proofs",
+      "type": "array"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/EmbeddedFile"
+      },
+      "maxItems": 8192,
+      "minItems": 1,
+      "title": "Files",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "receipt",
+    "epoch",
+    "registry",
+    "history",
+    "proofs",
+    "files"
+  ],
+  "title": "Bundle",
+  "type": "object"
+}

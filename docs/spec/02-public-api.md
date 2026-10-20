@@ -169,7 +169,28 @@ path, never infer a checkpoint from a bundle, and return only after a verified
 update commits. See [semantics and limits](../decisions/0010-external-enrollment.md)
 and [provisioning](../OPERATIONS.md#external-registry-checkpoint-provisioning).
 
-Generic schema dispatch and the following artifact interfaces remain targets. Their types are
+`hallmark.bundles` implements the offline containers and reported results:
+
+```python
+from hallmark.bundles import (
+    Bundle, EmbeddedFile, ResponseEnvelope, BundleStatus, Claim, VerificationResult,
+    decode_bundle,
+)
+
+decode_bundle(raw: bytes, *, limits: Limits) -> Bundle
+bundle.validate_limits(limits: Limits) -> None
+reported_result.validate_requirements(trust: TrustPolicy) -> None
+```
+
+All six record types expose checked `encode`/`decode`. Use `decode_bundle` at the
+untrusted binary boundary to apply external byte/depth/proof limits. It performs
+no file/network I/O, signature verification, enrollment, attestation or proof
+verification. `validate_requirements` only compares reported mode/claim
+acceptance to external requirements. A decoded `VerificationResult` is a report
+whose authenticity must be established separately, not a verifier invocation.
+See [field rules, opening exchange and limits](../decisions/0011-offline-bundle-contracts.md).
+
+Generic schema dispatch and the following interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
 
 ```python
