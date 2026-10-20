@@ -1,4 +1,4 @@
-.PHONY: check check-train check-conformance check-spec test package-check package-check-train smoke
+.PHONY: check check-train check-conformance check-spec check-admission test package-check package-check-train smoke
 
 check:
 	uv lock --check
@@ -8,6 +8,10 @@ check:
 	uv run --locked pytest
 	$(MAKE) check-spec
 	$(MAKE) check-conformance
+	$(MAKE) check-admission
+
+check-admission:
+	uv run --locked python scripts/check_admission.py
 
 check-spec:
 	uv run --locked python scripts/check_spec.py

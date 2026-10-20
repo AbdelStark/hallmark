@@ -1,0 +1,49 @@
+{
+  "additionalProperties": false,
+  "description": "Assay/rubric identity before training; distinct from an enrolled runtime Policy.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/study-policy/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "policy_id": {
+      "const": "inj.direct/1",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "language": {
+      "const": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "scope": {
+      "const": "prompt",
+      "title": "Scope",
+      "type": "string"
+    },
+    "rubric": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Rubric",
+      "type": "string"
+    },
+    "max_prompt_bytes": {
+      "maximum": 32768,
+      "minimum": 1,
+      "title": "Max Prompt Bytes",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_id",
+    "policy_id",
+    "language",
+    "scope",
+    "rubric",
+    "max_prompt_bytes"
+  ],
+  "title": "StudyPolicy",
+  "type": "object"
+}

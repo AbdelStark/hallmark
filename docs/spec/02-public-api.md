@@ -313,6 +313,27 @@ No file/network retrieval, training or calibration occurs. See the
 `AttemptRecord` schemas are metadata only; a completion summary is a local storage
 result, not verified execution. See [usage and limits](../decisions/0015-private-event-storage.md).
 
+`hallmark.admission` implements proposed `StudyPolicy`, `AdmissionProtocol`,
+`AdmissionReview`, `SourceApproval`, `Candidate` and `BudgetAdmission` records.
+The three top-level artifacts expose checked CBOR encoding/decoding and identity.
+
+```python
+protocol.review_terms() -> ArtifactDigest
+validate_reviewed_admission(
+    protocol: AdmissionProtocol, policy: StudyPolicy, review: AdmissionReview,
+    *, expected_review: ArtifactDigest, files: dict[str, bytes],
+) -> None
+```
+
+The caller authenticates both reviewers and supplies an independently enrolled
+review pin. The check binds exact terms, role names and bounded document bytes.
+It performs no I/O, asset validation, signature verification or budget enforcement.
+Source revision/code/configuration fields hash manifest documents; model file
+inventories are declarations. The [draft proposal](../../research/proposals/inj-direct-v1/README.md)
+is intentionally inadmissible while choices remain null. See
+[decision 0018](../decisions/0018-admission-proposal.md) for the distinction from
+runtime policy, the acyclic review hash and the missing operational authority.
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).

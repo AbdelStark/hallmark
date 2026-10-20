@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Caller-enrolled review dossier; names and document hashes alone prove no approval.",
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/admission-review/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "terms": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Terms",
+      "type": "string"
+    },
+    "owner": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Owner",
+      "type": "string"
+    },
+    "relying_party_role": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Relying Party Role",
+      "type": "string"
+    },
+    "owner_approval": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "relying_party_approval": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "terms",
+    "owner",
+    "relying_party_role",
+    "owner_approval",
+    "relying_party_approval",
+    "evidence"
+  ],
+  "title": "AdmissionReview",
+  "type": "object"
+}

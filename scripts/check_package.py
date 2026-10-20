@@ -122,6 +122,7 @@ def main() -> None:
         assert "hallmark/conformance_checks.py" in names
         assert "hallmark/integer_mlp.py" in names
         assert "hallmark/events.py" in names
+        assert "hallmark/admission.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -141,6 +142,15 @@ def main() -> None:
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
             "scripts/check_event_storage.py",
+            "scripts/build_admission_fixture.py",
+            "scripts/check_admission.py",
+            "tests/test_admission.py",
+            "fixtures/wire/admission-v1.json",
+            "docs/schemas/study-policy-v1.json",
+            "docs/schemas/admission-v1.json",
+            "docs/schemas/admission-review-v1.json",
+            "research/proposals/inj-direct-v1/README.md",
+            "research/proposals/inj-direct-v1/proposal.json",
             "tests/test_events.py",
             "docs/schemas/event-v1.json",
             "docs/schemas/event-attempt-v1.json",
@@ -418,6 +428,12 @@ def main() -> None:
         timeout=15,
     )
     corpus = root / "tests/vectors/v1"
+    subprocess.run(
+        [str(python), str(root / "scripts/check_admission.py")],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
     subprocess.run(
         [
             str(python),

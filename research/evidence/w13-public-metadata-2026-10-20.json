@@ -1,0 +1,457 @@
+{
+  "schema_id": "hallmark/admission-public-metadata/1",
+  "date": "2026-10-20",
+  "scope": "public card/config/licence/API metadata only; no dataset/model asset files",
+  "sources": [
+    {
+      "repository": "deepset/prompt-injections",
+      "kind": "datasets",
+      "url": "https://huggingface.co/api/datasets/deepset/prompt-injections",
+      "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+      "metadata_sha256": "fb6be355290c419e344bddc91d324407af68a746a04ba187e7e0b570f778ebea",
+      "gated": false,
+      "private": false,
+      "card_metadata": {
+        "dataset_info": {
+          "features": [
+            {
+              "name": "text",
+              "dtype": "string"
+            },
+            {
+              "name": "label",
+              "dtype": "int64"
+            }
+          ],
+          "splits": [
+            {
+              "name": "train",
+              "num_bytes": 71720,
+              "num_examples": 546
+            },
+            {
+              "name": "test",
+              "num_bytes": 15981,
+              "num_examples": 116
+            }
+          ],
+          "download_size": 51215,
+          "dataset_size": 87701,
+          "license": "cc-by-4.0"
+        },
+        "license": "apache-2.0"
+      },
+      "reviewed_metadata_files": [
+        {
+          "url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/4f61ecb038e9c3fb77e21034b22511b523772cdd/README.md",
+          "path": "README.md",
+          "size": 500,
+          "sha256": "d90b4518dfe06154deeec938243d1ec9119bdfbfd2105aee9cf1567999764b94"
+        }
+      ],
+      "file_inventory_metadata": {
+        "url": "https://huggingface.co/api/datasets/deepset/prompt-injections/revision/4f61ecb038e9c3fb77e21034b22511b523772cdd?blobs=true",
+        "sha256": "44e75755933a43a8e61b6034c8c502faaabc97a6e354438f65a65a2db29bef24",
+        "files": [
+          {
+            "rfilename": ".gitattributes",
+            "blobId": "f4f3945bd7150d3e12988485c42da1f8c29c59f8",
+            "size": 2265
+          },
+          {
+            "rfilename": "README.md",
+            "blobId": "d3a63fc0a09231cd1563afb14facfd9d55adcd03",
+            "size": 500
+          },
+          {
+            "rfilename": "data/test-00000-of-00001-701d16158af87368.parquet",
+            "blobId": "8bf9d00201127a68fc3b0cf1e8da9ecff8b221e7",
+            "size": 10892,
+            "lfs": {
+              "sha256": "39ac797cabc157eeed58435a08593b2952bb6cb16fc394a2d383f447cc7b246e",
+              "size": 10892,
+              "pointerSize": 130
+            }
+          },
+          {
+            "rfilename": "data/train-00000-of-00001-9564e8b05b4757ab.parquet",
+            "blobId": "551b244bd3dc2e271865caf32d209bb7f6e249ba",
+            "size": 40323,
+            "lfs": {
+              "sha256": "2e10bc7ab30f542c97e4e83e2a5683000b5057d25ec10908784c631d44124c04",
+              "size": 40323,
+              "pointerSize": 130
+            }
+          },
+          {
+            "rfilename": "gitattributes.txt",
+            "blobId": "f4f3945bd7150d3e12988485c42da1f8c29c59f8",
+            "size": 2265
+          }
+        ],
+        "interpretation": "Advertised hashes only; asset bytes have not been verified."
+      },
+      "admission_status": "hold",
+      "approval_ref": null,
+      "asset_bytes_downloaded": false,
+      "holds": [
+        "conflicting licence fields: apache-2.0 and dataset_info.license cc-by-4.0",
+        "no named relying-party approval",
+        "no reviewed parent-group or annotation provenance",
+        "card preview exposed examples; cannot treat it as an unseen confirmatory test set"
+      ]
+    },
+    {
+      "repository": "protectai/deberta-v3-base-prompt-injection-v2",
+      "kind": "models",
+      "url": "https://huggingface.co/api/models/protectai/deberta-v3-base-prompt-injection-v2",
+      "revision": "90c9989b1a342275dd0d1a95aad283c04e075671",
+      "metadata_sha256": "caa8d1b7dd99fd38e2fbc120c91774c3efae229659e9a52178f580720e8b869d",
+      "gated": false,
+      "private": false,
+      "card_metadata": {
+        "license": "apache-2.0",
+        "base_model": "microsoft/deberta-v3-base",
+        "language": [
+          "en"
+        ],
+        "datasets": [
+          "natolambert/xstest-v2-copy",
+          "VMware/open-instruct",
+          "alespalla/chatbot_instruction_prompts",
+          "HuggingFaceH4/grok-conversation-harmless",
+          "Harelix/Prompt-Injection-Mixed-Techniques-2024",
+          "OpenSafetyLab/Salad-Data",
+          "jackhhao/jailbreak-classification"
+        ],
+        "tags": [
+          "prompt-injection",
+          "injection",
+          "security",
+          "llm-security",
+          "generated_from_trainer"
+        ],
+        "metrics": [
+          "accuracy",
+          "recall",
+          "precision",
+          "f1"
+        ],
+        "pipeline_tag": "text-classification",
+        "model-index": [
+          {
+            "name": "deberta-v3-base-prompt-injection-v2",
+            "results": []
+          }
+        ]
+      },
+      "reviewed_metadata_files": [
+        {
+          "url": "https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2/resolve/90c9989b1a342275dd0d1a95aad283c04e075671/README.md",
+          "path": "README.md",
+          "size": 6327,
+          "sha256": "37221a38df1e60ad56364c39a233c75b77fa08740ecdee248d1b4e07ccc8ef5a"
+        },
+        {
+          "url": "https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2/resolve/90c9989b1a342275dd0d1a95aad283c04e075671/config.json",
+          "path": "config.json",
+          "size": 994,
+          "sha256": "05079f4735092040b780d459027afab413faa6eeb66a548571a58832304b60bb"
+        },
+        {
+          "url": "https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2/resolve/90c9989b1a342275dd0d1a95aad283c04e075671/LICENSE",
+          "path": "LICENSE",
+          "size": 10172,
+          "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+        }
+      ],
+      "architecture_metadata": {
+        "_name_or_path": "microsoft/deberta-v3-base",
+        "architectures": [
+          "DebertaV2ForSequenceClassification"
+        ],
+        "attention_probs_dropout_prob": 0.1,
+        "hidden_act": "gelu",
+        "hidden_dropout_prob": 0.1,
+        "hidden_size": 768,
+        "id2label": {
+          "0": "SAFE",
+          "1": "INJECTION"
+        },
+        "initializer_range": 0.02,
+        "intermediate_size": 3072,
+        "label2id": {
+          "INJECTION": 1,
+          "SAFE": 0
+        },
+        "layer_norm_eps": 1e-07,
+        "max_position_embeddings": 512,
+        "max_relative_positions": -1,
+        "model_type": "deberta-v2",
+        "norm_rel_ebd": "layer_norm",
+        "num_attention_heads": 12,
+        "num_hidden_layers": 12,
+        "pad_token_id": 0,
+        "pooler_dropout": 0,
+        "pooler_hidden_act": "gelu",
+        "pooler_hidden_size": 768,
+        "pos_att_type": [
+          "p2c",
+          "c2p"
+        ],
+        "position_biased_input": false,
+        "position_buckets": 256,
+        "relative_attention": true,
+        "share_att_key": true,
+        "torch_dtype": "float32",
+        "transformers_version": "4.39.3",
+        "type_vocab_size": 0,
+        "vocab_size": 128100
+      },
+      "file_inventory_metadata": {
+        "url": "https://huggingface.co/api/models/protectai/deberta-v3-base-prompt-injection-v2/revision/90c9989b1a342275dd0d1a95aad283c04e075671?blobs=true",
+        "sha256": "52e12fdc4c0fe498fe995593af4ce9ca547398f273be161a629dd34f5804eaf5",
+        "files": [
+          {
+            "rfilename": ".gitattributes",
+            "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+            "size": 1519
+          },
+          {
+            "rfilename": "LICENSE",
+            "blobId": "2bb9ad240fa04c8cf706a4901c4807878e90c2dc",
+            "size": 10172
+          },
+          {
+            "rfilename": "README.md",
+            "blobId": "f27ffa725e075a9a8daa7d749311c25231800f62",
+            "size": 6327
+          },
+          {
+            "rfilename": "added_tokens.json",
+            "blobId": "8ee2b3623dc526b123cde0aaa401755b82299af2",
+            "size": 23
+          },
+          {
+            "rfilename": "config.json",
+            "blobId": "75347aec096be871790c81deeb4175ec9a2be98a",
+            "size": 994
+          },
+          {
+            "rfilename": "deberta-v3-base-prompt-injection-v2_emissions.csv",
+            "blobId": "1e72460691e0593db6d2a84065f2ed6bd194beec",
+            "size": 810
+          },
+          {
+            "rfilename": "model.safetensors",
+            "blobId": "439a12a7598a9b51fa9ef4f9ffb3c10355cdc241",
+            "size": 737719272,
+            "lfs": {
+              "sha256": "6521cb8d0ac08148c81464899c424e6148fcc62befa371089fa4061d8b6e0424",
+              "size": 737719272,
+              "pointerSize": 134
+            }
+          },
+          {
+            "rfilename": "onnx/added_tokens.json",
+            "blobId": "8ee2b3623dc526b123cde0aaa401755b82299af2",
+            "size": 23
+          },
+          {
+            "rfilename": "onnx/config.json",
+            "blobId": "3366690a064655366dd7dd57f9b3cf1e8ba8e78f",
+            "size": 1014
+          },
+          {
+            "rfilename": "onnx/model.onnx",
+            "blobId": "2d9532d6b214243ff14dfc0e2664e0d2667d75b5",
+            "size": 738563188,
+            "lfs": {
+              "sha256": "f0ea7f239f765aedbde7c9e163a7cb38a79c5b8853d3f76db5152172047b228c",
+              "size": 738563188,
+              "pointerSize": 134
+            }
+          },
+          {
+            "rfilename": "onnx/special_tokens_map.json",
+            "blobId": "83fb22de184abab1b193b1f6001e3015e865e50b",
+            "size": 970
+          },
+          {
+            "rfilename": "onnx/spm.model",
+            "blobId": "b1b95e5b0fef33623979511f423eaeee465c46f0",
+            "size": 2464616,
+            "lfs": {
+              "sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd",
+              "size": 2464616,
+              "pointerSize": 132
+            }
+          },
+          {
+            "rfilename": "onnx/tokenizer.json",
+            "blobId": "00c50710453478105265c838bfb3bad69b410891",
+            "size": 8648886
+          },
+          {
+            "rfilename": "onnx/tokenizer_config.json",
+            "blobId": "7a76cf2e0d2a72e3baf09096c657dc5d977b04ec",
+            "size": 1392
+          },
+          {
+            "rfilename": "special_tokens_map.json",
+            "blobId": "2c9cb07c8fdeeb5ac3ceafb170592e990b204dcd",
+            "size": 286
+          },
+          {
+            "rfilename": "spm.model",
+            "blobId": "b1b95e5b0fef33623979511f423eaeee465c46f0",
+            "size": 2464616,
+            "lfs": {
+              "sha256": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd",
+              "size": 2464616,
+              "pointerSize": 132
+            }
+          },
+          {
+            "rfilename": "tokenizer.json",
+            "blobId": "e68aa4603df5ac5423c3a2ecae182bd1a80f509a",
+            "size": 8656744
+          },
+          {
+            "rfilename": "tokenizer_config.json",
+            "blobId": "13d6406af565bd9e59dd649afd4c2b48bddb6a4c",
+            "size": 1284
+          },
+          {
+            "rfilename": "training_args.bin",
+            "blobId": "ccf4f35195c268522819bb45a29e338c09b60bf5",
+            "size": 5048,
+            "lfs": {
+              "sha256": "850c358d86ce96e51b93e59bb7782389b780bb4d061fb60b3772dbe5f67c9443",
+              "size": 5048,
+              "pointerSize": 129
+            }
+          }
+        ],
+        "interpretation": "Advertised hashes only; asset bytes have not been verified."
+      },
+      "admission_status": "hold",
+      "approval_ref": null,
+      "asset_bytes_downloaded": false,
+      "holds": [
+        "associated project described as archived/unmaintained by pinned card",
+        "base/source rights and contamination review incomplete",
+        "no owner-approved runtime or resource budget",
+        "full-input inference adaptation and dependencies unqualified"
+      ]
+    },
+    {
+      "repository": "google/bert_uncased_L-2_H-128_A-2",
+      "kind": "models",
+      "url": "https://huggingface.co/api/models/google/bert_uncased_L-2_H-128_A-2",
+      "revision": "30b0a37ccaaa32f332884b96992754e246e48c5f",
+      "metadata_sha256": "2a946d0c93505308f00e018363d1131e23bd4a7f94af900198894da89847aaf7",
+      "gated": false,
+      "private": false,
+      "card_metadata": {
+        "thumbnail": "https://huggingface.co/front/thumbnails/google.png",
+        "license": "apache-2.0"
+      },
+      "reviewed_metadata_files": [
+        {
+          "url": "https://huggingface.co/google/bert_uncased_L-2_H-128_A-2/resolve/30b0a37ccaaa32f332884b96992754e246e48c5f/README.md",
+          "path": "README.md",
+          "size": 4617,
+          "sha256": "d13a54d652a2a54fbbc50e063b465fb273295870867821e1b06baba1d49d68a9"
+        },
+        {
+          "url": "https://huggingface.co/google/bert_uncased_L-2_H-128_A-2/resolve/30b0a37ccaaa32f332884b96992754e246e48c5f/config.json",
+          "path": "config.json",
+          "size": 382,
+          "sha256": "508e1f01aae55d73355cbdd82609be2f43ba5a0d3428837adbe56cf8391f8b39"
+        }
+      ],
+      "architecture_metadata": {
+        "attention_probs_dropout_prob": 0.1,
+        "hidden_act": "gelu",
+        "hidden_dropout_prob": 0.1,
+        "hidden_size": 128,
+        "initializer_range": 0.02,
+        "intermediate_size": 512,
+        "layer_norm_eps": 1e-12,
+        "max_position_embeddings": 512,
+        "model_type": "bert",
+        "num_attention_heads": 2,
+        "num_hidden_layers": 2,
+        "pad_token_id": 0,
+        "type_vocab_size": 2,
+        "vocab_size": 30522
+      },
+      "file_inventory_metadata": {
+        "url": "https://huggingface.co/api/models/google/bert_uncased_L-2_H-128_A-2/revision/30b0a37ccaaa32f332884b96992754e246e48c5f?blobs=true",
+        "sha256": "bcb5e0abbb18d02a440ef64ca04efcdddc073fff049ad98ed8f51932481ffa54",
+        "files": [
+          {
+            "rfilename": ".gitattributes",
+            "blobId": "602b71f15d40ed68c5f96330e3f3175a76a32126",
+            "size": 445
+          },
+          {
+            "rfilename": "README.md",
+            "blobId": "8814ffdd5b8f0223e5acee571d2869be210bfa2a",
+            "size": 4617
+          },
+          {
+            "rfilename": "config.json",
+            "blobId": "333ec19609b98a6cd11b79a5770a163a2f0464c8",
+            "size": 382
+          },
+          {
+            "rfilename": "flax_model.msgpack",
+            "blobId": "1c845057103a6f8631d81f368cbdb8fe5d4eac39",
+            "size": 17545101,
+            "lfs": {
+              "sha256": "d1f885a549870769ba8b61c96b051ed6a98b68573062f03fd806fcaa9712eeb4",
+              "size": 17545101,
+              "pointerSize": 133
+            }
+          },
+          {
+            "rfilename": "model.safetensors",
+            "blobId": "260a7f052839cbe88d10bc915f21f3f4d11a4c28",
+            "size": 17739144,
+            "lfs": {
+              "sha256": "7fb69ad9f6866d8983183c930e33828f326470bf6ad8bbb2ad4ed957a92e9414",
+              "size": 17739144,
+              "pointerSize": 133
+            }
+          },
+          {
+            "rfilename": "pytorch_model.bin",
+            "blobId": "29780e6232e949f225042d577b44beec1a742e2f",
+            "size": 17743809,
+            "lfs": {
+              "sha256": "dd152f8450c0579bd271ac0ccb4a88fa4f6a67d8035b7799dbf3a0fb7156d9d0",
+              "size": 17743809,
+              "pointerSize": 133
+            }
+          },
+          {
+            "rfilename": "vocab.txt",
+            "blobId": "fb140275c155a9c7c5a3b3e0e77a9e839594a938",
+            "size": 231508
+          }
+        ],
+        "interpretation": "Advertised hashes only; asset bytes have not been verified."
+      },
+      "admission_status": "hold",
+      "approval_ref": null,
+      "asset_bytes_downloaded": false,
+      "holds": [
+        "licence metadata alone is not an approval record; full notice/provenance review pending",
+        "tokenizer/runtime dependencies and checkpoint bytes not admitted or verified",
+        "integer export and full-graph proof qualification absent"
+      ]
+    }
+  ]
+}

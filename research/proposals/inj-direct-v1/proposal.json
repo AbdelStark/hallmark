@@ -1,0 +1,177 @@
+{
+  "schema_id": "hallmark/admission-proposal/1",
+  "status": "awaiting-owner-and-relying-party-review",
+  "measurement_permitted": false,
+  "asset_access_permitted": false,
+  "policy": {
+    "policy_id": "inj.direct/1",
+    "language": "en",
+    "scope": "prompt",
+    "max_prompt_bytes": 32768,
+    "rubric_document": "README.md",
+    "adopted": false
+  },
+  "relying_party": {
+    "proposed_role": "internal-enterprise-auditor",
+    "designated_owner": null,
+    "approved_role": null,
+    "approval_ref": null
+  },
+  "sources": [
+    {
+      "repository": "deepset/prompt-injections",
+      "kind": "datasets",
+      "url": "https://huggingface.co/api/datasets/deepset/prompt-injections",
+      "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+      "admission_status": "hold",
+      "approval_ref": null,
+      "holds": [
+        "conflicting licence fields: apache-2.0 and dataset_info.license cc-by-4.0",
+        "no named relying-party approval",
+        "no reviewed parent-group or annotation provenance",
+        "card preview exposed examples; cannot treat it as an unseen confirmatory test set"
+      ]
+    },
+    {
+      "repository": "protectai/deberta-v3-base-prompt-injection-v2",
+      "kind": "models",
+      "url": "https://huggingface.co/api/models/protectai/deberta-v3-base-prompt-injection-v2",
+      "revision": "90c9989b1a342275dd0d1a95aad283c04e075671",
+      "admission_status": "hold",
+      "approval_ref": null,
+      "holds": [
+        "associated project described as archived/unmaintained by pinned card",
+        "base/source rights and contamination review incomplete",
+        "no owner-approved runtime or resource budget",
+        "full-input inference adaptation and dependencies unqualified"
+      ]
+    },
+    {
+      "repository": "google/bert_uncased_L-2_H-128_A-2",
+      "kind": "models",
+      "url": "https://huggingface.co/api/models/google/bert_uncased_L-2_H-128_A-2",
+      "revision": "30b0a37ccaaa32f332884b96992754e246e48c5f",
+      "admission_status": "hold",
+      "approval_ref": null,
+      "holds": [
+        "licence metadata alone is not an approval record; full notice/provenance review pending",
+        "tokenizer/runtime dependencies and checkpoint bytes not admitted or verified",
+        "integer export and full-graph proof qualification absent"
+      ]
+    }
+  ],
+  "confirmatory_source": {
+    "source": null,
+    "approval_ref": null,
+    "hold": "Independent unexposed source, rights and lineage are not selected."
+  },
+  "candidate_roster": [
+    {
+      "id": "pass-all",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "block-all",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "byte-logistic",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "char-ngram",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "task-guard",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "byte-mlp",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    },
+    {
+      "id": "compact-encoder",
+      "code": null,
+      "config": null,
+      "verified_base_files": null,
+      "status": "proposed"
+    }
+  ],
+  "proposed_seeds": [
+    17,
+    29,
+    43
+  ],
+  "sampling": {
+    "unit": "connected-parent-group",
+    "split_manifest": null,
+    "group_counts": null,
+    "held_out_families": null,
+    "representative_selection": null,
+    "approved": false
+  },
+  "quality": {
+    "target_fpr": null,
+    "alpha": null,
+    "min_tpr": null,
+    "max_quality_loss": null,
+    "desired_power": null,
+    "alternative_effect": null,
+    "primary_joint_decision": null,
+    "threshold_allocation": null,
+    "subgroup_multiplicity": null,
+    "paired_loss_design": null
+  },
+  "evaluator": null,
+  "power_plan": null,
+  "budget": {
+    "host": null,
+    "hardware": null,
+    "max_wall_seconds": null,
+    "max_cost_minor": null,
+    "currency": null,
+    "max_memory_bytes": null,
+    "max_disk_bytes": null,
+    "threads": null,
+    "jobs": null,
+    "max_proof_seconds": null,
+    "max_verify_seconds": null,
+    "max_native_overhead_basis_points": null,
+    "approved_by": null,
+    "approval_ref": null
+  },
+  "retention": {
+    "proposed_witness_max_hours": 24,
+    "dataset_max_hours": null,
+    "checkpoint_max_hours": null,
+    "access_roles": null,
+    "deletion_verification": null,
+    "approval_ref": null
+  },
+  "review": {
+    "owner_approval": null,
+    "relying_party_approval": null,
+    "independently_enrolled_review": null
+  },
+  "metadata_evidence": "../../evidence/w13-public-metadata-2026-10-20.json",
+  "illustrative_power_evidence": "../../evidence/w13-power-scenarios-2026-10-20.json"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_id": "hallmark/admission-power-scenarios/1",
+  "date": "2026-10-20",
+  "evidence_class": "conditional-statistical-calculation",
+  "approved_design": false,
+  "alpha": 0.05,
+  "null_fpr": 0.01,
+  "search_upper_groups": 10000,
+  "rows": [
+    {
+      "assumed_true_fpr": 0.001,
+      "desired_power": 0.8,
+      "independent_groups": 473,
+      "maximum_false_positives": 1,
+      "null_rejection_probability": 0.049797538819848844,
+      "conditional_power": 0.9179483650693319
+    },
+    {
+      "assumed_true_fpr": 0.001,
+      "desired_power": 0.9,
+      "independent_groups": 473,
+      "maximum_false_positives": 1,
+      "null_rejection_probability": 0.049797538819848844,
+      "conditional_power": 0.9179483650693319
+    },
+    {
+      "assumed_true_fpr": 0.005,
+      "desired_power": 0.8,
+      "independent_groups": 1941,
+      "maximum_false_positives": 12,
+      "null_rejection_probability": 0.04989609706922396,
+      "conditional_power": 0.8191724242890448
+    },
+    {
+      "assumed_true_fpr": 0.005,
+      "desired_power": 0.9,
+      "independent_groups": 2546,
+      "maximum_false_positives": 17,
+      "null_rejection_probability": 0.049934927445075175,
+      "conditional_power": 0.9052296726941403
+    }
+  ],
+  "zero_event_299": {
+    "upper_bound": 0.009969146792899286,
+    "power_if_true_fpr_0_001": 0.7414484806367362,
+    "power_if_true_fpr_0_005": 0.2234092460711028
+  },
+  "assumptions": [
+    "independent identically distributed Bernoulli root groups",
+    "one preselected representative per group",
+    "one prespecified model and one primary one-sided test",
+    "no slice/multiple-comparison correction in these scenarios"
+  ],
+  "source": "import hashlib,json,platform\nfrom pathlib import Path\nimport numpy as np\nimport scipy\nfrom scipy.stats import binom,binomtest\n\nalpha=0.05\nnull_fpr=0.01\nsizes=np.arange(1,10001)\nraw_cutoff=binom.ppf(alpha,sizes,null_fpr).astype(int)\ncutoffs=raw_cutoff-(binom.cdf(raw_cutoff,sizes,null_fpr)>alpha)\nrows=[]\nfor actual_fpr in (0.001,0.005):\n power=binom.cdf(cutoffs,sizes,actual_fpr)\n for desired in (0.8,0.9):\n  index=int(np.flatnonzero(power>=desired)[0])\n  n=int(sizes[index]);k=int(cutoffs[index])\n  assert binomtest(k,n,null_fpr,alternative='less').pvalue<=alpha\n  assert binomtest(k+1,n,null_fpr,alternative='less').pvalue>alpha\n  assert not any(power[:index]>=desired)\n  rows.append({'assumed_true_fpr':actual_fpr,'desired_power':desired,'independent_groups':n,\n               'maximum_false_positives':k,'null_rejection_probability':float(binom.cdf(k,n,null_fpr)),\n               'conditional_power':float(power[index])})\nrecord={'schema_id':'hallmark/admission-power-scenarios/1','date':'2026-10-20',\n        'evidence_class':'conditional-statistical-calculation','approved_design':False,\n        'alpha':alpha,'null_fpr':null_fpr,'search_upper_groups':10000,'rows':rows,\n        'zero_event_299':{'upper_bound':1-alpha**(1/299),\n                          'power_if_true_fpr_0_001':float(binom.cdf(0,299,0.001)),\n                          'power_if_true_fpr_0_005':float(binom.cdf(0,299,0.005))},\n        'assumptions':['independent identically distributed Bernoulli root groups',\n                       'one preselected representative per group',\n                       'one prespecified model and one primary one-sided test',\n                       'no slice/multiple-comparison correction in these scenarios'],\n        'source':Path(__file__).read_text(),'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),\n        'environment':{'python':platform.python_version(),'scipy':scipy.__version__,'numpy':np.__version__}}\nPath('research/evidence/w13-power-scenarios-2026-10-20.json').write_text(json.dumps(record,indent=2)+'\\n')\nprint(json.dumps({k:v for k,v in record.items() if k not in ['source','source_sha256','environment']},indent=2))\n",
+  "source_sha256": "7e2976ceee89b51fdea8057fad28c4654e2572127359e31d3eeae4ac0923a60c",
+  "environment": {
+    "python": "3.12.12",
+    "scipy": "1.18.1",
+    "numpy": "2.5.4"
+  }
+}
