@@ -6,6 +6,8 @@ from typing import Literal, cast, get_args
 
 import cbor2
 
+from hallmark.errors import HallmarkError
+
 type WireValue = None | bool | int | bytes | str | list[WireValue] | dict[str, WireValue]
 type Domain = Literal[
     "model",
@@ -34,15 +36,11 @@ type Domain = Literal[
 DOMAINS: frozenset[Domain] = frozenset(get_args(Domain.__value__))
 
 
-class WireError(ValueError):
+class WireError(HallmarkError):
     """Safe codec failure without an offending value or underlying exception."""
 
-    stage: Literal["parse"] = "parse"
-    retryable: Literal[False] = False
-
     def __init__(self, code: Literal["INPUT_INVALID", "LIMIT_EXCEEDED"]) -> None:
-        self.code = code
-        super().__init__(code)
+        super().__init__(code, "parse")
 
 
 @dataclass(frozen=True, slots=True)

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Replace raw CLI failure text with versioned, sanitized error JSON. Preserve
+input/argument exit 2; execution/storage/resource failures now exit 3.
+Unexpected failures receive local random diagnostic IDs. Add the finite error
+taxonomy and stage ordering without modifying historical run artifacts.
+
 Add a separate bounded v1 CBOR value codec and 22 domain-separated identities,
 with canonicality, type, Unicode and resource-limit rejection. Preserve all legacy
 research hashes. Artifact schemas, enrollment and cryptographic verification remain

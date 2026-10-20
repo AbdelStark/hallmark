@@ -36,4 +36,38 @@ Request/receipt identity is immutable. A failed job may be retried once within i
 
 **INV-ERROR-TRUTH:** unavailable, pending, declined trust, invalid evidence and policy-blocked are distinct states. None is reported as proof failure if no proof was actually checked.
 
-Existing v0.1 failure messages and `failure.json` do not yet implement this taxonomy. [RFC-0008](../rfcs/RFC-0008-operations.md) defines the migration and sentinel tests.
+## Implemented diagnostic boundary
+
+`hallmark.errors` exports `ErrorCode`, `Stage`, `ERROR_CODES`, `STAGES`,
+`HallmarkError`, `sanitize_exception` and `first_stage_errors`.
+`HallmarkError(code, stage, retryable=False)` validates finite metadata;
+`as_dict()` emits only `schema_id="hallmark/error/1"`, `code`, `stage`, `retryable`
+and `diagnostic_id`. Unexpected failures get a random UUID4 hex ID; normal
+failures have null IDs. The ID is a correlation handle, not proof that a
+private traceback or diagnostic file exists.
+
+The CLI applies this boundary to argument parsing and execution. Invalid
+values/Unicode/schema and absent/non-file input paths produce `INPUT_INVALID`
+at `parse`. Timeouts and memory exhaustion produce `RESOURCE_EXHAUSTED`;
+other filesystem failures produce `STORAGE_FAILED` at `store`. Unexpected
+exceptions, including failed child processes, produce `INTERNAL_ERROR`.
+Existing typed errors retain their code/stage. External messages, notes, causes
+and process output never enter the JSON record.
+
+Exit 2 means `INPUT_INVALID`, `LIMIT_EXCEEDED` or `TRUST_MISSING`. Exit 3 means
+`PROOF_PENDING`, `RESOURCE_EXHAUSTED`, `STORAGE_FAILED` or `INTERNAL_ERROR`.
+The other codes exit 1 (rejected claim/policy). No error maps to exit 0.
+The research CLI does not implement proof/attestation acceptance just because
+the taxonomy includes those codes.
+
+`first_stage_errors` accepts 1–64 typed errors and selects the earliest of
+`parse`, `enroll`, `attest`, `bind`, `execute`, `prove`, `verify`, `store`, sorting
+within that stage by code and retryability. It organizes diagnostics; it does
+not execute a verifier or replace the detailed check order above.
+
+`WireError` retains its codec API as a `HallmarkError` subclass. Internal research
+helpers still raise their existing exceptions; callers exposing those failures
+must apply the diagnostic boundary. Existing run files, source/diff snapshots and
+the legacy two-field `failure.json` are preserved, not sanitized or rehashed.
+Versioned events and immutable failure records remain W31 / issue #32.
+[Decision 0004](../decisions/0004-error-boundary.md) records the compatibility change.

@@ -86,3 +86,33 @@ The separate v1 module preserves both recorded legacy digest fixtures. No artifa
 schema, signature, attestation, proof or security-review result is claimed.
 [Decision 0003](../docs/decisions/0003-v1-codec.md) records limits and the raw
 codec/schema boundary; owner review before enrollment remains outstanding.
+
+Delivery: [PR #52](https://github.com/AbdelStark/hallmark/pull/52) merged W01 as
+`516143e0fb7ae696ab76a1a6d8a314496a60f6a3`; issue #2 closed. Hosted checks passed
+on both the PR head and the [merge commit](https://github.com/AbdelStark/hallmark/actions/runs/39401155509),
+including both core interpreter jobs and the train fixture.
+
+## 2026-10-20: W30 typed errors and CLI privacy
+
+Hypothesis: one allowlisted diagnostic boundary can prevent private input/path
+and external exception text from reaching CLI output, while preserving success
+output and research arithmetic. Baseline: `516143e0fb7ae696ab76a1a6d8a314496a60f6a3`.
+A missing-file fixture reproduced a path-sentinel leak with exit 2.
+Mutable paths: error module, CLI boundary, wire error inheritance, privacy tests,
+package smoke, error/API docs, decision 0004 and state/evidence records.
+
+Saved [source/environment hashes and raw results](evidence/w30-errors-2026-10-20.json)
+before this entry. All 19 codes are exercised through the CLI, including exception
+notes/causes. Additional tests cover argument parsing, malformed JSON/UTF-8,
+private paths, timeout/OOM, child-process stderr, failed result serialization,
+stage precedence and retained failed-run artifacts. The 52 privacy tests pass;
+`make check` passes 189 total tests plus lint, format, typing and docs.
+`make package-check` passes with an installed invalid-argument diagnostic smoke.
+Initial mypy attribute annotations and Ruff zip strictness failures were fixed
+and retained in the evidence record.
+
+Input errors retain exit 2; execution/storage/resource failures now exit 3.
+Unexpected exceptions get random local diagnostic IDs. No error returns success.
+No arithmetic, dataset, evaluator or historical bundle was changed. Event
+persistence, process isolation and real provider integrations remain separate
+gates; this does not establish hardware/proof evidence or sanitize old snapshots.

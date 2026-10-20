@@ -12,6 +12,12 @@ local tests and an isolated installed-wheel codec check. Legacy fixed hashes are
 unchanged. This validates value encoding only; artifact schemas and trust remain
 separate gates.
 
+W30 / issue #31 adds typed errors and sanitized CLI failures, including argparse,
+filesystem/Unicode and child-process errors. Its
+[evidence](evidence/w30-errors-2026-10-20.json) records the reproduced path leak,
+52 privacy tests, 189 total local tests and an installed CLI error check.
+Historical run artifacts remain unchanged; versioned events are still W31.
+
 ## Not implemented or established
 
 TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -23,8 +29,10 @@ The [proposed v1 corpus](../SPEC.md) defines the full hybrid POC, with 10 draft 
 Local Python 3.12 train-enabled and Python 3.13 core-only baseline gates pass, including isolated wheel checks. Earlier private hosted runs could not start because of an account billing/spending-limit block. After the owner made the repository public, hosted [run 39398412605](https://github.com/AbdelStark/hallmark/actions/runs/39398412605) passed on `48f2d7066b62a42f971cd10dbbc2cdbae720b82e`. Each implementation PR still needs checks on its own commit. Billing settings were not changed.
 
 The owner requested autonomous implementation through `.agents/harness/goal.md`,
-sequentially with one issue per PR. Initial engineering queue: #2 strict wire codec,
-#31 error privacy, #37 CI enforcement (reassess its stale billing blocker),
+sequentially with one issue per PR. #2 is merged in [PR #52](https://github.com/AbdelStark/hallmark/pull/52);
+its merge-commit [CI run](https://github.com/AbdelStark/hallmark/actions/runs/39401155509)
+passed. After #31 error privacy, the engineering queue is #37 CI enforcement
+(reassess its stale billing blocker),
 #38 reproducible packaging, #39 spec traceability; re-evaluate the dependency queue
 after each delivery. Research, real proofs, genuine hardware and independent
 verification remain required for the full MVP.
