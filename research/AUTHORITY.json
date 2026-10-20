@@ -1,13 +1,59 @@
 {
-  "schema_id": "hallmark.research-authority/1",
-  "purpose": "private repository initialization and synthetic fixture validation",
+  "schema_id": "hallmark.research-authority/2",
+  "recorded_at": "2026-10-20",
   "owner": "Abdel",
-  "max_command_seconds": 60,
-  "training_threads": 1,
-  "external_model_calls": false,
-  "dataset_downloads": false,
-  "gpu_or_paid_compute": false,
+  "purpose": "inj.direct/1 prototype research and autonomous backlog implementation",
+  "approval_ref": "docs/decisions/0019-approved-study-scope.md",
+  "relying_party": {
+    "owner": "Abdel",
+    "role": "prototype-decision-owner",
+    "independent_reviewer": false
+  },
+  "public_repository": true,
+  "make_private_only_on_explicit_request": true,
+  "production_policy_adoption": false,
+  "source_selection": {
+    "delegated_to": "research-agent",
+    "public_datasets": true,
+    "public_models": true,
+    "software": true,
+    "requires_revision_and_licence_review": true,
+    "ambiguous_licences": false,
+    "gated_terms": false,
+    "private_data": false
+  },
+  "local": {
+    "host": "owner-mac-arm64",
+    "max_job_seconds": 7200,
+    "max_total_seconds": 21600,
+    "training_threads": 4,
+    "concurrent_jobs": 1,
+    "max_memory_bytes": 17179869184,
+    "max_disk_bytes": 21474836480,
+    "max_cost_minor": 0,
+    "currency": "USD-cent"
+  },
+  "hugging_face_jobs": {
+    "authorized_if_needed": true,
+    "prefer_local": true,
+    "token_source": "ignored local environment file",
+    "owner_specified_numeric_budget": null,
+    "agent_execution_limits": {
+      "flavor": "l4x1",
+      "max_jobs": 1,
+      "max_job_seconds": 3600,
+      "max_total_cost_minor": 200,
+      "currency": "USD-cent",
+      "automatic_retries": 0
+    },
+    "requires_pinned_job_manifest": true,
+    "requires_public_inputs": true,
+    "private_uploads": false,
+    "top_up_authorized": false
+  },
+  "external_inference_apis": false,
   "background_campaign": false,
-  "public_release": false,
-  "note": "declaration of bootstrap scope, not process isolation or authorization for a later campaign"
+  "hardware_procurement": "options-only",
+  "reviewer_contact": "options-only",
+  "note": "Owner approval is recorded separately from agent design choices. Declarations do not enforce OS or provider limits. Every run records consumed budget; unresolved source rights block that source, not implementation."
 }

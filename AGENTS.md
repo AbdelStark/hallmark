@@ -14,9 +14,9 @@ Hallmark is research in a public repository. Read [research/STATE.md](research/S
 
 On 2026-10-20, the owner explicitly requested public repository visibility. Keep the repository public; change it to private only if the owner explicitly asks. This supersedes the earlier private-repository instruction.
 
-Publication of additional private material, new collaborators, issues/comments/messages, uploads of transcripts/checkpoints, paid compute and ongoing schedulers require specific authority. Prepared plans and available credentials do not supply it. Keep fixtures local and harmless. Use the locked environment; no system-package installs or unreviewed model code.
+Publication of additional private material, new collaborators, uploads of transcripts/checkpoints and ongoing schedulers require specific authority. The backlog mandate authorizes issue/PR bookkeeping. Keep fixtures local and harmless. Use the locked environment; no system-package installs or unreviewed model code.
 
-Default autonomous work is one local CPU fixture task, at most 60 seconds per command, one training thread, no external inference or dataset/model download. Longer research, proving and GPU runs need a recorded budget and suitable authorized host. [Run contract](research/AUTHORITY.json) describes the bootstrap scope; it is a declaration, not an OS sandbox or a transfer of old spending approvals.
+Use the current [run authority](research/AUTHORITY.json), updated by the owner's 2026-10-20 approval. It permits licence-reviewed public assets and bounded local research, with HF Jobs as a conditional GPU fallback. Prefer the Mac; record exact inputs and consumed resources before each run. It is a declaration, not an OS sandbox. Unresolved source rights block that source, not unrelated implementation; preparation of hardware/reviewer options does not authorize procurement or contact.
 
 Protocol/evaluation changes require a decision in `docs/decisions/`, updated conformance tests and owner review before prior results are reused. An optimizer changes its candidate only; dataset and evaluator changes start a new experiment identity. CODEOWNERS signals review ownership; it is not branch-protection enforcement.
 
