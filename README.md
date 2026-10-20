@@ -21,6 +21,10 @@ The [policy/request contracts](docs/decisions/0007-policy-request-contracts.md)
 resolve the ordered classifier set and compare requests with explicit caller
 expectations. `inj.direct/1` remains a proposed policy pending admission.
 
+The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind exact
+transcript bytes, caller context and complete classifier input. Portable vectors
+include a separate JavaScript hash check; neither is proof or hardware evidence.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

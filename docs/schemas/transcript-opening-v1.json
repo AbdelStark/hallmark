@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "description": "Private opening; repr omits content/salt, but serialization discloses them.",
+  "properties": {
+    "prompt": {
+      "description": "Exact UTF-8, at most 32768 bytes.",
+      "maxLength": 32768,
+      "title": "Prompt",
+      "type": "string"
+    },
+    "response": {
+      "description": "Exact UTF-8, at most 32768 bytes.",
+      "maxLength": 32768,
+      "title": "Response",
+      "type": "string"
+    },
+    "salt": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Salt",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/transcript-opening/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "system_ref": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "System Ref",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "system_ref",
+    "prompt",
+    "response",
+    "salt"
+  ],
+  "title": "TranscriptOpening",
+  "type": "object"
+}

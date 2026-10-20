@@ -46,6 +46,14 @@ validation. Checks resolve exactly rule/MLP/encoder in order, compare independen
 supplied expectations and enforce continuity shape and UTF-8 byte limits. They do
 not admit policy/data, authenticate enrollment or consume nonces.
 
+W02 / issue #3 adds exact v1 transcript openings, caller-bound context and salted
+complete-input hashes. Its [evidence](evidence/w02-openings-2026-10-20.json) records
+69 new tests, 630 total tests, installed-wheel reconstruction and separate Python/
+JavaScript agreement on seven transcript/context and 13 input vectors. The
+JavaScript checker rejects a late-token mutation. Bytes are reconstructed from
+the full prompt; encoder tokens still require an independently pinned local
+tokenizer. This is hash reconstruction, not a proof or independent verifier.
+
 ## Not implemented or established
 
 TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -68,9 +76,12 @@ passed on `f844342c18af85d8cb0b1160521c58938f9d87ea`. W04 / #5 is merged in
 [PR #56](https://github.com/AbdelStark/hallmark/pull/56), with all six
 [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39409355612)
 passing on `f456b4a749d795f2f22f19e5d2ae5fd90b099539`.
-W05 / #6 is locally validated; exact-head hosted delivery is next. Then implement
-#3, which needs #6's validated request expectation for context hashing. Reassess
-the newly available #7 receipt and #9 enrollment contracts after #6. The current work
+W05 / #6 is merged in [PR #57](https://github.com/AbdelStark/hallmark/pull/57), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39411367808)
+passing on `1d344d55b44efae9b0232c46d4553dfe59f49288`.
+W02 / #3 is locally validated; exact-head hosted delivery is next. Then implement
+#7 receipt contracts and reassess #9 enrollment and #12 integer MLP runtime
+against their live prerequisites. The current work
 map has 104 dependency edges, including W04's reuse of W03 file references;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,

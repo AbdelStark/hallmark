@@ -99,6 +99,25 @@ expectations, supplied model/policy identities and prompt byte limits.
 They do not enroll artifacts, consume a nonce or adopt a policy. See
 [policy/request semantics and snapshots](../decisions/0007-policy-request-contracts.md).
 
+`hallmark.openings` implements `TranscriptOpening` with checked CBOR encode/decode:
+
+```python
+opening.commitment() -> ArtifactDigest
+opening.verify_commitment(expected: ArtifactDigest) -> None
+opening.context(expected: RequestExpectation) -> ArtifactDigest
+derive_input_salt(salt: bytes, classifier: ArtifactDigest) -> bytes
+input_commitment(
+    opening: TranscriptOpening, classifier: ClassifierManifest, profile: InputProfile,
+    *, token_units: tuple[int, ...] | None = None, vocabulary_size: int | None = None,
+) -> ArtifactDigest
+```
+
+Byte inputs are reconstructed from the complete prompt. Encoder inputs require
+independently computed content tokens and an explicit vocabulary bound. These
+functions perform deterministic hash reconstruction only; they do not qualify a
+tokenizer, enroll inputs or verify proofs. See [exact preimages, B1 obligations,
+privacy and v0 migration](../decisions/0008-transcript-input-openings.md).
+
 The primitive value decoder alone does not validate an artifact schema or authenticity.
 Generic schema dispatch and the following artifact interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
