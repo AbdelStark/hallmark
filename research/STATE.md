@@ -12,6 +12,8 @@ TEE evidence, authenticated registry, ZK proving/verification, independent verif
 
 ## Next bounded task
 
+Local Python 3.12 train-enabled and Python 3.13 core-only gates pass, including isolated wheel checks. Hosted CI could not start because GitHub reports an account billing/spending-limit block. Do not treat the red hosted run as an executed test failure or report it as green; see the ledger. Billing settings were not changed.
+
 Prepare an admission proposal for exactly one policy/use case: relying party, approved data/licence inventory, group split and power, fixed candidate roster, success/failure criteria and resource budget. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md). No data/model download, external inference, GPU job or background campaign until the missing authority is recorded.
 
 In parallel only when explicitly authorized, qualify a tiny real proof graph before selecting a larger encoder. The goal is a measured statement and cost record, not a mock end-to-end demo. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).

@@ -39,7 +39,7 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = ["cbor2", "sklearn.*"]
+module = ["cbor2", "numpy", "sklearn.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
