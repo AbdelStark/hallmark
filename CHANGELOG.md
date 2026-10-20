@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add bounded native byte-count MLP execution, explicit weight/program exports,
+exact ties-to-even rescaling and private per-layer traces. Reject int32 partial-sum
+overflow, conflicting file paths and over-budget inputs without truncation.
+Ship fixed numerical vectors, schema snapshots and installed-wheel checks.
+
 Add a pinned conformance corpus, three schemas and exact component-result
 comparison. Include all original cheat obligations and retain unavailable real
 evidence explicitly. Run software scope and wrong-expectation self-tests in

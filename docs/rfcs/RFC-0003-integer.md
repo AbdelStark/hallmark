@@ -27,7 +27,10 @@ Treat each exported integer program as the classifier. Prove complete input cove
 
 W04 implements the input/classifier/arithmetic contracts and parameter-bound
 static checks in [decision 0006](../decisions/0006-classifier-contracts.md).
-Execution, witness generation and backend qualification remain separate work.
+W11 implements the bounded native MLP in
+[decision 0014](../decisions/0014-integer-mlp-runtime.md), including its exact
+export and numerical profile. Rule/encoder execution, witness generation and
+backend qualification remain separate work.
 
 `prepare_input` consumes only the prompt in v1, preserving bytes. The byte programs use all UTF-8 bytes; the encoder uses a pinned local tokenizer implementation/files with no remote code. Tokenization is independent in B1. Special prefix/suffix tokens are fixed by a versioned tokenizer recipe. `InputProfile` fixes `prefix_tokens:List[U64,0..8]` and `suffix_tokens:List[U64,0..8]`. `chunk_size` includes these tokens; content capacity must be positive.
 

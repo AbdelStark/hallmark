@@ -282,6 +282,26 @@ hardware/proof claim. Default scope fails on unavailable required evidence;
 the explicit software scope retains unavailable counts. See
 [runner semantics and bounds](../decisions/0013-frozen-conformance-corpus.md).
 
+`hallmark.integer_mlp` implements `MlpWeights`, `MlpProgram`, `MlpResult` and:
+
+```python
+def execute_mlp(
+    opening: TranscriptOpening,
+    classifier: ClassifierManifest,
+    program: MlpProgram,
+    inputs: InputProfile,
+    arithmetic: ArithmeticProfile,
+    *,
+    weights: bytes,
+    parameters: dict[str, bytes],
+) -> MlpResult: ...
+```
+
+This checks exact export identities and executes all prompt bytes. Its native
+verdict and private intermediate traces are not proof/hardware acceptance.
+No file/network retrieval, training or calibration occurs. See the
+[numerical profile, limits and export contract](../decisions/0014-integer-mlp-runtime.md).
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).

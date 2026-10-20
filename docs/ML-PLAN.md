@@ -26,7 +26,12 @@ No curation framework is needed for 52 synthetic records. Add NeMo Curator or eq
 4. Compare float, PTQ integer and, only if justified, QAT candidates using identical inputs. Export the integer semantics as normative. Freeze scales, signed representation, rounding, clipping, accumulators and mask behavior. Report decision disagreements near the threshold and on long text.
 5. Calibrate the exported integer model. Freeze before test. Run the real proof backend on the exact graph/weights selected; retraining after compiler failure changes the experiment.
 
-The executable baseline implements only float64 logistic fitting, power-of-two PTQ and integer calibration. It does not implement teacher inference, encoder training, distillation, QAT, ONNX export or proving. Training long inputs is rejected until a justified multiple-instance or chunk-labeling objective exists.
+The training baseline implements only float64 logistic fitting, power-of-two PTQ
+and integer calibration. The separate [native MLP runtime](decisions/0014-integer-mlp-runtime.md)
+executes explicitly exported integer weights; it does not train or calibrate them.
+Teacher inference, encoder training, distillation, QAT, ONNX export and proving
+remain unimplemented. Training long inputs is rejected until a justified
+multiple-instance or chunk-labeling objective exists.
 
 ## Operator and system bake-off
 

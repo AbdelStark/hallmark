@@ -95,6 +95,15 @@ checks. Software scope matches every executable outcome and catches a deliberate
 wrong expectation. Default full-evidence scope exits 3; neither hardware/proofs nor
 independent verification passed. All original PRD cheats remain in the required map.
 
+W11 / issue #12 adds bound byte-count affine/ReLU/affine execution, with exact
+ties-to-even rescaling, int32 partial-sum checks and full prompt coverage.
+Its [evidence](evidence/w11-integer-mlp-2026-10-20.json) records 75 native-runtime
+tests, nine fixed vectors, 60 seeded intermediate-layer comparisons, 1,172 total
+local tests and installed-wheel validation. Weight/profile identities and file
+paths are checked before execution; resource limits reject rather than truncate.
+The exported weights are synthetic markers. Private traces are not proof evidence,
+and no policy training, quality evaluation or backend qualification occurred.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -135,8 +144,12 @@ passing on `302a861043636094295c4dc06832e4a8c06afe87`.
 W09 / #10 is merged in [PR #62](https://github.com/AbdelStark/hallmark/pull/62), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39422275382)
 passing on `9357288387bfbcdf0ad28ae34f54b37fe70a1333`.
-W33 / #34 is locally validated; exact-head hosted delivery is next. Then implement #12 integer MLP runtime
-against its actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
+W33 / #34 is merged in [PR #63](https://github.com/AbdelStark/hallmark/pull/63), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39425868492)
+passing on `89de51b49cfbf10040384967b289a32b9709cb02`.
+W11 / #12 is locally validated; exact-head hosted delivery is next. Then implement
+#32 bounded local events before #38 reproducible packaging and #39 traceability,
+checking their actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "MlpChunk": {
+      "additionalProperties": false,
+      "properties": {
+        "activated": {
+          "items": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Activated",
+          "type": "array"
+        },
+        "counts": {
+          "items": {
+            "maximum": 512,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 256,
+          "minItems": 256,
+          "title": "Counts",
+          "type": "array"
+        },
+        "hidden": {
+          "items": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden",
+          "type": "array"
+        },
+        "hidden_accumulators": {
+          "items": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden Accumulators",
+          "type": "array"
+        },
+        "index": {
+          "exclusiveMaximum": 1024,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "output_accumulator": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Output Accumulator",
+          "type": "integer"
+        },
+        "score": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Score",
+          "type": "integer"
+        },
+        "unit_count": {
+          "maximum": 512,
+          "minimum": 0,
+          "title": "Unit Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "index",
+        "unit_count",
+        "counts",
+        "hidden_accumulators",
+        "hidden",
+        "activated",
+        "output_accumulator",
+        "score"
+      ],
+      "title": "MlpChunk",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Private diagnostic trace: serialization discloses byte counts and activations.",
+  "properties": {
+    "chunk_size": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Chunk Size",
+      "type": "integer"
+    },
+    "chunks": {
+      "items": {
+        "$ref": "#/$defs/MlpChunk"
+      },
+      "maxItems": 1024,
+      "minItems": 1,
+      "title": "Chunks",
+      "type": "array"
+    },
+    "classifier": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Classifier",
+      "type": "string"
+    },
+    "input_digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/mlp-result/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "score": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Score",
+      "type": "integer"
+    },
+    "threshold": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Threshold",
+      "type": "integer"
+    },
+    "unit_count": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Unit Count",
+      "type": "integer"
+    },
+    "verdict": {
+      "title": "Verdict",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "classifier",
+    "input_digest",
+    "unit_count",
+    "chunk_size",
+    "chunks",
+    "threshold",
+    "score",
+    "verdict"
+  ],
+  "title": "MlpResult",
+  "type": "object"
+}

@@ -33,6 +33,13 @@ Each new security branch needs a negative case. Property tests complement fixed 
 
 ## Independent verifier and corpus
 
+The separate [native MLP vectors](../../fixtures/wire/integer-mlp-v1.json) check
+every intermediate layer against explicit numeric expectations; 60 seeded cases
+also compare a direct byte-sum/division formula. Boundary tests cover signed
+extrema, negative halfway rounding, masked padding, UTF-8 tails, partial-sum
+overflow and execution caps. These tests are native arithmetic evidence, not a
+proof or the independent verifier. They preserve the frozen W33 corpus unchanged.
+
 The first [frozen corpus](../../tests/vectors/v1/corpus.json) contains 156 executable
 component vectors and 32 unavailable genuine-evidence obligations. The source
 snapshots, exact pin, mutation ancestry, full outcome comparison and migration

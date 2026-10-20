@@ -110,6 +110,12 @@ mutation ancestry. The report distinguishes observed component outcomes from
 unavailable evidence and has `independent:null`. See the
 [schema and identity decision](../decisions/0013-frozen-conformance-corpus.md).
 
+W11 adds `hallmark/mlp-program/1`, `hallmark/mlp-weights/1` and
+`hallmark/mlp-result/1`. Program identity uses the existing `program` domain;
+classifier weights bind raw SHA-256 of the complete canonical weight file.
+The fixed graph, exact numerical semantics, private result traces and bounds are
+defined in [decision 0014](../decisions/0014-integer-mlp-runtime.md).
+
 ## Evolution
 
 New or changed semantics require a new schema ID, explicit decoder dispatch, migration fixtures and a decision. No “best effort” decoding or coercion. Optional fields are explicitly null; omission is invalid. Artifact paths are identifiers inside a bundle, not permission to access the filesystem. The research JSON format remains distinct from the v1 binary wire format.
