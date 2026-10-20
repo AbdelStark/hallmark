@@ -476,3 +476,58 @@ passing. W07 now explicitly depends on completed W02 for its private opening typ
 source and live #8/#3 dependency records agree. The 106-edge work graph is acyclic;
 the original 102-edge publication audit is unchanged. W07 exact-head hosted checks
 are next, followed by #10 and #12 according to actual prerequisites.
+
+## 2026-10-20: W09 registry authoring, rotation and offline checking
+
+Hypothesis: explicit dual-threshold transitions, immutable complete authoring
+history and atomic checkpoint/trust updates can reject one-sided rotation,
+retirement reversal and retired-policy reuse while preserving prior state on
+write failures. Baseline: `302a861043636094295c4dc06832e4a8c06afe87`, with 140
+passing enrollment/privacy tests. Mutable paths: registry authoring/history/CLI,
+the shared signature checker and checkpoint store, focused tests, schemas/vectors,
+package checks and relevant spec/evidence/tracker docs. Pass criterion: #10's
+signer, transition, retirement and persistence cases reject; offline local and
+installed-package gates pass. Prior protocols/evaluators and results are unchanged.
+
+The smallest fixture passed one-key-per-side rotation at sequence 1 with a
+664-byte signed transition. The committed corpus exercises two-key thresholds
+with one shared key and separate old/new role messages. Stored
+[source/config/environment hashes and numeric results](evidence/w09-registry-rotation-2026-10-20.json)
+before this entry: 96 new tests, 236 focused tests, 1,050 total tests through
+`make check`, and a passing `make package-check`. The installed-wheel check retains
+old/new snapshots and transition bytes, invokes the actual registry-check CLI,
+reads back the committed state and rejects a replay. All commands used one
+training thread and stayed below 60 seconds.
+
+Tests cover duplicate/unknown/insufficient signers; old-only/new-only, swapped and
+wrong-domain signatures; shared-key role reuse; complete trust/activation/reason/
+review binding; immutable prior metadata; missing/expired/retired entries;
+retirement reversal; stale policy reuse; malformed records and constructor
+bypasses; byte/time limits; unsafe paths/FIFOs; private CLI failures; stale writers,
+locks, suppressed/failed writes, failed commits and process exit before commit.
+The two stores preserve their prior records and trust binding in tested failures.
+Two schemas and one exact signed rotation corpus are committed.
+
+Review found that sequence/digest-only checkpoints could permit later reuse of
+the old policy. The store now records external trust on first successful
+enrollment and changes that binding only with a dual-authorized rotation, in the
+same transaction as checkpoint state. An unrelated policy change requires owner
+re-enrollment. Early lint/type checks found line lengths, import order and one
+digest annotation; these were fixed before the recorded final gates.
+
+[Decision 0012](../docs/decisions/0012-registry-authoring-rotation.md) fixes signature
+role tags, activation, irreversible retirement, append-only local history, lazy
+checkpoint-format extension and the CLI boundary. No operational key was created,
+enrolled or rotated. The pinned signature implementation and its pre-install
+review are unchanged; private custody approval remains absent and required before
+operational roots are enrolled. The local log does not prevent split views or
+whole-store rollback by the OS account. Physical power loss, independent review,
+worker RSS/process isolation, genuine hardware/proofs and policy quality remain
+unverified. No data/model download, external inference, GPU or paid compute occurred.
+
+W07 was merged in [PR #61](https://github.com/AbdelStark/hallmark/pull/61) at this
+turn's baseline, with all six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39419869358)
+passing. W09 exact-head hosted delivery is next. Its completion makes #34's
+software corpus dependencies available; reassess that gate before #12, then
+#32/#38/#39. The full MVP still requires admitted data, real classifiers, proof
+and hardware integration, and independent verification.

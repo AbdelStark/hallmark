@@ -8,6 +8,7 @@ from pathlib import Path
 
 from hallmark.enrollment import Enrollment, RegistryState, SignedRegistry, TrustPolicy, enroll
 from hallmark.errors import HallmarkError
+from hallmark.registry import SignedTransition, enroll_transition
 from hallmark.wire import WireLimits
 
 _STATE_LIMITS = WireLimits(max_bytes=256, nesting=2, max_items=16)
@@ -54,6 +55,33 @@ def _read(connection: sqlite3.Connection) -> RegistryState:
     except HallmarkError:
         pass
     raise HallmarkError("STORAGE_FAILED", "store")
+
+
+def _bind_trust(
+    connection: sqlite3.Connection, trust: TrustPolicy, *, old: TrustPolicy | None = None
+) -> None:
+    """Remember external trust on first success; only an authorized rotation replaces it."""
+    if type(trust) is not TrustPolicy or (old is not None and type(old) is not TrustPolicy):
+        raise HallmarkError("TRUST_MISSING", "enroll")
+    identity = trust.identity()
+    prior = identity if old is None else old.identity()
+    connection.execute(
+        "CREATE TABLE IF NOT EXISTS trust_binding "
+        "(id INTEGER PRIMARY KEY CHECK(id=1), digest BLOB NOT NULL)"
+    )
+    rows = connection.execute(
+        "SELECT id, typeof(digest), length(digest), substr(digest,1,33) FROM trust_binding LIMIT 2"
+    ).fetchall()
+    if rows and rows != [(1, "blob", 32, prior)]:
+        raise HallmarkError("TRUST_MISSING", "enroll")
+    if rows:
+        connection.execute("UPDATE trust_binding SET digest=? WHERE id=1", (identity,))
+    else:
+        connection.execute("INSERT INTO trust_binding VALUES (1,?)", (identity,))
+    if connection.execute("SELECT id,digest FROM trust_binding LIMIT 2").fetchall() != [
+        (1, identity)
+    ]:
+        raise HallmarkError("STORAGE_FAILED", "store")
 
 
 def provision_state(path: Path, external_state: RegistryState) -> None:
@@ -114,6 +142,41 @@ def enroll_and_store(
             if saved != expected_state:
                 raise HallmarkError("REGISTRY_INVALID", "enroll")
             result = enroll(snapshot, trust, saved, now, history=history)
+            _bind_trust(connection, trust)
+            connection.execute("UPDATE checkpoint SET state=? WHERE id=1", (result.state.encode(),))
+            if _read(connection) != result.state:
+                raise HallmarkError("STORAGE_FAILED", "store")
+        return result
+    except (OSError, sqlite3.Error):
+        pass
+    raise HallmarkError("STORAGE_FAILED", "store")
+
+
+def rotate_and_store(
+    path: Path,
+    snapshot: SignedRegistry,
+    transition: SignedTransition,
+    old: TrustPolicy,
+    new: TrustPolicy,
+    expected_state: RegistryState,
+    now: int,
+    *,
+    previous: SignedRegistry,
+) -> Enrollment:
+    """Commit one activation only after both external policies authorize the link."""
+    if type(expected_state) is not RegistryState:
+        raise HallmarkError("TRUST_MISSING", "enroll")
+    expected_state = expected_state._validated()
+    try:
+        with closing(_connect(path)) as connection, connection:
+            connection.execute("BEGIN IMMEDIATE")
+            saved = _read(connection)
+            if saved != expected_state:
+                raise HallmarkError("REGISTRY_INVALID", "enroll")
+            result = enroll_transition(
+                snapshot, transition, old, new, saved, now, previous=previous
+            )
+            _bind_trust(connection, new, old=old)
             connection.execute("UPDATE checkpoint SET state=? WHERE id=1", (result.state.encode(),))
             if _read(connection) != result.state:
                 raise HallmarkError("STORAGE_FAILED", "store")

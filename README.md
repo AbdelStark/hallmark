@@ -35,6 +35,12 @@ retained checkpoint. A local SQLite transaction persists verified state and reje
 stale writers. [Provisioning](docs/OPERATIONS.md#external-registry-checkpoint-provisioning)
 requires owner-approved roots; the shipped keys are public test fixtures.
 
+The [registry authoring API](docs/decisions/0012-registry-authoring-rotation.md)
+signs reviewed snapshots, retains complete local history and enforces irreversible
+retirement. Key rotation requires both old and new thresholds and externally supplied
+policies. `registry-check` verifies offline files and atomically advances the checkpoint
+and its trust binding. Operational key custody remains an owner gate.
+
 The [offline bundle contracts](docs/decisions/0011-offline-bundle-contracts.md)
 check embedded bytes, logical paths, declared evidence bindings and caller limits.
 Openings travel separately. Collection states and reported verification results

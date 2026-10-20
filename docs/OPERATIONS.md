@@ -83,6 +83,65 @@ directories and malicious modification by the OS account are outside this store'
 guarantees. The [decision](decisions/0010-external-enrollment.md) specifies exact
 signature, time, persistence and resource boundaries.
 
+## Registry authoring and key rotation
+
+Exercise only the public fixture keys, without provisioning operational roots:
+
+```sh
+uv run --locked python scripts/check_registry_vectors.py fixtures/wire/registry-rotation-v1.json
+```
+
+This creates temporary stores, verifies both transition authorizations, retains
+the old/new signed snapshots, runs the actual CLI and rejects a replay. The same
+command runs against the isolated installed wheel in `make package-check`.
+
+For operational work, first record owner approval of custody, the exact signature
+library and the reviewed artifact inventory in the private REGISTRY-ROOT record.
+Keep private keys, that record and the databases outside git. The authoring API
+accepts caller-owned Ed25519 key objects; it has no key-generation/loading command.
+An operational approval record has not been supplied by these fixtures.
+
+1. Prepare a complete reviewed `RegistryBody`, with immutable validity/review
+   metadata for each identity. Use `next_snapshot` for successors. Retain every
+   old entry; retire an identity by setting `retired_at`, never by removing it.
+   An existing retirement can be made earlier, never postponed or cleared.
+2. Call `sign_snapshot(body, external_trust, key_objects)`. Signers must be distinct
+   authorized keys satisfying the threshold. Inspect the exact body before signing.
+3. Start an owner-controlled authoring archive with `create_history` and an
+   independently pinned state. Append each new signed snapshot with `append_history`
+   and the last state. Keep returned state identities independently; never replace
+   an old archive to hide a failure. Use `read_snapshot`/`read_transition` to export
+   retained records, checking them against the independently retained state.
+4. For rotation, independently provision the complete new policy through the
+   approved channel. Its minimum sequence must be the next registry sequence.
+   Prepare `RegistryTransition` with both policy digests, both sorted key-ID lists,
+   the activation sequence, predecessor digest, reason and review reference.
+   Use `sign_transition` with both approved thresholds; then sign the activation
+   snapshot under the new policy. Append it with the transition and old policy.
+5. Distribute the public signed records through the approved channel. A relying
+   party with an already provisioned checkpoint checks ordinary updates with:
+
+   ```sh
+   hallmark registry-check snapshot.cbor --trust trust.cbor --state checkpoint.sqlite --now 1792497600
+   ```
+
+   Supply each missing intermediate snapshot in order with `--history FILE ...`.
+   For exactly one activation, supply all of `--old-trust old-trust.cbor`,
+   `--transition transition.cbor` and `--previous previous.cbor` instead of history.
+   Replace the example clock with the relying party's actual verification time.
+6. Retain the returned registry/trust IDs only after a successful command.
+   The checkpoint now records the external trust digest as well as registry state.
+   Ordinary updates cannot switch policies; rotation changes both atomically.
+   Reusing the old policy afterward fails. Other policy changes require explicit
+   owner re-enrollment in a new store. Preserve the prior store and checkpoint.
+
+Missing old-threshold authorization requires owner recovery/re-enrollment; an
+unsigned replacement is never a valid transition. An archive is not a globally
+witnessed log: compare conflicting roots out of band. Signatures authenticate
+registry decisions, not scientific quality or hardware/proof evidence. The full
+[decision and bounds](decisions/0012-registry-authoring-rotation.md) describe
+single-account, local-filesystem and crash-test limits.
+
 ## Offline bundles and private openings
 
 Use `decode_bundle(raw, limits=external_trust.limits)` for untrusted binary input.

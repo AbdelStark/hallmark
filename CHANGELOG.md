@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add registry snapshot signing, complete retained history, irreversible retirement,
+dual-authorized key transitions and the offline `registry-check` CLI. Persist the
+external trust digest with checkpoint updates; reject retired policy reuse.
+Ship public-key fixtures and keep operational key custody separately gated.
+
 Add bounded offline bundle, private response-envelope, collection-status and
 reported-result contracts. Check exact embedded files, ordered proof declarations,
 caller limits and claim consistency; keep openings separate from bundles. Publish
@@ -10,7 +15,7 @@ schema snapshots and structural vectors without an evidence-verification path.
 Add external registry trust, Ed25519 threshold verification, complete linked
 history checks and transactional SQLite checkpoints. Pin the reviewed signature
 dependency, publish schemas/signed vectors and document separate owner provisioning.
-Operational roots, snapshot authoring and key transitions remain separate gates.
+Operational roots remain a separate owner gate.
 
 Add v1 receipt, epoch and proof-container schemas with exact 100-field public-input
 packing, offset-encoded signed thresholds, declared-reference/time checks and bounded

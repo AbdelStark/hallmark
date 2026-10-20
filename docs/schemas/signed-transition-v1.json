@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "KeyIDs": {
+      "items": {
+        "maxLength": 64,
+        "minLength": 64,
+        "pattern": "^[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "type": "array"
+    },
+    "RegistrySignature": {
+      "additionalProperties": false,
+      "properties": {
+        "key_id": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Key Id",
+          "type": "string"
+        },
+        "signature": {
+          "maxLength": 128,
+          "minLength": 128,
+          "pattern": "^[0-9a-fA-F]{128}$",
+          "title": "Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key_id",
+        "signature"
+      ],
+      "title": "RegistrySignature",
+      "type": "object"
+    },
+    "RegistryTransition": {
+      "additionalProperties": false,
+      "description": "A proposal binding two complete external policies and one activation link.",
+      "properties": {
+        "schema_id": {
+          "const": "hallmark/registry-transition/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "old_trust": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Old Trust",
+          "type": "string"
+        },
+        "new_trust": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "New Trust",
+          "type": "string"
+        },
+        "old_keys": {
+          "$ref": "#/$defs/KeyIDs"
+        },
+        "new_keys": {
+          "$ref": "#/$defs/KeyIDs"
+        },
+        "activation_sequence": {
+          "maximum": 18446744073709551615,
+          "minimum": 1,
+          "title": "Activation Sequence",
+          "type": "integer"
+        },
+        "previous": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Previous",
+          "type": "string"
+        },
+        "reason": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Reason",
+          "type": "string"
+        },
+        "review": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Review",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "old_trust",
+        "new_trust",
+        "old_keys",
+        "new_keys",
+        "activation_sequence",
+        "previous",
+        "reason",
+        "review"
+      ],
+      "title": "RegistryTransition",
+      "type": "object"
+    },
+    "Signatures": {
+      "items": {
+        "$ref": "#/$defs/RegistrySignature"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/signed-transition/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "body": {
+      "$ref": "#/$defs/RegistryTransition"
+    },
+    "old_signatures": {
+      "$ref": "#/$defs/Signatures"
+    },
+    "new_signatures": {
+      "$ref": "#/$defs/Signatures"
+    }
+  },
+  "required": [
+    "schema_id",
+    "body",
+    "old_signatures",
+    "new_signatures"
+  ],
+  "title": "SignedTransition",
+  "type": "object"
+}

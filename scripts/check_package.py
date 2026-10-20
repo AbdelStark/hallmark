@@ -27,6 +27,9 @@ def main() -> None:
         assert "hallmark/receipts.py" in names
         assert "hallmark/enrollment.py" in names
         assert "hallmark/registry_store.py" in names
+        assert "hallmark/registry.py" in names
+        assert "hallmark/registry_history.py" in names
+        assert "hallmark/registry_cli.py" in names
         assert "hallmark/bundles.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
@@ -41,6 +44,7 @@ def main() -> None:
             "docs/roadmap/IMPLEMENTATION.md",
             "scripts/check_docs.py",
             "scripts/check_opening_vectors.mjs",
+            "scripts/check_registry_vectors.py",
             "tests/test_reference.py",
             "tests/test_wire.py",
             "tests/test_manifests.py",
@@ -49,6 +53,10 @@ def main() -> None:
             "tests/test_openings.py",
             "tests/test_receipt_contracts.py",
             "tests/test_enrollment.py",
+            "tests/test_registry.py",
+            "fixtures/wire/registry-rotation-v1.json",
+            "docs/schemas/registry-transition-v1.json",
+            "docs/schemas/signed-transition-v1.json",
             "tests/test_bundles.py",
             "fixtures/wire/bundles-v1.json",
             "docs/schemas/bundle-v1.json",
@@ -287,6 +295,15 @@ def main() -> None:
                 "b = decode_bundle(records[0].encode(), limits=t.limits); "
                 "assert len(b.proofs) == 3 and not hasattr(b, 'accepted')",
                 str(ROOT / "fixtures/wire/bundles-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                str(ROOT / "scripts/check_registry_vectors.py"),
+                str(ROOT / "fixtures/wire/registry-rotation-v1.json"),
             ],
             cwd=directory,
             check=True,
