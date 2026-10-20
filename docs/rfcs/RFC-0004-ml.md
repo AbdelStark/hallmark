@@ -29,8 +29,11 @@ Create `AdmissionProtocol={schema_id:"hallmark/admission/1", policy:Digest, rely
 
 `SourceApproval={source_id:Id, revision:Digest, license_text:Digest, purpose:Id, approval_ref:Digest, restrictions:FileRef}`. `Candidate={id:Id, code:Digest, base_files:List[FileRef], config:Digest}`. A local admission utility validates the protocol and refuses missing review evidence. Owner/relying-party choices for TPR, loss margin and power are required before measurement; no automatic “reasonable” values are supplied.
 
-The [W13 proposal](../../research/proposals/inj-direct-v1/README.md) leaves
-unapproved terms null in a separate draft schema. The proposed
+The [W13 proposal](../../research/proposals/inj-direct-v1/README.md) originally left
+unapproved terms null in a separate draft schema. The owner's
+[study approval](../decisions/0019-approved-study-scope.md) now supplies scope,
+quality, design delegation and resource authority; exact source/candidate/
+evaluator inventories and final measurement review remain unresolved. The
 [engineering contract](../decisions/0018-admission-proposal.md) uses a pre-training
 `StudyPolicy` rather than a final deployed classifier policy. A review binds all
 terms except the top-level review reference; the final protocol then pins that
@@ -40,6 +43,12 @@ declared asset inventories still require approved byte verification. The harmles
 `make check-admission` fixture grants no access or measurement authority.
 
 Data import preserves raw UTF-8 hashes and records every transformation, parent group and label mapping. Group connected components include originals, mutations, translations and shared histories before splitting. Near-duplicate checks flag candidates for review without deleting benign/adversarial contrastive pairs automatically. Use one approved source manifest and immutable split manifest; retain held-out attack families. Real data is outside git. `Record/1` remains the normalized assay input; a versioned lineage sidecar links each record to source row, parents, rubric, annotator/adjudication evidence and transformation recipe.
+
+W14's [local importer](../decisions/0021-lineage-data-admission.md) now implements
+these byte/provenance/group boundaries and the frozen split recipe. Its automatic
+near-candidate rule covers ASCII case/whitespace equivalence only; broader
+semantic relationships require reviewed parent/history links. The shipped
+synthetic review documents grant no real source or measurement admission.
 
 Freeze the roster: pass-all/block-all sanity controls, existing byte-logistic floor, character n-gram linear baseline, one approved task-matched guard, the byte MLP and one compact encoder. All parameters/folds are predeclared; model selection uses train-internal grouped folds only. Fit tokenization/vocabulary where applicable on train only. The encoder uses three fixed seeds; seed choice is never selected on test.
 

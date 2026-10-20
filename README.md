@@ -26,6 +26,11 @@ expectations. The [prototype `inj.direct/1` study](docs/decisions/0019-approved-
 is approved; actual assets, measurement admission and production policy adoption
 remain separate gates.
 
+The [data import API](docs/decisions/0021-lineage-data-admission.md) checks pinned
+source/review bytes, preserves raw-row provenance and groups connected lineage
+before splitting. Its 26-row marker fixture retains contrastive examples.
+It does not authenticate human review or establish real-data quality.
+
 The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind exact
 transcript bytes, caller context and complete classifier input. Portable vectors
 include a separate JavaScript hash check; neither is proof or hardware evidence.

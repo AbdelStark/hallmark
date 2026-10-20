@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "SplitGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "cohort": {
+          "enum": [
+            "primary",
+            "held-out"
+          ],
+          "title": "Cohort",
+          "type": "string"
+        },
+        "families": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Families",
+          "type": "array"
+        },
+        "group_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Group Id",
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Members",
+          "type": "array"
+        },
+        "representative": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Representative",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Sources",
+          "type": "array"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "calibration",
+            "test"
+          ],
+          "title": "Split",
+          "type": "string"
+        }
+      },
+      "required": [
+        "group_id",
+        "members",
+        "sources",
+        "families",
+        "split",
+        "cohort",
+        "representative"
+      ],
+      "title": "SplitGroup",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "groups": {
+      "items": {
+        "$ref": "#/$defs/SplitGroup"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Groups",
+      "type": "array"
+    },
+    "near_duplicate_candidates": {
+      "items": {
+        "items": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "type": "string"
+        },
+        "maxItems": 100000,
+        "type": "array"
+      },
+      "maxItems": 100000,
+      "title": "Near Duplicate Candidates",
+      "type": "array"
+    },
+    "near_duplicate_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Near Duplicate Review",
+      "type": "string"
+    },
+    "plan": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Plan",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/split-manifest/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "plan",
+    "groups",
+    "near_duplicate_review",
+    "near_duplicate_candidates"
+  ],
+  "title": "SplitManifest",
+  "type": "object"
+}

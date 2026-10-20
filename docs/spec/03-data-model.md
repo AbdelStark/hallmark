@@ -116,6 +116,18 @@ identities and exact provenance bytes. Native results bind the classifier and
 complete input and report every chunk's score; they are private diagnostics,
 not proof evidence. See [decision 0020](../decisions/0020-complete-byte-rule.md).
 
+W14 adds `hallmark/source-row/1`, `hallmark/source-manifest/1`,
+`hallmark/near-duplicate-review/1`, `hallmark/data-import/1`,
+`hallmark/lineage/1`, `hallmark/split-manifest/1` and
+`hallmark/dataset-manifest/1`. The source manifest binds reviewed adapter bytes,
+licence/purpose/privacy declarations and review pointers. The protocol-domain
+import plan is externally pinned; the corpus-domain dataset manifest binds
+normalized `Record/1` JSONL, exact raw-row lineage and deterministic group splits.
+Large split manifests use file SHA-256 references. Each record's source revision
+is its source-manifest byte hash, with the upstream revision retained inside
+that manifest. See [decision 0021](../decisions/0021-lineage-data-admission.md)
+for schema snapshots, grouping, resource limits and evidence boundaries.
+
 W11 adds `hallmark/mlp-program/1`, `hallmark/mlp-weights/1` and
 `hallmark/mlp-result/1`. Program identity uses the existing `program` domain;
 classifier weights bind raw SHA-256 of the complete canonical weight file.

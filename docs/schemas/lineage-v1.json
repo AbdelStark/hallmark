@@ -1,0 +1,141 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "annotation_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Annotation Review",
+      "type": "string"
+    },
+    "difficult_negative": {
+      "title": "Difficult Negative",
+      "type": "boolean"
+    },
+    "history_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "History Id"
+    },
+    "label_mapping_review": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Label Mapping Review",
+      "type": "string"
+    },
+    "parents": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Parents",
+      "type": "array"
+    },
+    "raw_row": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Raw Row",
+      "type": "string"
+    },
+    "record_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Record Id",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/lineage/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "source_file": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "source_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_manifest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Source Manifest",
+      "type": "string"
+    },
+    "source_row": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Source Row",
+      "type": "integer"
+    },
+    "transformation_recipe": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Transformation Recipe",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "record_id",
+    "source_id",
+    "source_manifest",
+    "source_file",
+    "source_row",
+    "raw_row",
+    "parents",
+    "history_id",
+    "transformation_recipe",
+    "label_mapping_review",
+    "annotation_review",
+    "difficult_negative"
+  ],
+  "title": "LineageEntry",
+  "type": "object"
+}

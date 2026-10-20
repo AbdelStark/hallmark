@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "fixture_only": {
+      "title": "Fixture Only",
+      "type": "boolean"
+    },
+    "group_count": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Group Count",
+      "type": "integer"
+    },
+    "lineage": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "plan": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Plan",
+      "type": "string"
+    },
+    "policy": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Policy",
+      "type": "string"
+    },
+    "record_count": {
+      "maximum": 100000,
+      "minimum": 1,
+      "title": "Record Count",
+      "type": "integer"
+    },
+    "records": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "schema_id": {
+      "const": "hallmark/dataset-manifest/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "splits": {
+      "$ref": "#/$defs/FileRef"
+    }
+  },
+  "required": [
+    "schema_id",
+    "plan",
+    "policy",
+    "fixture_only",
+    "records",
+    "lineage",
+    "splits",
+    "record_count",
+    "group_count"
+  ],
+  "title": "DatasetManifest",
+  "type": "object"
+}

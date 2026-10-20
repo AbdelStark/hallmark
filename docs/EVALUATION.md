@@ -10,6 +10,15 @@ The experiment pins the byte SHA-256 of the entire dataset and allowlists review
 
 Files are bounded to 8 MiB and text fields to 32,768 characters in this baseline. Oversized inputs fail rather than truncate. Symlink inputs and nonregular files fail. These checks are not isolation against an adversary concurrently mutating the filesystem; use a trusted, read-only dataset snapshot for a real run.
 
+The separate [v1 import API](decisions/0021-lineage-data-admission.md) checks
+caller-pinned approval and source bytes before producing normalized records,
+raw-row lineage and immutable-by-convention split artifacts. It groups parent
+closure, shared histories, identical prompts and reviewed ASCII case/whitespace
+equivalents before the frozen study split. It retains contrastive rows and
+requires a complete candidate review inventory. Semantic duplicates, truthful
+lineage, human annotations and source rights remain review obligations. Its
+larger import limits do not change the baseline loader's 8 MiB limit.
+
 ## Frozen selection procedure
 
 1. Fix policy, source/lineage inventory, group split, target FPR, confidence level, budget, candidate roster and stopping rule before training.
