@@ -331,3 +331,48 @@ units, but cannot authenticate a tokenizer or prove text-to-token correspondence
 Chunk execution, complete circuit coverage, enrollment, real proofs/hardware and
 independent verification remain separate gates. Synthetic salts are public test
 values. Exact-head hosted checks are next, then #7 receipt contracts.
+
+Delivery: [PR #58](https://github.com/AbdelStark/hallmark/pull/58) merged W02 as
+`fbd6c90f65e5e535f8dfb839012f1bd3bd544097`; issue #3 closed. All six exact-head
+PR and [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39412814966)
+passed. #12 was unblocked after checking its live prerequisites; #11 still needs
+#14 policy/data/resource admission. The repository remained public.
+
+## 2026-10-20: W06 receipt, epoch and proof-container contracts
+
+Hypothesis: strict immutable containers and explicit declared-binding checks can
+reject malformed layouts, classifier substitutions, interval mismatches and field
+aliases without pretending to verify their evidence. Baseline:
+`fbd6c90f65e5e535f8dfb839012f1bd3bd544097`, with 164 passing policy/opening tests.
+Mutable paths: a separate receipt module, tests, schema/layout/vector fixtures,
+package checks and specification/evidence/tracker docs. Pass criterion: #7's
+structural, time, identity, packing and size failures are rejected, golden fields
+round-trip, and `make check`/`make package-check` pass without an acceptance stub.
+Legacy identities, evaluators and experiment protocols stay unchanged.
+
+The smallest fixture matched the exact 100-element layout and minimum signed
+threshold offset. Saved
+[source/config/environment hashes and numeric results](evidence/w06-receipt-contracts-2026-10-20.json)
+before this entry. All 145 receipt-contract tests and 164 policy/opening regressions
+pass; `make check` passes 775 tests and static/doc gates. `make package-check`
+passes installed-wheel record decoding, declared reference/time checks, signature
+message reconstruction and signed-threshold unpacking. Runs used locked
+Python 3.12.12/macOS arm64, one training thread and commands below 60 seconds.
+No model, dataset, hardware host or cryptographic/proof library was downloaded.
+
+Cases cover missing/extra/reordered classifiers, duplicate identities, exact
+profile chunk counts, every public-input position, negative/overflow/boolean field
+aliases, signed int32 extrema, external expectation mutations, continuity,
+one-hour epochs, issuance/future/expiry boundaries, signature/key sizes, opaque
+payload caps, immutable copies and sanitized failures. Five schema snapshots plus
+the field-layout file are shipped. Synthetic proof/signature/quote payloads are
+labeled unverified and there is no verifier or accepted/verified result.
+
+[Decision 0009](../docs/decisions/0009-receipt-evidence-contracts.md) fixes the
+record IDs, complete epoch identity versus quote challenge, exact signature
+message, 16 MiB per-payload caps and explicit caller-clock/reference boundaries.
+Actual Ed25519 encoding/signature checks, attestation/collateral validity,
+independently enrolled proof verification, complete circuit coverage and policy/data
+admission remain required. Structural success does not establish any of them.
+Exact-head hosted checks are next, then #9 external enrollment; reassess #8 and #12
+against their actual dependencies.

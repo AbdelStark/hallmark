@@ -1,0 +1,66 @@
+{
+  "schema_id": "hallmark/proof-input-layout/1",
+  "record_schema_id": "hallmark/proof-inputs/1",
+  "field_count": 100,
+  "field_modulus_must_exceed": 4294967295,
+  "schema_id_is_not_a_field": true,
+  "segments": [
+    {
+      "name": "context",
+      "offset": 0,
+      "count": 32,
+      "minimum": 0,
+      "maximum": 255,
+      "encoding": "one original digest byte per element"
+    },
+    {
+      "name": "classifier",
+      "offset": 32,
+      "count": 32,
+      "minimum": 0,
+      "maximum": 255,
+      "encoding": "one original digest byte per element"
+    },
+    {
+      "name": "input_digest",
+      "offset": 64,
+      "count": 32,
+      "minimum": 0,
+      "maximum": 255,
+      "encoding": "one original digest byte per element"
+    },
+    {
+      "name": "unit_count",
+      "offset": 96,
+      "count": 1,
+      "minimum": 0,
+      "maximum": 32768,
+      "encoding": "original content units; also bounded by the profile"
+    },
+    {
+      "name": "chunk_count",
+      "offset": 97,
+      "count": 1,
+      "minimum": 1,
+      "maximum": 32768,
+      "encoding": "exact profile-derived chunk count"
+    },
+    {
+      "name": "threshold",
+      "offset": 98,
+      "count": 1,
+      "minimum": 0,
+      "maximum": 4294967295,
+      "encoding": "signed int32 plus 2**31"
+    },
+    {
+      "name": "verdict",
+      "offset": 99,
+      "count": 1,
+      "minimum": 0,
+      "maximum": 1,
+      "encoding": "false=0, true=1"
+    }
+  ],
+  "obligation": "The qualified backend must constrain each range, exact count relation and layout identity. Never reduce an incoming element modulo a field; this layout is not backend qualification."
+}

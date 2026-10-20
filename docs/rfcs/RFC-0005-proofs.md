@@ -25,6 +25,10 @@ Qualify a real existing proof backend against exact integer programs and complet
 
 ## Proposed Design
 
+W06 implements `ProofInputs` packing and proof-container schemas in
+[decision 0009](../decisions/0009-receipt-evidence-contracts.md). These are structural
+checks; no proof adapter or acceptance path is supplied.
+
 Use the [prove/verify interfaces](../spec/02-public-api.md#v1-supported-interfaces). Each backend runs as a bounded child process with argv arrays, a fresh private working directory, fixed environment and no inherited credentials/network. Parent enforces wall time and termination of descendants; worker resource controls and their platform limitations are recorded. Success requires expected files and a fresh independent verifier invocation, not a zero process exit alone.
 
 `BackendQualification={schema_id:"hallmark/backend/1", source:Digest, dependencies:List[FileRef], build:Digest, proof_system:Id, security_parameters:FileRef, zero_knowledge:bool, setup:Digest, supported_programs:List[Digest], public_input_layout:FileRef, verifier:Digest, license_review:Digest, security_review:Digest, conformance:Digest, costs:Digest}`. No unspecified defaults enter setup or verification. `zero_knowledge` must be true for v1 private-witness claims. Record setup lineage and whether trusted setup is required; a generated parameter file is not an independently trusted setup.

@@ -25,6 +25,10 @@ Bind a confidential serving instance's epoch key, actual loaded model, accelerat
 
 ## Proposed Design
 
+W06 implements the epoch/receipt containers, challenge preimage and declared
+reference/time checks in [decision 0009](../decisions/0009-receipt-evidence-contracts.md).
+Opaque evidence bytes remain unverified; no hardware adapter is supplied.
+
 Use [EpochRecord and ModelManifest](../spec/03-data-model.md#v1-types). The host qualification fixes one confidential VM/accelerator platform, exact firmware/runtime measurements and a pinned offline evidence verifier. `HardwareQualification={schema_id:"hallmark/hardware-qualification/1", platform:Id, image:Digest, loader:Digest, runtime:Digest, roots:List[Digest], collateral_policy:FileRef, device_binding:FileRef, verifier:Digest, host_authority:Digest, negative_report:Digest}`.
 
 The measured process generates its Ed25519 epoch key internally. Define `epoch_challenge=H("epoch",[epoch_id,public_key,model_digest,measurement,issued_at,expires_at])`. Both CPU and accelerator evidence must bind this challenge using the platform's documented nonce/report-data mechanism. The platform adapter specifies exact packing and any padding; it may not silently hash/truncate to fit. It verifies device association and the protected CPU-to-accelerator path, not just two independently valid quotes. Host qualification also verifies trusted time and rollback-resistant lifecycle/key storage required by RFC-0007; unsupported persistence blocks that host.

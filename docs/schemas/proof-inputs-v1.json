@@ -1,0 +1,65 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "chunk_count": {
+      "maximum": 32768,
+      "minimum": 1,
+      "title": "Chunk Count",
+      "type": "integer"
+    },
+    "classifier": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Classifier",
+      "type": "string"
+    },
+    "context": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Context",
+      "type": "string"
+    },
+    "input_digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/proof-inputs/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "threshold": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Threshold",
+      "type": "integer"
+    },
+    "unit_count": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Unit Count",
+      "type": "integer"
+    },
+    "verdict": {
+      "title": "Verdict",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "context",
+    "classifier",
+    "input_digest",
+    "unit_count",
+    "chunk_count",
+    "threshold",
+    "verdict"
+  ],
+  "title": "ProofInputs",
+  "type": "object"
+}
