@@ -51,6 +51,11 @@ checks 156 software cases and reports 32 unavailable hardware/proof obligations.
 `make check-conformance` checks software scope and its failure self-tests.
 The full-evidence gate remains incomplete; there is no independent verifier.
 
+The [native byte-count MLP](docs/decisions/0014-integer-mlp-runtime.md) now executes
+bound affine/ReLU/affine exports with exact signed rescaling, full prompt coverage
+and strict threshold comparison. Fixed and generated vectors check every layer.
+This supplies native arithmetic, not trained-policy quality or a proof.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

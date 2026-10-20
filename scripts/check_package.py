@@ -33,6 +33,7 @@ def main() -> None:
         assert "hallmark/bundles.py" in names
         assert "hallmark/conformance.py" in names
         assert "hallmark/conformance_checks.py" in names
+        assert "hallmark/integer_mlp.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -47,6 +48,13 @@ def main() -> None:
             "scripts/check_docs.py",
             "scripts/build_conformance.py",
             "scripts/check_conformance.py",
+            "scripts/build_mlp_fixture.py",
+            "scripts/check_mlp_vectors.py",
+            "tests/test_integer_mlp.py",
+            "fixtures/wire/integer-mlp-v1.json",
+            "docs/schemas/mlp-program-v1.json",
+            "docs/schemas/mlp-weights-v1.json",
+            "docs/schemas/mlp-result-v1.json",
             "tests/test_conformance.py",
             "tests/vectors/v1/corpus.json",
             "tests/vectors/v1/corpus.id",
@@ -327,6 +335,16 @@ def main() -> None:
             check=True,
         )
         corpus = ROOT / "tests/vectors/v1"
+        subprocess.run(
+            [
+                str(python),
+                str(ROOT / "scripts/check_mlp_vectors.py"),
+                str(ROOT / "fixtures/wire/integer-mlp-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+            timeout=15,
+        )
         for extra, expected_exit in ((["--software-only"], 0), ([], 3)):
             conformance = subprocess.run(
                 [

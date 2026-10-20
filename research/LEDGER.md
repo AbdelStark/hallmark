@@ -582,3 +582,54 @@ W09 was merged in [PR #62](https://github.com/AbdelStark/hallmark/pull/62), with
 six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39422275382) passing.
 W33 exact-head hosted delivery is next. #35/#36 still require the complete verifier
 and genuine evidence work. After delivery, reassess #12 before #32/#38/#39.
+
+## 2026-10-20 — W11 exact native integer MLP
+
+Hypothesis: a bounded byte-count MLP can bind complete exports, agree with a
+separate formula at every layer and reject int32 overflow before rescaling while
+preserving complete prompt coverage. Baseline:
+`89de51b49cfbf10040384967b289a32b9709cb02`, with 248 classifier/opening/conformance
+tests passing. Mutable paths were the new runtime/export records, fixed vectors,
+builder/checker, schemas, tests, package check and associated documentation.
+The pass criterion was exact layer agreement plus negative identity, shape,
+range, padding, overflow and resource tests, followed by full local/package gates.
+
+Saved [source/config/environment hashes and raw numeric results](evidence/w11-integer-mlp-2026-10-20.json)
+before this entry. All nine fixed vectors matched. Sixty cases with seed 20261020
+compare every count, accumulator, rescaled hidden value, ReLU value and score
+against direct per-byte sums and signed quotient/remainder rounding. The primary
+runtime uses count-vector dot products and the existing exact Fraction rescaler.
+This is a separate formula check with shared repository provenance, not W34
+independence or a proof of execution.
+
+All 75 runtime tests and 248 regressions passed. Coverage includes both int8
+extrema, int32 endpoints, positive/negative halfway ties, threshold equality,
+empty input, actual NUL versus padding, split UTF-8, a late positive chunk,
+complete 32,768-byte input, raw accumulator overflow/underflow hidden by rescaling,
+cancelling-prefix overflow and execution caps. The smallest empty-input case
+returned one zero-count chunk with native score zero and no evidence claim.
+
+A new negative test reproduced acceptance of a weight path colliding with an
+operator path. Preserved the failed output and source hash; added a pre-execution
+rejection. No file was read through that path, but accepting an ambiguous export
+would have left its file inventory inconsistent. The final full gate passed
+1,172 tests, lint, format, typing, documentation links and unchanged W33 software
+conformance. Isolated installed-wheel validation matched all nine MLP vectors.
+The three schema snapshots and the deterministic fixture rebuild also passed.
+
+[Decision 0014](../docs/decisions/0014-integer-mlp-runtime.md) fixes export identity,
+raw weight-file hashing, the three-node numerical profile, bias-first int32
+accumulation and exact rescaling. It caps weights at 65,536 bytes, execution at
+1,024 chunks and 2,097,152 products. Over-budget input is rejected without a
+partial result; these caps are not worker isolation or measured performance.
+Diagnostic traces disclose counts/activations on serialization and belong on
+private authorized channels. Native verdicts establish neither policy quality nor
+hardware/proof acceptance. No training, calibration, model/data download, external
+inference, GPU or paid run occurred. Prior identities and the frozen W33 corpus
+remain unchanged, including its 32 unavailable genuine-evidence obligations.
+
+W33 was merged in [PR #63](https://github.com/AbdelStark/hallmark/pull/63), with all
+six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39425868492) passing.
+W11 exact-head hosted delivery is next; its dependents still need admitted data,
+qualified proving or the other native/hardware components. Reassess #32, then
+#38/#39. The full MVP remains incomplete.
