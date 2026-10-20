@@ -25,6 +25,10 @@ Treat each exported integer program as the classifier. Prove complete input cove
 
 ## Proposed Design
 
+W04 implements the input/classifier/arithmetic contracts and parameter-bound
+static checks in [decision 0006](../decisions/0006-classifier-contracts.md).
+Execution, witness generation and backend qualification remain separate work.
+
 `prepare_input` consumes only the prompt in v1, preserving bytes. The byte programs use all UTF-8 bytes; the encoder uses a pinned local tokenizer implementation/files with no remote code. Tokenization is independent in B1. Special prefix/suffix tokens are fixed by a versioned tokenizer recipe. `InputProfile` fixes `prefix_tokens:List[U64,0..8]` and `suffix_tokens:List[U64,0..8]`. `chunk_size` includes these tokens; content capacity must be positive.
 
 Partition all content units contiguously at content capacity, add the fixed prefix/suffix per chunk, right-pad to static size and create masks. Empty input creates one empty-content chunk. Masked padding contributes nothing to pooling, attention or max. `unit_count` counts original content; `chunk_count=max(1,ceil(unit_count/capacity))`. The proof recomputes the salted input digest from the concatenated content and enforces every chunk's index, mask and bounds; checking a subset is invalid.

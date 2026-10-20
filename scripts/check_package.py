@@ -21,6 +21,7 @@ def main() -> None:
         assert "hallmark/py.typed" in names
         assert "hallmark/cli.py" in names
         assert "hallmark/manifests.py" in names
+        assert "hallmark/classifier_manifest.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -36,8 +37,14 @@ def main() -> None:
             "tests/test_reference.py",
             "tests/test_wire.py",
             "tests/test_manifests.py",
+            "tests/test_classifier_manifest.py",
             "fixtures/wire/model-manifest-v1.json",
+            "fixtures/wire/classifier-v1.json",
             "docs/schemas/model-manifest-v1.json",
+            "docs/schemas/classifier-v1.json",
+            "docs/schemas/input-profile-v1.json",
+            "docs/schemas/arithmetic-v1.json",
+            "docs/schemas/operator-parameters-v1.json",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -101,6 +108,25 @@ def main() -> None:
                 "Path('weights.bin').write_bytes(v['content_utf8'].encode('utf-8')); "
                 "verify_model_files(m, Path('.'), max_bytes=3)",
                 str(ROOT / "fixtures/wire/model-manifest-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.classifier_manifest import "
+                "InputProfile, ArithmeticProfile, ClassifierManifest; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "i = InputProfile.decode(bytes.fromhex(v['input_profile']['cbor_hex'])); "
+                "a = ArithmeticProfile.decode(bytes.fromhex(v['arithmetic']['cbor_hex'])); "
+                "c = ClassifierManifest.decode(bytes.fromhex(v['classifier']['cbor_hex'])); "
+                "p = {key: bytes.fromhex(raw) for key, raw in v['parameters'].items()}; "
+                "c.validate_profiles(i, a, parameters=p); "
+                "assert c.identity().hex() == v['classifier']['identity_hex']",
+                str(ROOT / "fixtures/wire/classifier-v1.json"),
             ],
             cwd=directory,
             check=True,

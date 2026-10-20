@@ -1,0 +1,124 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "chunk_size": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Chunk Size",
+      "type": "integer"
+    },
+    "encoding": {
+      "enum": [
+        "utf8-bytes",
+        "token-ids"
+      ],
+      "title": "Encoding",
+      "type": "string"
+    },
+    "max_units": {
+      "maximum": 32768,
+      "minimum": 1,
+      "title": "Max Units",
+      "type": "integer"
+    },
+    "overlap": {
+      "maximum": 0,
+      "minimum": 0,
+      "title": "Overlap",
+      "type": "integer"
+    },
+    "padding_id": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Padding Id",
+      "type": "integer"
+    },
+    "padding_side": {
+      "const": "right",
+      "title": "Padding Side",
+      "type": "string"
+    },
+    "prefix_tokens": {
+      "items": {
+        "maximum": 18446744073709551615,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 8,
+      "title": "Prefix Tokens",
+      "type": "array"
+    },
+    "schema_id": {
+      "const": "hallmark/input-profile/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "suffix_tokens": {
+      "items": {
+        "maximum": 18446744073709551615,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 8,
+      "title": "Suffix Tokens",
+      "type": "array"
+    },
+    "tokenizer_files": {
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 64,
+      "title": "Tokenizer Files",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "encoding",
+    "tokenizer_files",
+    "prefix_tokens",
+    "suffix_tokens",
+    "chunk_size",
+    "overlap",
+    "max_units",
+    "padding_id",
+    "padding_side"
+  ],
+  "title": "InputProfile",
+  "type": "object"
+}

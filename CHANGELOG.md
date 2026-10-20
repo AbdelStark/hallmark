@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+Add v1 classifier/input/arithmetic contracts, typed operator parameter files,
+schema snapshots and fixed identity vectors. Validate graph topology and,
+against supplied hashed parameters, shapes, mask/index bounds and exact
+fixed-point range envelopes. Preserve the existing model-manifest bytes while
+sharing its checked serializer. No classifier execution or backend qualification
+is supplied.
+
 Add immutable v1 model, file-reference and greedy generation contracts, a fixed
 CBOR/hash vector and JSON schema snapshot. Bind all execution-relevant fields in
 the model identity. Explicit rooted file checks reject links, nonregular files,

@@ -1,0 +1,237 @@
+{
+  "$defs": {
+    "GatherParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "axis": {
+          "maximum": 3,
+          "minimum": 0,
+          "title": "Axis",
+          "type": "integer"
+        },
+        "op": {
+          "const": "gather",
+          "title": "Op",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op",
+        "axis"
+      ],
+      "title": "GatherParameters",
+      "type": "object"
+    },
+    "LookupParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "offset": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Offset",
+          "type": "integer"
+        },
+        "op": {
+          "const": "lookup",
+          "title": "Op",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op",
+        "offset"
+      ],
+      "title": "LookupParameters",
+      "type": "object"
+    },
+    "MultiplyParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "elementwise",
+            "matmul"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "op": {
+          "const": "multiply",
+          "title": "Op",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op",
+        "mode"
+      ],
+      "title": "MultiplyParameters",
+      "type": "object"
+    },
+    "PlainParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "affine",
+            "add",
+            "reshape",
+            "relu"
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op"
+      ],
+      "title": "PlainParameters",
+      "type": "object"
+    },
+    "ReductionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "items": {
+            "maximum": 3,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Axes",
+          "type": "array"
+        },
+        "empty_value": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Empty Value",
+          "type": "integer"
+        },
+        "keep_dims": {
+          "title": "Keep Dims",
+          "type": "boolean"
+        },
+        "op": {
+          "const": "masked-reduce",
+          "title": "Op",
+          "type": "string"
+        },
+        "reduction": {
+          "enum": [
+            "sum",
+            "max"
+          ],
+          "title": "Reduction",
+          "type": "string"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op",
+        "axes",
+        "keep_dims",
+        "reduction",
+        "empty_value"
+      ],
+      "title": "ReductionParameters",
+      "type": "object"
+    },
+    "TransposeParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "transpose",
+          "title": "Op",
+          "type": "string"
+        },
+        "permutation": {
+          "items": {
+            "maximum": 3,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Permutation",
+          "type": "array"
+        },
+        "schema_id": {
+          "const": "hallmark/operator-parameters/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "op",
+        "permutation"
+      ],
+      "title": "TransposeParameters",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "add": "#/$defs/PlainParameters",
+      "affine": "#/$defs/PlainParameters",
+      "gather": "#/$defs/GatherParameters",
+      "lookup": "#/$defs/LookupParameters",
+      "masked-reduce": "#/$defs/ReductionParameters",
+      "multiply": "#/$defs/MultiplyParameters",
+      "relu": "#/$defs/PlainParameters",
+      "reshape": "#/$defs/PlainParameters",
+      "transpose": "#/$defs/TransposeParameters"
+    },
+    "propertyName": "op"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/PlainParameters"
+    },
+    {
+      "$ref": "#/$defs/GatherParameters"
+    },
+    {
+      "$ref": "#/$defs/MultiplyParameters"
+    },
+    {
+      "$ref": "#/$defs/TransposeParameters"
+    },
+    {
+      "$ref": "#/$defs/ReductionParameters"
+    },
+    {
+      "$ref": "#/$defs/LookupParameters"
+    }
+  ]
+}

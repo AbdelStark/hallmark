@@ -1,0 +1,184 @@
+{
+  "schema_id": "hallmark/classifier-vector/1",
+  "evidence_class": "synthetic-fixture",
+  "purpose": "Locally authored integer metadata for schema conformance, not trained weights or proof qualification.",
+  "parameters": {
+    "params/affine.cbor": "a2626f7066616666696e6569736368656d615f6964781e68616c6c6d61726b2f6f70657261746f722d706172616d65746572732f31",
+    "params/relu.cbor": "a2626f706472656c7569736368656d615f6964781e68616c6c6d61726b2f6f70657261746f722d706172616d65746572732f31"
+  },
+  "input_profile": {
+    "json_projection": {
+      "schema_id": "hallmark/input-profile/1",
+      "encoding": "utf8-bytes",
+      "tokenizer_files": [],
+      "prefix_tokens": [],
+      "suffix_tokens": [],
+      "chunk_size": 16,
+      "overlap": 0,
+      "max_units": 32768,
+      "padding_id": 0,
+      "padding_side": "right"
+    },
+    "cbor_hex": "aa676f7665726c61700068656e636f64696e676a757466382d6279746573696d61785f756e69747319800069736368656d615f6964781868616c6c6d61726b2f696e7075742d70726f66696c652f316a6368756e6b5f73697a65106a70616464696e675f6964006c70616464696e675f736964656572696768746d7072656669785f746f6b656e73806d7375666669785f746f6b656e73806f746f6b656e697a65725f66696c657380",
+    "identity_hex": "126acef247fbed0c399d643d3bed39d4405ba501a0f5e3f07943097c416aa727"
+  },
+  "arithmetic": {
+    "json_projection": {
+      "schema_id": "hallmark/arithmetic/1",
+      "tensors": [
+        {
+          "name": "x",
+          "shape": [
+            256
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": 0,
+          "maximum": 16
+        },
+        {
+          "name": "w1",
+          "shape": [
+            2,
+            256
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "name": "b1",
+          "shape": [
+            2
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "name": "a",
+          "shape": [
+            2
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -4097,
+          "maximum": 4097
+        },
+        {
+          "name": "h",
+          "shape": [
+            2
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": 0,
+          "maximum": 4097
+        },
+        {
+          "name": "w2",
+          "shape": [
+            1,
+            2
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "name": "b2",
+          "shape": [
+            1
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "name": "score",
+          "shape": [
+            1
+          ],
+          "signed_bits": 32,
+          "fractional_bits": 0,
+          "minimum": -8195,
+          "maximum": 8195
+        }
+      ],
+      "nodes": [
+        {
+          "id": "hidden",
+          "op": "affine",
+          "inputs": [
+            "x",
+            "w1",
+            "b1"
+          ],
+          "output": "a",
+          "parameters": {
+            "path": "params/affine.cbor",
+            "size": 53,
+            "sha256": "3e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695"
+          }
+        },
+        {
+          "id": "activation",
+          "op": "relu",
+          "inputs": [
+            "a"
+          ],
+          "output": "h",
+          "parameters": {
+            "path": "params/relu.cbor",
+            "size": 51,
+            "sha256": "727fe67295fd98f609ad3a6646bb7d829b42c3ff96bd3c33d8acb7ce805bcdb2"
+          }
+        },
+        {
+          "id": "output",
+          "op": "affine",
+          "inputs": [
+            "h",
+            "w2",
+            "b2"
+          ],
+          "output": "score",
+          "parameters": {
+            "path": "params/affine.cbor",
+            "size": 53,
+            "sha256": "3e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695"
+          }
+        }
+      ],
+      "output": "score"
+    },
+    "cbor_hex": "a4656e6f64657383a56269646668696464656e626f7066616666696e6566696e70757473836178627731626231666f757470757461616a706172616d6574657273a3647061746872706172616d732f616666696e652e63626f726473697a6518356673686132353658203e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695a56269646a61637469766174696f6e626f706472656c7566696e70757473816161666f757470757461686a706172616d6574657273a3647061746870706172616d732f72656c752e63626f726473697a651833667368613235365820727fe67295fd98f609ad3a6646bb7d829b42c3ff96bd3c33d8acb7ce805bcdb2a5626964666f7574707574626f7066616666696e6566696e70757473836168627732626232666f75747075746573636f72656a706172616d6574657273a3647061746872706172616d732f616666696e652e63626f726473697a6518356673686132353658203e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695666f75747075746573636f72656774656e736f727388a6646e616d65617865736861706581190100676d6178696d756d10676d696e696d756d006b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d656277316573686170658202190100676d6178696d756d01676d696e696d756d206b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d656262316573686170658102676d6178696d756d01676d696e696d756d206b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d6561616573686170658102676d6178696d756d191001676d696e696d756d3910006b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d6561686573686170658102676d6178696d756d191001676d696e696d756d006b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d65627732657368617065820102676d6178696d756d01676d696e696d756d206b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d656262326573686170658101676d6178696d756d01676d696e696d756d206b7369676e65645f6269747318206f6672616374696f6e616c5f6269747300a6646e616d656573636f72656573686170658101676d6178696d756d192003676d696e696d756d3920026b7369676e65645f6269747318206f6672616374696f6e616c5f626974730069736368656d615f69647568616c6c6d61726b2f61726974686d657469632f31",
+    "identity_hex": "f964c29525535a42cdfa35cc0dce9c050dc4fd8d48f21978605d7e300b0ab313"
+  },
+  "classifier": {
+    "json_projection": {
+      "schema_id": "hallmark/classifier/1",
+      "kind": "mlp",
+      "program": "0606060606060606060606060606060606060606060606060606060606060606",
+      "weights": "0707070707070707070707070707070707070707070707070707070707070707",
+      "tokenizer": null,
+      "input_profile": "126acef247fbed0c399d643d3bed39d4405ba501a0f5e3f07943097c416aa727",
+      "arithmetic": "f964c29525535a42cdfa35cc0dce9c050dc4fd8d48f21978605d7e300b0ab313",
+      "threshold": 1,
+      "scope": "prompt",
+      "labels": [
+        "benign",
+        "unsafe"
+      ],
+      "backend": "0808080808080808080808080808080808080808080808080808080808080808",
+      "verifier_key": "0909090909090909090909090909090909090909090909090909090909090909",
+      "setup": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a"
+    },
+    "cbor_hex": "ad646b696e64636d6c706573636f70656670726f6d707465736574757058200a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a666c6162656c73826662656e69676e66756e73616665676261636b656e64582008080808080808080808080808080808080808080808080808080808080808086770726f6772616d5820060606060606060606060606060606060606060606060606060606060606060667776569676874735820070707070707070707070707070707070707070707070707070707070707070769736368656d615f69647568616c6c6d61726b2f636c61737369666965722f31697468726573686f6c640169746f6b656e697a6572f66a61726974686d657469635820f964c29525535a42cdfa35cc0dce9c050dc4fd8d48f21978605d7e300b0ab3136c76657269666965725f6b6579582009090909090909090909090909090909090909090909090909090909090909096d696e7075745f70726f66696c655820126acef247fbed0c399d643d3bed39d4405ba501a0f5e3f07943097c416aa727",
+    "identity_hex": "2fd9780c8860227bf96c5c9cbd3834ab7d1a9bacbcc0cd482b2c966a3acb7580"
+  }
+}
