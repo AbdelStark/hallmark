@@ -334,3 +334,40 @@ def test_build_comparison_checks_outputs_before_hashing(tmp_path, monkeypatch, k
         (first / "a.whl").symlink_to(second / "a.whl")
     with pytest.raises(ValueError):
         build.require_same(first, second)
+
+
+@pytest.mark.parametrize(
+    "field",
+    [
+        "st_atime_ns",
+        "st_mtime_ns",
+        "st_ctime_ns",
+        "st_size",
+        "st_ino",
+        "st_nlink",
+        "st_mode",
+        "st_uid",
+    ],
+)
+def test_snapshot_ignores_access_time_but_rejects_other_changes(tmp_path, monkeypatch, field):
+    from types import SimpleNamespace
+
+    init_source(tmp_path)
+    target = tmp_path / "src/a.py"
+    original = Path.stat
+
+    def changed_stat(path, *, follow_symlinks=True):
+        info = original(path, follow_symlinks=follow_symlinks)
+        if path != target or not follow_symlinks:
+            return info
+        changed = {name: getattr(info, name) for name in dir(info) if name.startswith("st_")}
+        changed[field] += 1
+        return SimpleNamespace(**changed)
+
+    monkeypatch.setattr(Path, "stat", changed_stat)
+    if field == "st_atime_ns":
+        files, _ = build.reviewed_source(tmp_path)
+        assert files["src/a.py"] == b"value = 1\n"
+    else:
+        with pytest.raises(ValueError, match="source changed"):
+            build.reviewed_source(tmp_path)

@@ -746,3 +746,29 @@ six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39432180583)
 W37 exact-head hosted delivery on the expanded Linux/macOS matrix is next, then
 #39 spec traceability. Admission, real proof/hardware evidence, independent review
 and the complete MVP remain outstanding.
+
+### W37 hosted portability correction
+
+Initial [push CI](https://github.com/AbdelStark/hallmark/actions/runs/39436507423)
+and [PR CI](https://github.com/AbdelStark/hallmark/actions/runs/39436633372) failed
+on `e36e70f89a7b8827b9795c957eda0b02286b2ba5`; the matrix cancelled remaining
+jobs after failures. Linux rejected valid source reads because complete stat-record
+comparison included access time. This is a failed hosted result, not a passed
+platform qualification.
+
+A local regression reproduced the problem: one access-time-only case failed while
+seven identity/modification cases correctly rejected. Saved the failure/source/log
+hashes and [corrected validation](evidence/w37-source-snapshot-fix-2026-10-20.json)
+before this entry. The guard now ignores access time and still compares device,
+inode, mode, links, uid/gid, size, mtime and ctime. All eight cases pass.
+
+The corrected local gate passed 66 packaging tests, 82 focused tests and 1,339
+total tests, plus unchanged lint/type/docs/conformance checks. Both package gates
+passed again with identical repeated artifacts and sdist wheel rebuilds. The
+corrected candidate source is
+`7a0ed2baa6c932cfd45668459dbd35793f99bd5df64a7a83d9e79246f1121743`;
+its wheel hash is unchanged and its sdist hash is
+`c2dce2adb0810d81ab3ab86349cecaad55d35a02a81172cea1778f0d0a07a6d1`.
+These candidate IDs precede this follow-up record/prose. The original evidence
+and failed runs are preserved. Corrected exact-head Linux/macOS checks remain
+the next delivery gate; no platform success is inferred from local validation.

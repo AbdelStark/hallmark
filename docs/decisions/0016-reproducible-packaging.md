@@ -28,6 +28,13 @@ members, wheel RECORDs and recognizable credential patterns. Python tooling,
 interpreter/platform/zlib and actual installed wheel/notice hashes travel with
 the result. Each invocation retains a fresh output directory, including failures.
 
+Initial hosted checks then exposed a portability error: reading a file can update
+its access timestamp, so comparing complete `stat` records rejected unchanged
+source. The snapshot now compares device/inode, mode, link count, ownership, size,
+mtime and ctime, excluding access time. The [follow-up evidence](../../research/evidence/w37-source-snapshot-fix-2026-10-20.json)
+retains the failing CI/reproduction and verifies both permitted reads and rejected
+identity/modification changes.
+
 ## Limits and compatibility
 
 [PACKAGING](../PACKAGING.md) specifies commands, bounds and supported CI matrix;

@@ -87,7 +87,22 @@ def reviewed_source(root):
             raise ValueError("unmerged, missing or unsafe reviewed source")
         with path.open("rb") as handle:
             raw = handle.read(MAX_FILE + 1)
-        if len(raw) != info.st_size or path.stat() != info:
+        after = path.stat()
+        # Reading can update access time; identity and modification metadata must stay fixed.
+        stable_fields = (
+            "st_dev",
+            "st_ino",
+            "st_mode",
+            "st_nlink",
+            "st_uid",
+            "st_gid",
+            "st_size",
+            "st_mtime_ns",
+            "st_ctime_ns",
+        )
+        if len(raw) != info.st_size or any(
+            getattr(after, field) != getattr(info, field) for field in stable_fields
+        ):
             raise ValueError("source changed during snapshot")
         files[name] = raw
         modes[name] = int(mode, 8) & 0o777

@@ -116,8 +116,10 @@ implement W32 full-path cost measurement.
 
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
-Its [evidence](evidence/w37-reproducible-packages-2026-10-20.json) records 58 new
-tests, 74 focused tests and 1,331 total local tests. Both package gates build twice,
+Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
+[access-time correction](evidence/w37-source-snapshot-fix-2026-10-20.json) record
+66 new tests, 82 focused tests and 1,339 total local tests. The correction permits
+access-time updates while retaining identity/modification-change rejection. Both package gates build twice,
 rebuild the same wheel from the sdist and exercise fresh installed core contracts;
 the train gate additionally executes synthetic fit/replay and tamper rejection.
 The [dependency review](evidence/w37-dependencies-2026-10-20.json) matches 518
