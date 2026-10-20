@@ -34,6 +34,7 @@ def main() -> None:
         assert "hallmark/conformance.py" in names
         assert "hallmark/conformance_checks.py" in names
         assert "hallmark/integer_mlp.py" in names
+        assert "hallmark/events.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -50,6 +51,11 @@ def main() -> None:
             "scripts/check_conformance.py",
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
+            "scripts/check_event_storage.py",
+            "tests/test_events.py",
+            "docs/schemas/event-v1.json",
+            "docs/schemas/event-attempt-v1.json",
+            "docs/schemas/event-summary-v1.json",
             "tests/test_integer_mlp.py",
             "fixtures/wire/integer-mlp-v1.json",
             "docs/schemas/mlp-program-v1.json",
@@ -333,6 +339,12 @@ def main() -> None:
             [str(env / "bin/hallmark"), "validate-data", str(ROOT / "fixtures/smoke.jsonl")],
             cwd=directory,
             check=True,
+        )
+        subprocess.run(
+            [str(python), str(ROOT / "scripts/check_event_storage.py")],
+            cwd=directory,
+            check=True,
+            timeout=15,
         )
         corpus = ROOT / "tests/vectors/v1"
         subprocess.run(

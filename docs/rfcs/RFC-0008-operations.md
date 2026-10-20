@@ -47,6 +47,12 @@ Sanitized errors require private local diagnostics for investigation. Portable p
 
 Add typed errors/redaction first, then events, then the measurement harness. Preserve old results and error strings as versioned historical behavior; no retroactive measurement claims. CLI exit-code changes apply to new v1 commands and documented baseline diagnostic hardening.
 
+W30 typed errors and W31 private event attempts are now implemented. The
+[event storage decision](../decisions/0015-private-event-storage.md) defines
+completion receipts, explicit bounded retries, storage caps and filesystem limits.
+W32 cost sampling and process/resource ownership remain unimplemented; event
+timings alone are not full-path cost measurements.
+
 ## Testing Strategy
 
 Inject a unique content sentinel into malformed JSON/Unicode, paths, subprocess stderr, validation errors, timeouts and storage failures; assert it is absent from stdout/stderr/events. Check sample counts, deterministic p50/p95 and null optional device memory. Kill workers and exhaust disk caps; no successful result or orphan process may remain.

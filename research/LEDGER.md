@@ -633,3 +633,52 @@ six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39425868492)
 W11 exact-head hosted delivery is next; its dependents still need admitted data,
 qualified proving or the other native/hardware components. Reassess #32, then
 #38/#39. The full MVP remains incomplete.
+
+## 2026-10-20 — W31 bounded private event attempts
+
+Hypothesis: a private bounded event log can retain failures and reject invalid
+metadata, duplicate ordinals, concurrent writers and uncertain writes without
+promoting a completed stage into a completed attempt. Baseline:
+`e8c9d0be603d477e3861b6843538477974b97354`; all 55 error-privacy/pipeline tests
+passed. Mutable paths were the new writer/reader, schemas, event tests, installed
+fixture/package checks and their documentation. The pass criterion was the
+smallest complete stage fixture plus negative privacy, sequence, concurrency,
+resource and durable-write tests, followed by `make check` and `make package-check`.
+
+Saved [source/config/environment hashes and raw numeric results](evidence/w31-private-events-2026-10-20.json)
+before this entry. The first privacy test exposed unsuppressed Python exception
+chaining in generator context managers: nine sentinel cases failed. The output
+and source hashes were retained; final exceptions suppress external chains and
+the tests check both serialized files and formatted exception output. An
+intermediate fixture test also failed because `scripts` was not importable as
+a package. It now executes the actual fixture with a bounded subprocess.
+
+All 101 new tests and 55 regressions passed. The complete local gate passed
+1,273 tests, lint, formatting, typing, documentation links and the unchanged
+156-case W33 software conformance scope. The isolated installed wheel retained
+one failed attempt and one explicit successful retry across six events. Three
+schema snapshots matched their runtime definitions. No training, model/data
+retrieval, external inference, GPU or paid execution occurred.
+
+Failure tests cover all nine sync points, failed/short/zero writes, publication
+failure, byte/event caps, malformed metadata, duplicate/gap ordinals and mismatched
+receipt hashes. Four subprocess exits preserve incomplete attempts, including a
+retry interrupted before its first stage. Separate processes, a thread and a
+fork cannot reuse a live writer. Unsafe modes, symlinks, hardlinks, FIFOs and
+unexpected directory entries reject. Durations use a controlled monotonic clock;
+negative or out-of-U64 values fail. This is correctness testing, not timing data
+for a full-path performance claim.
+
+[Decision 0015](../docs/decisions/0015-private-event-storage.md) fixes the private
+storage protocol and bounds. Failures remain local and metadata has the run's
+access/retention policy; there is no hosted telemetry or automatic cleanup. The
+reader cannot authenticate history or prove that a supplied UUID was random.
+Physical power loss, network filesystems and compound storage failures preventing
+both failure-marker retention and receipt removal remain unqualified. Quarantine
+ambiguous archives. Legacy manifests/results and the frozen W33 corpus are unchanged.
+
+W11 was merged in [PR #64](https://github.com/AbdelStark/hallmark/pull/64), with all
+six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39428839904) passing.
+W31 exact-head hosted delivery is next. W32 still requires #14 policy/resource
+admission and #19 proof qualification, in addition to this storage foundation.
+Reassess #38 packaging and #39 traceability next; the full MVP remains incomplete.

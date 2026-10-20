@@ -28,3 +28,24 @@ Metrics are counts and durations, not per-record remote traces. No unbounded lab
 ## Audit evidence
 
 Cryptographic evidence bytes, verifier conditions and the externally trusted inputs are retained locally with hashes under the authorized retention policy. A second reader can recompute aggregates from raw samples. Logging a digest does not authenticate execution. [RFC-0008](../rfcs/RFC-0008-operations.md#testing-strategy) requires content-sentinel tests on every exit path, including subprocess exceptions and invalid Unicode.
+
+## Implemented event storage
+
+`hallmark.events` provides `Event`, `AttemptRecord`, `EventSummary`, `EventLog`
+and `inspect_events`. `EventLog(path, max_bytes=...)` creates a fresh private
+POSIX directory and owns all IDs, attempt numbers, ordinals and durations.
+`with log.attempt():` contains sequential `with log.stage("execute"):` blocks.
+A stage cannot be nested, and each complete attempt must contain work.
+
+Only `inspect_events(path, max_bytes=...)` on a closed directory establishes the
+local storage summary: `complete`, `failed` or `incomplete`. A completed stage or
+a JSON file viewed alone is insufficient. Failure receipts remain after an
+explicit permitted retry, so callers must include both attempts in accounting.
+The reader also rejects duplicate JSON keys, extra fields, invalid identifiers,
+nonfinite values, discontinuous ordinals and receipt/hash mismatches.
+
+The writer creates random UUID4 IDs with no caller override. The reader cannot
+prove the randomness of a supplied valid UUID or the authenticity of any log.
+See [storage protocol, bounds and limitations](../decisions/0015-private-event-storage.md)
+and the [private usage example](../OPERATIONS.md#private-local-events). No telemetry
+or cleanup service runs, and legacy research bundles are unchanged.

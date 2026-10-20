@@ -302,6 +302,12 @@ verdict and private intermediate traces are not proof/hardware acceptance.
 No file/network retrieval, training or calibration occurs. See the
 [numerical profile, limits and export contract](../decisions/0014-integer-mlp-runtime.md).
 
+`hallmark.events` implements bounded local `EventLog(path, max_bytes=...)` with
+`attempt()` and `stage(stage)` context managers, plus
+`inspect_events(path, max_bytes=...) -> EventSummary`. Its strict `Event` and
+`AttemptRecord` schemas are metadata only; a completion summary is a local storage
+result, not verified execution. See [usage and limits](../decisions/0015-private-event-storage.md).
+
 ## Compatibility
 
 Keep existing commands and schema IDs until an explicit migration release. New v1 protocol commands must reject research run bundles. Export supported types from `hallmark.api` only when implemented and typed; `py.typed` remains required. Add CLI examples, generated schema snapshots and installed-wheel tests with each new command. See [versioning](09-release-and-versioning.md#compatibility).
