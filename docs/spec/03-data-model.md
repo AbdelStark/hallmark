@@ -110,6 +110,12 @@ mutation ancestry. The report distinguishes observed component outcomes from
 unavailable evidence and has `independent:null`. See the
 [schema and identity decision](../decisions/0013-frozen-conformance-corpus.md).
 
+W10 adds `hallmark/rule-program/1` and `hallmark/rule-result/1`. The program uses
+the existing `program` domain and binds literal patterns, input/arithmetic
+identities and exact provenance bytes. Native results bind the classifier and
+complete input and report every chunk's score; they are private diagnostics,
+not proof evidence. See [decision 0020](../decisions/0020-complete-byte-rule.md).
+
 W11 adds `hallmark/mlp-program/1`, `hallmark/mlp-weights/1` and
 `hallmark/mlp-result/1`. Program identity uses the existing `program` domain;
 classifier weights bind raw SHA-256 of the complete canonical weight file.

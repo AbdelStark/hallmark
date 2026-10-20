@@ -954,3 +954,62 @@ compares local/HF research, Azure/GCP genuine hardware and independent review.
 No account pricing/quota/credit state was checked, no paid job launched, and no
 reviewer contacted. Existing source licence holds are preserved. The old
 fixture-only authority is superseded; W10 implementation can proceed.
+
+### W13 approval delivered
+
+[PR #69](https://github.com/AbdelStark/hallmark/pull/69) merged as
+`7f547356a7f91e8d331a6963d0cf40603dd49b44`. Final head
+`af14a223c1060bdbc8c21d703291478c58e5dccb` passed all 12 jobs in each of push
+`39456548720` and PR `39456559150`; [main run `39457001526`](https://github.com/AbdelStark/hallmark/actions/runs/39457001526)
+passed all 12 jobs on the merge. Issue #14 is closed and its approval blocker
+removed. The repository remains public.
+
+## 2026-10-20 — W10 complete-byte literal rule
+
+Hypothesis: bounded suffix state can reproduce an independent complete-byte
+literal oracle at every chunk, while exact manifests and file hashes reject
+substitution. Baseline: 1,476 tests at the PR #69 merge. Mutable paths: native
+rule records/runtime, fixture builder/checker, schemas, tests, package checks and
+related API/decision/research documentation. Existing contracts, historical
+experiments and the frozen conformance corpus are unchanged.
+
+The [raw evidence](evidence/w10-complete-byte-rule-2026-10-20.json) precedes this
+entry. `uv run --locked pytest tests/test_rule.py -q` passed 96 tests; `make check`
+passed 1,572 tests plus lock/lint/format/types, spec, software conformance and
+admission checks. The initial 95-test pass was extended with a regression for
+short matches retained inside a longer pattern's suffix and partial UTF-8 byte
+patterns; the complete gate was rerun successfully.
+
+The independent oracle enumerates complete-input byte slices and match-ending
+positions. One thousand fixed-seed generated cases compare every chunk; the
+maximum-size test places a 4,096-byte pattern at the end of a 32,768-byte prompt,
+using one-byte chunks. Eleven fixed vectors reproduced byte for byte in a fresh
+directory. No pattern is inferred from private data or a downloaded source.
+The fixture's hashed provenance identifies hand-authored harmless markers under
+the repository licence; it is not an operational injection-policy approval.
+
+[Decision 0020](../docs/decisions/0020-complete-byte-rule.md) fixes native matching,
+aggregation and bounds. Provenance and parameters are byte-exact, input coverage
+is complete, equality blocks and invalid/unsafe constructed records reject.
+The scalar ReLU graph only projects the match feature. A proof of that graph
+alone would omit the literal extractor and cross-chunk state, and cannot satisfy
+W19. No learned quality, external enrollment, hardware or proof claim is made.
+
+Both `make package-check` and `make package-check-train` passed repeated builds,
+fresh installed rule vectors and the existing core/train checks. Their common
+source identity is `d55ca53816123a94a81aaf92583e6c3b7831cbabcbd07937bc5b54f060800c7a`;
+wheel SHA-256 `650b58c23b14374caddaa9cf8fa85d8155efd58f1c9ba5243d6f3ee854a4ce5b`,
+sdist SHA-256 `e7b114c57fc297d5518fc0fe6a12df0f9674298ecdc4859cb2a13bfe3da1d75d`.
+These identify the candidate before this final evidence/prose addition;
+final-head hosted CI rebuilds it. The unrelated `.gitignore` edit is preserved.
+
+Review then caught a JSON schema mismatch: the default bytes schema described
+binary strings using byte lengths, but the actual JSON encoding is hex. The
+pattern schema now admits exactly even-length hex through 8,192 characters.
+A maximum-pattern JSON roundtrip and odd-hex rejection test bring the final
+focused count to 97 and total to 1,573. The evidence preserves the earlier passes
+and the new full check and both package passes. Final pre-prose source identity:
+`1f4d4e8913de56fca3c3911c6322574fce372e75165618ad6edfa6110d004013`;
+wheel `c71824e2fc237e9851bbbe299fe30fde5ccb3909123b80f66947ed5ad5fad402`,
+sdist `78383daf2085efb9cc7d11d9238a871a2ec141f6aac40e2a2fff5f50a8c9a50d`.
+Runtime/fixture wire identities remain unchanged by this schema correction.

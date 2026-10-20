@@ -121,6 +121,7 @@ def main() -> None:
         assert "hallmark/conformance.py" in names
         assert "hallmark/conformance_checks.py" in names
         assert "hallmark/integer_mlp.py" in names
+        assert "hallmark/rule.py" in names
         assert "hallmark/events.py" in names
         assert "hallmark/admission.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
@@ -141,6 +142,12 @@ def main() -> None:
             "scripts/check_conformance.py",
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
+            "scripts/build_rule_fixture.py",
+            "scripts/check_rule_vectors.py",
+            "tests/test_rule.py",
+            "fixtures/wire/rule-v1.json",
+            "docs/schemas/rule-program-v1.json",
+            "docs/schemas/rule-result-v1.json",
             "scripts/check_event_storage.py",
             "scripts/build_admission_fixture.py",
             "scripts/check_admission.py",
@@ -428,6 +435,16 @@ def main() -> None:
         timeout=15,
     )
     corpus = root / "tests/vectors/v1"
+    subprocess.run(
+        [
+            str(python),
+            str(root / "scripts/check_rule_vectors.py"),
+            str(root / "fixtures/wire/rule-v1.json"),
+        ],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
     subprocess.run(
         [str(python), str(root / "scripts/check_admission.py")],
         cwd=directory,
