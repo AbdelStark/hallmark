@@ -4,6 +4,9 @@ Research on transcript-bound classifier verdicts. The intended system pairs hard
 
 ## Implemented now
 
+The repository is public; packages are unpublished and no open-source licence
+has been adopted. See [licence status](LICENSE.md).
+
 An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, ZK proof, encoder fine-tune or safety benchmark is implemented or claimed.
 
 The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
@@ -50,6 +53,11 @@ The [frozen conformance corpus](docs/decisions/0013-frozen-conformance-corpus.md
 checks 156 software cases and reports 32 unavailable hardware/proof obligations.
 `make check-conformance` checks software scope and its failure self-tests.
 The full-evidence gate remains incomplete; there is no independent verifier.
+
+The [package gate](docs/PACKAGING.md) compares two builds under a pinned toolchain,
+checks exact source/archive inventories and exercises fresh installed core/train
+contracts. [Dependency notices](docs/DEPENDENCIES.md) are recorded separately
+from project release approval.
 
 The [private event log](docs/decisions/0015-private-event-storage.md) retains
 allowlisted stage events and failed attempts, with bounded storage and durable

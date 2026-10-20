@@ -2,7 +2,7 @@
 
 ## Private delivery gates
 
-The package remains private and `LicenseRef-Proprietary`. A repository issue, signed manifest or installable wheel grants no permission to redistribute source, data or weights. Public release and new reviewers/collaborators need owner authorization. Review the dependency/model/data inventory with the appropriate owner; do not infer legal rights from a metadata tag.
+The repository is public at the owner's explicit request. Packages remain unpublished and `LicenseRef-Proprietary`; no open-source licence has been adopted. A repository issue, signed manifest or installable wheel grants no additional permission to redistribute source, data or weights. Package release and new reviewers/collaborators need owner authorization. Review the dependency/model/data inventory with the appropriate owner; do not infer legal rights from a metadata tag.
 
 Every release packet contains source commit plus tree hash, lock and build-environment identity, wheel/sdist hashes, artifact inventory, license/restriction inventory, conformance result, independent-verifier result, actual hosted-check status, known limitations and a changelog. Research/hardware evidence is included only through approved private access; raw transcripts and checkpoints stay outside git.
 
@@ -24,7 +24,7 @@ These are actual declared constraints and lock selections, inspected at bootstra
 | cryptography | `==50.0.2`; 50.0.2 | Raw Ed25519 registry verification; [pre-install review](../../research/evidence/w08-dependency-review-2026-10-20.json) |
 | numpy | train extra `>=2,<3`; 2.5.4 | Explicit float64 fitting arrays |
 | scikit-learn | train extra `>=1.6,<2`; 1.9.1 | Existing logistic floor with recorded solver |
-| hatchling | build `>=1.27,<2` | Existing wheel/sdist backend; build isolation must gain an exact reviewed pin |
+| hatchling | build `==1.32.4` | Exact backend plus all five build transitives in `build-system.requires` and the locked build group |
 | mypy | dev `>=1.15,<2`; 1.20.2 | Strict source typing |
 | pytest | dev `>=8.3,<10`; 9.1.1 | Offline tests |
 | pytest-cov | dev `>=6,<8`; 7.1.0 | Branch coverage diagnostics |
@@ -44,3 +44,17 @@ hardware libraries have no admitted version yet. Their implementation issues mus
 Use one bounded PR per work item, link its requirement and RFC, and attach the exact validation command/result. Owners review protocol, arithmetic, evaluation and security changes. PR CI is read-only, offline except locked package installation, and never runs untrusted code on a privileged hardware host. Optional integration jobs run only after explicit admission on an isolated approved host.
 
 Package and docs checks must include root SPEC, all sections/RFCs and the roadmap in the sdist. The wheel contains code/type metadata only, with no fixtures or private evidence. `make check-spec` must validate internal anchors, RFC templates, requirement coverage and tracker links. The private release checklist requires hosted tests on the final commit; billing-blocked jobs remain a blocking dependency, not a software pass.
+
+
+## Implemented reproducible package gate
+
+W37 / #38 adds `make package-check` and `make package-check-train` with two
+independent source builds under a fixed epoch and recorded build environment.
+The wheel rebuilt from the sdist must also match. The gate checks exact source/
+archive inventories, bounded safe members, wheel RECORD hashes and recognizable
+credential patterns, then installs hash-pinned dependencies and the built wheel
+in fresh environments. Core and optional training remain separate gates.
+
+See [build operation and evidence](../PACKAGING.md), the [actual licence inventory](../DEPENDENCIES.md)
+and [decision 0016](../decisions/0016-reproducible-packaging.md). This does not
+produce the release manifest, reviewer approval or hardware/proof evidence above.

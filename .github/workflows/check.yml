@@ -4,13 +4,14 @@ permissions:
   contents: read
 jobs:
   core:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
       UV_PYTHON: ${{ matrix.python }}
     strategy:
       matrix:
         python: ['3.12', '3.13', '3.14']
+        os: ['ubuntu-24.04', 'macos-15']
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -25,7 +26,7 @@ jobs:
       - run: make check
       - run: make package-check
   train-fixture:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
       UV_PYTHON: ${{ matrix.python }}
@@ -35,6 +36,7 @@ jobs:
     strategy:
       matrix:
         python: ['3.12', '3.13', '3.14']
+        os: ['ubuntu-24.04', 'macos-15']
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -46,3 +48,4 @@ jobs:
         with:
           version: '0.9.18'
       - run: make check-train
+      - run: make package-check-train

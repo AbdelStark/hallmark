@@ -37,7 +37,7 @@ Two reviewers, authorized individually before sharing, run the documented comman
 
 ## Alternatives Considered
 
-Publishing a public demo would simplify access but exceeds authority and licensing. A local-only checklist omits actual hosted delivery. Documentation without issue coverage leaves implementation gaps.
+The repository is now public by owner instruction; publishing packages or a public demo still requires separate release and licensing authority. A local-only checklist omits actual hosted delivery. Documentation without issue coverage leaves implementation gaps.
 
 ## Drawbacks
 
@@ -46,6 +46,12 @@ Hosted account limits and reviewer access can block release independently of cod
 ## Migration / Rollout
 
 Keep 0.1.0 research behavior intact. Land the spec on its own review branch, then file the complete work set and tracker on that branch. Implementation issues close only with their validation evidence. Tag/release v1 only after the owner approves the complete packet.
+
+W37 now implements [reproducible package checks](../PACKAGING.md) and records
+[dependency licence metadata](../DEPENDENCIES.md). Repository visibility is public;
+package publication, licensing, privileged integrations and reviewer access remain
+separate owner decisions. W38 traceability and the full W39/W40 release packet
+are not supplied by this build gate.
 
 ## Testing Strategy
 

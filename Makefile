@@ -1,4 +1,4 @@
-.PHONY: check check-train check-conformance test package-check smoke
+.PHONY: check check-train check-conformance test package-check package-check-train smoke
 
 check:
 	uv lock --check
@@ -22,5 +22,7 @@ smoke:
 	uv run --locked hallmark validate-data fixtures/smoke.jsonl
 
 package-check:
-	uv build
-	uv run --locked python scripts/check_package.py
+	uv run --locked python scripts/reproduce_package.py
+
+package-check-train:
+	uv run --locked python scripts/reproduce_package.py --train
