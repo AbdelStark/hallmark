@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add v1 all-pass policy, request and caller-expectation contracts with schema
+snapshots and fixed vectors. Check resolved rule/MLP/encoder order, model/policy
+identities, explicit continuity and UTF-8 byte limits. No policy admission,
+nonce consumption or evidence verification is supplied.
+
 Add v1 classifier/input/arithmetic contracts, typed operator parameter files,
 schema snapshots and fixed identity vectors. Validate graph topology and,
 against supplied hashed parameters, shapes, mask/index bounds and exact

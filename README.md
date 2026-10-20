@@ -17,6 +17,10 @@ operator files are checked for topology, shapes, masks, scales and conservative
 range bounds. This is static validation; classifier execution and proof/backend
 qualification remain separate work.
 
+The [policy/request contracts](docs/decisions/0007-policy-request-contracts.md)
+resolve the ordered classifier set and compare requests with explicit caller
+expectations. `inj.direct/1` remains a proposed policy pending admission.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

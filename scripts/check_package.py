@@ -22,6 +22,7 @@ def main() -> None:
         assert "hallmark/cli.py" in names
         assert "hallmark/manifests.py" in names
         assert "hallmark/classifier_manifest.py" in names
+        assert "hallmark/policy.py" in names
         assert not any("fixtures/" in name or "runs/" in name for name in names)
     with tarfile.open(sdists[0]) as archive:
         names = {"/".join(name.split("/")[1:]) for name in archive.getnames()}
@@ -38,13 +39,18 @@ def main() -> None:
             "tests/test_wire.py",
             "tests/test_manifests.py",
             "tests/test_classifier_manifest.py",
+            "tests/test_policy.py",
             "fixtures/wire/model-manifest-v1.json",
             "fixtures/wire/classifier-v1.json",
+            "fixtures/wire/policy-request-v1.json",
             "docs/schemas/model-manifest-v1.json",
             "docs/schemas/classifier-v1.json",
             "docs/schemas/input-profile-v1.json",
             "docs/schemas/arithmetic-v1.json",
             "docs/schemas/operator-parameters-v1.json",
+            "docs/schemas/policy-v1.json",
+            "docs/schemas/request-expectation-v1.json",
+            "docs/schemas/request-v1.json",
         ):
             assert required in names, required
         assert not any(name.startswith(("runs/", "data/", ".env")) for name in names)
@@ -127,6 +133,28 @@ def main() -> None:
                 "c.validate_profiles(i, a, parameters=p); "
                 "assert c.identity().hex() == v['classifier']['identity_hex']",
                 str(ROOT / "fixtures/wire/classifier-v1.json"),
+            ],
+            cwd=directory,
+            check=True,
+        )
+        subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import json, sys; from pathlib import Path; "
+                "from hallmark.classifier_manifest import ClassifierManifest; "
+                "from hallmark.manifests import ModelManifest; "
+                "from hallmark.policy import Policy, RequestExpectation, Request; "
+                "v = json.loads(Path(sys.argv[1]).read_text()); "
+                "m = ModelManifest.decode(bytes.fromhex(v['model_cbor_hex'])); "
+                "c = tuple(ClassifierManifest.decode(bytes.fromhex(raw)) "
+                "for raw in v['classifiers_cbor_hex']); "
+                "p = Policy.decode(bytes.fromhex(v['policy']['cbor_hex'])); "
+                "e = RequestExpectation.decode(bytes.fromhex(v['expectation']['cbor_hex'])); "
+                "r = Request.decode(bytes.fromhex(v['request']['cbor_hex'])); "
+                "assert p.identity().hex() == v['policy']['identity_hex']; "
+                "r.validate_against(e, model=m, policy=p, classifiers=c)",
+                str(ROOT / "fixtures/wire/policy-request-v1.json"),
             ],
             cwd=directory,
             check=True,

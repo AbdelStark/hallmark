@@ -2,7 +2,7 @@
 
 ## Existing v0.1 surface
 
-“Public” here means supported caller interface inside the private repository, not a public release. The existing CLI is:
+The existing research CLI is:
 
 ```text
 hallmark schema {record,experiment,model,run}
@@ -79,6 +79,25 @@ conservative range bounds and masks; it performs no I/O or classifier execution.
 `validate_profiles` also checks the classifier's profile identities and scalar
 score/encoding obligations. See [exact semantics and limits](../decisions/0006-classifier-contracts.md).
 These checks do not qualify a graph/backend or authenticate supplied references.
+
+`hallmark.policy` implements `Policy`, `ChainExpectation`, `RequestExpectation`
+and `Request`. They expose the same checked CBOR `encode`/`decode` methods.
+Only `Policy` has an `identity` method, in the `policy` domain.
+
+```python
+policy.validate_classifiers(
+    classifiers: tuple[ClassifierManifest, ClassifierManifest, ClassifierManifest]
+) -> None
+request.validate_against(
+    expected: RequestExpectation, *, model: ModelManifest, policy: Policy,
+    classifiers: tuple[ClassifierManifest, ClassifierManifest, ClassifierManifest]
+) -> None
+```
+
+These calls check resolved classifier order/identities, explicit caller
+expectations, supplied model/policy identities and prompt byte limits.
+They do not enroll artifacts, consume a nonce or adopt a policy. See
+[policy/request semantics and snapshots](../decisions/0007-policy-request-contracts.md).
 
 The primitive value decoder alone does not validate an artifact schema or authenticity.
 Generic schema dispatch and the following artifact interfaces remain targets. Their types are

@@ -10,7 +10,7 @@ Precedence: an accepted versioned RFC defines its v1 subsystem; these spec secti
 
 A relying party should be able to distinguish “a measured serving path produced these bytes” from “these enrolled classifier programs returned these verdicts.” Both statements concern one interaction. A classifier pass is neither a safety certificate nor evidence of complete traffic coverage.
 
-The first proposed user is an internal enterprise auditor checking English, single-turn prompt-injection screening on a private stand-in model. This is a design assumption, not validated demand. The requester's exact prompt and delivered response are committed; classifiers inspect only the prompt. Hidden system instructions are referenced by digest and excluded from classifier scope. Policy `inj.direct/1` identifies an owner-reviewed rubric for attempts to override prior instructions; approval is an admission gate, not implied by this name.
+The first proposed user is an internal enterprise auditor checking English, single-turn prompt-injection screening on a private stand-in model. This is a design assumption, not validated demand. The requester's exact prompt and delivered response are committed; classifiers inspect only the prompt. Hidden system instructions are referenced by digest and excluded from classifier scope. The proposed policy name `inj.direct/1` is reserved for a rubric on attempts to override prior instructions. It remains a proposal until owner/relying-party admission; the name and implemented schema imply no approval.
 
 ## v1 boundary
 
