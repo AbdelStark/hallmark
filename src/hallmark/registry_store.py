@@ -13,6 +13,7 @@ from hallmark.wire import WireLimits
 
 _STATE_LIMITS = WireLimits(max_bytes=256, nesting=2, max_items=16)
 _APP_ID = 0x484D5231
+_BOUND_APP_ID = 0x484D5232
 
 
 def _connect(path: Path) -> sqlite3.Connection:
@@ -38,7 +39,7 @@ def _connect(path: Path) -> sqlite3.Connection:
 
 
 def _read(connection: sqlite3.Connection) -> RegistryState:
-    if connection.execute("PRAGMA application_id").fetchone() != (_APP_ID,):
+    if connection.execute("PRAGMA application_id").fetchone() not in ((_APP_ID,), (_BOUND_APP_ID,)):
         raise HallmarkError("STORAGE_FAILED", "store")
     rows = connection.execute(
         "SELECT id, typeof(state), length(state), substr(state, 1, 257) FROM checkpoint LIMIT 2"
@@ -65,6 +66,7 @@ def _bind_trust(
         raise HallmarkError("TRUST_MISSING", "enroll")
     identity = trust.identity()
     prior = identity if old is None else old.identity()
+    bound = connection.execute("PRAGMA application_id").fetchone() == (_BOUND_APP_ID,)
     connection.execute(
         "CREATE TABLE IF NOT EXISTS trust_binding "
         "(id INTEGER PRIMARY KEY CHECK(id=1), digest BLOB NOT NULL)"
@@ -72,6 +74,8 @@ def _bind_trust(
     rows = connection.execute(
         "SELECT id, typeof(digest), length(digest), substr(digest,1,33) FROM trust_binding LIMIT 2"
     ).fetchall()
+    if bound and not rows:
+        raise HallmarkError("STORAGE_FAILED", "store")
     if rows and rows != [(1, "blob", 32, prior)]:
         raise HallmarkError("TRUST_MISSING", "enroll")
     if rows:
@@ -82,6 +86,8 @@ def _bind_trust(
         (1, identity)
     ]:
         raise HallmarkError("STORAGE_FAILED", "store")
+    # Older readers must reject this format rather than ignore its trust binding.
+    connection.execute(f"PRAGMA application_id={_BOUND_APP_ID}")
 
 
 def provision_state(path: Path, external_state: RegistryState) -> None:

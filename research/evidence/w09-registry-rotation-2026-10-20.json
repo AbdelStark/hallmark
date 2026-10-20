@@ -19,9 +19,9 @@
     "schemas, golden signature messages and installed-wheel checks"
   ],
   "result": {
-    "registry_tests_passed": 96,
-    "focused_tests_passed": 236,
-    "total_local_tests_passed": 1050,
+    "registry_tests_passed": 97,
+    "focused_tests_passed": 237,
+    "total_local_tests_passed": 1051,
     "schema_snapshots": 2,
     "golden_rotation_corpus": 1,
     "local_check": "passed",
@@ -42,10 +42,10 @@
         "-q"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 0.806,
-      "output_sha256": "18ed888a08c54dc81fd38b67a33f5aa8511984f8e19489022f6b881c47dad317",
+      "elapsed_seconds": 0.849,
+      "output_sha256": "8f9438330125c5b11f5f86e709bd73940bdf387c1a41f597fe4978908be11440",
       "pytest_summaries": [
-        "236 passed in 0.66s"
+        "237 passed in 0.69s"
       ],
       "source_sha256": {
         "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
@@ -57,7 +57,7 @@
         "docs/schemas/verification-result-v1.json": "6916c2429c9ac7e671abe24a657e0cead461b36765f4876e9bc33f279b1c2788",
         "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
         "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
-        "src/hallmark/registry_store.py": "947f75156de9268c8b5dc6d21717e7ab8f96056430831ef92bf502aa03c0ef14",
+        "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
         "tests/test_enrollment.py": "1356d2c15206b2b921d38ce5a37eab1e8441703be599c2a6326f2e59aa8dd0d0",
         "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
         "docs/schemas/trust-v1.json": "5a8b601695b11a2e87980197edcc56fd2ac6b5983c2e7661f8c892fa90a5fae3",
@@ -110,16 +110,16 @@
         "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
         "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
         "src/hallmark/cli.py": "183985477292755a3707e4a8ce4f3ed4aa57c24035b89cd9b4c0a711d07a53f0",
-        "tests/test_registry.py": "32442efb4eed692344ddf92c001e300bf50e65ddf09200fdd49277ad50f19a96",
+        "tests/test_registry.py": "76efbbf52aea891f5b01b4adb326ae56bfa4a2bc8fd74caa68ba6cb632f1589e",
         "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
         "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
-        "docs/decisions/0012-registry-authoring-rotation.md": "53195830591d219836b92c49a5da59646d540454d02da1c679a3c9f7bd829fc6",
+        "docs/decisions/0012-registry-authoring-rotation.md": "b4f92ee711383ef2a0c98bc48021890fb8a8391a2172473ecfee2f95f7e4f765",
         "docs/schemas/registry-transition-v1.json": "ffe9e2f065cea1f7adeb215adb71412b74e0784e6967a93724283b4a9e95edb0",
         "docs/schemas/signed-transition-v1.json": "aa5c7aaf194f832018bb05f937e56ba7b4d0527215ccd13b28e1a58bb3b37bfd",
         "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
         "docs/spec/02-public-api.md": "b4e1f7a61c1eb6fa98b27dcc61bc7d276e85deddd9b78a792dc46827cedb6afa",
         "docs/spec/03-data-model.md": "4cf22728383ffd9450bacf54ba2da9b960d9cfdc2d3f326302f3759dc7c1c687",
-        "docs/OPERATIONS.md": "43b57741a9d1058502cb03de14162100a68ecb008e34147b890406c056a2d1b3",
+        "docs/OPERATIONS.md": "777f41c949798a71fd5aa15820d638aa2e992c9006403f2c53b7c20db50d48d0",
         "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
         "README.md": "b60f3a286331acf90988b2786b13b6fb96c7ee16221756023f1c1456c5166fbd",
         "CHANGELOG.md": "3b758922c78b5b1be3d2c4890fe271a6a00ae784aee278751946d5f49cafb633"
@@ -139,7 +139,7 @@
           "pycparser": "3.11"
         }
       },
-      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-focused-z260zoyj"
+      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-focused-s0de4saf"
     },
     {
       "phase": "vectors",
@@ -152,7 +152,7 @@
         "fixtures/wire/registry-rotation-v1.json"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 0.315,
+      "elapsed_seconds": 0.3,
       "output_sha256": "6bf8521b902bda7e6ccaf2eb07b8f98105356bff20622f990db31f1a5953bba3",
       "pytest_summaries": [],
       "source_sha256": {
@@ -165,7 +165,7 @@
         "docs/schemas/verification-result-v1.json": "6916c2429c9ac7e671abe24a657e0cead461b36765f4876e9bc33f279b1c2788",
         "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
         "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
-        "src/hallmark/registry_store.py": "947f75156de9268c8b5dc6d21717e7ab8f96056430831ef92bf502aa03c0ef14",
+        "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
         "tests/test_enrollment.py": "1356d2c15206b2b921d38ce5a37eab1e8441703be599c2a6326f2e59aa8dd0d0",
         "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
         "docs/schemas/trust-v1.json": "5a8b601695b11a2e87980197edcc56fd2ac6b5983c2e7661f8c892fa90a5fae3",
@@ -218,16 +218,16 @@
         "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
         "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
         "src/hallmark/cli.py": "183985477292755a3707e4a8ce4f3ed4aa57c24035b89cd9b4c0a711d07a53f0",
-        "tests/test_registry.py": "32442efb4eed692344ddf92c001e300bf50e65ddf09200fdd49277ad50f19a96",
+        "tests/test_registry.py": "76efbbf52aea891f5b01b4adb326ae56bfa4a2bc8fd74caa68ba6cb632f1589e",
         "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
         "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
-        "docs/decisions/0012-registry-authoring-rotation.md": "53195830591d219836b92c49a5da59646d540454d02da1c679a3c9f7bd829fc6",
+        "docs/decisions/0012-registry-authoring-rotation.md": "b4f92ee711383ef2a0c98bc48021890fb8a8391a2172473ecfee2f95f7e4f765",
         "docs/schemas/registry-transition-v1.json": "ffe9e2f065cea1f7adeb215adb71412b74e0784e6967a93724283b4a9e95edb0",
         "docs/schemas/signed-transition-v1.json": "aa5c7aaf194f832018bb05f937e56ba7b4d0527215ccd13b28e1a58bb3b37bfd",
         "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
         "docs/spec/02-public-api.md": "b4e1f7a61c1eb6fa98b27dcc61bc7d276e85deddd9b78a792dc46827cedb6afa",
         "docs/spec/03-data-model.md": "4cf22728383ffd9450bacf54ba2da9b960d9cfdc2d3f326302f3759dc7c1c687",
-        "docs/OPERATIONS.md": "43b57741a9d1058502cb03de14162100a68ecb008e34147b890406c056a2d1b3",
+        "docs/OPERATIONS.md": "777f41c949798a71fd5aa15820d638aa2e992c9006403f2c53b7c20db50d48d0",
         "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
         "README.md": "b60f3a286331acf90988b2786b13b6fb96c7ee16221756023f1c1456c5166fbd",
         "CHANGELOG.md": "3b758922c78b5b1be3d2c4890fe271a6a00ae784aee278751946d5f49cafb633"
@@ -247,7 +247,7 @@
           "pycparser": "3.11"
         }
       },
-      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-vectors-k5za_m79"
+      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-vectors-t5p0ubrk"
     },
     {
       "phase": "check",
@@ -256,10 +256,10 @@
         "check"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 5.81,
-      "output_sha256": "61b8df411c486141fd9143fff308869a5b08d16122fe19f225070dbf2770dfde",
+      "elapsed_seconds": 5.021,
+      "output_sha256": "51b1b219cc0be2dcf3fc5493e9f559616ce0af2d24b66853c1a8697d213d7d6e",
       "pytest_summaries": [
-        "============================= 1050 passed in 4.75s ============================="
+        "============================= 1051 passed in 4.47s ============================="
       ],
       "source_sha256": {
         "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
@@ -271,7 +271,7 @@
         "docs/schemas/verification-result-v1.json": "6916c2429c9ac7e671abe24a657e0cead461b36765f4876e9bc33f279b1c2788",
         "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
         "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
-        "src/hallmark/registry_store.py": "947f75156de9268c8b5dc6d21717e7ab8f96056430831ef92bf502aa03c0ef14",
+        "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
         "tests/test_enrollment.py": "1356d2c15206b2b921d38ce5a37eab1e8441703be599c2a6326f2e59aa8dd0d0",
         "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
         "docs/schemas/trust-v1.json": "5a8b601695b11a2e87980197edcc56fd2ac6b5983c2e7661f8c892fa90a5fae3",
@@ -324,16 +324,16 @@
         "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
         "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
         "src/hallmark/cli.py": "183985477292755a3707e4a8ce4f3ed4aa57c24035b89cd9b4c0a711d07a53f0",
-        "tests/test_registry.py": "32442efb4eed692344ddf92c001e300bf50e65ddf09200fdd49277ad50f19a96",
+        "tests/test_registry.py": "76efbbf52aea891f5b01b4adb326ae56bfa4a2bc8fd74caa68ba6cb632f1589e",
         "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
         "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
-        "docs/decisions/0012-registry-authoring-rotation.md": "53195830591d219836b92c49a5da59646d540454d02da1c679a3c9f7bd829fc6",
+        "docs/decisions/0012-registry-authoring-rotation.md": "b4f92ee711383ef2a0c98bc48021890fb8a8391a2172473ecfee2f95f7e4f765",
         "docs/schemas/registry-transition-v1.json": "ffe9e2f065cea1f7adeb215adb71412b74e0784e6967a93724283b4a9e95edb0",
         "docs/schemas/signed-transition-v1.json": "aa5c7aaf194f832018bb05f937e56ba7b4d0527215ccd13b28e1a58bb3b37bfd",
         "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
         "docs/spec/02-public-api.md": "b4e1f7a61c1eb6fa98b27dcc61bc7d276e85deddd9b78a792dc46827cedb6afa",
         "docs/spec/03-data-model.md": "4cf22728383ffd9450bacf54ba2da9b960d9cfdc2d3f326302f3759dc7c1c687",
-        "docs/OPERATIONS.md": "43b57741a9d1058502cb03de14162100a68ecb008e34147b890406c056a2d1b3",
+        "docs/OPERATIONS.md": "777f41c949798a71fd5aa15820d638aa2e992c9006403f2c53b7c20db50d48d0",
         "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
         "README.md": "b60f3a286331acf90988b2786b13b6fb96c7ee16221756023f1c1456c5166fbd",
         "CHANGELOG.md": "3b758922c78b5b1be3d2c4890fe271a6a00ae784aee278751946d5f49cafb633"
@@ -353,7 +353,7 @@
           "pycparser": "3.11"
         }
       },
-      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-check-ytu2kkx4"
+      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-check-3ykv5y8n"
     },
     {
       "phase": "package",
@@ -362,8 +362,8 @@
         "package-check"
       ],
       "exit_code": 0,
-      "elapsed_seconds": 3.382,
-      "output_sha256": "4dabb3ad58eec3d41c44776f1086461b030c35d0cde5ae7efe3000eb0ddfe983",
+      "elapsed_seconds": 3.726,
+      "output_sha256": "c347a26bbebc0960379d0205a82e5d36c0302ed54d5b5a6966e8b79e96cd7a5a",
       "pytest_summaries": [],
       "source_sha256": {
         "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
@@ -375,7 +375,7 @@
         "docs/schemas/verification-result-v1.json": "6916c2429c9ac7e671abe24a657e0cead461b36765f4876e9bc33f279b1c2788",
         "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
         "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
-        "src/hallmark/registry_store.py": "947f75156de9268c8b5dc6d21717e7ab8f96056430831ef92bf502aa03c0ef14",
+        "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
         "tests/test_enrollment.py": "1356d2c15206b2b921d38ce5a37eab1e8441703be599c2a6326f2e59aa8dd0d0",
         "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
         "docs/schemas/trust-v1.json": "5a8b601695b11a2e87980197edcc56fd2ac6b5983c2e7661f8c892fa90a5fae3",
@@ -428,16 +428,16 @@
         "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
         "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
         "src/hallmark/cli.py": "183985477292755a3707e4a8ce4f3ed4aa57c24035b89cd9b4c0a711d07a53f0",
-        "tests/test_registry.py": "32442efb4eed692344ddf92c001e300bf50e65ddf09200fdd49277ad50f19a96",
+        "tests/test_registry.py": "76efbbf52aea891f5b01b4adb326ae56bfa4a2bc8fd74caa68ba6cb632f1589e",
         "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
         "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
-        "docs/decisions/0012-registry-authoring-rotation.md": "53195830591d219836b92c49a5da59646d540454d02da1c679a3c9f7bd829fc6",
+        "docs/decisions/0012-registry-authoring-rotation.md": "b4f92ee711383ef2a0c98bc48021890fb8a8391a2172473ecfee2f95f7e4f765",
         "docs/schemas/registry-transition-v1.json": "ffe9e2f065cea1f7adeb215adb71412b74e0784e6967a93724283b4a9e95edb0",
         "docs/schemas/signed-transition-v1.json": "aa5c7aaf194f832018bb05f937e56ba7b4d0527215ccd13b28e1a58bb3b37bfd",
         "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
         "docs/spec/02-public-api.md": "b4e1f7a61c1eb6fa98b27dcc61bc7d276e85deddd9b78a792dc46827cedb6afa",
         "docs/spec/03-data-model.md": "4cf22728383ffd9450bacf54ba2da9b960d9cfdc2d3f326302f3759dc7c1c687",
-        "docs/OPERATIONS.md": "43b57741a9d1058502cb03de14162100a68ecb008e34147b890406c056a2d1b3",
+        "docs/OPERATIONS.md": "777f41c949798a71fd5aa15820d638aa2e992c9006403f2c53b7c20db50d48d0",
         "docs/rfcs/RFC-0002-registry.md": "4b8fc2379a89e0e23b6676ebe648325cf7898cf35b705e6adfbff920f4734438",
         "README.md": "b60f3a286331acf90988b2786b13b6fb96c7ee16221756023f1c1456c5166fbd",
         "CHANGELOG.md": "3b758922c78b5b1be3d2c4890fe271a6a00ae784aee278751946d5f49cafb633"
@@ -457,13 +457,14 @@
           "pycparser": "3.11"
         }
       },
-      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-package-7_tiwtul"
+      "local_output_directory": "/var/folders/7_/2x53c05j5_998t02j0ftc0lr0000gn/T/hallmark-w09-package-9kwh6zi3"
     }
   ],
   "preliminary_findings": [
     "The smallest one-key-per-side rotation fixture passed at activation sequence 1; its signed transition was 664 bytes.",
     "Initial targeted static checks found two overlong lines and a missing ArtifactDigest annotation; fixed before recorded gates. A later test lint pass found import ordering and an overlong subprocess-script line; both fixed.",
-    "Review identified that a checkpoint needed a persistent external trust digest to reject reuse of an old policy after rotation. Added atomic first-success binding, dual-authorized replacement and negative/recovery tests."
+    "Review identified that a checkpoint needed a persistent external trust digest to reject reuse of an old policy after rotation. Added atomic first-success binding, dual-authorized replacement and negative/recovery tests.",
+    "Final migration review added an atomic HMR1-to-HMR2 application-ID upgrade. The actual baseline W08 reader was executed: it accepts the unbound checkpoint and rejects the bound checkpoint, while the current reader succeeds. Missing binding in an HMR2 store fails closed."
   ],
   "prior_delivery": {
     "work_item": "W07",
@@ -494,5 +495,21 @@
     "Pure verification and bounded between-operation deadline checks do not enforce worker RSS or terminate a cryptographic call.",
     "Artifact review digests are retained declarations; quality, proof, hardware and independent-verifier acceptance remain separate.",
     "No model/data retrieval, external inference, GPU job, paid compute or operational host."
-  ]
+  ],
+  "legacy_reader_check": {
+    "baseline_commit": "302a861043636094295c4dc06832e4a8c06afe87",
+    "baseline_file": "src/hallmark/registry_store.py",
+    "baseline_source_sha256": "555750ffe6f70569c7b31cbca87f36ddf197aabb3dac88331506f3fdc012a859",
+    "legacy_reads_unbound_checkpoint": true,
+    "legacy_rejects_bound_checkpoint": true,
+    "current_reads_bound_checkpoint": true,
+    "command": [
+      "uv",
+      "run",
+      "--locked",
+      "python",
+      "/tmp/hallmark-w09-legacy-reader.py"
+    ],
+    "check_source": "import hashlib,json,subprocess,sys,tempfile,types\nfrom pathlib import Path\nfrom hallmark.registry_store import provision_state,enroll_and_store,read_state\nfrom hallmark.errors import HallmarkError\nsys.path.insert(0,'tests')\nfrom test_registry import rotation\nfrom test_enrollment import state\nbaseline='302a861043636094295c4dc06832e4a8c06afe87'\nsource=subprocess.check_output(['git','show',baseline+':src/hallmark/registry_store.py'],timeout=10)\nlegacy=types.ModuleType('legacy_registry_store')\nexec(compile(source,'legacy_registry_store.py','exec'),legacy.__dict__)\nold,_,previous,_,_=rotation()\nwith tempfile.TemporaryDirectory(prefix='hallmark-w09-migration-') as directory:\n    path=Path(directory)/'checkpoint.sqlite'\n    checkpoint=state(previous.body)\n    provision_state(path,checkpoint)\n    assert legacy.read_state(path)==checkpoint\n    enroll_and_store(path,previous,old,checkpoint,150)\n    assert read_state(path)==checkpoint\n    try:\n        legacy.read_state(path)\n    except HallmarkError as error:\n        assert error.code=='STORAGE_FAILED'\n    else:\n        raise AssertionError('legacy reader ignored new trust binding')\nresult={'baseline_commit':baseline,'baseline_file':'src/hallmark/registry_store.py','baseline_source_sha256':hashlib.sha256(source).hexdigest(),'legacy_reads_unbound_checkpoint':True,'legacy_rejects_bound_checkpoint':True,'current_reads_bound_checkpoint':True,'command':['uv','run','--locked','python','/tmp/hallmark-w09-legacy-reader.py'],'check_source':Path(__file__).read_text()}\nPath('/tmp/hallmark-w09-legacy-reader-result.json').write_text(json.dumps(result,indent=2)+'\\n')\nprint('Actual W08 reader accepts HMR1, rejects HMR2; current reader accepts committed HMR2.')\n"
+  }
 }

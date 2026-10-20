@@ -135,6 +135,10 @@ An operational approval record has not been supplied by these fixtures.
    Reusing the old policy afterward fails. Other policy changes require explicit
    owner re-enrollment in a new store. Preserve the prior store and checkpoint.
 
+The first successful trust binding upgrades the checkpoint database from `HMR1`
+to `HMR2`. Older packages reject the new application ID. Keep a backup and do not
+revert software or restore old trusted state to work around a failed check.
+
 Missing old-threshold authorization requires owner recovery/re-enrollment; an
 unsigned replacement is never a valid transition. An archive is not a globally
 witnessed log: compare conflicting roots out of band. Signatures authenticate

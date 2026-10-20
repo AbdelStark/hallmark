@@ -81,8 +81,8 @@ container/report checks; a decoded accepted flag is not verified evidence.
 
 W09 / issue #10 adds caller-owned snapshot signing, immutable local history,
 irreversible retirement, dual-authorized key transitions and `registry-check`.
-Its [evidence](evidence/w09-registry-rotation-2026-10-20.json) records 96 new tests,
-1,050 total local tests, two schemas and an installed-wheel rotation/CLI fixture.
+Its [evidence](evidence/w09-registry-rotation-2026-10-20.json) records 97 new tests,
+1,051 total local tests, two schemas and an installed-wheel rotation/CLI fixture.
 The checkpoint now retains the external trust digest atomically, rejecting old
 policy reuse after rotation. Failure and process-exit tests preserve prior state
 and history. All keys are public fixtures; operational custody remains unapproved.

@@ -497,8 +497,11 @@ def test_checkpoint_trust_binding_migrates_atomically_and_requires_reenrollment(
     path = tmp_path / "checkpoint.sqlite"
     start = state(previous.body)
     provision_state(path, start)
+    with sqlite3.connect(path) as connection:
+        assert connection.execute("PRAGMA application_id").fetchone() == (0x484D5231,)
     registry_store.enroll_and_store(path, previous, old, start, 150)
     with sqlite3.connect(path) as connection:
+        assert connection.execute("PRAGMA application_id").fetchone() == (0x484D5232,)
         assert connection.execute("SELECT digest FROM trust_binding").fetchall() == [
             (old.identity(),)
         ]
@@ -512,6 +515,20 @@ def test_checkpoint_trust_binding_migrates_atomically_and_requires_reenrollment(
         assert connection.execute("SELECT digest FROM trust_binding").fetchall() == [
             (new.identity(),)
         ]
+
+
+def test_bound_checkpoint_cannot_silently_recreate_missing_trust(tmp_path: Path) -> None:
+    old, _, previous, _, _ = rotation()
+    path = tmp_path / "state.sqlite"
+    start = state(previous.body)
+    provision_state(path, start)
+    registry_store.enroll_and_store(path, previous, old, start, 150)
+    with sqlite3.connect(path) as connection:
+        connection.execute("DROP TABLE trust_binding")
+    before = path.read_bytes()
+    with pytest.raises(HallmarkError, match="STORAGE_FAILED"):
+        registry_store.enroll_and_store(path, previous, old, start, 150)
+    assert path.read_bytes() == before
 
 
 @pytest.mark.parametrize("operation", ["archive", "checkpoint"])

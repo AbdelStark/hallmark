@@ -77,6 +77,12 @@ This prevents reusing a retired policy against the same checkpoint store.
 Unrelated policy changes need owner re-enrollment in a new checkpoint store.
 No trust is discovered from the database or bundle.
 
+The first successful binding also changes the checkpoint's SQLite application ID
+from `HMR1` to `HMR2` in that transaction. This implementation reads both formats;
+older W08 readers reject `HMR2` instead of silently ignoring the trust binding.
+An `HMR2` store with a missing binding fails closed. Preserve the original backup
+before upgrading; reverting the package is not a valid rollback of trusted state.
+
 `hallmark.registry_history` is a separate authoring database with a distinct
 application ID. `create_history` exclusively creates it from an independently
 pinned signed checkpoint. `append_history` compares the expected latest state,

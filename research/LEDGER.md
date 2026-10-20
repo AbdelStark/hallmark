@@ -493,7 +493,7 @@ The smallest fixture passed one-key-per-side rotation at sequence 1 with a
 664-byte signed transition. The committed corpus exercises two-key thresholds
 with one shared key and separate old/new role messages. Stored
 [source/config/environment hashes and numeric results](evidence/w09-registry-rotation-2026-10-20.json)
-before this entry: 96 new tests, 236 focused tests, 1,050 total tests through
+before this entry: 97 new tests, 237 focused tests, 1,051 total tests through
 `make check`, and a passing `make package-check`. The installed-wheel check retains
 old/new snapshots and transition bytes, invokes the actual registry-check CLI,
 reads back the committed state and rejects a replay. All commands used one
@@ -514,6 +514,11 @@ enrollment and changes that binding only with a dual-authorized rotation, in the
 same transaction as checkpoint state. An unrelated policy change requires owner
 re-enrollment. Early lint/type checks found line lengths, import order and one
 digest annotation; these were fixed before the recorded final gates.
+Final migration review added an atomic HMR1-to-HMR2 application-ID upgrade so
+older readers cannot ignore the trust binding. Executing the actual W08 reader
+confirmed it accepts the unbound checkpoint and rejects the upgraded checkpoint;
+the current reader accepts the committed result. Missing trust in HMR2 fails closed.
+The full local and installed-package gates were rerun on the corrected source.
 
 [Decision 0012](../docs/decisions/0012-registry-authoring-rotation.md) fixes signature
 role tags, activation, irreversible retirement, append-only local history, lazy
