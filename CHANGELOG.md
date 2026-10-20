@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Pin the full build dependency set, compare repeated wheel/sdist bytes and rebuild
+the wheel from its source archive. Add exact source/archive/dependency inventories,
+credential-pattern and archive safety checks, and installed core/train contracts.
+Run both Python matrices on Linux and macOS. Clarify public repository visibility
+while retaining unpublished packages and `LicenseRef-Proprietary`.
+
 Add bounded private POSIX event storage, random run IDs, strict event/attempt
 schemas and explicit single-retry retention. Check durable completion separately
 from stage completion, reject unsafe or tampered files and suppress external

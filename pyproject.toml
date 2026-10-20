@@ -1,11 +1,11 @@
 [build-system]
-requires = ["hatchling>=1.27,<2"]
+requires = ["hatchling==1.32.4", "packaging==26.3", "pathspec==1.1.1", "pluggy==1.7.0", "tomlkit==0.15.2", "trove-classifiers==2026.9.21.13"]
 build-backend = "hatchling.build"
 
 [project]
 name = "hallmark-research"
 version = "0.1.0"
-description = "Private research on transcript-bound, verifiable classifier decisions"
+description = "Research on transcript-bound, verifiable classifier decisions"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 license = "LicenseRef-Proprietary"
@@ -18,6 +18,7 @@ train = ["numpy>=2,<3", "scikit-learn>=1.6,<2"]
 hallmark = "hallmark.cli:main"
 
 [dependency-groups]
+build = ["hatchling==1.32.4", "packaging==26.3", "pathspec==1.1.1", "pluggy==1.7.0", "tomlkit==0.15.2", "trove-classifiers==2026.9.21.13"]
 dev = ["mypy>=1.15,<2", "pytest>=8.3,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
 
 [tool.hatch.build.targets.wheel]

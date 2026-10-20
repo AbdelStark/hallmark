@@ -1,7 +1,14 @@
-# Private research, no public licence
+# Research source, no open-source licence
 
-This repository is confidential. No open-source licence or permission to publish, redistribute, sublicense or use its contents outside authorized private research is granted by this initialization.
+The owner has made this repository public. No general open-source licence or
+additional permission to redistribute, sublicense or use its contents outside
+authorized research is granted by that visibility change.
 
-Ownership and the eventual release licence must be confirmed by the appropriate owner before distribution. Referenced third-party software, model weights and datasets retain their own licences and access conditions. Dependency installation does not grant rights to redistribute a checkpoint or dataset.
+Ownership and an eventual release licence must be confirmed by the appropriate
+owner before package distribution. Referenced third-party software, model weights
+and datasets retain their own licences and access conditions. Dependency
+installation does not grant rights to redistribute a checkpoint or dataset.
 
-`LicenseRef-Proprietary` in package metadata records this private status; it is not a claim that third-party material is owned by this project.
+`LicenseRef-Proprietary` remains the package licence identifier. It does not claim
+ownership of third-party material. See the [dependency inventory](docs/DEPENDENCIES.md)
+for recorded upstream metadata and notices; it is not release approval.

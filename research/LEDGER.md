@@ -682,3 +682,67 @@ six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39428839904)
 W31 exact-head hosted delivery is next. W32 still requires #14 policy/resource
 admission and #19 proof qualification, in addition to this storage foundation.
 Reassess #38 packaging and #39 traceability next; the full MVP remains incomplete.
+
+## 2026-10-20 — W37 reproducible packages and installed inventories
+
+Hypothesis: a reviewed source snapshot and fully pinned build environment can
+produce identical wheel/sdist bytes, rebuild the same wheel from the sdist and
+execute installed core/train contracts while rejecting inventory defects.
+Baseline: `5e23f44ca51a58760ff1c139c114b7db52c5c1c5`. A fresh baseline build
+passed and reported Hatchling 1.32.4, but the backend constraint and transitive
+build selections were not all exact. The existing package gate installed core
+only and checked selected archive filenames. Mutable paths were packaging
+configuration/scripts, CI, tests, inventory/licence evidence and related docs.
+The criterion was repeated byte equality under fixed inputs, exact safe archive
+inventories, real installed core/train checks, negative fixtures and full gates.
+
+Saved [source/environment hashes and raw numeric results](evidence/w37-reproducible-packages-2026-10-20.json)
+before this prose. All 58 new packaging tests and 16 training-gate regressions
+passed; the full gate passed 1,331 tests, lint, formatting, typing, docs and the
+unchanged 156-case W33 software conformance scope. `make package-check` passed
+in 5.036 seconds and `make package-check-train` in 23.968 seconds on the recorded
+local environment. These are command validation durations, not system performance
+measurements. Each gate compares two builds and a wheel rebuilt from the sdist.
+
+The two gates used source snapshot
+`73bbb8673857df59505fa944e0108f1505971204b2d1aec301d70c4fb445039b`,
+with the same wheel SHA-256
+`72c410bd17cc6075b6732b3f4399f10d0501c47430bef6e43abc9e04ba18ab3b`
+and sdist SHA-256
+`cf843cf16470b5baf2f07b9eff939324d87f86e519eb77e1adc0c8de6571bd19`.
+This is the captured candidate before this evidence/ledger entry; final-commit
+CI rebuilds and records its own source/artifact identities. It is not a release
+manifest. The six-package build environment and installed 10-package core and
+17-package train environments include exact selected archive and notice hashes.
+Core confirms scikit-learn is absent; train has no skip path and checks fit,
+caller-pinned replay and altered-result rejection from the extracted sdist.
+
+The first stricter archive check failed because Hatch included a parent
+`.gitignore` in the sdist. That directory and its hashes/logs remain retained.
+Empty VCS boundaries now stop ancestor exclusion discovery. A separate first
+installed-train attempt exceeded 20 seconds and remains retained; an unchanged
+diagnostic rerun passed. The final 45-second fixture timeout is within the existing
+60-second per-command budget. Negative tests cover malformed/duplicate/traversal
+members, links/nonregular files, size caps, source aliases, credentials, wheel
+RECORDs, missing/extra files, unequal hashes and stale build/dependency review pins.
+
+The [dependency metadata review](evidence/w37-dependencies-2026-10-20.json)
+matched all 518 locked artifact hashes for 32 packages against version-specific
+PyPI metadata. `mypy-extensions` lacked licence fields; its locked universal wheel
+was hash-verified and its MIT notice recorded. This is provenance and licence
+inventory, not a legal opinion, vulnerability audit or release approval. Full
+binary-wheel and bundled-component notices remain required for redistribution.
+
+[Decision 0016](../docs/decisions/0016-reproducible-packaging.md) fixes the gate;
+[PACKAGING](../docs/PACKAGING.md) gives commands and limits. Each invocation retains
+fresh private local outputs, including failures. Recognizable credential patterns
+are not a universal confidentiality detector. Build equality is scoped to recorded
+environments, not arbitrary OS/Python combinations or an immutable OS image.
+The repository stays public; `LicenseRef-Proprietary` and unpublished package
+status remain. Legacy runtimes, fixture identities and the frozen corpus are unchanged.
+
+W31 was merged in [PR #65](https://github.com/AbdelStark/hallmark/pull/65), with all
+six [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39432180583) passing.
+W37 exact-head hosted delivery on the expanded Linux/macOS matrix is next, then
+#39 spec traceability. Admission, real proof/hardware evidence, independent review
+and the complete MVP remain outstanding.

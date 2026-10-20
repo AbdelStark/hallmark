@@ -9,6 +9,7 @@ uv sync --locked --extra train
 make check
 make check-train
 make package-check
+make package-check-train
 ```
 
 Core tests do not require scikit-learn; the training marker may skip if the extra is absent.
@@ -19,7 +20,8 @@ every selected training test; skips, xfails/xpasses and collection/setup-only
 runs cannot pass. Plain `make check` retains the optional-training boundary.
 
 The supported interpreter matrix is CPython 3.12, 3.13 and 3.14, with 3.12 as
-the default local pin. CI runs core checks/package installation and a separate
+the default local pin. Linux and macOS run core/package and required-train/installed
+train gates on each version; see [reproducible packaging](PACKAGING.md). CI runs core checks/package installation and a separate
 required-training job on each interpreter. These are software fixture checks,
 not research results or hardware/proof integration.
 

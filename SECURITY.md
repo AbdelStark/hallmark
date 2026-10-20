@@ -1,6 +1,6 @@
 # Security and research limits
 
-This is private, pre-production research, not a security product or safety certification. There is no genuine TEE or ZK integration. Do not use baseline replay as a proof, or the marker classifier to make safety decisions.
+This is pre-production research in a public repository, not a security product or safety certification. There is no genuine TEE or ZK integration. Do not use baseline replay as a proof, or the marker classifier to make safety decisions.
 
 Report concerns privately to the repository owner through an existing approved private channel. Do not open a public issue or upload transcripts, model weights, secrets or exploit evidence to an external service. No new contact address or disclosure program is established here.
 
