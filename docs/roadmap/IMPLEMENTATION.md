@@ -1,32 +1,42 @@
 # Implementation Tracker — 2026-10-20
 
-Generated from the specification corpus in [PR #1](https://github.com/AbdelStark/hallmark/pull/1), pinned commit `ad058ad74a6dc23ae95cc523d7bf468a06d4c4ce`. Every v1 implementation deliverable is filed: 40 bounded work issues plus 10 RFC tracking issues. Implementation issues represent one contributor PR; trackers are dashboards. All are open. Closing an issue requires its acceptance evidence, not just merging code.
+Generated from the specification corpus in [PR #1](https://github.com/AbdelStark/hallmark/pull/1), pinned commit `ad058ad74a6dc23ae95cc523d7bf468a06d4c4ce`. Every v1 implementation deliverable is filed: 40 bounded work issues plus 10 RFC tracking issues. Implementation issues represent one contributor PR; trackers are dashboards. This tracker is updated as gates land. Closing an issue requires its acceptance evidence, not just merging code.
 
 The [machine-readable work map](work-items.json) contains exact scopes, tests, labels, milestones, dependencies and live URLs. The [source requirement disposition](../spec/11-requirements.md#source-requirement-disposition) maps original intent to this scope. Later extensions are explicitly excluded; genuine hardware, three classifier kinds and independent verification remain mandatory.
 
 ## Status and authority
 
-`blocked` labels identify prerequisite work or an unresolved owner gate. W13 can prepare its proposal now, but data/policy/resource admission awaits approval. W36 is blocked for hosted execution while the account prevents jobs from starting. Filing issues supplies no compute, data, sharing or release authority. Reviewer issues do not add collaborators or contact anyone.
+`blocked` labels identify prerequisite work or an unresolved owner gate. W13 can prepare its proposal now, but data/policy/resource admission awaits approval. W36 is merged; public hosted CI now executes successfully. The initial billing block is historical. Filing issues supplies no compute, data, sharing or release authority. Reviewer issues do not add collaborators or contact anyone.
 
 Local bootstrap checks: 29 tests, strict typing/lint/format, file links and installed distribution passed. [Raw corpus evidence](../../research/evidence/spec-bootstrap-2026-10-20.json) and [live publication audit](../../research/evidence/spec-publication-2026-10-20.json) record the scope. The initial hosted spec checks had no executed steps because of the account billing/spending-limit block; final-head status is attached to the PR. No billing settings were changed.
+
+Current dependency graph: 103 edges. W02 now depends on W05 for the typed external
+request expectation used by context hashing; the original 102-edge publication
+audit is preserved. Next sequence: W03 (#4), W04 (#5), W05 (#6), then W02 (#3).
+
+Merged delivery: [W01 evidence](../../research/evidence/w01-wire-2026-10-20.json),
+[W30 evidence](../../research/evidence/w30-errors-2026-10-20.json) and
+[W36 evidence](../../research/evidence/w36-ci-2026-10-20.json). The latest
+[main CI](https://github.com/AbdelStark/hallmark/actions/runs/39404113385) passed
+on `6b2a6acda5813ddcdf9d14554a99ada8ad2e6245`.
 
 ## Milestone: v0.2
 
 | # | Work | Title | Area | Priority | Effort | RFC | Status | Depends on |
 |---|---|---|---|---|---|---|---|---|
-| [#2](https://github.com/AbdelStark/hallmark/issues/2) | W01 | wire: implement strict v1 encoding and domain-separated identities | wire | p0 | m | 0001 | Open | None |
-| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
-| [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
-| [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
+| [#2](https://github.com/AbdelStark/hallmark/issues/2) | W01 | wire: implement strict v1 encoding and domain-separated identities | wire | p0 | m | 0001 | Merged; PR #52 | None |
+| [#3](https://github.com/AbdelStark/hallmark/issues/3) | W02 | wire: implement transcript and complete-input opening contracts | wire | p0 | m | 0001, 0003 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
+| [#4](https://github.com/AbdelStark/hallmark/issues/4) | W03 | wire: add immutable model and generation manifest schemas | wire | p0 | s | 0001, 0006 | Local gates passed; hosted delivery pending | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
+| [#5](https://github.com/AbdelStark/hallmark/issues/5) | W04 | wire: add classifier and numerical profile manifest schemas | wire | p0 | m | 0001, 0003, 0005 | Open | [#2](https://github.com/AbdelStark/hallmark/issues/2) |
 | [#6](https://github.com/AbdelStark/hallmark/issues/6) | W05 | wire: add policy and external request expectation schemas | wire | p0 | s | 0001, 0007 | Open; blocked | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5) |
 | [#7](https://github.com/AbdelStark/hallmark/issues/7) | W06 | wire: add receipt, epoch and proof artifact schemas | wire | p0 | m | 0001, 0005, 0006 | Open; blocked | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#8](https://github.com/AbdelStark/hallmark/issues/8) | W07 | wire: add bounded offline bundle and result schemas | wire | p0 | m | 0001, 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7) |
 | [#9](https://github.com/AbdelStark/hallmark/issues/9) | W08 | registry: implement external trust and rollback-safe enrollment | registry | p0 | m | 0002 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6) |
 | [#10](https://github.com/AbdelStark/hallmark/issues/10) | W09 | registry: sign snapshots and implement rotation and retirement | registry | p0 | m | 0002 | Open; blocked | [#9](https://github.com/AbdelStark/hallmark/issues/9) |
 | [#14](https://github.com/AbdelStark/hallmark/issues/14) | W13 | research: prepare the single-policy data and resource admission | research | p0 | m | 0004, 0006, 0008 | Open; blocked | None |
-| [#31](https://github.com/AbdelStark/hallmark/issues/31) | W30 | operations: add typed errors and redact all trust-boundary failures | operations | p0 | m | 0008 | Open | None |
+| [#31](https://github.com/AbdelStark/hallmark/issues/31) | W30 | operations: add typed errors and redact all trust-boundary failures | operations | p0 | m | 0008 | Merged; PR #53 | None |
 | [#34](https://github.com/AbdelStark/hallmark/issues/34) | W33 | conformance: freeze v1 golden and adversarial evidence corpus | conformance | p0 | m | 0001, 0009 | Open; blocked | [#2](https://github.com/AbdelStark/hallmark/issues/2), [#3](https://github.com/AbdelStark/hallmark/issues/3), [#4](https://github.com/AbdelStark/hallmark/issues/4), [#5](https://github.com/AbdelStark/hallmark/issues/5), [#6](https://github.com/AbdelStark/hallmark/issues/6), [#7](https://github.com/AbdelStark/hallmark/issues/7), [#8](https://github.com/AbdelStark/hallmark/issues/8), [#9](https://github.com/AbdelStark/hallmark/issues/9), [#10](https://github.com/AbdelStark/hallmark/issues/10), [#31](https://github.com/AbdelStark/hallmark/issues/31) |
-| [#37](https://github.com/AbdelStark/hallmark/issues/37) | W36 | delivery: enforce core, train and gated integration CI | delivery | p1 | m | 0010 | Open; blocked | None |
+| [#37](https://github.com/AbdelStark/hallmark/issues/37) | W36 | delivery: enforce core, train and gated integration CI | delivery | p1 | m | 0010 | Merged; PR #54 | None |
 | [#38](https://github.com/AbdelStark/hallmark/issues/38) | W37 | delivery: make private builds reproducible and verify inventories | delivery | p1 | m | 0010 | Open | None |
 | [#39](https://github.com/AbdelStark/hallmark/issues/39) | W38 | delivery: enforce spec traceability and contributor documentation | delivery | p2 | m | 0010 | Open | None |
 
@@ -49,7 +59,7 @@ Local bootstrap checks: 29 tests, strict typing/lint/format, file links and inst
 | [#24](https://github.com/AbdelStark/hallmark/issues/24) | W23 | hardware: bind loaded model and protected response path | hardware | p0 | l | 0006 | Open; blocked | [#4](https://github.com/AbdelStark/hallmark/issues/4), [#23](https://github.com/AbdelStark/hallmark/issues/23) |
 | [#25](https://github.com/AbdelStark/hallmark/issues/25) | W24 | hardware: gate release with all enrolled integer classifiers | hardware | p0 | m | 0006, 0007 | Open; blocked | [#6](https://github.com/AbdelStark/hallmark/issues/6), [#11](https://github.com/AbdelStark/hallmark/issues/11), [#12](https://github.com/AbdelStark/hallmark/issues/12), [#13](https://github.com/AbdelStark/hallmark/issues/13), [#24](https://github.com/AbdelStark/hallmark/issues/24), [#26](https://github.com/AbdelStark/hallmark/issues/26) |
 | [#26](https://github.com/AbdelStark/hallmark/issues/26) | W25 | receipts: implement bounded encrypted proof spool and recovery | receipts | p0 | m | 0007 | Open; blocked | [#7](https://github.com/AbdelStark/hallmark/issues/7), [#14](https://github.com/AbdelStark/hallmark/issues/14), [#23](https://github.com/AbdelStark/hallmark/issues/23) |
-| [#32](https://github.com/AbdelStark/hallmark/issues/32) | W31 | operations: add bounded local events and immutable failure records | operations | p1 | s | 0008 | Open; blocked | [#31](https://github.com/AbdelStark/hallmark/issues/31) |
+| [#32](https://github.com/AbdelStark/hallmark/issues/32) | W31 | operations: add bounded local events and immutable failure records | operations | p1 | s | 0008 | Open | [#31](https://github.com/AbdelStark/hallmark/issues/31) |
 | [#33](https://github.com/AbdelStark/hallmark/issues/33) | W32 | operations: measure full-path cost with raw samples and caps | operations | p1 | m | 0005, 0008 | Open; blocked | [#14](https://github.com/AbdelStark/hallmark/issues/14), [#19](https://github.com/AbdelStark/hallmark/issues/19), [#32](https://github.com/AbdelStark/hallmark/issues/32) |
 
 ## Milestone: v1.0

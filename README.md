@@ -1,10 +1,15 @@
 # Hallmark
 
-Private research on transcript-bound classifier verdicts. The intended system pairs hardware-attested model provenance with independently verifiable classifier computation. A classifier pass is a result under a fixed policy, not evidence of safety in the world.
+Research on transcript-bound classifier verdicts. The intended system pairs hardware-attested model provenance with independently verifiable classifier computation. A classifier pass is a result under a fixed policy, not evidence of safety in the world.
 
 ## Implemented now
 
 An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, signed registry, ZK proof, encoder fine-tune or safety benchmark is implemented or claimed.
+
+The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
+binds ordered files, architecture, tokenizer, template, runtime and greedy generation
+settings. Explicit rooted file checks reject links and mismatches. This does not
+load a model or attest to execution; [schema and limits](docs/decisions/0005-model-manifests.md).
 
 ## Run
 
@@ -44,4 +49,5 @@ The existing hybrid design is preserved in the [source packet](research/source/R
 
 `make check` runs lock, formatting, lint, strict typing, tests and local documentation-link checks. `make package-check` builds wheel/sdist and checks installed CLI/type metadata. Default tests are offline. Training is an optional extra; encoder/prover/hardware work belongs to separately admitted experiments. No automatic model downloads, hosted telemetry, paid compute or open-ended agent loop.
 
-Private initialization is not an open-source release. [Licence status](LICENSE.md), [contributing](CONTRIBUTING.md), [security and evidence boundaries](SECURITY.md).
+Public repository visibility does not change the current [licence status](LICENSE.md).
+See [contributing](CONTRIBUTING.md) and [security and evidence boundaries](SECURITY.md).

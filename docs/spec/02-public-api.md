@@ -45,8 +45,24 @@ hard limits. Nesting counts containers (including empty ones); item count includ
 containers, leaves and map keys. Both encode and decode enforce these bounds.
 Limits are resource policy, not part of an artifact's identity.
 
-This value decoder validates canonical bytes, not an artifact schema or authenticity.
-Schema dispatch and the following artifact interfaces remain targets. Their types are
+`hallmark.manifests` implements `ModelManifest`, `FileRef`, `GenerationConfig`,
+`ArtifactDigest` and `FileSHA256`. The frozen model offers:
+
+```python
+ModelManifest.decode(raw: bytes, *, limits: WireLimits = DEFAULT_LIMITS) -> ModelManifest
+model.encode(*, limits: WireLimits = DEFAULT_LIMITS) -> bytes
+model.identity() -> ArtifactDigest
+verify_model_files(model: ModelManifest, root: Path, *, max_bytes: int) -> None
+```
+
+Model decoding validates both canonical bytes and the exact schema without opening
+files. Its identity binds every field. The separate file check needs an explicit
+root and byte budget; it does not load a model or confer trust. See
+[model manifest decision](../decisions/0005-model-manifests.md) for path rules,
+platform and concurrency limits, and the JSON projection.
+
+The primitive value decoder alone does not validate an artifact schema or authenticity.
+Generic schema dispatch and the following artifact interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
 
 ```python

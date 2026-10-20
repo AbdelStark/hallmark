@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Add immutable v1 model, file-reference and greedy generation contracts, a fixed
+CBOR/hash vector and JSON schema snapshot. Bind all execution-relevant fields in
+the model identity. Explicit rooted file checks reject links, nonregular files,
+duplicate filesystem aliases and mismatches within a caller's byte budget.
+No model loading, hardware evidence or enrollment is supplied.
+
 Require actual training-test execution in the train CI job; skips and incomplete
 execution now fail `make check-train`. Check core/package and training separately
 on CPython 3.12, 3.13 and 3.14. Keep CI read-only without privileged integration

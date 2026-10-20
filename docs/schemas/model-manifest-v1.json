@@ -1,0 +1,134 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "GenerationConfig": {
+      "additionalProperties": false,
+      "description": "Only deterministic greedy generation is specified by v1.",
+      "properties": {
+        "max_new_tokens": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Max New Tokens",
+          "type": "integer"
+        },
+        "sampling": {
+          "const": "greedy",
+          "title": "Sampling",
+          "type": "string"
+        },
+        "seed": {
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_new_tokens",
+        "sampling",
+        "seed"
+      ],
+      "title": "GenerationConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Frozen v1 model record; its identity binds every field, not its provenance.",
+  "properties": {
+    "architecture": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Architecture",
+      "type": "string"
+    },
+    "chat_template": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Chat Template",
+      "type": "string"
+    },
+    "files": {
+      "description": "Strictly increasing, unique path order.",
+      "items": {
+        "$ref": "#/$defs/FileRef"
+      },
+      "maxItems": 4096,
+      "minItems": 1,
+      "title": "Files",
+      "type": "array"
+    },
+    "generation": {
+      "$ref": "#/$defs/GenerationConfig"
+    },
+    "numerical_mode": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Numerical Mode",
+      "type": "string"
+    },
+    "runtime": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Runtime",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/model/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "tokenizer": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Tokenizer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "files",
+    "architecture",
+    "tokenizer",
+    "chat_template",
+    "runtime",
+    "numerical_mode",
+    "generation"
+  ],
+  "title": "ModelManifest",
+  "type": "object"
+}

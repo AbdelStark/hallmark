@@ -1,0 +1,99 @@
+{
+  "schema_id": "hallmark/implementation-evidence/1",
+  "date": "2026-10-20",
+  "work_item": "W03",
+  "issue": "https://github.com/AbdelStark/hallmark/issues/4",
+  "baseline_commit": "6b2a6acda5813ddcdf9d14554a99ada8ad2e6245",
+  "source_sha256": {
+    "src/hallmark/manifests.py": "0f031d43e5a39ff931bf8cf3bb14ef6121dc48e8bf1ad83a870f014d17b215c4",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/test_manifests.py": "d75f7b0f230bfc8fccaaf0e421bf584293b89d5565268107313e5e05af58041c",
+    "scripts/check_package.py": "557abb3294e11e381bc1e5ba4f1d6f5c8abb404e2000b2447a6c8d579e25a579",
+    "fixtures/wire/model-manifest-v1.json": "b1b4627a9e6245ce967993c2faf76c787e5ba93299facfb7e6c7d77df4f5815a",
+    "docs/schemas/model-manifest-v1.json": "4c7339aceb6e1c03ba03059e1b774f7ace2f413fd32777d2a9eeb439afcf9b98",
+    "pyproject.toml": "e0c985bdb9272814ec0553e9344be7cedc4e018a4ca742601363c5e9b5f60d12",
+    "uv.lock": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156",
+    "configs/fixture.json": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+    "fixtures/smoke.jsonl": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7"
+  },
+  "environment": {
+    "python": "3.12.12",
+    "system": "Darwin",
+    "machine": "arm64",
+    "packages": {
+      "pydantic": "2.14.1",
+      "cbor2": "5.9.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "baseline": {
+    "command": "uv run --locked pytest tests/test_wire.py -q",
+    "passed": 108,
+    "exit_code": 0
+  },
+  "focused": {
+    "command": "uv run --locked pytest tests/test_manifests.py -q --tb=short",
+    "passed": 128,
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "phase": "check",
+      "command": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.088,
+      "output_sha256": "ade2e50a7e6c7a25b06df0a9a2141fd19ed62603bfec7a797c973020bd0f0db4",
+      "pytest_summaries": [
+        "============================= 333 passed in 5.49s =============================="
+      ]
+    },
+    {
+      "phase": "package",
+      "command": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.066,
+      "output_sha256": "485f0135e2994be72687a5470cfbcc1fbb66e977a459c8d3d8d719c503f43e8f",
+      "pytest_summaries": []
+    }
+  ],
+  "full_tests": {
+    "passed": 333,
+    "skipped": 0,
+    "training_extra_present": true
+  },
+  "golden": {
+    "file_content_bytes": 3,
+    "encoded_bytes": 351,
+    "identity": "86f1ab9656bdc1e423f2358547505bc4477eaa017eb524971a4c178a62fb7d38",
+    "independent_implementation_review": false
+  },
+  "retained_development_failures": [
+    {
+      "phase": "initial vector setup",
+      "reason": "Manual before-validation conversion of JSON file list lost nested strict-byte decoding. Removed manual conversion and used the bounded tuple field.",
+      "setup_errors": 50,
+      "passed_before_setup_errors": 56
+    },
+    {
+      "phase": "focused lint",
+      "reason": "B905 adjacent zip needed explicit strict=False; B023 test closure needed binding the loop variable. Fixed before full gates.",
+      "errors": 2
+    }
+  ],
+  "evidence_class": "software-fixture-validation",
+  "not_established": [
+    "enrollment or owner adoption of the wire profile",
+    "model loading or protected inference",
+    "real-data classifier quality",
+    "hardware provenance",
+    "ZK proof",
+    "independent verifier agreement"
+  ]
+}

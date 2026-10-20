@@ -12,8 +12,12 @@ The implemented primitive `hallmark.wire.WireValue` is `None | bool | int | byte
 str | list[WireValue] | dict[str, WireValue]`. Integers are bounded to
 `[-2^63, 2^64-1]`, strings are strict UTF-8 with no normalization, and containers use
 the [codec resource limits](02-public-api.md#v1-supported-interfaces). The artifact
-schemas below remain implementation targets; primitive decoding does not validate
-their fields, versions or cross-field invariants.
+schemas below remain implementation targets except `ModelManifest`, `FileRef` and
+`GenerationConfig`, implemented in [manifests.py](../../src/hallmark/manifests.py).
+Primitive decoding does not validate fields, versions or cross-field invariants.
+The [model JSON schema](../schemas/model-manifest-v1.json) is a hex-byte projection;
+the [manifest decision](../decisions/0005-model-manifests.md) defines the executable
+path checks, nested records and file-inspection boundary.
 
 Notation below is a normative schema algebra, not executable Python. `B32` is exactly 32 bytes; `Digest=B32`; `U64` is integer 0 through 2^64−1 excluding booleans; `I32` is signed int32; `Id` is the existing restricted ASCII Identifier; `Text` is strict UTF-8. `Vec[T,n]` has exactly n elements, `List[T,a..b]` is bounded, and `Optional[T]` is T or null. Every map has the listed fields only. Each top-level artifact carries `schema_id: Id` with its specific `hallmark/<kind>/1` value. All digest identities use RFC-0001.
 
