@@ -43,6 +43,17 @@ def main(argv: list[str] | None = None) -> int:
     predict = sub.add_parser("predict", help="integer baseline prediction on a local text file")
     predict.add_argument("model", type=Path)
     predict.add_argument("text_file", type=Path)
+    registry = sub.add_parser(
+        "registry-check", help="verify and persist external registry enrollment"
+    )
+    registry.add_argument("snapshot", type=Path)
+    registry.add_argument("--trust", type=Path, required=True)
+    registry.add_argument("--state", type=Path, required=True)
+    registry.add_argument("--now", type=int, required=True)
+    registry.add_argument("--history", type=Path, nargs="*", default=[])
+    registry.add_argument("--old-trust", type=Path)
+    registry.add_argument("--transition", type=Path)
+    registry.add_argument("--previous", type=Path)
     stage: Stage = "parse"
     result: dict[str, Any]
     try:
@@ -56,6 +67,19 @@ def main(argv: list[str] | None = None) -> int:
             result = {"manifest_sha256": run_experiment(args.config, args.output)}
         elif args.command == "audit-run":
             result = audit_run(args.run_directory, args.dataset, args.expected_manifest)
+        elif args.command == "registry-check":
+            from hallmark.registry_cli import check_registry
+
+            result = check_registry(
+                args.snapshot,
+                args.trust,
+                args.state,
+                args.now,
+                history_paths=tuple(args.history),
+                old_trust_path=args.old_trust,
+                transition_path=args.transition,
+                previous_path=args.previous,
+            )
         else:
             from hallmark.integrity import read_bytes
 

@@ -79,6 +79,14 @@ proofs, caller limits and status/claim consistency. Openings remain separate,
 including rejection of canonical private records embedded as files. These are
 container/report checks; a decoded accepted flag is not verified evidence.
 
+W09 / issue #10 adds caller-owned snapshot signing, immutable local history,
+irreversible retirement, dual-authorized key transitions and `registry-check`.
+Its [evidence](evidence/w09-registry-rotation-2026-10-20.json) records 97 new tests,
+1,051 total local tests, two schemas and an installed-wheel rotation/CLI fixture.
+The checkpoint now retains the external trust digest atomically, rejecting old
+policy reuse after rotation. Failure and process-exit tests preserve prior state
+and history. All keys are public fixtures; operational custody remains unapproved.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -113,9 +121,12 @@ passing on `774887d0e40b82459d4f7ca8657400d9905577ad`.
 W08 / #9 is merged in [PR #60](https://github.com/AbdelStark/hallmark/pull/60), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39416596651)
 passing on `866d36a69762104847f1ded8253829a4e11dd786`.
-W07 / #8 is locally validated; exact-head hosted delivery is next. Then implement
-#10 registry authoring/rotation and #12 integer MLP runtime against their actual
-prerequisites. The current work map has 106 dependency edges, including W04's reuse
+W07 / #8 is merged in [PR #61](https://github.com/AbdelStark/hallmark/pull/61), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39419869358)
+passing on `302a861043636094295c4dc06832e4a8c06afe87`.
+W09 / #10 is locally validated; exact-head hosted delivery is next. Its completion
+unblocks #34's golden/adversarial corpus. Then implement #12 integer MLP runtime
+against its actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies
 before #32 events, #38 reproducible packaging and #39 spec traceability. Research,

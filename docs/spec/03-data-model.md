@@ -18,7 +18,7 @@ schemas below remain implementation targets except `ModelManifest`, `FileRef`,
 `ReceiptBody`, `SignedReceipt`, `EpochRecord`, `ProofArtifact`, `RegistryBody`,
 `RegistryEntry`, `RegistrySignature`, `SignedRegistry`, `TrustPolicy`, `Limits`,
 `RegistryState`, `Bundle`, `EmbeddedFile`, `ResponseEnvelope`, `BundleStatus`,
-`Claim` and `VerificationResult`, implemented in
+`Claim`, `VerificationResult`, `RegistryTransition` and `SignedTransition`, implemented in
 [manifests.py](../../src/hallmark/manifests.py) and
 [classifier_manifest.py](../../src/hallmark/classifier_manifest.py), with
 [policy/request contracts](../../src/hallmark/policy.py) and
@@ -26,6 +26,7 @@ schemas below remain implementation targets except `ModelManifest`, `FileRef`,
 [receipt/evidence containers](../../src/hallmark/receipts.py) and
 [registry enrollment](../../src/hallmark/enrollment.py), with
 [offline bundle and result contracts](../../src/hallmark/bundles.py).
+Key-transition records are in [registry.py](../../src/hallmark/registry.py).
 `Enrollment` is an in-process verified result, with no wire decoder or public constructor.
 Primitive decoding does not validate fields, versions or cross-field invariants.
 The [model JSON schema](../schemas/model-manifest-v1.json) is a hex-byte projection;
@@ -45,6 +46,9 @@ history, trust limits, process-local admission and atomic checkpoint persistence
 The [bundle contract decision](../decisions/0011-offline-bundle-contracts.md)
 defines exact embedded-file checks, private opening separation, total resource
 limits and the distinction between reported results and verified evidence.
+The [registry authoring decision](../decisions/0012-registry-authoring-rotation.md)
+defines immutable entry metadata, irreversible retirement, dual-authorized
+transition signatures, retained history and persistent trust binding.
 
 Notation below is a normative schema algebra, not executable Python. `B32` is exactly 32 bytes; `Digest=B32`; `U64` is integer 0 through 2^64−1 excluding booleans; `I32` is signed int32; `Id` is the existing restricted ASCII Identifier; `Text` is strict UTF-8. `Vec[T,n]` has exactly n elements, `List[T,a..b]` is bounded, and `Optional[T]` is T or null. Every map has the listed fields only. Each top-level artifact carries `schema_id: Id` with its specific `hallmark/<kind>/1` value. All digest identities use RFC-0001.
 
@@ -78,6 +82,14 @@ Notation below is a normative schema algebra, not executable Python. `B32` is ex
 `Limits={bundle_bytes:U64≤67108864, proof_bytes:U64≤16777216, nesting:U64≤16, verify_seconds:U64≤60, worker_memory_bytes:U64}`; fields must be positive and no caller can exceed implementation hard limits. `JobBudget={protocol:Digest, host:Id, max_seconds:U64, max_memory_bytes:U64, threads:U64, max_jobs:U64}` requires a separately approved protocol for non-bootstrap work.
 
 `RegistryState={sequence:U64, digest:Digest}` is trusted local rollback state, persisted atomically. `Enrollment={registry:Digest, state:RegistryState, trust:Digest, admitted:List[RegistryEntry,1..4096]}` is created only by verified enrollment.
+
+`RegistryTransition={schema_id:"hallmark/registry-transition/1", old_trust:Digest,
+new_trust:Digest, old_keys:List[Digest,1..16], new_keys:List[Digest,1..16],
+activation_sequence:U64>=1, previous:Digest, reason:Id, review:Digest}` binds both
+external policies and the exact activation link. Key ID lists are sorted/unique.
+`SignedTransition={schema_id:"hallmark/signed-transition/1", body:RegistryTransition,
+old_signatures:List[RegistrySignature,1..16], new_signatures:List[RegistrySignature,1..16]}`.
+Both thresholds are independently required. Decoding is not authorization.
 
 `VerificationResult={schema_id:"hallmark/verification-result/1", accepted:bool, mode:Literal["B1","B2"], claim_a:Claim, claim_b:Claim, policy_pass:Optional[bool], codes:List[Id,0..64], evidence:List[Digest,0..8192]}`. `Claim={status:Literal["accepted","rejected","not-accepted"], strength:Literal["hardware-attested","cryptographic","none"], assumptions:List[Id,0..64], residuals:List[Id,1..64]}`. `BundleStatus={receipt_id:Digest, state:Literal["pending","ready","blocked","failed","expired"], bundle:Optional[FileRef], error:Optional[Id]}`.
 

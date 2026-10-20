@@ -33,6 +33,11 @@ The owner provisions trusted keys and accepted artifact identities through an ex
 
 Rotation requires a new externally enrolled `TrustPolicy` and a transition record containing old/new key IDs, activation sequence, reason and both key-set authorizations. Compromised-key emergency recovery requires owner re-enrollment, never acceptance of an unsigned replacement. The registry authoring utility refuses changed content under an existing digest and preserves all prior snapshots.
 
+[Decision 0012](../decisions/0012-registry-authoring-rotation.md) implements the
+transition schemas, separate old/new signature tags, irreversible retirement,
+local retained history and atomic checkpoint/trust updates. The offline
+`registry-check` CLI is available; operational roots remain unenrolled.
+
 A local append-only history is a review log, not a globally witnessed transparency log. Equivocation can be detected by comparing different signed roots at the same sequence; this POC does not prevent a malicious registry from splitting views. Artifact URIs, if present in human documentation, are retrieval hints only; the verifier opens only embedded or explicitly supplied files checked by digest.
 
 ## Alternatives Considered

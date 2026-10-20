@@ -152,22 +152,29 @@ class SignedRegistry(_Record):
         if type(trust) is not TrustPolicy:
             raise HallmarkError("TRUST_MISSING", "enroll")
         signed, trust = self._validated(), trust._validated()
-        keys = {H("key", key): key for key in trust.registry_keys}
-        message = signed.body.signing_bytes()
-        if len(signed.signatures) < trust.signature_threshold:
-            raise HallmarkError("SIGNATURE_INVALID", "enroll")
-        for signature in signed.signatures:
-            if signature.key_id not in keys:
-                raise HallmarkError("SIGNATURE_INVALID", "enroll")
-            try:
-                Ed25519PublicKey.from_public_bytes(keys[signature.key_id]).verify(
-                    signature.signature, message
-                )
-            except (InvalidSignature, UnsupportedAlgorithm, ValueError):
-                break
-        else:
-            return
+        _verify_signatures(signed.signatures, signed.body.signing_bytes(), trust)
+
+
+def _verify_signatures(
+    signatures: tuple[RegistrySignature, ...], message: bytes, trust: TrustPolicy
+) -> None:
+    keys = {H("key", key): key for key in trust.registry_keys}
+    if not trust.signature_threshold <= len(signatures) <= 16 or len(
+        {signature.key_id for signature in signatures}
+    ) != len(signatures):
         raise HallmarkError("SIGNATURE_INVALID", "enroll")
+    for signature in signatures:
+        if signature.key_id not in keys:
+            raise HallmarkError("SIGNATURE_INVALID", "enroll")
+        try:
+            Ed25519PublicKey.from_public_bytes(keys[signature.key_id]).verify(
+                signature.signature, message
+            )
+        except (InvalidSignature, UnsupportedAlgorithm, ValueError):
+            break
+    else:
+        return
+    raise HallmarkError("SIGNATURE_INVALID", "enroll")
 
 
 class RegistryState(_Record):

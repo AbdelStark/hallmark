@@ -169,6 +169,51 @@ path, never infer a checkpoint from a bundle, and return only after a verified
 update commits. See [semantics and limits](../decisions/0010-external-enrollment.md)
 and [provisioning](../OPERATIONS.md#external-registry-checkpoint-provisioning).
 
+`hallmark.registry` implements explicit authoring and key transitions:
+
+```python
+sign_snapshot(body: RegistryBody, trust: TrustPolicy,
+              keys: tuple[Ed25519PrivateKey, ...]) -> SignedRegistry
+next_snapshot(previous: RegistryBody, entries: tuple[RegistryEntry, ...],
+              *, issued_at: int, expires_at: int) -> RegistryBody
+validate_successor(previous: RegistryBody, candidate: RegistryBody) -> None
+transition.verify(old: TrustPolicy, new: TrustPolicy, state: RegistryState) -> None
+sign_transition(body: RegistryTransition, old: TrustPolicy, new: TrustPolicy,
+                state: RegistryState, *, old_keys: tuple[Ed25519PrivateKey, ...],
+                new_keys: tuple[Ed25519PrivateKey, ...]) -> SignedTransition
+enroll_transition(snapshot: SignedRegistry, transition: SignedTransition,
+                  old: TrustPolicy, new: TrustPolicy, state: RegistryState,
+                  now: int, *, previous: SignedRegistry) -> Enrollment
+```
+
+`RegistryTransition` and `SignedTransition` have checked `encode`/`decode` and JSON
+schema snapshots. The body exposes `signing_bytes("old" | "new")`; each role has
+a distinct signature domain. Signing never creates keys or adopts a trust policy.
+`registry_store.rotate_and_store(path, snapshot, transition, old, new,
+expected_state, now, *, previous)` commits the transition and checkpoint together.
+The checkpoint store now remembers its external trust digest on first successful
+enrollment; ordinary enrollment cannot silently replace that policy.
+
+`hallmark.registry_history` provides `create_history(path, snapshot, trust,
+external_state, now)`, `append_history(path, snapshot, trust, expected_state, now,
+*, transition=None, old_trust=None)`, `read_snapshot(path, state)` and
+`read_transition(path, state)`. It retains exact snapshots and authorizations
+in a separate local database. See [rotation, retirement and store semantics](../decisions/0012-registry-authoring-rotation.md).
+
+The implemented v1 command is:
+
+```text
+hallmark registry-check SNAPSHOT --trust TRUST --state STATE --now SECONDS [--history FILE ...]
+```
+
+For one rotation, replace `--history` with all three flags `--old-trust OLD`,
+`--transition TRANSITION` and `--previous PREVIOUS`. Inputs are canonical CBOR;
+STATE is an already provisioned local SQLite checkpoint. Success emits only
+`{schema_id:"hallmark/registry-check/1", registry:hex32, sequence:U64,
+trust:hex32, checked_at:U64}` after persistence. It makes no receipt/proof claim.
+The [operating guide](../OPERATIONS.md#registry-authoring-and-key-rotation) includes
+an offline public-fixture command and the operational enrollment gate.
+
 `hallmark.bundles` implements the offline containers and reported results:
 
 ```python
@@ -216,11 +261,10 @@ Protocol functions accept admitted immutable values, never implicit trust from t
 ```text
 hallmark verify BUNDLE --trust TRUST --expected REQUEST [--opening OPENING]
 hallmark inspect BUNDLE
-hallmark registry-check SNAPSHOT --trust TRUST --state STATE
 hallmark qualify PROTOCOL --output FRESH_DIRECTORY
 ```
 
-`verify` writes one versioned `VerificationResult` JSON document, exits 0 only if the caller's required claims and policy pass, 1 on a validly parsed but rejected claim, 2 on invalid input/configuration, and 3 on unavailable/failed execution. `inspect` outputs bounded identifiers and evidence presence with `verified:false`; it must not infer authenticity. `registry-check` advances local enrollment state only after full verification and atomic persistence. `qualify` requires a preapproved resource protocol.
+`verify` writes one versioned `VerificationResult` JSON document, exits 0 only if the caller's required claims and policy pass, 1 on a validly parsed but rejected claim, 2 on invalid input/configuration, and 3 on unavailable/failed execution. `inspect` outputs bounded identifiers and evidence presence with `verified:false`; it must not infer authenticity. These commands remain targets; `registry-check` is implemented above. `qualify` requires a preapproved resource protocol.
 
 The gateway is a local/controlled-host library boundary, not a general hosted API:
 
