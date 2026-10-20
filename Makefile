@@ -1,4 +1,4 @@
-.PHONY: check test package-check smoke
+.PHONY: check check-train test package-check smoke
 
 check:
 	uv lock --check
@@ -10,6 +10,9 @@ check:
 
 test:
 	uv run --locked pytest
+
+check-train:
+	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 uv run --locked --extra train pytest -m train --require-train
 
 smoke:
 	uv run --locked hallmark validate-data fixtures/smoke.jsonl

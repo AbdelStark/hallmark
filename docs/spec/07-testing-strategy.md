@@ -4,7 +4,17 @@
 
 `make check` validates the lock, formatting/lint, strict source typing, offline tests and local Markdown file links. `make package-check` builds and checks wheel/sdist plus an isolated installed CLI. The existing reference test compares 300 seeded ASCII examples to histogram arithmetic; it is useful software evidence, not an independent verifier.
 
-Core-only checks may skip the optional training test. The explicit train-extra job must execute it with one BLAS/OpenMP thread. Local macOS results do not substitute for Linux hosted execution. Hosted checks blocked before steps run are recorded as unavailable.
+Core-only checks may skip the optional training test. `make check-train` invokes
+the train extra with one BLAS/OpenMP thread and `--require-train`. Every selected
+training test must complete all three pytest phases successfully; zero selection,
+skips, xfail/xpass and collection/setup-only execution fail. Negative subprocess
+fixtures in `tests/test_train_gate.py` exercise the guard independently of the
+training dependencies.
+
+Core/package and required-train CI jobs cover CPython 3.12, 3.13 and 3.14 on Linux.
+Local macOS results do not substitute for Linux hosted execution. Hosted checks
+blocked before steps run are recorded as unavailable. CI has no privileged
+integration job; see [operations](../OPERATIONS.md#local-gates) for that boundary.
 
 ## Required layers
 

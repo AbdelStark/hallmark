@@ -18,6 +18,13 @@ filesystem/Unicode and child-process errors. Its
 52 privacy tests, 189 total local tests and an installed CLI error check.
 Historical run artifacts remain unchanged; versioned events are still W31.
 
+W36 / issue #37 adds `make check-train` and a required-execution pytest guard.
+The [evidence](evidence/w36-ci-2026-10-20.json) records 16 guard tests and fresh
+CPython 3.12/3.13/3.14 environments: each core gate passed 204 tests with one
+legitimate optional-training skip, each package gate passed, and each guarded
+train gate executed and passed its training test. CI now covers all three
+versions for both core/package and training, with no privileged integration job.
+
 ## Not implemented or established
 
 TEE evidence, authenticated registry, ZK proving/verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -29,13 +36,13 @@ The [proposed v1 corpus](../SPEC.md) defines the full hybrid POC, with 10 draft 
 Local Python 3.12 train-enabled and Python 3.13 core-only baseline gates pass, including isolated wheel checks. Earlier private hosted runs could not start because of an account billing/spending-limit block. After the owner made the repository public, hosted [run 39398412605](https://github.com/AbdelStark/hallmark/actions/runs/39398412605) passed on `48f2d7066b62a42f971cd10dbbc2cdbae720b82e`. Each implementation PR still needs checks on its own commit. Billing settings were not changed.
 
 The owner requested autonomous implementation through `.agents/harness/goal.md`,
-sequentially with one issue per PR. #2 is merged in [PR #52](https://github.com/AbdelStark/hallmark/pull/52);
-its merge-commit [CI run](https://github.com/AbdelStark/hallmark/actions/runs/39401155509)
-passed. After #31 error privacy, the engineering queue is #37 CI enforcement
-(reassess its stale billing blocker),
-#38 reproducible packaging, #39 spec traceability; re-evaluate the dependency queue
-after each delivery. Research, real proofs, genuine hardware and independent
-verification remain required for the full MVP.
+sequentially with one issue per PR. #2 is merged in [PR #52](https://github.com/AbdelStark/hallmark/pull/52)
+and #31 in [PR #53](https://github.com/AbdelStark/hallmark/pull/53); both merge-commit
+CI runs passed. The historical billing blocker was removed from #37 after
+verifying hosted execution. After #37, prioritize the newly unblocked contract
+issues #3, #4 and #5, then re-evaluate dependencies before #32 events,
+#38 reproducible packaging and #39 spec traceability. Research, real proofs,
+genuine hardware and independent verification remain required for the full MVP.
 
 Next: [W13 / issue #14](https://github.com/AbdelStark/hallmark/issues/14), prepare an admission proposal for exactly one policy/use case: relying party, approved data/licence inventory, group split and power, fixed candidate roster, success/failure criteria and resource budget. The draft proposes one English single-turn prompt-injection assay; the owner and relying party have not adopted it. Use [PROGRAM](PROGRAM.md), [ML-PLAN](../docs/ML-PLAN.md) and [EVALUATION](../docs/EVALUATION.md). No data/model download, external inference, GPU job or background campaign until the missing authority is recorded.
 

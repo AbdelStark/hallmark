@@ -1,0 +1,219 @@
+{
+  "schema_id": "hallmark/implementation-evidence/1",
+  "date": "2026-10-20",
+  "work_item": "W36",
+  "issue": "https://github.com/AbdelStark/hallmark/issues/37",
+  "baseline_commit": "ad664aa16f591c6c9fef08fa6b309faa0b69c1b6",
+  "source_sha256": {
+    ".github/workflows/check.yml": "48fce5ff466eeeb6b97988d40a5651b72d3f7b50c2ac15d320d5a7f7656a1884",
+    "Makefile": "ee0b1fa851d40e0bfe415c13f8c8cae139070f1710a3526f9ae70af1a8c4b057",
+    "tests/conftest.py": "1fa9fe74fb145e8aee47b3566c4950ae232388aa43e48d975242d7a778f05256",
+    "tests/test_train_gate.py": "086a6c1c0684e5cbfc01b518df5a6975ee9d07d21a4e5f213a1d5c30db42d794",
+    "tests/test_pipeline.py": "13b10b0df1a3a9b91c665f9cdfd65b158a4a7b9b86a9a2f7673434ea7aae2d73",
+    "configs/fixture.json": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+    "fixtures/smoke.jsonl": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7",
+    "pyproject.toml": "e0c985bdb9272814ec0553e9344be7cedc4e018a4ca742601363c5e9b5f60d12",
+    "uv.lock": "3190383ca1989e4c659e89f9d054387f1bae0d0e1f9d5c37b101120a98866156"
+  },
+  "baseline_forced_skip": {
+    "exit_code": 0,
+    "skipped": true
+  },
+  "focused_tests": {
+    "command": "uv run --locked pytest tests/test_train_gate.py -q",
+    "passed": 16,
+    "exit_code": 0
+  },
+  "local_matrix": [
+    {
+      "requested_python": "3.12",
+      "environment_after_train_sync": {
+        "python": "3.12.12",
+        "system": "Darwin",
+        "machine": "arm64",
+        "packages": {
+          "pytest": "9.1.1",
+          "cbor2": "5.9.0",
+          "pydantic": "2.14.1",
+          "numpy": "2.5.4",
+          "scikit-learn": "1.9.1"
+        }
+      },
+      "core": [
+        {
+          "command": [
+            "uv",
+            "sync",
+            "--locked",
+            "--python",
+            "3.12"
+          ],
+          "exit_code": 0,
+          "output_sha256": "f2c8cb767370ce21f5e73a4ed200d69699cd5fbfb8571e3dae36baa14afb017b"
+        },
+        {
+          "command": [
+            "make",
+            "check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "259ad0d61028378dc46682ed0877be86cacc50b3faa075b5fd56816f6e27a772",
+          "pytest_summary": "204 passed, 1 skipped in 3.22s"
+        },
+        {
+          "command": [
+            "make",
+            "package-check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "7aa340fd13f6fa3958601b8b1fcd150b1c7f203a55885b62c8e08e70a0800157"
+        }
+      ],
+      "train": [
+        {
+          "command": [
+            "make",
+            "check-train"
+          ],
+          "exit_code": 0,
+          "output_sha256": "56d56cc1ed6b55cd8190a1b7d79a6a8254c0296bf1e3648823fe5e10c7c633dd",
+          "pytest_summary": "1 passed, 204 deselected in 16.05s"
+        }
+      ]
+    },
+    {
+      "requested_python": "3.13",
+      "environment_after_train_sync": {
+        "python": "3.13.11",
+        "system": "Darwin",
+        "machine": "arm64",
+        "packages": {
+          "pytest": "9.1.1",
+          "cbor2": "5.9.0",
+          "pydantic": "2.14.1",
+          "numpy": "2.5.4",
+          "scikit-learn": "1.9.1"
+        }
+      },
+      "core": [
+        {
+          "command": [
+            "uv",
+            "sync",
+            "--locked",
+            "--python",
+            "3.13"
+          ],
+          "exit_code": 0,
+          "output_sha256": "ce14cf7c5a66b8ed5e9328f85e55cd1fa202185a5aaae780999d0a0c5104767a"
+        },
+        {
+          "command": [
+            "make",
+            "check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "8c23e62d91fd6cc4294ea888eefc26a811cac263741b6b7544f6614b9123c949",
+          "pytest_summary": "204 passed, 1 skipped in 3.43s"
+        },
+        {
+          "command": [
+            "make",
+            "package-check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "c500e25010bae7af588fee82921a7403e77d92cfd9e3d12f86598bf7eee4dc69"
+        }
+      ],
+      "train": [
+        {
+          "command": [
+            "make",
+            "check-train"
+          ],
+          "exit_code": 0,
+          "output_sha256": "c82a4b96e55a9a71aca3e3e66364f1f716e092ac8f38a505a86b84c429f1ef6d",
+          "pytest_summary": "1 passed, 204 deselected in 16.22s"
+        }
+      ]
+    },
+    {
+      "requested_python": "3.14",
+      "environment_after_train_sync": {
+        "python": "3.14.6",
+        "system": "Darwin",
+        "machine": "arm64",
+        "packages": {
+          "pytest": "9.1.1",
+          "cbor2": "5.9.0",
+          "pydantic": "2.14.1",
+          "numpy": "2.5.4",
+          "scikit-learn": "1.9.1"
+        }
+      },
+      "core": [
+        {
+          "command": [
+            "uv",
+            "sync",
+            "--locked",
+            "--python",
+            "3.14"
+          ],
+          "exit_code": 0,
+          "output_sha256": "f98734eb57015b2ed76285cfe8e50aee5a54e4a46618e01c93efb5a6a7aec341"
+        },
+        {
+          "command": [
+            "make",
+            "check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "57f772a3119e097def448fbfc357050c7d585ffa6f823a1506d884b119de9457",
+          "pytest_summary": "204 passed, 1 skipped in 4.01s"
+        },
+        {
+          "command": [
+            "make",
+            "package-check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "d7fe13107882a710c60a89474fd740ba96600c026c98cefa084ff1cfd146a11d"
+        }
+      ],
+      "train": [
+        {
+          "command": [
+            "make",
+            "check-train"
+          ],
+          "exit_code": 0,
+          "output_sha256": "b5b279a9980eb57adc6c0576adfde71c4e4612f62d374d49427f85b0a06f104a",
+          "pytest_summary": "1 passed, 204 deselected in 17.14s"
+        }
+      ]
+    }
+  ],
+  "retained_failure": {
+    "phase": "initial Python 3.12 core check",
+    "command": "make check",
+    "exit_code": 2,
+    "reason": "Ruff E501 in a test-source literal; split before rerunning in a fresh attempt directory"
+  },
+  "workflow_review": {
+    "contents_permission": "read",
+    "persist_checkout_credentials": false,
+    "privileged_runners": false,
+    "secrets": false,
+    "artifact_uploads": false,
+    "integration_job": "absent; separate admission required"
+  },
+  "evidence_class": "software-fixture-validation",
+  "not_established": [
+    "real-data classifier quality",
+    "model or dataset admission",
+    "proof qualification",
+    "hardware integration",
+    "independent verification"
+  ]
+}

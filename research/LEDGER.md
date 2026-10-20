@@ -116,3 +116,41 @@ Unexpected exceptions get random local diagnostic IDs. No error returns success.
 No arithmetic, dataset, evaluator or historical bundle was changed. Event
 persistence, process isolation and real provider integrations remain separate
 gates; this does not establish hardware/proof evidence or sanitize old snapshots.
+
+Delivery: [PR #53](https://github.com/AbdelStark/hallmark/pull/53) merged W30 as
+`ad664aa16f591c6c9fef08fa6b309faa0b69c1b6`; issue #31 closed. Exact-head PR and
+[merge-commit checks](https://github.com/AbdelStark/hallmark/actions/runs/39402274960)
+passed. The repository remained public.
+
+## 2026-10-20: W36 required training and interpreter matrix
+
+Hypothesis: the train CI job can reject missing execution without changing the
+core-only environment's legitimate optional skip. Baseline:
+`ad664aa16f591c6c9fef08fa6b309faa0b69c1b6`. A forced-skip fixture run with
+`pytest -m train` returned exit 0 with one skipped test, confirming the false-green
+case. Mutable paths: pytest guard/tests, Makefile, workflow, contributor/operations
+docs and state/evidence records. Runtime, data, training and evaluation code
+were unchanged.
+
+Saved [source/config/environment hashes and raw numeric results](evidence/w36-ci-2026-10-20.json)
+before this entry. The guard's 16 subprocess tests cover real execution,
+optional core skipping, missing extras, call/setup/teardown skips, partial
+execution, xfail/xpass and collection/setup-only runs. `make check-train` sets
+one BLAS/OpenMP thread and requires successful setup/call/teardown for every
+selected training test, with at least one training test selected.
+
+Fresh macOS arm64 environments used CPython 3.12.12, 3.13.11 and 3.14.6 with
+`uv sync --locked --python VERSION`. On each: `make check` passed 204 tests and
+skipped the absent optional training dependency; `make package-check` passed;
+then `make check-train` installed the locked extra and executed one training test
+successfully with 204 other tests deselected. These are six local core/train
+configurations, not classifier-quality measurements. An initial Ruff E501 test
+literal failure was fixed; its output was preserved before fresh attempts.
+
+The workflow runs core/package and training separately on all three versions.
+Inspection confirms read-only contents permission, disabled checkout credential
+persistence, no secrets, no self-hosted runners and no artifact uploads.
+Workflow dispatch runs the same fixtures; it is not authority for a privileged
+integration job. Real proof/hardware execution still requires its separate
+protocol, host and budget. Hosted delivery must be checked on this PR's exact
+commit before integration.

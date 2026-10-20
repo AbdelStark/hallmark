@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Require actual training-test execution in the train CI job; skips and incomplete
+execution now fail `make check-train`. Check core/package and training separately
+on CPython 3.12, 3.13 and 3.14. Keep CI read-only without privileged integration
+hosts, secrets or artifact uploads.
+
 Replace raw CLI failure text with versioned, sanitized error JSON. Preserve
 input/argument exit 2; execution/storage/resource failures now exit 3.
 Unexpected failures receive local random diagnostic IDs. Add the finite error
