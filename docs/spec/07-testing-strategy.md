@@ -33,6 +33,15 @@ Each new security branch needs a negative case. Property tests complement fixed 
 
 ## Independent verifier and corpus
 
+The first [frozen corpus](../../tests/vectors/v1/corpus.json) contains 156 executable
+component vectors and 32 unavailable genuine-evidence obligations. The source
+snapshots, exact pin, mutation ancestry, full outcome comparison and migration
+rules are fixed in [decision 0013](../decisions/0013-frozen-conformance-corpus.md).
+`make check-conformance` explicitly selects software scope and self-tests a wrong
+expectation and missing evidence. It is included in `make check`; the default
+script scope still exits 3 for the unavailable cases. A passing software target
+does not satisfy INV-CONFORMANCE for the full system or independent comparison.
+
 Publish only approved harmless vectors under `tests/vectors/v1/`, with `case_id`, input bytes/hashes, external trust/request/time, expected claim status/code, evidence class and mutation parent. One mutation per case isolates the failed obligation; combined adversarial cases supplement it. Genuine hardware evidence and real checkpoints stay in approved local evidence storage, referenced by digests rather than committed indiscriminately.
 
 The second verifier lives under `independent/`, shares no parser, arithmetic, transcript/token-binding or policy implementation with `src/hallmark`, and is developed from these specs and vectors. It may use the qualified proof library, with that common dependency disclosed; it is not independent evidence of proof-system soundness. Its dependency graph and provenance are reviewed. Differential comparison checks accepted/rejected status, codes, input digests and integer results on all corpus cases.

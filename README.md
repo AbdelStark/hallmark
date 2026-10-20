@@ -46,6 +46,11 @@ check embedded bytes, logical paths, declared evidence bindings and caller limit
 Openings travel separately. Collection states and reported verification results
 remain distinct; parsing a reported accepted result does not verify its evidence.
 
+The [frozen conformance corpus](docs/decisions/0013-frozen-conformance-corpus.md)
+checks 156 software cases and reports 32 unavailable hardware/proof obligations.
+`make check-conformance` checks software scope and its failure self-tests.
+The full-evidence gate remains incomplete; there is no independent verifier.
+
 ## Run
 
 CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:

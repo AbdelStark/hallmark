@@ -87,6 +87,14 @@ The checkpoint now retains the external trust digest atomically, rejecting old
 policy reuse after rotation. Failure and process-exit tests preserve prior state
 and history. All keys are public fixtures; operational custody remains unapproved.
 
+W33 / issue #34 adds a frozen corpus with 156 executable component cases and 32
+unavailable genuine-evidence obligations. Its
+[evidence](evidence/w33-conformance-2026-10-20.json) records 46 harness tests,
+1,097 total local tests, byte-identical corpus reproduction and installed-wheel
+checks. Software scope matches every executable outcome and catches a deliberately
+wrong expectation. Default full-evidence scope exits 3; neither hardware/proofs nor
+independent verification passed. All original PRD cheats remain in the required map.
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -124,8 +132,10 @@ passing on `866d36a69762104847f1ded8253829a4e11dd786`.
 W07 / #8 is merged in [PR #61](https://github.com/AbdelStark/hallmark/pull/61), with
 all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39419869358)
 passing on `302a861043636094295c4dc06832e4a8c06afe87`.
-W09 / #10 is locally validated; exact-head hosted delivery is next. Its completion
-unblocks #34's golden/adversarial corpus. Then implement #12 integer MLP runtime
+W09 / #10 is merged in [PR #62](https://github.com/AbdelStark/hallmark/pull/62), with
+all six [merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39422275382)
+passing on `9357288387bfbcdf0ad28ae34f54b37fe70a1333`.
+W33 / #34 is locally validated; exact-head hosted delivery is next. Then implement #12 integer MLP runtime
 against its actual prerequisites. The current work map has 106 dependency edges, including W04's reuse
 of W03 file references and W07's opening/signed-registry dependencies on W02/W08;
 the historical 102-edge publication audit is unchanged. Re-evaluate dependencies

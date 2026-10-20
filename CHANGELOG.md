@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add a pinned conformance corpus, three schemas and exact component-result
+comparison. Include all original cheat obligations and retain unavailable real
+evidence explicitly. Run software scope and wrong-expectation self-tests in
+`make check-conformance`, the main gate and isolated installed-package checks.
+
 Add registry snapshot signing, complete retained history, irreversible retirement,
 dual-authorized key transitions and the offline `registry-check` CLI. Persist the
 external trust digest with checkpoint updates; reject retired policy reuse.

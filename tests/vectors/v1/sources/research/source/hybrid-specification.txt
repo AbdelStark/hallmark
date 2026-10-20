@@ -1,0 +1,284 @@
+# Hallmark technical specification, v0.1
+
+CONFIDENTIAL, Lucid internal. 2026-10-20. Design snapshot for review; no implementation exists or is authorised. Companion [PRD](../../projects/hallmark/prd.md) and [research case](../../projects/hallmark/research.md). Design choices are ? INFERRED proposals unless a source is marked. Numbers carry their source and conditions; extrapolations show their formula. Architecture decided by Abdel on 2026-10-20 ([decision](../../ops/decisions/2026-10-20-hallmark-hybrid-architecture.md)). AI-assisted drafting.
+
+## 1. Claims
+
+Hallmark produces two typed claims per response (claim objects as in `context/04-thesis.md` § 2, position C).
+
+| Field | Claim A: model binding | Claim B: classifier verdict |
+|---|---|---|
+| Predicate | Response bytes `r` to prompt bytes `p` were produced by the model whose manifest digest is `C_M`, served by a stack whose measurements are in the published log | Each classifier in policy `P`, at its committed threshold, returned pass on the committed transcript, under `P`'s combination rule |
+| Scope | One response, one serving instance | One response, the classifiers in `P` |
+| Period | Receipt time, within the attestation epoch | Receipt time (proof is timeless once generated) |
+| Adversary class | Operator without physical attacks on the CPU or memory bus; vendor roots honest | Any prover, given sound proof system and correct circuits; binding mode decides whether the TEE is also trusted (§ 6.3) |
+| Strength | Hardware-attested | Cryptographic, given the commitments |
+| Rung | Level 1, execution integrity | Level 2, bounded-property satisfaction |
+| Residual | TEE breaks under physical custody; unreceipted traffic; model quality | Classifier quality and adversarial robustness; tokenisation link in mode B2; traffic not covered by receipts |
+
+Neither claim says the response is safe, compliant or harmless (Level 3).
+
+## 2. Actors and trust
+
+| Actor | Holds | Trusts | Must not learn |
+|---|---|---|---|
+| Lab (operator, prover) | Model weights, serving stack, transcripts | Its own infrastructure | Hidden classifier weights (mode E3 only) |
+| User | Prompt, response, transcript salt | Verifier software they choose | Weights |
+| Regulator, auditor or enterprise verifier | Bundles; plaintext only if granted | Registry signers; chosen hardware roots; proof systems | Weights; content unless granted |
+| Rival-state verifier | Bundles; open classifier set | Registry co-signature; proof systems; possibly not the hardware vendor | Weights; content |
+| Classifier governance body | Registry signing keys | Its review process | Transcripts |
+| Hardware vendors | Device identity CAs, attestation services | n/a | n/a |
+
+Hidden by design: model weights (published only as `C_M`); transcript content from verifiers without an opening; optionally classifier scores and weights. Public: model and policy identifiers, verdicts, timestamps, transcript commitments.
+
+## 3. Architecture
+
+```mermaid
+flowchart LR
+    U[User client] -->|TLS terminated in CVM| G[Gateway in confidential VM]
+    G --> S[Serving engine, GPU in CC mode]
+    S --> G
+    G --> K[In-TEE integer classifiers]
+    K --> G
+    G -->|response, receipt, salt| U
+    G --> Q[(Sealed transcript store)]
+    Q --> PZ[Prover workers in CVM]
+    R[(Classifier registry and transparency log)] --> G
+    R --> V[Verifier]
+    PZ -->|proofs by receipt id| V
+    U -->|bundle| V
+    A[Attestation evidence: TDX quote, GPU evidence] --> V
+```
+
+Components:
+
+1. **Gateway (CVM).** Terminates user TLS inside an Intel TDX confidential VM, builds the canonical transcript, computes commitments, runs the classifiers natively for release gating, signs the receipt. Measured into the CVM's runtime measurement registers.
+2. **Serving engine.** An engine on an NVIDIA H100 or Blackwell GPU in CC mode, attached to the CVM. A measured loader hashes weight files while loading and refuses files not matching `C_M`.
+3. **In-TEE classifiers.** The same integer (quantised) classifier programs the circuits prove, run natively. Their verdict gates release.
+4. **Sealed transcript store.** Transcript plus salt, encrypted to keys that exist only in prover CVMs, kept for a retention window so proofs can be produced on demand.
+5. **Prover workers.** Separate CVMs that generate classifier proofs asynchronously. Running them in a TEE protects user privacy and hidden classifier weights; proof soundness does not depend on it.
+6. **Registry.** Signed, versioned list of models, classifier artifacts and policies, appended to a transparency log ([[rfc9943]] SCITT-style).
+7. **Verifier.** Library and CLI; checks attestation, receipt, registry inclusion and proofs; outputs the typed claims as an attestation result ([[ietf-rats-ear]] shape).
+
+## 4. Commitments
+
+All hashes SHA-256 unless stated; all structures deterministic CBOR (RFC 8949 § 4.2) with length-prefixed fields and domain separation tags `hallmark/v0/<type>`.
+
+| Commitment | Definition | Used by |
+|---|---|---|
+| `C_M` model manifest digest | Hash of a manifest listing per-file hashes of weights, config, tokenizer, chat template and sampling parameters | Receipt; registry; loader check |
+| `C_Ci` classifier artifact | Hash of {verification key hash `vk_i` (which fixes the circuit and, for public weights, the weights), integer model hash, tokenizer hash, chunking rule, label map, quantisation scales} | Registry; proof public input |
+| `P` policy | Ordered list of {`classifier_id`, `C_Ci`, threshold `t_i`, scope in {prompt, response, both}} plus combination rule (all-pass, or cascade program) and version; `policy_id = H(P)` | Receipt; proofs; verifier |
+| `C_T` transcript | `H(tag, salt_T, len(sys_ref), sys_ref, len(p), p, len(r), r)`, where `sys_ref` is a hash of any hidden system prompt and `salt_T` is 32 random bytes from the gateway | Receipt; user opening; zkVM proofs |
+| `C_tok,i` token commitment | Hiding commitment in the prover's native hash (for example Poseidon2) to `salt_i` and the token IDs of classifier `i`'s input under its tokenizer and scope | Receipt; zkML proof public input |
+
+`salt_T` goes only to the user (inside the TLS session terminated in the CVM). Without it, `C_T` hides short or guessable transcripts from verifiers.
+
+## 5. Receipt and attestation binding
+
+### 5.1 Receipt
+
+```text
+Receipt = {
+  v: "hallmark/v0",
+  receipt_id, issued_at, seq, prev_receipt_hash,     // per-instance hash chain
+  nonce_client,                                       // 32 bytes from the user request
+  model: { C_M },
+  stack: { epoch_id },                                // links to the epoch attestation (5.2)
+  policy_id,
+  transcript: { C_T, C_tok: [ {classifier_id, C_tok_i} ] },
+  tee_verdicts: [ {classifier_id, pass, score_commit?} ],
+  release: "released" | "blocked",
+  proof_plan: { mode: "all" | "sampled" | "on_demand", sample_seed_ref? }
+}
+Signed with COSE_Sign1 by the epoch key K_epoch.
+```
+
+### 5.2 Epoch attestation
+
+Per-request hardware quotes are avoided. At boot and every epoch (for example hourly, a parameter):
+
+1. The CVM generates `K_epoch` inside the TEE.
+2. TDX quote with `REPORTDATA = H(tag, pub(K_epoch), epoch_id, verifier_nonce?)` (64-byte field; textbook TDX).
+3. GPU attestation with nonce `H(tag, pub(K_epoch), epoch_id)` through the NVIDIA SDK, verified locally with pinned reference manifests or by NRAS ([[nvidia2026nras]]; ✓ VERIFIED local verifier and caller nonce supported, [docs](https://docs.nvidia.com/attestation/poc-to-production/latest/integration-options/local_verifier.html)).
+4. The epoch record (quote, GPU evidence, collateral references, `pub(K_epoch)`) is appended to the log.
+
+? INFERRED tradeoff: epoch keys cut cost but widen the window in which a key extracted by a physical attack can sign false receipts. A verifier that wants per-request freshness can request a fresh quote bound to its own nonce (the Phala/RedPill pattern, research.md).
+
+### 5.3 What claim A rests on
+
+`C_M` is true only if the measured loader enforced it, the CVM image is the logged one, the GPU is in CC mode with expected firmware, and the attestation keys are uncompromised. NVIDIA's HBM is not encrypted (on-package, outside the threat model) and CPU to GPU traffic crosses encrypted bounce buffers ([[nvidia2023h100cc]], repo note). Physical interposers forge TDX quotes and can borrow GPU attestation ([[chuang2025teefail]], repo note). Claim A states this adversary class.
+
+## 6. Classifier statements
+
+### 6.1 Tiers
+
+| Tier | Classifier kind | Example | Proof system role | POC |
+|---|---|---|---|---|
+| Z0 rule | Deterministic program over bytes | PII or secret regex, banned-identifier list, length limits | zkVM program; public image ID | Yes (classifier Z) |
+| Z1 head | MLP, linear head, small CNN | Probe head; small text MLP on embeddings | zkML (EZKL-class) | Yes (classifier Y) |
+| Z2 encoder | Transformer encoder up to about 110M | Llama Prompt Guard 2 22M or 86M; BERT-class fine-tunes | zkML transformer prover | Yes (classifier X) |
+| Z3 small LM classifier | 1B to 2B | Llama Guard 3 1B, ShieldGemma 2B | GPU prover, sampled or on demand | Extension E4 |
+| T large or reasoning | 9B and above, reasoning, closed | ShieldGemma 9B and 27B, Llama Guard 4, gpt-oss-safeguard, Constitutional Classifiers | TEE-attested only (verdict in receipt) | Comparison only |
+
+Tier T verdicts are Level 2 claims with hardware-attested strength, not cryptographic. The verifier reports them separately.
+
+Probe heads read the main model's activations. The activations exist only in the TEE, so a Z1 probe proof is over a TEE-signed activation commitment: the proof adds hiding and portability for the head, but the input's authenticity is hardware-attested. Labs deploy probes ([[kramar2026probes]], repo note), so the tier matters, but the verifier must label it.
+
+### 6.2 Relation for a neural classifier (Z1, Z2)
+
+Public inputs: `vk_i` (or `C_Ci`), `C_tok,i`, `t_i`, `policy_id`, `verdict_i`, optional `score_commit_i`.
+Private witness: token IDs `x`, `salt_i`, and the weights `W_i` when hidden.
+
+Relation:
+
+1. `C_tok,i = Com(salt_i, x)`.
+2. `chunks = Chunk(x, rule_i)`: deterministic split covering all of `x` (Prompt Guard 2 accepts 512 tokens and its card says to split longer inputs, ✓ VERIFIED model card).
+3. For each chunk `c`: integer logits `z_c = f_{W_i}(c)` exactly as the integer model defines them.
+4. `s = max_c (z_c[unsafe] - z_c[safe])`.
+5. `verdict_i = 1` iff `s < t_i`, where `t_i` is the integer logit-difference threshold. For a binary softmax, `P(unsafe) > tau` iff `z[unsafe] - z[safe] > ln(tau / (1 - tau))`, so the circuit needs no softmax; `t_i` is that log-odds value at the model's quantisation scale.
+6. If weights are hidden: `C_Wi = Com(W_i)` and `C_Wi` is fixed by `C_Ci`.
+
+**Normative arithmetic.** The integer model is the classifier. The gateway runs the same integer program for release gating, so release verdicts and proven verdicts must agree bit for bit. Any disagreement is an alarm (TEE compromise or implementation bug). EZKL warns that quantised outputs differ from the float model ([[ezkl-repo]], ✓ README); Hallmark avoids that drift by never using the float model as the reference.
+
+### 6.3 Binding modes: from bytes to tokens
+
+| Mode | How the token commitment links to what the user received | Trusts TEE for (b)? |
+|---|---|---|
+| B1 verifier holds plaintext | Verifier opens `C_T` with `salt_T`, retokenises with the registry tokenizer, recomputes `C_tok,i` with `salt_i` (supplied in the user bundle) | No |
+| B2 commitment-only verifier | Gateway signs both `C_T` and `C_tok,i` in the receipt | Yes, for the bytes-to-tokens link |
+| B3 proven link (extension) | A zkVM proof opens `C_T`, runs the tokenizer and chunking, and outputs `C_tok,i`; verifier checks equality with the zkML proof's public input | No |
+
+The POC implements B1 and B2. The headline property ("anyone holding the transcript can check (b) without the TEE") is B1.
+
+### 6.4 Policy combination and cascades
+
+All-pass: overall pass iff every `verdict_i = 1`. The verifier evaluates this boolean itself from the public verdicts.
+
+Cascade (labs run cascades, [[sharma2025constclassifiers]], [[kramar2026probes]]): the policy is a small program, for example "run Y; if `s_Y` is in band [a, b), run X". The band membership must be public or proven. POC: the verifier evaluates the program over public per-classifier outputs; a zkVM aggregation proof is extension E2.
+
+## 7. Proof composition
+
+| Mode | Artifacts | Pros | Cons |
+|---|---|---|---|
+| C0 bundle (POC) | Receipt and epoch attestation; one proof per classifier; registry inclusion proofs. Linked by equal public inputs (`policy_id`, `C_tok,i`, `C_T`) | Simple, auditable, prover-agnostic | Several artifacts; verifier needs several proof-system verifiers |
+| C1 aggregated (b) | zkVM proof that verifies all classifier proofs and the policy program; outputs (`policy_id`, `C_T` or `C_tok`, overall verdict) | One proof for (b); cascades proven | Recursion cost; needs in-zkVM verifiers for each proof system |
+| C2 single artifact | C1 plus in-zkVM verification of the TDX quote and NVIDIA evidence against pinned roots and a collateral snapshot | One proof for (a) and (b) | TCB and revocation status frozen at proof time; NVIDIA P-384 chain verification in a zkVM: ✗ no implementation found. Intel DCAP verification in RISC Zero and SP1 exists ([Automata](https://github.com/automata-network/automata-dcap-attestation), ✓ README) |
+| C3 prover in TEE with hidden classifier | Classifier owner seals weights to the prover CVM; lab never sees them | Hides classifier from lab and verifier | Weight confidentiality is hardware-attested; soundness still cryptographic |
+
+Sampling and challenges. Proof generation runs off the latency path. Proof plan options: all responses; a sample whose seed is fixed after the receipt is logged (for example from a public beacon), so the lab cannot choose; or on demand for any receipt within the retention window. If a compromised gateway signs false passes on `n` responses and proofs are sampled independently at rate `s`, detection probability is `1 - (1 - s)^n`. Example: `s = 0.01`, `n = 300` gives `1 - 0.99^300 = 0.951`. An individual user who needs certainty requests an on-demand proof for their receipt.
+
+## 8. Verifier algorithm
+
+Inputs: bundle, verifier trust policy (accepted hardware roots, accepted proof systems, registry signer set), optional transcript plus salts.
+
+1. Parse the receipt; check the COSE signature under `pub(K_epoch)`.
+2. Fetch the epoch record; verify the TDX quote chain and TCB status, check `REPORTDATA` binds `pub(K_epoch)` and `epoch_id`; verify GPU evidence and its nonce; check CVM measurements against the logged image. Skip and mark claim A "not accepted" if the trust policy rejects these roots.
+3. Check `C_M` and `policy_id` are registry entries valid at `issued_at` (inclusion proofs, signatures, not retired).
+4. Check `nonce_client` matches the user's request when the user verifies; check `seq` and `prev_receipt_hash` continuity when receipts are logged.
+5. For each classifier in `P`: verify its proof against `vk_i` with public inputs from the receipt and policy; check `verdict_i` equals the receipt's `tee_verdicts` entry; for Tier T, read the receipt verdict only.
+6. Binding: if a transcript is supplied (B1), open `C_T`, retokenise, recompute each `C_tok,i`; otherwise record B2.
+7. Evaluate the policy combination.
+8. Emit claims A and B as typed objects with strengths, binding mode, tiers, and residuals. Exit code reflects only what the trust policy accepts.
+
+Reason codes for rejection are fixed (`SIG_INVALID`, `ATTEST_ROOT_REJECTED`, `MEASUREMENT_UNKNOWN`, `MODEL_NOT_REGISTERED`, `POLICY_MISMATCH`, `NONCE_MISMATCH`, `CHAIN_BREAK`, `PROOF_INVALID`, `PUBLIC_INPUT_MISMATCH`, `VERDICT_MISMATCH`, `OPENING_FAILED`, `TOKEN_COMMIT_MISMATCH`, `RETIRED_ARTIFACT`).
+
+## 9. Interfaces and data formats
+
+- **Response envelope.** Normal API response plus a `hallmark` object: `receipt` (CBOR, base64), `salt_T`, `salts_tok`, `proof_status` (`pending`, `ready`, `sampled_out`, `blocked`), `proof_ref`.
+- **Endpoints.** `GET /hallmark/v0/epochs/{epoch_id}`; `GET /hallmark/v0/attest?nonce=` (fresh quote); `GET /hallmark/v0/proofs/{receipt_id}`; `POST /hallmark/v0/challenge` with `receipt_id` (on-demand proof); `GET /hallmark/v0/registry` (signed snapshot and log inclusion proofs).
+- **Bundle.** CBOR map {receipt, epoch_record, proofs, registry_proofs, optional transcript}. One file, offline-verifiable given collateral.
+- **Registry entry.** COSE_Sign1 over {kind, id, digest, artifact URIs, review references (red-team reports, audit), valid_from, retired_at, signers}. International mode: threshold co-signature by each party's key.
+- **Verifier CLI.** `hallmark verify bundle.cbor --trust trust.json [--transcript t.json]`, output JSON claims in an EAR-like shape.
+- **Standards alignment.** Receipt claims are candidate fields for an EAT ([[rfc9711]]) profile and the Attestable Audit Profile ([[lucids-four-proposed-standards]]); logs follow RATS roles ([[rfc9334]]) and SCITT receipts ([[rfc9943]]). This links to the AI Passport's RATS-style bundles ([[ai-passport]]).
+
+## 10. Candidate proving stacks
+
+Judged on: operator coverage for the chosen classifier; zero-knowledge (hiding) support; measured cost; verifier independence and audit status; licence; ecosystem. Abdel's conflicts (StarkWare equity and S-two background; LambdaClass friendship; Attestable founders) are disclosed in research.md; S-two-based options are flagged.
+
+| Stack | Role | For | Against | Evidence |
+|---|---|---|---|---|
+| EZKL (Halo2) | Z1 heads and MLPs | Most mature tooling; ONNX import; visibility settings for inputs, weights, outputs; audited v21.0.0 | Slow for transformers; KZG setup; quantisation drift | [[ezkl-repo]] |
+| DeepProve (GKR, logup) | Z2 encoder candidate | Transformer layers end to end; GPT-2 at 512 tokens in 7.6 min on CPU; fast verification | Unaudited; encoder and DeBERTa support ✗ UNCERTAIN; hiding mode ✗ UNCERTAIN | [[lagrange-deepprove]], ✓ README |
+| ZKTorch (accumulation) | Z2 encoder candidate | Broad ONNX coverage, BERT and LLaMA proven | BERT 110M at one token took 880 s on 64 threads; 512-token cost unmeasured; BN254 | ✓ arXiv Table 4 |
+| Jolt Atlas (lookups) | Z1 or Z2 | ONNX ops through lookups; BlindFold for ZK; streaming prover | Lossy activation rescaling | [[benno2026joltatlas]] |
+| zkLLM (CUDA GKR) | Z3 | 13B in under 15 min; parameters private | Research code | ✓ arXiv abstract |
+| zkPyTorch (Expander) | Z2 or Z3 | PyTorch front end | Thin published evidence | ✓ ePrint abstract |
+| SASH prover (Circle STARK, S-two fork; flagged) | Z3 or pure-ZK extension | Open, inspectable, measured on Llama-3.1-8B | Llama-specific; no trace blinding yet | [[sash2026zk-inference]] |
+| Attestable | Pure-ZK extension | Highest reported throughput (alpha) | Vendor, competitor; access and licence unknown | [[attestable2026scale]] |
+| VerInf | Pure-ZK extension | Frontier-scale, hash-based | Certifies a bound on unexplained bits, not an exact verdict; hours | [[petrie2026verinf]] |
+| RISC Zero, SP1, Jolt zkVMs | Z0 rules, tokenisation (B3), aggregation (C1), DCAP (C2) | General Rust programs; SHA-256 precompiles; Automata DCAP verifier exists for RISC Zero and SP1 | Too slow for tensor-heavy work | Automata ✓ README |
+
+? INFERRED POC choice: EZKL for classifier Y; benchmark DeepProve and ZKTorch on classifier X before choosing; SP1 or RISC Zero for classifier Z and later aggregation. If neither transformer prover supports DeBERTa's attention, choose a BERT-architecture encoder for X rather than writing circuits. Licences are ✗ UNCERTAIN and must be checked before any choice.
+
+## 11. Performance expectations
+
+Native classifier cost: Prompt Guard 2 22M takes 19.3 ms and 86M takes 92.4 ms per 512-token classification on an A100 (✓ model card). Constitutional Classifiers add 23.7% inference overhead in Anthropic's improved version ([[sharma2025constclassifiers]], repo note).
+
+TEE overhead on serving: about 1% for CC-aware engines on larger models, 30% to above 100% for vLLM depending on concurrency ([[tinfoil2026ccoverhead]], vendor), 13% to 27% for vLLM on B300 ([[yin2026blackwell]]). Report engine and concurrency with every figure.
+
+Proving cost (? INFERRED from the evidence in research.md):
+
+| Tier | Expected per-request proving | Basis |
+|---|---|---|
+| Z0 rule | Seconds | zkVM over a few KB of text |
+| Z1 head | Seconds or less | Small MLPs |
+| Z2 encoder, 512 tokens | Minutes on a CPU server, within roughly 10x either way | DeepProve GPT-2, 512 tokens, 7.6 min on 24 cores; ZKTorch BERT, one token, 880 s on 64 threads |
+| Z3 1B to 2B | Tens of minutes to hours on CPU; minutes on GPU provers | DeepProve Gemma 3 270M 19 min; zkLLM 13B under 15 min on GPU |
+
+Verification: seconds per proof (DeepProve 1.3 to 4.3 s; ZKTorch BERT 26.67 s; EZKL seconds).
+
+Capacity check, Z2 at lab scale. Servers needed = `N_req per day × t_prove (server-minutes) / 1,440`. With `N = 1,000,000` responses per day and `t = 7.6` min: `7,600,000 / 1,440 = 5,278` servers running continuously. At `s = 1%` sampling: about 53. At `s = 0.1%`: about 5. ? INFERRED: per-request proofs for all traffic are a cost decision for a lab; sampling plus on-demand proofs is the realistic default, and GPU provers would change the constant.
+
+## 12. Security analysis
+
+| Threat | Mitigation | Residual |
+|---|---|---|
+| T1 response substituted after the check | `C_T` in signed receipt; user opening (B1) | None for B1 |
+| T2 model substituted | Measured loader enforces `C_M`; registry | TEE compromise |
+| T3 classifier swapped or weakened | `policy_id`, `C_Ci`, `vk_i` pinned by registry | Registry capture (T15) |
+| T4 threshold changed | `t_i` in policy and proof public input | None |
+| T5 replay of receipt or proof | `nonce_client`, `issued_at`, hash chain, receipt log | Verifier must check nonce |
+| T6 selective receipting (unreceipted traffic) | Relying-party rule: no receipt, no trust; coverage via metering or Inference Introspection | Out of scope per response |
+| T7 compromised gateway signs a false pass | ZK proof cannot be produced; sampling and challenges | Unproven receipts in sampled mode until challenged |
+| T8 physical attack extracts attestation keys | Adversary class stated; epoch rotation; B1 keeps (b) independent | Claim A forgeable under physical custody |
+| T9 verifier distrusts the vendor root | Trust policy marks A not accepted; B still verifies | Claim A unavailable to that verifier |
+| T10 prover or circuit soundness bug | Independent verifier; negative corpus; review before registry admission; two provers compared | Undiscovered bugs |
+| T11 quantisation drift | Integer model normative; agreement test | None if programs identical |
+| T12 tokenisation or chunk evasion (payload beyond 512 tokens, odd encodings) | Chunking covers all tokens; max over chunks; normative tokenizer; length policy | Classifier blind spots |
+| T13 adversarial inputs evade the classifier | Out of cryptographic scope; registry links red-team reports; version retirement | Real: adaptive attacks beat most published defences ([[nasr2025adaptive]]) |
+| T14 lab tunes its model to evade a known classifier | Hidden-weight mode C3; rotation | Rotation and hiding only raise cost |
+| T15 registry capture | Multi-party threshold signatures; transparency log; public review records | Collusion of all signers |
+| T16 privacy leakage through public inputs | Hide scores; length padding; commitment-only verifiers | Verdicts and timing remain visible |
+| T17 TEE side channels leak content or weights | Standard CC caveats; no debug mode; logged images | Per CC threat model ([[gu2025gpucc]]) |
+| T18 receipt channel used covertly | Fixed schema, canonical encoding (lesson from Inference Introspection) | Low-rate channel via timing |
+| T19 attestation collateral changes later | Record collateral at verification; claim B durable regardless | Claim A judged at a point in time |
+| T20 hollow weights in pure-ZK extension | Bind ZK model commitment to attested `C_M` | Applies to extension E1 |
+
+## 13. Evaluation plan
+
+1. **Statement first.** Freeze claims, receipt schema, registry format, reason codes and corpus before implementation (gate M0).
+2. **Negative corpus.** At least: altered response byte; altered prompt byte; swapped model file; unregistered `C_M`; swapped classifier artifact; changed threshold; replayed receipt; broken hash chain; wrong salt; tokenizer swap; payload beyond chunk limit; forged gateway verdict with no proof; proof for another receipt; retired policy; TEE debug mode quote. Every case must fail with its reason code.
+3. **Verdict agreement.** Run in-TEE integer classifiers and circuits on public jailbreak, injection and benign sets plus a near-threshold slice. Target zero disagreements; report the set and size.
+4. **Performance.** Grade every number: analytic, CPU measured, GPU measured, end to end. Report hardware, prover version, security parameters, input lengths, what is excluded (witness generation, setup, serialisation).
+5. **Independent verifier.** A second implementation from the spec alone, no shared code with the prover.
+6. **Red team.** Builder versus breaker on the bundle format and serving stack (RISE testbed if chosen); classifier robustness red-teamed separately and reported as classifier results, not Hallmark results.
+7. **Claims review.** Every outward sentence checked against the typed claims in § 1 before release.
+
+## 14. Extensions
+
+- **E1 pure-ZK model binding for small specialised models.** Prove the main model's forward pass where it is small (world models, decision models), bind the ZK model commitment to `C_M`. Candidate provers in § 10. Relevant prior work in Abdel's personal research (Tessera) stays separate unless he proposes it.
+- **E2 aggregation.** One zkVM proof for all of (b), including cascade programs.
+- **E3 hidden classifiers.** Classifier owner's weights sealed to prover CVMs.
+- **E4 small LM classifiers.** 1B to 2B classifiers with GPU provers on sampled traffic.
+- **E5 platform binding.** Bind attestation to physical custody or location evidence (Lucid's sovereignty work) to narrow T8.
+
+## 15. Open technical questions
+
+1. Do DeepProve, ZKTorch or Jolt Atlas support the chosen encoder's operators, and in a hiding mode?
+2. Epoch keys or per-request quotes: what quote latency and rate do TDX and GPU attestation support under load (✗ unmeasured)?
+3. How should hidden system prompts enter classifier inputs without revealing them (commit as `sys_ref`, or exclude from scope)?
+4. Multi-turn conversations: is the classifier input the last turn, a window, or the full history, and how is history committed?
+5. Streaming: is gating the full response before release acceptable for the first relying party?
+6. Where are receipts logged, and who runs the log in the international case?
+7. Which zkVM proof system for aggregation interoperates with the chosen classifier provers' verifiers?

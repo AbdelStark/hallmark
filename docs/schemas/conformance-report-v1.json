@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "CaseResult": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "observed": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Outcome"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "matched",
+            "mismatch",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "status",
+        "observed"
+      ],
+      "title": "CaseResult",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "INPUT_INVALID",
+        "LIMIT_EXCEEDED",
+        "TRUST_MISSING",
+        "REGISTRY_INVALID",
+        "ARTIFACT_RETIRED",
+        "REQUEST_MISMATCH",
+        "STALE_EVIDENCE",
+        "SIGNATURE_INVALID",
+        "ATTESTATION_INVALID",
+        "MEASUREMENT_UNKNOWN",
+        "OPENING_FAILED",
+        "INPUT_BINDING_FAILED",
+        "PROOF_INVALID",
+        "VERDICT_MISMATCH",
+        "POLICY_BLOCKED",
+        "PROOF_PENDING",
+        "RESOURCE_EXHAUSTED",
+        "STORAGE_FAILED",
+        "INTERNAL_ERROR"
+      ],
+      "type": "string"
+    },
+    "Outcome": {
+      "additionalProperties": false,
+      "description": "accepted means the named component check, never combined evidence acceptance.",
+      "properties": {
+        "accepted": {
+          "title": "Accepted",
+          "type": "boolean"
+        },
+        "claim_a": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "not-accepted"
+          ],
+          "title": "Claim A",
+          "type": "string"
+        },
+        "claim_b": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "not-accepted"
+          ],
+          "title": "Claim B",
+          "type": "string"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ErrorCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_digests": {
+          "items": {
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "title": "Input Digests",
+          "type": "array"
+        },
+        "integers": {
+          "items": {
+            "maximum": 18446744073709551615,
+            "minimum": -9223372036854775808,
+            "type": "integer"
+          },
+          "maxItems": 4096,
+          "title": "Integers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "accepted",
+        "claim_a",
+        "claim_b",
+        "code",
+        "input_digests",
+        "integers"
+      ],
+      "title": "Outcome",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "all_required_executed": {
+      "title": "All Required Executed",
+      "type": "boolean"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/CaseResult"
+      },
+      "maxItems": 1024,
+      "minItems": 1,
+      "title": "Cases",
+      "type": "array"
+    },
+    "corpus": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Corpus",
+      "type": "string"
+    },
+    "independent": {
+      "title": "Independent",
+      "type": "null"
+    },
+    "matched": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Matched",
+      "type": "integer"
+    },
+    "mismatched": {
+      "maximum": 18446744073709551615,
+      "minimum": 0,
+      "title": "Mismatched",
+      "type": "integer"
+    },
+    "primary": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Primary",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/conformance-report/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "scope": {
+      "enum": [
+        "software-components",
+        "all-required-evidence"
+      ],
+      "title": "Scope",
+      "type": "string"
+    },
+    "self_tested": {
+      "default": false,
+      "title": "Self Tested",
+      "type": "boolean"
+    },
+    "software_passed": {
+      "title": "Software Passed",
+      "type": "boolean"
+    },
+    "unavailable": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 1024,
+      "title": "Unavailable",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "corpus",
+    "primary",
+    "independent",
+    "scope",
+    "cases",
+    "matched",
+    "mismatched",
+    "unavailable",
+    "software_passed",
+    "all_required_executed"
+  ],
+  "title": "ConformanceReport",
+  "type": "object"
+}

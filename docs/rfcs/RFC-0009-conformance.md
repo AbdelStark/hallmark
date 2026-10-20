@@ -25,6 +25,14 @@ Freeze a versioned valid/negative corpus and require a separately implemented ve
 
 ## Proposed Design
 
+W33 implements the bounded primary component corpus and explicit unavailable
+evidence obligations in [decision 0013](../decisions/0013-frozen-conformance-corpus.md).
+Its software-only gate does not satisfy the full comparison gate below. W34's
+independent implementation and W35's genuine hybrid evidence remain absent.
+The implementation adds named component checks, mutation descriptions, expected
+digests/integers and missing-dependency IDs to `Case`; the exact current records
+are in the [schema snapshots](../schemas/conformance-case-v1.json).
+
 `Case={schema_id:"hallmark/conformance-case/1", case_id:Id, parent:Optional[Id], evidence_class:Literal["software-vector","real-proof","real-hardware","hybrid"], inputs:List[FileRef], trust:Digest, expected_request:Digest, now:U64, expected:{accepted:bool, claim_a:Id, claim_b:Id, code:Optional[Id]}, requirement:Id}`. Cases are immutable; the corpus manifest sorts case IDs and hashes every input. Security failures need a minimal one-field mutation and its expected code.
 
 Cover every [error-table](../spec/04-error-model.md#contract-and-ordering) rejection plus the original packet's altered prompt/response, swapped model file, unregistered model, classifier swap, threshold swap, replay, chain break, wrong salt, tokenizer swap, late payload, false gateway pass, different-receipt proof, retired policy and debug quote. A receipt-chain check uses a separately supplied expected predecessor when continuity is claimed; a single offline receipt does not establish global history.
