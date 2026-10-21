@@ -21,7 +21,20 @@ def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def pedersen_candidate(plan):
+    if "patched_pedersen" not in plan:
+        return None
+    raw = base64.b64decode(plan["patched_pedersen"], validate=True)
+    if (
+        plan["schema_id"] != "hallmark.hf-maximum-inputs/1"
+        or digest(raw) != "04d66b48c95d1a55319b3639f1034bd79d6ce6d98bc573723dd983db16249444"
+    ):
+        raise ValueError("unapproved Pedersen setup candidate")
+    return raw
+
+
 def validate(plan):
+    pedersen_candidate(plan)
     maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
     if (
         plan["schema_id"] not in ("hallmark.hf-compile-inputs/1", "hallmark.hf-maximum-inputs/1")
@@ -250,6 +263,14 @@ def main(plan):
         )
         os.chmod(g1, 0o600)
         g1.write_bytes(base64.b64decode(plan["patched_g1"], validate=True))
+        candidate = pedersen_candidate(plan)
+        if candidate is not None:
+            pedersen = crypto / "ecc/bls12-381/fr/pedersen/pedersen.go"
+            assert digest(pedersen.read_bytes()) == (
+                "8a9597c6901ad2e67542c475e93ec23f8330f586a835a2dc82d9818eaba1ee0e"
+            )
+            os.chmod(pedersen, 0o600)
+            pedersen.write_bytes(candidate)
         assert (
             digest(json.dumps(inventory(crypto), sort_keys=True, separators=(",", ":")).encode())
             == plan["crypto_inventory_sha256"]

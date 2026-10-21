@@ -2619,3 +2619,78 @@ links and excess size. Fifty-five focused tests pass (five platform skips).
 remain unavailable. The core package check and corrected cloud run are pending
 at this commit. The protocol reserves copy time separately and stays under the
 standing USD 10 campaign ceiling; no further owner permission is required.
+
+
+## 2026-10-21 — Optional parallel Pedersen setup preparation (W18 / #19)
+
+Hypothesis: disjoint parallel scalar multiplications preserve the original setup's
+ordered key bytes and inputs. Baseline: the pinned serial Pedersen setup and prior
+small circuit/proof roster. Mutable path: only `ecc/bls12-381/fr/pedersen/pedersen.go`
+in a separate dependency copy; the optional bootstrap admits that exact source
+hash and checks the full inventory. The active maximum cloud baseline is unchanged.
+
+Raw numbers and identities were saved before this prose in
+[evidence](evidence/w18-pedersen-parallel-2026-10-21.json). Sixteen sizes at one/two/four
+workers match the complete serial setup bytes, preserve bases and pass the race
+detector. Disclosed scalar randomness and related bases are insecure fixtures only.
+The fresh 50-case real-proof roster passes in 185.746 seconds, peak RSS
+1,246,986,240 bytes: eight valid proofs; 18 malformed witnesses; 33 public changes;
+field alias; altered proof; wrong setup key. All eight proofs replay under retained
+input/key pins. An unmodified-dependency build passes another 43 cases in 1.810
+seconds. Neither verifier is independently implemented. No maximum proof, speedup,
+hiding or general concurrency/security claim follows.
+
+Exact local commands and receipts are under
+`runs/w18-pedersen-parallel-1792590827210193000/`: `run_fixture.py`, `run_small.py`,
+`replay_unmodified.py`, `local-evidence.json`, `result.json`,
+`small-campaign-result.json`, `first-acceptance.json`, `first-enrollment.json` and
+`unmodified-replay/result.json`. Use the locked `.venv/bin/python`. Protocols and
+all sources were pinned before their respective executions. The actual command
+wall times total 236.841 seconds; retain the full 780-second reservations until
+a receipt audit. Zero cloud spend for this local preparation.
+
+The optional bootstrap rejects altered payloads and compile-only use; its focused
+suite passes 38 tests with five Linux-only skips. `make check` passes 2,111 tests
+with five Linux-only skips and one warning; the core `make package-check` passes.
+Hosted validation remains pending. See [decision 0049](../docs/decisions/0049-parallel-pedersen-setup.md).
+Review and retain the active baseline's terminal result before deciding on one
+bounded follow-up. Keep the USD 10 total ceiling and preserve all failures.
+
+PR #75 merged as `27ce26d43702cd5ba38c5fb0ebf7433dbf1c72e8`, with all 28 candidate
+checks successful. Merged workflow `39612502992` reports success. Its Linux 3.12
+train-job logs contain 35 passing training tests and a passing installed train
+package check; all ten job steps passed, though final job metadata was stale.
+A targeted rerun of that single job completes attempt 2 with all 14 jobs passing;
+the original status/log receipts remain retained.
+Repository visibility remains public.
+
+
+## 2026-10-21 — Serial maximum timeout retained; parallel candidate launched (W18 / #19)
+
+The local-disk serial baseline ended ERROR. Its export passes in 166.812 seconds,
+with the same 2,566,643,378-byte circuit SHA-256 as the Mac. Setup takes
+3,603.555 seconds, is killed by the wall deadline, and peaks at 57,714,008,064
+bytes kernel RSS. Memory-limit and monitor-failure flags are false. The generic
+controller budget exception does not establish a memory failure. The
+[raw numeric evidence](evidence/w18-maximum-baseline-timeout-2026-10-21.json)
+records CPU, cost and artifact pins before this prose.
+
+The 4,944,217,141-byte partial proving key establishes only that serialization
+started after Setup returned; no isolated phase time was measured. It is unusable
+and unenrolled. No complete verification key, maximum proof or maximum replay
+exists. All 45 files / 10,077,572,415 bytes were downloaded, worker/retention pins
+checked and local hashes rechecked before the temporary bucket was removed.
+Exact commands and receipts remain in `runs/w18-hf-local-disk-1792588507859979000`:
+`control.py poll`, `control.py logs`, `retain.py download`, `retain.py cleanup`,
+`terminal.json`, `download-verified.json` and `bucket-cleaned.json`.
+
+After this retention gate, the parallel candidate began HF job
+`6ad8ce6a0a35baab53a1dff0` from exact source
+`b5debd6e226b41755c702e0c490937bd7f5600f4`. All 28 checks on that source pass;
+one push job required a targeted rerun after stale final metadata. Its
+[launch record](evidence/w18-parallel-maximum-launch-2026-10-21.json) pins inputs,
+CI, launcher and whole-checkout storage. Prior conservative compute 281 cents,
+new compute reservation 480 cents and temporary-storage reserve 200 cents total
+961 cents, below the unchanged 1,000-cent ceiling; these estimates are not an
+invoice. The new run is active, with no result claimed. Frozen source, circuit,
+inputs, outcome roster and limits remain unchanged while it runs.

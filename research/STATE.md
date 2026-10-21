@@ -396,6 +396,22 @@ records standing owner approval and replaces repeated micro-budget permission
 barriers. [Decision 0046](../docs/decisions/0046-bounded-maximum-hf-proof.md) prepares
 one bounded larger-memory L4 fallback; no new cloud job has launched at this point.
 
+The [optional parallel Pedersen setup candidate](evidence/w18-pedersen-parallel-2026-10-21.json)
+passes 48 size/worker comparisons against complete serial setup bytes, input-base
+immutability checks and Go's race detector. A fresh 50-case small campaign verifies
+eight real proofs and all frozen rejections; all eight proofs also replay under
+separately retained pins. An unmodified-dependency verifier passes 43 valid/mutated
+cases. The small roster takes 185.746 seconds with 1,246,986,240-byte peak worker
+RSS. These are implementation/compatibility checks with shared gnark verification,
+not a measured maximum speedup, independent security review or accepted setup.
+[Decision 0049](../docs/decisions/0049-parallel-pedersen-setup.md) freezes the optional
+candidate and a conditional sequential follow-up. The serial baseline has now
+[failed its setup wall-time limit](evidence/w18-maximum-baseline-timeout-2026-10-21.json),
+with all 45 files retained and the temporary bucket removed. Its 4.94 GB partial
+key is unusable; no maximum proof exists. The [parallel follow-up](evidence/w18-parallel-maximum-launch-2026-10-21.json)
+is running at frozen source `b5debd6e226b41755c702e0c490937bd7f5600f4`;
+its result remains pending. All 28 checks on that source pass.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -637,7 +653,11 @@ is removed. [Failure evidence](evidence/w18-hf-storage-failure-2026-10-21.json)
 retains the missing maximum cost receipt and unavailable setup/proof. The
 [local-disk correction](../docs/decisions/0048-local-disk-proof-execution.md)
 keeps file checks strict and copies complete/failed outputs only after execution.
-All historical failures
+The local-disk serial attempt reached key serialization but exceeded the
+3,600-second setup-stage deadline. Kernel peak RSS was 57,714,008,064 bytes;
+this was a wall-time failure, not a memory-limit failure. All files are retained
+and its bucket removed. The separately frozen parallel candidate is now running
+within the unchanged USD 10 total ceiling. All historical failures
 and budgets remain preserved. Current preparation has not produced a maximum
 proof, complete encoder, independent verifier/security review or genuine hardware
 evidence. Continue the admitted encoder graph, including layer normalization,
@@ -655,3 +675,10 @@ Keep further proof work sequential within each recorded bounded campaign. The ti
 ## Resume
 
 Inspect git state and actual installed environment, read the latest ledger entry, then take one falsifiable gate. Run the smallest relevant negative test. Update this state and the ledger with evidence, limits and a concrete next step. Use the current [approved research authority](AUTHORITY.json); repository visibility follows [AGENTS.md](../AGENTS.md).
+
+PR #75 merged the local-disk execution/retention fix as
+`27ce26d43702cd5ba38c5fb0ebf7433dbf1c72e8` after all 28 candidate checks passed.
+All 14 jobs in [the merged workflow](https://github.com/AbdelStark/hallmark/actions/runs/39612502992)
+pass after rerunning one job whose final metadata was stale despite successful
+steps. The original logs and status receipts remain retained. This delivery does
+not supply the pending maximum proof result. Repository visibility is public.

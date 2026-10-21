@@ -178,6 +178,24 @@
       "token_in_worker": false,
       "automatic_retries": 0,
       "top_up_authorized": false
+    },
+    "maximum_setup_parallel_pedersen": {
+      "approval_ref": "docs/decisions/0049-parallel-pedersen-setup.md",
+      "authority_basis": "Owner standing full approval; separately tested optional setup candidate after review and retention of the current baseline.",
+      "baseline_terminal_and_retained_required": true,
+      "flavor": "cpu-performance",
+      "max_jobs": 1,
+      "max_job_seconds": 8400,
+      "max_creation_seconds": 9000,
+      "copy_seconds": 900,
+      "max_compute_cost_minor": 480,
+      "combined_campaign_cost_minor": 1000,
+      "currency": "USD-cent",
+      "remaining_combined_budget_check_required": true,
+      "private_inputs": false,
+      "token_in_worker": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false
     }
   }
 }
