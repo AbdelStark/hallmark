@@ -447,3 +447,35 @@ three 10,000-resample float/integer comparisons and explicit unavailable encoder
 members. Its scores are authored software controls, not trained classifiers.
 Repeat into a second fresh directory and compare report bytes. Python and its
 random implementation are part of the evaluator identity.
+
+
+## Synthetic encoder conformance
+
+`IntegerGraph` implements the nine existing integer DAG operations with bounded
+exact row-major tensors. `execute_encoder` binds a program, classifier, profiles,
+constant bytes, operator bytes and the supported byte-tokenizer recipe before
+preparing every input chunk. No optional runtime, download or file lookup occurs
+inside either API. Use a caller-owned run budget. Returned tensors and token IDs
+are private diagnostics; their serialization is not authenticated evidence.
+
+The committed authored two-feature graph has both normalization stages and a
+separately written rational/Decimal oracle. Check its frozen vectors against the
+installed runtime with an independently retained fixture pin:
+
+```sh
+uv run --locked python scripts/check_encoder_vectors.py \
+  fixtures/wire/integer-encoder-v1.json \
+  --expected-fixture "$(cat fixtures/wire/integer-encoder-v1.sha256)"
+```
+
+The checked-in pin identifies this public software fixture, not operational
+trust. The command compares every intermediate and strict-threshold result in
+eight cases. Repository tests additionally check all embedding classes/masks,
+normalization table entries, malformed contracts, padding isolation, complete
+32,767/32,768-byte inputs and overflow before rescaling. `make package-check`
+executes the small vectors from a fresh installed wheel.
+
+See [decision 0051](decisions/0051-complete-synthetic-encoder.md) for the exact
+nonlinear tables, limits and approximations. The native result cannot satisfy
+W18 qualification, W12 qualified-encoder admission, a real proof, safety quality
+or independent verification. Keep prior experiments and missing results intact.

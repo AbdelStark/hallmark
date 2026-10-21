@@ -731,7 +731,9 @@ tests and the core package gate passes after staging the reviewed new files.
 The initial packaging failure is retained. See [decision 0050](../docs/decisions/0050-bounded-integer-normalization.md).
 This is a four-field integer relation with declared approximations. It is not
 integrated into an admitted complete encoder, does not establish floating model
-equivalence and does not select a backend. Hosted delivery is pending.
+equivalence and does not select a backend. PR #79 merged as
+`4e3258194b2484cfe69614f100587aee4459e946`; all 30 candidate checks and all
+15 [merged-main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39634508824) pass.
 
 The maximum commitment result retains the independently frozen Mac circuit hash
 `cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489`.
@@ -742,3 +744,18 @@ Mac verifiers accept the three proofs and reject all 33 public-field changes,
 the field alias and changed proof. These are compatibility checks using shared
 gnark verifier code. The relation has 33 public fields and a synthetic profile;
 it does not prove the 100-field classifier statement or qualify a backend.
+
+
+The [complete native synthetic encoder](evidence/w18-complete-encoder-native-2026-10-21.json)
+now expresses both normalizations in the existing integer DAG contract, with
+lossless byte tokenization, full chunk coverage and strict threshold semantics.
+Eight small vectors match 546 intermediate tensors. Two fresh final-candidate
+runs check every tensor in both 32,767- and 32,768-byte cases and reproduce the
+complete trace bytes exactly. This is a two-token, two-feature authored graph,
+not a trained or admitted encoder. See [decision 0051](../docs/decisions/0051-complete-synthetic-encoder.md).
+The original failed fixtures and initial-candidate runs remain preserved.
+`make check` passes 2,181 tests with five platform skips and one warning; the
+core installed-package gate passes. Hosted delivery is pending. Next is
+proof lowering of this exact graph under new source/setup/input identities;
+full-graph proofs, independent verification/security review and hardware evidence
+remain missing. No earlier component proof is reused as a proof of composition.

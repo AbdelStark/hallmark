@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "EncoderChunk": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "exclusiveMaximum": 32768,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "mask": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 512,
+          "minItems": 1,
+          "title": "Mask",
+          "type": "array"
+        },
+        "score": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Score",
+          "type": "integer"
+        },
+        "tensors": {
+          "maxProperties": 4096,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$": {
+              "items": {
+                "maximum": 2147483647,
+                "minimum": -2147483648,
+                "type": "integer"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "title": "Tensors",
+          "type": "object"
+        },
+        "tokens": {
+          "items": {
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 512,
+          "minItems": 1,
+          "title": "Tokens",
+          "type": "array"
+        },
+        "unit_count": {
+          "maximum": 512,
+          "minimum": 0,
+          "title": "Unit Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "index",
+        "unit_count",
+        "tokens",
+        "mask",
+        "tensors",
+        "score"
+      ],
+      "title": "EncoderChunk",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Private software trace. Parsing this record does not authenticate its computation.",
+  "properties": {
+    "chunk_size": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Chunk Size",
+      "type": "integer"
+    },
+    "chunks": {
+      "items": {
+        "$ref": "#/$defs/EncoderChunk"
+      },
+      "maxItems": 32768,
+      "minItems": 1,
+      "title": "Chunks",
+      "type": "array"
+    },
+    "classifier": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Classifier",
+      "type": "string"
+    },
+    "content_capacity": {
+      "maximum": 512,
+      "minimum": 1,
+      "title": "Content Capacity",
+      "type": "integer"
+    },
+    "input_digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/encoder-result/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "score": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Score",
+      "type": "integer"
+    },
+    "threshold": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "title": "Threshold",
+      "type": "integer"
+    },
+    "unit_count": {
+      "maximum": 32768,
+      "minimum": 0,
+      "title": "Unit Count",
+      "type": "integer"
+    },
+    "verdict": {
+      "title": "Verdict",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "classifier",
+    "input_digest",
+    "unit_count",
+    "chunk_size",
+    "content_capacity",
+    "chunks",
+    "threshold",
+    "score",
+    "verdict"
+  ],
+  "title": "EncoderResult",
+  "type": "object"
+}
