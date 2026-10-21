@@ -231,5 +231,30 @@
       }
     ],
     "interpretation": "Both round-trips reproduce the externally pinned 77,522,639-byte key. A single sequential pair with warm caches is diagnostic only; no statistical speedup or maximum extrapolation."
+  },
+  "linux_go_ci": {
+    "schema_id": "hallmark.go-adapter-ci-admission/1",
+    "purpose": "Execute all Go probe tests on Linux, including actual RLIMIT_FSIZE flush failure.",
+    "source_revision_before_workflow": "b68f6a938ed0ccddc8a031e41b3e372529c1f495",
+    "toolchain": {
+      "arch": "amd64",
+      "filename": "go1.26.8.linux-amd64.tar.gz",
+      "kind": "archive",
+      "os": "linux",
+      "sha256": "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b",
+      "size": 66897291,
+      "version": "go1.26.8"
+    },
+    "source": "Previously reviewed Go archive used by pinned HF experiment b5debd6. Existing go.mod/go.sum and reviewed public dependencies; no new dependency.",
+    "controls": [
+      "Temporary runner directory only; no system package install.",
+      "Archive SHA-256 checked before extraction.",
+      "GOTOOLCHAIN=local; telemetry off; two threads, 1 GiB soft Go memory target.",
+      "Existing module checksums and go mod verify; read-only test dependency mode.",
+      "Ten-minute job timeout; all existing Go tests, including circuit fingerprints."
+    ],
+    "hosted_result": "pending",
+    "runtime_evidence_required": true,
+    "changes_to_circuit_or_evaluator": false
   }
 }

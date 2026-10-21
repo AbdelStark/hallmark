@@ -2742,3 +2742,11 @@ retains all values. No cloud job or private input was used for this diagnostic.
 PR #76 merged as `a73c47b287ccabc13ca8387c7352afdf7d23e999` after all 28
 checks passed on `9085a098ef27c42921268b3631985406a26062a8`. The merged-main
 workflow is pending. The running maximum experiment retains its original source.
+
+
+The hosted workflow previously ran Python fixtures without executing the Go
+adapter suite. A Linux proof-artifact job now installs the already reviewed
+Go 1.26.8 archive into runner-temporary storage after checking its exact SHA-256,
+verifies the locked module closure and runs all Go probe tests. It uses two
+threads, a 1 GiB Go soft memory target and a ten-minute job timeout. No dependency
+or circuit change is introduced. Linux runtime evidence remains pending.
