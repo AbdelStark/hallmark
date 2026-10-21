@@ -1,6 +1,6 @@
 # 0042 — Prepare an optional bounded G1 batch candidate
 
-Date: 2026-10-21. W18 / issue #19. Status: prepared, unvalidated.
+Date: 2026-10-21. W18 / issue #19. Status: component validation passed; maximum setup unvalidated.
 
 The pinned setup allocates all G1 Jacobian outputs before converting them to
 affine. The maximum commitment's domain alone implies at least nine GiB for that
@@ -28,12 +28,19 @@ The unchanged upstream three-point baseline passes. The first candidate fails
 to build because the original minimum-cost variable shadows Go's `min` built-in.
 Rename that variable without changing the cost expression or comparisons. Retain
 the failed build and its source identity. Exact patch application and Go parsing
-pass for the correction; compilation and full point equivalence have not run.
+passed for the correction at preparation time. The subsequent
+[approved validation](0043-approved-local-validation-extension.md) builds it,
+passes all 16 point cases and reproduces all seven circuit fingerprints. The
+existing cubic proof/reader unit fixture passes in both builds. A separate frozen
+allocation fixture retains one sample per variant with identical output digests;
+this is not maximum setup or statistical performance evidence. See
+[numeric results](../../research/evidence/w18-approved-validation-2026-10-21.json).
 
 Preparation uses the existing local reservation; it does not expand authority.
-The pending 120-second request is for the streaming repository/package gates.
-Further candidate validation needs an explicit remaining-time plan. Do not execute
-setup/proving or another cloud job from this preparation record.
+The owner subsequently approved 120 Mac-only validation seconds under decision
+0043. That increment covers repository/package gates and bounded corrected-candidate
+component checks. It does not authorize a maximum setup/proving campaign or another
+cloud job. Preserve the earlier preparation failures and exhausted reservation.
 
 Before a maximum attempt, require full baseline/candidate point equality, the
 seven serialized circuit fingerprints, small actual setup/proof/rejection checks,

@@ -66,5 +66,16 @@
     "human_review_required_for_pipeline": false,
     "review_identity_must_be_truthful": true,
     "quality_claim_from_synthetic_pipeline": false
+  },
+  "local_validation_extension": {
+    "approved_at": "2026-10-21",
+    "approval_ref": "docs/decisions/0043-approved-local-validation-extension.md",
+    "additional_seconds": 120,
+    "purpose": "Complete pending Mac repository/package validation and, within the same allowance, corrected G1 component regression checks.",
+    "max_cost_minor": 0,
+    "currency": "USD-cent",
+    "additional_hf_jobs": 0,
+    "maximum_setup_or_proving_campaign": false,
+    "prior_limits_and_failures_preserved": true
   }
 }

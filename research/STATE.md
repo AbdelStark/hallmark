@@ -330,10 +330,10 @@ seven Go tests pass, including a tiny real-proof unit fixture. A retained
 eight-unit commitment proof verifies with the new binary; an appended proof byte
 rejects. The Python copy fixture asserts less than 3 MiB traced allocation for an
 8 MiB file. This is adapter behavior, not whole-decoder or full-prover memory.
-Lint, formatting and type checks pass, but the full local gate reaches its
+Lint, formatting and type checks pass, but the initial full local gate reaches its
 39-second cap at 94% of tests, with no test failure reported before termination.
-The package gate is unrun; an additional 120 seconds of local validation has been
-requested. The receipt audit
+The package gate was unrun at that point; the approved validation below closes
+both local gaps while preserving the timeout. The receipt audit
 retains all actual commands and allowances, rounds prior usage to 7,136 seconds
 and reserves the remaining 64 under [decision 0041](../docs/decisions/0041-streamed-proof-artifacts.md).
 
@@ -348,6 +348,23 @@ backing storage before other allocations; this is not measured RSS. The
 Jacobian temporaries. G2 already converts directly to affine. Neither a patch
 nor a new setup run is executed by this source review; total memory/time and
 L4 fit remain unestablished.
+
+The [approved validation](evidence/w18-approved-validation-2026-10-21.json) passes
+`make check` with 2,081 tests, four platform skips and one warning, and the core
+`make package-check`. The corrected optional G1 patch builds from a fresh full
+module copy. All 16 point cases agree with separate scalar multiplication and
+across builds, including an actual per-worker chunk boundary. Seven serialized
+circuit fingerprints match. Both variants pass the existing tiny cubic real-proof
+unit fixture and changed-input/trailing-byte rejections; its temporary proof/key
+bytes are not retained as published proof evidence.
+
+One 262,145-point allocation sample per variant produces identical ordered-output
+digests. Allocated bytes are 80,061,592 / 76,999,144; allocation counts increase
+from 250 to 2,622; observed worker RSS is 96,813,056 / 79,331,328 bytes. This is
+neither a statistical speedup nor maximum setup memory evidence. The first failed
+build, local timeout and previous resource charges remain intact. The additional
+120-second allowance costs zero and launches no HF job. A fresh small commitment
+proof/negative campaign and explicit maximum setup resource plan remain open.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -573,18 +590,17 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: finish the streamed-artifact repository/package gates, then build and
-validate the corrected bounded G1 candidate and its explicit setup/proving plan.
-The [optional patch and frozen evaluator](evidence/w18-g1-candidate-preparation-2026-10-21.json)
-are prepared. The unchanged three-point baseline passes; the first candidate
-fails to compile because of a shadowed `min` built-in. The corrected patch parses
-and applies exactly but has not been built or run. The failed build is retained.
-Full point equivalence must exercise a per-worker chunk boundary, which needs
-more points than the earlier fixed lengths on hosts with several CPUs.
+The streamed-artifact repository/package gates and corrected G1 component checks
+pass under the [approved validation increment](evidence/w18-approved-validation-2026-10-21.json).
+Next: prepare a bounded fresh small commitment proof/negative campaign and an
+explicit maximum setup/proving plan. Point equality, all seven circuit fingerprints
+and the existing cubic proof/reader unit fixture pass. The earlier failed build is
+retained. The optional patch remains disabled in the default module and HF bootstrap.
 The minimum key component already exceeds the existing 256 MiB artifact cap.
 Setup/prover peak memory remains unmeasured; compile success cannot satisfy either
 gate. Preserve the completed HF job and all failed Mac attempts. No new cloud job
-fits the current one-job allowance, and no local proving time is unreserved.
+fits the current one-job allowance, and the previous local proving allocation is
+fully charged. The additional validation allowance does not authorize a maximum campaign.
 Ordinary implementation and preparation can continue. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.

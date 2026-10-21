@@ -32,7 +32,7 @@ These checks do not establish general compiler correctness, independent security
 full-input proving or encoder qualification. See
 [decision 0038](../../../../docs/decisions/0038-boolean-wire-cache-candidate.md).
 
-## Bounded G1 batch conversion — prepared, unvalidated
+## Bounded G1 batch conversion — component checks passed
 
 `bounded-g1-batch.patch` modifies only `ecc/bls12-381/g1.go` in gnark-crypto
 `v0.21.1-0.20260913224755-1409fe592052`. The upstream copyright is
@@ -43,8 +43,8 @@ It replaces the full Jacobian output array with at most 4,096 Jacobian points
 per existing parallel worker, converts each chunk and copies it into the final
 ordered affine array. The scalar window, digit partition and curve operations
 remain the same. Renaming the existing `min` cost variable avoids shadowing the
-Go built-in. G2 is unchanged. Allocation, latency and maximum feasibility remain
-unmeasured; repeated batch inversion and temporary affine arrays still cost work.
+Go built-in. G2 is unchanged. Repeated batch inversion and temporary affine arrays
+still cost work; maximum setup feasibility remains unmeasured.
 
 | Pin | SHA-256 |
 |---|---|
@@ -75,10 +75,31 @@ deterministic wider scalars and repeated values. Its final length is
 this library's default partition count. An assertion checks that a worker actually
 crosses a 4,096-point boundary. The shorter fixed lengths alone cannot ensure that.
 
-Only the three-scalar upstream baseline has executed. The first candidate build
-failed on the `min` shadowing; that failure remains retained. The corrected patch
-parses with `gofmt` and applies exactly, but has not been built or run. See
-[evidence](../../../evidence/w18-g1-candidate-preparation-2026-10-21.json) and
-[decision 0042](../../../../docs/decisions/0042-bounded-g1-preparation.md).
-Full point equivalence, seven circuit fingerprints and actual small-proof negative
-checks precede any maximum setup attempt. A passing fixture cannot qualify W18.
+The corrected patch now builds and passes all 16 baseline/candidate point cases,
+including the actual per-worker boundary at 65,537 points on this host. All seven
+serialized circuit fingerprints agree. Both builds pass the existing tiny cubic
+setup/prove/verify unit fixture, changed-public-input rejection and trailing-byte
+rejection for each artifact type. Its temporary keys/proofs are not retained.
+The original `min` build failure remains in the
+[preparation evidence](../../../evidence/w18-g1-candidate-preparation-2026-10-21.json).
+
+The separate frozen `g1_alloc_test.go` measures one 262,145-point operation per
+variant. Build it explicitly with the same two modfiles and run each binary with
+`-test.run '^$' -test.bench '^BenchmarkG1Batch262145$' -test.benchtime 1x -test.benchmem`.
+Compare its `G1ALLOCATION` output digests as well as resource receipts.
+
+| One diagnostic sample | Baseline | Candidate |
+|---|---:|---:|
+| Allocated bytes per operation | 80,061,592 | 76,999,144 |
+| Allocations per operation | 250 | 2,622 |
+| Operation nanoseconds | 3,697,711,000 | 3,687,230,916 |
+| Worker peak RSS bytes | 96,813,056 | 79,331,328 |
+
+Ordered output digests agree. Allocation count increases despite fewer allocated
+bytes and lower observed RSS. One sample per variant establishes neither a latency
+distribution nor maximum setup feasibility. See the
+[validation evidence](../../../evidence/w18-approved-validation-2026-10-21.json),
+[decision 0042](../../../../docs/decisions/0042-bounded-g1-preparation.md) and
+[approved validation increment](../../../../docs/decisions/0043-approved-local-validation-extension.md).
+A fresh complete-input commitment proof/negative campaign and an explicit maximum
+setup resource plan remain required. These component checks do not qualify W18.

@@ -2407,3 +2407,64 @@ allocation/latency measurements remain open before any maximum attempt.
 items and 106 edges in 0.944539 seconds. This increment totals 6.529223 seconds;
 0.684723 remains inside the existing reservation. No corrected-candidate build
 or full local repository/package gate is claimed from that documentation check.
+
+## 2026-10-21 — W18 approved local gates and corrected G1 validation
+
+The owner approved 120 additional Mac-only validation seconds under
+[decision 0043](../docs/decisions/0043-approved-local-validation-extension.md).
+Keep the previous proving reservation, 39-second timeout and failed G1 build
+charged and unchanged. No new HF job or spend is permitted by this increment.
+Hypothesis: the corrected optional G1 candidate preserves points and serialized
+circuits while bounding its Jacobian temporary. Baseline: the same admitted
+Boolean-cache build with unchanged gnark-crypto. Mutable paths are a fresh full
+module copy, the separate diagnostic fixture and evidence/documentation; default
+dependencies, circuits, point evaluator and artifact caps remain fixed.
+
+The [numeric record](evidence/w18-approved-validation-2026-10-21.json) precedes
+this account. Its raw directory retains the frozen protocol, complete 1,869-file
+candidate inventory, separate modfiles/binaries, command receipts and stdout.
+`make check` passes lock, lint, format, mypy and 2,081 tests with four platform
+skips and one warning. Software conformance matches 156 cases; 32 genuine-evidence
+cases remain unavailable. `make package-check` passes the core installed-wheel
+gate. These close the previously outstanding local gates without deleting the
+earlier timeout. Required train/guard execution remains in final-head hosted CI.
+
+The corrected three-scalar candidate builds and passes first. Explicit
+`go test -mod=readonly -modfile=VARIANT.mod -count=1 -v patches/g1_batch_test.go`
+then passes all 16 generator/infinity cases in each variant. Every output agrees
+with separate scalar multiplication and all ordered output hashes agree between
+builds. On this 16-CPU host, the 65,537-point case proves that an actual worker
+span exceeds 4,096. Input immutability and both encodings pass. No evaluator or
+point threshold changes after observing the candidate.
+
+Build both complete probe test binaries and invoke
+`-test.run '^Test(CircuitFingerprints|ArtifactReaderBoundaries|ArtifactReaderRealProof)$' -test.v`
+through the existing network-denied Mac worker. All seven serialized circuit
+fingerprints match. Both variants pass eleven reader-boundary cases and the
+existing cubic setup/prove/verify unit fixture, rejecting changed public input
+and trailing bytes on circuit/key/proof artifacts. The unit test deletes its
+temporary proof/key files; this is not a retained commitment proof campaign.
+
+Freeze `patches/g1_alloc_test.go` and its allocation plan before running baseline
+then candidate, once each, with
+`-test.run '^$' -test.bench '^BenchmarkG1Batch262145$' -test.benchtime 1x -test.benchmem`.
+Both produce the same ordered compressed-point digest for 262,145 deterministic
+public scalars. Baseline/candidate allocated bytes are 80,061,592 / 76,999,144;
+allocation counts are 250 / 2,622; operation nanoseconds are 3,697,711,000 /
+3,687,230,916; worker peak RSS is 96,813,056 / 79,331,328 bytes. Report the increased
+allocation count as well as the lower byte/RSS observation. One sample each cannot
+establish statistical performance, whole-setup memory or maximum feasibility.
+
+The initial 14 commands consume 86.664973 seconds; with five seconds of ancillary
+allowance, 91.664973 of the new 120 seconds is charged. Final documentation/package
+receipts extend this same counter in the evidence. Prior unused time is not
+reclaimed. The optional G1 patch remains disabled by default. A fresh small
+commitment proof/negative campaign, an explicit multi-GiB setup/storage/host plan,
+the complete encoder and independent verification/security/setup evidence remain
+open. W18 is incomplete and PR #72 remains draft.
+
+Final `make check-spec` and core `make package-check` pass, including the newly
+tracked diagnostic/evidence/documentation. The wheel hash is unchanged from the
+initial core package gate. All 16 commands consume 93.747097 seconds; the total
+charge with the five-second allowance is 98.747097, leaving 21.252903 seconds.
+The raw initial result and final evidence remain separate immutable records.

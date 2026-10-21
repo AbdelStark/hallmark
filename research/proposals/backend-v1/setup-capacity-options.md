@@ -1,10 +1,11 @@
 # Maximum commitment setup: source bounds and next candidate
 
-Status: optional patch prepared, unvalidated, 2026-10-21. This is not an executed
+Status: optional patch component checks passed, 2026-10-21. This is not an executed
 setup or a new run authorization. The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
 pins every file and line range used below. Existing results keep their original
-source identities. The pending request for 120 local validation seconds concerns
-the streamed-artifact code gates, not this proposed research candidate.
+source identities. The approved 120-second local validation increment closes the
+streamed-artifact gates and validates bounded G1 fixtures. It does not authorize
+a maximum setup/proving campaign or another cloud job.
 
 ## Established bounds
 
@@ -58,10 +59,15 @@ unverified idea of batching both groups at the setup call site.
 Use an optional patch against a separately inventoried `gnark-crypto` copy.
 Preserve the default module cache and existing gnark compiler-cache patch. The
 candidate needs its own source/build/experiment identity. The
-[prepared patch and evaluator](../../probes/gnark/patches/README.md#bounded-g1-batch-conversion--prepared-unvalidated)
-now have exact source pins. The three-point upstream baseline passed; the first
-candidate build failed on a shadowed built-in. The corrected patch applies and
-parses, but is not yet compiled or validated. Preserve that failed attempt.
+[patch and evaluators](../../probes/gnark/patches/README.md#bounded-g1-batch-conversion--component-checks-passed)
+have exact source pins. The corrected candidate passes all 16 point cases, seven
+serialized circuit fingerprints and the existing cubic proof/reader unit fixture.
+The earlier shadowed-built-in build failure remains retained. The
+[allocation diagnostic](../../evidence/w18-approved-validation-2026-10-21.json)
+records one 262,145-point sample per variant: allocated bytes fall from 80,061,592
+to 76,999,144, while allocation count rises from 250 to 2,622. Observed process
+RSS is 96,813,056 / 79,331,328 bytes. These observations do not establish a latency
+distribution or whole-setup memory; the final affine array and domain still exist.
 
 ## Acceptance before a new maximum attempt
 
@@ -72,10 +78,12 @@ parses, but is not yet compiled or validated. Preserve that failed attempt.
    worker count fixed. Also use `runtime.NumCPU()*4096+1` and assert that the actual
    partition includes a span longer than 4,096: the library partitions by CPU
    count, independently of `GOMAXPROCS`, so fixed lengths alone miss that boundary.
-2. Reproduce the seven small circuit fingerprints. Run fresh small actual setups,
-   proofs and invalid-input/key/proof cases; keep old results and failures.
-3. Measure the allocation/latency tradeoff on the same bounded fixture. A passing
-   point comparison alone does not qualify the complete setup implementation.
+2. Reproduce the seven small circuit fingerprints (passed). Run fresh small
+   commitment setups, proofs and invalid-input/key/proof cases; this remains open
+   beyond the existing cubic unit fixture. Keep old results and failures.
+3. Measure the allocation/latency tradeoff on the same bounded fixture (one
+   diagnostic sample per variant retained). A passing point comparison or one
+   helper measurement does not qualify the complete setup implementation.
 4. Record maximum wire counts, artifact sizes and explicit per-file/aggregate
    storage limits. A larger file cap must follow a new bounded plan; streaming
    alone supplies no cap or memory authority.
