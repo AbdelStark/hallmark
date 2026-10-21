@@ -1,0 +1,296 @@
+"""Public-input-only bootstrap for one pinned HF compilation diagnosis."""
+
+import base64
+import hashlib
+import io
+import json
+import os
+import platform
+import re
+import shutil
+import signal
+import subprocess
+import sys
+import tarfile
+import time
+import urllib.request
+from pathlib import Path
+
+
+def digest(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def validate(plan):
+    if (
+        plan["schema_id"] != "hallmark.hf-compile-inputs/1"
+        or not re.fullmatch("[a-f0-9]{40}", plan["source_commit"])
+        or set(plan["files"])
+        != {
+            *(
+                "research/probes/gnark/" + name
+                for name in [
+                    "block.go",
+                    "cache_test.go",
+                    "go.mod",
+                    "go.sum",
+                    "graph.go",
+                    "input.go",
+                    "input_scale.go",
+                    "input_scale_test.go",
+                    "main.go",
+                    "mlp.go",
+                    "rule.go",
+                ]
+            ),
+            "src/hallmark/__init__.py",
+            "src/hallmark/_gnark_probe.py",
+            "src/hallmark/_gnark_linux_compile.py",
+        }
+        or plan["go_archive"]["filename"] != "go1.26.8.linux-amd64.tar.gz"
+        or plan["go_archive"]["size"] != 66897291
+        or digest(base64.b64decode(plan["patched_builder"], validate=True))
+        != "3cdd1a266ffba596d01b87a6bdcf51e141f92ae17d991bb9fe7f6e2149de01d4"
+    ):
+        raise ValueError("unapproved job input")
+    for pin in [*plan["files"].values(), plan["go_archive"]]:
+        if not re.fullmatch("[a-f0-9]{64}", pin["sha256"]):
+            raise ValueError("invalid source pin")
+    for pin in plan["files"].values():
+        if type(pin["bytes"]) is not int or not 0 < pin["bytes"] <= 262144:
+            raise ValueError("invalid source size")
+    if (
+        plan["go_archive"]["sha256"]
+        != "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b"
+    ):
+        raise ValueError("unapproved toolchain")
+
+
+def inventory(root):
+    return {
+        str(p.relative_to(root)): {"bytes": p.stat().st_size, "sha256": digest(p.read_bytes())}
+        for p in sorted(root.rglob("*"))
+        if p.is_file()
+    }
+
+
+def main(plan):
+    validate(plan)
+    if platform.system() != "Linux" or platform.machine() != "x86_64":
+        raise ValueError("Linux x86-64 required")
+    root = Path("/tmp/hallmark-hf-compile")
+    root.mkdir(mode=0o700)
+    start = time.monotonic()
+    (root / "inputs.json").write_text(json.dumps(plan, sort_keys=True))
+
+    def fetch(url, path, pin):
+        if time.monotonic() - start > 400:
+            raise TimeoutError("bootstrap download deadline")
+        size = pin.get("bytes", pin.get("size"))
+        with urllib.request.urlopen(url, timeout=30) as response:
+            raw = response.read(size + 1)
+        if len(raw) != size or digest(raw) != pin["sha256"]:
+            raise ValueError("download pin mismatch")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("xb") as output:
+            output.write(raw)
+        return raw
+
+    def run(label, command, cwd, env, seconds):
+        if time.monotonic() - start + seconds > 1100:
+            raise TimeoutError("insufficient remaining job budget")
+        began = time.monotonic()
+        with (
+            (root / (label + ".stdout")).open("xb") as out,
+            (root / (label + ".stderr")).open("xb") as err,
+        ):
+            child = subprocess.Popen(
+                command,
+                cwd=cwd,
+                env=env,
+                stdin=subprocess.DEVNULL,
+                stdout=out,
+                stderr=err,
+                start_new_session=True,
+            )
+            try:
+                code = child.wait(timeout=seconds)
+            except BaseException:
+                os.killpg(child.pid, signal.SIGKILL)
+                child.wait()
+                raise
+        stdout = (root / (label + ".stdout")).read_bytes()
+        stderr = (root / (label + ".stderr")).read_bytes()
+        receipt = {
+            "stage": label,
+            "argv": command,
+            "exit_code": code,
+            "elapsed_seconds": time.monotonic() - began,
+            "stdout_sha256": digest(stdout),
+            "stderr_sha256": digest(stderr),
+        }
+        print(json.dumps({"receipt": receipt}), flush=True)
+        print(stdout.decode(), end="", flush=True)
+        print(stderr.decode(), end="", file=sys.stderr, flush=True)
+        if code != 0:
+            raise RuntimeError(label)
+        return stdout
+
+    for name, pin in plan["files"].items():
+        fetch(
+            "https://raw.githubusercontent.com/AbdelStark/hallmark/"
+            + plan["source_commit"]
+            + "/"
+            + name,
+            root / "repo" / name,
+            pin,
+        )
+    sys.path.insert(0, str(root / "repo/src"))
+    from hallmark._gnark_linux_compile import container_memory_limit
+
+    print(json.dumps({"container_memory_limit_bytes": container_memory_limit()}), flush=True)
+    go_raw = fetch(
+        "https://go.dev/dl/" + plan["go_archive"]["filename"],
+        root / "go.tar.gz",
+        plan["go_archive"],
+    )
+    with tarfile.open(fileobj=io.BytesIO(go_raw)) as archive:
+        archive.extractall(root, filter="data")
+    del go_raw
+    assert digest((root / "go/LICENSE").read_bytes()) == (
+        "911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad"
+    )
+    go = str(root / "go/bin/go")
+    source = root / "repo/research/probes/gnark"
+    (root / "tmp").mkdir()
+    env = {
+        "PATH": str(root / "go/bin") + ":/usr/bin:/bin",
+        "GOROOT": str(root / "go"),
+        "GOPATH": str(root / "gopath"),
+        "GOMODCACHE": str(root / "gomodcache"),
+        "GOCACHE": str(root / "gocache"),
+        "GOTOOLCHAIN": "local",
+        "GOTELEMETRY": "off",
+        "GOPROXY": "https://proxy.golang.org",
+        "GOSUMDB": "sum.golang.org",
+        "GOMAXPROCS": "2",
+        "GOMEMLIMIT": "1GiB",
+        "CGO_ENABLED": "0",
+        "GOFLAGS": "-p=2",
+        "LANG": "C",
+        "TZ": "UTC",
+        "TMPDIR": str(root / "tmp"),
+    }
+    run("download", [go, "mod", "download"], source, env, 120)
+    for name in ["go.mod", "go.sum"]:
+        assert (
+            digest((source / name).read_bytes())
+            == plan["files"]["research/probes/gnark/" + name]["sha256"]
+        )
+    module = root / "gomodcache/github.com/consensys/gnark@v0.16.4"
+    patched = root / "gnark-patched"
+    shutil.copytree(module, patched)
+    for directory, _, _ in os.walk(patched):
+        os.chmod(directory, 0o700)
+    builder = patched / "frontend/cs/r1cs/builder.go"
+    assert (
+        digest(builder.read_bytes())
+        == "d515546fb3442a38edf5487e6d5c0e52173687348408cb4a5ab5852dc9650e03"
+    )
+    os.chmod(builder, 0o600)
+    builder.write_bytes(base64.b64decode(plan["patched_builder"], validate=True))
+    actual = inventory(patched)
+    assert (
+        digest(json.dumps(actual, sort_keys=True, separators=(",", ":")).encode())
+        == plan["patched_inventory_sha256"]
+    )
+    modfile = root / "patched.mod"
+    modfile.write_bytes(
+        (source / "go.mod").read_bytes()
+        + b"\nreplace github.com/consensys/gnark => "
+        + str(patched).encode()
+        + b"\n"
+    )
+    shutil.copyfile(source / "go.sum", root / "patched.sum")
+    env["GOPROXY"] = "off"
+    flags = ["-mod=readonly", "-modfile=" + str(modfile)]
+    run("build-tests", [go, "test", "-c", *flags, "-o", str(root / "tests"), "."], source, env, 180)
+    fixture = run(
+        "small-fixtures",
+        [
+            str(root / "tests"),
+            "-test.run",
+            "Test(BooleanCache|Prefix|InputBatch|AssignmentReader|CircuitFingerprints)",
+            "-test.v",
+        ],
+        root,
+        env,
+        30,
+    )
+    records = [
+        json.loads(line.removeprefix("CIRCUIT "))
+        for line in fixture.decode().splitlines()
+        if line.startswith("CIRCUIT ")
+    ]
+    assert records == plan["fingerprints"]
+    run(
+        "build-probe",
+        [go, "build", "-trimpath", "-buildvcs=false", *flags, "-o", str(root / "probe"), "."],
+        source,
+        env,
+        120,
+    )
+    binary_sha = digest((root / "probe").read_bytes())
+    print(
+        json.dumps(
+            {
+                "build": {
+                    "binary_sha256": binary_sha,
+                    "environment": env,
+                    "python": sys.version,
+                    "platform": platform.platform(),
+                    "module_inventory_sha256": plan["patched_inventory_sha256"],
+                    "fingerprints": records,
+                }
+            }
+        ),
+        flush=True,
+    )
+    child_env = {
+        "PATH": "/usr/local/bin:/usr/bin:/bin",
+        "PYTHONPATH": str(root / "repo/src"),
+        "PYTHONDONTWRITEBYTECODE": "1",
+    }
+    run(
+        "compilation",
+        [
+            sys.executable,
+            "-m",
+            "hallmark._gnark_linux_compile",
+            "--binary",
+            str(root / "probe"),
+            "--expected-binary",
+            binary_sha,
+            "--output",
+            str(root / "execution"),
+        ],
+        root,
+        child_env,
+        650,
+    )
+
+
+if __name__ == "__main__":
+    try:
+        plan = json.loads(sys.argv[1])
+        if digest(sys.argv[1].encode()) != sys.argv[2]:
+            raise ValueError("manifest pin mismatch")
+        main(plan)
+    except Exception as error:
+        print(
+            json.dumps(
+                {"bootstrap_failure_type": type(error).__name__, "qualified_backend": False}
+            ),
+            flush=True,
+        )
+        raise SystemExit(3) from None

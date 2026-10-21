@@ -1,0 +1,108 @@
+{
+  "baseline_commit": "d70a029316be1cde7d843603a8e0c50fbc8b87e8",
+  "cloud_budget": {
+    "automatic_retries": 0,
+    "charged_cost_minor": 0,
+    "currency": "USD-cent",
+    "flavor": "l4x1",
+    "jobs_submitted": 0,
+    "max_cost_minor": 200,
+    "max_jobs": 1,
+    "max_seconds": 3600,
+    "private_inputs": false,
+    "token_in_worker": false
+  },
+  "date": "2026-10-21",
+  "environment": {
+    "go_archive": {
+      "arch": "amd64",
+      "filename": "go1.26.8.linux-amd64.tar.gz",
+      "kind": "archive",
+      "os": "linux",
+      "sha256": "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b",
+      "size": 66897291,
+      "version": "go1.26.8"
+    },
+    "image": "python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0",
+    "image_independently_rebuilt": false,
+    "new_python_dependencies": false,
+    "new_system_packages": false,
+    "observed_tag": "3.12.15-slim-bookworm",
+    "review_sha256": "f199f2173bfc264470d098be49c703409e768fe8920ce4bfd42e40683ac261bb"
+  },
+  "full_input_proof": false,
+  "hypothesis": "Additional host RAM on the approved L4 may finish the unchanged maximum-input circuit; CPU compilation only.",
+  "issue": 19,
+  "limitations": [
+    "No job, maximum circuit or proof from this increment yet.",
+    "Network seccomp filtering is not a hostile-code or filesystem sandbox.",
+    "RSS sampling can overshoot; kernel peak and provider/container limits remain distinct.",
+    "Mac worker, circuit/compiler sources and historical proof identities stay unchanged.",
+    "Full encoder, operational enrollment, independent security/setup/hiding and genuine hardware remain unqualified."
+  ],
+  "local_budget": {
+    "approved_proving_seconds": 7200,
+    "preparation_measured_plus_allowance_seconds": 178.52999729127623,
+    "preparation_receipts_sha256": "a40c57c46e3c3eac258b47e55b00c5e9411f9512507ee9791d6c39ca3988dde6",
+    "prior_charge_seconds": 6870,
+    "remaining_unreserved_seconds": 30,
+    "reservation_seconds": 300
+  },
+  "local_receipt_sha256": {
+    "check-01.json": "f2ae0b00cb0b88f0b4d3021d6e418a4727171192729ac2fff8fe62f201662ca1",
+    "environment-pins.json": "3205fb34b818bbae4384b98cb550e77b0a4d75b91da75f3fdbf3f09fa51d7d9e",
+    "environment-review.json": "f199f2173bfc264470d098be49c703409e768fe8920ce4bfd42e40683ac261bb",
+    "focused-01.json": "cd12436aab2bac70258fe41e21c3de118f1b5c3c40de777cde0deb9589be2a0f",
+    "focused-02.json": "674e0964c0c846832110d8bddcd799923a550d3033bf8c1de0fc84c4ea17e54a",
+    "image-license-sources.json": "610555752eae1400d5ebceb3356804fec44f54e8d86da046a249b74f831aede2",
+    "preflight-plan.json": "7d32681fe9bc17c8ad0aa29796b8b9584fda3f46cfe00038e20f9b8e66ca7b0e"
+  },
+  "maximum_compile_reproduced": false,
+  "preflight": {
+    "authentication_passed": true,
+    "input_preview_passed_validation": true,
+    "jobs_list_readable": true,
+    "related_prior_hallmark_jobs": 0,
+    "token_accessed_for_control_plane": true
+  },
+  "qualified_backend": false,
+  "raw_directory": "runs/w18-hf-compile-1792577568568485000",
+  "schema_id": "hallmark.hf-compile-evidence/1",
+  "source_sha256": {
+    "scripts/gnark_hf_bootstrap.py": "36569b93890b8b887301614bbe2330e086313641cdda695da9f5e4fb43e316c8",
+    "src/hallmark/_gnark_linux_compile.py": "886899b30bd232f137127f2750d3535149d70d1d45ca73d0021475dc31ab6a60",
+    "src/hallmark/_gnark_probe.py": "e512b69a3809521ab5ea0e2485aceb4e111edb8e6ae7d8d76059696eb32a1245",
+    "tests/test_gnark_linux_compile.py": "77697f209a3a0eae2ee1619be3b1f2fdeabedd3ecfcecf4eac4edad5e56bbe96"
+  },
+  "status": "prepared_not_executed",
+  "validation": {
+    "combined_package_passed": true,
+    "core_package_passed": true,
+    "final_receipts": [
+      {
+        "elapsed_seconds": 39.694736750097945,
+        "name": "check-02.json",
+        "sha256": "2592debc02e510795983903865a54ab684632c0d854b09e2567aeaea8cbe3566"
+      },
+      {
+        "elapsed_seconds": 7.298491625115275,
+        "name": "package-core-01.json",
+        "sha256": "4f62eb601c6f8d53d91103160cac73f3543bbb85579e6652df5750ee441bc051"
+      },
+      {
+        "elapsed_seconds": 49.928073833929375,
+        "name": "package-combined-01.json",
+        "sha256": "22ed8571746fe34a7ec685ea16d71a4518738dc648b734dcd5ccf86fb5d266ef"
+      }
+    ],
+    "installed_guard_checked": true,
+    "installed_train_checked": true,
+    "linux_kernel_checks_run_locally": false,
+    "local_passed_tests": 2068,
+    "local_platform_skips": 4,
+    "new_python_tests": 30,
+    "package_source_id_before_final_evidence_update": "6f3da4b3c1ca7fa0c35eb34523c9d46544a07f8a545d828f57aafb23025a28ef",
+    "status": "local_gates_passed_linux_kernel_pending"
+  },
+  "work_item": "W18"
+}

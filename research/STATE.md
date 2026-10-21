@@ -297,6 +297,19 @@ charged until a later receipt audit. Full-input proving remains unavailable.
 All 2,042 Python tests and both installed-package gates pass, including required
 train/guard execution. Exact-head hosted verification remains separate.
 
+The [Linux fallback preparation](evidence/w18-hf-compile-2026-10-21.json) adds a
+separate compile-only controller and a public-input bootstrap under
+[decision 0040](../docs/decisions/0040-bounded-hf-compile.md). It pins the official
+Python image and Linux Go archive, preserves the compiler/circuit, denies worker
+socket creation and bounds wall time, files and sampled memory. Authentication
+and read-only HF Jobs access pass; no cloud job has been submitted. Actual Linux
+kernel controls and maximum compilation remain unexecuted at this preparation
+checkpoint. Rechecked receipts conservatively charge 6,870 local seconds; reserve
+300, leaving 30 unreserved in the existing 7,200-second allocation.
+Local validation passes 2,068 tests with four Linux-only kernel checks skipped;
+both package gates pass, including installed train/guard execution. The Linux
+checks must actually execute before using the cloud runner.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -521,13 +534,14 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: reconcile the retained late-diagnostic receipts before more proving; 40
-local seconds remain unreserved with its full reservation charged. The late
-snapshot places compilation in deferred range checks, with substantial instruction
-and hint storage. Assess the approved HF fallback's CPU/RAM capacity and exact
-bounded manifest, or a source-backed memory reduction, before another maximum
-attempt. Do not repeat the small proof campaign for diagnosis alone. No HF job
-has been executed. Continue the complete
+Next: finish the Linux controller's repository/package and actual Linux kernel
+checks, publish its exact source revision, then freeze and submit at most one
+bounded approved L4 compilation job. Thirty local seconds remain unreserved with
+the new 300-second reservation charged. The late snapshot places compilation in
+deferred range checks, with substantial instruction and hint storage. Keep the
+same circuit/compiler and require small fixtures before maximum compilation;
+diagnosis alone does not need another small-proof campaign. No HF job has been
+executed. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and

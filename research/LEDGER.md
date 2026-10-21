@@ -2150,3 +2150,46 @@ ancillary allowance fit the 500-second reservation; exact values and receipt
 hashes are in the evidence. Keep the full reservation charged pending audit.
 An unauthenticated HF hardware inventory refresh is retained locally as next-step
 preparation; no job or token access occurs. Exact-head hosted CI is separate.
+
+## 2026-10-21 — W18 Linux fallback preparation
+
+Hypothesis: the approved L4 host's additional RAM can compile the unchanged
+maximum-input relation. Baseline `d70a029` retains the Mac memory-cutoff result.
+The [numeric record](evidence/w18-hf-compile-2026-10-21.json) precedes this prose;
+raw root: `runs/w18-hf-compile-1792577568568485000`. Rechecking every late-diagnosis
+receipt adopts its actual 200.412 seconds plus the previously retained 6,660,
+rounding to 6,870. Reserve 300 local seconds for implementation checks and gates,
+leaving 30. The unchanged cloud ceiling is one job, one hour, two dollars.
+
+The separate Linux controller reuses the existing private file/hash/termination
+helpers without modifying the Mac worker. It checks the container's memory limit,
+denies socket creation and alternate syscall ABIs, drops inherited credentials
+and file descriptors, samples procfs RSS and retains kernel peak/CPU/wall results.
+It first checks actual network denial, then the eight-unit constraint count,
+then maximum compilation and conditional fresh-process confirmation. Failure
+skips dependent cases. Compilation never sets backend/proof qualification true.
+
+The bootstrap admits only pinned public Hallmark sources, the unchanged reviewed
+compiler-cache candidate and Go 1.26.8. It verifies the patched module inventory
+and all seven small circuit fingerprints before the large attempt. The official
+Python 3.12.15 slim-bookworm OCI image and Linux Go archive are digest pinned.
+Docker Python's MIT and CPython's PSF/historical grants were reviewed and retained;
+the image is not independently rebuilt. No system packages or model code are
+installed. Read-only HF authentication/Jobs access pass using the owner's local
+token; zero earlier Hallmark jobs are found. The token stays on the control plane.
+
+Initial local fixtures pass 18 tests with four Linux kernel checks skipped; adding
+container-limit cases passes 22 with the same four skips. The first full software
+gate passes before a bootstrap ordering adjustment that checks container RAM
+before downloading Go. An initial lint overlong string and mypy inference error
+were corrected; no research job ran. Final repository/package gates and real Linux
+kernel checks are still required before a cloud submission at this checkpoint.
+
+Final local preparation gates pass 2,068 tests with four Linux-only kernel skips,
+plus core and combined train/guard packages. Both package builds use source
+identity `6f3da4b3c1ca7fa0c35eb34523c9d46544a07f8a545d828f57aafb23025a28ef`
+before this evidence update. Thirty new tests include real Linux network denial,
+credential isolation, timeout, memory cutoff and missing-monitor checks; their
+kernel-dependent cases have not run on the Mac. Publish this exact source and
+require the Linux CI execution before freezing/submitting a cloud job. The full
+reservation remains charged. No cloud job has run at this checkpoint.
