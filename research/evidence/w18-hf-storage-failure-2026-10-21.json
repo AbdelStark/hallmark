@@ -1,0 +1,110 @@
+{
+  "schema_id": "hallmark.hf-maximum-storage-failure/1",
+  "recorded_at": "2026-10-21",
+  "status": "incomplete",
+  "qualified_backend": false,
+  "full_input_proof": false,
+  "source_commit": "4bd86ba46775ea21e72efe65b257752622fa6897",
+  "merged_commit": "89c2585619d4404d702439a46c825c8f8241cef9",
+  "ci": {
+    "candidate": [
+      39603173967,
+      39603180082
+    ],
+    "candidate_jobs_passed": 28,
+    "merged_main": 39604077378,
+    "merged_jobs_passed": 14
+  },
+  "cancelled_l4": {
+    "job_id": "6ad8b6e55275124786e25ede",
+    "terminal_stage": "CANCELED",
+    "execution_observed": false,
+    "queue_observed_seconds": 315.345183134079,
+    "bucket_removed": true,
+    "conservative_compute_upper_bound_minor": 38
+  },
+  "cpu_attempt": {
+    "job_id": "6ad8b8565275124786e25fc1",
+    "flavor": "cpu-performance",
+    "host_vcpus": 32,
+    "worker_thread_upper_bound": 48,
+    "container_memory_limit_bytes": 274999996416,
+    "terminal_stage": "ERROR",
+    "provider_scheduling_seconds": 62,
+    "provider_running_seconds": 214,
+    "provider_total_seconds": 277,
+    "conservative_compute_upper_bound_minor": 19,
+    "currency": "USD-cent",
+    "invoice_verified": false,
+    "input_manifest": {
+      "path": "runs/w18-hf-cpu-maximum-1792587855982096000/inputs.json",
+      "sha256": "391bb48b28aaec59efa7be7b209d1bb74ffdb87d8a037dce26a48632b511ed2d",
+      "bytes": 74253
+    },
+    "job_manifest": {
+      "path": "runs/w18-hf-cpu-maximum-1792587855982096000/job-manifest.json",
+      "sha256": "f5f8a7e66e703752183b334dbc346ec3f14ea55548f16eb4d69f0c7f9ffef6d2",
+      "bytes": 1853
+    },
+    "binary_sha256": "cef5ec7b31506ba3bea69590df5bb955ad7671f004f610a3a3e284d579bad114",
+    "module_verification_passed": true,
+    "circuit_fingerprints_matched": 7,
+    "tiny_worker_cases_passed": 5,
+    "maximum_export": {
+      "report": {
+        "schema_id": "hallmark.gnark-installation-probe/1",
+        "status": "passed",
+        "constraints": 40015721,
+        "elapsed_ns": 141093003386
+      },
+      "file": {
+        "bytes": 2566643378,
+        "path": "w18-1792587855982096000/maximum-export/circuit.r1cs",
+        "sha256": "cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489"
+      },
+      "matches_independently_retained_mac_bytes": true,
+      "worker_peak_rss_bytes": null,
+      "worker_cpu_seconds": null,
+      "missing_cost_reason": "stream_regular raised changed file before maximum cost receipt completed"
+    },
+    "failure": {
+      "exception": "ValueError",
+      "message": "changed file",
+      "location": "stream_regular output inspection on mounted bucket",
+      "exact_stat_field": null,
+      "maximum_setup_executed": false
+    },
+    "retention": {
+      "files": 37,
+      "total_bytes": 2566700934,
+      "all_worker_cost_pins_verified": true,
+      "receipt": {
+        "path": "runs/w18-hf-cpu-maximum-1792587855982096000/download-verified.json",
+        "sha256": "c33f51b0f55beda7fc358c9952e9234cbcf13e59c8181ec5662f390dd1cc5ff1",
+        "bytes": 6869
+      },
+      "bucket_removed": true,
+      "all_local_hashes_rechecked_before_removal": true
+    }
+  },
+  "limitations": [
+    "Circuit export and tiny proofs are not maximum setup/proof evidence.",
+    "Matching downloaded bytes do not identify the exact stat field that changed.",
+    "Local setup, shared verifier, synthetic profile and 33 public commitment fields remain unqualified."
+  ],
+  "local_correction_validation": {
+    "make_check": {
+      "passed": 2110,
+      "skipped_linux_only": 5,
+      "warnings": 1,
+      "pytest_seconds": 39.83,
+      "stdout_sha256": "7c64ac4f14140ba776dc997c3ec52a4814d8f4dd6082ca20df392d280d794694"
+    },
+    "focused_tests": {
+      "passed": 55,
+      "skipped_linux_only": 5
+    },
+    "package_check": "pending",
+    "new_cloud_execution": "not-yet-submitted"
+  }
+}
