@@ -71,6 +71,12 @@ func read(name string, value io.ReaderFrom) error {
 }
 
 func run(args []string) (int, error) {
+	if len(args) == 2 {
+		switch args[0] {
+		case "input-compile", "input-setup", "input-prove", "input-batch", "input-verify":
+			return runInputScale(args[0][6:], args[1])
+		}
+	}
 	if len(args) == 1 {
 		switch args[0] {
 		case "rule-setup", "rule-prove", "rule-verify", "mlp-setup", "mlp-prove", "mlp-verify",

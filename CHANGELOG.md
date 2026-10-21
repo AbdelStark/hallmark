@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Add an optional complete-input commitment scaling probe with canonical indexed
+CBOR packing, small real proofs and bounded maximum-size compilation. Keep
+proof results and resource failures distinct; no backend
+or encoder qualification follows.
+
 Add `hallmark qualify` with an externally pinned protocol, safe input snapshots
 and a shared deadline/storage budget across the existing real-proof probes. Keep
 standalone commands compatible. Passing available stages reports incomplete with

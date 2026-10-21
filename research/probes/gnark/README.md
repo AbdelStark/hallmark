@@ -1,6 +1,6 @@
 # Optional local proof probes
 
-This directory contains four real-proof experiments for W18, not a qualified
+This directory contains bounded real-proof experiments for W18, not a qualified
 Hallmark backend. The Python runtime has no new dependency or acceptance path.
 See [decision 0022](../../../docs/decisions/0022-local-proof-probes.md) and the
 [MLP extension](../../../docs/decisions/0024-bounded-mlp-proof-probe.md) for the
@@ -19,6 +19,13 @@ public fields and 89 private intermediate values. Its fixture exhausts all
 residuals and pooling; it does not implement a tokenizer, layer normalization,
 the complete input hash or a complete encoder. See
 [decision 0025](../../../docs/decisions/0025-integer-attention-block-probe.md).
+
+`input_scale.go` separately measures the salted complete-byte commitment with
+indexed CBOR packing. It uses 33 public fields and a synthetic fixed profile,
+with candidate capacities 8, 32, 256 and 32,768 bytes. It leaves the original
+rule/MLP/block relations unchanged. Its small proofs, boundary proving attempts and
+maximum compilation attempt are different kinds of evidence; none qualifies
+the full encoder. See [decision 0035](../../../docs/decisions/0035-input-commitment-scaling.md).
 
 The [initial evidence](../../evidence/w18-proof-probes-2026-10-20.json) retains
 the original failed/corrected rule candidate. The
@@ -81,6 +88,21 @@ Run these experiments sequentially under the recorded budget.
 The block controller proves every input/mask combination, checks every recorded
 intermediate, and rejects field aliases, malformed assignments, changed proofs
 and the wrong setup key. It uses explicit finite selection for its small tables.
+
+The separate commitment-scaling run uses the same isolated worker, with a
+420-second total limit, 120-second setup/batch caps and a 90-second maximum
+compilation cap:
+
+```text
+uv run --locked python scripts/check_gnark_input_scale.py \
+  --binary BINARY --expected-binary BUILD_SHA256 --output FRESH_DIRECTORY
+```
+
+This command exits 3 and reports incomplete even when its component checks pass.
+Read `result.json`, batch outcome files and each `cost.json` to distinguish actual
+proofs, rejected witnesses, compilation and resource failures. No source edit or retry belongs to
+the same frozen experiment. Independently retain the source/build/binary pins
+and approved remaining budget before execution.
 
 `make check` runs offline boundary and fixture-reproduction tests. It does not
 download Go, build the backend or prove these relations. OS sandbox tests skip

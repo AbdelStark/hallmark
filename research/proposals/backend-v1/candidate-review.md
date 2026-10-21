@@ -1,5 +1,21 @@
 # Proof backend source review
 
+## 2026-10-21 commitment-scaling extension
+
+The separate [decision 0035](../../../docs/decisions/0035-input-commitment-scaling.md)
+uses the already pinned gnark module's indexed log-derivative lookup. Source
+inspection followed `Lookup` through its blueprint outputs and deferred
+`logderivarg.Build`: queries contain both index and value, and variable table
+entries, query tuples and multiplicity hints enter the commitment before the
+challenge. The relation constrains canonical byte ranges, every prefix increment,
+all active byte reads and zero padding. Lookup hints are not accepted as an oracle.
+The exact inspected source hashes are retained with the new run. This adds a
+gadget to the circuit review surface; it is not an independent security review,
+soundness proof, hiding assessment or backend admission. Historical source reviews
+and circuit results below keep their original scope.
+
+## Initial candidate review (2026-10-20)
+
 Observed 2026-10-20 for W18 / issue #19. This is source and dependency
 preparation, not backend qualification, legal advice or an independent security
 review. The initial review inspected public metadata, source text and audit PDFs;

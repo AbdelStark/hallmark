@@ -47,13 +47,19 @@ func graphAssignment(kind string, private bool) (frontend.Circuit, error) {
 }
 
 func readAssignment(count int) ([]uint64, error) {
-	handle, err := os.Open("assignment.txt")
+	return readAssignmentFile("assignment.txt", count)
+}
+
+func readAssignmentFile(name string, count int) ([]uint64, error) {
+	handle, err := os.Open(name)
 	if err != nil {
 		return nil, err
 	}
 	defer handle.Close()
-	raw, err := io.ReadAll(io.LimitReader(handle, 8193))
-	if err != nil || len(raw) > 8192 {
+	// Each canonical uint32 uses at most ten digits and a newline.
+	limit := count * 11
+	raw, err := io.ReadAll(io.LimitReader(handle, int64(limit+1)))
+	if err != nil || len(raw) > limit {
 		return nil, errors.New("invalid assignment")
 	}
 	lines := strings.Split(string(raw), "\n")
@@ -88,6 +94,12 @@ func runGraph(command string) (int, error) {
 func runRelation(action string, prototype frontend.Circuit, assignment func(bool) (frontend.Circuit, error)) (int, error) {
 	curve := ecc.BLS12_381
 	switch action {
+	case "compile":
+		ccs, err := frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
+		if err != nil {
+			return 0, err
+		}
+		return ccs.GetNbConstraints(), nil
 	case "setup":
 		ccs, err := frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
 		if err != nil {

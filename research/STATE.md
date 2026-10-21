@@ -222,6 +222,25 @@ verifier/security/hiding evidence and accepted setup lineage remain missing.
 Review-file hashes bind documents without authenticating their approval or
 adjudicating their claims. No backend is selected; W18 remains open.
 
+W18's separate [input-scaling evidence](evidence/w18-input-scaling-2026-10-21.json)
+now covers indexed canonical CBOR packing with 33 public commitment fields.
+Eight actual proofs verify at capacities 8 and 256, including count boundaries
+23/24 and 255/256. Twelve corrupted witnesses, all 33 public-field mutations,
+an alias, altered proof and wrong setup key reject. Constraints are 206,049 /
+244,924 / 525,403 at capacities 8 / 32 / 256. The 32,768-byte compile times out
+after 90.335 seconds and peaks at 17,181,917,184 bytes RSS: 2,048,000 bytes above
+the 16 GiB measured limit. No maximum-input circuit or proof is produced.
+The corrected run takes 318.353 seconds; its predecessor's 118.892-second failure
+is retained. Direct `IsSolved` lacked the actual commitment hint; those earlier
+solver-negative outcomes are discarded as evidence. Real prover batches replace
+that path without dummy hints. See [decision 0035](../docs/decisions/0035-input-commitment-scaling.md).
+All 2,004 repository tests and both installed-package gates pass, with training
+and guard checks executed. This isolates a full-input resource obstacle before adding encoder layers. The
+remaining conservative unreserved proof allocation is 44.360 seconds; audit
+actual consumption before another expensive run. Existing memory checks are
+postconditions and did not prevent the small overage. This is a component with a
+synthetic profile pin, not the 100-field classifier statement or a full encoder.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -446,8 +465,10 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: qualify complete-input commitment scaling, then the complete admitted encoder
-at empty, near-boundary and maximum length, including layer normalization.
+Next: address the measured maximum-input compilation failure and enforce a
+conservative live memory cutoff before another large attempt; audit remaining
+actual proof time. Continue the complete encoder graph, including layer normalization,
+without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and
 measured costs remain required. Keep new proof runs inside the remaining recorded
 budget. Natural-data validation, genuine hardware and independent verification

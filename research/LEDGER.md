@@ -1860,3 +1860,68 @@ The package snapshot before this evidence/documentation update is
 `e21d8170269b46ab75c2702576326e47705ffbf290af71d7cc0667ce1d4ec51f`.
 No proof run, HF token, paid compute, model download or private-data upload occurred.
 Exact-head hosted checks remain required before merge.
+
+## 2026-10-21 — W18 complete-input commitment scaling
+
+Hypothesis: indexed lookup removes quadratic CBOR packing and makes the admitted
+maximum-input component measurable. Baseline: eight-byte rule/MLP input binding.
+Decision [0035](../docs/decisions/0035-input-commitment-scaling.md) fixes the new
+component, byte/header boundaries, negative cases and resource envelope. Mutable
+paths are the optional Go component/worker dispatch, its research runner, tests
+and evidence. Rule, MLP, attention-block and original input circuit bytes are
+unchanged. W17 / PR #74 was integrated as `132c65e`, preserving both implementations;
+83 focused reporting/qualification tests passed before the new experiment.
+
+[Numeric evidence](evidence/w18-input-scaling-2026-10-21.json) retains
+`runs/w18-input-scale-1792570054284510000`: predeclared plans, exact source snapshots,
+reviewed cached dependency pins, offline builds, both candidate identities, every
+attempt/cost and synthetic proof/key bytes. No transcript, model checkpoint,
+token, HF job, fee or scheduler is involved. The native fixture cross-checks a
+hand-assembled encoding/hash against the existing canonical codec at lengths
+0/1/8/23/24/255/256/32767/32768. The 33-field relation binds count and salted input
+digest under a synthetic fixed profile; it is not a classifier statement.
+
+The first 118.892-second run produced three small proofs, then failed on a valid
+empty 256-byte solver assignment. Inspection of the pinned gnark commitment
+placeholder established that standalone `IsSolved` lacks the real prover's hint.
+Its negative solver outcomes are inadmissible and remain marked as such. The
+corrected source uses only actual Groth16 proving, with one key load per batch,
+and fresh verifier processes. No placeholder/dummy hint was introduced. Source
+snapshots of the failed Go candidate reproduce its pre-run hashes exactly.
+
+The corrected 318.353-second command records 51 worker processes, including
+two proving batches: eight valid proofs
+(empty/near/max at capacity 8 and lengths 0/23/24/255/256 at capacity 256), twelve
+invalid prover witnesses, eight successful fresh verifications, 33 changed
+public-field rejections, field alias/proof corruption/wrong-key rejections,
+setups and compilation probes. Padding, byte range, salt range, header/array
+encoding and prefix gaps reject. The small circuits contain 206,049, 244,924 and
+525,403 constraints for capacities 8, 32 and 256. Capacity 32 is compile-only.
+
+Maximum capacity 32,768 fails compilation: the watchdog kills it after 90.335
+seconds, with measured peak RSS 17,181,917,184 bytes, 2,048,000 above the approved
+16 GiB postcondition. The late supplemental memory observer found no matching
+live process and sent no signal. No complete constraint count or maximum-input
+proof exists; this is not a throughput estimate or whole-encoder result. Future
+large attempts need a conservative live cutoff and an accounting audit first.
+Old conservative consumption 4,955.640 seconds and the prior 1,500-second
+reservation remain intact; this increment reserves 700 of the remaining 744.360
+seconds, including failures, builds and checks. No time refund is assumed.
+
+Validation so far: 16 new Python tests, all 2,003 repository tests and two Go
+boundary tests pass. Seven Go manifest cases cover unsafe names, duplicates,
+unknown/missing fields, trailing/oversized input and empty batches; seven numeric
+transport cases reject malformed or excessive assignments. The first package
+attempt retained in `dist/package-check-jssm2d0r` correctly rejected missing linked
+documentation because new files had not yet entered the Git-index source snapshot.
+Stage exact intended files before repeating the package gate. No unrelated
+`.gitignore` change is staged. Backend selection and issue #19 remain open.
+
+Final validation passes all 2,004 Python tests and both package gates, including
+required installed training and guard/comparison/report/qualification checks.
+The package source identity is `c8d57b9251622d2c3a14305c60ce025754e3a4da7f9ff7b6f0cd9e1a43db3b29`.
+Seventeen new Python tests include sanitized CLI argument errors; that post-run
+CLI hardening does not relabel the frozen cryptographic experiment. The timed new
+commands total 648.176 seconds; a further ten-second preflight/test allowance
+keeps consumption inside the 700-second reservation. Final-head hosted verification
+is separate from these local results.
