@@ -3245,3 +3245,111 @@ seconds with reproducible artifacts and installed core checks; the unchanged whe
 hashes to `14b1415598e20ed3e9449141eaff0d67c06cecb4ed4f4ea1be5508c882cc9b90`.
 Its source snapshot precedes this validation-only evidence/prose update. Exact-head
 hosted train/guard and fresh Linux proof checks remain pending.
+
+## 2026-10-21 — W18 separate rule/MLP proof checks
+
+PR #85 merged as `8156e471434ed7b776abe11be05bab14b5a7b400`. All 30
+candidate checks and all 15 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39659981327)
+pass. The fresh Linux proof gate runs the numerical-class regression and checks
+133 cases with separate arithmetic. Installed train/guard gates pass too.
+
+The frozen `w18-second-verifier-classifiers-1792608359944530000` experiment
+uses unchanged verifier source `b8d5afa6b30f268c00d9560cd075c4c071a158a4`
+against the existing rule `utf8` and MLP `unicode-boundary` examples. Before either
+check, `enroll.py` rebuilds the native fixtures to their exact prior hashes,
+compares all 100 public scalars, and checks the published proof/key byte pins.
+`run.py` uses two sequential Mac workers with fixed environments and denied
+network, outside-file reads and forks, under the same reviewed py-ecc environment.
+
+The rule check passes 133 cases in 94.524 seconds at 49,479,680 bytes peak RSS;
+the MLP check passes 133 in 96.494 seconds at 49,446,912 bytes. Each has one original
+valid proof, one valid joint A/B negation, 109 algebraic rejections and 22 malformed
+input rejections. No generator, evaluator or dependency changes are needed.
+Exact commands, input/enrollment/source pins and raw worker costs are retained in
+the [evidence](evidence/w18-second-verifier-classifiers-2026-10-21.json).
+
+These are small synthetic examples of two different inputs. They supply no
+maximum-length rule/MLP proof, common-input all-pass bundle, trained quality,
+operational enrollment, accepted setup, independent human security review or
+hardware evidence. Diagnostic single-run timings are not latency distributions.
+
+Post-result inspection of PR #85's frozen 21-class fixture finds all scores in
+[-10, 0], all passing the fixed threshold 2. The native encoder's maximum-of-chunks
+aggregation therefore also passes every admitted input under these exact
+constants, tokenizer and two-position block. The interpretation and source pins
+are retained in
+`runs/w18-encoder-results-1792610153249566000/class-decision-interpretation.json`.
+This is a pass-all conformance fixture, not an injection detector; no model,
+threshold, frozen evaluator or running cloud experiment was changed. It is not a
+held-out task-quality measurement.
+
+## 2026-10-21 — W18 maximum encoder proofs retained and replayed
+
+The frozen corrected campaign `w18-encoder-reader-fix-1792606117695924000`
+completes on source `8e4e0e62572ac60b15958cc2eac44bd34692d8e2`, with the
+graph, fixtures, public assignments, dependency patches and evaluator unchanged.
+HF job `6ad903055275124786e2941c` reports `COMPLETED`, with 7,261 provider
+seconds. The controller passes all 117 worker cases. Its maximum batch produces
+three real 292-byte proofs for 0, 32,767 and 32,768 bytes and rejects 12 altered
+witnesses. Fresh cloud verification rejects all 100 public mutations, a field
+alias, changed proof bytes and an actual wrong key. Qualification stays false.
+
+The [raw numeric evidence](evidence/w18-maximum-encoder-result-2026-10-21.json)
+precedes this prose. Export reproduces the 5,153,016,221-byte circuit hash
+`7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a`.
+Setup takes 3,581.349068737589 seconds at 121,745,952,768 bytes kernel RSS and
+writes a 32,882,754,741-byte proving key. The shared-key batch takes
+2,808.662148230709 seconds at 165,759,930,368 bytes kernel RSS. These are single
+diagnostic stage measurements, not per-proof latency, quantiles or a scaling
+comparison. All frozen process/resource checks pass. Provider container memory
+includes more than worker RSS and is not substituted for that measurement.
+
+Retention initially fails: after 857 complete files, the first large key response
+ends at 875,954,746 bytes instead of 32,882,754,741. The size assertion rejects it.
+The original partial bytes, log and frozen downloader remain unchanged. A new
+bounded `resume-retention-02.py` first checks all completed file hashes, then
+requires exact HTTP 206 ranges, offsets, lengths and full-file hashes. It passes
+in 2,656.277 seconds without a new cloud job or any experiment change. The original
+cleanup command then rehashes all 859 remote files (81,917,884,459 bytes), compares
+the remote inventory and deletes the temporary bucket; authenticated lookup
+returns 404. The failed partial remains local in addition to the complete archive.
+
+Before either local replay, `external-pin-check.json` in
+`runs/w18-encoder-results-1792610153249566000` matches the downloaded key,
+key-enrollment record, circuit and complete setup cost against the earlier
+observation. That observation precedes batch-result publication, not the start of
+proving. The prelaunch native public assignments are also unchanged. Neither
+record authenticates operational setup or relying-party trust.
+
+`replay-default.py` passes 106 original-dependency Mac checks in 8.3900445420295
+seconds, with a largest worker RSS of 137,445,376 bytes. The frozen
+`run-check-maximum-02.py` passes 135 separate py-ecc checks in 96.56315699988045
+seconds at 49,299,456 bytes RSS: three original proofs, one valid joint A/B
+negation, 109 algebraic rejections and 22 malformed-input rejections. The separate
+library provides implementation diversity; it remains experimental and unaudited.
+All exact commands, raw result pins and the externally observed key are in the
+evidence file. The proof/key bytes published there are public synthetic fixtures.
+
+At the retained quoted rate, the completed job's conservative compute bound is
+USD 3.90. With USD 7.51 carried forward and a USD 2 incremental storage reserve,
+the combined bound is USD 13.41 under the unchanged USD 20 ceiling. These are
+conservative bounds, not invoice values. No top-up or ongoing job was created.
+
+Local `make check` passes 2,186 tests, with 45 optional guard and five Linux-only
+skips, and all 156 software conformance outcomes match. Training is installed and
+executes. The first package snapshot omits the then-untracked new classifier
+evidence, so its installed link check correctly fails. After staging that exact
+file, `make package-check` passes in 8.804 seconds with the unchanged wheel
+`14b1415598e20ed3e9449141eaff0d67c06cecb4ed4f4ea1be5508c882cc9b90`.
+Both the failure and successful receipts are retained. Those checks precede this
+final maximum-result prose; the final documentation/package snapshot and exact-head
+hosted jobs remain delivery checks for this results-only change.
+
+The maximum synthetic experiment's criterion passes. The fixed encoder still
+passes every admitted input, and no task-quality result follows. The core
+qualification runner does not consume these standalone results as admission.
+Accepted setup lineage, authenticated operational program/key enrollment,
+independent human security/hiding review, a useful admitted encoder and genuine
+hardware evidence are still missing. W18/W12 stay open. The private review packet
+offers independent reproduction first and a separately scoped cryptographic
+assessment; no contact or paid engagement has occurred.

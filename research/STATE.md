@@ -841,7 +841,50 @@ See [decision 0056](../docs/decisions/0056-encoder-class-coverage.md). These are
 solver witnesses, not new encoder proofs or exhaustive transcript/security checks.
 The maximum cloud run, qualification flags and earlier experiments are unchanged.
 
+Post-result interpretation of the same frozen classes: their scores range from
+-10 to 0, all below the unchanged threshold 2. Since the native runtime takes the
+maximum over chunks, this fixed synthetic encoder passes every admitted input.
+It is a conformance fixture, not an injection detector. This inference is
+conditional on the exact byte tokenizer, constants and two-position block; no
+model, threshold or evaluator was changed and no task-quality experiment ran.
+
 For this addition, `make check` passes 2,186 tests with 50 platform/optional-guard
 skips and all 156 software conformance matches. Reproducible packaging and the
-installed core check pass; the wheel is unchanged. Exact-head hosted checks
-remain pending, including installed train/guard execution.
+installed core check pass; the wheel is unchanged.
+[PR #85](https://github.com/AbdelStark/hallmark/pull/85) merged as
+`8156e471434ed7b776abe11be05bab14b5a7b400`; all 30 candidate checks and
+all 15 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39659981327)
+pass, including installed train/guard execution and the fresh Linux proof gate.
+
+The unchanged separate verifier also checks the two previously published
+small rule and MLP proof examples. Each passes 133 cases after reproducing its
+native fixture byte for byte and independently retaining the key/public-input
+pins. The [evidence](evidence/w18-second-verifier-classifiers-2026-10-21.json)
+records the original proof and valid joint A/B negation, 109 algebraic rejections
+and 22 malformed-input rejections per run. These examples use different inputs;
+they do not verify a common-input all-pass bundle or qualify a backend.
+
+The corrected [maximum encoder campaign](evidence/w18-maximum-encoder-result-2026-10-21.json)
+now produces three real 292-byte proofs for empty, 32,767-byte and 32,768-byte
+inputs. It reproduces the frozen 110,432,265-constraint circuit, rejects all 12
+invalid batch witnesses and passes all 117 cloud worker cases, including fresh
+verification and all 100 public-field mutations. Setup takes 3,581.349 seconds;
+the shared-key batch takes 2,808.662 seconds and peaks at 165,759,930,368 bytes
+worker RSS. Batch time includes key loading, three proofs and negative cases;
+it is not an individual proof latency.
+
+The Mac replays pass 106 original-dependency cases in 8.390 seconds and 135
+separate-arithmetic cases in 96.563 seconds. The setup key matches the observation
+retained before the batch result was published, but after proving began; this is
+not authenticated operational enrollment. All 859 output files, 81,917,884,459
+bytes, are retained and rehashed, and the temporary bucket is confirmed absent.
+The first download's truncated key response and its bounded range recovery are
+preserved. The combined conservative compute/storage bound is USD 13.41 within
+the USD 20 ceiling, not an invoice.
+
+This closes the frozen maximum synthetic proof experiment in decisions 0053/0054.
+It does not qualify the backend or turn the pass-all fixture into a detector.
+Accepted setup lineage, authenticated program/key enrollment, independent human
+security/hiding review, a useful admitted encoder and genuine hardware evidence
+remain absent. W18 and W12 remain open. Prepared review options distinguish
+independent reproduction from cryptographic assessment; no reviewer was contacted.
