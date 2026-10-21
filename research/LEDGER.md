@@ -2313,3 +2313,49 @@ termination. The timeout is retained, not reported as a pass. Commands total
 requests 120 additional Mac-only validation seconds at zero spend, with no new HF
 job. Source publication may remain draft while that validation gap is explicit;
 it does not finish W18 or qualify a backend.
+
+## 2026-10-21 — W18 source-backed setup capacity review
+
+The preceding streaming commit `d03f9d1` passes all 28 exact-head hosted jobs:
+push `39589743317`, PR `39589749300`. The local 39-second timeout and unrun package
+gate remain explicit; the 120-second validation question is still pending.
+
+Without launching a research job, inspect the pinned gnark/gnark-crypto setup,
+serialization, domain and point-storage code. Hypothesis: source-derived lower
+bounds can identify a concrete prerequisite before spending another maximum run.
+Baseline: the two 40,015,721-constraint compilation reports. Mutable paths are
+this state/ledger, the numeric evidence and a proposal; no implementation,
+evaluator, circuit, source dependency or resource cap changes.
+
+The [numeric evidence](evidence/w18-setup-capacity-2026-10-21.json) precedes the
+[proposal](proposals/backend-v1/setup-capacity-options.md). Raw source snippets,
+hashes and the result are in its fresh `raw_directory`. The explicit 26-stage
+sum agrees with the closed form. Source-pin and arithmetic verification takes
+0.003302 seconds; it allocates no FFT domain or point array and runs no Go build,
+setup, proof or model. Charge the 0.003302 seconds within the existing reservation's
+7.687912-second remainder, retaining its full overhead allowance. No additional
+runtime reservation or authority is claimed.
+
+The default setup uses domain size 67,108,864. Its encoded Z vector alone requires
+3,221,225,428 bytes, so the current 256 MiB artifact cap cannot support it. Two
+twiddle tables and two coset tables occupy 8,589,936,192 bytes. G1 conversion holds
+at least 9,663,676,416 Jacobian bytes and 6,442,450,944 affine bytes simultaneously,
+while the domain remains live for the proving key. Their sum is at least
+24,696,063,552 bytes of backing storage, not measured RSS or a total peak bound.
+The circuit, scalars/digits, extra points, masks, G2 and allocator/GC overhead are
+excluded. Do not add the historical compile peak to this source bound.
+
+The first concrete candidate is chunked G1 conversion inside the existing scalar
+loop, preserving its window/table/digit choices and output ordering. It trades
+additional inversions for bounded Jacobian temporaries; performance is unmeasured.
+Inspection rejects the same rationale for G2: that implementation already writes
+each result directly to affine. The proposal freezes the required point equivalence,
+small-circuit/proof regressions and resource-plan gates before a maximum attempt.
+No patch, extra job, private upload, larger host or full-backend qualification is
+authorized or supplied by this analysis.
+
+`make check-spec` passes all 51 sections, 18 invariants, 10 RFCs, 40 work items and
+106 dependency edges. Source/arithmetic verification plus this documentation gate
+charge 0.473966 seconds, bringing the prior streaming increment to 56.786053 of
+its 64 reserved seconds, with the eight-second overhead allowance retained.
+No runtime-code gate is represented as newly passed by this documentation check.

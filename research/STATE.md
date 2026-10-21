@@ -337,6 +337,18 @@ requested. The receipt audit
 retains all actual commands and allowances, rounds prior usage to 7,136 seconds
 and reserves the remaining 64 under [decision 0041](../docs/decisions/0041-streamed-proof-artifacts.md).
 
+Streaming commit `d03f9d1` passes all 28 hosted jobs: push `39589743317` and PR
+`39589749300`. Its retained local timeout and unrun local package gate remain
+separate. The [setup capacity review](evidence/w18-setup-capacity-2026-10-21.json)
+now derives a 3,221,225,428-byte minimum for the maximum key's Z vector alone,
+above the unchanged 256 MiB cap. Default FFT precomputation and simultaneously
+live G1 Jacobian/affine arrays require at least 24,696,063,552 bytes of slice
+backing storage before other allocations; this is not measured RSS. The
+[next candidate](proposals/backend-v1/setup-capacity-options.md) bounds G1
+Jacobian temporaries. G2 already converts directly to affine. Neither a patch
+nor a new setup run is executed by this source review; total memory/time and
+L4 fit remain unestablished.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -561,10 +573,11 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: finish the streamed-artifact repository/package gates, then prepare a
-concrete setup/proving plan before any maximum-input proof attempt. The existing 256 MiB artifact reader and
-unmeasured setup/prover memory are separate gates; compile success cannot satisfy
-them. Preserve the completed HF job and all failed Mac attempts. No new cloud job
+Next: finish the streamed-artifact repository/package gates, then prepare and
+validate the bounded G1 setup candidate and its explicit setup/proving plan.
+The minimum key component already exceeds the existing 256 MiB artifact cap.
+Setup/prover peak memory remains unmeasured; compile success cannot satisfy either
+gate. Preserve the completed HF job and all failed Mac attempts. No new cloud job
 fits the current one-job allowance, and no local proving time is unreserved.
 Ordinary implementation and preparation can continue. Continue the complete
 encoder graph, including layer normalization,
