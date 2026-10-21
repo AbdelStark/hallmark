@@ -1,11 +1,13 @@
 # Maximum commitment setup: source bounds and next candidate
 
-Status: optional patch component checks passed, 2026-10-21. This is not an executed
-setup or a new run authorization. The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
+Status: optional patch component checks and two small-proof campaigns passed,
+2026-10-21. This is not an executed maximum setup or a new run authorization.
+The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
 pins every file and line range used below. Existing results keep their original
 source identities. The approved 120-second local validation increment closes the
 streamed-artifact gates and validates bounded G1 fixtures. It does not authorize
-a maximum setup/proving campaign or another cloud job.
+a maximum setup/proving campaign or another cloud job. The later approved
+600-second small-proof campaign also excludes both.
 
 ## Established bounds
 
@@ -79,8 +81,11 @@ distribution or whole-setup memory; the final affine array and domain still exis
    partition includes a span longer than 4,096: the library partitions by CPU
    count, independently of `GOMAXPROCS`, so fixed lengths alone miss that boundary.
 2. Reproduce the seven small circuit fingerprints (passed). Run fresh small
-   commitment setups, proofs and invalid-input/key/proof cases; this remains open
-   beyond the existing cubic unit fixture. Keep old results and failures.
+   commitment setups, proofs and invalid-input/key/proof cases. This gate passes in
+   [two fresh small campaigns](../../evidence/w18-g1-small-proofs-2026-10-21.json),
+   each with eight valid proofs, 18 invalid witnesses, all 33 public mutations,
+   alias, altered proof and wrong key. Separately pinned fresh replay verifies all
+   16 generated proofs. Keep old results and failures; maximum input is unproved.
 3. Measure the allocation/latency tradeoff on the same bounded fixture (one
    diagnostic sample per variant retained). A passing point comparison or one
    helper measurement does not qualify the complete setup implementation.

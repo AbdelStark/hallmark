@@ -77,5 +77,16 @@
     "additional_hf_jobs": 0,
     "maximum_setup_or_proving_campaign": false,
     "prior_limits_and_failures_preserved": true
+  },
+  "local_small_proof_extension": {
+    "approved_at": "2026-10-21",
+    "approval_ref": "docs/decisions/0044-approved-small-g1-proof-campaign.md",
+    "additional_seconds": 600,
+    "purpose": "Two fresh bounded small-commitment proof/negative campaigns under the corrected G1 candidate, with build, replay and validation.",
+    "max_cost_minor": 0,
+    "currency": "USD-cent",
+    "additional_hf_jobs": 0,
+    "maximum_setup_or_proof": false,
+    "prior_limits_and_failures_preserved": true
   }
 }

@@ -101,5 +101,19 @@ distribution nor maximum setup feasibility. See the
 [validation evidence](../../../evidence/w18-approved-validation-2026-10-21.json),
 [decision 0042](../../../../docs/decisions/0042-bounded-g1-preparation.md) and
 [approved validation increment](../../../../docs/decisions/0043-approved-local-validation-extension.md).
-A fresh complete-input commitment proof/negative campaign and an explicit maximum
-setup resource plan remain required. These component checks do not qualify W18.
+The subsequent [fresh small-proof campaign](../../../evidence/w18-g1-small-proofs-2026-10-21.json)
+passes twice with this candidate. Each run verifies eight proofs at capacities
+8 and 256 and rejects 18 malformed witnesses, all 33 public mutations, a field
+alias, changed proof and wrong key. Sixteen additional fresh replay workers verify
+all generated proofs against externally retained local key/proof/native-input pins.
+Serialized circuits and native inputs agree across runs; fresh setup keys differ.
+
+Reproduction uses a fresh copy of `scripts/check_gnark_input_scale.py`, changing
+the total deadline to 240 seconds, removing only maximum-capacity compilation
+and labeling that omission. The exact diff, source/binary hashes, 50-worker roster,
+commands and result pins are in the evidence; the default script is unchanged.
+See [decision 0044](../../../../docs/decisions/0044-approved-small-g1-proof-campaign.md).
+The two rosters take 213.851 / 212.832 seconds and peak at 1,264,451,584 /
+1,248,935,936 bytes process RSS. These diagnostics do not establish a latency
+distribution or maximum feasibility. An explicit maximum setup resource plan,
+full encoder and independent verification/security/setup evidence remain required.

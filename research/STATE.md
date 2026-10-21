@@ -363,8 +363,24 @@ digests. Allocated bytes are 80,061,592 / 76,999,144; allocation counts increase
 from 250 to 2,622; observed worker RSS is 96,813,056 / 79,331,328 bytes. This is
 neither a statistical speedup nor maximum setup memory evidence. The first failed
 build, local timeout and previous resource charges remain intact. The additional
-120-second allowance costs zero and launches no HF job. A fresh small commitment
-proof/negative campaign and explicit maximum setup resource plan remain open.
+120-second allowance costs zero and launches no HF job. At that stage, a fresh
+small commitment proof/negative campaign and maximum setup resource plan remained open.
+
+The [fresh G1 proof campaign](evidence/w18-g1-small-proofs-2026-10-21.json) now
+passes twice under the owner's additional 600-second Mac-only approval. Each
+fresh run passes 50 worker cases: eight proofs at capacities 8 and 256 verify;
+18 malformed witnesses, all 33 public-field changes, an alias, changed proof and
+wrong key reject. All 16 proofs also verify in fresh replay workers against
+key/proof/native-input pins stored outside the run outputs. Circuit and native
+input identities agree across runs; independently generated setup keys differ.
+The diagnostic rosters take 213.851 / 212.832 seconds and peak at 1,264,451,584 /
+1,248,935,936 bytes process RSS. No maximum compile/setup/proof is attempted.
+These are small commitment proofs with local setup and a shared verifier library,
+not full-encoder qualification or independent security evidence. See
+[decision 0044](../docs/decisions/0044-approved-small-g1-proof-campaign.md).
+`make check` passes 2,081 tests and the core package gate passes. Total command
+time plus ancillary allowance is 514.800 of 600 approved seconds, at zero spend.
+Final retained checkout allocation is 33,955,835,904 bytes, below 40 GiB.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -592,15 +608,17 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
 The streamed-artifact repository/package gates and corrected G1 component checks
 pass under the [approved validation increment](evidence/w18-approved-validation-2026-10-21.json).
-Next: prepare a bounded fresh small commitment proof/negative campaign and an
-explicit maximum setup/proving plan. Point equality, all seven circuit fingerprints
-and the existing cubic proof/reader unit fixture pass. The earlier failed build is
+The [fresh small commitment campaign](evidence/w18-g1-small-proofs-2026-10-21.json)
+also passes twice, including separately pinned replay. Next: an explicit maximum
+setup/proving resource plan. Point equality, all seven circuit fingerprints and
+the existing cubic proof/reader unit fixture pass. The earlier failed build is
 retained. The optional patch remains disabled in the default module and HF bootstrap.
 The minimum key component already exceeds the existing 256 MiB artifact cap.
 Setup/prover peak memory remains unmeasured; compile success cannot satisfy either
 gate. Preserve the completed HF job and all failed Mac attempts. No new cloud job
 fits the current one-job allowance, and the previous local proving allocation is
-fully charged. The additional validation allowance does not authorize a maximum campaign.
+fully charged. Decision 0044 adds 600 seconds for the completed small-proof
+campaign and its checks; it does not authorize a maximum campaign or another HF job.
 Ordinary implementation and preparation can continue. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.

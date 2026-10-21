@@ -2468,3 +2468,69 @@ tracked diagnostic/evidence/documentation. The wheel hash is unchanged from the
 initial core package gate. All 16 commands consume 93.747097 seconds; the total
 charge with the five-second allowance is 98.747097, leaving 21.252903 seconds.
 The raw initial result and final evidence remain separate immutable records.
+
+## 2026-10-21 — W18 fresh small proofs with the corrected G1 candidate
+
+The owner approved the prepared ten-minute Mac-only campaign under
+[decision 0044](../docs/decisions/0044-approved-small-g1-proof-campaign.md).
+Reserve 600 additional local seconds: two rosters capped at 240 seconds each,
+100 seconds for preflight/build/replay/validation, and 20 seconds ancillary
+allowance. Preserve the old 7,200-second proving charge and separate 120-second
+validation reservation. No maximum attempt, HF job or spend is authorized here.
+
+Hypothesis: the corrected G1 candidate preserves actual small commitment proof
+acceptance/rejection with fresh setup keys. Baseline: frozen native vectors,
+circuit fingerprints and the existing rejection roster. Mutable paths are a
+fresh local controller copy, build/output directories and evidence; candidate
+patch, circuit semantics and all expected rejections remain fixed. The
+[numeric evidence](evidence/w18-g1-small-proofs-2026-10-21.json) precedes this prose.
+Its raw directory retains the protocol, diff, source/module/build identities,
+inputs, proofs, setup files, output inventories and every command/cost receipt.
+
+Preflight verifies all 1,869 gnark-crypto and 1,264 gnark module files against
+their frozen inventories. The complete checkout occupies 32,369,647,616 allocated
+bytes according to `du -sk`, leaving 10,580,025,344 within the 40 GiB envelope;
+reserve eight GiB for the two outputs. The global audit retains a conservative
+7,200-second non-proof charge against 504.086 seconds of located top-level actual
+elapsed receipts, including duplicates, plus unitemized historical preparation
+and validation. Alongside prior proving, validation and this new reservation,
+15,120 seconds are charged/reserved within the 21,600-second envelope. This is
+conservative accounting, not complete timing instrumentation of old commands.
+
+Build the candidate with the existing offline Go environment, both explicit
+module replacements and `-trimpath -buildvcs=false -mod=readonly`. The new binary
+first passes the existing 18-case cubic installation/proof fixture. Copy the
+input-scaling controller without changing vectors or negative cases; set its
+deadline to 240 seconds, remove only maximum compilation and explicitly report
+`not-run-small-proof-only`. Freeze that exact diff and source before execution.
+
+`execute.py first` and `execute.py repeat` each pass all 50 workers: eight actual
+proofs at capacities 8 and 256, 18 rejected malformed witnesses, all 33 rejected
+public-field changes, field alias, altered proof and wrong key, plus capacity-32
+compilation. Serialized setup circuits match the frozen fingerprints, including
+the independent wrong-key setup. Both runs use identical native vectors; their
+three corresponding setup keys differ. Roster elapsed times are 213.851414 /
+212.831651 seconds; peak worker RSS is 1,264,451,584 / 1,248,935,936 bytes.
+
+After each roster, enroll exact key/proof/native-public-input pins outside its
+output directory. Pass the enrollment manifest hash explicitly to `execute.py
+replay-first` / `replay-repeat`; all eight proofs per run verify in fresh workers.
+This is caller-pinned local replay with the same verifier library, not independent
+verification or authenticated operational key enrollment. The original proofs and
+keys remain local. Randomized proof/key bytes are not expected to reproduce.
+
+The initial proof-result record charges 443.057732 command seconds plus the
+20-second allowance. Final summary and software/package receipts extend the same
+counter. No failures or old reservations are refunded. The 33-field component
+retains its synthetic profile pin; full classifier/encoder binding, maximum setup
+and proof, accepted setup lineage, independent security/hiding/verification and
+genuine hardware remain unavailable. Keep W18 open and PR #72 draft.
+
+Final `make check` passes all 2,081 tests with four platform skips and one warning,
+plus lock/lint/format/type/spec, 156 software conformance cases and the admission
+fixture. The core `make package-check` passes; required train/guard execution
+remains an exact-head hosted gate. All command receipts total 494.800234 seconds;
+with the 20-second ancillary allowance, 514.800234 of the approved 600 seconds is
+charged, leaving 85.199766. Final retained checkout allocation is 33,955,835,904
+bytes, below 40 GiB; the two proof outputs retain 718,090,504 / 718,090,659 logical
+bytes. No source/runtime code or default dependency was changed by this campaign.
