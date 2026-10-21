@@ -11,6 +11,7 @@ import (
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/backend/groth16"
+	blsconstraints "github.com/consensys/gnark/constraint/bls12-381"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/std/hash/sha2"
 	"github.com/consensys/gnark/std/lookup/logderivlookup"
@@ -48,6 +49,13 @@ func constrainPrefix(api frontend.API, active []frontend.Variable, count fronten
 }
 
 func (c *inputScaleCircuit) Define(api frontend.API) error {
+	return c.defineProfile(api, bytes.Repeat([]byte{'p'}, 32))
+}
+
+func (c *inputScaleCircuit) defineProfile(api frontend.API, profile []byte) error {
+	if len(profile) != 32 {
+		return errors.New("invalid input profile pin")
+	}
 	bytesAPI, err := uints.NewBytes(api)
 	if err != nil {
 		return err
@@ -101,9 +109,8 @@ func (c *inputScaleCircuit) Define(api frontend.API) error {
 		preimage = append(preimage, bytesAPI.ValueOf(value))
 	}
 	preimage = append(preimage, uints.NewU8(0x58), uints.NewU8(0x20))
-	// shortcut: synthetic profile pin; classifier integration requires an enrolled profile.
-	for i := 0; i < 32; i++ {
-		preimage = append(preimage, uints.NewU8('p'))
+	for _, value := range profile {
+		preimage = append(preimage, uints.NewU8(value))
 	}
 	prefix := len(preimage)
 	for _, value := range c.Encoded {
@@ -165,22 +172,35 @@ func inputScaleAssignment(size int, name string, private bool) (frontend.Circuit
 
 // Real prover attempts share a single key load; verification remains in fresh processes.
 func inputScaleBatch(size int, artifactLimit int64) (int, error) {
+	return relationBatch(func(name string) (frontend.Circuit, error) { return inputScaleAssignment(size, name, true) }, artifactLimit, 32, 8192)
+}
+
+// Dependency errors are not evidence that an invalid witness was rejected.
+func expectedProverOutcome(valid bool, err error) bool {
+	if valid {
+		return err == nil
+	}
+	var unsatisfied *blsconstraints.UnsatisfiedConstraintError
+	return errors.As(err, &unsatisfied)
+}
+
+func relationBatch(assignment func(string) (frontend.Circuit, error), artifactLimit int64, maxCases int, maxBytes int64) (int, error) {
 	handle, err := os.Open("cases.json")
 	if err != nil {
 		return 0, err
 	}
 	defer handle.Close()
 	info, err := handle.Stat()
-	if err != nil || !info.Mode().IsRegular() || info.Size() > 8192 {
+	if err != nil || !info.Mode().IsRegular() || info.Size() > maxBytes {
 		return 0, errors.New("invalid batch size")
 	}
 	var cases []struct {
 		Name  string `json:"name"`
 		Valid *bool  `json:"valid"`
 	}
-	decoder := json.NewDecoder(io.LimitReader(handle, 8193))
+	decoder := json.NewDecoder(io.LimitReader(handle, maxBytes+1))
 	decoder.DisallowUnknownFields()
-	if err := decoder.Decode(&cases); err != nil || len(cases) == 0 || len(cases) > 32 {
+	if err := decoder.Decode(&cases); err != nil || len(cases) == 0 || len(cases) > maxCases {
 		return 0, errors.New("invalid batch")
 	}
 	if decoder.Decode(new(any)) != io.EOF {
@@ -203,7 +223,7 @@ func inputScaleBatch(size int, artifactLimit int64) (int, error) {
 		return 0, err
 	}
 	for _, c := range cases {
-		values, err := inputScaleAssignment(size, c.Name+".txt", true)
+		values, err := assignment(c.Name + ".txt")
 		if err != nil {
 			return ccs.GetNbConstraints(), err
 		}
@@ -212,7 +232,7 @@ func inputScaleBatch(size int, artifactLimit int64) (int, error) {
 			return ccs.GetNbConstraints(), err
 		}
 		proof, err := groth16.Prove(ccs, pk, witness)
-		if (err == nil) != *c.Valid {
+		if !expectedProverOutcome(*c.Valid, err) {
 			return ccs.GetNbConstraints(), errors.New("unexpected prover outcome")
 		}
 		if err == nil {

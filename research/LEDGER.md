@@ -2944,3 +2944,81 @@ are retained in the numeric evidence. Each large case compares 638,976 tensors
 across 16,384 chunks. The complete trace files are 15,865,297 and 15,865,306 bytes.
 These timings are diagnostic, with one Mac and two repetitions, not a distribution
 or proof-cost result.
+
+## 2026-10-21 — Complete synthetic encoder proof at eight-byte capacity (W18 / #19)
+
+[Numeric evidence](evidence/w18-complete-synthetic-encoder-proof-2026-10-21.json)
+precedes this prose. PR #80's native graph merged as
+`1f7294c31deed06beb5eb4a245a532143b9ec40e`; all 30 candidate and 15 merged-main
+jobs passed. The new frozen experiment is
+`runs/w18-complete-encoder-proof-1792601385038675000`. Its hypothesis is that the
+complete fixed native graph, including both normalizations and byte commitment,
+can produce actual proofs for the existing 100-field statement. Earlier component
+proofs are the baseline, not evidence of this composition.
+
+Decision 0052 fixes the 39-node, two-feature graph and all 121 scalar intermediate
+values per two-token chunk. Native fixture SHA-256 remains
+`8d0551ac2e9c9e2527004bc4a33392844963ffcb17b9589139448db3f068ee7d`.
+The new circuit holds four chunks/eight content bytes. Its profile still declares
+32,768 bytes: the tested capacity is a strict subset. The fifteen frozen witnesses
+cover the eight native vectors, seven/eight-byte boundaries and equality, adjacent
+and extreme int32 thresholds. Threshold variants rebind classifier identity,
+input salt and digest; they are prespecified conformance checks, not calibration.
+
+The direct lowering uses shared pinned log-derivative lookup tables. Native and
+separate Decimal-oracle values agree before assignments are emitted; Go solver
+checks then pass all fifteen traces and reject a changed final tensor. Both
+dependency builds pass all fifteen top-level Go tests and preserve all seven
+older circuit fingerprints exactly. The measured build uses the previously
+reviewed boolean-cache and parallel-Pedersen candidate; the three patch hashes
+are checked before compilation. No dependency or model is downloaded.
+
+The real campaign passes 632 logical outcomes in 124 worker processes: fifteen
+proofs, fifteen fresh positive verifiers, 484 changed private tensor values, ten
+other input/padding mutations, 100 changed public fields, six other rejection
+cases and two setups. Invalid witnesses must produce the curve's unsatisfied-
+constraint error; unrelated prover errors cannot count as expected rejections.
+The two setup runs reproduce the same circuit and produce different verification
+keys. All proofs are 292 bytes. The circuit has 361,950 constraints and SHA-256
+`ad8bf9b2e401fdebc2e0a0077cf3dd91a8004e1b3ec9e408534087701cd0328a`.
+
+Controller time is 152.844730333 seconds. Initial setup takes 45.333014833 seconds
+and the 509-case batch takes 53.836207542 seconds; peak worker RSS is
+1,126,514,688 bytes. Limits are 1,800 seconds overall, 900 per setup/batch worker,
+four threads, one research worker, 8 GiB RSS and 8 GiB output. Retained artifact
+bytes before the result file total 550,926,095. The initial allocated checkout is
+93,738,176,512 bytes, below the 128 GiB retained limit. No cloud job or spend occurs.
+These are one-host diagnostic observations, not a latency distribution.
+
+The original-dependency Mac build separately passes 117 compatibility checks:
+all fifteen proofs, all 100 public-field mutations, a field alias and changed
+proof bytes. Its protocol and inputs are pinned before execution. All 2,718
+recorded worker-file hashes across both runs are rechecked. This uses the same
+gnark verifier implementation, so it is not independent verification.
+
+Commands are the retained launch record invoking `scripts/check_gnark_encoder.py`
+with explicit binary/fixture SHA-256 pins and a fresh output directory, followed
+by `default-replay.py`. Preparation preserves one test failure (683 expected
+assignment fields versus the correct 685) and one incorrect local patch-file
+lookup. Neither changes the frozen model, witness roster or expected outcome.
+The runner's declared wall/CPU budget is passed explicitly before its first run;
+offline fault tests cover worker failure, altered inputs and malformed reports.
+Future HF bootstrap inventories include the embedded graph file, with a larger
+size allowance only for that data file; no old cloud source/run is modified.
+
+The acyclic identity order remains program and circuit/key before completed
+classifier enrollment. The circuit exposes classifier/context binders and a
+signed threshold; a relying party must independently authenticate the full
+program/profile/weights/threshold/key/setup enrollment and expected public tuple.
+Synthetic tags and local setup do not provide that authority. There is no trained
+model quality, accepted ceremony, independent security/hiding qualification or
+hardware evidence. Neither W18 nor W12 is closed. The next gate is full-capacity
+encoder export/cost measurement under a new bounded plan, then maximum proving.
+
+Local validation passes: `make check` takes 83.758 seconds (2,202 tests, five
+Linux-only skips, one existing fork warning; pytest 78.41 seconds), and
+`make package-check` takes 8.657 seconds. Both reproducible source archives and
+wheels match; installed core checks pass. The wheel hash is unchanged because
+this milestone adds optional probes, not a core runtime change. The package
+snapshot precedes this validation-only evidence/prose update. Installed train
+and guard fixtures remain the hosted matrix obligation.

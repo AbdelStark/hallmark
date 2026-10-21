@@ -47,6 +47,8 @@ def validate(plan):
                     "artifacts_test.go",
                     "block.go",
                     "cache_test.go",
+                    "encoder.go",
+                    "encoder-graph.json",
                     "go.mod",
                     "go.sum",
                     "graph.go",
@@ -80,8 +82,9 @@ def validate(plan):
     for pin in [*plan["files"].values(), plan["go_archive"]]:
         if not re.fullmatch("[a-f0-9]{64}", pin["sha256"]):
             raise ValueError("invalid source pin")
-    for pin in plan["files"].values():
-        if type(pin["bytes"]) is not int or not 0 < pin["bytes"] <= 262144:
+    for path, pin in plan["files"].items():
+        cap = 1048576 if path == "research/probes/gnark/encoder-graph.json" else 262144
+        if type(pin["bytes"]) is not int or not 0 < pin["bytes"] <= cap:
             raise ValueError("invalid source size")
     if (
         plan["go_archive"]["sha256"]

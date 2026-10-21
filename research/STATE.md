@@ -755,7 +755,28 @@ complete trace bytes exactly. This is a two-token, two-feature authored graph,
 not a trained or admitted encoder. See [decision 0051](../docs/decisions/0051-complete-synthetic-encoder.md).
 The original failed fixtures and initial-candidate runs remain preserved.
 `make check` passes 2,181 tests with five platform skips and one warning; the
-core installed-package gate passes. Hosted delivery is pending. Next is
+core installed-package gate passes. PR #80 merged as
+`1f7294c31deed06beb5eb4a245a532143b9ec40e`; all 30 candidate checks and all 15
+[merged-main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39638697900) pass. Next is
 proof lowering of this exact graph under new source/setup/input identities;
 full-graph proofs, independent verification/security review and hardware evidence
 remain missing. No earlier component proof is reused as a proof of composition.
+
+The [complete synthetic encoder proof](evidence/w18-complete-synthetic-encoder-proof-2026-10-21.json)
+now passes its **eight-byte capacity** campaign: 15 real proofs and fresh positive
+verifiers, 484 private-tensor mutations, ten other witness mutations, all 100
+public-field changes and six malformed-proof/assignment/key cases. The 361,950-
+constraint circuit executes the same 39-node graph, both normalizations, byte
+commitment, complete active-chunk maximum and strict int32 threshold comparison.
+All 632 logical outcomes pass in 124 workers. The 152.845-second diagnostic peaks
+at 1,126,514,688 bytes worker RSS; each proof is 292 bytes. A separately built
+original-dependency verifier passes 117 compatibility checks. All 2,718 recorded
+worker-file pins are rechecked. This shares gnark verifier code and supplies no
+independent review or operational enrollment; see [decision 0052](../docs/decisions/0052-complete-synthetic-encoder-proof.md).
+The native profile maximum remains 32,768 bytes and is **not proved** by this
+campaign. Next is a separately bounded full-encoder capacity/export measurement,
+followed by an explicit maximum setup/proof resource plan. W18 and W12 remain open.
+
+`make check` passes 2,202 tests with five platform skips and one warning; the
+core installed-package gate passes. Both dependency builds execute the new Go
+checks. Hosted delivery for this proof milestone is pending.
