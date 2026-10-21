@@ -803,3 +803,24 @@ larger declaration and an actual maximum circuit reload on the Mac. Continue
 separately pinned corrected attempt after complete retention and exact-source CI.
 The graph, native assignments and evaluator are unchanged. No maximum encoder
 proof or backend qualification is established by this correction.
+
+PR #83 merged the reader correction as
+`d783bb0877f5a38857ac11f9d58bb01dc1dada52`: all 30 candidate jobs and all 15
+[merged-main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39652081784)
+pass. The failed attempt's 74 files (10,660,649,884 bytes) are retained and
+rehashed; its temporary bucket is confirmed absent. The separately frozen
+[corrected job](https://huggingface.co/jobs/abdelstark/6ad903055275124786e2941c)
+reproduces the maximum circuit and proceeds into setup. Its proofs remain pending.
+
+A [separate synthetic encoder verifier](evidence/w18-second-verifier-2026-10-21.json)
+now checks the fixed 100-public-scalar, single-commitment profile with py-ecc
+arithmetic. On the Mac, all 147 cases pass across 15 retained proofs, every public
+mutation, malformed/subgroup cases and changed proof/key components. A fresh
+original-dependency Go proof passes another 133-case run with its key and native
+public vector enrolled before proving. Both runs also accept the valid joint
+negation of proof A and B; proofs are not byte-unique. See
+[decision 0055](../docs/decisions/0055-separate-synthetic-proof-verifier.md).
+The optional probe changes no core acceptance API or qualification flag. Fresh
+Linux CI integration is pending. This is implementation diversity for the
+synthetic profile, not independent human security review, authenticated setup/
+program enrollment, model quality or hardware attestation. W18 and W12 stay open.

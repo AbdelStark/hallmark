@@ -3132,3 +3132,67 @@ unavailable genuine-evidence cases. Maximum setup and proofs remain unexecuted.
 `make package-check` passes in 8.490 seconds with reproducible distributions and
 installed core checks. Its snapshot precedes this validation-only evidence/prose
 update. Installed train/guard checks remain exact-head hosted CI obligations.
+
+## 2026-10-21 — W18 separate arithmetic verifier
+
+The reader correction is delivered through PR #83, merge
+`d783bb0877f5a38857ac11f9d58bb01dc1dada52`, with all 30 candidate and 15 main jobs
+passing. Corrected HF job `6ad903055275124786e2941c` uses the prior checked
+candidate `8e4e0e62572ac60b15958cc2eac44bd34692d8e2`; its maximum export matches
+the frozen circuit and setup is running. No maximum proof is claimed here.
+
+[Decision 0055](../docs/decisions/0055-separate-synthetic-proof-verifier.md) starts
+`runs/w18-second-verifier-1792606759195753000` from that merged tree. The baseline
+verifiers share gnark code. The new optional research checker uses separately
+implemented Python equations and py-ecc 8.0.0 point/field/pairing arithmetic.
+Exact release metadata, Mac/Linux wheels and MIT/BSD/PSF notices are reviewed
+and retained before installation. The source checkout contains only code and a
+hash lock; no dependency wheel, secret, generated proof or key is published.
+
+The protocol freezes all 15 previous small encoder proofs and rechecks 45 input
+pins against their worker receipts. Native fixture evaluation independently
+reconstructs every public vector before the new checker runs. The first fixture
+loader fails before any crypto worker because a scripts import path is missing;
+its source/failure record is preserved. The corrected loader establishes the
+same old key and public vectors without changing their bytes.
+
+`run-smoke.py` checks the real empty proof under the new library. Network,
+fork and outside-file read attempts are denied in the Mac worker; credential
+variables are absent. The verifier checks fixed lengths/layout, canonical
+scalars/points and subgroups, then separate Pedersen and Groth16 equations.
+`run-check.py` passes 147 cases in 105.939 seconds, peaking at 49,430,528 bytes
+RSS: 15 original proofs, one valid A/B sign transformation, 109 algebraic
+rejections and 22 malformed-input rejections. All 100 public-field mutations
+reject. Byte uniqueness is not an invariant of Groth16 proofs.
+
+`ci-fixture-01-launch.json` freezes a new original-dependency Go setup/proof on
+the Mac. Its initial one-thread generator takes 165.808 seconds for setup and
+106.269 seconds for proving, both within 180-second worker limits. The key/public
+vector is recorded before proving and the vector matches the prior native pin.
+`run-check-fresh.py` passes all 133 cases in 96.511 seconds, peaking at 49,659,904
+bytes RSS. These are two different setups and both original/patched Go sources,
+checked with the same separately implemented verifier. No latency comparison or
+independent human review is claimed.
+
+The initial generator source and all raw artifacts remain intact. The final
+hosted generator permits two threads and 300 seconds per worker within 600 seconds;
+its fresh Linux integration is an exact-head CI obligation. The Python checker
+gets 300 seconds. Both workers have 2 GiB RSS bounds and fixed environments;
+Linux uses the existing socket-denying seccomp filter and sampled RSS checks.
+The job ceiling is 15 minutes. Final local validation may retain up to 2 GiB of
+fixtures/package snapshots under `final-validation-plan.json`; no extra cloud
+job, private upload, ongoing scheduler or cost is introduced.
+
+Raw commands, source/environment/enrollment pins and numeric results precede
+this prose in the [evidence](evidence/w18-second-verifier-2026-10-21.json) and
+[dependency record](evidence/w18-second-verifier-dependencies-2026-10-21.json).
+The core qualification runner still lacks its full admitted/enrolled evidence;
+this standalone synthetic-profile checker does not change its acceptance gate.
+
+`make check` passes in 78.708 seconds: 2,185 tests, 45 optional guard skips and
+five Linux kernel skips, plus all 156 software conformance matches; 32 genuine-
+evidence obligations remain unavailable. Training is installed and executes.
+`make package-check` passes in 7.893 seconds with matching reproducible artifacts
+and installed core checks. Its snapshot precedes this validation-only prose and
+evidence update. The wheel is unchanged; installed train/guard and fresh Linux
+proof/checker execution remain exact-head hosted CI obligations.
