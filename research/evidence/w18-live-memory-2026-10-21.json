@@ -1,0 +1,213 @@
+{
+  "baseline_commit": "2ac8fe5fed173f652a5f55f3e848e65302afda02",
+  "binary_sha256": "6acecbe3e2b693c1ea1f1644f5b54fcec1655e5e8538492f6cdaced03e486620",
+  "budget": {
+    "approved_proving_seconds": 7200,
+    "audit_script_sha256": "5a51d6ccb703985bd4583e319262d3d4acaf307d8b886e515567fbf2d79aa87c",
+    "audit_sha256": "93fe64137bccbf0e0d1b0dac09113fcab0bf5efe5761eb10ed23fb9ad17e909c",
+    "charged_prior_seconds": 5540,
+    "excluded_nested_count": 1438,
+    "increment_charged_measured_and_allowance_seconds": 177.41897766618058,
+    "increment_measured_command_seconds": 127.41897766618058,
+    "increment_reserved_seconds": 300,
+    "increment_unrecorded_failed_attempt_and_software_allowance_seconds": 50,
+    "method": "Outer completed command/roster replaces its nested timings. No refund for concurrency overlap; failures count. Old unattributed 1800-second allowance retained. Integration charged 200 seconds against its two explicit package receipts and other software checks.",
+    "preserved_allowances_seconds": {
+      "input-scale-additional-preflight-and-tests": 10,
+      "receipt-accounting-roundup-and-unrecorded-short-audits": 100,
+      "unattributed-original-preflight-allowance-preserved": 1800,
+      "w18-main-integration-engineering-checks-conservative-allowance": 200
+    },
+    "remaining_unreserved_seconds": 1360,
+    "scope": "Existing local W18 proving allocation; no budget increase.",
+    "selected_measured_seconds": 3429.1294676210855,
+    "selected_receipt_count": 53,
+    "selected_seconds_by_root": {
+      "w18-block-1792522883989554000": 240.31372808176093,
+      "w18-graphs-1792520823690561000": 1025.3513842907269,
+      "w18-input-scale-1792570054284510000": 648.1764865820296,
+      "w18-preflight-1792517857486510000": 26.02517466606875,
+      "w18-qualification-1792524845681991000": 1116.4812750422861,
+      "w18-rule-1792518985752885000": 48.66718091722578,
+      "w18-rule-1792519254066076000": 324.1142380409874
+    }
+  },
+  "cutoff": {
+    "default_ceiling_bytes": 17179869184,
+    "default_cutoff_bytes": 15032385536,
+    "exit_race_grace_seconds": 0.01,
+    "native_test_ceiling_bytes": 2147483648,
+    "native_test_cutoff_bytes": 1879048192,
+    "rss_fraction_denominator": 8,
+    "rss_fraction_numerator": 7,
+    "sample_interval_seconds": 0.01
+  },
+  "date": "2026-10-21",
+  "decision": "docs/decisions/0036-live-proof-worker-memory.md",
+  "failed_and_intermediate_attempts": [
+    {
+      "charged_seconds": 30,
+      "directory": "initial",
+      "failure_sha256": "25dac3663eeb199749fde6d86aa2d48006dd473c2bde5284f990c83d37cd851d",
+      "peak_rss_bytes": null,
+      "reason": "Group-signal EPERM on completed worker lost cutoff cost receipt.",
+      "status": "failed"
+    },
+    {
+      "command_sha256": "54b6402433057921266fe9c09da26b3ab1016a0d0bc4724559afe5e12b0c20fb",
+      "directory": "experiment-02",
+      "reason": "Two stops below 384 MiB; subsequent short-lived-process test exposed another exit race.",
+      "result_sha256": "8bc584d8256496508f0e5d195fc09431f06cb97e258a698c7aafcedd81280b12",
+      "status": "passed-intermediate-source"
+    },
+    {
+      "directory": "failed-software-test",
+      "reason": "One immediate exit recheck was too early; monitor failure and group EPERM.",
+      "record_sha256": "4d43cf2085635d56c1f2e397606fb697e48b8b4481dccd07ceec0a2c27e4e961",
+      "status": "failed"
+    },
+    {
+      "command_sha256": "8c36f5abf224d49713f9d9fbc93a861e6a573ef9973d56d4d02aee00bc42c45e",
+      "directory": "experiment-03",
+      "exit_code": 0,
+      "failure_sha256": "9fe19cac25b85623a6da0922277bea31c23d09ac3e6de3a6da6172d1c2d7e995",
+      "max_rss_bytes": 340852736,
+      "reason": "256-byte compilation finished below the cutoff; expected termination did not occur.",
+      "status": "failed-test-criterion"
+    }
+  ],
+  "final_cases": [
+    {
+      "allowed_rss_bytes": 1073741824,
+      "cost_sha256": "776cc47199e71d28ad409f6edb6d2e58d73366810d8290c8414745599ab6429e",
+      "elapsed_seconds": 0.7602864999789745,
+      "exit_code": 0,
+      "input_capacity": 8,
+      "max_rss_bytes": 281444352,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "name": "small",
+      "sampled_peak_rss_bytes": 281346048,
+      "system_seconds": 0.023982999999999997,
+      "timed_out": false,
+      "user_seconds": 0.382534
+    },
+    {
+      "allowed_rss_bytes": 2147483648,
+      "cost_sha256": "23f94be675e8b54ef6a1e2ef9ebcd2364ecc049d4b759cbc3a4981a1c84ab9af",
+      "elapsed_seconds": 11.211555417161435,
+      "exit_code": -9,
+      "input_capacity": 32768,
+      "max_rss_bytes": 1891549184,
+      "memory_limit_exceeded": true,
+      "memory_monitor_failed": false,
+      "name": "cutoff-01",
+      "sampled_peak_rss_bytes": 1890009088,
+      "system_seconds": 0.44801199999999997,
+      "timed_out": false,
+      "user_seconds": 28.91595
+    },
+    {
+      "allowed_rss_bytes": 2147483648,
+      "cost_sha256": "3c02af02ae26b5bc0105ab0335cf2d6de87c424411b33d0a70e5e4cad94a8cfa",
+      "elapsed_seconds": 11.797373708104715,
+      "exit_code": -9,
+      "input_capacity": 32768,
+      "max_rss_bytes": 1963802624,
+      "memory_limit_exceeded": true,
+      "memory_monitor_failed": false,
+      "name": "cutoff-02",
+      "sampled_peak_rss_bytes": 1962868736,
+      "system_seconds": 0.43104499999999996,
+      "timed_out": false,
+      "user_seconds": 29.790111
+    }
+  ],
+  "final_inputs_sha256": "1f4ff87120c17e1ada6110eddaef7e043d85a0abd27ca85e581d590c26ce8c62",
+  "final_result_sha256": "79479e974fccb0579e0d7eec754a771ea0482fa8c58b3b1b277cc96a3ee22605",
+  "final_run_script_sha256": "30a48ec194c23f5d2d1ed915fd2c90a2664678de276604e9c972a8e29b7dca4e",
+  "final_sources_sha256": {
+    "scripts/check_gnark_input_scale.py": "8758d8295ae2ea0da195e5cea324f3eeb472571c467020942c8c5d3ee897e182",
+    "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+    "src/hallmark/_gnark_probe.py": "7c6263474e8b8ea239b57789752c3aa44c90cb791a6ee51ea6b540c60cd716b6",
+    "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+    "tests/test_gnark_input_scale.py": "fb7de7db0adfb7e2a0a2b6aa0617214d51430ab57059bd1acf3bdbe375e46368",
+    "tests/test_gnark_probe.py": "67b1d18dd1d0e6f8af2f772436d8d8c7c33478dab708e726f3e2f4ac5bafc5a4",
+    "tests/test_qualification.py": "41c010d2396e5de8584922c62b0867d96ae8170d90d6241f4073548179dad832"
+  },
+  "full_input_proof": false,
+  "hard_memory_quota": false,
+  "issue": 19,
+  "limitations": [
+    "Sampled RSS can overshoot; no hard host or hostile-worker memory isolation.",
+    "The lowered-ceiling maximum-capacity compilations are cutoff tests, not complete circuits or proofs.",
+    "No new proof, model training, encoder qualification, independent review, setup ceremony or hardware attestation.",
+    "No HF token access, private upload, paid compute or scheduler.",
+    "Historical source/result identities remain unchanged."
+  ],
+  "measured_worker_sha256": "bae58d88015bd3af94b3609222aeff4467f04595f64aaeca1cf7dc566f27877c",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "post_run_source_changes": "The measured worker remains frozen. Its sole later edit shortened a limitation string for lint. Scaling-controller failure classification and metadata text are checked offline; no historical proof campaign is relabeled.",
+  "python": "3.12.12",
+  "qualified_backend": false,
+  "raw_directory": "runs/w18-memory-budget-1792571904712696000",
+  "schema_id": "hallmark.live-memory-evidence/1",
+  "sdk_proc_info_sha256": "e427fa96b348537b21552b9de71e01039410bcad2cedee5584c5e5fddafd70fc",
+  "validation": {
+    "combined_package_passed": true,
+    "core_package_passed": true,
+    "installed_guard_checked": true,
+    "installed_train_checked": true,
+    "make_check_tests": 2033,
+    "new_tests": 29,
+    "package_source_id_before_final_evidence_update": "d16500bf7fb47a7fce783dff1297b62ecf079b66c20371896ddaeb3c50eabc31",
+    "receipts": [
+      {
+        "elapsed_seconds": 3.6392616250086576,
+        "exit_code": 0,
+        "receipt": "experiment-02/command.json",
+        "sha256": "54b6402433057921266fe9c09da26b3ab1016a0d0bc4724559afe5e12b0c20fb"
+      },
+      {
+        "elapsed_seconds": 2.429940541042015,
+        "exit_code": 1,
+        "receipt": "experiment-03/command.json",
+        "sha256": "8c36f5abf224d49713f9d9fbc93a861e6a573ef9973d56d4d02aee00bc42c45e"
+      },
+      {
+        "elapsed_seconds": 24.170185916125774,
+        "exit_code": 0,
+        "receipt": "experiment-04/command.json",
+        "sha256": "8b5e85b5f60500a51bd1f5e9ae1242d257e61ae1cf15c1be331666cba6433301"
+      },
+      {
+        "elapsed_seconds": 0.8334493751171976,
+        "exit_code": 2,
+        "receipt": "check-final.json",
+        "sha256": "e0f5be6464bd0bddc09b9d29e4f151493b558127cdfce5c8daf55acfe87101d2"
+      },
+      {
+        "elapsed_seconds": 38.85434883390553,
+        "exit_code": 0,
+        "receipt": "check-02.json",
+        "sha256": "12040dc2c0223852a908a3f6b3af8967b43f21423de9e5c3695e4e34813e134b"
+      },
+      {
+        "elapsed_seconds": 7.533517749980092,
+        "exit_code": 0,
+        "receipt": "package-check-02.json",
+        "sha256": "bd7ec4864af1af95e8fd83b596dc5c053608235555c282908389b621a98e39ff"
+      },
+      {
+        "elapsed_seconds": 49.95827362500131,
+        "exit_code": 0,
+        "receipt": "package-check-comparison-02.json",
+        "sha256": "e920310690a6a3624762139b13d71b8414ceb8715c667f4c2b2c5db5290f1a6a"
+      }
+    ],
+    "retained_lint_failure": "check-final.json; one overlong limitation string, shortened before successful gates",
+    "status": "passed",
+    "warning": "Existing multithreaded-fork DeprecationWarning in test_events; test passed."
+  },
+  "work_item": "W18"
+}

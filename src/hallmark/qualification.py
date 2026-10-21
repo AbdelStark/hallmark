@@ -170,7 +170,7 @@ def qualify(protocol_path: Path, expected_protocol: str, output: Path) -> dict[s
                 "qualified_backend": False,
                 "limits": limits.model_dump(mode="json"),
                 "limitations": [
-                    "RSS and storage are measured postconditions, not hard OS quotas.",
+                    "Live RSS sampling and post-exit RSS/storage checks are not hard OS quotas.",
                     "The external protocol pin does not authenticate its approval.",
                     "Pinned review files are retained; their claims are not adjudicated.",
                 ],

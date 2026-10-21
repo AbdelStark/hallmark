@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Stop optional proof workers using live macOS RSS samples with conservative
+headroom, preserve cutoff/failure costs and handle child-exit signal races.
+Sampling and post-exit checks do not provide a hard memory quota.
+
 Add an optional complete-input commitment scaling probe with canonical indexed
 CBOR packing, small real proofs and bounded maximum-size compilation. Keep
 proof results and resource failures distinct; no backend

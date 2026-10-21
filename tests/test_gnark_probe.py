@@ -7,6 +7,7 @@ import signal
 import socket
 import subprocess
 import sys
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -156,6 +157,112 @@ def test_timeout_reaps_worker_and_preserves_costs(tmp_path):
     assert result["timed_out"] and result["exit_code"] == -signal.SIGKILL
     assert result["elapsed_seconds"] < 5
     assert json.loads((directory / "cost.json").read_text()) == result
+
+
+@mac
+def test_native_memory_sample():
+    assert 0 < probe._rss_reader()(os.getpid()) < 16 * 1024**3
+
+
+@pytest.mark.parametrize("returned", [-1, 0, 95, 96, 97])
+def test_native_memory_sample_requires_complete_abi(monkeypatch, returned):
+    monkeypatch.setattr(probe.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(probe.platform, "machine", lambda: "arm64")
+
+    def read(pid, flavor, arg, buffer, size):
+        assert (pid, flavor, arg, size) == (123, 4, 0, 96)
+        probe.ctypes.c_uint64.from_buffer(buffer, 8).value = 4321
+        return returned
+
+    monkeypatch.setattr(probe.ctypes, "CDLL", lambda _: SimpleNamespace(proc_pidinfo=read))
+    reader = probe._rss_reader()
+    if returned == 96:
+        assert reader(123) == 4321
+    else:
+        with pytest.raises(OSError, match="sample unavailable"):
+            reader(123)
+
+
+@pytest.mark.parametrize(
+    "fault", ["below", "cutoff", "above", "monitor", "exit-race", "signal-exit-race", "peak"]
+)
+@pytest.mark.parametrize("use_budget", [False, True])
+def test_live_memory_stop_reaps_and_retains_cost(tmp_path, monkeypatch, fault, use_budget):
+    process = SimpleNamespace(pid=123, returncode=None)
+    monkeypatch.setattr(probe.subprocess, "Popen", lambda *_a, **_kw: process)
+    reads = []
+    signals = []
+    single_signals = []
+    ceiling = 8000 if use_budget else 16 * 1024**3
+    cutoff = ceiling * 7 // 8
+
+    def sample(pid):
+        reads.append(pid)
+        if fault in {"monitor", "exit-race"}:
+            raise OSError("private error detail")
+        return {
+            "below": cutoff - 1,
+            "cutoff": cutoff,
+            "above": ceiling + 1,
+            "signal-exit-race": cutoff,
+            "peak": 0,
+        }[fault]
+
+    monkeypatch.setattr(probe, "_rss_reader", lambda: sample)
+    killed = fault in {"cutoff", "above", "monitor"}
+    usage = SimpleNamespace(
+        ru_utime=0, ru_stime=0, ru_maxrss=ceiling + 1 if fault == "peak" else cutoff
+    )
+    waits = iter([0, *([0] if fault == "monitor" else []), 123])
+    reaps = []
+
+    def wait(pid, flags):
+        reaps.append((pid, flags))
+        return next(waits), signal.SIGKILL if killed else 0, usage
+
+    monkeypatch.setattr(probe.os, "wait4", wait)
+
+    def kill(pid, sig):
+        signals.append((pid, sig))
+        if fault == "signal-exit-race":
+            raise PermissionError("exited child")
+
+    monkeypatch.setattr(probe.os, "killpg", kill)
+    monkeypatch.setattr(probe.os, "kill", lambda pid, sig: single_signals.append((pid, sig)))
+    directory = work(tmp_path, "worker")
+    budget = (
+        probe.RunBudget(tmp_path, time.monotonic() + 10, 5, 1, 2, 1, ceiling, 1024**2)
+        if use_budget
+        else None
+    )
+    if killed or fault in {"peak", "signal-exit-race"}:
+        with pytest.raises(MemoryError):
+            probe.invoke(Path("/bin/sleep"), directory, ["10"], budget=budget)
+    else:
+        probe.invoke(Path("/bin/sleep"), directory, ["10"], budget=budget)
+    cost = json.loads((directory / "cost.json").read_text())
+    assert cost["memory_limit_exceeded"] == (fault in {"cutoff", "above", "signal-exit-race"})
+    assert cost["memory_monitor_failed"] == (fault == "monitor")
+    assert not cost["timed_out"]
+    assert cost["exit_code"] == (-signal.SIGKILL if killed else 0)
+    assert signals == ([(123, signal.SIGKILL)] if killed or fault == "signal-exit-race" else [])
+    assert single_signals == ([(123, signal.SIGKILL)] if fault == "signal-exit-race" else [])
+    assert reaps[-1] == (123, 0 if killed or fault == "signal-exit-race" else os.WNOHANG)
+    assert reads == [123]
+    assert "private error detail" not in (directory / "cost.json").read_text()
+    plan = json.loads((directory / "plan.json").read_text())
+    assert plan["memory_cutoff_bytes"] == cutoff
+    assert plan["max_rss_bytes"] == ceiling
+
+
+def test_signal_permission_failure_is_not_ignored_for_live_child(monkeypatch):
+    def denied(*_):
+        raise PermissionError("signal denied")
+
+    monkeypatch.setattr(probe.os, "killpg", denied)
+    monkeypatch.setattr(probe.os, "kill", denied)
+    with pytest.raises(PermissionError, match="signal denied"):
+        probe._stop_worker(123)
 
 
 @mac

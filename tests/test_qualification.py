@@ -239,7 +239,18 @@ def test_global_budget_stops_before_next_stage(prepared, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "fault", ["deadline", "storage", "symlink", "hardlink", "rss", "cpu", "timeout"]
+    "fault",
+    [
+        "deadline",
+        "storage",
+        "symlink",
+        "hardlink",
+        "rss",
+        "cpu",
+        "timeout",
+        "memory_limit_exceeded",
+        "memory_monitor_failed",
+    ],
 )
 def test_measured_budget_rejects(tmp_path, fault):
     budget = worker.RunBudget(tmp_path, time.monotonic() + 10, 3, 1, 2, 1, 1024, 10)
@@ -258,6 +269,8 @@ def test_measured_budget_rejects(tmp_path, fault):
         cost["max_rss_bytes"] = 1025
     elif fault == "cpu":
         cost["system_seconds"] = 2
+    elif fault in {"memory_limit_exceeded", "memory_monitor_failed"}:
+        cost[fault] = True
     else:
         cost["timed_out"] = True
     with pytest.raises((TimeoutError, MemoryError, ValueError)):

@@ -56,6 +56,18 @@ def assignment(value, private=True):
     return "".join(f"{n}\n" for n in fields).encode("ascii")
 
 
+def resource_limited(cost, budget):
+    if cost.get("memory_monitor_failed", False):
+        raise ValueError("worker memory monitor failed")
+    return (
+        cost.get("memory_limit_exceeded", False)
+        or cost["exit_code"] < 0
+        or cost["timed_out"]
+        or cost["max_rss_bytes"] > budget.max_rss_bytes
+        or cost["user_seconds"] + cost["system_seconds"] > budget.cpu_seconds
+    )
+
+
 def check(binary, expected_binary, output):
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         raise ValueError("requires admitted macOS arm64 host")
@@ -117,12 +129,7 @@ def check(binary, expected_binary, output):
                 raise
             cost = json.loads((directory / "cost.json").read_text())
         cases.append({"name": name, **cost})
-        if resource_probe and (
-            cost["exit_code"] < 0
-            or cost["timed_out"]
-            or cost["max_rss_bytes"] > budget.max_rss_bytes
-            or cost["user_seconds"] + cost["system_seconds"] > budget.cpu_seconds
-        ):
+        if resource_probe and resource_limited(cost, budget):
             return {"resource_limited": True}
         if cost["exit_code"] != expected or cost["timed_out"]:
             raise ValueError("unexpected worker result")
@@ -242,7 +249,7 @@ def check(binary, expected_binary, output):
                 "33 public commitment fields; no classifier, tokenizer or enrolled input profile.",
                 "Eight actual proofs cover small/header boundaries. Maximum input has no proof.",
                 "Fresh local setup; shared verifier library; security and hiding unqualified.",
-                "RSS and storage are postconditions, not hard OS quotas.",
+                "Live RSS sampling and post-exit RSS/storage checks are not hard OS quotas.",
             ],
         }
         json_new(output / "result.json", result)

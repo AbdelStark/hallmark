@@ -116,7 +116,7 @@ def check(
                 "Five-field synthetic block; not the 100-field Hallmark proof statement.",
                 "No complete encoder, tokenizer, layer normalization or model-quality evidence.",
                 "Local setup and shared verifier library; no independent security/hiding review.",
-                "CPU, RSS and total storage are measured postconditions, not hard quotas.",
+                "Live RSS sampling and post-exit resource checks are not aggregate OS quotas.",
             ],
         },
     )

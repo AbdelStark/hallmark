@@ -1,6 +1,7 @@
 """Run the pinned cubic installation probe on macOS; never qualify a Hallmark backend."""
 
 import argparse
+import ctypes
 import hashlib
 import json
 import os
@@ -23,7 +24,7 @@ CASE_SECONDS = 45
 
 @dataclass
 class RunBudget:
-    """One foreground run; RSS/storage are checked postconditions, not OS quotas."""
+    """One foreground run; sampled RSS and storage checks are not OS quotas."""
 
     root: Path
     deadline: float
@@ -39,6 +40,8 @@ class RunBudget:
             raise TimeoutError("qualification deadline")
         if cost is not None and (
             cost["timed_out"]
+            or cost.get("memory_limit_exceeded", False)
+            or cost.get("memory_monitor_failed", False)
             or cost["max_rss_bytes"] > self.max_rss_bytes
             or cost["user_seconds"] + cost["system_seconds"] > self.cpu_seconds
         ):
@@ -147,6 +150,41 @@ def limits(max_file: int = MAX_FILE, cpu_seconds: int = 40) -> None:
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
 
 
+def _rss_reader() -> Callable[[int], int]:
+    if platform.system() != "Darwin" or platform.machine() != "arm64":
+        raise ValueError("this admitted monitor requires macOS arm64")
+    proc_pidinfo = ctypes.CDLL("/usr/lib/libproc.dylib").proc_pidinfo
+    proc_pidinfo.argtypes = [
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_uint64,
+        ctypes.c_void_p,
+        ctypes.c_int,
+    ]
+    proc_pidinfo.restype = ctypes.c_int
+    # macOS proc_taskinfo: six uint64_t followed by twelve int32_t; resident_size is second.
+    buffer = ctypes.create_string_buffer(96)
+
+    def resident_bytes(pid: int) -> int:
+        if proc_pidinfo(pid, 4, 0, buffer, len(buffer)) != len(buffer):
+            raise OSError("worker memory sample unavailable")
+        return ctypes.c_uint64.from_buffer(buffer, 8).value
+
+    return resident_bytes
+
+
+def _stop_worker(pid: int) -> tuple[int, int, resource.struct_rusage]:
+    try:
+        try:
+            os.killpg(pid, signal.SIGKILL)
+        except PermissionError:
+            # macOS group signalling skips zombies; the unreaped child PID is still ours.
+            os.kill(pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+    return os.wait4(pid, 0)
+
+
 def invoke(
     binary: Path,
     work: Path,
@@ -165,6 +203,9 @@ def invoke(
             seconds = min(seconds, budget.verify_seconds)
         cpu_seconds = min(cpu_seconds, budget.cpu_seconds)
     profile = sandbox_profile(binary, work)
+    max_rss = budget.max_rss_bytes if budget else 16 * 1024**3
+    cutoff = max_rss * 7 // 8
+    resident_bytes = _rss_reader()
     write_new(work / "sandbox.sb", profile.encode())
     environment = {
         "PATH": "/usr/bin:/bin",
@@ -184,12 +225,17 @@ def invoke(
             "wall_limit_seconds": seconds,
             "cpu_limit_seconds": cpu_seconds,
             "per_file_limit_bytes": max_file,
+            "max_rss_bytes": max_rss,
+            "memory_cutoff_bytes": cutoff,
+            "rss_sample_interval_seconds": 0.01,
             "profile_sha256": digest(profile.encode()),
             "qualified_backend": False,
         },
     )
     start = time.monotonic()
     timed_out = False
+    memory_limit_exceeded = memory_monitor_failed = False
+    sampled_peak_rss = 0
     with (
         os.fdopen(
             os.open(work / "stdout.txt", os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb"
@@ -214,22 +260,34 @@ def invoke(
                     break
                 if time.monotonic() - start > seconds:
                     timed_out = True
-                    os.killpg(process.pid, signal.SIGKILL)
-                    _, status, usage = os.wait4(process.pid, 0)
+                else:
+                    try:
+                        sampled_peak_rss = max(sampled_peak_rss, resident_bytes(process.pid))
+                        memory_limit_exceeded = sampled_peak_rss >= cutoff
+                    except OSError:
+                        # The worker may have exited between wait4 and proc_pidinfo.
+                        time.sleep(0.01)
+                        pid, status, usage = os.wait4(process.pid, os.WNOHANG)
+                        if pid:
+                            break
+                        memory_monitor_failed = True
+                # shortcut: sampling permits growth between reads; retain the peak-RSS postcheck.
+                if timed_out or memory_limit_exceeded or memory_monitor_failed:
+                    _, status, usage = _stop_worker(process.pid)
                     break
                 time.sleep(0.01)
             process.returncode = os.waitstatus_to_exitcode(status)
         except BaseException:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            process.wait()
+            _, status, _ = _stop_worker(process.pid)
+            process.returncode = os.waitstatus_to_exitcode(status)
             raise
     result = {
         "schema_id": "hallmark.gnark-probe-cost/1",
         "exit_code": process.returncode,
         "timed_out": timed_out,
+        "memory_limit_exceeded": memory_limit_exceeded,
+        "memory_monitor_failed": memory_monitor_failed,
+        "sampled_peak_rss_bytes": sampled_peak_rss,
         "elapsed_seconds": time.monotonic() - start,
         "user_seconds": usage.ru_utime,
         "system_seconds": usage.ru_stime,
@@ -245,6 +303,8 @@ def invoke(
     json_new(work / "cost.json", result)
     if budget is not None:
         budget.inspect(result)
+    if memory_limit_exceeded or memory_monitor_failed or usage.ru_maxrss > max_rss:
+        raise MemoryError("qualification worker memory budget")
     return result
 
 
@@ -283,7 +343,7 @@ def check(
                 "per_file_bytes": MAX_FILE,
             },
             "limitations": [
-                "GOMEMLIMIT is a Go runtime soft limit; peak RSS is measured after each process.",
+                "Live RSS sampling, post-exit checks and Go's soft limit are not OS memory quotas.",
                 "No general hostile-worker memory or disk quota claim.",
                 "No Hallmark statement, full encoder, independent verifier or trusted setup claim.",
             ],

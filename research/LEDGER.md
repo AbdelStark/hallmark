@@ -1925,3 +1925,57 @@ CLI hardening does not relabel the frozen cryptographic experiment. The timed ne
 commands total 648.176 seconds; a further ten-second preflight/test allowance
 keeps consumption inside the 700-second reservation. Final-head hosted verification
 is separate from these local results.
+
+## 2026-10-21 — W18 live memory cutoff and receipt audit
+
+Hypothesis: native RSS sampling can stop the existing proof worker below its
+approved ceiling. Baseline `2ac8fe5` checked memory only after exit and retained
+an over-limit maximum compile. [Decision 0036](../docs/decisions/0036-live-proof-worker-memory.md)
+freezes the circuits and changes only resource handling, failure classification,
+tests and evidence. The shared worker now samples macOS `proc_pidinfo` every
+10 ms, stops at seven eighths of the ceiling and retains post-exit peak checks.
+Sampling remains fallible and is not a hard OS memory quota.
+
+Raw records: `runs/w18-memory-budget-1792571904712696000`. The receipt audit
+selects outer commands/rosters rather than double-counting nested workers; it
+keeps failures, the original unattributed 1,800 seconds and conservative software
+allowances. Measured selected time is 3,429.129 seconds; total prior charge rounds
+to 5,540 seconds. Reserve 300 of the existing 7,200 seconds for this increment,
+leaving 1,360 unreserved. No budget increase, concurrency refund or paid compute.
+The [evidence](evidence/w18-live-memory-2026-10-21.json) pins the full raw audit,
+source, ABI header, commands and costs.
+
+The initial native stop exposed macOS group-signal `EPERM` on a completed child;
+that attempt has no cutoff cost receipt and retains an explicit failure record.
+An intermediate correction stopped two compiles below 384 MiB, but an existing
+short-lived network-denial test exposed an exit-transition race. The final worker
+allows one 10 ms exit grace and, on group `EPERM`, signals only its unreaped child
+PID. Genuine signal permission failures still propagate. Another attempted
+confirmation completed below its cutoff, so it failed the planned stop criterion;
+its measured peak is 340,852,736 bytes. These failures are not deleted or relabeled.
+
+Final command: `uv run --locked python runs/w18-memory-budget-1792571904712696000/experiment-04/run.py`
+with the recorded isolated uv 0.9.18 tool. The unchanged pinned gnark binary first
+compiles the eight-byte fixture in 0.760 seconds at 281,444,352 bytes peak RSS.
+Two maximum-capacity cutoff tests exit -9 after 11.212 / 11.797 seconds at
+1,891,549,184 / 1,963,802,624 bytes, both below their deliberately lowered 2 GiB
+ceiling. Both report a live memory cutoff, no monitor failure and no wall timeout.
+This validates stopping, not a complete maximum-input circuit or proof.
+
+New tests cover the native ABI, cutoff boundaries, lost samples, sampling and
+signal exit races, peak-only overshoots, standalone/staged callers and genuine
+signal denial. Maximum-compilation accounting now distinguishes monitor failure
+from resource failure, including a cutoff racing a normal exit. Final repository
+and installed-package checks are recorded in the evidence after execution.
+
+Final validation passes all 2,033 Python tests (29 new), `make check`, core
+`make package-check` and combined `make package-check-comparison`, with installed
+training and guard checks required and executed. Both packages use source identity
+`d16500bf7fb47a7fce783dff1297b62ecf079b66c20371896ddaeb3c50eabc31`
+before this final evidence update. A first lint failure is retained; its only
+worker edit shortens a limitation string. The measured worker source remains
+frozen and separately pinned. New scaling-controller failure classification is
+validated offline; historical cryptographic runs keep their original identities.
+The increment's timed commands plus conservative unrecorded-attempt/software
+allowances consume 177.419 seconds inside the 300-second reservation. Keep the
+entire reservation charged until a later audit. Exact-head hosted CI is separate.

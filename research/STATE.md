@@ -235,11 +235,20 @@ is retained. Direct `IsSolved` lacked the actual commitment hint; those earlier
 solver-negative outcomes are discarded as evidence. Real prover batches replace
 that path without dummy hints. See [decision 0035](../docs/decisions/0035-input-commitment-scaling.md).
 All 2,004 repository tests and both installed-package gates pass, with training
-and guard checks executed. This isolates a full-input resource obstacle before adding encoder layers. The
-remaining conservative unreserved proof allocation is 44.360 seconds; audit
-actual consumption before another expensive run. Existing memory checks are
-postconditions and did not prevent the small overage. This is a component with a
+and guard checks executed. This isolates a full-input resource obstacle before adding encoder layers.
+That run's post-exit memory checks did not prevent the small overage. This is a component with a
 synthetic profile pin, not the 100-field classifier statement or a full encoder.
+
+The new [live-memory evidence](evidence/w18-live-memory-2026-10-21.json) records a
+shared native macOS RSS sampler and seven-eighths cutoff, plus retained signal
+race and non-triggering test failures. Final maximum-capacity compilation attempts
+stop twice below a deliberately lowered 2 GiB ceiling, at 1,891,549,184 and
+1,963,802,624 bytes RSS. Small compilation passes. These are worker-boundary tests,
+not full-input proofs or hard memory isolation. The historical receipt audit
+charges 5,540 seconds, retaining failed runs and the original unattributed allowance;
+this increment reserves 300 seconds, leaving 1,360 unreserved in the existing
+7,200-second proving allocation. All 2,033 tests and both installed-package gates pass,
+including required train/guard execution. See [decision 0036](../docs/decisions/0036-live-proof-worker-memory.md).
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -465,9 +474,9 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: address the measured maximum-input compilation failure and enforce a
-conservative live memory cutoff before another large attempt; audit remaining
-actual proof time. Continue the complete encoder graph, including layer normalization,
+Next: address the measured maximum-input compilation failure under the new live
+cutoff and remaining 1,360-second unreserved proving budget. Continue the complete
+encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and
 measured costs remain required. Keep new proof runs inside the remaining recorded

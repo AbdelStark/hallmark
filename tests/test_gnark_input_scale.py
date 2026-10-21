@@ -5,6 +5,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -97,3 +98,23 @@ def test_cli_errors_do_not_echo_sensitive_arguments():
     assert result.returncode == 3
     assert result.stderr == b""
     assert json.loads(result.stdout) == {"status": "failed", "qualified_backend": False}
+
+
+@pytest.mark.parametrize("exit_code", [0, -9])
+@pytest.mark.parametrize("flag", [None, "memory_limit_exceeded", "memory_monitor_failed"])
+def test_cutoff_classification_keeps_monitor_failures_distinct(exit_code, flag):
+    cost = {
+        "exit_code": exit_code,
+        "timed_out": False,
+        "max_rss_bytes": 700,
+        "user_seconds": 1,
+        "system_seconds": 0,
+    }
+    if flag:
+        cost[flag] = True
+    budget = SimpleNamespace(max_rss_bytes=800, cpu_seconds=2)
+    if flag == "memory_monitor_failed":
+        with pytest.raises(ValueError, match="monitor failed"):
+            probe.resource_limited(cost, budget)
+    else:
+        assert probe.resource_limited(cost, budget) == (exit_code < 0 or flag is not None)

@@ -142,7 +142,13 @@ The shipped protocol fixture is a structural marker and must never be executed.
 The stages run installation → rule → MLP → block without skipping or retrying.
 The command preserves snapshots, plans, setup/proof artifacts, costs and failures.
 The output must be new. Shared wall/verifier deadlines and measured CPU/RSS/storage
-bounds apply across stages. Process CPU/per-file limits and the macOS sandbox do
+bounds apply across stages. All worker commands sample live RSS every 10 ms and
+request termination at seven eighths of the declared ceiling (14 GiB by default).
+Monitor failures reject; exit races retain the actual child status. Inspect
+`memory_limit_exceeded`, `memory_monitor_failed`, sampled peak and post-exit peak
+in each cost receipt. Sampling can overshoot; see
+[decision 0036](../../../docs/decisions/0036-live-proof-worker-memory.md).
+Process CPU/per-file limits and the macOS sandbox do
 not provide a hard aggregate memory/storage quota. Use a trusted output parent and
 account for existing runs within the owner's total storage/time envelope.
 
