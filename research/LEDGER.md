@@ -3196,3 +3196,52 @@ evidence obligations remain unavailable. Training is installed and executes.
 and installed core checks. Its snapshot precedes this validation-only prose and
 evidence update. The wheel is unchanged; installed train/guard and fresh Linux
 proof/checker execution remain exact-head hosted CI obligations.
+
+## 2026-10-21 — W18 finite numerical chunk coverage
+
+PR #84 merged as `78f2be48977a34d41bf35f2d8b5ded4125ce49f4`. All 30
+candidate jobs and all 15 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39656675627)
+pass; every Linux proof job creates a fresh setup/proof and checks 133 cases
+with separate arithmetic. These checks fulfill the prior entry's hosted
+obligation without changing its raw records or research qualification.
+
+The new protocol in `runs/w18-encoder-classes-1792608913125688000/protocol.json`
+freezes an additional conformance question before execution: the original
+15-input fixture reaches ten of the 21 numerical classes of the fixed two-position
+encoder. Keep its data, constants, graph, threshold and evaluator unchanged.
+Build a separate fixture from the first byte of each of the four embedding
+classes, covering empty, four singleton and sixteen ordered-pair cases.
+
+`scripts/build_encoder_classes_fixture.py` independently compares all 39 tensors /
+121 scalar positions per representative against the existing rational/Decimal
+oracle. The 51,444-byte fixture hashes to
+`e7990fbd38768c9de6151a02a1391b2696a27be01f9633e010989745c726429f`.
+The new reproduction check and prior encoder tests pass: 15 tests in 9.58 seconds.
+The original native, graph and proof-fixture pins remain unchanged.
+
+The first full-suite attempt in a no-fork research worker fails on two existing
+filesystem tests: a subprocess is denied and a 256 MiB plus one sparse file exceeds
+that worker's per-file cap. Its numerical checks pass, but the suite is retained
+as failed. `run-go-checks-02.py` keeps the solver/fingerprint tests in the same
+restricted worker and runs the complete suites under their normal fixed Go
+environment with 180-second timeouts. No arithmetic, inputs or source correction
+is needed. Original and patched solver runs pass in 13.205 / 13.563 seconds,
+peaking at 850,247,680 / 828,866,560 bytes RSS. Each accepts 21 native assignments
+and rejects 21 altered first-tensor coordinates. All eight serialized circuit
+fingerprints match. Both full 16-test Go suites pass in 15.225 / 14.615 seconds.
+
+The [raw evidence and receipts](evidence/w18-encoder-class-coverage-2026-10-21.json)
+precede these conclusions. Numerical class coverage depends on these exact
+embedding constants and block shape; it does not exhaust byte strings, commitment
+bindings, aggregation sequences, learned weights or cryptographic security. The
+new cases are solver witnesses, not new encoder proofs. The active maximum cloud
+job and all prior failures remain intact. Backend qualification stays false.
+
+`make check` passes in 83.202 seconds: 2,186 tests and 50 legitimate skips
+(45 optional guard cases and five Linux kernel cases on the Mac). Training is
+installed and executes; all 156 software corpus outcomes match, while 32 genuine
+evidence obligations remain unavailable. `make package-check` passes in 8.726
+seconds with reproducible artifacts and installed core checks; the unchanged wheel
+hashes to `14b1415598e20ed3e9449141eaff0d67c06cecb4ed4f4ea1be5508c882cc9b90`.
+Its source snapshot precedes this validation-only evidence/prose update. Exact-head
+hosted train/guard and fresh Linux proof checks remain pending.

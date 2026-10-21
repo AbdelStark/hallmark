@@ -10,9 +10,9 @@ import (
 	"github.com/consensys/gnark/frontend/cs/r1cs"
 )
 
-func encoderTestAssignments(t *testing.T) []*encoderCircuit {
+func encoderTestAssignments(t *testing.T, filename string, count int) []*encoderCircuit {
 	t.Helper()
-	raw, err := os.ReadFile("encoder-fixture.json")
+	raw, err := os.ReadFile(filename)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -32,7 +32,7 @@ func encoderTestAssignments(t *testing.T) []*encoderCircuit {
 	if err := json.Unmarshal(raw, &f); err != nil {
 		t.Fatal(err)
 	}
-	if f.Capacity != 8 || len(f.Cases) != 15 {
+	if f.Capacity != 8 || len(f.Cases) != count {
 		t.Fatal("invalid encoder fixture roster")
 	}
 	assignments := make([]*encoderCircuit, len(f.Cases))
@@ -58,7 +58,7 @@ func TestEncoderFrozenNativeTrace(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assignments := encoderTestAssignments(t)
+	assignments := encoderTestAssignments(t, "encoder-fixture.json", 15)
 	for i, assignment := range assignments {
 		witness, err := frontend.NewWitness(assignment, ecc.BLS12_381.ScalarField())
 		if err != nil {
@@ -101,6 +101,30 @@ func TestEncoderFrozenNativeTrace(t *testing.T) {
 		}
 	}
 	t.Logf("full eight-unit encoder constraints: %d", ccs.GetNbConstraints())
+}
+
+func TestEncoderNumericalChunkClasses(t *testing.T) {
+	ccs, err := frontend.Compile(ecc.BLS12_381.ScalarField(), r1cs.NewBuilder, newEncoder(8))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i, assignment := range encoderTestAssignments(t, "encoder-classes-fixture.json", 21) {
+		witness, err := frontend.NewWitness(assignment, ecc.BLS12_381.ScalarField())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := ccs.IsSolved(witness); err != nil {
+			t.Fatalf("numerical class %d failed: %v", i, err)
+		}
+		assignment.Trace[0] = assignment.Trace[0].(int64) ^ 1
+		witness, err = frontend.NewWitness(assignment, ecc.BLS12_381.ScalarField())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !expectedProverOutcome(false, ccs.IsSolved(witness)) {
+			t.Fatalf("changed numerical class %d did not yield an unsatisfied constraint", i)
+		}
+	}
 }
 
 func TestProverRejectionRequiresUnsatisfiedConstraint(t *testing.T) {
