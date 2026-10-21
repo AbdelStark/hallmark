@@ -26,7 +26,8 @@ def pedersen_candidate(plan):
         return None
     raw = base64.b64decode(plan["patched_pedersen"], validate=True)
     if (
-        plan["schema_id"] != "hallmark.hf-maximum-inputs/1"
+        plan["schema_id"]
+        not in ("hallmark.hf-maximum-inputs/1", "hallmark.hf-encoder-maximum-inputs/1")
         or digest(raw) != "04d66b48c95d1a55319b3639f1034bd79d6ce6d98bc573723dd983db16249444"
     ):
         raise ValueError("unapproved Pedersen setup candidate")
@@ -34,10 +35,18 @@ def pedersen_candidate(plan):
 
 
 def validate(plan):
-    pedersen_candidate(plan)
-    maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
+    candidate = pedersen_candidate(plan)
+    encoder = plan["schema_id"] == "hallmark.hf-encoder-maximum-inputs/1"
+    maximum = encoder or plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
+    if encoder and candidate is None:
+        raise ValueError("encoder campaign requires the reviewed parallel candidate")
     if (
-        plan["schema_id"] not in ("hallmark.hf-compile-inputs/1", "hallmark.hf-maximum-inputs/1")
+        plan["schema_id"]
+        not in (
+            "hallmark.hf-compile-inputs/1",
+            "hallmark.hf-maximum-inputs/1",
+            "hallmark.hf-encoder-maximum-inputs/1",
+        )
         or not re.fullmatch("[a-f0-9]{40}", plan["source_commit"])
         or set(plan["files"])
         != {
@@ -65,6 +74,7 @@ def validate(plan):
             "src/hallmark/_gnark_probe.py",
             "src/hallmark/_gnark_linux_compile.py",
             *(["src/hallmark/_gnark_maximum.py"] if maximum else []),
+            *(["research/probes/gnark/encoder-maximum-fixture.json"] if encoder else []),
         }
         or plan["go_archive"]["filename"] != "go1.26.8.linux-amd64.tar.gz"
         or plan["go_archive"]["size"] != 66897291
@@ -122,7 +132,8 @@ def wait_with_progress(child, paths, seconds, offsets):
 
 def main(plan):
     validate(plan)
-    maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
+    encoder = plan["schema_id"] == "hallmark.hf-encoder-maximum-inputs/1"
+    maximum = encoder or plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
     if platform.system() != "Linux" or platform.machine() != "x86_64":
         raise ValueError("Linux x86-64 required")
     root = Path("/tmp/hallmark-hf-compile")
@@ -146,6 +157,8 @@ def main(plan):
     def run(label, command, cwd, env, seconds):
         # Reserve a separate copy window; mutable bucket metadata is not a worker filesystem.
         deadline = (8350 if label == "retain-output" else 7450) if maximum else 1100
+        if encoder:
+            deadline = 17350 if label == "retain-output" else 15550
         if time.monotonic() - start + seconds > deadline:
             raise TimeoutError("insufficient remaining job budget")
         began = time.monotonic()
@@ -210,7 +223,9 @@ def main(plan):
     sys.path.insert(0, str(root / "repo/src"))
     from hallmark._gnark_linux_compile import container_memory_limit
 
-    required_memory = 170_000_000_000 if maximum else 28_000_000_000
+    required_memory = (
+        230_000_000_000 if encoder else (170_000_000_000 if maximum else 28_000_000_000)
+    )
     print(
         json.dumps({"container_memory_limit_bytes": container_memory_limit(required_memory)}),
         flush=True,
@@ -361,6 +376,15 @@ def main(plan):
         "PYTHONDONTWRITEBYTECODE": "1",
     }
     execution = root / "execution"
+    encoder_args = []
+    if encoder:
+        name = "research/probes/gnark/encoder-maximum-fixture.json"
+        encoder_args = [
+            "--encoder-fixture",
+            str(root / "repo" / name),
+            "--expected-fixture",
+            plan["files"][name]["sha256"],
+        ]
     try:
         run(
             "maximum-proof" if maximum else "compilation",
@@ -374,10 +398,11 @@ def main(plan):
                 binary_sha,
                 "--output",
                 str(execution),
+                *encoder_args,
             ],
             root,
             child_env,
-            6650 if maximum else 650,
+            15050 if encoder else (6650 if maximum else 650),
         )
     finally:
         if maximum and execution.exists():
@@ -388,13 +413,15 @@ def main(plan):
                     "-c",
                     "from pathlib import Path; from hallmark._gnark_maximum import "
                     "retain_outputs; import sys; "
-                    "retain_outputs(Path(sys.argv[1]), Path(sys.argv[2]))",
+                    "retain_outputs(Path(sys.argv[1]), Path(sys.argv[2]), "
+                    "encoder=sys.argv[3]=='1')",
                     str(execution),
                     "/output/w18-" + plan["experiment"],
+                    "1" if encoder else "0",
                 ],
                 root,
                 child_env,
-                900,
+                1800 if encoder else 900,
             )
 
 

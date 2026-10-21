@@ -68,14 +68,37 @@ func TestEncoderFrozenNativeTrace(t *testing.T) {
 			t.Fatalf("native case %d failed: %v", i, err)
 		}
 	}
-	changed := assignments[9]
-	changed.Trace[len(changed.Trace)-1] = changed.Trace[len(changed.Trace)-1].(int64) ^ 1
-	witness, err := frontend.NewWitness(changed, ecc.BLS12_381.ScalarField())
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := ccs.IsSolved(witness); err == nil {
-		t.Fatal("accepted altered final tensor")
+	maximum, empty := assignments[9], assignments[0]
+	for _, test := range []struct {
+		name       string
+		assignment *encoderCircuit
+		field      []frontend.Variable
+		index      int
+		value      int64
+	}{
+		{"last-unit", maximum, maximum.Units, 7, maximum.Units[7].(int64) ^ 1},
+		{"last-encoding", maximum, maximum.Encoded, int(maximum.Positions[8].(int64)) - 1, 64},
+		{"last-position", maximum, maximum.Positions, 8, 1},
+		{"wrong-count", maximum, maximum.Public[:], 96, 7},
+		{"unit-range", maximum, maximum.Units, 0, 256},
+		{"prefix-hole", maximum, maximum.UnitActive, 4, 0},
+		{"empty-padding", empty, empty.Encoded, 21, 1},
+		{"empty-unit-padding", empty, empty.Units, 7, 1},
+		{"salt-range", maximum, maximum.Salt[:], 0, 256},
+		{"trace-first", maximum, maximum.Trace, 0, maximum.Trace[0].(int64) ^ 1},
+		{"trace-middle", maximum, maximum.Trace, 242, maximum.Trace[242].(int64) ^ 1},
+		{"trace-last", maximum, maximum.Trace, 483, maximum.Trace[483].(int64) ^ 1},
+	} {
+		saved := test.field[test.index]
+		test.field[test.index] = test.value
+		witness, err := frontend.NewWitness(test.assignment, ecc.BLS12_381.ScalarField())
+		test.field[test.index] = saved
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !expectedProverOutcome(false, ccs.IsSolved(witness)) {
+			t.Fatalf("%s did not yield an unsatisfied constraint", test.name)
+		}
 	}
 	t.Logf("full eight-unit encoder constraints: %d", ccs.GetNbConstraints())
 }

@@ -190,8 +190,8 @@ retained as explicit research evidence; they are not operational trust anchors.
 
 The artifact reader streams within a 256 MiB default cap, rejects unsafe
 file types/links and requires exact decoder consumption. Encoder probes allow
-2 GiB per artifact; the 32,768-unit commitment and encoder capacities allow up to
-24 GiB under an explicit parent budget. These caps do not authorize a run. Commitment-scaling
+2 GiB per artifact; the 32,768-unit commitment allows 24 GiB and the maximum
+encoder allows 48 GiB under explicit parent budgets. These caps do not authorize a run. Commitment-scaling
 setup files move through pinned exclusive copies; worker inventories hash in
 bounded chunks. Detected mutations and failed copies reject before dependent
 workers. Gnark's constraint decoder still buffers internally; this is not a
@@ -226,6 +226,35 @@ seconds; the batch takes 1,791.308 seconds against its 1,800-second limit, with
 87,162,712,064-byte peak worker RSS. This single CPU-host observation has narrow
 time headroom and does not qualify a full encoder, independent verifier, setup
 ceremony or security/hiding claim. No automatic rerun follows from this result.
+
+## Maximum complete synthetic encoder
+
+The complete encoder now exports and reloads at 32,768 bytes on the Mac. Its
+110,432,265 constraints serialize to 5,153,016,221 bytes; the independently retained
+SHA-256 is `7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a`.
+The [capacity evidence](../../evidence/w18-complete-encoder-capacity-2026-10-21.json)
+separates measured export/reload costs from source-derived setup/key bounds.
+
+The existing maximum controller accepts the separately frozen synthetic encoder
+recipe and its externally retained file pin:
+
+```text
+python -m hallmark._gnark_maximum --binary BINARY --expected-binary SHA256 \
+  --encoder-fixture research/probes/gnark/encoder-maximum-fixture.json \
+  --expected-fixture a5a7dcc541edb5e75fc634b1b0d90326c891c3247ab49da7cae61368990188d3 \
+  --output FRESH_DIRECTORY
+```
+
+Use only the explicit limits in [decision 0053](../../../docs/decisions/0053-maximum-encoder-proof-campaign.md).
+Before maximum export/setup, the runner checks network denial, tiny proofs and
+an eight-byte complete encoder proof. It then requires three full-capacity proofs,
+all 100 public-field rejections and the frozen witness/proof/key negatives.
+Native execution and a separate Decimal oracle check the committed recipe;
+`scripts/build_gnark_encoder_maximum_fixture.py --expected-native SHA256 --output FRESH_DIRECTORY`
+reproduces its JSON and private assignment files. Supply the separately retained
+native fixture pin `8d0551ac2e9c9e2527004bc4a33392844963ffcb17b9589139448db3f068ee7d`.
+Keep those raw assignments local.
+Preparation, export and CI do not imply maximum proving or backend qualification.
 
 ## Run the staged qualification command
 

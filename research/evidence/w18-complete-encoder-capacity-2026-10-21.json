@@ -1,0 +1,547 @@
+{
+  "audit": {
+    "cloud_jobs": 0,
+    "cost_minor": 0,
+    "maximum_circuit_rehashed": true,
+    "new_encoder_fingerprint_matches_small_campaign": true,
+    "previous_fingerprints_unchanged": 7,
+    "worker_file_pins_rechecked": 1929
+  },
+  "binary_sha256": "d0228de6a00fa41baf7c605b4aee54ab96d09d1e85b3c7db0aa33c40c6191db7",
+  "exports": [
+    {
+      "capacity": 8,
+      "circuit": {
+        "bytes": 36295640,
+        "sha256": "ad8bf9b2e401fdebc2e0a0077cf3dd91a8004e1b3ec9e408534087701cd0328a"
+      },
+      "cost": {
+        "elapsed_seconds": 1.2291981251910329,
+        "exit_code": 0,
+        "files": {
+          "capacity.json": {
+            "bytes": 241,
+            "sha256": "57319a4d577ce0c9e999a3b3401fa2b2fe7c75aeb9b497efeebf637bfbb5be97"
+          },
+          "circuit.r1cs": {
+            "bytes": 36295640,
+            "sha256": "ad8bf9b2e401fdebc2e0a0077cf3dd91a8004e1b3ec9e408534087701cd0328a"
+          },
+          "plan.json": {
+            "bytes": 894,
+            "sha256": "744e95f997bca5b8df3a150cc13a8337747208eff13df73782d7736ead1b7a52"
+          },
+          "sandbox.sb": {
+            "bytes": 576,
+            "sha256": "52ad3908ad931b0f8f43956fdac7fc6d918daf19a0cb11430dffd40d7492ae45"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 114,
+            "sha256": "04a078b8bc0a2860d43df8bbf2b59e1f8b3bfa87508c7a00b8ddff9cdf38d7f8"
+          }
+        },
+        "max_rss_bytes": 523419648,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 523403264,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.052918,
+        "timed_out": false,
+        "user_seconds": 0.751035
+      },
+      "counts": {
+        "coefficients": 524440,
+        "commitments": 1,
+        "constraints": 361950,
+        "instructions": 399678,
+        "internal_variables": 644429,
+        "private_committed_variables": 311647,
+        "public_variables": 101,
+        "schema_id": "hallmark.gnark-circuit-capacity/1",
+        "secret_variables": 585
+      }
+    },
+    {
+      "capacity": 32,
+      "circuit": {
+        "bytes": 40049749,
+        "sha256": "7962f31435715d0ff9337aa3239ed7be5e03b4a2fd8b549fccb4555a409b22ea"
+      },
+      "cost": {
+        "elapsed_seconds": 0.7060491249430925,
+        "exit_code": 0,
+        "files": {
+          "capacity.json": {
+            "bytes": 242,
+            "sha256": "ce18136abbbcfe60e88368d7937f2a574668c00b9a45f4c98378e79b45692c31"
+          },
+          "circuit.r1cs": {
+            "bytes": 40049749,
+            "sha256": "7962f31435715d0ff9337aa3239ed7be5e03b4a2fd8b549fccb4555a409b22ea"
+          },
+          "plan.json": {
+            "bytes": 897,
+            "sha256": "2c4870f5c22de8217c6c80a3d614a1054be74dc3eb958e3b2d755cd74e430b4e"
+          },
+          "sandbox.sb": {
+            "bytes": 577,
+            "sha256": "01577b55229860bee2fc63a6f53b6d7f0af14278d8b4f1dea67e75be3ab8de8b"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 114,
+            "sha256": "ebc8d3a4c2a7e97b669103b746ad5699f32aee38d01415f85535432b6868f7f0"
+          }
+        },
+        "max_rss_bytes": 512278528,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": true,
+        "sampled_peak_rss_bytes": 512245760,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.038618,
+        "timed_out": false,
+        "user_seconds": 0.822375
+      },
+      "counts": {
+        "coefficients": 524440,
+        "commitments": 1,
+        "constraints": 451093,
+        "instructions": 510947,
+        "internal_variables": 736451,
+        "private_committed_variables": 336119,
+        "public_variables": 101,
+        "schema_id": "hallmark.gnark-circuit-capacity/1",
+        "secret_variables": 2205
+      }
+    },
+    {
+      "capacity": 256,
+      "circuit": {
+        "bytes": 70031966,
+        "sha256": "720af39a49788b5c843a14d4577073edc7f3276d0da812064273e6ee8263628f"
+      },
+      "cost": {
+        "elapsed_seconds": 1.4846857918892056,
+        "exit_code": 0,
+        "files": {
+          "capacity.json": {
+            "bytes": 246,
+            "sha256": "607868845197aa6fbb2c719e96331034d95cf110f8e93b2d686b4cdd835fa9ca"
+          },
+          "circuit.r1cs": {
+            "bytes": 70031966,
+            "sha256": "720af39a49788b5c843a14d4577073edc7f3276d0da812064273e6ee8263628f"
+          },
+          "plan.json": {
+            "bytes": 900,
+            "sha256": "f29a09d7ebc448672ea503ece9a8cd795a8d48cf8c807a3becbf0ef7dd22e38b"
+          },
+          "sandbox.sb": {
+            "bytes": 578,
+            "sha256": "bc931fdb05a6d918831c207591b5ac1b01082c052782c4a678645d1873377c3e"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 116,
+            "sha256": "f868cc098bbe34c89d0dd4ac23596571281c94519b3cad6970715440061c1d14"
+          }
+        },
+        "max_rss_bytes": 987807744,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": true,
+        "sampled_peak_rss_bytes": 987774976,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.096547,
+        "timed_out": false,
+        "user_seconds": 1.6257789999999999
+      },
+      "counts": {
+        "coefficients": 524487,
+        "commitments": 1,
+        "constraints": 1200745,
+        "instructions": 1425029,
+        "internal_variables": 1493656,
+        "private_committed_variables": 514703,
+        "public_variables": 101,
+        "schema_id": "hallmark.gnark-circuit-capacity/1",
+        "secret_variables": 17325
+      }
+    },
+    {
+      "capacity": 32768,
+      "circuit": {
+        "bytes": 5153016221,
+        "sha256": "7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a"
+      },
+      "cost": {
+        "elapsed_seconds": 276.78042754204944,
+        "exit_code": 0,
+        "files": {
+          "capacity.json": {
+            "bytes": 256,
+            "sha256": "a9bb238399b32ae909ff4732d5d2cc40790b9ce759d5ac704655425f29bdd0c0"
+          },
+          "circuit.r1cs": {
+            "bytes": 5153016221,
+            "sha256": "7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a"
+          },
+          "plan.json": {
+            "bytes": 906,
+            "sha256": "7b82b22602b8a26606882eb9609ff6f3863685bf33330eb8e4ca398102212c4d"
+          },
+          "sandbox.sb": {
+            "bytes": 580,
+            "sha256": "aca55b1534416b96dbc9c6e1b8795082694691789659b87a44b7684ee2938fdf"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 120,
+            "sha256": "20a1fde80e419784cb54170110c8a1ea9f04d0495fd99eb045a298c21e16a536"
+          }
+        },
+        "max_rss_bytes": 20233928704,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": true,
+        "sampled_peak_rss_bytes": 20230619136,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 48.93646,
+        "timed_out": false,
+        "user_seconds": 814.23177
+      },
+      "counts": {
+        "coefficients": 582279,
+        "commitments": 1,
+        "constraints": 110432265,
+        "instructions": 134522389,
+        "internal_variables": 111821440,
+        "private_committed_variables": 26434895,
+        "public_variables": 101,
+        "schema_id": "hallmark.gnark-circuit-capacity/1",
+        "secret_variables": 2211885
+      }
+    }
+  ],
+  "go_soft_memory_target_bytes": 1073741824,
+  "host": {
+    "cpu": "Apple M4 Max",
+    "physical_memory_bytes": 51539607552,
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "limitations": [
+    "Export/reload only: no maximum encoder setup or proof executed in this capacity experiment.",
+    "Source-derived allocations are neither measured setup RSS nor exact key size.",
+    "Single diagnostic run; lightweight checkout preparation overlapped late export. The recorded root byte total included checkout preparation, not just worker artifacts.",
+    "Synthetic encoder and local research setup; no model quality, operational enrollment, independent verifier, accepted ceremony or security/hiding qualification."
+  ],
+  "maximum_proof": false,
+  "maximum_setup": false,
+  "preparation": {
+    "cases": [
+      {
+        "assignment_bytes": 22266340,
+        "assignment_sha256": "2faaeff7d415258e2ddd804112ce97da40eba64bca6d2e5ae54a111b7b55804f",
+        "name": "empty",
+        "native_chunks": 1,
+        "native_score": 0
+      },
+      {
+        "assignment_bytes": 22555725,
+        "assignment_sha256": "0581a63bc09da62e1316e044897b6a036140181e9fa56de049e0b3cf72661316",
+        "name": "near",
+        "native_chunks": 16384,
+        "native_score": -4
+      },
+      {
+        "assignment_bytes": 22555723,
+        "assignment_sha256": "0ab261985baf54171601f30a50e18502f910ba7dc09133d0d7f128be335f5b8f",
+        "name": "maximum",
+        "native_chunks": 16384,
+        "native_score": -5
+      }
+    ],
+    "decision": "docs/decisions/0053-maximum-encoder-proof-campaign.md",
+    "fingerprints": [
+      {
+        "bytes": 2615,
+        "constraints": 45,
+        "name": "installation",
+        "sha256": "42c5b40328dcbfa37ac5959ee95f3a226a29a244c3b3e3c7f2d7e3bc5d40a52a"
+      },
+      {
+        "bytes": 18148452,
+        "constraints": 206801,
+        "name": "rule",
+        "sha256": "594c0ba54765923e756d931f97e4193d2076f69146d1c07ca46b4af0cbd96eb3"
+      },
+      {
+        "bytes": 18170074,
+        "constraints": 208717,
+        "name": "mlp",
+        "sha256": "2fef47c5f815dbbf3d544f98db1a523ae3b49b2b11f7949b5d70366d491ae533"
+      },
+      {
+        "bytes": 133167,
+        "constraints": 5250,
+        "name": "block",
+        "sha256": "fdaf7659738875e05fa8296a0d4a50193de804663baa05e5ead383e6f411d41d"
+      },
+      {
+        "bytes": 18075976,
+        "constraints": 205547,
+        "name": "input-8",
+        "sha256": "3441dda74a6fd3fac6276d7a32ac7074d95f0c7fb1ffe074ca1054012d8aa302"
+      },
+      {
+        "bytes": 20208810,
+        "constraints": 243222,
+        "name": "input-32",
+        "sha256": "43399776e04cb9134f1325b68ef842fee1a394f6a056b6beb868c2ef9be8dbd7"
+      },
+      {
+        "bytes": 35283602,
+        "constraints": 512502,
+        "name": "input-256",
+        "sha256": "043259786ca5db48c9f1c2b000c0f5fafbe71a24987c56eb10ae737d92b34f82"
+      },
+      {
+        "bytes": 36295640,
+        "constraints": 361950,
+        "name": "encoder-8",
+        "sha256": "ad8bf9b2e401fdebc2e0a0077cf3dd91a8004e1b3ec9e408534087701cd0328a"
+      }
+    ],
+    "fixture_generation": {
+      "argv": [
+        ".venv/bin/python",
+        "scripts/build_gnark_encoder_maximum_fixture.py",
+        "--expected-native",
+        "8d0551ac2e9c9e2527004bc4a33392844963ffcb17b9589139448db3f068ee7d",
+        "--output",
+        "runs/w18-encoder-maximum-1792603925159848000/fixture-01"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 8.725842750165612
+    },
+    "go_default": {
+      "exit_code": 0,
+      "wall_seconds": 10.913250958081335
+    },
+    "go_parallel": {
+      "args": [
+        "runs/w18-preflight-1792517857486510000/toolchain-01/go/bin/go",
+        "test",
+        "-count=1",
+        "-v",
+        "-mod=readonly",
+        "-modfile=runs/w18-pedersen-parallel-1792590827210193000/candidate.mod",
+        "."
+      ],
+      "exit_code": 0,
+      "wall_seconds": 10.776729374891147
+    },
+    "go_top_level_tests_each": 15,
+    "linux_only_skipped": 5,
+    "maximum_cloud_job_launched": false,
+    "maximum_fixture": {
+      "bytes": 99588,
+      "sha256": "a5a7dcc541edb5e75fc634b1b0d90326c891c3247ab49da7cae61368990188d3"
+    },
+    "native_and_decimal_oracle_agree": true,
+    "negative_witness_cases": 12,
+    "offline": {
+      "args": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_gnark_encoder_maximum.py",
+        "tests/test_gnark_maximum.py",
+        "tests/test_gnark_linux_compile.py"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 14.422343167010695
+    },
+    "offline_passed": 94,
+    "plan_sha256": "b0609018d502a0bf9326afb0c9822b69e6c282aaac27f78d8e67ae2db8ceb2d2",
+    "previous_fingerprints_unchanged": 7,
+    "private_trace_scalars": 1982464,
+    "public_fields": 100,
+    "run_directory": "runs/w18-encoder-maximum-1792603925159848000",
+    "small_proof": {
+      "batch_cases": 509,
+      "binary_sha256": "a8e5a921b5ddab32bd4857ca7860b16231b6e097ed55e386e34d057252783ce2",
+      "circuit_sha256": "ad8bf9b2e401fdebc2e0a0077cf3dd91a8004e1b3ec9e408534087701cd0328a",
+      "elapsed_seconds": 153.08298374991864,
+      "max_worker_rss_bytes": 1110802432,
+      "measured_artifact_bytes": 550843122,
+      "private_tensor_rejections": 484,
+      "public_mutation_rejections": 100,
+      "real_valid_proofs": 15,
+      "result_sha256": "1d4ef5b631c835b4b913284078b3ab44ccc1e435fd8bd1fe6462b5e474e04b68",
+      "status": "small-capacity-passed",
+      "vk_sha256": "59cfa58bec293c212b2c2cf548cd3b2c7bf54ab94c86282c29ac39671edf8f8b",
+      "workers": 124
+    },
+    "source_base_commit": "ace56348a609d2d8f00b0520abd05e0f1e72f987"
+  },
+  "protocol_sha256": "ddfc9bf163c3259c2cd13d5f26643c706ee55279e9362ebef9098de5061eeae0",
+  "qualified_backend": false,
+  "raw_result_sha256": "a34cd769331cc9d51b6d13fd2095cf11effe62d8755e0c799f0a96f0469b66dd",
+  "reload": {
+    "cost": {
+      "elapsed_seconds": 6.084995624842122,
+      "exit_code": 0,
+      "files": {
+        "capacity.json": {
+          "bytes": 256,
+          "sha256": "a9bb238399b32ae909ff4732d5d2cc40790b9ce759d5ac704655425f29bdd0c0"
+        },
+        "circuit.r1cs": {
+          "bytes": 5153016221,
+          "sha256": "7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a"
+        },
+        "plan.json": {
+          "bytes": 909,
+          "sha256": "22f3334476624e971d8a042fcd07fcea833ba4de7c7a521d97d20cbb6231916f"
+        },
+        "sandbox.sb": {
+          "bytes": 581,
+          "sha256": "48130267e7a309e7d60aeaa25bf830e511fa5babca3c17c12aa9cecd268acf6e"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 118,
+          "sha256": "d3b11f7110032d160a8b2c93a2e6de9daa1aaeba1d1228da01baf2b2bd2c796c"
+        }
+      },
+      "max_rss_bytes": 17143889920,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 17143824384,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 2.612288,
+      "timed_out": false,
+      "user_seconds": 5.44587
+    },
+    "status": "passed"
+  },
+  "resources": {
+    "allocated_checkout_bytes_before_run": 94477234176,
+    "cloud_jobs": 0,
+    "concurrent_workers": 1,
+    "cost_minor": 0,
+    "free_disk_bytes_before_run": 520689676288,
+    "max_new_bytes": 17179869184,
+    "max_retained_checkout_bytes": 137438953472,
+    "max_rss_bytes": 34359738368,
+    "maximum_export_seconds": 600,
+    "reload_seconds": 300,
+    "sampled_stop_bytes": 30064771072,
+    "small_export_seconds": 120,
+    "threads": 4,
+    "total_seconds": 1200
+  },
+  "run_directory": "runs/w18-encoder-capacity-1792603242840959000",
+  "schema_id": "hallmark.complete-encoder-capacity-evidence/1",
+  "source_allocation_bounds": {
+    "bounds": {
+      "compressed_key_upper_with_1MiB_allowance": 35308458964,
+      "fft_domain": 134217728,
+      "fft_precomputation_bytes": 17179870848,
+      "g1_affine_minimum_bytes": 23832111072,
+      "g1_digit_minimum_bytes": 7944037024,
+      "g1_scalar_capacity_bytes": 15242176288,
+      "main_key_g1_upper_points": 449883011,
+      "main_key_g2_upper_points": 114033428,
+      "pedersen_key_points": 52869790,
+      "private_committed_variables": 26434895,
+      "private_key_wires": 87598429,
+      "public_and_commitment_wires": 102,
+      "simultaneous_backing_lower_bytes": 64198195232,
+      "total_wires": 114033426
+    },
+    "capacity": {
+      "coefficients": 582279,
+      "commitments": 1,
+      "constraints": 110432265,
+      "instructions": 134522389,
+      "internal_variables": 111821440,
+      "private_committed_variables": 26434895,
+      "public_variables": 101,
+      "schema_id": "hallmark.gnark-circuit-capacity/1",
+      "secret_variables": 2211885
+    },
+    "limits": "Source-derived allocations, not observed RSS or exact final key bytes. Scalar capacity can contain untouched pages; actual setup/proving peak remains unmeasured. These lower components exclude the R1CS, A/B/C, G2 and other live allocations.",
+    "prior_formula_reproduction": true,
+    "schema_id": "hallmark.encoder-source-bounds/1",
+    "selection": "No maximum setup on the48GiB Mac: these allocations exceed its admitted32GiB RSS envelope. Existing approved HF fallback requires a separately bounded larger-memory run.",
+    "source_pins": {
+      "runs/w18-boolean-cache-1792575116013016000/gnark-patched/backend/groth16/bls12-381/marshal.go": "3562b18cba3c8f7dec4699e3bacb8ea279409cc2aaa7e2a459dda3a9f06e2112",
+      "runs/w18-boolean-cache-1792575116013016000/gnark-patched/backend/groth16/bls12-381/setup.go": "6037449d71b795d11e74f62f688606b95e196e0f2b93ab39dfb4a60c5175c06d",
+      "runs/w18-pedersen-parallel-1792590827210193000/module/ecc/bls12-381/fr/fft/domain.go": "43b5c69a06ad46deffff431a5154c8f6a20fa9840e3eea6d84fd89d1f8e916ba",
+      "runs/w18-pedersen-parallel-1792590827210193000/module/ecc/bls12-381/fr/pedersen/pedersen.go": "04d66b48c95d1a55319b3639f1034bd79d6ce6d98bc573723dd983db16249444",
+      "runs/w18-pedersen-parallel-1792590827210193000/module/ecc/bls12-381/g1.go": "2c2368587355ffe6747a8fcf0d147180f74fd4b559efeccb428fbe0d2bb026ac",
+      "runs/w18-pedersen-parallel-1792590827210193000/module/ecc/bls12-381/multiexp.go": "a9b1355e455a69f86bf7ec748e3cdb7573377f21e12f0deba9292d4433822016"
+    }
+  },
+  "source_commit": "2bdf4c28905aa2111b7c034e3b3e65ba2d753098",
+  "source_inventory_sha256": "a89963d3a94da83767420b968b91c37ebc081124e6399471423eb269331bf1a2",
+  "status": "maximum-export-and-reload-passed",
+  "validation": {
+    "existing_warnings": 1,
+    "full_check": {
+      "args": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 92.22358608385548
+    },
+    "genuine_evidence_obligations_unavailable": 32,
+    "log_sha256": {
+      "check-01.log": "1ea5bd5eadf77d04fbf05a6ce3f53fb54f07190fc0f70fc463e04004ca52efb3",
+      "go-01-default.log": "44557cf11af927d8c970fc787d2c21b166f044c8d7ed9aa208f5989ec0f124d5",
+      "go-02-parallel.log": "8064744753bfae045a52225a7388b5ca62abd6bb4a43aef19b636431e0d42f86",
+      "offline-02.log": "d0f955a85218a5119c9eb9d78e4dcdce757034f8411fea57849110e5e9faf600",
+      "package-01.log": "0eeababf671760121efbab3eb06a409c7b41d3d016f5e9c3e3221f1e078bc006"
+    },
+    "package_check": {
+      "distributions": {
+        "hallmark_research-0.1.0-py3-none-any.whl": "14b1415598e20ed3e9449141eaff0d67c06cecb4ed4f4ea1be5508c882cc9b90",
+        "hallmark_research-0.1.0.tar.gz": "a6ce71609de05ab4bc807a5e9716879f48017e35b4c9dc798a342e64d38968a8"
+      },
+      "installed_guard_checked": false,
+      "installed_train_checked": false,
+      "retained": "dist/package-check-0bl5o972",
+      "source_id": "003633f491c1211ebd4a41feb610d9bbdd22f46bd8cfd5c4b3be6c69c0603a70",
+      "status": "passed"
+    },
+    "package_scope": "Staged snapshot before final validation-only prose/evidence update; installed core checked. Hosted matrix must check installed train and guard.",
+    "package_seconds": 8.220938249956816,
+    "platform_skips": 5,
+    "pytest_passed": 2230,
+    "pytest_seconds": 87.91,
+    "software_conformance_matches": 156
+  }
+}
