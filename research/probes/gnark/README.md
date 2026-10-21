@@ -20,6 +20,28 @@ residuals and pooling; it does not implement a tokenizer, layer normalization,
 the complete input hash or a complete encoder. See
 [decision 0025](../../../docs/decisions/0025-integer-attention-block-probe.md).
 
+`normalization.go` is a separate two-feature integer layer normalization relation.
+Its four public fields bind the inputs and outputs, and all eleven intermediate
+values are constrained. The fixture covers all 289 inputs in `[-8,8]^2` with
+explicit rounded mean/variance, epsilon, inverse table and affine parameters.
+This is a bounded integer approximation, not floating model equivalence or a
+complete encoder. See [decision 0050](../../../docs/decisions/0050-bounded-integer-normalization.md).
+The frozen component campaign uses the same network-denied Mac worker:
+
+```text
+uv run --locked python scripts/check_gnark_normalization.py \
+  --binary BINARY --expected-binary BUILD_SHA256 \
+  --fixture research/probes/gnark/normalization-fixture.json \
+  --expected-fixture FROZEN_FIXTURE_SHA256 --output FRESH_DIRECTORY
+```
+
+The command retains 289 proofs and fresh verifier executions, plus public,
+intermediate, range, alias, canonical-encoding, proof and setup-key rejections.
+It uses one 900-second budget, four threads, 2 GiB worker RSS and 2 GiB output.
+The older block and staged qualification relations remain unchanged. Future HF
+source inventories include the normalization source required by the shared
+dispatcher; this does not retroactively change any cloud experiment.
+
 `input_scale.go` separately measures the salted complete-byte commitment with
 indexed CBOR packing. It uses 33 public fields and a synthetic fixed profile,
 with candidate capacities 8, 32, 256 and 32,768 bytes. It leaves the original
@@ -141,7 +163,7 @@ workers. Gnark's constraint decoder still buffers internally; this is not a
 maximum-size setup/prover qualification. See
 [decision 0041](../../../docs/decisions/0041-streamed-proof-artifacts.md).
 
-## Maximum commitment artifacts and proof attempt
+## Maximum commitment artifacts and proofs
 
 `input-export CAPACITY` writes a compiled `circuit.r1cs` and numeric `capacity.json`;
 `input-inspect CAPACITY` reloads a caller-pinned circuit and writes its counts.
@@ -160,6 +182,15 @@ passes a tiny real-proof fixture first, and never sets `qualified_backend` true.
 The existing compilation-only command keeps its original limits. A prepared
 controller, native fixture agreement or CI test does not establish that the
 maximum setup or proof has executed.
+
+The separately retained [maximum result](../../evidence/w18-parallel-maximum-result-2026-10-21.json)
+now records actual proofs for empty, 32,767-byte and 32,768-byte inputs, all frozen
+negative cases and two fresh Mac replays. The original-dependency replay checks
+compatibility using the same verifier implementation. Setup takes 2,195.581
+seconds; the batch takes 1,791.308 seconds against its 1,800-second limit, with
+87,162,712,064-byte peak worker RSS. This single CPU-host observation has narrow
+time headroom and does not qualify a full encoder, independent verifier, setup
+ceremony or security/hiding claim. No automatic rerun follows from this result.
 
 ## Run the staged qualification command
 

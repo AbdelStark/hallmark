@@ -1,0 +1,97 @@
+{
+  "binary_sha256": "2f2012bf79c96b47fc13eb99b2ae5746a8eda508def447868b9a24fbb0100460",
+  "campaign_plan_sha256": "b9f2c1b4d57cef173128440a3b1121a079929823226a97fcfa13721e75ca0969",
+  "candidate_protocol_sha256": "db1fb4782e1c979140f75ce06bea5adca05fe875eaac4e830682945b7158d4f8",
+  "candidate_source_inventory_sha256": "b5facc9c86015ebaf4c279908caf4513b0527386222fdd67ae09a8e7dd7a1054",
+  "circuit_sha256": "7b407cd950c989ac1bc0a2dffe47a12683a3b3a3b8645dbd06827ddbda436de6",
+  "controller_sha256": "2528c174e6532221175fe59a5283589115bb2c230a82f60a403a4fe8912a22db",
+  "fixture_sha256": "c2eea1685a324e5ef1d84caa2cd9fb5ae7ca5414112ebc638fe1b9ae10194092",
+  "host": {
+    "collected_after_run": true,
+    "concurrent_activity": "Download and hashing of completed maximum cloud artifacts; no overlapping proof worker.",
+    "cpu": "Apple M4 Max",
+    "machine": "arm64",
+    "memory_bytes": 51539607552,
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+  },
+  "inputs": {
+    "approval": "research/AUTHORITY.json autonomous_execution",
+    "input_pairs": 289,
+    "input_range": [
+      -8,
+      8
+    ],
+    "no_test_selection": true,
+    "private_trace_fields": 11,
+    "public_fields": 4,
+    "purpose": "Bounded integer arithmetic and proof integration",
+    "source": "Authored synthetic fixture",
+    "source_rights": "Owner-controlled project material; no third-party dataset or model."
+  },
+  "limitations": [
+    "Four-field bounded normalization relation, not an admitted full encoder or the 100-field Hallmark classifier.",
+    "Declared integer approximations; no floating pretrained model equivalence.",
+    "Shared gnark verifier and fresh local research setup; no independent verifier, accepted ceremony or security/hiding qualification.",
+    "One diagnostic run; detailed host observation was recorded after the run. No statistical performance comparison.",
+    "No trained model, policy-quality result or genuine hardware attestation."
+  ],
+  "proofs": {
+    "additional_setup_cases": 2,
+    "artifact_bytes_before_final_report": 110769391,
+    "elapsed_seconds": 73.0134125421755,
+    "fresh_verifier_processes": 289,
+    "max_worker_rss_bytes": 24182784,
+    "negative_cases": 25,
+    "proof_bytes_each": 244,
+    "real_valid_proofs": 289,
+    "total_worker_cases": 605,
+    "worker_file_pins_rechecked": 4524
+  },
+  "qualified_backend": false,
+  "raw_result_sha256": "fd6220e9e9113cfffe41e54ae78195c3446fea993d06b25196031da4f7db9b2a",
+  "run_directory": "runs/w18-normalization-1792598409580756000",
+  "schema_id": "hallmark.normalization-component-evidence/1",
+  "source_base_commit": "e97659f2695a8f0bfdc6a14159bc1554a46cc329",
+  "source_snapshot": "candidate-source/",
+  "status": "component-passed",
+  "validation": {
+    "check_seconds": 46.45325445802882,
+    "focused_python_tests_passed": 13,
+    "go_tests_passed": [
+      "TestArtifactExplicitLimit",
+      "TestCompiledSetupRoundTrip",
+      "TestArtifactWriterBytesAndFailures",
+      "TestArtifactWriterFlushFailure",
+      "TestArtifactReaderBoundaries",
+      "TestArtifactReaderRealProof",
+      "TestBooleanCacheWireBoundariesAndAliases",
+      "TestBooleanCacheConstants",
+      "TestCircuitFingerprints",
+      "TestPrefixCoverageAcceptsOnlyExactBooleanPrefixes",
+      "TestInputBatchRejectsMalformedManifestBeforeLoadingKeys",
+      "TestAssignmentReaderRejectsNoncanonicalOrOversizedNumbers",
+      "TestNormalizationFrozenDomainAndRealProof"
+    ],
+    "independent_decimal_oracle_all_289_cases": true,
+    "package_correction": "Staged exact reviewed files; no package-gate changes.",
+    "package_final": {
+      "distributions": {
+        "hallmark_research-0.1.0-py3-none-any.whl": "90a9d6219fea40e9d673cc2b92cdb64f0cc72220da8d109d0079b08530590f35",
+        "hallmark_research-0.1.0.tar.gz": "0a7d29fdc6db91e6095adf2139c824a18d29ff7a95146d54dd21e1c2500150eb"
+      },
+      "installed_guard_checked": false,
+      "installed_train_checked": false,
+      "retained": "dist/package-check-gvu_gd_v",
+      "source_id": "8373bbf11f4241974c4150b05359859a80861b07643ec497d0c694662ebc4a8f",
+      "status": "passed"
+    },
+    "package_initial_failure": "New untracked source files were excluded by the reviewed-Git source snapshot. Failure retained at dist/package-check-42j82n8g.",
+    "package_snapshot_note": "Package snapshot precedes validation-only evidence and ledger updates; all executed normalization code is included.",
+    "package_staged_receipt_sha256": "2da255f49f82f3f51fe7af1c34916ba7b5286c85184239518577cfbb2846251b",
+    "platform_skips": 5,
+    "prior_circuit_fingerprints_unchanged": true,
+    "repository_tests_passed": 2127,
+    "warnings": 1
+  },
+  "verification_key_sha256": "5287eba9eebc6d936e0ef7c4ee5a6825cc907a421b062cb61b4d5341437dc268"
+}

@@ -2788,3 +2788,105 @@ skips and one warning in 45.428 seconds. All 156 software conformance cases matc
 32 full-evidence obligations remain unavailable. Core `make package-check` passes
 in 7.862 seconds; its retained snapshot precedes this validation-only evidence
 update. Hosted checks are pending.
+
+## 2026-10-21 — Bounded integer normalization proofs (W18 / #19)
+
+Hypothesis: constrain the missing mean, variance, inverse and affine normalization
+component against an exhaustive frozen integer oracle. Baseline: the existing
+attention block omits normalization. Mutable paths are the new normalization
+relation, fixture builder/controller and tests, shared command dispatch, and its
+future HF source inventory. Older graph relations and fixtures stay fixed.
+The [numeric evidence](evidence/w18-integer-normalization-2026-10-21.json) and raw
+`runs/w18-normalization-1792598409580756000` protocols/source snapshots precede
+this report. Pass criterion is all 289 valid proofs plus the frozen rejection
+roster and old circuit fingerprints. Owner standing approval covers the bounded,
+zero-cost Mac campaign; there is no cloud job, private input or model download.
+
+The separate Decimal oracle checks every intermediate for all 289 input pairs.
+Thirteen focused Python checks and the smallest real-proof Go test pass before
+the campaign. Its 605 workers pass: 289 proofs, 289 fresh verifier processes,
+25 expected rejections and two fresh setups. Each proof is 244 bytes. All eleven
+trace fields, all four public fields, both input range boundaries, an int32 trace
+overflow, a field alias, noncanonical decimal text, changed/trailing proof bytes
+and the wrong setup key reject. Setup pins are retained before proof execution.
+All 4,524 recorded worker-file hashes are rechecked after completion.
+
+Controller time is 73.013 seconds, peak worker RSS is 24,182,784 bytes and the
+measured output before the final report is 110,769,391 bytes. This is one
+diagnostic run; detailed host observation was collected after execution. It is
+not a statistical performance comparison or floating pretrained-model agreement.
+All 13 Go tests, including frozen older circuit fingerprints, pass in 4.194 seconds.
+`make check` passes 2,127 tests, five platform skips and one warning in 46.453
+seconds. The first package attempt excludes untracked new files and fails a
+source-archive documentation link. Staging the exact reviewed files makes the
+unchanged core package gate pass in 8.970 seconds; both attempts remain intact.
+The package snapshot precedes this validation-only evidence update.
+
+Commands: `scripts/build_gnark_normalization_fixture.py`, the retained locked
+`go test`/`go build` plan, and `scripts/check_gnark_normalization.py` with the
+binary/fixture pins in `proof-plan.json`. The candidate defines rounded integer
+mean/variance, epsilon one, a finite inverse-square-root table and signed affine
+parameters. It supplies neither the complete encoder nor its admission,
+independent verifier, accepted setup ceremony, security/hiding review or safety
+quality. Next: compose the declared normalization with a complete admitted
+encoder graph under a fresh experiment. No historical proof is reassigned.
+
+PR #78 is merged as `e97659f2695a8f0bfdc6a14159bc1554a46cc329`, with all 30
+candidate checks and all 15 [main checks](https://github.com/AbdelStark/hallmark/actions/runs/39629089766)
+passing. Candidate attempt 2 reruns only one job whose completed successful logs
+and steps had stale final metadata. Original logs and exact delivery receipts
+remain in `runs/w18-live-progress-1792596929687095000`.
+
+## 2026-10-21 — Maximum commitment proof and cross-host replay pass (W18 / #19)
+
+The [numeric result](evidence/w18-parallel-maximum-result-2026-10-21.json) derives
+from the retained raw files before this prose. The frozen parallel candidate
+`b5debd6e226b41755c702e0c490937bd7f5600f4` completes HF job
+`6ad8ce6a0a35baab53a1dff0`. It keeps the original unbuffered adapter and capture
+behavior, not the later merged changes. The baseline serial setup timeout,
+mounted-storage guard failure and queued L4 cancellation remain retained failures.
+There is no statistical speedup comparison or automatic retry.
+
+All 47 controller cases pass their expected outcomes. The maximum batch completes
+three valid witnesses and nine invalid-witness checks. Fresh cloud verification
+accepts the three proofs and rejects every one of the 33 changed public fields,
+a field alias, changed proof and a different setup key. The independently frozen
+Mac circuit hash remains `cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489`.
+The relation has 40,015,721 constraints. Each proof is 292 bytes; the proving key
+is 14,069,971,419 bytes and the verification key 2,320 bytes.
+
+Export takes 141.238 seconds, setup 2,195.581 seconds and the twelve-case proof
+batch 1,791.308 seconds. Controller time is 4,199.004 seconds; the provider reports
+4,390 seconds including scheduling and retention. Peak worker RSS is
+87,162,712,064 bytes, below the recorded 150-GB sampled stop and 170-GB limit.
+The 48-thread bound on a declared 32-vCPU/256-GB CPU host is unchanged. These are
+whole-worker observations, including loads/serialization where applicable;
+there are no isolated per-proof timings. The batch has only 8.692 seconds of
+wall-time headroom. One success does not establish a reliable latency bound.
+
+All 361 bucket files totaling 35,943,971,183 bytes are downloaded. Every worker
+cost pin and retention-manifest pin matches. Both prospective Mac plans pass:
+38 cases with the patched binary in 1.852 seconds and 38 with the unmodified
+dependency binary in 1.710 seconds. They use the three native public assignments
+frozen before cloud execution and separately retained proof/key pins. All local
+file hashes are rechecked before removing the temporary bucket; authenticated
+absence is confirmed. No cloud compute remains active.
+
+Commands are retained under `runs/w18-hf-parallel-1792592951066985000`:
+`control.py poll`, `retain.py download`, `.venv/bin/python replay_local.py`,
+`.venv/bin/python replay_default.py`, `retain.py cleanup`, and
+`summarize_result.py`. The public summary distinguishes the formatted input-file
+hash from the submitted input bytes. All actual experiment inputs, raw costs,
+failed attempts and source/environment hashes remain local.
+
+Using the launch-recorded price and provider duration with one extra billed
+minute gives a conservative new-compute estimate of USD 2.38. Prior compute is
+bounded at USD 2.81; adding the USD 2 storage reserve gives USD 7.19 against the
+unchanged USD 10 campaign ceiling. This is not an invoice.
+
+This clears the complete-input commitment component gate. The synthetic fixed
+profile, 33-field relation and shared gnark verifiers establish neither the
+100-field classifier statement nor the complete encoder, independent security
+review, accepted setup ceremony, hardware evidence or policy quality. Next is
+the complete admitted encoder graph, using fresh identities and explicit costs;
+the bounded normalization result above supplies only one required component.

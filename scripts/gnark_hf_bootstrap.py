@@ -55,6 +55,7 @@ def validate(plan):
                     "input_scale_test.go",
                     "main.go",
                     "mlp.go",
+                    "normalization.go",
                     "rule.go",
                 ]
             ),

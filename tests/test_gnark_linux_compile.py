@@ -244,6 +244,7 @@ def test_bootstrap_rejects_unapproved_manifest(mutation):
         "input_scale_test.go",
         "main.go",
         "mlp.go",
+        "normalization.go",
         "rule.go",
     ]
     files = {"research/probes/gnark/" + name: {} for name in names}

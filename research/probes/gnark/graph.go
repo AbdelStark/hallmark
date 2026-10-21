@@ -82,11 +82,14 @@ func readAssignmentFile(name string, count int) ([]uint64, error) {
 
 func runGraph(command string) (int, error) {
 	kind, action, found := strings.Cut(command, "-")
-	if !found || (kind != "rule" && kind != "mlp" && kind != "block") {
+	if !found || (kind != "rule" && kind != "mlp" && kind != "block" && kind != "normalization") {
 		return 0, errors.New("invalid graph kind")
 	}
 	if kind == "block" {
 		return runRelation(action, &blockCircuit{}, blockAssignment, 256*1024*1024)
+	}
+	if kind == "normalization" {
+		return runRelation(action, &normalizationCircuit{}, normalizationAssignment, 256*1024*1024)
 	}
 	prototype, _, _ := graph(kind)
 	return runRelation(action, prototype, func(private bool) (frontend.Circuit, error) {
