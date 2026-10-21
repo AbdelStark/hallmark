@@ -182,5 +182,54 @@
     },
     "qualified_backend": false,
     "source_snapshot_note": "Package snapshot precedes this evidence-only validation update."
+  },
+  "large_key_roundtrip": {
+    "protocol_sha256": "ec7f6f891b816b1953acbbc42b8a8f0cdbb567d43b96d5483876eda14e83dc84",
+    "result_sha256": "b05d85bfc35dea5b258e91317b2c5ae5c181171cec8da2ca6ec4e8b4f1ea9602",
+    "run_directory": "runs/w18-key-io-1792594326143760000",
+    "status": "component-passed",
+    "variants": [
+      {
+        "binary_sha256": "a85ba83b484bb4c097611c520d14a855a79a24a8e12ccd731396c99ffe220667",
+        "phases": {
+          "bytes": 77522639,
+          "read_seconds": 15.603156292,
+          "sha256": "6e294ff4182fa9faa02ac8c5042a82acceeef3deed5ae2c6d378e790fd44ea37",
+          "write_seconds": 1.6911135000000002
+        },
+        "variant": "baseline",
+        "worker_cost": {
+          "elapsed_seconds": 18.199306708062068,
+          "max_rss_bytes": 279609344,
+          "user_seconds": 59.743962,
+          "system_seconds": 2.083754,
+          "exit_code": 0,
+          "timed_out": false,
+          "memory_limit_exceeded": false,
+          "memory_monitor_failed": false
+        }
+      },
+      {
+        "binary_sha256": "87ec20c223cab909ce2eef455b65f18493678b732e7edee58b2499fc6daed99f",
+        "phases": {
+          "bytes": 77522639,
+          "read_seconds": 15.079801583,
+          "sha256": "6e294ff4182fa9faa02ac8c5042a82acceeef3deed5ae2c6d378e790fd44ea37",
+          "write_seconds": 0.095215709
+        },
+        "variant": "candidate",
+        "worker_cost": {
+          "elapsed_seconds": 15.980401959037408,
+          "max_rss_bytes": 280150016,
+          "user_seconds": 59.252541,
+          "system_seconds": 0.27752899999999997,
+          "exit_code": 0,
+          "timed_out": false,
+          "memory_limit_exceeded": false,
+          "memory_monitor_failed": false
+        }
+      }
+    ],
+    "interpretation": "Both round-trips reproduce the externally pinned 77,522,639-byte key. A single sequential pair with warm caches is diagnostic only; no statistical speedup or maximum extrapolation."
   }
 }

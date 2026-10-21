@@ -2727,3 +2727,18 @@ skips and one warning in 42.590 seconds. Core `make package-check` passes in
 7.514 seconds; source snapshot `52759220c43f4512c49c8d9f64b0b55b9172eca887203386c4100039dd5c0040`.
 The retained package snapshot precedes this evidence-only validation update.
 No optional installed train/guard claim follows from that core package check.
+
+
+The separate frozen large-key diagnostic in
+`runs/w18-key-io-1792594326143760000` passes for both adapters: each reloads and
+reserializes the same 77,522,639-byte proving key to its independently pinned
+SHA-256. Baseline read/write phases take 15.603/1.691 seconds; buffered phases
+take 15.080/0.095 seconds. Full worker times are 18.199/15.980 seconds, with
+279,609,344/280,150,016 bytes peak RSS. This single sequential pair has warm
+caches and is diagnostic only, with no maximum-scale extrapolation. The protocol,
+runner, source pins, worker plans and costs precede this report; raw evidence
+retains all values. No cloud job or private input was used for this diagnostic.
+
+PR #76 merged as `a73c47b287ccabc13ca8387c7352afdf7d23e999` after all 28
+checks passed on `9085a098ef27c42921268b3631985406a26062a8`. The merged-main
+workflow is pending. The running maximum experiment retains its original source.

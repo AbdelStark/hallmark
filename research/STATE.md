@@ -415,7 +415,7 @@ its result remains pending. All 28 checks on that source pass.
 The [bounded artifact I/O candidate](evidence/w18-buffered-artifacts-2026-10-21.json)
 uses 64 KiB buffers while preserving decoder consumption accounting, exclusive
 creation, serialized bytes and error propagation. Local real-proof and boundary
-tests pass. Its initial fixture incorrectly reused a decoded circuit and failed;
+tests and a byte-identical 77.5 MB proving-key round-trip pass. Its initial fixture incorrectly reused a decoded circuit and failed;
 a fresh decoder fixes that test. No maximum performance result is claimed, and
 the active cloud run retains its original unbuffered adapter.
 
