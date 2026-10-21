@@ -10,6 +10,7 @@ from pathlib import Path
 from hallmark._gnark_probe import (
     MAX_BINARY,
     MODULUS,
+    PinnedArtifact,
     RunBudget,
     digest,
     invoke,
@@ -115,7 +116,10 @@ def check(binary, expected_binary, output):
         directory = output / name
         directory.mkdir(mode=0o700)
         for filename, content in inputs.items():
-            write_new(directory / filename, content)
+            if isinstance(content, PinnedArtifact):
+                content.copy_to(directory / filename, MAX_FILE)
+            else:
+                write_new(directory / filename, content)
         # Keep the measured failed maximum attempt instead of turning it into success.
         try:
             cost = invoke(
@@ -145,7 +149,16 @@ def check(binary, expected_binary, output):
             != {*inputs, *outputs, "sandbox.sb", "plan.json", "stdout.txt", "stderr.txt"}
         ):
             raise ValueError("invalid worker result or inventory")
-        return {name: read_regular(directory / name, MAX_FILE) for name in outputs}
+        return {
+            name: (
+                PinnedArtifact(
+                    directory / name, cost["files"][name]["sha256"], cost["files"][name]["bytes"]
+                )
+                if name in {"circuit.r1cs", "pk.bin", "vk.bin"}
+                else read_regular(directory / name, MAX_FILE)
+            )
+            for name in outputs
+        }
 
     def batch(size, setup, values, invalid=None):
         invalid = invalid or {}

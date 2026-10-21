@@ -2,12 +2,12 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"io"
 	"os"
 	"strconv"
+	"syscall"
 	"time"
 
 	"github.com/consensys/gnark-crypto/ecc"
@@ -51,21 +51,30 @@ func write(name string, value io.WriterTo) error {
 }
 
 func read(name string, value io.ReaderFrom) error {
-	handle, err := os.Open(name)
+	handle, err := os.OpenFile(name, os.O_RDONLY|syscall.O_NOFOLLOW|syscall.O_NONBLOCK, 0)
 	if err != nil {
 		return err
 	}
 	defer handle.Close()
-	raw, err := io.ReadAll(io.LimitReader(handle, 256*1024*1024+1))
-	if err != nil || len(raw) > 256*1024*1024 {
+	before, err := handle.Stat()
+	if err != nil || !before.Mode().IsRegular() || before.Size() > 256*1024*1024 || before.Sys().(*syscall.Stat_t).Nlink != 1 {
 		return errors.New("invalid artifact size")
 	}
-	reader := bytes.NewReader(raw)
-	if _, err := value.ReadFrom(reader); err != nil {
+	reader := &io.LimitedReader{R: handle, N: before.Size() + 1}
+	n, err := value.ReadFrom(reader)
+	if err != nil {
 		return err
 	}
-	if reader.Len() != 0 {
+	if n != before.Size() || reader.N != 1 {
 		return errors.New("trailing bytes")
+	}
+	after, err := handle.Stat()
+	if err != nil || before.Size() != after.Size() || !before.ModTime().Equal(after.ModTime()) || after.Sys().(*syscall.Stat_t).Nlink != 1 {
+		return errors.New("changed artifact")
+	}
+	path, err := os.Lstat(name)
+	if err != nil || !os.SameFile(before, path) || !path.Mode().IsRegular() {
+		return errors.New("changed artifact")
 	}
 	return nil
 }

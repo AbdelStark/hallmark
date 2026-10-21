@@ -132,6 +132,14 @@ Do not commit toolchains, module caches, binaries, proving keys or local run
 directories. Public synthetic proof/key examples and numeric costs may be
 retained as explicit research evidence; they are not operational trust anchors.
 
+The artifact reader streams within its unchanged 256 MiB cap, rejects unsafe
+file types/links and requires exact decoder consumption. Commitment-scaling
+setup files move through pinned exclusive copies; worker inventories hash in
+bounded chunks. Detected mutations and failed copies reject before dependent
+workers. Gnark's constraint decoder still buffers internally; this is not a
+maximum-size setup/prover qualification. See
+[decision 0041](../../../docs/decisions/0041-streamed-proof-artifacts.md).
+
 ## Run the staged qualification command
 
 The installed command uses the same controllers and a single protocol/budget:

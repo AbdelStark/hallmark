@@ -12,6 +12,7 @@ import stat
 import subprocess
 import time
 from collections.abc import Callable, Sequence
+from contextlib import nullcontext
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, NoReturn
@@ -115,6 +116,59 @@ def read_regular(path: Path, limit: int) -> bytes:
         ):
             raise ValueError("changed file")
         return raw
+
+
+def stream_regular(path: Path, limit: int, *, destination: Path | None = None) -> dict[str, Any]:
+    """Hash or copy bounded regular bytes; failed exclusive copies remain as evidence."""
+    if type(limit) is not int or limit < 0:
+        raise ValueError("invalid file limit")
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, "rb") as source:
+        before = os.fstat(source.fileno())
+        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > limit:
+            raise ValueError("invalid file")
+        output = (
+            os.fdopen(os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb")
+            if destination is not None
+            else nullcontext(None)
+        )
+        hashed, size = hashlib.sha256(), 0
+        with output as target:
+            while chunk := source.read(min(1024**2, limit + 1 - size)):
+                size += len(chunk)
+                if size > limit:
+                    raise ValueError("invalid file")
+                hashed.update(chunk)
+                if target is not None:
+                    target.write(chunk)
+            after = os.fstat(source.fileno())
+            current = path.lstat()
+            if (
+                size != before.st_size
+                or (before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                != (after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                or after.st_nlink != 1
+                or (current.st_dev, current.st_ino) != (before.st_dev, before.st_ino)
+            ):
+                raise ValueError("changed file")
+            if target is not None:
+                target.flush()
+                os.fsync(target.fileno())
+        return {"sha256": hashed.hexdigest(), "bytes": size}
+
+
+@dataclass(frozen=True)
+class PinnedArtifact:
+    path: Path
+    sha256: str
+    size: int
+
+    def copy_to(self, destination: Path, limit: int) -> None:
+        if self.size > limit:
+            raise ValueError("invalid artifact size")
+        observed = stream_regular(self.path, self.size, destination=destination)
+        if observed != {"sha256": self.sha256, "bytes": self.size}:
+            raise ValueError("artifact pin mismatch")
 
 
 def write_new(path: Path, raw: bytes, mode: int = 0o600) -> None:
@@ -299,13 +353,7 @@ def invoke(
         "user_seconds": usage.ru_utime,
         "system_seconds": usage.ru_stime,
         "max_rss_bytes": usage.ru_maxrss,
-        "files": {
-            path.name: {
-                "sha256": digest(read_regular(path, max_file)),
-                "bytes": path.stat().st_size,
-            }
-            for path in sorted(work.iterdir())
-        },
+        "files": {path.name: stream_regular(path, max_file) for path in sorted(work.iterdir())},
     }
     json_new(work / "cost.json", result)
     if budget is not None:

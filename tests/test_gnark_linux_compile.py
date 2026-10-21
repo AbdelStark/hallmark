@@ -159,6 +159,7 @@ def test_bootstrap_rejects_unapproved_manifest(mutation):
 
     bootstrap = runpy.run_path(str(Path(__file__).parents[1] / "scripts/gnark_hf_bootstrap.py"))
     names = [
+        "artifacts_test.go",
         "block.go",
         "cache_test.go",
         "go.mod",

@@ -92,6 +92,47 @@ def test_worker_failure_preserves_failure_and_never_publishes_result(tmp_path, m
         probe.check(binary, probe.digest(binary.read_bytes()), output)
     assert (output / "failure.json").is_file()
     assert "private path" not in (output / "failure.json").read_text()
+
+
+@pytest.mark.parametrize("changed", [False, True])
+def test_scaling_streams_pinned_setup_files_before_next_worker(tmp_path, monkeypatch, changed):
+    binary, output = tmp_path / "probe", tmp_path / "output"
+    binary.write_bytes(b"not executed")
+    monkeypatch.setattr(probe.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(probe.platform, "machine", lambda: "arm64")
+    read = probe.read_regular
+    keys = {"circuit.r1cs", "pk.bin", "vk.bin"}
+
+    def small_reads_only(path, limit):
+        assert path.name not in keys, "setup artifact materialized as bytes"
+        return read(path, limit)
+
+    monkeypatch.setattr(probe, "read_regular", small_reads_only)
+    calls = []
+
+    def worker(binary, directory, args, **kwargs):
+        calls.append(args[0])
+        if args[0] == "input-batch":
+            for name in ["circuit.r1cs", "pk.bin"]:
+                assert (directory / name).read_bytes() == name.encode()
+            raise RuntimeError("copied before worker")
+        for name in keys | {"sandbox.sb", "plan.json", "stderr.txt"}:
+            (directory / name).write_bytes(name.encode())
+        (directory / "stdout.txt").write_text(json.dumps({"status": "passed", "constraints": 1}))
+        files = {
+            f.name: {"sha256": probe.digest(f.read_bytes()), "bytes": f.stat().st_size}
+            for f in directory.iterdir()
+        }
+        if changed:
+            (directory / "circuit.r1cs").write_bytes(b"X" * len("circuit.r1cs"))
+        return {"exit_code": 0, "timed_out": False, "files": files}
+
+    monkeypatch.setattr(probe, "invoke", worker)
+    with pytest.raises((RuntimeError, ValueError), match="pin mismatch|copied before worker"):
+        probe.check(binary, probe.digest(binary.read_bytes()), output)
+    assert calls == (["input-setup"] if changed else ["input-setup", "input-batch"])
+    assert (output / "failure.json").is_file()
+    assert not (output / "result.json").exists()
     assert not (output / "result.json").exists()
 
 

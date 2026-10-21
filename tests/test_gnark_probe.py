@@ -63,6 +63,78 @@ def test_changed_file_rejects(tmp_path, monkeypatch):
         probe.read_regular(target, 2)
 
 
+@pytest.mark.parametrize("kind", ["link", "hardlink", "directory", "fifo", "oversize"])
+def test_stream_rejects_unsafe_file_before_creating_copy(tmp_path, kind):
+    source, target = tmp_path / "source", tmp_path / "copy"
+    original = tmp_path / "original"
+    original.write_bytes(b"data")
+    if kind == "link":
+        source.symlink_to(original)
+    elif kind == "hardlink":
+        os.link(original, source)
+    elif kind == "directory":
+        source.mkdir()
+    elif kind == "fifo":
+        os.mkfifo(source)
+    else:
+        source.write_bytes(b"oversize")
+    with pytest.raises((OSError, ValueError)):
+        probe.stream_regular(source, 4, destination=target)
+    assert not target.exists()
+
+
+def test_stream_copy_bounds_memory_and_keeps_exclusive_private_output(tmp_path):
+    import tracemalloc
+
+    source, target = tmp_path / "source", tmp_path / "copy"
+    source.write_bytes(b"a" * (8 * 1024**2))
+    expected = {"bytes": source.stat().st_size, "sha256": probe.digest(source.read_bytes())}
+    tracemalloc.start()
+    try:
+        actual = probe.stream_regular(source, expected["bytes"], destination=target)
+        _, peak = tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert peak < 3 * 1024**2
+    assert actual == expected == probe.stream_regular(target, expected["bytes"])
+    assert target.stat().st_mode & 0o777 == 0o600
+    with pytest.raises(FileExistsError):
+        probe.stream_regular(source, expected["bytes"], destination=target)
+
+
+@pytest.mark.parametrize("fault", ["pin", "size", "modified", "replaced", "sync"])
+def test_stream_copy_retains_rejected_output(tmp_path, monkeypatch, fault):
+    source, target = tmp_path / "source", tmp_path / "copy"
+    source.write_bytes(b"data")
+    ref = probe.PinnedArtifact(source, probe.digest(b"data"), 4)
+    if fault == "pin":
+        source.write_bytes(b"evil")
+    elif fault == "size":
+        source.write_bytes(b"bad")
+    elif fault in {"modified", "replaced"}:
+        original = probe.os.fstat
+        calls = 0
+
+        def changed(fd):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                if fault == "replaced":
+                    source.rename(source.with_suffix(".old"))
+                    source.write_bytes(b"data")
+                else:
+                    source.write_bytes(b"evil")
+            return original(fd)
+
+        monkeypatch.setattr(probe.os, "fstat", changed)
+    else:
+        monkeypatch.setattr(probe.os, "fsync", lambda fd: (_ for _ in ()).throw(OSError("sync")))
+    with pytest.raises((ValueError, OSError)):
+        ref.copy_to(target, 4)
+    assert target.is_file()
+    assert not (tmp_path / "cost.json").exists()
+
+
 def test_exclusive_private_write_and_pin(tmp_path, monkeypatch):
     monkeypatch.setattr(probe.platform, "system", lambda: "Darwin")
     monkeypatch.setattr(probe.platform, "machine", lambda: "arm64")

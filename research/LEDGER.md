@@ -2266,3 +2266,50 @@ then a fresh setup/proving plan with explicit memory, storage and resource terms
 This result supplies no maximum proof cost. Full encoder/layer normalization,
 operational enrollment, independent verifier/security/hiding/setup review and
 genuine hardware remain separate missing gates. PR #72 remains draft and #19 open.
+
+## 2026-10-21 — W18 bounded artifact streaming
+
+The previous gate delivered commit `dd34b9b` with all 28 exact-head jobs passing:
+push `39587810550` and PR `39587816547`. The next hypothesis is that adapter
+streaming preserves exact small-proof behavior without whole-file adapter copies.
+Baseline: `dd34b9b`; raw root: `runs/w18-stream-artifacts-1792580363962082000`.
+The [numeric evidence](evidence/w18-stream-artifacts-2026-10-21.json) precedes prose.
+Mutable paths are the Go file reader/test, shared Python file helper, scaling
+controller, future bootstrap test inventory and their tests/docs. Circuit, codec,
+compiler patch, fixtures and size caps stay fixed.
+
+`timed.py baseline-link` reproduces acceptance of a symbolic link. Its failed test
+is retained. The candidate uses bounded Go decoding, regular/single-link checks,
+exact decoder counts and detected metadata/path changes. Python worker costs now
+hash bounded chunks; scaling setup files carry path/hash/size pins and copy into
+exclusive private files. A wrong source digest or failed copy prevents the next
+worker and preserves evidence. Earlier tiny controllers keep their byte interfaces.
+
+`timed.py focused` passes 13 Python tests. An 8 MiB copy stays below the fixed
+3 MiB traced-allocation assertion. `go-test-build` and `go-boundaries` build/run
+seven Go tests under the existing Mac worker, including eleven reader cases and
+a tiny actual setup/prove/verify unit fixture. That fixture rejects a changed
+public input and trailing bytes on each real artifact type; its temporary proof
+files are not retained. `go-probe-build` builds the separate candidate binary.
+`reverify` pins the prior eight-unit commitment result via published evidence,
+copies its exact key/proof/input files, verifies in a fresh worker and rejects an
+appended proof byte. Fresh costs and artifacts are retained. No maximum proof or
+new setup campaign occurs.
+
+The audited prior total is 7,135.886826 seconds, including the original 5,540 base
+charge and all later ancillary allowances. Rounding to 7,136 leaves 64 seconds;
+reserve all 64, with eight for overhead. This removes only unused reservations
+and nested rounding, not measured work or allowances. The validation wrapper
+caps commands at remaining time. Standard `make check` may use its normal mypy
+cache; no timing comparison is claimed. Repository and core package gates follow.
+The installed train/guard matrix remains required in exact-head CI. No HF job,
+private upload, additional spend or authority increase occurs.
+
+The full `make check` passes lock, lint, formatting and type checks, then reaches
+the declared 39-second stop at 94% of pytest, with no test failure reported before
+termination. The timeout is retained, not reported as a pass. Commands total
+48.312088 seconds; with the eight-second allowance the charge is 56.312088, leaving
+7.687912 inside the reserved 64. The package gate has not run. An owner question
+requests 120 additional Mac-only validation seconds at zero spend, with no new HF
+job. Source publication may remain draft while that validation gap is explicit;
+it does not finish W18 or qualify a backend.

@@ -1,0 +1,275 @@
+{
+  "baseline_commit": "dd34b9b3df5df4612f780a043a06bc0c2b181743",
+  "baseline_failure": {
+    "case": "Go reader follows symbolic link",
+    "expected_failure_observed": true,
+    "receipt": "commands/baseline-link.json"
+  },
+  "budget": {
+    "ancillary_allowance_seconds": 8,
+    "approved_proving_seconds": 7200,
+    "charged_measured_and_allowance_seconds": 56.31208762526512,
+    "cloud_jobs": 0,
+    "full_reservation_retained": true,
+    "measured_command_seconds": 48.31208762526512,
+    "new_spend_minor": 0,
+    "remaining_inside_reservation_seconds": 7.6879123747348785,
+    "remaining_unreserved_seconds": 0,
+    "removed_only_nested_roundup_not_allowance": true,
+    "reservation_seconds": 64,
+    "retained_base_charge_seconds": 5540,
+    "reviewed_prior_measured_plus_full_allowances_seconds": 7135.886826455127,
+    "rounded_prior_charge_seconds": 7136
+  },
+  "date": "2026-10-21",
+  "full_input_proof": false,
+  "hypothesis": "Streaming adapter reads and pinned file copies preserve exact small proof outcomes without Python/Go adapter whole-file buffers.",
+  "issue": 19,
+  "limitations": [
+    "Artifact size caps remain256MiB; no maximum setup or proof attempted.",
+    "Gnark constraint deserialization still allocates its own whole serialized input; this change removes the adapter copy only.",
+    "Header-driven allocations are still constrained by worker limits, not by serialized byte limits alone.",
+    "Metadata checks detect observed mutations; they are not a filesystem sandbox or authenticity source.",
+    "Only the commitment scaling controller moves setup artifacts as pinned files; earlier small graph controllers retain their bounded byte interfaces.",
+    "Local setup and a shared verifier library do not qualify full encoder/security/hiding/setup lineage.",
+    "No additional HF job or paid run."
+  ],
+  "plan_sha256": "e59d4d03e71c2630e821a10161a3577a3c23b21abd00615d752fc5655ba663cb",
+  "qualified_backend": false,
+  "raw_directory": "runs/w18-stream-artifacts-1792580363962082000",
+  "receipts": [
+    {
+      "elapsed_seconds": 2.969352874904871,
+      "exit_code": 1,
+      "path": "commands/baseline-link.json",
+      "sha256": "81510a8867a9afc2cc19fdf95dacf7c3399391b553be1a755cbcb14fe11301a6",
+      "timed_out": false
+    },
+    {
+      "elapsed_seconds": 39.003360625123605,
+      "exit_code": -9,
+      "path": "commands/check.json",
+      "sha256": "0ff1b3195f7dfb10dcd67c56b0d332ee1657c4a117c4936e35e5273ab505dc9b",
+      "timed_out": true
+    },
+    {
+      "elapsed_seconds": 0.8364822911098599,
+      "exit_code": 0,
+      "path": "commands/focused.json",
+      "sha256": "7222c3615a06ae3973cb2d7d954888b8a03a9d2806c0c5c86e14362c33809e99",
+      "timed_out": false
+    },
+    {
+      "elapsed_seconds": 1.0603326670825481,
+      "exit_code": 0,
+      "path": "commands/go-boundaries.json",
+      "sha256": "22a22fc5ffb8554039b978408857656ae5b989cf95a3dd462fa30142d566df4d",
+      "timed_out": false
+    },
+    {
+      "elapsed_seconds": 1.0815058751031756,
+      "exit_code": 0,
+      "path": "commands/go-probe-build.json",
+      "sha256": "8e88ae7ffd77f720abffa478ba9543fc3d9a2b9edfaeca4e681dcb0b82ce9a81",
+      "timed_out": false
+    },
+    {
+      "elapsed_seconds": 2.505718374857679,
+      "exit_code": 0,
+      "path": "commands/go-test-build.json",
+      "sha256": "d8a97cf4014dd31c6d3e49833f6643999c789806d81a565e941a99452d24c04f",
+      "timed_out": false
+    },
+    {
+      "elapsed_seconds": 0.8553349170833826,
+      "exit_code": 0,
+      "path": "commands/reverify.json",
+      "sha256": "95e784938f24385d6259644fe4d4ab7abb34c79c31d8ab37abeaea37ad70fa23",
+      "timed_out": false
+    }
+  ],
+  "retained_commitment_reverification": {
+    "binary_sha256": "736c0b6a2220c7dfa9af806d6542f720b8c8dfa70f4ed4cf908c0d4e6a1b75e2",
+    "cases": [
+      {
+        "cost": {
+          "elapsed_seconds": 0.772288833046332,
+          "exit_code": 0,
+          "files": {
+            "assignment.txt": {
+              "bytes": 115,
+              "sha256": "ce6149cf0b9ea7c7261fd801d801722adbeac37329850f7e89fef4982fbcd59c"
+            },
+            "plan.json": {
+              "bytes": 873,
+              "sha256": "3907ee12ba4dcb6ef811c4ef62d600c50dc942f5d47695be7619064eb2a0dec8"
+            },
+            "proof.bin": {
+              "bytes": 292,
+              "sha256": "a02202f5e1aa15a0f58d0281f9421f78279e0cedb7253e9ecf130020ad0e266d"
+            },
+            "sandbox.sb": {
+              "bytes": 573,
+              "sha256": "fce646df3d3f4706814856936a7bb93e06f193b0b3fccb392c640c79e0848037"
+            },
+            "stderr.txt": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout.txt": {
+              "bytes": 107,
+              "sha256": "108ec3a9a2f69c3ebac697ecae34bff4192cfc0e1ea6454fa5bb2901bf2b5833"
+            },
+            "vk.bin": {
+              "bytes": 2320,
+              "sha256": "a5352aafaaf57184c8d039e36763adbc63617da477e68edd77753c45fc20f95b"
+            }
+          },
+          "max_rss_bytes": 9764864,
+          "memory_limit_exceeded": false,
+          "memory_monitor_failed": false,
+          "memory_sample_process_missing": false,
+          "sampled_peak_rss_bytes": 8028160,
+          "schema_id": "hallmark.gnark-probe-cost/1",
+          "system_seconds": 0.008074,
+          "timed_out": false,
+          "user_seconds": 0.015314
+        },
+        "name": "valid",
+        "report": {
+          "constraints": 0,
+          "elapsed_ns": 7063375,
+          "schema_id": "hallmark.gnark-installation-probe/1",
+          "status": "passed"
+        }
+      },
+      {
+        "cost": {
+          "elapsed_seconds": 0.024789792019873857,
+          "exit_code": 1,
+          "files": {
+            "assignment.txt": {
+              "bytes": 115,
+              "sha256": "ce6149cf0b9ea7c7261fd801d801722adbeac37329850f7e89fef4982fbcd59c"
+            },
+            "plan.json": {
+              "bytes": 891,
+              "sha256": "9fbad11f0b21a5274e923fe4112312b24d21cf1f6612b18d71d8ddcd4b2e341a"
+            },
+            "proof.bin": {
+              "bytes": 293,
+              "sha256": "1474f31497f8b842ffef7dce6bdd45b018e1affcb47006a454f2ee9d49b314b8"
+            },
+            "sandbox.sb": {
+              "bytes": 582,
+              "sha256": "654bc751fd390e8223e90c199cf4d60cd08f90636342c56858b5d991e53669ea"
+            },
+            "stderr.txt": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout.txt": {
+              "bytes": 107,
+              "sha256": "754a8dfc0c736772034b241fda0d03a6764b778b1dfec2f95f7b289d9cecf25a"
+            },
+            "vk.bin": {
+              "bytes": 2320,
+              "sha256": "a5352aafaaf57184c8d039e36763adbc63617da477e68edd77753c45fc20f95b"
+            }
+          },
+          "max_rss_bytes": 8454144,
+          "memory_limit_exceeded": false,
+          "memory_monitor_failed": false,
+          "memory_sample_process_missing": false,
+          "sampled_peak_rss_bytes": 32768,
+          "schema_id": "hallmark.gnark-probe-cost/1",
+          "system_seconds": 0.00398,
+          "timed_out": false,
+          "user_seconds": 0.012797999999999999
+        },
+        "name": "trailing-proof",
+        "report": {
+          "constraints": 0,
+          "elapsed_ns": 2884917,
+          "schema_id": "hallmark.gnark-installation-probe/1",
+          "status": "failed"
+        }
+      }
+    ],
+    "full_input_proof": false,
+    "qualified_backend": false,
+    "schema_id": "hallmark.streamed-reverification-result/1"
+  },
+  "schema_id": "hallmark.stream-artifact-evidence/1",
+  "source_sha256": {
+    "research/probes/gnark/artifacts_test.go": "a93ae25315976df12eec4c25c985ab6373d8c71b46020eb1333fa926407c6255",
+    "research/probes/gnark/block.go": "65f3b4c34c2d33ed17ced6d4ad93d49ddf971dc48f8a8e6ce1305e7dc1313da9",
+    "research/probes/gnark/cache_test.go": "a5654b00598537d7d1e512bebb92a0ead9fc83d84d6297c80f8ab35975998a54",
+    "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+    "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+    "research/probes/gnark/graph.go": "e74d68d360a72a03aca944f85cb4ef0bac931eef77a2b3c4aa67ea066c721da6",
+    "research/probes/gnark/input.go": "c2074fc7313153b1fcd657d6a9dcc5bee58a646669e81a15e2a8048b0480b156",
+    "research/probes/gnark/input_scale.go": "4c12a118f7d27934f487935fe25360bc809d529afdb3dec7184039103d0fbd8c",
+    "research/probes/gnark/input_scale_test.go": "331016c289d43342be51f949ec92c8ea8a39046bf720dbeeb522bee20b77ee06",
+    "research/probes/gnark/main.go": "8cde9770024775877db14291ccf280e90c9946fa9a1bf08c86d162bf303d84cd",
+    "research/probes/gnark/mlp.go": "2ffd0f0d821c814df04d508ead3b5dcc039120dcd2ec6647e4226a57da80475a",
+    "research/probes/gnark/rule.go": "ad993e81c61f73b3cfa49f55cdb86e1aa643ab4c3c5be2b0cb023f7f72898392",
+    "scripts/check_gnark_input_scale.py": "437a7ba47e842dda34e47f3052866ef27c5a9e1b32df6ef3ae7ced75ed4d920e",
+    "scripts/gnark_hf_bootstrap.py": "1ded1a56a0c0b38b83b948fcef23d15370af4e853148a22f759225ef663a5bdc",
+    "src/hallmark/_gnark_probe.py": "752f64b1d4090b58d3478f654b54e8927d612864dfcbeb4133fe88a35a0feb74",
+    "tests/test_gnark_input_scale.py": "c6c041e871b7e233644c260487eb2be02eee47f5335753a04743abaa9652d17f",
+    "tests/test_gnark_linux_compile.py": "56407bf3b6f7fcd97f0cb61474f8df199d665a505b10ad9a56f1d3fc290141aa",
+    "tests/test_gnark_probe.py": "02f1c7d09c8b4ea12dd1f3cac134888827bb561fd22960edd2cadb554de98836"
+  },
+  "status": "local_gate_incomplete",
+  "validation": {
+    "copied_bytes_for_memory_test": 8388608,
+    "core_package_passed": false,
+    "core_package_status": "not_run_remaining_allocation_insufficient",
+    "focused_python_passed": 13,
+    "go_boundary_cases": 11,
+    "go_cost": {
+      "elapsed_seconds": 0.9470232089515775,
+      "exit_code": 0,
+      "files": {
+        "plan.json": {
+          "bytes": 959,
+          "sha256": "4875cb6920f3429435af987da0d08fa259a07c7f1d4b2a4cb85e982965dcd683"
+        },
+        "sandbox.sb": {
+          "bytes": 576,
+          "sha256": "a701cfab6060834fd9456731a09c1d8f80549b0fb255caeba814b4dd1b07df5a"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 3121,
+          "sha256": "cd8b790ed83b24ef9d7730cd4076570ab33bcbe186db0c8e17cba9b4d3887276"
+        }
+      },
+      "max_rss_bytes": 17465344,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 16433152,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.03803,
+      "timed_out": false,
+      "user_seconds": 0.095537
+    },
+    "go_test_binary_sha256": "bf2ee0201301ec21becef048e09b9bef4a5b5b1bb6402b8957e7e97baebdbf6b",
+    "go_top_level_tests_passed": 7,
+    "lint_format_type_checks_passed": true,
+    "make_check_last_reported_progress_percent": 94,
+    "make_check_passed": false,
+    "make_check_test_failure_reported_before_timeout": false,
+    "make_check_timeout_seconds": 39,
+    "pending_owner_input": "Requested120additionalMac-only validation seconds; no newHFjob.",
+    "python_copy_peak_asserted_below_bytes": 3145728,
+    "tiny_real_proof_unit_test_passed": true,
+    "tiny_test_artifacts_retained": false
+  },
+  "work_item": "W18"
+}

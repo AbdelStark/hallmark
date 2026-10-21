@@ -321,6 +321,22 @@ unestablished and the failed jobs passed on same-head rerun. The increment charg
 within its 330-second reservation. Keep that reservation charged: zero unreserved
 within the 7,200-second proving allocation. The one-job HF allowance is consumed.
 
+The [streamed-artifact preparation](evidence/w18-stream-artifacts-2026-10-21.json)
+removes the Go adapter's whole-file buffer and carries commitment-scaling setup
+files through pinned, exclusive streaming copies. Existing size caps stay fixed.
+The baseline accepts a symbolic link; new file-boundary tests reject it, malformed
+sizes, trailing bytes and detected changes. Thirteen focused Python tests and
+seven Go tests pass, including a tiny real-proof unit fixture. A retained
+eight-unit commitment proof verifies with the new binary; an appended proof byte
+rejects. The Python copy fixture asserts less than 3 MiB traced allocation for an
+8 MiB file. This is adapter behavior, not whole-decoder or full-prover memory.
+Lint, formatting and type checks pass, but the full local gate reaches its
+39-second cap at 94% of tests, with no test failure reported before termination.
+The package gate is unrun; an additional 120 seconds of local validation has been
+requested. The receipt audit
+retains all actual commands and allowances, rounds prior usage to 7,136 seconds
+and reserves the remaining 64 under [decision 0041](../docs/decisions/0041-streamed-proof-artifacts.md).
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -545,8 +561,8 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: prepare large-artifact bounded streaming and a concrete setup/proving plan
-before any maximum-input proof attempt. The existing 256 MiB artifact reader and
+Next: finish the streamed-artifact repository/package gates, then prepare a
+concrete setup/proving plan before any maximum-input proof attempt. The existing 256 MiB artifact reader and
 unmeasured setup/prover memory are separate gates; compile success cannot satisfy
 them. Preserve the completed HF job and all failed Mac attempts. No new cloud job
 fits the current one-job allowance, and no local proving time is unreserved.

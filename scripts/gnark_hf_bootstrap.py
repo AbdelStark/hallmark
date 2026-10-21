@@ -30,6 +30,7 @@ def validate(plan):
             *(
                 "research/probes/gnark/" + name
                 for name in [
+                    "artifacts_test.go",
                     "block.go",
                     "cache_test.go",
                     "go.mod",
@@ -225,7 +226,8 @@ def main(plan):
         [
             str(root / "tests"),
             "-test.run",
-            "Test(BooleanCache|Prefix|InputBatch|AssignmentReader|CircuitFingerprints)",
+            "Test(ArtifactReaderBoundaries|BooleanCache|Prefix|InputBatch|"
+            "AssignmentReader|CircuitFingerprints)",
             "-test.v",
         ],
         root,
