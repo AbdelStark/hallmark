@@ -1,0 +1,44 @@
+# 0042 — Prepare an optional bounded G1 batch candidate
+
+Date: 2026-10-21. W18 / issue #19. Status: prepared, unvalidated.
+
+The pinned setup allocates all G1 Jacobian outputs before converting them to
+affine. The maximum commitment's domain alone implies at least nine GiB for that
+Jacobian slice. Prepare an optional gnark-crypto patch that keeps at most 4,096
+Jacobian results per existing worker and writes each converted chunk into the
+final ordered affine array. Preserve the scalar window, table, digit partition,
+group arithmetic and circuit statement. No artifact or resource cap changes.
+
+The patch remains outside the default module and HF bootstrap. Apply it only to
+a fresh writable module copy with exact pre/post source hashes and a complete
+inventory. Preserve the existing compiler-cache experiment separately. The
+default dependency and all historical binaries/results keep their original pins.
+
+Freeze `patches/g1_batch_test.go` before evaluating this candidate. It compares
+coordinates and encoded points with separate scalar multiplication, checks input
+immutability and emits ordered-output hashes for baseline/candidate comparison.
+Its deterministic scalar set includes zero, one, minus one and wider values;
+bases include the generator and infinity. Fixed lengths include empty and chunk
+boundaries. Also require `runtime.NumCPU()*4096+1` and assert the actual parallel
+partition crosses a chunk boundary: a thread cap does not determine this library's
+number of partitions. This is a new evaluator identity, not a change to historical
+proof or policy results.
+
+The unchanged upstream three-point baseline passes. The first candidate fails
+to build because the original minimum-cost variable shadows Go's `min` built-in.
+Rename that variable without changing the cost expression or comparisons. Retain
+the failed build and its source identity. Exact patch application and Go parsing
+pass for the correction; compilation and full point equivalence have not run.
+
+Preparation uses the existing local reservation; it does not expand authority.
+The pending 120-second request is for the streaming repository/package gates.
+Further candidate validation needs an explicit remaining-time plan. Do not execute
+setup/proving or another cloud job from this preparation record.
+
+Before a maximum attempt, require full baseline/candidate point equality, the
+seven serialized circuit fingerprints, small actual setup/proof/rejection checks,
+and bounded allocation/latency measurements. Then freeze a plan accounting for
+the key's multi-GiB serialized size, aggregate storage, memory, host, deadlines
+and remaining authority. Neither point equality nor lower temporary storage
+establishes maximum feasibility, a complete encoder, independent security,
+accepted setup lineage or a qualified backend.

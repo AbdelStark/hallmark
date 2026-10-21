@@ -1,7 +1,7 @@
 # Maximum commitment setup: source bounds and next candidate
 
-Status: preparation, 2026-10-21. This is not an executed setup or a new run
-authorization. The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
+Status: optional patch prepared, unvalidated, 2026-10-21. This is not an executed
+setup or a new run authorization. The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
 pins every file and line range used below. Existing results keep their original
 source identities. The pending request for 120 local validation seconds concerns
 the streamed-artifact code gates, not this proposed research candidate.
@@ -57,8 +57,11 @@ unverified idea of batching both groups at the setup call site.
 
 Use an optional patch against a separately inventoried `gnark-crypto` copy.
 Preserve the default module cache and existing gnark compiler-cache patch. The
-candidate needs its own source/build/experiment identity. It is not implemented
-or validated by this document.
+candidate needs its own source/build/experiment identity. The
+[prepared patch and evaluator](../../probes/gnark/patches/README.md#bounded-g1-batch-conversion--prepared-unvalidated)
+now have exact source pins. The three-point upstream baseline passed; the first
+candidate build failed on a shadowed built-in. The corrected patch applies and
+parses, but is not yet compiled or validated. Preserve that failed attempt.
 
 ## Acceptance before a new maximum attempt
 
@@ -66,7 +69,9 @@ or validated by this document.
    deterministic public scalars, including zero, one, minus one and repeated values,
    with both the generator and infinity as bases. Use lengths 0, 1, 4,095, 4,096,
    4,097 and 8,193 to cross chunk boundaries and a short final chunk. Keep the
-   worker count fixed.
+   worker count fixed. Also use `runtime.NumCPU()*4096+1` and assert that the actual
+   partition includes a span longer than 4,096: the library partitions by CPU
+   count, independently of `GOMAXPROCS`, so fixed lengths alone miss that boundary.
 2. Reproduce the seven small circuit fingerprints. Run fresh small actual setups,
    proofs and invalid-input/key/proof cases; keep old results and failures.
 3. Measure the allocation/latency tradeoff on the same bounded fixture. A passing

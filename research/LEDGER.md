@@ -2359,3 +2359,51 @@ authorized or supplied by this analysis.
 charge 0.473966 seconds, bringing the prior streaming increment to 56.786053 of
 its 64 reserved seconds, with the eight-second overhead allowance retained.
 No runtime-code gate is represented as newly passed by this documentation check.
+
+## 2026-10-21 — W18 optional G1 patch and frozen point evaluator
+
+The source-review commit `aa6f9c7` passes all 28 exact-head hosted jobs:
+push `39591302057`, PR `39591308540`. PR #72 remains draft. The selected hypothesis
+is that bounding G1 Jacobian temporaries per worker preserves all output points.
+Mutable candidate path: gnark-crypto's `ecc/bls12-381/g1.go` in an isolated copy;
+the default module, circuit and existing compiler-cache patch remain unchanged.
+The new frozen evaluator is `research/probes/gnark/patches/g1_batch_test.go`.
+The [numeric record](evidence/w18-g1-candidate-preparation-2026-10-21.json) precedes
+this account; its raw directory retains the protocol, commands and failed copies.
+
+Inspection finds that `parallel.Execute` partitions by `runtime.NumCPU()`, not
+`GOMAXPROCS`. Add `runtime.NumCPU()*4096+1` to the fixed length roster and assert
+that a worker crosses the 4,096-point boundary. The evaluator compares coordinates
+and compressed/uncompressed encodings with separate scalar multiplication, checks
+input immutability and emits ordered-output digests for cross-build comparison.
+Generator/infinity bases and deterministic zero/one/minus-one/wider/repeated
+scalars are frozen before candidate evaluation. These are public synthetic inputs.
+
+`go test -mod=readonly -count=1 -v -run
+'^TestG1BatchEquivalence$/^generator$/^n3$' patches/g1_batch_test.go` passes against
+the unchanged upstream module in 2.112453 seconds including compilation. This is
+only the three-point baseline, not full-roster execution. An initial module-copy
+patch check rejects an unchanged source despite a zero patch exit; retain that
+copy and charge a conservative one second. A fresh explicit patch check passes
+in 0.020287 seconds. Preparation of a writable fresh module copy and full 1,869-file
+inventory takes 1.009594 seconds; only the intended G1 source differs.
+
+The candidate's same small command, with its separate modfile, fails to compile
+in 1.332136 seconds: the original `min` cost variable shadows the built-in used by
+the chunk loop. Preserve its patch, source and compiler error. Rename only that
+variable to `minCost`, keeping the cost expression/comparisons. The correction
+passes Go parsing and exact patch application in 0.110213 seconds. It has not
+been built or executed. The optional patch is disabled by default and absent
+from the HF bootstrap. See [decision 0042](../docs/decisions/0042-bounded-g1-preparation.md).
+
+These commands charge 5.584684 seconds inside the existing reservation, leaving
+1.629263 seconds before the final documentation check. All earlier ancillary
+allowances remain charged. The pending 120-second question remains unanswered;
+no extra time, cloud job, setup/proof attempt or spend is inferred. Full corrected
+point equivalence, serialized circuit fingerprints, small proof negatives and
+allocation/latency measurements remain open before any maximum attempt.
+
+`make check-spec` then passes all 51 sections, 18 invariants, 10 RFCs, 40 work
+items and 106 edges in 0.944539 seconds. This increment totals 6.529223 seconds;
+0.684723 remains inside the existing reservation. No corrected-candidate build
+or full local repository/package gate is claimed from that documentation check.

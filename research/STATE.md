@@ -573,8 +573,14 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: finish the streamed-artifact repository/package gates, then prepare and
-validate the bounded G1 setup candidate and its explicit setup/proving plan.
+Next: finish the streamed-artifact repository/package gates, then build and
+validate the corrected bounded G1 candidate and its explicit setup/proving plan.
+The [optional patch and frozen evaluator](evidence/w18-g1-candidate-preparation-2026-10-21.json)
+are prepared. The unchanged three-point baseline passes; the first candidate
+fails to compile because of a shadowed `min` built-in. The corrected patch parses
+and applies exactly but has not been built or run. The failed build is retained.
+Full point equivalence must exercise a per-worker chunk boundary, which needs
+more points than the earlier fixed lengths on hosts with several CPUs.
 The minimum key component already exceeds the existing 256 MiB artifact cap.
 Setup/prover peak memory remains unmeasured; compile success cannot satisfy either
 gate. Preserve the completed HF job and all failed Mac attempts. No new cloud job
