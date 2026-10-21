@@ -35,7 +35,13 @@ def test_canonical_header_and_complete_byte_encoding(count):
         else:
             assert positions[i] == positions[i + 1] and value["units"][i] == 0
     fields = probe.assignment(value).splitlines()
-    assert len(fields) == 72 + 4 * size
+    assert len(fields) == 78 + 7 * size
+    assert value["unit_active"] == [1] * count + [0] * (size - count)
+    assert value["encoded_active"] == [1] * positions[-1] + [0] * (
+        len(value["encoded"]) - positions[-1]
+    )
+    assert sum(value["unit_active"]) == value["public"][0]
+    assert sum(value["encoded_active"]) == positions[-1]
     assert fields[:33] == probe.assignment(value, False).splitlines()
     assert all(str(int(n)).encode() == n for n in fields)
 

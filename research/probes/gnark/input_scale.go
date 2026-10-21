@@ -19,18 +19,32 @@ import (
 
 // A commitment component, not a classifier: count and digest are public.
 type inputScaleCircuit struct {
-	Public    [33]frontend.Variable `gnark:",public"`
-	Salt      [32]frontend.Variable
-	Units     []frontend.Variable
-	Encoded   []frontend.Variable
-	Positions []frontend.Variable
+	Public        [33]frontend.Variable `gnark:",public"`
+	Salt          [32]frontend.Variable
+	Units         []frontend.Variable
+	Encoded       []frontend.Variable
+	Positions     []frontend.Variable
+	UnitActive    []frontend.Variable
+	EncodedActive []frontend.Variable
 }
 
 func newInputScale(size int) *inputScaleCircuit {
 	return &inputScaleCircuit{
 		Units: make([]frontend.Variable, size), Encoded: make([]frontend.Variable, 2*size+6),
-		Positions: make([]frontend.Variable, size+1),
+		Positions:  make([]frontend.Variable, size+1),
+		UnitActive: make([]frontend.Variable, size), EncodedActive: make([]frontend.Variable, 2*size+6),
 	}
+}
+
+// Boolean differences forbid a 0-to-1 transition; the sum fixes the prefix length.
+func constrainPrefix(api frontend.API, active []frontend.Variable, count frontend.Variable) {
+	for i, flag := range active {
+		api.AssertIsBoolean(flag)
+		if i > 0 {
+			api.AssertIsBoolean(api.Sub(active[i-1], flag))
+		}
+	}
+	api.AssertIsEqual(api.Add(0, 0, active...), count)
 }
 
 func (c *inputScaleCircuit) Define(api frontend.API) error {
@@ -59,8 +73,9 @@ func (c *inputScaleCircuit) Define(api frontend.API) error {
 		api.AssertIsEqual(api.Mul(wide, api.Sub(values[2], third)), 0)
 	}
 	api.AssertIsEqual(c.Positions[0], api.Mul(2, width))
+	constrainPrefix(api, c.UnitActive, n)
 	for i, unit := range c.Units {
-		active := api.ToBinary(api.Add(n, 65536-i-1), 17)[16]
+		active := c.UnitActive[i]
 		bits := api.ToBinary(unit, 8)
 		small := api.Mul(api.Sub(1, bits[5]), api.Sub(1, bits[6]), api.Sub(1, bits[7]),
 			api.Sub(1, api.Mul(bits[3], bits[4])))
@@ -73,9 +88,9 @@ func (c *inputScaleCircuit) Define(api frontend.API) error {
 		api.AssertIsEqual(c.Positions[i+1], api.Add(c.Positions[i], active, two))
 	}
 	length := c.Positions[len(c.Units)]
+	constrainPrefix(api, c.EncodedActive, length)
 	for j, value := range c.Encoded {
-		padding := api.ToBinary(api.Add(api.Sub(j, length), 1<<17), 18)[17]
-		api.AssertIsEqual(api.Mul(padding, value), 0)
+		api.AssertIsEqual(api.Mul(api.Sub(1, c.EncodedActive[j]), value), 0)
 	}
 	tag := []byte("hallmark/v1/input")
 	header := make([]byte, 4)
@@ -123,7 +138,7 @@ func inputScaleAssignment(size int, name string, private bool) (frontend.Circuit
 	c := newInputScale(size)
 	count := 33
 	if private {
-		count += 32 + len(c.Units) + len(c.Encoded) + len(c.Positions)
+		count += 32 + len(c.Units) + len(c.Encoded) + len(c.Positions) + len(c.UnitActive) + len(c.EncodedActive)
 	}
 	values, err := readAssignmentFile(name, count)
 	if err != nil {
@@ -131,7 +146,7 @@ func inputScaleAssignment(size int, name string, private bool) (frontend.Circuit
 	}
 	fields := [][]frontend.Variable{c.Public[:]}
 	if private {
-		fields = append(fields, c.Salt[:], c.Units, c.Encoded, c.Positions)
+		fields = append(fields, c.Salt[:], c.Units, c.Encoded, c.Positions, c.UnitActive, c.EncodedActive)
 	}
 	next := 0
 	for _, field := range fields {

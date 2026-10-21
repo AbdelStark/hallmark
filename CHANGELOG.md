@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Constrain commitment coverage with exact Boolean prefixes and retain malformed
+mask prover attempts. Preserve native memory-sampler error codes so normal child
+teardown does not become a false monitor failure. Full-input feasibility and
+backend qualification remain separate gates.
+
 Stop optional proof workers using live macOS RSS samples with conservative
 headroom, preserve cutoff/failure costs and handle child-exit signal races.
 Sampling and post-exit checks do not provide a hard memory quota.

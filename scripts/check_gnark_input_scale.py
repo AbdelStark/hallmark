@@ -46,6 +46,8 @@ def vector(size, units):
         "units": list(units) + [0] * (size - count),
         "encoded": list(encoded) + [0] * (2 * size + 6 - len(encoded)),
         "positions": positions + [positions[-1]] * (size - count),
+        "unit_active": [1] * count + [0] * (size - count),
+        "encoded_active": [1] * len(encoded) + [0] * (2 * size + 6 - len(encoded)),
     }
 
 
@@ -53,6 +55,7 @@ def assignment(value, private=True):
     fields = value["public"]
     if private:
         fields = fields + value["salt"] + value["units"] + value["encoded"] + value["positions"]
+        fields += value["unit_active"] + value["encoded_active"]
     return "".join(f"{n}\n" for n in fields).encode("ascii")
 
 
@@ -176,6 +179,10 @@ def check(binary, expected_binary, output):
             ("prefix-start", "positions", 0, 3),
             ("prefix-gap", "positions", 4, 9),
             ("prefix-end", "positions", 8, 21),
+            ("unit-mask-bit", "unit_active", 0, 2),
+            ("encoded-mask-bit", "encoded_active", 0, 2),
+            ("unit-mask-count", "unit_active", 7, 0),
+            ("encoded-mask-count", "encoded_active", 0, 0),
         ]
         for name, key, index, number in mutations:
             changed = {**value, key: list(value[key])}
@@ -185,6 +192,14 @@ def check(binary, expected_binary, output):
             **vectors["near"],
             "units": [*vectors["near"]["units"][:7], 1],
         }
+        gap = vector(8, b"\0" * 7)
+        gap["unit_active"][6:8] = [0, 1]
+        gap["positions"][7] = 8
+        invalid["invalid-unit-mask-gap"] = gap
+        gap = vector(8, b"\0" * 7)
+        gap["encoded_active"][8:10] = [0, 1]
+        gap["encoded"][9] = 1
+        invalid["invalid-encoded-mask-gap"] = gap
         proofs = batch(8, setup, vectors, invalid)
         for name, value in vectors.items():
             verifier = {

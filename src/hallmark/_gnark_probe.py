@@ -153,7 +153,7 @@ def limits(max_file: int = MAX_FILE, cpu_seconds: int = 40) -> None:
 def _rss_reader() -> Callable[[int], int]:
     if platform.system() != "Darwin" or platform.machine() != "arm64":
         raise ValueError("this admitted monitor requires macOS arm64")
-    proc_pidinfo = ctypes.CDLL("/usr/lib/libproc.dylib").proc_pidinfo
+    proc_pidinfo = ctypes.CDLL("/usr/lib/libproc.dylib", use_errno=True).proc_pidinfo
     proc_pidinfo.argtypes = [
         ctypes.c_int,
         ctypes.c_int,
@@ -166,8 +166,9 @@ def _rss_reader() -> Callable[[int], int]:
     buffer = ctypes.create_string_buffer(96)
 
     def resident_bytes(pid: int) -> int:
+        ctypes.set_errno(0)
         if proc_pidinfo(pid, 4, 0, buffer, len(buffer)) != len(buffer):
-            raise OSError("worker memory sample unavailable")
+            raise OSError(ctypes.get_errno(), "worker memory sample unavailable")
         return ctypes.c_uint64.from_buffer(buffer, 8).value
 
     return resident_bytes
@@ -235,6 +236,7 @@ def invoke(
     start = time.monotonic()
     timed_out = False
     memory_limit_exceeded = memory_monitor_failed = False
+    process_missing_sample = False
     sampled_peak_rss = 0
     with (
         os.fdopen(
@@ -264,7 +266,8 @@ def invoke(
                     try:
                         sampled_peak_rss = max(sampled_peak_rss, resident_bytes(process.pid))
                         memory_limit_exceeded = sampled_peak_rss >= cutoff
-                    except OSError:
+                    except OSError as error:
+                        process_missing_sample = isinstance(error, ProcessLookupError)
                         # The worker may have exited between wait4 and proc_pidinfo.
                         time.sleep(0.01)
                         pid, status, usage = os.wait4(process.pid, os.WNOHANG)
@@ -274,6 +277,9 @@ def invoke(
                 # shortcut: sampling permits growth between reads; retain the peak-RSS postcheck.
                 if timed_out or memory_limit_exceeded or memory_monitor_failed:
                     _, status, usage = _stop_worker(process.pid)
+                    # ESRCH can precede waitability during exit; only a normal exit resolves it.
+                    if process_missing_sample and os.waitstatus_to_exitcode(status) >= 0:
+                        memory_monitor_failed = False
                     break
                 time.sleep(0.01)
             process.returncode = os.waitstatus_to_exitcode(status)
@@ -287,6 +293,7 @@ def invoke(
         "timed_out": timed_out,
         "memory_limit_exceeded": memory_limit_exceeded,
         "memory_monitor_failed": memory_monitor_failed,
+        "memory_sample_process_missing": process_missing_sample,
         "sampled_peak_rss_bytes": sampled_peak_rss,
         "elapsed_seconds": time.monotonic() - start,
         "user_seconds": usage.ru_utime,

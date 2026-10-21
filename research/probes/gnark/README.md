@@ -26,6 +26,11 @@ with candidate capacities 8, 32, 256 and 32,768 bytes. It leaves the original
 rule/MLP/block relations unchanged. Its small proofs, boundary proving attempts and
 maximum compilation attempt are different kinds of evidence; none qualifies
 the full encoder. See [decision 0035](../../../docs/decisions/0035-input-commitment-scaling.md).
+The current candidate replaces per-position coverage comparisons with Boolean
+prefix masks whose exact sums bind both input count and encoded length. The private
+assignment has `78 + 7 * capacity` fields; the public assignment remains 33.
+New candidate identities and setups are mandatory. See
+[decision 0037](../../../docs/decisions/0037-prefix-coverage-commitments.md).
 
 The [initial evidence](../../evidence/w18-proof-probes-2026-10-20.json) retains
 the original failed/corrected rule candidate. The
@@ -145,9 +150,12 @@ The output must be new. Shared wall/verifier deadlines and measured CPU/RSS/stor
 bounds apply across stages. All worker commands sample live RSS every 10 ms and
 request termination at seven eighths of the declared ceiling (14 GiB by default).
 Monitor failures reject; exit races retain the actual child status. Inspect
-`memory_limit_exceeded`, `memory_monitor_failed`, sampled peak and post-exit peak
+`memory_limit_exceeded`, `memory_monitor_failed`, `memory_sample_process_missing`,
+sampled peak and post-exit peak
 in each cost receipt. Sampling can overshoot; see
 [decision 0036](../../../docs/decisions/0036-live-proof-worker-memory.md).
+Native `ESRCH` followed by a normal reaped exit resolves the missing-process
+sample; a killed live child or unresolved sampling error still rejects.
 Process CPU/per-file limits and the macOS sandbox do
 not provide a hard aggregate memory/storage quota. Use a trusted output parent and
 account for existing runs within the owner's total storage/time envelope.

@@ -250,6 +250,21 @@ this increment reserves 300 seconds, leaving 1,360 unreserved in the existing
 7,200-second proving allocation. All 2,033 tests and both installed-package gates pass,
 including required train/guard execution. See [decision 0036](../docs/decisions/0036-live-proof-worker-memory.md).
 
+The [prefix-coverage candidate](evidence/w18-prefix-coverage-2026-10-21.json)
+replaces per-position comparisons with exact Boolean prefix masks. All eight
+small proofs verify, including five separately pinned proofs recovered after
+a false monitor failure; all 18 malformed witnesses and the existing public/key/
+proof mutations reject. Constraints fall to 205,547 / 243,222 / 512,502 at capacities
+8 / 32 / 256. The maximum compile still fails: the live cutoff stops it after
+60.889 seconds at 15,033,548,800 bytes peak RSS, below the 16 GiB ceiling.
+There is no complete maximum circuit or proof. The failed original controller
+run remains intact; a fresh recovery freezes corrected native-errno handling.
+An early diagnostic heap guided the optimization but does not establish full-run
+memory or speed improvements. See [decision 0037](../docs/decisions/0037-prefix-coverage-commitments.md).
+The diagnostic and candidate reserve another 180 and 600 seconds respectively,
+leaving 580 unreserved in the existing local proving allocation. All 2,042 tests
+and both installed-package gates pass, including required train/guard execution.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -474,8 +489,10 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: address the measured maximum-input compilation failure under the new live
-cutoff and remaining 1,360-second unreserved proving budget. Continue the complete
+Next: reduce compiler allocation or prepare a pinned approved-host fallback for
+the still-failing maximum-input commitment, within the remaining 580-second
+unreserved local proving budget. The early heap identifies Boolean-cache allocation
+as a candidate lead; no dependency patch or HF job has been executed. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and

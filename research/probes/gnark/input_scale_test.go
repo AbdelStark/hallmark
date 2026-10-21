@@ -4,7 +4,54 @@ import (
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark/frontend"
+	"github.com/consensys/gnark/frontend/cs/r1cs"
 )
+
+type prefixFixture struct {
+	Flags [4]frontend.Variable
+	Count frontend.Variable
+}
+
+func (c *prefixFixture) Define(api frontend.API) error {
+	constrainPrefix(api, c.Flags[:], c.Count)
+	return nil
+}
+
+func TestPrefixCoverageAcceptsOnlyExactBooleanPrefixes(t *testing.T) {
+	field := ecc.BLS12_381.ScalarField()
+	ccs, err := frontend.Compile(field, r1cs.NewBuilder, &prefixFixture{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for mask := 0; mask < 16; mask++ {
+		for count := 0; count <= 4; count++ {
+			value := prefixFixture{Count: count}
+			for i := range value.Flags {
+				value.Flags[i] = (mask >> i) & 1
+			}
+			witness, err := frontend.NewWitness(&value, field)
+			if err != nil {
+				t.Fatal(err)
+			}
+			// This isolated Boolean relation has no commitment hint; this is not proof evidence.
+			if (ccs.IsSolved(witness) == nil) != (mask == (1<<count)-1) {
+				t.Fatalf("incorrect acceptance for mask %d count %d", mask, count)
+			}
+		}
+	}
+	for _, flags := range [][4]frontend.Variable{{2, 0, 0, 0}, {1, 2, -1, 0}, {-1, 1, 1, 1}} {
+		witness, err := frontend.NewWitness(&prefixFixture{Flags: flags, Count: 2}, field)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if ccs.IsSolved(witness) == nil {
+			t.Fatal("accepted non-Boolean prefix")
+		}
+	}
+}
 
 func TestInputBatchRejectsMalformedManifestBeforeLoadingKeys(t *testing.T) {
 	for _, test := range []struct{ name, raw, message string }{

@@ -1,5 +1,6 @@
 """Probe boundaries run offline; actual proofs require the separately admitted build."""
 
+import errno
 import json
 import os
 import platform
@@ -174,7 +175,7 @@ def test_native_memory_sample_requires_complete_abi(monkeypatch, returned):
         probe.ctypes.c_uint64.from_buffer(buffer, 8).value = 4321
         return returned
 
-    monkeypatch.setattr(probe.ctypes, "CDLL", lambda _: SimpleNamespace(proc_pidinfo=read))
+    monkeypatch.setattr(probe.ctypes, "CDLL", lambda *a, **kw: SimpleNamespace(proc_pidinfo=read))
     reader = probe._rss_reader()
     if returned == 96:
         assert reader(123) == 4321
@@ -184,7 +185,19 @@ def test_native_memory_sample_requires_complete_abi(monkeypatch, returned):
 
 
 @pytest.mark.parametrize(
-    "fault", ["below", "cutoff", "above", "monitor", "exit-race", "signal-exit-race", "peak"]
+    "fault",
+    [
+        "below",
+        "cutoff",
+        "above",
+        "monitor",
+        "exit-race",
+        "signal-exit-race",
+        "peak",
+        "exit-transition",
+        "missing-live",
+        "monitor-normal-exit",
+    ],
 )
 @pytest.mark.parametrize("use_budget", [False, True])
 def test_live_memory_stop_reaps_and_retains_cost(tmp_path, monkeypatch, fault, use_budget):
@@ -198,8 +211,10 @@ def test_live_memory_stop_reaps_and_retains_cost(tmp_path, monkeypatch, fault, u
 
     def sample(pid):
         reads.append(pid)
-        if fault in {"monitor", "exit-race"}:
+        if fault in {"monitor", "exit-race", "monitor-normal-exit"}:
             raise OSError("private error detail")
+        if fault in {"exit-transition", "missing-live"}:
+            raise ProcessLookupError("private error detail")
         return {
             "below": cutoff - 1,
             "cutoff": cutoff,
@@ -209,11 +224,21 @@ def test_live_memory_stop_reaps_and_retains_cost(tmp_path, monkeypatch, fault, u
         }[fault]
 
     monkeypatch.setattr(probe, "_rss_reader", lambda: sample)
-    killed = fault in {"cutoff", "above", "monitor"}
+    killed = fault in {"cutoff", "above", "monitor", "missing-live"}
     usage = SimpleNamespace(
         ru_utime=0, ru_stime=0, ru_maxrss=ceiling + 1 if fault == "peak" else cutoff
     )
-    waits = iter([0, *([0] if fault == "monitor" else []), 123])
+    waits = iter(
+        [
+            0,
+            *(
+                [0]
+                if fault in {"monitor", "exit-transition", "missing-live", "monitor-normal-exit"}
+                else []
+            ),
+            123,
+        ]
+    )
     reaps = []
 
     def wait(pid, flags):
@@ -235,19 +260,23 @@ def test_live_memory_stop_reaps_and_retains_cost(tmp_path, monkeypatch, fault, u
         if use_budget
         else None
     )
-    if killed or fault in {"peak", "signal-exit-race"}:
+    if killed or fault in {"peak", "signal-exit-race", "monitor-normal-exit"}:
         with pytest.raises(MemoryError):
             probe.invoke(Path("/bin/sleep"), directory, ["10"], budget=budget)
     else:
         probe.invoke(Path("/bin/sleep"), directory, ["10"], budget=budget)
     cost = json.loads((directory / "cost.json").read_text())
     assert cost["memory_limit_exceeded"] == (fault in {"cutoff", "above", "signal-exit-race"})
-    assert cost["memory_monitor_failed"] == (fault == "monitor")
+    assert cost["memory_monitor_failed"] == (
+        fault in {"monitor", "missing-live", "monitor-normal-exit"}
+    )
+    assert cost["memory_sample_process_missing"] == (fault in {"exit-transition", "missing-live"})
     assert not cost["timed_out"]
     assert cost["exit_code"] == (-signal.SIGKILL if killed else 0)
-    assert signals == ([(123, signal.SIGKILL)] if killed or fault == "signal-exit-race" else [])
+    stopped = killed or fault in {"signal-exit-race", "exit-transition", "monitor-normal-exit"}
+    assert signals == ([(123, signal.SIGKILL)] if stopped else [])
     assert single_signals == ([(123, signal.SIGKILL)] if fault == "signal-exit-race" else [])
-    assert reaps[-1] == (123, 0 if killed or fault == "signal-exit-race" else os.WNOHANG)
+    assert reaps[-1] == (123, 0 if stopped else os.WNOHANG)
     assert reads == [123]
     assert "private error detail" not in (directory / "cost.json").read_text()
     plan = json.loads((directory / "plan.json").read_text())
@@ -263,6 +292,24 @@ def test_signal_permission_failure_is_not_ignored_for_live_child(monkeypatch):
     monkeypatch.setattr(probe.os, "kill", denied)
     with pytest.raises(PermissionError, match="signal denied"):
         probe._stop_worker(123)
+
+
+@pytest.mark.parametrize("code", [0, errno.ESRCH, errno.EACCES])
+def test_native_sampler_preserves_error_kind_and_clears_stale_errno(monkeypatch, code):
+    monkeypatch.setattr(probe.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(probe.platform, "machine", lambda: "arm64")
+
+    def read(*_):
+        assert probe.ctypes.get_errno() == 0
+        probe.ctypes.set_errno(code)
+        return 0
+
+    monkeypatch.setattr(probe.ctypes, "CDLL", lambda *a, **kw: SimpleNamespace(proc_pidinfo=read))
+    probe.ctypes.set_errno(errno.ESRCH)
+    with pytest.raises(OSError) as error:
+        probe._rss_reader()(123)
+    assert error.value.errno == code
+    assert isinstance(error.value, ProcessLookupError) == (code == errno.ESRCH)
 
 
 @mac

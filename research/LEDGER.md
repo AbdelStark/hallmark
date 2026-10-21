@@ -1979,3 +1979,66 @@ validated offline; historical cryptographic runs keep their original identities.
 The increment's timed commands plus conservative unrecorded-attempt/software
 allowances consume 177.419 seconds inside the 300-second reservation. Keep the
 entire reservation charged until a later audit. Exact-head hosted CI is separate.
+
+## 2026-10-21 — W18 prefix coverage and exit-transition recovery
+
+Hypothesis: exact Boolean prefix masks reduce complete-input compilation cost
+without changing canonical bytes, public fields or the relation. Baseline
+`7163ff1` retains failed 32,768-byte compilation. The diagnostic root is
+`runs/w18-compile-profile-1792573233952310000`; the candidate root is
+`runs/w18-prefix-coverage-1792573572212248000`. The
+[evidence](evidence/w18-prefix-coverage-2026-10-21.json) pins source, environment,
+heap sample, plans, proofs, costs and the retained failure before this prose.
+
+The unchanged circuit's four-second heap sample attributes approximately 83% of
+sampled live allocation to the per-encoded-byte padding comparison. Compilation
+is stopped below a deliberately lowered 2 GiB ceiling after retaining the sample.
+This is an early allocation diagnosis, not a complete-run memory or speed result.
+[Decision 0037](../docs/decisions/0037-prefix-coverage-commitments.md) replaces
+17/18-bit per-position comparisons with Boolean coverage flags, monotone Boolean
+differences and exact sums. The canonical codec, eight valid byte/public vectors,
+33 public fields, capacity roster and original rule/MLP/block circuits stay frozen.
+The candidate's private assignment changes, so its source, setups and proofs have
+new identities. Exhaustive checks cover 80 four-bit mask/count combinations and
+three non-Boolean masks; all three focused Go tests pass.
+
+Command: `uv run --locked python scripts/check_gnark_input_scale.py --binary runs/w18-prefix-coverage-1792573572212248000/build/probe --expected-binary 4a1b3033591885a78b770f1cc4edb6229f99dc807ea23e065a29ecba0147112e --output runs/w18-prefix-coverage-1792573572212248000/experiment-01`
+using the retained isolated uv 0.9.18 executable. The 208.398-second command fails
+after generating eight real proofs. Three small proofs verify and all 18 invalid
+prover attempts, 33 public changes, field alias, altered proof and wrong key reject.
+The five larger proofs exist, but their batch's unavailable memory sample causes
+the controller to reject after a normal exit. Its failure and 44 worker receipts
+remain unchanged. A separate five-compile diagnosis observes four native `ESRCH`
+samples during normal exit; the original failed run did not retain native errno.
+
+The shared worker now preserves native errno and only resolves an absent-process
+sample after reaping an actual normal exit. A live child killed after losing a
+sample and generic unresolved sample failures reject; peak checks remain. Nine
+new Python cases cover errno, stale errno and normal/killed exit transitions,
+including both standalone and budgeted callers. The 136 focused regressions pass.
+
+Fresh recovery command: `uv run --locked python runs/w18-prefix-coverage-1792573572212248000/recovery-01/run.py`.
+It pins the original binary/setup/proofs/assignments and corrected worker before
+fresh verification of all five larger proofs. No setup or proving is repeated.
+The 61.886-second recovery passes those checks and compiles capacity 32, then
+records the failed maximum compile: exit -9, 60.889 seconds, 15,033,548,800-byte
+peak RSS, live cutoff true, no monitor failure or timeout. The limit stops it below
+16 GiB; no complete maximum circuit exists. Constraint counts for capacities
+8 / 32 / 256 are 205,547 / 243,222 / 512,502, versus 206,049 / 244,924 / 525,403.
+Capacity 32 remains compile-only. This evidence does not qualify a full encoder,
+operational input enrollment, independent verification, setup or hiding.
+
+Keep the prior 5,840-second charge, plus the entire 180-second diagnostic and
+600-second candidate reservations, leaving 580 unreserved. No refunds, private
+inputs, HF token access, paid jobs, external reviewers or hardware claims.
+Repository and installed-package gates are recorded after execution. Preserve
+the unrelated `.gitignore` edit. PR #72 stays draft and issue #19 stays open.
+
+Final validation: all 2,042 Python tests, `make check`, `make package-check` and
+`make package-check-comparison` pass, with installed train/guard checks executed.
+Both package gates use source identity
+`0ffac8fe2688464163f79987443e81f3aa696f94988440f5fef7090d8cd06ef5`
+before this final evidence update. The diagnostic's timed commands plus allowance
+charge 40.502 seconds inside its 180-second reservation; the candidate, failure,
+recovery and validation charge 425.259 seconds inside its 600-second reservation.
+The entire reservations remain charged. Final-head hosted verification is separate.
