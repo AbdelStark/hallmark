@@ -97,6 +97,25 @@ def inventory(root):
     }
 
 
+def wait_with_progress(child, paths, seconds, offsets):
+    deadline = time.monotonic() + seconds
+    with paths[0].open("rb") as out, paths[1].open("rb") as err:
+        while child.poll() is None:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise subprocess.TimeoutExpired(child.args, seconds)
+            try:
+                child.wait(timeout=min(0.25, remaining))
+            except subprocess.TimeoutExpired:
+                pass
+            for index, (source, target) in enumerate(((out, sys.stdout), (err, sys.stderr))):
+                raw = source.read(65536)
+                target.buffer.write(raw)
+                target.buffer.flush()
+                offsets[index] += len(raw)
+    return child.wait()
+
+
 def main(plan):
     validate(plan)
     maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
@@ -127,6 +146,7 @@ def main(plan):
             raise TimeoutError("insufficient remaining job budget")
         began = time.monotonic()
         failure = None
+        offsets = [0, 0]
         print(json.dumps({"starting_stage": label, "timeout_seconds": seconds}), flush=True)
         with (
             (root / (label + ".stdout")).open("xb") as out,
@@ -142,7 +162,12 @@ def main(plan):
                 start_new_session=True,
             )
             try:
-                code = child.wait(timeout=seconds)
+                if label in ("maximum-proof", "compilation"):
+                    code = wait_with_progress(
+                        child, (Path(out.name), Path(err.name)), seconds, offsets
+                    )
+                else:
+                    code = child.wait(timeout=seconds)
             except BaseException as error:
                 os.killpg(child.pid, signal.SIGKILL)
                 code = child.wait()
@@ -158,9 +183,11 @@ def main(plan):
             "stderr_sha256": digest(stderr),
             "failure_type": type(failure).__name__ if failure else None,
         }
+        sys.stdout.buffer.write(stdout[offsets[0] :])
+        sys.stdout.buffer.flush()
+        sys.stderr.buffer.write(stderr[offsets[1] :])
+        sys.stderr.buffer.flush()
         print(json.dumps({"receipt": receipt}), flush=True)
-        print(stdout.decode(), end="", flush=True)
-        print(stderr.decode(), end="", file=sys.stderr, flush=True)
         if failure:
             raise failure
         if code != 0:

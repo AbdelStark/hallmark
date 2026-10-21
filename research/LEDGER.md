@@ -2750,3 +2750,41 @@ Go 1.26.8 archive into runner-temporary storage after checking its exact SHA-256
 verifies the locked module closure and runs all Go probe tests. It uses two
 threads, a 1 GiB Go soft memory target and a ten-minute job timeout. No dependency
 or circuit change is introduced. Linux runtime evidence remains pending.
+
+
+## 2026-10-21 — Verified parallel-setup and artifact-I/O delivery (W18 / #19)
+
+[Delivery evidence](evidence/w18-proof-artifact-delivery-2026-10-21.json) precedes
+this prose. PR #76 is merged as `a73c47b287ccabc13ca8387c7352afdf7d23e999`: all
+28 candidate jobs and all 14 merged-main jobs pass. One merged job's completed
+steps/logs had stale final metadata; its targeted rerun passes on attempt 2.
+PR #77 is merged as `247e46a9dd75ab6b98dfd6c054643575d38adba0`: all 30 candidate
+jobs and all 15 merged-main jobs pass. The newly added Linux Go suite passes
+all 12 top-level tests, including the real file-size-limit flush failure.
+Exact CI JSON and logs are retained in
+`runs/w18-buffered-artifacts-1792593992352000000`. No maximum-result or backend
+qualification claim follows; the active HF run still uses source `b5debd6`.
+
+
+## 2026-10-21 — Live controller progress without changing evidence (W18 / #19)
+
+The baseline bootstrap displays controller logs only when the long child process
+exits. Hypothesis: relay bounded chunks of the existing captured files while
+retaining their full bytes/hashes, exit codes and deadlines. The prospective
+protocol and source pins are in the run directory linked from the
+[raw evidence](evidence/w18-live-progress-2026-10-21.json). Mutable source is the
+bootstrap waiter and a fixed worker-start diagnostic in the maximum controller.
+The current cloud run and its evaluator are unchanged.
+
+Three real-subprocess fixtures require a parent acknowledgement before the child
+can finish, preserve split UTF-8/non-UTF-8 bytes and a large tail, retain exit
+code 3, and keep a deadline as a timeout failure. The 59 focused tests pass, with
+five actual-Linux checks appropriately skipped on the Mac, in 5.560 seconds.
+Complete capture files still determine receipt hashes; the unrelayed tail is
+emitted before the receipt. This is diagnostic plumbing, not proof evidence.
+The next hosted workflow also rejects changes to `go.mod`/`go.sum` after its
+Go dependency and test steps. `make check` passes 2,114 tests, five Linux-only
+skips and one warning in 45.428 seconds. All 156 software conformance cases match;
+32 full-evidence obligations remain unavailable. Core `make package-check` passes
+in 7.862 seconds; its retained snapshot precedes this validation-only evidence
+update. Hosted checks are pending.

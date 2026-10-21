@@ -167,6 +167,7 @@ def check(binary: Path, expected_binary: str, output: Path) -> dict[str, Any]:
         inputs: dict[str, bytes | PinnedArtifact] | None = None,
         expected: int = 0,
     ) -> dict[str, PinnedArtifact]:
+        print(json.dumps({"starting_case": name, "timeout_seconds": seconds}), flush=True)
         cost = invoke(
             [str(binary), *args],
             output / name,

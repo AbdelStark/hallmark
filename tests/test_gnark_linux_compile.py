@@ -290,3 +290,78 @@ def test_optional_pedersen_candidate_is_pinned():
                 candidate(plan)
             with pytest.raises(ValueError):
                 bootstrap["validate"](plan)
+
+
+@pytest.mark.parametrize("exit_code", [0, 3])
+def test_bootstrap_relays_live_bytes_and_preserves_tail(tmp_path, monkeypatch, exit_code):
+    import io
+    import runpy
+    import subprocess
+    from types import SimpleNamespace
+
+    bootstrap = runpy.run_path(str(Path(__file__).parents[1] / "scripts/gnark_hf_bootstrap.py"))
+    acknowledgement = tmp_path / "ack"
+
+    class Acknowledge(io.BytesIO):
+        def write(self, raw):
+            if raw:
+                acknowledgement.touch()
+            return super().write(raw)
+
+    relayed = [Acknowledge(), io.BytesIO()]
+    paths = [tmp_path / "stdout", tmp_path / "stderr"]
+    command = (
+        "import os,sys,time;from pathlib import Path\n"
+        "os.write(1,b'ready\\xe2');deadline=time.monotonic()+3\n"
+        "while not Path(sys.argv[1]).exists():\n"
+        " assert time.monotonic()<deadline\n"
+        " time.sleep(.01)\n"
+        "os.write(1,b'\\x82\\xac'+b'x'*70000+b'\\n');os.write(2,b'error\\xff\\n')\n"
+        "raise SystemExit(int(sys.argv[2]))\n"
+    )
+    offsets = [0, 0]
+    with paths[0].open("wb") as out, paths[1].open("wb") as err:
+        child = subprocess.Popen(
+            [sys.executable, "-c", command, str(acknowledgement), str(exit_code)],
+            stdout=out,
+            stderr=err,
+        )
+        try:
+            with monkeypatch.context() as patch:
+                patch.setattr(sys, "stdout", SimpleNamespace(buffer=relayed[0]))
+                patch.setattr(sys, "stderr", SimpleNamespace(buffer=relayed[1]))
+                assert bootstrap["wait_with_progress"](child, paths, 5, offsets) == exit_code
+        finally:
+            if child.poll() is None:
+                child.kill()
+            child.wait()
+    assert acknowledgement.exists()
+    expected = [b"ready\xe2\x82\xac" + b"x" * 70000 + b"\n", b"error\xff\n"]
+    for index, path in enumerate(paths):
+        raw = path.read_bytes()
+        assert raw == expected[index]
+        assert relayed[index].getvalue() == raw[: offsets[index]]
+        assert relayed[index].getvalue() + raw[offsets[index] :] == expected[index]
+
+
+def test_bootstrap_live_relay_preserves_deadline(tmp_path, monkeypatch):
+    import io
+    import runpy
+    import subprocess
+    from types import SimpleNamespace
+
+    bootstrap = runpy.run_path(str(Path(__file__).parents[1] / "scripts/gnark_hf_bootstrap.py"))
+    paths = [tmp_path / "stdout", tmp_path / "stderr"]
+    with paths[0].open("wb") as out, paths[1].open("wb") as err:
+        child = subprocess.Popen(
+            [sys.executable, "-c", "import time;time.sleep(10)"], stdout=out, stderr=err
+        )
+        try:
+            with monkeypatch.context() as patch:
+                for stream in ["stdout", "stderr"]:
+                    patch.setattr(sys, stream, SimpleNamespace(buffer=io.BytesIO()))
+                with pytest.raises(subprocess.TimeoutExpired):
+                    bootstrap["wait_with_progress"](child, paths, 0.05, [0, 0])
+        finally:
+            child.kill()
+            child.wait()

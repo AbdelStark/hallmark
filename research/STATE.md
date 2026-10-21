@@ -690,3 +690,24 @@ All 14 jobs in [the merged workflow](https://github.com/AbdelStark/hallmark/acti
 pass after rerunning one job whose final metadata was stale despite successful
 steps. The original logs and status receipts remain retained. This delivery does
 not supply the pending maximum proof result. Repository visibility is public.
+
+
+PR #76 merged the optional parallel setup and retained serial failure as
+`a73c47b287ccabc13ca8387c7352afdf7d23e999`, after 28 candidate checks passed.
+All 14 merged-main jobs pass on attempt 2; original stale metadata/logs remain.
+PR #77 merged bounded artifact buffering and a pinned Linux Go test job as
+`247e46a9dd75ab6b98dfd6c054643575d38adba0`, with all 30 candidate checks and
+all 15 merged-main jobs passing. The Linux job executes all 12 Go probe tests,
+including actual flush failure, real proofs and circuit fingerprints.
+[Delivery receipts](evidence/w18-proof-artifact-delivery-2026-10-21.json) record the
+exact sources and checks. The maximum cloud result is still pending at delivery;
+its frozen source remains unbuffered. Repository visibility is public.
+
+
+The [live-progress follow-up](evidence/w18-live-progress-2026-10-21.json) relays
+future controller logs while keeping the bootstrap's captured files and complete
+byte hashes. Worker start events contain only fixed case names and timeouts.
+Local acknowledgement, byte-preservation, exit-code and timeout fixtures pass;
+`make check` passes 2,114 tests and the core package gate passes. Hosted checks
+are pending. The running cloud job retains its original capture
+behavior. This changes diagnostics only, with no proof/evaluator claim.
