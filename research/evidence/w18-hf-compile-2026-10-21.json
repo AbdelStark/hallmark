@@ -42,11 +42,11 @@
   ],
   "local_budget": {
     "approved_proving_seconds": 7200,
-    "preparation_measured_plus_allowance_seconds": 178.52999729127623,
-    "preparation_receipts_sha256": "a40c57c46e3c3eac258b47e55b00c5e9411f9512507ee9791d6c39ca3988dde6",
+    "preparation_measured_plus_allowance_seconds": 277.72402150020935,
+    "preparation_receipts_sha256": "450e1e1e6ac8c001b38559c9411c8c68e21dc47b206317ea469ac9611c5de18c",
     "prior_charge_seconds": 6870,
-    "remaining_unreserved_seconds": 30,
-    "reservation_seconds": 300
+    "remaining_unreserved_seconds": 0,
+    "reservation_seconds": 330
   },
   "local_receipt_sha256": {
     "check-01.json": "f2ae0b00cb0b88f0b4d3021d6e418a4727171192729ac2fff8fe62f201662ca1",
@@ -69,7 +69,7 @@
   "raw_directory": "runs/w18-hf-compile-1792577568568485000",
   "schema_id": "hallmark.hf-compile-evidence/1",
   "source_sha256": {
-    "scripts/gnark_hf_bootstrap.py": "36569b93890b8b887301614bbe2330e086313641cdda695da9f5e4fb43e316c8",
+    "scripts/gnark_hf_bootstrap.py": "887071db26e0218999c1558e666c0470ad157bd9b0b08f148f159ec143371535",
     "src/hallmark/_gnark_linux_compile.py": "886899b30bd232f137127f2750d3535149d70d1d45ca73d0021475dc31ab6a60",
     "src/hallmark/_gnark_probe.py": "e512b69a3809521ab5ea0e2485aceb4e111edb8e6ae7d8d76059696eb32a1245",
     "tests/test_gnark_linux_compile.py": "77697f209a3a0eae2ee1619be3b1f2fdeabedd3ecfcecf4eac4edad5e56bbe96"
@@ -80,29 +80,34 @@
     "core_package_passed": true,
     "final_receipts": [
       {
-        "elapsed_seconds": 39.694736750097945,
-        "name": "check-02.json",
-        "sha256": "2592debc02e510795983903865a54ab684632c0d854b09e2567aeaea8cbe3566"
+        "elapsed_seconds": 39.47926849988289,
+        "name": "check-03.json",
+        "sha256": "14535300a5adc858d73a97e9cc0ae91b37743afc963917e5215eec2259efac5e"
       },
       {
-        "elapsed_seconds": 7.298491625115275,
-        "name": "package-core-01.json",
-        "sha256": "4f62eb601c6f8d53d91103160cac73f3543bbb85579e6652df5750ee441bc051"
+        "elapsed_seconds": 8.589253125013784,
+        "name": "package-core-02.json",
+        "sha256": "65e8b108ee49325d4d6e40667686e19db24c2d7908637549f8550a014483f550"
       },
       {
-        "elapsed_seconds": 49.928073833929375,
-        "name": "package-combined-01.json",
-        "sha256": "22ed8571746fe34a7ec685ea16d71a4518738dc648b734dcd5ccf86fb5d266ef"
+        "elapsed_seconds": 51.12550258403644,
+        "name": "package-combined-02.json",
+        "sha256": "ac72060e94bb178df3a9b51e1e9bd7d0ffb7d1705a270010f8925ba9a072e6cb"
       }
     ],
     "installed_guard_checked": true,
     "installed_train_checked": true,
+    "linux_ci_job": 119170243496,
+    "linux_ci_log_sha256": "7fb10ff483b286dccb02089ddb8ed2feccf8563305c7fc1877f38d34bf8ba59c",
+    "linux_ci_run": 39584591191,
+    "linux_ci_worker_commit": "f63946fa0313409076408b421b858f96aa2c6334",
     "linux_kernel_checks_run_locally": false,
+    "linux_kernel_tests_executed_in_ci": true,
     "local_passed_tests": 2068,
     "local_platform_skips": 4,
     "new_python_tests": 30,
-    "package_source_id_before_final_evidence_update": "6f3da4b3c1ca7fa0c35eb34523c9d46544a07f8a545d828f57aafb23025a28ef",
-    "status": "local_gates_passed_linux_kernel_pending"
+    "package_source_id_before_final_evidence_update": "f05cb8df00c19c9319eac92a40db56029779f87e85d92af0b51ca1a2958dcbd4",
+    "status": "local_gates_and_linux_kernel_passed_cloud_pending"
   },
   "work_item": "W18"
 }

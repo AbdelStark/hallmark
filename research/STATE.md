@@ -302,13 +302,15 @@ separate compile-only controller and a public-input bootstrap under
 [decision 0040](../docs/decisions/0040-bounded-hf-compile.md). It pins the official
 Python image and Linux Go archive, preserves the compiler/circuit, denies worker
 socket creation and bounds wall time, files and sampled memory. Authentication
-and read-only HF Jobs access pass; no cloud job has been submitted. Actual Linux
-kernel controls and maximum compilation remain unexecuted at this preparation
-checkpoint. Rechecked receipts conservatively charge 6,870 local seconds; reserve
-300, leaving 30 unreserved in the existing 7,200-second allocation.
+and read-only HF Jobs access pass; no cloud job has been submitted. All 30 new
+tests, including the four actual kernel cases, pass in Linux CI. Maximum cloud
+compilation remains unexecuted. Rechecked receipts conservatively charge 6,870
+local seconds. After bootstrap rechecks, reserve the remaining 330 seconds,
+including local control-plane receipts, leaving zero unreserved in the existing
+7,200-second allocation.
 Local validation passes 2,068 tests with four Linux-only kernel checks skipped;
-both package gates pass, including installed train/guard execution. The Linux
-checks must actually execute before using the cloud runner.
+both package gates pass, including installed train/guard execution. The bootstrap
+timeout-log retention correction also passes these gates before cloud execution.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -536,8 +538,8 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
 Next: finish the Linux controller's repository/package and actual Linux kernel
 checks, publish its exact source revision, then freeze and submit at most one
-bounded approved L4 compilation job. Thirty local seconds remain unreserved with
-the new 300-second reservation charged. The late snapshot places compilation in
+bounded approved L4 compilation job. The full remaining 330 local seconds are
+reserved, including control-plane receipts. The late snapshot places compilation in
 deferred range checks, with substantial instruction and hint storage. Keep the
 same circuit/compiler and require small fixtures before maximum compilation;
 diagnosis alone does not need another small-proof campaign. No HF job has been

@@ -2193,3 +2193,21 @@ credential isolation, timeout, memory cutoff and missing-monitor checks; their
 kernel-dependent cases have not run on the Mac. Publish this exact source and
 require the Linux CI execution before freezing/submitting a cloud job. The full
 reservation remains charged. No cloud job has run at this checkpoint.
+
+Linux push CI on `f63946fa0313409076408b421b858f96aa2c6334` executes all 30 new
+tests, including the four real kernel checks, with no skips in that test file.
+Run `39584591191`, core job `119170243496`, passes. The existing 87 Linux skips
+belong to other platform/optional-runtime tests. Review found that a bootstrap
+command timeout could discard captured diagnostics; the bootstrap now emits the
+stage, elapsed-time receipt and captured logs after termination before propagating
+the failure. The Linux worker is unchanged. Recheck the final source and packages
+before publishing the correction and freezing a job manifest.
+
+The corrected bootstrap passes another full local gate (2,068 tests, four Linux
+skips) and both package gates with installed train/guard execution. Package source
+identity is `f05cb8df00c19c9319eac92a40db56029779f87e85d92af0b51ca1a2958dcbd4`
+before the final evidence update. Preserve all earlier preparation checks too.
+Reserve the previously unreserved 30 seconds for local cloud-control receipts,
+making this increment's total reservation 330 and leaving zero unreserved within
+7,200. This changes allocation, not authority. Numeric command totals and hashes
+are retained before submission. Cloud execution remains unsubmitted here.

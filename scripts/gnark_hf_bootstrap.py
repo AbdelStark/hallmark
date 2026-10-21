@@ -100,6 +100,8 @@ def main(plan):
         if time.monotonic() - start + seconds > 1100:
             raise TimeoutError("insufficient remaining job budget")
         began = time.monotonic()
+        failure = None
+        print(json.dumps({"starting_stage": label, "timeout_seconds": seconds}), flush=True)
         with (
             (root / (label + ".stdout")).open("xb") as out,
             (root / (label + ".stderr")).open("xb") as err,
@@ -115,10 +117,10 @@ def main(plan):
             )
             try:
                 code = child.wait(timeout=seconds)
-            except BaseException:
+            except BaseException as error:
                 os.killpg(child.pid, signal.SIGKILL)
-                child.wait()
-                raise
+                code = child.wait()
+                failure = error
         stdout = (root / (label + ".stdout")).read_bytes()
         stderr = (root / (label + ".stderr")).read_bytes()
         receipt = {
@@ -128,10 +130,13 @@ def main(plan):
             "elapsed_seconds": time.monotonic() - began,
             "stdout_sha256": digest(stdout),
             "stderr_sha256": digest(stderr),
+            "failure_type": type(failure).__name__ if failure else None,
         }
         print(json.dumps({"receipt": receipt}), flush=True)
         print(stdout.decode(), end="", flush=True)
         print(stderr.decode(), end="", file=sys.stderr, flush=True)
+        if failure:
+            raise failure
         if code != 0:
             raise RuntimeError(label)
         return stdout

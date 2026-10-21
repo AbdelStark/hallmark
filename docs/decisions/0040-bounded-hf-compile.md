@@ -12,8 +12,10 @@ experiment identity; compilation cannot qualify a proof backend.
 
 Recheck the late-diagnosis receipts and retain its entire ancillary allowance.
 The prior 6,660 seconds plus 200.412 round conservatively to 6,870. Reserve 300
-local seconds for this increment, including software gates, leaving 30 in the
-unchanged 7,200-second allocation. Cloud execution has the separate existing
+local seconds initially, including software gates. After correcting and rechecking
+bootstrap timeout-log retention, reserve the remaining 30 seconds for local
+control-plane receipts: 330 total, zero unreserved, within the unchanged
+7,200-second allocation. Cloud execution has the separate existing
 one-job, one-hour, two-dollar ceiling. No retry, top-up, scheduler or private upload.
 
 Use a digest-pinned official Python Linux/amd64 image and the reviewed Go 1.26.8
