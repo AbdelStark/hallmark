@@ -571,7 +571,7 @@ pass without changing the global tool. See [decision 0034](../docs/decisions/003
 
 ## Not implemented or established
 
-TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, separate verifier for complete hybrid bundles, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Next bounded task
 
@@ -820,7 +820,28 @@ original-dependency Go proof passes another 133-case run with its key and native
 public vector enrolled before proving. Both runs also accept the valid joint
 negation of proof A and B; proofs are not byte-unique. See
 [decision 0055](../docs/decisions/0055-separate-synthetic-proof-verifier.md).
-The optional probe changes no core acceptance API or qualification flag. Fresh
-Linux CI integration is pending. This is implementation diversity for the
+The optional probe changes no core acceptance API or qualification flag.
+[PR #84](https://github.com/AbdelStark/hallmark/pull/84) merged as
+`78f2be48977a34d41bf35f2d8b5ded4125ce49f4`; all 30 exact-head push/PR jobs
+and all 15 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39656675627)
+pass. Each of the three Linux proof jobs generates a fresh setup/proof and passes
+all 133 separate-verifier checks. This is implementation diversity for the
 synthetic profile, not independent human security review, authenticated setup/
 program enrollment, model quality or hardware attestation. W18 and W12 stay open.
+
+The fixed synthetic encoder's [numerical class check](evidence/w18-encoder-class-coverage-2026-10-21.json)
+covers all 21 reachable two-position chunk classes induced by its four embeddings:
+one empty, four singleton and sixteen ordered pairs. The previous proof fixture
+visits ten classes and stays unchanged. All 39 tensors / 121 scalar positions per
+representative agree with the independent rational/Decimal reference. The original
+and patched Go circuit solvers accept all 21 assignments and reject their 21
+changed private traces; all eight circuit fingerprints and both complete 16-test
+Go suites pass. The first restricted-worker test-harness failure is retained.
+See [decision 0056](../docs/decisions/0056-encoder-class-coverage.md). These are
+solver witnesses, not new encoder proofs or exhaustive transcript/security checks.
+The maximum cloud run, qualification flags and earlier experiments are unchanged.
+
+For this addition, `make check` passes 2,186 tests with 50 platform/optional-guard
+skips and all 156 software conformance matches. Reproducible packaging and the
+installed core check pass; the wheel is unchanged. Exact-head hosted checks
+remain pending, including installed train/guard execution.
