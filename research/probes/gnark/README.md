@@ -42,6 +42,40 @@ The older block and staged qualification relations remain unchanged. Future HF
 source inventories include the normalization source required by the shared
 dispatcher; this does not retroactively change any cloud experiment.
 
+`encoder.go` lowers the complete frozen native synthetic encoder: all 39 nodes,
+both normalizations, exact byte input commitment, chunk maximum and strict
+threshold decision. It constrains 121 intermediate scalar values per two-token
+chunk and exposes the existing 100 public fields. The embedded constants are
+reproduced from the separately pinned native fixture, including its independent
+Decimal oracle. This is a fixed two-feature authored graph, not pretrained weights.
+See [decision 0052](../../../docs/decisions/0052-complete-synthetic-encoder-proof.md).
+
+```text
+uv run --locked python scripts/check_gnark_encoder.py \
+  --binary BINARY --expected-binary BUILD_SHA256 \
+  --fixture research/probes/gnark/encoder-fixture.json \
+  --expected-fixture FROZEN_FIXTURE_SHA256 --output FRESH_DIRECTORY
+```
+
+The first campaign has **eight-byte circuit capacity**, while its native input
+profile still declares 32,768. Fifteen valid witnesses include empty input,
+Unicode, capacity boundaries, threshold equality and both int32 threshold extremes.
+The shared-key batch attempts every private-tensor mutation and input/padding
+counterexamples; each valid proof then enters a fresh verifier process. All 100
+public fields, noncanonical assignments, changed proof bytes and a fresh wrong
+setup key are tested separately. A dependency error cannot stand in for an
+expected unsatisfied constraint. The Mac limits are 1,800 seconds total, 900 per
+setup/batch worker, four threads, 8 GiB RSS and 8 GiB output. All failed attempts
+remain local. Larger capacities require a separately frozen campaign and setup.
+
+Program-specific circuit and key generation precede completed classifier
+enrollment. The classifier/context digests are public binders, and the signed
+threshold is a public input; the circuit does not hardcode its own verification
+key hash. A relying party must independently enroll the program, profiles,
+weights, threshold, setup and key and supply the expected complete public tuple.
+These fixtures supply no operational enrollment, independent verifier, accepted
+ceremony or security/hiding claim. Small-capacity success cannot qualify a backend.
+
 `input_scale.go` separately measures the salted complete-byte commitment with
 indexed CBOR packing. It uses 33 public fields and a synthetic fixed profile,
 with candidate capacities 8, 32, 256 and 32,768 bytes. It leaves the original
@@ -155,8 +189,9 @@ directories. Public synthetic proof/key examples and numeric costs may be
 retained as explicit research evidence; they are not operational trust anchors.
 
 The artifact reader streams within a 256 MiB default cap, rejects unsafe
-file types/links and requires exact decoder consumption. Only the 32,768-unit
-commitment profile allows up to 24 GiB per artifact under an explicit parent budget. Commitment-scaling
+file types/links and requires exact decoder consumption. Encoder probes allow
+2 GiB per artifact; the 32,768-unit commitment and encoder capacities allow up to
+24 GiB under an explicit parent budget. These caps do not authorize a run. Commitment-scaling
 setup files move through pinned exclusive copies; worker inventories hash in
 bounded chunks. Detected mutations and failed copies reject before dependent
 workers. Gnark's constraint decoder still buffers internally; this is not a

@@ -226,16 +226,29 @@ def test_lost_sample_fails_closed(tmp_path, monkeypatch):
     assert cost["exit_code"] < 0 and cost["memory_monitor_failed"] and not cost["within_limits"]
 
 
-@pytest.mark.parametrize("mutation", ["revision", "files", "toolchain", "builder"])
-def test_bootstrap_rejects_unapproved_manifest(mutation):
+@pytest.fixture
+def bootstrap_plan(monkeypatch):
     import base64
     import runpy
 
     bootstrap = runpy.run_path(str(Path(__file__).parents[1] / "scripts/gnark_hf_bootstrap.py"))
+    original_digest = bootstrap["digest"]
+    # Isolate source-inventory validation from the separately pinned compiler patch.
+    monkeypatch.setitem(
+        bootstrap["validate"].__globals__,
+        "digest",
+        lambda raw: (
+            "3cdd1a266ffba596d01b87a6bdcf51e141f92ae17d991bb9fe7f6e2149de01d4"
+            if raw == b"test builder"
+            else original_digest(raw)
+        ),
+    )
     names = [
         "artifacts_test.go",
         "block.go",
         "cache_test.go",
+        "encoder.go",
+        "encoder-graph.json",
         "go.mod",
         "go.sum",
         "graph.go",
@@ -262,9 +275,22 @@ def test_bootstrap_rejects_unapproved_manifest(mutation):
         "schema_id": "hallmark.hf-compile-inputs/1",
         "source_commit": "a" * 40,
         "files": files,
-        "go_archive": {"filename": "go1.26.8.linux-amd64.tar.gz", "size": 66897291},
-        "patched_builder": base64.b64encode(b"unreviewed").decode(),
+        "go_archive": {
+            "filename": "go1.26.8.linux-amd64.tar.gz",
+            "size": 66897291,
+            "sha256": "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b",
+        },
+        "patched_builder": base64.b64encode(b"test builder").decode(),
     }
+    for pin in files.values():
+        pin.update(bytes=1, sha256="a" * 64)
+    bootstrap["validate"](plan)
+    return bootstrap["validate"], plan
+
+
+@pytest.mark.parametrize("mutation", ["revision", "files", "toolchain", "builder"])
+def test_bootstrap_rejects_unapproved_manifest(bootstrap_plan, mutation):
+    validate, plan = bootstrap_plan
     if mutation == "revision":
         plan["source_commit"] = "../main"
     elif mutation == "files":
@@ -274,7 +300,35 @@ def test_bootstrap_rejects_unapproved_manifest(mutation):
     else:
         plan["patched_builder"] = "!"
     with pytest.raises(ValueError):
-        bootstrap["validate"](plan)
+        validate(plan)
+
+
+@pytest.mark.parametrize(
+    "name,size,accepted",
+    [
+        ("encoder-graph.json", 1048576, True),
+        ("encoder-graph.json", 1048577, False),
+        ("encoder.go", 262144, True),
+        ("encoder.go", 262145, False),
+        ("encoder-graph.json", True, False),
+        ("encoder-graph.json", 0, False),
+    ],
+)
+def test_bootstrap_enlarges_only_embedded_encoder_data(bootstrap_plan, name, size, accepted):
+    validate, plan = bootstrap_plan
+    plan["files"]["research/probes/gnark/" + name]["bytes"] = size
+    if accepted:
+        validate(plan)
+    else:
+        with pytest.raises(ValueError, match="size"):
+            validate(plan)
+
+
+def test_bootstrap_requires_embedded_encoder_data(bootstrap_plan):
+    validate, plan = bootstrap_plan
+    del plan["files"]["research/probes/gnark/encoder-graph.json"]
+    with pytest.raises(ValueError, match="input"):
+        validate(plan)
 
 
 def test_optional_pedersen_candidate_is_pinned():

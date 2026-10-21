@@ -93,6 +93,8 @@ func readBounded(name string, value io.ReaderFrom, limit int64) error {
 func run(args []string) (int, error) {
 	if len(args) == 2 {
 		switch args[0] {
+		case "encoder-compile", "encoder-export", "encoder-inspect", "encoder-setup", "encoder-setup-compiled", "encoder-prove", "encoder-verify", "encoder-batch":
+			return runEncoder(args[0][8:], args[1])
 		case "input-compile", "input-export", "input-inspect", "input-setup", "input-setup-compiled", "input-prove", "input-batch", "input-verify":
 			return runInputScale(args[0][6:], args[1])
 		}
