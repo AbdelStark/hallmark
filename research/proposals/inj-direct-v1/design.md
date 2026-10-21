@@ -4,6 +4,9 @@ Frozen design version: `inj-direct-design/1`, 2026-10-20.
 [Decision 0019](../../../docs/decisions/0019-approved-study-scope.md) records the
 owner's scope and delegation. This design precedes data access and measurement.
 It does not contain a frozen dataset or a completed admission dossier.
+The owner-approved [pipeline stage](../../../docs/decisions/0033-approved-synthetic-pipeline.md)
+permits agent-reviewed synthetic data without human review. It does not revise
+the confirmatory quality targets below.
 
 ## Decision and comparisons
 
@@ -102,8 +105,8 @@ Do not lower a target or manufacture independent groups to make the claim pass.
 
 Use the Mac first under [AUTHORITY](../../AUTHORITY.json). The local research
 envelope includes setup, failures, retries and teardown: six hours total, at
-most two hours per job, one foreground job, four threads, 16 GiB memory, 20 GiB
-working storage, zero spend. Proving gets at most two hours within that total;
+most two hours per job, one foreground job, four threads, 16 GiB memory, 40 GiB
+working storage (increased by decision 0033), zero spend. Proving gets at most two hours within that total;
 each verification attempt at most 60 seconds. The design target for native
 release overhead is at most 1,000 basis points (10%) against a matched baseline;
 it is not a measured performance result. Freeze lengths and 5 cold/30 warm

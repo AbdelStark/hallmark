@@ -1,6 +1,6 @@
 # Research state
 
-Updated: 2026-10-20. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
+Updated: 2026-10-21. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
 
 ## Implemented
 
@@ -210,6 +210,19 @@ requirements. No detector was fitted/scored or HF token used. See the
 [human-review handoff](proposals/inj-direct-v1/source-review.md) and
 [decision 0032](../docs/decisions/0032-public-source-review-pilot.md).
 
+The [authorized synthetic pipeline evidence](evidence/w15-synthetic-pipeline-2026-10-21.json)
+now joins the complete comparison command to the real pinned guard weights.
+Two fresh Mac processes reproduce all 38 artifacts in 4.674/4.665 seconds, with
+4.374 GB peak RSS. The agent checked all 200 authored control labels; no human
+review occurred. The guard produces 3/20 negative-control false positives, the
+character model 2/20, and each MLP misses all 20 positive controls. These are
+software-control outcomes, not injection-policy quality estimates. W15's execution
+criterion passes; full-study/quality/independence flags remain false and the
+compact encoder stays explicitly unavailable. The owner's decision supersedes
+the earlier human-review/storage merge blockers for this pipeline stage.
+All 1,772 local tests, 35 required training tests, core/combined package checks
+and the live specification audit pass.
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -330,16 +343,15 @@ W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/p
 with staged proof fixtures; complete-input encoder qualification and independent
 verification remain missing. Its implementation/evidence are on that draft branch.
 
-Next: obtain actual human answers for W15 / #16's prepared pilot, resolve the
-lineage candidates and contamination limits, then freeze the independently
-enrolled measurement dossier before real comparisons. Public-source selection and
-acquisition have progressed; they supply no human labels or final approval.
-The selected guard assets, complete-input CPU execution and caller-enrolled
-comparison command are implemented. Recheck storage before further environments or
-source acquisition; an increase to 40 GiB or verified lossless archival was
-requested from the owner and remains pending. Invented fixture approvals do not
-satisfy the real-data review gate. Local comparisons do not satisfy the whole issue.
-Study permission is no longer a blocker.
+Next: finish W15 / #16's exact-head hosted CI checks, then merge the
+comparison pipeline under the owner's [synthetic-stage approval](../docs/decisions/0033-approved-synthetic-pipeline.md).
+Human review is no longer a prerequisite for this software stage. The owner
+approved 40 GiB retained storage and both T4/L4 fallback options, with the Mac
+preferred. Existing data packets and failures remain retained; no fabricated
+human labels or claimed human review are needed. Continue W18's full-input/
+encoder work afterward within its remaining budget, and W17 once W15 is merged.
+Natural-data validation, genuine hardware and independent verification remain
+separate evidence requirements for the full MVP.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

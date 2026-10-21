@@ -391,3 +391,15 @@ executes that fixture against an installed wheel.
 Read the result status from stdout JSON. Optional native libraries can emit host
 device warnings on stderr even when execution succeeds; retain that diagnostic
 stream privately. Exceptions handled by the CLI use sanitized error JSON.
+
+## Approved synthetic pipeline development
+
+[Decision 0033](decisions/0033-approved-synthetic-pipeline.md) allows agent-reviewed
+synthetic data without human review for the current pipeline stage. The existing
+`--fixture-only` mode preserves that evidence class through import, fitting,
+calibration and evaluation. Its internal marker approval documents are software
+fixtures, not a human signature or operational enrollment. An outer run protocol
+must record the real authority, exact guard assets, resources and agent review.
+The same command can use the pinned real guard weights with an explicitly
+synthetic dossier; this does not validate injection-detection quality.
+Human labels and the old blank review packet are not prerequisites for this stage.

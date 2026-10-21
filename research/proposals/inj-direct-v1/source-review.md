@@ -1,7 +1,10 @@
 # Source review and human annotation packet
 
-Status: **source bytes acquired for local review; human labels and final admission
-are pending**. This follows the owner's existing delegation; no new source-access
+Status: **source bytes acquired for local review; confirmatory labels/admission
+are pending. Human review is no longer a pipeline-development dependency**.
+[Decision 0033](../../../docs/decisions/0033-approved-synthetic-pipeline.md) records
+the owner's synthetic-data and agent-review approval. The original blank human
+packet remains retained; no answer or human identity is invented. This follows the owner's existing delegation; no new source-access
 approval, HF token, paid job or reviewer contact was used.
 
 The [evidence](../../evidence/w15-source-review-2026-10-20.json) records exact

@@ -466,7 +466,7 @@
       "acceptance": [
         "Test fitting and selection cannot access calibration/test labels",
         "Record all candidate configs, RNG/optimizer/resume identities and convergence failures",
-        "Run make check and explicit one-thread train tests on fixtures; attach admitted real-run commands separately",
+        "Run make check and explicit one-thread train tests; attach the authorized synthetic pipeline command and keep confirmatory real-data admission separate",
         "Preserve existing negative baseline and label comparison evidence accurately"
       ],
       "out_of_scope": "Teacher distillation or tuning on test",

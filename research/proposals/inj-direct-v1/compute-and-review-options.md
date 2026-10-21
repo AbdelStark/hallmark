@@ -9,7 +9,7 @@ those pages. No authenticated API call, job, upload or reviewer contact occurred
 ## Ordinary research compute
 
 Start on the owner's Mac: observed arm64, 48 GiB physical memory, 16 logical
-CPUs and about 610 GiB free disk. Use the approved four-thread/16-GiB/20-GiB
+CPUs and about 610 GiB free disk. Use the approved four-thread/16-GiB/40-GiB
 envelope, two hours per job, six hours total. This is the selected execution
 route; it supplies no confidential-computing attestation.
 
@@ -20,7 +20,8 @@ route; it supplies no confidential-computing attestation.
 
 Prices come from [HF Jobs pricing](https://huggingface.co/docs/hub/jobs-pricing);
 the API bills by the minute, with rounded minute rates. Starting and running time
-are billable. Jobs need a positive credit balance. Use one L4 job, a one-hour
+are billable. Jobs need a positive credit balance. The owner approved both T4 and L4 fallback options on 2026-10-21. Use at most
+one T4-small or L4 job, a one-hour
 provider timeout and a $2 total execution ceiling; no automatic retry, ports,
 scheduler, top-up or larger instance. This is an agent-imposed limit under the
 owner's HF Jobs authorization. Refresh the price and include starting time in the

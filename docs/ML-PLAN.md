@@ -10,6 +10,11 @@ Start with majority/block-all/pass-all sanity checks, the shipped byte-logistic 
 
 Use Laya as a candidate open decision-model teacher or hardware-tier classifier after checking the exact checkpoint, licence and serving surface. Do not assert its parameter count, task quality or relative speed from the historical packet without fresh model/config/benchmark verification. Hosted Jev-style systems are comparison candidates only on explicitly approved public/synthetic inputs; no confidential transcripts leave the research environment.
 
+The owner approved an initial pipeline-development stage using agent-reviewed or
+entirely synthetic data without human review; see [decision 0033](decisions/0033-approved-synthetic-pipeline.md).
+Keep its labels and results explicitly synthetic. The human/confirmatory review
+requirements below govern task-quality claims, not completion of that software stage.
+
 ## Dataset pipeline and governance
 
 The source packet inventories possible Hub datasets and tooling. None is admitted by being listed there. For each selected source, retain exact revision, licence text/hash, commercial/redistribution/derivative restrictions, consent/privacy review, original task/labels, contamination risk and intended use. Gated terms require the owner's acceptance. Store approval evidence outside the config allowlist. Keep raw downloads and checkpoints out of git.

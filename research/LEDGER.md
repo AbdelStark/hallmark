@@ -1410,3 +1410,58 @@ Source-card Git blob checks, all acquisition file hashes, canonical candidate
 pairs/components and both blank packet builds also pass. Classifier source and
 dependency locks are unchanged. Distribution checks run in hosted CI; another
 retained local package environment does not fit the remaining storage allowance.
+
+
+## 2026-10-21 — Owner-approved synthetic W15 pipeline and storage
+
+The owner approved the requested 40 GiB retained-storage envelope, agent review
+and wholly synthetic data without human review for pipeline development, with
+the Mac preferred and HF T4/L4 allowed fallbacks. [Decision 0033](../docs/decisions/0033-approved-synthetic-pipeline.md)
+records this change. Historical natural-source packets, failures and evidence
+remain unchanged. The W15 work-map/issue criterion now explicitly permits the
+authorized synthetic pipeline, retaining confirmatory real-data admission as a
+separate quality gate. No human review identity or agreement rate is fabricated.
+
+Hypothesis: the existing comparison command runs unchanged with the real pinned
+published guard and the 200 authored controls. Baseline: its tiny-marker guard
+fixture and the earlier standalone real-guard execution. Mutable paths are the
+new local dossier/protocol, approval records, documentation and authority checks.
+No classifier, evaluator, dependency or runtime source changed. Pass criterion:
+complete W15 execution with every baseline/control retained, exact reproduction,
+package gates and truthful unavailable/quality status.
+
+[Numeric evidence](evidence/w15-synthetic-pipeline-2026-10-21.json) retains
+`runs/w15-synthetic-pipeline-1792567226626052000`: frozen outer protocol, both
+controller sources/pins, agent review, complete dossier inventory, caller pin,
+commands, results, resource receipts and validation logs. The agent checked all
+200 control labels against the recipe (`hello`=0, `ALERT`=1). Shared templates
+make these unsuitable independent statistical groups or injection-policy labels.
+The internal fixture source markers remain mechanical binding inputs; actual
+run authority is this owner's decision, not invented fixture approvals.
+
+The externally retained review pin is
+`bcc2f807bc7bf6849d9cf04c30c7b41b2bacc3ac6fcfd28243b4896fecab079b`.
+Both actual CLI invocations use `--fixture-only`, the frozen dossier and existing
+pinned guard assets; exact argv records are in the evidence. Each fresh process
+exits 0 with all W15 baseline families and fixed controls executed. All 38 files
+reproduce byte for byte. Elapsed times are 4.674/4.665 seconds; peak RSS is
+4,373,692,416/4,373,921,792 bytes. Preparation itself was not separately RSS-timed.
+The outer watchdog limits execution to 300 seconds; resource observations are
+not an OS memory/storage sandbox.
+
+Negative results remain visible: the real guard marks 3/20 negative controls,
+character n-grams 2/20 per seed, and each MLP misses all 20 positive controls.
+These are fixture-control outcomes, not FPR/TPR estimates for injection policy.
+The full study, quality and independent-verification flags remain false; compact
+encoder is explicitly W16-not-executed. This completes W15 software execution
+under the owner's revised stage, not the entire MVP or confirmatory study.
+
+Validation: 114 focused admission/comparison tests; `make check` passes 1,772
+with the existing fork warning, strict typing/style, 156 software conformance
+cases and specification/admission checks. `make check-train` executes all 35
+training tests. Core and combined train/guard package gates both pass; the latter
+runs the installed comparison command. Their pre-evidence-update source identity
+is `45e564fabc36a7f0256a45fee9213b235d399767e81bdc2b840190bbbebf4d4c`.
+The live spec audit matches all 40 work items and 106 dependency edges after the
+owner-approved W15 acceptance update. Final-head hosted CI remains required
+before merge. No HF token, GPU job, paid compute or reviewer contact occurred.

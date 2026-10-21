@@ -2,6 +2,11 @@
 
 The evaluator is part of the research protocol, not an optimizer-controlled metric. Changing splits, policy, preprocessing, metrics or acceptance criteria starts a new experiment identity and decision. The bootstrap tests validate plumbing, not safety capability.
 
+The [approved synthetic pipeline stage](decisions/0033-approved-synthetic-pipeline.md)
+needs no human reviewer. Use the explicit fixture path and retain agent review,
+source/group/configuration pins, failures and negative results. It supplies
+engineering evidence only; the confirmatory gates below remain separate.
+
 ## Data admission
 
 Each JSONL row follows `Record` in `src/hallmark/contracts.py`: stable record/group/family IDs, source and exact source revision, licence, policy, split, language, prompt, response and binary label. Label 1 means policy-positive/block; label 0 means benign/pass. The schema does not infer intent or label quality. Contradictory policies must never be pooled into a single target without a recorded mapping.

@@ -329,6 +329,14 @@ def test_study_budget_and_roles_match_current_authority() -> None:
     assert authority["source_selection"]["ambiguous_licences"] is False
     assert authority["hugging_face_jobs"]["authorized_if_needed"] is True
     assert authority["hugging_face_jobs"]["private_uploads"] is False
+    assert authority["local"]["max_disk_bytes"] == 40 * 1024**3
+    assert authority["data_review"]["synthetic_pipeline_permitted"] is True
+    assert authority["data_review"]["human_review_required_for_pipeline"] is False
+    assert authority["data_review"]["quality_claim_from_synthetic_pipeline"] is False
+    assert authority["hugging_face_jobs"]["agent_execution_limits"]["allowed_flavors"] == [
+        "t4-small",
+        "l4x1",
+    ]
     assert authority["hardware_procurement"] == authority["reviewer_contact"] == "options-only"
     assert authority["public_repository"] is True
     assert authority["make_private_only_on_explicit_request"] is True

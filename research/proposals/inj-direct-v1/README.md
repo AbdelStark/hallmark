@@ -1,7 +1,7 @@
 # Single-policy admission
 
-Status: **prototype study approved; evaluation design frozen; exact assets and
-measurement dossier pending**. Refs [W13 / #14](https://github.com/AbdelStark/hallmark/issues/14).
+Status: **synthetic pipeline development approved without human review;
+confirmatory measurement dossier pending**. Refs [W13 / #14](https://github.com/AbdelStark/hallmark/issues/14).
 The owner is the prototype decision owner and delegated evaluation design and
 licence-reviewed public source selection. [Decision 0019](../../../docs/decisions/0019-approved-study-scope.md)
 records that approval; [AUTHORITY](../../AUTHORITY.json) is the current resource
@@ -16,8 +16,9 @@ is needed for that work.
 
 The [current source-review packet](source-review.md) now contains pinned public
 source acquisitions, a reproducible 64-item blank human label audit and lexical
-lineage candidates. Actual human answers, lineage acceptance and the final
-enrolled measurement dossier remain pending. The original proposal JSON remains
+lineage candidates. Human answers and the final confirmatory measurement dossier remain pending,
+but no longer block pipeline implementation: [decision 0033](../../../docs/decisions/0033-approved-synthetic-pipeline.md)
+authorizes agent review and entirely synthetic data for that stage. The original proposal JSON remains
 a historical design record; it does not acquire completed-review status from
 this preparation.
 
