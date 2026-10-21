@@ -792,3 +792,14 @@ maximum fixture and bounded larger-memory controller are prepared under
 with the exact-source checked HF campaign, full artifact retention and original-
 dependency Mac verification. No maximum encoder setup or proof has run in this
 preparation milestone. W18 and W12 remain open; no backend is qualified.
+
+The first maximum encoder cloud attempt reproduces the frozen circuit but fails
+before setup: the encoder requests 48 GiB while the shared reader still rejects
+allowances above 24 GiB. The [correction evidence](evidence/w18-encoder-reader-correction-2026-10-21.json)
+retains the failed job and a red regression. A one-line ceiling fix passes both
+Go builds, all eight unchanged fingerprints, tiny real setup/prove/verify at the
+larger declaration and an actual maximum circuit reload on the Mac. Continue
+[decision 0054](../docs/decisions/0054-maximum-encoder-reader-correction.md) with a
+separately pinned corrected attempt after complete retention and exact-source CI.
+The graph, native assignments and evaluator are unchanged. No maximum encoder
+proof or backend qualification is established by this correction.

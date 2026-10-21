@@ -3085,3 +3085,50 @@ unavailable genuine-evidence obligations. `make package-check` passes in 8.221
 seconds with matching reproducible distributions and installed core checks. The
 package snapshot precedes this validation-only prose/evidence update. Installed
 train/guard checks and Linux worker isolation remain exact-head CI obligations.
+
+## 2026-10-21 — W18 maximum encoder reader failure and correction
+
+The first encoder job `6ad8fd3a5275124786e29010` uses the checked source
+`e7aab95921a8d9aaba7d569decddcac636d83416`. PR #82 merges as
+`9e3e57ea112fbde4fd6d71bc8130270da13c3a08`; all 30 candidate and 15 main jobs pass.
+The cloud bootstrap reproduces all eight circuit fingerprints. Tiny and eight-
+byte encoder real-proof preflights pass. Maximum export takes 321.558022403
+seconds and peaks at 76,479,299,584 bytes kernel RSS, with no time/memory/monitor
+failure. Circuit bytes/hash match the previously enrolled Mac result exactly.
+
+The setup command then exits 1 after 0.018125895 seconds, before decoding the
+circuit. `runEncoder` asks for 48 GiB while `readBounded` rejects declarations
+above 24 GiB. This is a configuration defect, not insufficient memory or a slow
+setup. Small encoder proofs use a 2 GiB allowance, so their preflight did not
+exercise this branch; mocked controller tests also missed the Go boundary.
+The failed provider duration is 525 seconds. Including an extra billing minute,
+the conservative compute bound is USD 0.32, not an invoice. Preserve the full
+failed result and outputs; no maximum key or proof was produced.
+
+[Decision 0054](../docs/decisions/0054-maximum-encoder-reader-correction.md) freezes
+the correction in `runs/w18-encoder-reader-fix-1792606117695924000`. A red Go test
+reproduces `invalid artifact limit`, including an actual tiny compiled-circuit
+reload at 48 GiB. The shared maximum declaration changes by one line to 48 GiB;
+all caller-specific smaller limits, link/type/pin/consumption guards stay fixed.
+The complete tiny export/reload/setup/prove/verify sequence now passes under both
+the default and maximum declarations, including malformed/overwrite negatives.
+Both dependency builds pass all 15 top-level Go tests and preserve all eight
+circuit fingerprints. No arithmetic, fixture, evaluator or controller changes.
+
+The corrected probe freshly reads the actual 5,153,016,221-byte maximum circuit
+on the Mac with its 48 GiB declaration. Every count and byte hash matches. Reload
+takes 8.707093291 seconds and peaks at 15,185,510,400 bytes RSS, within its
+300-second, four-thread, 32 GiB RSS / 28 GiB sampled-stop envelope. The failed
+cloud download may overlap this correctness diagnostic; no timing comparison is
+claimed. Raw commands, pins, red/green logs and costs precede this prose in the
+[public evidence](evidence/w18-encoder-reader-correction-2026-10-21.json).
+
+All 74 failed-job bucket files (10,660,649,884 bytes) are retained locally. Every
+worker pin and the complete retention inventory matches; all retained hashes are
+rechecked before deleting the temporary bucket and confirming authenticated 404.
+Local `make check` passes in 103.329 seconds: 2,230 tests, five platform skips,
+one existing fork warning, 156 software conformance matches and 32 explicitly
+unavailable genuine-evidence cases. Maximum setup and proofs remain unexecuted.
+`make package-check` passes in 8.490 seconds with reproducible distributions and
+installed core checks. Its snapshot precedes this validation-only evidence/prose
+update. Installed train/guard checks remain exact-head hosted CI obligations.
