@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"syscall"
 	"testing"
@@ -81,8 +82,75 @@ type artifactReader func(io.Reader) (int64, error)
 
 func (f artifactReader) ReadFrom(r io.Reader) (int64, error) { return f(r) }
 
+type artifactWriter func(io.Writer) (int64, error)
+
+func (f artifactWriter) WriteTo(w io.Writer) (int64, error) { return f(w) }
+
+func TestArtifactWriterBytesAndFailures(t *testing.T) {
+	for _, size := range []int{0, 1, 65535, 65536, 65537, 131073} {
+		for _, fail := range []bool{false, true} {
+			name := filepath.Join(t.TempDir(), "artifact")
+			raw := bytes.Repeat([]byte{0, 1, 255}, (size+2)/3)[:size]
+			serializationErr := errors.New("serialization failed")
+			encoder := artifactWriter(func(w io.Writer) (int64, error) {
+				var n int64
+				for start := 0; start < len(raw); start += 48 {
+					written, err := w.Write(raw[start:min(start+48, len(raw))])
+					n += int64(written)
+					if err != nil {
+						return n, err
+					}
+				}
+				if fail {
+					return n, serializationErr
+				}
+				return n, nil
+			})
+			err := write(name, encoder)
+			if (err == nil) == fail || (fail && !errors.Is(err, serializationErr)) {
+				t.Fatalf("size=%d fail=%v: %v", size, fail, err)
+			}
+			actual, err := os.ReadFile(name)
+			if err != nil || !bytes.Equal(actual, raw) {
+				t.Fatalf("lost serialized bytes: %v", err)
+			}
+			if err := write(name, bytes.NewReader([]byte("overwrite"))); err == nil {
+				t.Fatal("overwrote existing artifact")
+			}
+			actual, err = os.ReadFile(name)
+			if err != nil || !bytes.Equal(actual, raw) {
+				t.Fatal("changed existing artifact")
+			}
+		}
+	}
+}
+
+func TestArtifactWriterFlushFailure(t *testing.T) {
+	if os.Getenv("HALLMARK_FLUSH_FAILURE_CHILD") != "1" {
+		cmd := exec.Command(os.Args[0], "-test.run=^TestArtifactWriterFlushFailure$")
+		cmd.Env = append(os.Environ(), "HALLMARK_FLUSH_FAILURE_CHILD=1")
+		if output, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("flush failure fixture: %v\n%s", err, output)
+		}
+		return
+	}
+	// Isolate the real file-size limit from the parent test process.
+	var limit syscall.Rlimit
+	if err := syscall.Getrlimit(syscall.RLIMIT_FSIZE, &limit); err != nil {
+		t.Fatal(err)
+	}
+	limit.Cur = 256
+	if err := syscall.Setrlimit(syscall.RLIMIT_FSIZE, &limit); err != nil {
+		t.Fatal(err)
+	}
+	name := filepath.Join(t.TempDir(), "artifact")
+	if err := write(name, bytes.NewReader(make([]byte, 512))); err == nil {
+		t.Fatal("accepted failed flush")
+	}
+}
+
 func TestArtifactReaderBoundaries(t *testing.T) {
-	for _, kind := range []string{"valid", "truncated", "trailing", "decoder-error", "wrong-count", "symlink", "hardlink", "directory", "fifo", "oversize", "changed"} {
+	for _, kind := range []string{"valid", "truncated", "trailing", "decoder-error", "wrong-count", "underread", "symlink", "hardlink", "directory", "fifo", "oversize", "changed"} {
 		t.Run(kind, func(t *testing.T) {
 			name := filepath.Join(t.TempDir(), "artifact")
 			raw := []byte("data")
@@ -129,6 +197,10 @@ func TestArtifactReaderBoundaries(t *testing.T) {
 					return 0, errors.New("decoder failed")
 				}
 				var buf [4]byte
+				if kind == "underread" {
+					_, err := r.Read(buf[:1])
+					return 4, err
+				}
 				n, err := io.ReadFull(r, buf[:])
 				if err == nil && !bytes.Equal(buf[:], []byte("data")) {
 					return int64(n), errors.New("wrong data")
@@ -169,21 +241,29 @@ func TestArtifactReaderRealProof(t *testing.T) {
 	}
 	for _, artifact := range []struct {
 		name  string
-		value io.ReaderFrom
+		value func() io.ReaderFrom
 	}{
-		{"circuit.r1cs", groth16.NewCS(ecc.BLS12_381)},
-		{"pk.bin", groth16.NewProvingKey(ecc.BLS12_381)},
-		{"vk.bin", groth16.NewVerifyingKey(ecc.BLS12_381)},
-		{"proof.bin", groth16.NewProof(ecc.BLS12_381)},
+		{"circuit.r1cs", func() io.ReaderFrom { return groth16.NewCS(ecc.BLS12_381) }},
+		{"pk.bin", func() io.ReaderFrom { return groth16.NewProvingKey(ecc.BLS12_381) }},
+		{"vk.bin", func() io.ReaderFrom { return groth16.NewVerifyingKey(ecc.BLS12_381) }},
+		{"proof.bin", func() io.ReaderFrom { return groth16.NewProof(ecc.BLS12_381) }},
 	} {
 		raw, err := os.ReadFile(artifact.name)
 		if err != nil {
 			t.Fatal(err)
 		}
+		decoded := artifact.value()
+		if err := read(artifact.name, decoded); err != nil {
+			t.Fatal(err)
+		}
+		var reference bytes.Buffer
+		if _, err := decoded.(io.WriterTo).WriteTo(&reference); err != nil || !bytes.Equal(raw, reference.Bytes()) {
+			t.Fatalf("serialized %s differs from reference: %v", artifact.name, err)
+		}
 		if err := os.WriteFile(artifact.name, append(raw, '!'), 0600); err != nil {
 			t.Fatal(err)
 		}
-		if err := read(artifact.name, artifact.value); err == nil {
+		if err := read(artifact.name, artifact.value()); err == nil {
 			t.Fatalf("accepted trailing %s", artifact.name)
 		}
 	}

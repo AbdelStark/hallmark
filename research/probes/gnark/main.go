@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"io"
@@ -44,7 +45,9 @@ func write(name string, value io.WriterTo) error {
 		return err
 	}
 	defer handle.Close()
-	if _, err := value.WriteTo(handle); err != nil {
+	writer := bufio.NewWriterSize(handle, 64*1024)
+	_, writeErr := value.WriteTo(writer)
+	if err := errors.Join(writeErr, writer.Flush()); err != nil {
 		return err
 	}
 	return handle.Sync()
@@ -67,7 +70,8 @@ func readBounded(name string, value io.ReaderFrom, limit int64) error {
 	if err != nil || !before.Mode().IsRegular() || before.Size() > limit || before.Sys().(*syscall.Stat_t).Nlink != 1 {
 		return errors.New("invalid artifact size")
 	}
-	reader := &io.LimitedReader{R: handle, N: before.Size() + 1}
+	// Count decoder consumption rather than bytes prefetched from disk.
+	reader := &io.LimitedReader{R: bufio.NewReaderSize(handle, 64*1024), N: before.Size() + 1}
 	n, err := value.ReadFrom(reader)
 	if err != nil {
 		return err

@@ -2694,3 +2694,36 @@ new compute reservation 480 cents and temporary-storage reserve 200 cents total
 961 cents, below the unchanged 1,000-cent ceiling; these estimates are not an
 invoice. The new run is active, with no result claimed. Frozen source, circuit,
 inputs, outcome roster and limits remain unchanged while it runs.
+
+
+## 2026-10-21 — Bounded artifact buffering (W18 / #19)
+
+Hypothesis: 64 KiB standard-library buffers preserve exact circuit/key/proof bytes
+and the existing file-boundary rejection contract. The maximum baseline reached
+key serialization before timing out; the dependency encoder performs individual
+48/96-byte point writes on the supplied writer. This motivates buffering, but
+provides no isolated phase or maximum performance measurement. Mutable paths are
+`research/probes/gnark/main.go` and its artifact tests; relation, randomness,
+serialization and evaluator thresholds remain fixed. The cloud source is unchanged.
+
+A prospective local protocol and source hashes precede execution in
+`runs/w18-buffered-artifacts-1792593992352000000`. Its original adapter suite passes
+in 5.359 seconds. The first candidate fixture panics because it reuses a decoded
+circuit for another CBOR decode; its logs remain retained. Using a fresh decoder
+for each load passes the entire probe suite in 4.236 seconds, with 652,345,344
+bytes cumulative child peak RSS. These one-off command times are not a speedup
+comparison. [Raw evidence](evidence/w18-buffered-artifacts-2026-10-21.json)
+contains source/environment identities and failure records before this prose.
+
+The writer flushes even when serialization fails, propagates serialization/flush
+errors and syncs only after success. The limiter wraps the buffered reader so
+prefetch cannot disguise an underreading decoder. Exact byte fixtures cross both
+64 KiB boundaries; real circuit, key and proof bytes match direct memory
+serialization. A child-only file-size limit exercises a real flush failure.
+Existing alias, malformed, trailing, changed-file, circuit fingerprint and real
+proof checks pass. Abrupt termination can lose at most one buffered prefix;
+partial artifacts remain failures. `make check` passes 2,111 tests, five Linux-only
+skips and one warning in 42.590 seconds. Core `make package-check` passes in
+7.514 seconds; source snapshot `52759220c43f4512c49c8d9f64b0b55b9172eca887203386c4100039dd5c0040`.
+The retained package snapshot precedes this evidence-only validation update.
+No optional installed train/guard claim follows from that core package check.
