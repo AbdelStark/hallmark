@@ -1,0 +1,292 @@
+{
+  "$defs": {
+    "ReportAnnotation": {
+      "additionalProperties": false,
+      "properties": {
+        "benign_hard_negative": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Benign Hard Negative"
+        },
+        "obfuscation": {
+          "anyOf": [
+            {
+              "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Obfuscation"
+        },
+        "record_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Record Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "obfuscation",
+        "benign_hard_negative"
+      ],
+      "title": "ReportAnnotation",
+      "type": "object"
+    },
+    "ReportExclusion": {
+      "additionalProperties": false,
+      "properties": {
+        "group_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Group Id",
+          "type": "string"
+        },
+        "reason": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "group_id",
+        "reason"
+      ],
+      "title": "ReportExclusion",
+      "type": "object"
+    },
+    "ReportMember": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Calibration"
+        },
+        "family": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Family",
+          "type": "string"
+        },
+        "fit": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fit"
+        },
+        "name": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "score_scale": {
+          "maximum": 16777216,
+          "minimum": 1,
+          "title": "Score Scale",
+          "type": "integer"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 4294967296,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed"
+        },
+        "variant": {
+          "enum": [
+            "native",
+            "float"
+          ],
+          "title": "Variant",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "family",
+        "seed",
+        "variant",
+        "fit",
+        "calibration",
+        "score_scale"
+      ],
+      "title": "ReportMember",
+      "type": "object"
+    },
+    "ReportPair": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Left",
+          "type": "string"
+        },
+        "purpose": {
+          "enum": [
+            "comparison",
+            "quantization"
+          ],
+          "title": "Purpose",
+          "type": "string"
+        },
+        "right": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Right",
+          "type": "string"
+        }
+      },
+      "required": [
+        "left",
+        "right",
+        "purpose"
+      ],
+      "title": "ReportPair",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "adaptive": {
+      "title": "Adaptive",
+      "type": "boolean"
+    },
+    "annotations": {
+      "items": {
+        "$ref": "#/$defs/ReportAnnotation"
+      },
+      "maxItems": 100000,
+      "title": "Annotations",
+      "type": "array"
+    },
+    "bootstrap_seed": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "title": "Bootstrap Seed",
+      "type": "integer"
+    },
+    "dataset": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Dataset",
+      "type": "string"
+    },
+    "evaluator": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Evaluator",
+      "type": "string"
+    },
+    "evidence_class": {
+      "enum": [
+        "synthetic",
+        "exploratory",
+        "confirmatory"
+      ],
+      "title": "Evidence Class",
+      "type": "string"
+    },
+    "exclusions": {
+      "items": {
+        "$ref": "#/$defs/ReportExclusion"
+      },
+      "maxItems": 100000,
+      "title": "Exclusions",
+      "type": "array"
+    },
+    "experiment_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Experiment Id",
+      "type": "string"
+    },
+    "pairs": {
+      "items": {
+        "$ref": "#/$defs/ReportPair"
+      },
+      "maxItems": 32,
+      "title": "Pairs",
+      "type": "array"
+    },
+    "provenance": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Provenance",
+      "type": "string"
+    },
+    "resamples": {
+      "const": 10000,
+      "title": "Resamples",
+      "type": "integer"
+    },
+    "roster": {
+      "items": {
+        "$ref": "#/$defs/ReportMember"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Roster",
+      "type": "array"
+    },
+    "schema_id": {
+      "const": "hallmark/group-report-plan/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "seeds": {
+      "items": {
+        "exclusiveMaximum": 4294967296,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Seeds",
+      "type": "array"
+    },
+    "source": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "experiment_id",
+    "dataset",
+    "source",
+    "evaluator",
+    "evidence_class",
+    "adaptive",
+    "provenance",
+    "seeds",
+    "bootstrap_seed",
+    "resamples",
+    "roster",
+    "pairs",
+    "annotations",
+    "exclusions"
+  ],
+  "title": "GroupReportPlan",
+  "type": "object"
+}

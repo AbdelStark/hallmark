@@ -15,6 +15,11 @@ Extend those probes with an exhaustive fixed integer attention/feed-forward
 block, including masked lookup/normalization, residuals and signed pooling.
 This remains operator-block evidence, not complete encoder qualification.
 
+Add caller-pinned group evaluation reports with fixed slices, all training seeds,
+10,000 paired root-group resamples and separate float/integer drift. Preserve
+unavailable members, null denominators and whole-group exclusions. A core-only
+command consumes existing scores; descriptive reports never claim task quality.
+
 Add exact-text character n-grams, fixed controls and five grouped train-internal
 selection rotations. Retain every convergence/unsupported-input failure, then
 calibrate and evaluate separately pinned native models with overlap rejection.

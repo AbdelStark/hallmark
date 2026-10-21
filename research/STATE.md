@@ -356,6 +356,21 @@ asset, paid job, private upload, hardware evidence or independent review occurre
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39457001526) passed.
 Issue #14 is closed as admission preparation, not completed measurement.
 
+W17 / issue #18 now adds caller-pinned versioned slice and paired group reports.
+The [evidence](evidence/w17-group-evaluation-2026-10-21.json) records 40 new tests,
+1,812 total tests and both installed-package gates. The authored correlated
+fixture keeps 36 records in 12 resampling groups, all three seeds and deliberate
+float/integer regressions. The report never fits, scores or calibrates a model.
+Two fresh report commands over retained W15 controls reproduce identical bytes
+in 0.292/0.283 seconds, with less than 42 MB peak RSS. They retain ten available
+models, nine 10,000-resample comparisons, twelve unavailable members and nine
+unavailable quantization pairs. Original fixed controls remain in the pinned
+provenance. Shared marker templates are not independent policy samples; this is
+software evidence. Synthetic/exploratory reports do not evaluate a confirmatory
+decision, and confirmatory requests remain inconclusive. The initial package
+check rejected global uv 0.13.4; an isolated required uv 0.9.18 made both gates
+pass without changing the global tool. See [decision 0034](../docs/decisions/0034-frozen-group-reports.md).
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -426,15 +441,18 @@ permits agent review without human labels for pipeline development, 40 GiB
 retained storage, Mac-first execution and HF T4/L4 fallback. The earlier label
 packet and all failures remain retained. Confirmatory task quality is separate.
 
+W17 / #18 is merged in [PR #74](https://github.com/AbdelStark/hallmark/pull/74)
+as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
+
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: validate this integration with main, then continue beyond the staged
-rule/MLP/attention probes to the complete admitted encoder at empty, near-boundary
-and maximum length, including layer normalization and full input binding.
+Next: qualify complete-input commitment scaling, then the complete admitted encoder
+at empty, near-boundary and maximum length, including layer normalization.
 Exact input/key enrollment, independent verification/security/setup review and
-measured costs remain required. Keep further proof runs inside the remaining
-recorded time budget. W17 / #18 is now dependency-ready for synthetic pipeline
-reporting. Genuine hardware, natural-data validation and independent verification
-remain separate full-MVP evidence requirements.
+measured costs remain required. Keep new proof runs inside the remaining recorded
+budget. Natural-data validation, genuine hardware and independent verification
+remain separate full-MVP requirements. Ordinary implementation within the recorded
+scope needs no new permission.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

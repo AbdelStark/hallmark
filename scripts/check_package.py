@@ -132,6 +132,7 @@ def main() -> None:
         assert "hallmark/baselines.py" in names
         assert "hallmark/selection.py" in names
         assert "hallmark/comparison.py" in names
+        assert "hallmark/group_evaluation.py" in names
         assert "hallmark/rule.py" in names
         assert "hallmark/events.py" in names
         assert "hallmark/admission.py" in names
@@ -173,6 +174,12 @@ def main() -> None:
             "docs/schemas/ngram-fit-v1.json",
             "docs/schemas/grouped-selection-plan-v1.json",
             "docs/schemas/comparison-calibration-v1.json",
+            "docs/schemas/group-report-plan-v1.json",
+            "docs/schemas/report-observation-v1.json",
+            "docs/schemas/report-unavailable-v1.json",
+            "scripts/check_group_evaluation.py",
+            "scripts/report_groups.py",
+            "tests/test_group_evaluation.py",
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
             "scripts/build_rule_fixture.py",
@@ -522,6 +529,12 @@ def main() -> None:
             "--expected-fixture",
             selection_pin,
         ],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
+    subprocess.run(
+        [str(python), str(root / "scripts/check_group_evaluation.py")],
         cwd=directory,
         check=True,
         timeout=15,
