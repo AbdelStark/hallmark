@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "max_prompt_bytes": {
+      "maximum": 32768,
+      "minimum": 1,
+      "title": "Max Prompt Bytes",
+      "type": "integer"
+    },
+    "model_bytes": {
+      "maximum": 838860800,
+      "minimum": 1,
+      "title": "Model Bytes",
+      "type": "integer"
+    },
+    "model_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Model Sha256",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/guard-spec/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "sequence_tokens": {
+      "maximum": 512,
+      "minimum": 3,
+      "title": "Sequence Tokens",
+      "type": "integer"
+    },
+    "threads": {
+      "maximum": 4,
+      "minimum": 1,
+      "title": "Threads",
+      "type": "integer"
+    },
+    "tokenizer_bytes": {
+      "maximum": 16777216,
+      "minimum": 1,
+      "title": "Tokenizer Bytes",
+      "type": "integer"
+    },
+    "tokenizer_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Tokenizer Sha256",
+      "type": "string"
+    },
+    "vocabulary_size": {
+      "maximum": 128100,
+      "minimum": 4,
+      "title": "Vocabulary Size",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_id",
+    "model_sha256",
+    "model_bytes",
+    "tokenizer_sha256",
+    "tokenizer_bytes",
+    "max_prompt_bytes",
+    "sequence_tokens",
+    "vocabulary_size",
+    "threads"
+  ],
+  "title": "GuardSpec",
+  "type": "object"
+}

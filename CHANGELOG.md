@@ -15,6 +15,17 @@ Extend those probes with an exhaustive fixed integer attention/feed-forward
 block, including masked lookup/normalization, residuals and signed pooling.
 This remains operator-block evidence, not complete encoder qualification.
 
+Add exact-text character n-grams, fixed controls and five grouped train-internal
+selection rotations. Retain every convergence/unsupported-input failure, then
+calibrate and evaluate separately pinned native models with overlap rejection.
+Execute the pinned complete-input guard and synthetic comparison command;
+confirmatory real-data quality remains unvalidated.
+
+Add train-only record-level byte MLP fitting, externally pinned optimizer resume
+and explicit integer export. Check three authored-marker seeds, full 32,768-byte
+inputs, numerical gradients and installed core/train paths. Preserve the historical
+logistic baseline and its negative results; real-data validation remains separate.
+
 Add caller-pinned source import, raw-row lineage sidecars and deterministic
 grouped splits. Preserve contrastive pairs, bind review/rights documents and
 reject rehashed leakage mutations. Ship synthetic fixtures, seven schemas and

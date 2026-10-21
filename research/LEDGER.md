@@ -1392,3 +1392,424 @@ setup lineage remain open. RSS/aggregate storage checks are postconditions,
 not hard OS quotas. Local setup and shared gnark verification remain research
 limitations. `qualified_backend` stays false and PR #72 stays draft. No HF token,
 GPU job, paid compute, private upload or operational acceptance occurred.
+
+## 2026-10-20 — W15 record-level MLP component
+
+Hypothesis and boundary are recorded in
+[decision 0027](../docs/decisions/0027-record-level-mlp-training.md): complete-input
+record-max fitting can resume exactly and export the existing native integer
+runtime without exposing calibration/test labels to fitting. Baseline: 1,632 tests
+at the W14 merge above, synthetic native MLP weights, and the unchanged logistic
+trainer's multi-chunk rejection. Mutable paths are the additive training/export
+API, shared fixture assembly, schemas/tests, package checks and documentation.
+No dataset, evaluator, policy threshold or historical result was retuned.
+
+The [machine-readable evidence](evidence/w15-record-mlp-training-2026-10-20.json)
+was saved before this prose. Raw local artifacts are retained at
+`runs/w15-mlp-training-1792527541853491000` with the protocol, source snapshots,
+environment, command logs, optimizer checkpoints, epoch traces and exports.
+Protocol SHA-256:
+`406c6d18fd70796b17246460acff8986d7e9c4fb8470411f88720211489a1d58`;
+receipt SHA-256:
+`5bdeb8c5a3428235fec47fd0c177ff79b890dae59fab6848b49b56de645df5cd`.
+The pre-run source inventory identity is
+`fca0528fd4eab344ed62315d7df070f9d76dc542407c695881e805a79546ed1e`.
+
+Two new directories reproduced all 27 substantive artifacts byte for byte.
+Each run fits the frozen 12 authored marker records for seeds 17/29/43, compares
+fresh fitting with a JSON checkpoint resumed after epoch 31, and executes seven
+native/float probes per seed. Probes include empty, Unicode, chunk boundaries,
+last-byte markers and the full 32,768-byte limit. Maximum absolute score errors
+were 0.0064575824, 0.0081562375 and 0.0161565061, below the predeclared 0.1
+engineering tolerance. Final losses were 0.3366060358, 0.4234531054 and
+0.3295476184. All three reached epoch 80 without convergence; none is reported
+as converged or as a successful policy detector.
+
+The two sequential one-thread commands took 0.671 and 0.371 seconds, with measured
+peak RSS 57,458,688 and 58,474,496 bytes. Source and raw evidence occupied
+3,262,607 bytes before the receipt. Cost was $0. NumPy 2.5.4 / CPython 3.12.12
+ran on the owner Mac; exact CPU features, extension and trainer hashes are in the
+environment record. No dataset/checkpoint download, external inference, GPU job,
+HF token access or private upload occurred. Timings are single fixture observations,
+not a performance distribution or proof-cost claim.
+
+The 108 focused tests passed, including 75 existing native-MLP cases and 33 new
+training/export checks. Numerical finite differences check the record-max
+subgradient away from ties; a separate tie case verifies first-max routing.
+Pre-import rejection covers nontraining rows, changed identities, invalid
+profiles, malformed shapes and resource limits. Checkpoint substitution, changed
+configuration/data/runtime/loss, CLI path disclosure and failed output retention
+are checked. The historical MLP fixture still reproduces unchanged.
+
+`make check` passed all 1,665 tests plus lock/lint/format/types, spec, software
+conformance and admission. `make check-train` executed all 17 selected tests.
+Both package gates passed, including core-only contract checks and actual
+installed-wheel three-seed training. Their shared pre-evidence source identity is
+`d12a88046b5cc57d36db75c1c04831bc6c87daaf166e92b6753d86f11b6eb6eb`;
+wheel `1fa14f03212f2154143e3963d1969b2017b890a11034b8025dd88e1db68c4627`,
+sdist `a2c789a76539e27868ddb0887d491387b945a9ee55cbef6f2a4bbd345495cc89`.
+Gate commands consumed another 42.942 seconds. Final-head hosted CI rebuilds the
+complete commit including this evidence and prose.
+
+All recorded runs passed; earlier development checks rejected a fractional native
+output. The correction preserves the integral-score contract through explicit
+score units instead of relaxing validation. Epoch-limit nonconvergence is retained.
+These are shared-implementation software checks, not independent authentication,
+policy quality, hardware provenance or a proof. The complete W15 roster, grouped
+selection, MLP calibration/evaluation and admitted real-data commands remain open.
+W18's staged proof work stays separate in draft PR #72. The unrelated `.gitignore`
+edit remains unstaged, and repository visibility remains public.
+
+## 2026-10-20 — W15 grouped comparisons and native calibration
+
+Hypothesis: finite, train-only grouped selection can preserve split isolation and
+every candidate failure, followed by separately pinned native calibration and
+evaluation. Baseline: `865691f0fe455045f24543f0f5de333a5a2dae5f` in draft PR #73,
+with 1,665 tests and MLP fitting/resume but no grouped comparison pipeline.
+Mutable paths: additive baseline/selection/calibration APIs, fixture/checker,
+schemas/tests, package checks and documentation. The historical logistic trainer,
+evaluator, datasets and previous MLP experiment remain unchanged.
+[Decision 0028](../docs/decisions/0028-grouped-baseline-selection.md) preceded the run.
+
+The [numeric evidence](evidence/w15-grouped-comparisons-2026-10-20.json) was saved
+before this prose. Raw snapshots/logs/fit states are retained under
+`runs/w15-grouped-selection-1792528940558781000`. Protocol SHA-256:
+`7974d63824ad53ee0137f9f163a365e3c8b12baebccd71f5eab2b7f287a09285`;
+receipt `8240caf7da59550237723e2f6c5ce747cce5e5108fbd4cf3973747df430e16a2`;
+pre-run source inventory
+`56f5a904f868dae836b73cf2be8f7a849d550a035e29a725cc14cb41e082c97d`.
+
+The frozen fixture has 100 train rows in 50 groups, plus 20 calibration and 20
+test rows in disjoint groups. Five declared candidates and three seeds produce
+75 rotations: three folds fit, one selects an internal threshold, and one
+validates. Only fitting rows supply vocabulary or optimizer inputs. Group and
+representative assignment are label-independent. Exact rational ranking selects
+per family and seed, with lexical candidate ties. Controls never fit/calibrate.
+Every nonconverged or failed candidate remains in the report.
+
+Two fresh one-thread runs reproduced all 31 substantive artifacts byte for byte.
+Each retains 15 deliberately nonconverged MLP rotations and refits/calibrates/
+evaluates nine selected models. All nine primary test reports contain ten group
+representatives; all-row reports contain 20 descendants. The authored-marker
+logistic and character models each have TP=5, FP=0, TN=5, FN=0. The deliberately
+loose-tolerance MLP has TP=0 and FN=5 for every seed; FP counts are 0/1/2 and TN
+counts 5/4/3. These are unacceptable as task-quality results, not hidden by the
+software pipeline's pass. Neither MLP fixture configuration is a real study
+candidate, and no result is an injection-policy estimate.
+
+Recorded command times were 2.282 and 2.165 seconds; macOS `time -l` peak RSS was
+142,442,496 and 141,213,696 bytes. Source/raw files occupied 8,016,420 bytes before
+the receipt. Cost was $0; no model/dataset download, private upload, HF token or
+paid job was used. These two fixture observations do not establish latency
+percentiles or production throughput.
+
+All 44 focused tests pass. They check outer-label rejection before serialization
+or optional imports, group/representative invariance, fitting-only vocabularies,
+exact decimal allowances and blocking ties, resource limits, malformed numeric
+types, preserved long-input floor rejection, explicit liblinear nonconvergence,
+candidate ties, wrong fit/calibration pins and overlapping groups/prompts. A
+development check found that numeric literals accepted float-valued seeds/folds;
+strict integer fields and regression cases corrected that before this protocol.
+The final fixture/schema snapshots reproduce, and injected controller failure
+retains an incomplete directory without a final result.
+
+`make check` passed 1,709 tests plus lock/lint/format/types, spec, software
+conformance and admission. `make check-train` executed all 35 selected tests.
+Both package gates passed, including the core-only contract path and actual
+installed three-seed grouped comparisons. Their common pre-prose source identity
+is `d9b7a89726fb7b24624c778438c713197ef0b8b1049e5ad5ea0bfad39bafa2b8`;
+wheel `5754530a3759c13a35653480bc599d4c63e1be27a5f2434565aac769d3896326`,
+sdist `5dea06cf58fa65aeff0f8c2be01e88a50c97cd0990e3269d69ed0fc9db501b7c`.
+These gates consumed another 58.399 seconds; final-head hosted checks rebuild the
+complete source including this evidence and prose.
+
+The separate [guard source review](evidence/w15-guard-source-selection-2026-10-20.json)
+retains current public metadata and base-model notices. Under delegated selection,
+[decision 0029](../docs/decisions/0029-guard-source-selection.md) chooses the pinned
+published guard for bounded qualification using its explicit model grants. It
+does not approve acquiring unnamed unlicensed upstream training data, endorse
+the archived project's metrics, or resolve contamination. The local raw metadata
+is in `runs/w15-guard-metadata-1792528650785139000`; no weights/tokenizer or runtime
+packages were acquired. Exact runtime review, asset hashes, complete-input guard
+execution and final real-data admission remain the next W15 gates. This PR stays
+draft; W18's proof work stays separate. The unrelated `.gitignore` edit is preserved.
+
+## 2026-10-20: W15 complete-input CPU guard and optional runtime
+
+Hypothesis: the selected pinned guard can score every content-token block of a
+32,768-byte prompt on the Mac and reproduce its numeric outputs in a fresh
+process. Baseline: metadata selection only; the publisher's example truncates.
+[Decision 0030](../docs/decisions/0030-complete-input-guard.md) freezes the
+complete-input max-margin adaptation before real inference. Mutable paths are
+the optional adapter, its comparison binding, tiny runtime fixture, packaging,
+tests and documentation. The previous learned baselines and evaluator are unchanged.
+
+The [dependency review](evidence/w15-guard-dependencies-2026-10-20.json) matches
+684 locked artifacts for 52 packages. Existing versions are unchanged. It records
+selected-wheel notice hashes and exact upstream Apache notices for the two wheels
+missing licence files. Acquisition verifies all five advertised model/tokenizer
+digests, including the 738,563,188-byte ONNX graph. Model/base notices accompany
+the ignored assets. No remote model code, pickle, HF token or paid job was used.
+
+The [CPU evidence](evidence/w15-guard-cpu-2026-10-20.json) retains raw scores,
+source/runtime/binary hashes, exact asset/spec/input identities and receipts.
+Raw model acquisition is `runs/w15-guard-assets-1792529768485391000`; execution is
+`runs/w15-guard-cpu-1792530020726182000`. Its protocol hash is
+`30e2e46c066c526ad4abf9a71278cee6445bfcc1afee486471a517205ca1bce1`, receipt
+`5113ada479ae8fa5267d64d5c0a09f6e6b4864376cc38c2f3b80f84aacd8e809`.
+Two four-thread CPU processes each score seven fixed harmless probes through 50
+chunks and reproduce all 11 substantive JSON files byte for byte. Times are
+7.253/7.008 seconds; peak RSS is 4,372,217,856/4,371,480,576 bytes. The maximum
+ASCII prompt has 5,463 tokens/11 chunks; the maximum Unicode prompt has 16,384
+tokens/33 chunks. Both are exactly 32,768 bytes. The late instruction is scored
+in its second chunk. Costs remain $0, with no external inference.
+
+Negative evidence remains explicit: the two maximum-length repetitive benign
+probes have margins +8.170272/+6.674934. Zero is not an admitted threshold, and
+these seven authored prompts cannot estimate a false-positive rate. The published
+tokenizer strips/normalizes text; full token coverage is not byte preservation.
+Upstream contamination, human label review, task-quality targets and independent
+verification remain unresolved. `bind_guard` adds the fixed pretrained model to
+the separate calibration/evaluation API without local fitting or test selection.
+
+Validation: 32 new guard tests; `make check` passes 1,741 tests; `make check-train`
+executes all 35 required tests; `make check-guard` executes the real tiny ONNX
+fixture and all 32 tests. Core packaging and a combined train/guard package gate
+pass through separate installed environments and reproduce identical distributions.
+Their pre-prose source identity is
+`76fb4bbbc68ec8b7217d494d5800a2cff9135cf1b792068a5d2095b8b30e1cf6`;
+wheel `2d5a12bb022de94eeeb5f2a8e8498887ebb2f76bffa0c9e9d4f3ffdc657c69ef`,
+sdist `3f72ce130a180ff8a749e233d49d1250feb949255bad98ed8c8b4ca4025dd52d`.
+The five passing gates consume 67.287 seconds. Raw logs/receipts are in
+`runs/w15-guard-gates-1792530308409104000`. The earlier failed full gate is kept:
+its only failure was the old statistical calculation's lock pin. A separately
+retained calculation reproduces every field except the new lock SHA; the original
+W13 record is untouched. Runtime tests also reject changed files/pins, links,
+external tensors, custom domains, oversized/invalid Unicode inputs, bad outputs,
+held-out rows, overlapping groups/prompts and existing output directories.
+
+PR #73 remains draft until admitted real-data commands satisfy the rest of W15.
+The compact encoder and full proof/hardware obligations remain separate work.
+The repository remains public and the unrelated `.gitignore` edit is preserved.
+
+## 2026-10-20 — W15 caller-enrolled comparison command (partial issue #16)
+
+[Decision 0031](../docs/decisions/0031-admitted-comparison-command.md) fixes a fresh
+engineering experiment joining admission, reproduced source import, grouped
+selection, final fits and calibration before test. Existing evaluator, grouping,
+study targets and historical results remain unchanged. The command checks an
+externally supplied review identity, exact source/config/runtime pins and dataset
+reproduction; it does not authenticate a human approval. Fixture-only mode cannot
+relabel authored data as real study evidence.
+
+The [raw numeric evidence](evidence/w15-comparison-command-2026-10-20.json) points
+to `runs/w15-comparison-command-1792531617672623000`. Protocol
+`c912d278451562cc2f15abc1b7191e2bc31dbdc7b9dc7c7ef931fb0c4a1dd6f2`
+was written before measurement with exact source/input identities, two commands,
+55 seconds per command, one thread, 2 GiB memory and 16 MiB new storage. Two fresh
+processes took 2.931/2.892 seconds and peaked at 272,400,384/270,286,848 bytes RSS.
+All 38 output artifacts match byte for byte. The full 200-row authored source,
+invented review dossier and tiny ONNX graph remain local. No downloaded data,
+HF token, GPU, paid compute or external inference was used in this experiment.
+
+The runner retains 75 train-internal rotations, including 15 deliberate
+nonconvergences, then nine selected final fits plus the fixed marker guard.
+Every fit/calibration identity is saved before scoring test. Negative results
+remain: each MLP seed misses all 20 positives; each character baseline has 2/20
+benign false positives. Logistic/marker-guard fixture results are not scientific
+quality evidence. Controls report their full errors; compact encoder is explicitly
+unavailable. `full_study_complete` and `quality_claim` remain false.
+
+Validation: `make check` passes 1,772 tests, `make check-train` executes 35 tests,
+`make check-guard` executes its graph plus 32 tests, `make check-comparison`
+executes the real CLI plus 31 binding/order/failure tests, and `make package-check`
+passes. The five gates total 63.908 seconds. The existing fork-rejection test
+emits Python's multithreaded-fork deprecation warning and passes. Raw logs are in
+the experiment's `gates/` directory. Core package source identity is
+`49bd4b6098c32ec95579924492abc3b442f40054245c3817147678fb10286ac5`, wheel
+`a8929702d6cb278097b1c62e7cf93b60c1af6ff081af0d18d178da0efa942b3f`, sdist
+`ded0fad4b12738742daa23a9d9c0bd66398299424fa359f55db011b67f3ec733`.
+These distributions precede this evidence prose. Another local combined-package
+environment would exceed the remaining 20 GiB allowance, so it was not run;
+Linux/macOS hosted jobs now require the installed combined comparison fixture.
+The storage-choice request remains pending and old evidence was not removed.
+
+PR #73 stays draft: the real-data command is implemented, but an actual reviewed
+source/label/contamination dossier is still missing. `docs/OPERATIONS.md` provides
+the exact invocation template, required layout, external-pin and resource
+obligations. No real-data or final study claim is made by this increment.
+
+The first hosted Linux comparison check on `5027e50` failed one test after 30
+passed: ONNX Runtime emitted a native device-discovery warning while the command
+correctly returned partial-result exit 3. The test had incorrectly required an
+empty diagnostic stream. The correction checks the exact stdout status and
+absence of private input paths, retaining exit-code, missing-family, convergence
+and sanitized-exception checks. Execution code and measured source/input/output
+identities are unchanged. The failed
+[job](https://github.com/AbdelStark/hallmark/actions/runs/39500956450/job/118898010242)
+log is retained in the raw experiment directory; its failure is not reported as
+a passing package check. All 31 corrected comparison tests pass locally in
+10.54 seconds (`portability-tests.log`); hosted jobs must pass on the corrected
+commit.
+
+## 2026-10-20 — W15 public-source review and human audit handoff
+
+[Decision 0032](../docs/decisions/0032-public-source-review-pilot.md) bounds source
+preparation under the existing delegation. The
+[evidence](evidence/w15-source-review-2026-10-20.json) retains exact metadata,
+licence notices, acquisition plans/receipts and local raw pointers in
+`runs/w15-source-review-1792532338623341000`. No source is admitted for measurement.
+
+Gandalf revision `04737b65e90a6794ec227012e4a255a7def6344b` yields all 1,000 rows
+through the public viewer API. Every page reports that exact `x-revision`, the
+expected row count/indices and no truncation. This checks retrieved snapshots,
+not local Parquet decoding. Dolly revision
+`bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a` verifies the 13,085,339-byte JSONL against
+`2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec`.
+The predeclared empty-context filter retains 10,544 exact instructions and excludes
+4,467 context-dependent records. Acquisition totals 13,248,844 bytes in 4.555
+seconds. Source grants are MIT and CC BY-SA 3.0; copyright, attribution, licence
+and change notices accompany the local review adaptation. No raw rows are added
+to Git.
+
+The separate Mirza Akhi source at `011a9ae25b31feb48d23f837fdcbc3a6a4ee3b4e`
+has an explicit CC BY 4.0 grant. Its acquired CSV matches
+`eb748eb8104f0a736934bf4f3c96335801010b09e17467fd4aadc1c1ae7bbced`:
+5,441 unique prompts, 5,425 marked English, maximum 223 bytes. The generation
+recipe was inspected as text, never executed. Template ancestry and the original
+holdout need review; it is a possible supplemental stress set, not real-world
+validation. The Qualifire successor is auto-gated and was excluded without token
+access. PINT's full corpus remains held for task/provenance/rights review. A direct
+Creative Commons text download returned HTTP 403; the official browser-reader
+responses and repository notices are retained, without claiming raw HTTP-byte
+equivalence for those browser snapshots.
+
+Two fresh review builds reproduce all six files byte for byte. The 64-item packet
+SHA-256 is `0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e`.
+It hides proposed labels/source class per item and includes complete prompts,
+the frozen rubric, attribution and blank human response fields. A separate
+editable `human-response/labels.json` preserves the two original templates.
+No human identity, labels or agreement rate were invented. The owner was asked
+who will perform the review; no reviewer was contacted.
+
+Preflight finds 114 exact-duplicate groups. A fixed, non-fitted character-hashing
+screen retains all 563 pairs at cosine at least 0.90 and 172 multirow components;
+the largest has 33 rows. One two-row component crosses Gandalf's original splits.
+The tiny equality/unrelated-text fixture passes first. The full screen takes
+1.022 seconds in-script (1.80 seconds process wall time), with 216,514,560 bytes
+peak RSS. Pair/component files, code/dependency pins and the cross-split review
+example are retained. The screen proposes links; it cannot establish semantic
+or historical lineage, and no links are represented as human-approved.
+
+The complete study remains unmet: source identity is confounded with provisional
+class, language/label decisions and parent identities need review, and 1,000 total
+Gandalf rows cannot supply 1,375 independent positive test groups. These exposed
+public sources are exploratory. No acquired row was used for classifier fitting,
+guard inference or test scoring. No paid job or HF token access occurred. Frozen
+targets and old results are unchanged. PR #73 stays draft pending genuine review
+and final admission.
+
+Storage accounting was corrected to include the whole checkout, Git and caches;
+the earlier three-directory total omitted those bytes and the checkout was about
+0.9 MiB above the recorded 20 GiB cap. Only mypy's tagged, rebuildable SQLite cache
+was removed, restoring headroom. `storage-correction.json` records exact before/
+after bytes; no research run, failure, environment, asset or review artifact was
+removed or archived. Subsequent local validation disables mypy cache writes.
+The request for a larger retained-storage envelope remains pending.
+
+Validation with `MYPY_CACHE_DIR=/dev/null make check` passes all 1,772 existing
+tests, strict type/style checks and the spec/admission/conformance gates in
+32.696 seconds. The existing multithreaded-fork deprecation warning remains.
+Source-card Git blob checks, all acquisition file hashes, canonical candidate
+pairs/components and both blank packet builds also pass. Classifier source and
+dependency locks are unchanged. Distribution checks run in hosted CI; another
+retained local package environment does not fit the remaining storage allowance.
+
+
+## 2026-10-21 — Owner-approved synthetic W15 pipeline and storage
+
+The owner approved the requested 40 GiB retained-storage envelope, agent review
+and wholly synthetic data without human review for pipeline development, with
+the Mac preferred and HF T4/L4 allowed fallbacks. [Decision 0033](../docs/decisions/0033-approved-synthetic-pipeline.md)
+records this change. Historical natural-source packets, failures and evidence
+remain unchanged. The W15 work-map/issue criterion now explicitly permits the
+authorized synthetic pipeline, retaining confirmatory real-data admission as a
+separate quality gate. No human review identity or agreement rate is fabricated.
+
+Hypothesis: the existing comparison command runs unchanged with the real pinned
+published guard and the 200 authored controls. Baseline: its tiny-marker guard
+fixture and the earlier standalone real-guard execution. Mutable paths are the
+new local dossier/protocol, approval records, documentation and authority checks.
+No classifier, evaluator, dependency or runtime source changed. Pass criterion:
+complete W15 execution with every baseline/control retained, exact reproduction,
+package gates and truthful unavailable/quality status.
+
+[Numeric evidence](evidence/w15-synthetic-pipeline-2026-10-21.json) retains
+`runs/w15-synthetic-pipeline-1792567226626052000`: frozen outer protocol, both
+controller sources/pins, agent review, complete dossier inventory, caller pin,
+commands, results, resource receipts and validation logs. The agent checked all
+200 control labels against the recipe (`hello`=0, `ALERT`=1). Shared templates
+make these unsuitable independent statistical groups or injection-policy labels.
+The internal fixture source markers remain mechanical binding inputs; actual
+run authority is this owner's decision, not invented fixture approvals.
+
+The externally retained review pin is
+`bcc2f807bc7bf6849d9cf04c30c7b41b2bacc3ac6fcfd28243b4896fecab079b`.
+Both actual CLI invocations use `--fixture-only`, the frozen dossier and existing
+pinned guard assets; exact argv records are in the evidence. Each fresh process
+exits 0 with all W15 baseline families and fixed controls executed. All 38 files
+reproduce byte for byte. Elapsed times are 4.674/4.665 seconds; peak RSS is
+4,373,692,416/4,373,921,792 bytes. Preparation itself was not separately RSS-timed.
+The outer watchdog limits execution to 300 seconds; resource observations are
+not an OS memory/storage sandbox.
+
+Negative results remain visible: the real guard marks 3/20 negative controls,
+character n-grams 2/20 per seed, and each MLP misses all 20 positive controls.
+These are fixture-control outcomes, not FPR/TPR estimates for injection policy.
+The full study, quality and independent-verification flags remain false; compact
+encoder is explicitly W16-not-executed. This completes W15 software execution
+under the owner's revised stage, not the entire MVP or confirmatory study.
+
+Validation: 114 focused admission/comparison tests; `make check` passes 1,772
+with the existing fork warning, strict typing/style, 156 software conformance
+cases and specification/admission checks. `make check-train` executes all 35
+training tests. Core and combined train/guard package gates both pass; the latter
+runs the installed comparison command. Their pre-evidence-update source identity
+is `45e564fabc36a7f0256a45fee9213b235d399767e81bdc2b840190bbbebf4d4c`.
+The live spec audit matches all 40 work items and 106 dependency edges after the
+owner-approved W15 acceptance update. Final-head hosted CI remains required
+before merge. No HF token, GPU job, paid compute or reviewer contact occurred.
+
+
+## 2026-10-21 — Integrate the merged comparison pipeline into W18
+
+W15 / #16 merged through [PR #73](https://github.com/AbdelStark/hallmark/pull/73)
+as `de29271d21196202fc951ebe5f5fc3348fbf9a63`. All 28 candidate jobs and all 14
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39562563658) pass;
+local/tracking/remote main match. The owner-approved synthetic stage is delivered.
+
+Hypothesis: the existing qualification and comparison commands coexist with both
+sets of installed-package checks. Baselines: W18 at
+`32aecdbed4869cdff6bd28d7e0725763ef1c5c85` and the W15 merge above. Mutable paths
+are the five conflicting changelog/ML-plan/ledger/state/package-check files and
+current status/evidence documentation. Both implementations and historical proof
+records remain intact. The bounded gate is combined software/package validation,
+not a new cryptographic qualification experiment.
+
+[Evidence](evidence/w18-main-integration-2026-10-21.json) retains
+`runs/w18-main-integration-1792567953903508000`. The package-check conflict now
+runs qualification/backend fixtures as well as MLP/selection/guard/comparison
+checks. The ledger retains both branches' historical entries; state reflects
+W15's merged delivery and W18's remaining whole-encoder gate. The owner-approved
+40 GiB envelope and synthetic/no-human-review pipeline stage are inherited from
+main. The unrelated `.gitignore` bytes are unchanged.
+
+All 140 focused integration tests and all 1,947 local tests pass. Both core and
+combined train/guard package gates pass, including installed protocol/selection
+and comparison commands. The proof source, Go circuits and packaged controllers
+are byte-unchanged from the W18 parent. No new proof run, setup, token use or
+paid compute occurred; existing proof time accounting is unchanged.
+Final-head hosted checks are required before publishing this integration as
+verified. PR #72 remains draft: full encoder/input qualification, independent
+verification, security/hiding review, accepted setup and operational enrollment
+remain incomplete. W17 / #18 is now dependency-ready for synthetic reporting.

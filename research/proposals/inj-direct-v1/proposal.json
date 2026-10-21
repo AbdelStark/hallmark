@@ -16,7 +16,7 @@
     "proposed_role": "internal-enterprise-auditor",
     "designated_owner": "Abdel",
     "approved_role": "prototype-decision-owner",
-    "approval_ref": "docs/decisions/0019-approved-study-scope.md"
+    "approval_ref": "docs/decisions/0033-approved-synthetic-pipeline.md"
   },
   "sources": [
     {
@@ -160,7 +160,7 @@
     "max_cost_minor": 0,
     "currency": "USD-cent",
     "max_memory_bytes": 17179869184,
-    "max_disk_bytes": 21474836480,
+    "max_disk_bytes": 42949672960,
     "threads": 4,
     "jobs": 1,
     "max_proof_seconds": 7200,
@@ -184,8 +184,8 @@
     "design_basis": "agent-specified within delegated study design"
   },
   "review": {
-    "owner_approval": "docs/decisions/0019-approved-study-scope.md",
-    "relying_party_approval": "docs/decisions/0019-approved-study-scope.md",
+    "owner_approval": "docs/decisions/0033-approved-synthetic-pipeline.md",
+    "relying_party_approval": "docs/decisions/0033-approved-synthetic-pipeline.md",
     "independently_enrolled_review": null
   },
   "metadata_evidence": "../../evidence/w13-public-metadata-2026-10-20.json",
@@ -197,5 +197,11 @@
     "Human label audit and adjudication",
     "Candidate code/configuration/asset and evaluator identities",
     "Authenticated and independently enrolled final admission review pin"
-  ]
+  ],
+  "pipeline_stage": {
+    "synthetic_permitted": true,
+    "reviewer_kind": "agent",
+    "human_review_required": false,
+    "scientific_measurement_admitted": false
+  }
 }

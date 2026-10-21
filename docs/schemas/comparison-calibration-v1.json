@@ -1,0 +1,76 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "calibration": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Calibration",
+      "type": "string"
+    },
+    "fit": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Fit",
+      "type": "string"
+    },
+    "groups": {
+      "items": {
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Groups",
+      "type": "array"
+    },
+    "prompts": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Prompts",
+      "type": "array"
+    },
+    "schema_id": {
+      "const": "hallmark/comparison-calibration/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "score_type": {
+      "enum": [
+        "integer",
+        "float64"
+      ],
+      "title": "Score Type",
+      "type": "string"
+    },
+    "target_fpr": {
+      "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+      "title": "Target Fpr",
+      "type": "string"
+    },
+    "threshold": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "title": "Threshold"
+    }
+  },
+  "required": [
+    "schema_id",
+    "fit",
+    "calibration",
+    "target_fpr",
+    "score_type",
+    "threshold",
+    "groups",
+    "prompts"
+  ],
+  "title": "ComparisonCalibration",
+  "type": "object"
+}

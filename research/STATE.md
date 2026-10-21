@@ -1,6 +1,6 @@
 # Research state
 
-Updated: 2026-10-20. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
+Updated: 2026-10-21. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
 
 ## Implemented
 
@@ -222,6 +222,86 @@ verifier/security/hiding evidence and accepted setup lineage remain missing.
 Review-file hashes bind documents without authenticating their approval or
 adjudicating their claims. No backend is selected; W18 remains open.
 
+W15 / issue #16 now has the record-level MLP component: train-only complete-input
+max-logit fitting, pinned same-environment optimizer resume and explicit native
+integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
+records 33 new tests, 1,665 total tests, 17 required train tests and both installed
+package gates. Two fresh three-seed fixture runs produced 27 identical artifacts
+each, including checkpoint/history/export results. All seeds hit the 80-epoch
+limit without convergence; maximum observed score error was 0.016157 against the
+fixed 0.1 engineering bound. These are authored markers, not policy-quality data.
+The historical logistic baseline and native fixture identities remain unchanged.
+See [decision 0027](../docs/decisions/0027-record-level-mlp-training.md).
+The follow-up [comparison evidence](evidence/w15-grouped-comparisons-2026-10-20.json)
+adds exact-text character n-grams, fixed controls, five grouped train-internal
+rotations and separately pinned native calibration/evaluation. It records 44 more
+tests, 1,709 total tests, 35 required train tests and both installed-package gates.
+Two new runs reproduce all 31 artifacts: 75 rotations, 15 deliberate nonconvergence
+cases, and nine final evaluations each. The toy MLP detects none of the five
+positive representatives; its false-positive counts are 0/1/2 across the seeds.
+These failures remain visible; the pipeline pass is not a task-quality pass.
+[Decision 0028](../docs/decisions/0028-grouped-baseline-selection.md) fixes the
+selection rule, source bounds and remaining admission obligations.
+
+[Merged PR #73](https://github.com/AbdelStark/hallmark/pull/73) contains this work.
+The [guard source review](evidence/w15-guard-source-selection-2026-10-20.json) and
+[decision 0029](../docs/decisions/0029-guard-source-selection.md) select the pinned
+published guard for bounded asset/runtime qualification under the reviewed model
+grants. The [CPU evidence](evidence/w15-guard-cpu-2026-10-20.json) now verifies
+all five acquired asset digests and executes the real ONNX graph locally. Two
+fresh processes reproduce all 11 output artifacts: seven authored probes, 50
+chunks per run, including 32,768-byte ASCII and Unicode prompts. Elapsed times
+are 7.253/7.008 seconds, with 4.372/4.371 GB peak RSS. The optional adapter joins
+the pinned calibration/evaluation API; its tiny installed-runtime fixture needs
+no research assets. The tokenizer remains lossy, and both maximum-length harmless
+repetitive probes have positive uncalibrated margins. These are software results,
+not measured task quality. Contamination/label review and admitted real-data
+commands remain required for confirmatory task-quality claims; decision 0033
+permits completion of the synthetic software stage. The compact encoder belongs
+to W16. See [decision 0030](../docs/decisions/0030-complete-input-guard.md).
+
+The [comparison command evidence](evidence/w15-comparison-command-2026-10-20.json)
+adds one caller-enrolled execution path from reproduced source import through
+train-only selection, final fitting and calibration to test scoring. Every fit
+and threshold is retained before any test-scoring call. Two fresh authored-fixture
+processes reproduce all 38 output artifacts, each in about 2.9 seconds and below
+273 MB peak RSS. All 75 rotations and 15 nonconverged attempts remain visible.
+The toy MLP misses all 20 positive test representatives in every seed; the
+character baseline has 2/20 benign false positives. This is plumbing evidence,
+not a detector-quality result. Validation passes 31 new tests, 1,772 total tests,
+35 required training tests, 32 guard tests and the core installed-package gate.
+The larger local combined-package check is deferred under the nearly exhausted
+20 GiB storage limit; Linux/macOS CI requires that installed comparison fixture.
+The [command template](../docs/OPERATIONS.md#caller-enrolled-baseline-comparisons)
+is implemented, but no genuine reviewed real-data dossier has been enrolled.
+PR #73 remained draft at that point. See [decision 0031](../docs/decisions/0031-admitted-comparison-command.md).
+
+The [source review](evidence/w15-source-review-2026-10-20.json) now retains 1,000
+Gandalf viewer rows at an exact reported revision and Dolly's SHA-256-verified
+15,011-row JSONL. The fixed empty-context filter leaves 10,544 Dolly instruction
+candidates and excludes 4,467 rows. Two fresh builds reproduce a 64-item blank
+human label packet. These are review candidates, not admitted labels or data.
+The 114 exact-duplicate groups and a separate 563-pair lexical screen are retained;
+one candidate component crosses Gandalf's original splits. Missing historical
+parents and semantic lineage remain unresolved. A separately acquired 5,441-row
+public synthetic source cannot replace natural traffic or the study's power
+requirements. No detector was fitted/scored or HF token used. See the
+[human-review handoff](proposals/inj-direct-v1/source-review.md) and
+[decision 0032](../docs/decisions/0032-public-source-review-pilot.md).
+
+The [authorized synthetic pipeline evidence](evidence/w15-synthetic-pipeline-2026-10-21.json)
+now joins the complete comparison command to the real pinned guard weights.
+Two fresh Mac processes reproduce all 38 artifacts in 4.674/4.665 seconds, with
+4.374 GB peak RSS. The agent checked all 200 authored control labels; no human
+review occurred. The guard produces 3/20 negative-control false positives, the
+character model 2/20, and each MLP misses all 20 positive controls. These are
+software-control outcomes, not injection-policy quality estimates. W15's execution
+criterion passes; full-study/quality/independence flags remain false and the
+compact encoder stays explicitly unavailable. The owner's decision supersedes
+the earlier human-review/storage merge blockers for this pipeline stage.
+All 1,772 local tests, 35 required training tests, core/combined package checks
+and the live specification audit pass.
+
 W37 / issue #38 adds a fully pinned build environment, reviewed source snapshots,
 byte-identical repeated distributions and exact archive/dependency inventories.
 Its [initial evidence](evidence/w37-reproducible-packages-2026-10-20.json) and
@@ -337,11 +417,24 @@ before #39 spec traceability and the remaining admission/integration work. Resea
 real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
-Next: continue W18 / #19 beyond the staged qualification command and bounded
-rule/MLP/attention probes: complete admitted encoder at empty, near-boundary and
-maximum length, including layer normalization and full input binding, with exact
-input/key enrollment, independent verification/security/setup review and measured costs. W14 / #15 is delivered;
-W15 / #16's data/model work is dependency-ready. Study permission is no longer a blocker.
+W14 / #15 is merged in [PR #71](https://github.com/AbdelStark/hallmark/pull/71).
+W15 / #16 is merged in [PR #73](https://github.com/AbdelStark/hallmark/pull/73)
+as `de29271d21196202fc951ebe5f5fc3348fbf9a63`; all 28 candidate jobs and all 14
+[merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39562563658) passed.
+The owner's [synthetic-stage approval](../docs/decisions/0033-approved-synthetic-pipeline.md)
+permits agent review without human labels for pipeline development, 40 GiB
+retained storage, Mac-first execution and HF T4/L4 fallback. The earlier label
+packet and all failures remain retained. Confirmatory task quality is separate.
+
+W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
+Next: validate this integration with main, then continue beyond the staged
+rule/MLP/attention probes to the complete admitted encoder at empty, near-boundary
+and maximum length, including layer normalization and full input binding.
+Exact input/key enrollment, independent verification/security/setup review and
+measured costs remain required. Keep further proof runs inside the remaining
+recorded time budget. W17 / #18 is now dependency-ready for synthetic pipeline
+reporting. Genuine hardware, natural-data validation and independent verification
+remain separate full-MVP evidence requirements.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
