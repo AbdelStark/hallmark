@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"io"
 	"os"
@@ -12,6 +13,69 @@ import (
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/backend/groth16"
 )
+
+func TestArtifactExplicitLimit(t *testing.T) {
+	name := filepath.Join(t.TempDir(), "artifact")
+	if err := os.WriteFile(name, []byte("data"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	for _, limit := range []int64{-1, 0, 3, 4, 24*1024*1024*1024 + 1} {
+		called := false
+		decoder := artifactReader(func(r io.Reader) (int64, error) {
+			called = true
+			return io.Copy(io.Discard, r)
+		})
+		err := readBounded(name, decoder, limit)
+		if (err == nil) != (limit == 4) || called != (limit == 4) {
+			t.Fatalf("limit %d: called=%v, error=%v", limit, called, err)
+		}
+	}
+}
+
+func TestCompiledSetupRoundTrip(t *testing.T) {
+	directory := t.TempDir()
+	t.Chdir(directory)
+	for _, action := range []string{"export", "inspect", "setup-compiled"} {
+		if action == "inspect" {
+			if err := os.Rename("capacity.json", "export-capacity.json"); err != nil {
+				t.Fatal(err)
+			}
+		}
+		count, err := runRelation(action, &circuit{}, nil, 256*1024*1024)
+		if err != nil || count != 45 {
+			t.Fatalf("%s: count=%d, error=%v", action, count, err)
+		}
+	}
+	exported, err := os.ReadFile("export-capacity.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	inspected, err := os.ReadFile("capacity.json")
+	if err != nil || !bytes.Equal(exported, inspected) {
+		t.Fatalf("round-trip capacity changed: %v", err)
+	}
+	var report map[string]any
+	if err := json.Unmarshal(exported, &report); err != nil || report["public_variables"] != float64(2) || report["secret_variables"] != float64(1) {
+		t.Fatalf("invalid variable counts: %s", exported)
+	}
+	if report["commitments"] != float64(0) || report["private_committed_variables"] != float64(0) {
+		t.Fatalf("unexpected commitments: %s", exported)
+	}
+	for _, args := range [][]string{{"prove", "3", "35"}, {"verify", "35"}} {
+		if _, err := run(args); err != nil {
+			t.Fatalf("%v: %v", args, err)
+		}
+	}
+	if _, err := runRelation("export", &circuit{}, nil, 256*1024*1024); err == nil {
+		t.Fatal("overwrote existing circuit")
+	}
+	if err := os.WriteFile("circuit.r1cs", []byte("invalid"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := runRelation("setup-compiled", &circuit{}, nil, 256*1024*1024); err == nil {
+		t.Fatal("accepted malformed compiled circuit")
+	}
+}
 
 type artifactReader func(io.Reader) (int64, error)
 

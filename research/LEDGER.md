@@ -2534,3 +2534,53 @@ with the 20-second ancillary allowance, 514.800234 of the approved 600 seconds i
 charged, leaving 85.199766. Final retained checkout allocation is 33,955,835,904
 bytes, below 40 GiB; the two proof outputs retain 718,090,504 / 718,090,659 logical
 bytes. No source/runtime code or default dependency was changed by this campaign.
+
+## 2026-10-21: maximum circuit retained on the Mac; larger proof campaign prepared
+
+Under the owner's explicit instruction to continue without repeated approval
+pauses, decision 0045 records standing execution authority. The original study
+budgets, historical charges and failed runs are preserved.
+
+Raw roots: `runs/w18-max-artifacts-1792586199768569000` and
+`runs/w18-max-inventory-corrected-1792586489227090000` (the exact corrected root is
+also retained in the numeric evidence). Commands: the frozen `execute.py` runs
+`fixture`, `export-8`, `inspect-8`, `export-32768`, `inspect-32768`; the separate
+`check_inventory.py` reloads the same externally pinned maximum circuit and
+reports commitment sizes. All worker argv, environments, limits and hashes are
+in the individual `plan.json` and `cost.json` files.
+
+The 18-case cubic fixture passes. Seven small R1CS hashes are unchanged. Maximum
+export succeeds in 79.599983 seconds with 17,674,289,152 bytes peak process RSS;
+the 2,566,643,378-byte R1CS hash is
+`cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489`.
+Fresh inspection succeeds in 2.677502 seconds at 10,367,139,840 bytes RSS and
+matches counts and bytes. Expanded inventory reports 48,477,333 total wires,
+one commitment and 22,366,059 private committed wires. Raw numeric results precede
+this entry in `research/evidence/w18-maximum-artifacts-2026-10-21.json`.
+
+The first Go build missed one changed helper call in a test; corrected tests pass.
+A separate inventory controller named `inspect.py` shadowed Python's standard
+library and failed before a worker started. That directory is preserved; the
+fresh corrected inventory run passes. No result from either failure is reused
+as a passing measurement.
+
+Decision 0046 prepares one larger-memory HF L4 job with public pinned source,
+the same optional compiler/G1 patches, a tiny real-proof gate, three maximum-profile
+proofs and nine invalid witnesses, followed by changed-public/key/proof rejection.
+Native fixture generation matches the existing canonical encoder at eight count
+boundaries. The Linux controller keeps its original compile-only defaults and
+accepts an explicit bounded proof budget. New actual Linux kernel checks await
+hosted CI; local macOS appropriately skips them. Stubbed scheduling tests do not
+count as proof evidence. No cloud job, maximum setup or maximum proof has run in
+this increment yet. Full local/package validation is recorded separately below.
+
+Local `make check` passes, including specification/admission checks and all 156
+software conformance cases; 32 full-evidence obligations remain unavailable. Core
+`make package-check` passes from staged reviewed paths, retaining
+`dist/package-check-uohk4ae6`; the earlier snapshot omitted untracked additions and
+failed its link audit in `dist/package-check-j5rz7zoe`. Both diagnostics remain.
+The installed wheel hash is
+`470b8e55660e613b02f47562768ac11dbd7311586d696846031c7e9edbac2956`.
+Train/guard execution and new Linux kernel cases remain exact-head hosted gates.
+A temporary private synthetic-output bucket has been created; no job is submitted
+yet. The GitHub repository remains public.

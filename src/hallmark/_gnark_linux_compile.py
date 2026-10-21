@@ -12,7 +12,17 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ._gnark_probe import _stop_worker, digest, json_new, limits, read_regular, write_new
+from ._gnark_probe import (
+    PinnedArtifact,
+    RunBudget,
+    _stop_worker,
+    digest,
+    json_new,
+    limits,
+    read_regular,
+    stream_regular,
+    write_new,
+)
 
 MAX_RSS = 28_000_000_000
 RSS_CUTOFF = 26_000_000_000
@@ -35,10 +45,10 @@ def network_filter() -> list[tuple[int, int, int, int]]:
     return [*instructions, (0x06, 0, 0, 0x7FFF0000)]
 
 
-def restrict_worker(cpu_seconds: int) -> None:
+def restrict_worker(cpu_seconds: int, max_file: int = MAX_FILE) -> None:
     if platform.system() != "Linux" or platform.machine() != "x86_64":
         raise ValueError("Linux x86-64 required")
-    limits(MAX_FILE, cpu_seconds)
+    limits(max_file, cpu_seconds)
 
     class Instruction(ctypes.Structure):
         _fields_ = [
@@ -66,13 +76,13 @@ def resident_bytes(pid: int) -> int:
     return int(fields[1]) * os.sysconf("SC_PAGE_SIZE")
 
 
-def container_memory_limit() -> int:
+def container_memory_limit(required: int = MAX_RSS) -> int:
     for name in ["/sys/fs/cgroup/memory.max", "/sys/fs/cgroup/memory/memory.limit_in_bytes"]:
         try:
             raw = Path(name).read_text().strip()
         except FileNotFoundError:
             continue
-        if not raw.isascii() or not raw.isdecimal() or int(raw) < MAX_RSS + 512 * 1024**2:
+        if not raw.isascii() or not raw.isdecimal() or int(raw) < required + 512 * 1024**2:
             raise ValueError("container memory unavailable or insufficient")
         return int(raw)
     raise ValueError("container memory limit unavailable")
@@ -85,14 +95,49 @@ def invoke(
     seconds: float,
     max_rss: int = MAX_RSS,
     cutoff: int = RSS_CUTOFF,
+    budget: RunBudget | None = None,
+    max_file: int = MAX_FILE,
+    inputs: dict[str, bytes | PinnedArtifact] | None = None,
 ) -> dict[str, Any]:
-    if not 0 < seconds <= 300 or not 0 < cutoff < max_rss <= MAX_RSS:
+    max_seconds, allowed_rss, cpu_seconds, threads, soft_memory = 300, MAX_RSS, 1200, 4, 1024**3
+    if budget is not None:
+        if (
+            not 0 < budget.case_seconds <= 7200
+            or not 0 < budget.cpu_seconds <= 48 * 7200
+            or not 1 <= budget.threads <= 48
+            or not 0 < budget.max_rss_bytes <= 170_000_000_000
+            or not 0 < budget.max_output_bytes <= 96 * 1024**3
+        ):
+            raise ValueError("invalid proof budget")
+        budget.inspect()
+        max_seconds, allowed_rss = budget.case_seconds, budget.max_rss_bytes
+        seconds = min(seconds, budget.deadline - time.monotonic())
+        cpu_seconds, threads = budget.cpu_seconds, budget.threads
+        soft_memory = allowed_rss * 3 // 4
+    if (
+        not 0 < seconds <= max_seconds
+        or not 0 < cutoff < max_rss <= allowed_rss
+        or not 0 < max_file <= (24 * 1024**3 if budget else MAX_FILE)
+    ):
         raise ValueError("invalid compile limits")
+    for name, value in (inputs or {}).items():
+        if not name or name in (".", "..") or Path(name).name != name or "/" in name:
+            raise ValueError("invalid input filename")
+        if isinstance(value, bytes) and len(value) > max_file:
+            raise ValueError("input exceeds file bound")
     work.mkdir(mode=0o700)
+    for name, value in (inputs or {}).items():
+        if isinstance(value, PinnedArtifact):
+            value.copy_to(work / name, max_file)
+        else:
+            write_new(work / name, value)
+    if budget is not None:
+        budget.inspect()
+        seconds = min(seconds, budget.deadline - time.monotonic())
     environment = {
         "PATH": "/usr/bin:/bin",
-        "GOMAXPROCS": "4",
-        "GOMEMLIMIT": "1GiB",
+        "GOMAXPROCS": str(threads),
+        "GOMEMLIMIT": str(soft_memory) if budget else "1GiB",
         "LANG": "C",
         "TZ": "UTC",
         "TMPDIR": str(work),
@@ -105,6 +150,8 @@ def invoke(
             "seconds": seconds,
             "max_rss_bytes": max_rss,
             "cutoff_bytes": cutoff,
+            "per_file_limit_bytes": max_file,
+            "cpu_limit_seconds": cpu_seconds,
             "seccomp_filter": network_filter(),
         },
     )
@@ -121,7 +168,7 @@ def invoke(
             stderr=stderr,
             close_fds=True,
             start_new_session=True,
-            preexec_fn=lambda: restrict_worker(1200),
+            preexec_fn=lambda: restrict_worker(cpu_seconds, max_file),
         )
         try:
             while True:
@@ -159,19 +206,18 @@ def invoke(
         "timed_out": timed_out,
         "memory_limit_exceeded": memory_exceeded,
         "memory_monitor_failed": monitor_failed,
-        "files": {
-            p.name: {"bytes": p.stat().st_size, "sha256": digest(read_regular(p, MAX_FILE))}
-            for p in sorted(work.iterdir())
-        },
+        "files": {p.name: stream_regular(p, max_file) for p in sorted(work.iterdir())},
     }
     result["within_limits"] = not (
         timed_out
         or memory_exceeded
         or monitor_failed
         or result["max_rss_bytes"] > max_rss
-        or usage.ru_utime + usage.ru_stime > 1200
+        or usage.ru_utime + usage.ru_stime > cpu_seconds
     )
     json_new(work / "cost.json", result)
+    if budget is not None:
+        budget.inspect(result)
     print(json.dumps({"case": work.name, "cost": result}), flush=True)
     return result
 

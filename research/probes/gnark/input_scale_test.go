@@ -68,7 +68,7 @@ func TestInputBatchRejectsMalformedManifestBeforeLoadingKeys(t *testing.T) {
 			if err := os.WriteFile("cases.json", []byte(test.raw), 0600); err != nil {
 				t.Fatal(err)
 			}
-			_, err := inputScaleBatch(8)
+			_, err := inputScaleBatch(8, 256*1024*1024)
 			if err == nil || err.Error() != test.message {
 				t.Fatalf("expected %q, got %v", test.message, err)
 			}

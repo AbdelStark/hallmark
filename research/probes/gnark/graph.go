@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"io"
 	"os"
@@ -8,6 +10,7 @@ import (
 
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/backend/groth16"
+	"github.com/consensys/gnark/constraint"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/r1cs"
 )
@@ -83,27 +86,53 @@ func runGraph(command string) (int, error) {
 		return 0, errors.New("invalid graph kind")
 	}
 	if kind == "block" {
-		return runRelation(action, &blockCircuit{}, blockAssignment)
+		return runRelation(action, &blockCircuit{}, blockAssignment, 256*1024*1024)
 	}
 	prototype, _, _ := graph(kind)
 	return runRelation(action, prototype, func(private bool) (frontend.Circuit, error) {
 		return graphAssignment(kind, private)
-	})
+	}, 256*1024*1024)
 }
 
-func runRelation(action string, prototype frontend.Circuit, assignment func(bool) (frontend.Circuit, error)) (int, error) {
+func runRelation(action string, prototype frontend.Circuit, assignment func(bool) (frontend.Circuit, error), artifactLimit int64) (int, error) {
 	curve := ecc.BLS12_381
 	switch action {
-	case "compile":
-		ccs, err := frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
+	case "compile", "export", "inspect", "setup", "setup-compiled":
+		ccs := groth16.NewCS(curve)
+		var err error
+		if action == "inspect" || action == "setup-compiled" {
+			err = readBounded("circuit.r1cs", ccs, artifactLimit)
+		} else {
+			ccs, err = frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
+		}
 		if err != nil {
 			return 0, err
 		}
-		return ccs.GetNbConstraints(), nil
-	case "setup":
-		ccs, err := frontend.Compile(curve.ScalarField(), r1cs.NewBuilder, prototype)
-		if err != nil {
-			return 0, err
+		if action == "compile" {
+			return ccs.GetNbConstraints(), nil
+		}
+		if action == "export" || action == "inspect" {
+			if action == "export" {
+				if err := write("circuit.r1cs", ccs); err != nil {
+					return ccs.GetNbConstraints(), err
+				}
+			}
+			commitments := ccs.GetCommitments().(constraint.Groth16Commitments)
+			privateCommitted := 0
+			for _, commitment := range commitments {
+				privateCommitted += len(commitment.PrivateCommitted)
+			}
+			report, err := json.Marshal(map[string]any{
+				"schema_id":   "hallmark.gnark-circuit-capacity/1",
+				"constraints": ccs.GetNbConstraints(), "internal_variables": ccs.GetNbInternalVariables(),
+				"secret_variables": ccs.GetNbSecretVariables(), "public_variables": ccs.GetNbPublicVariables(),
+				"instructions": ccs.GetNbInstructions(), "coefficients": ccs.GetNbCoefficients(),
+				"commitments": len(commitments), "private_committed_variables": privateCommitted,
+			})
+			if err != nil {
+				return ccs.GetNbConstraints(), err
+			}
+			return ccs.GetNbConstraints(), write("capacity.json", bytes.NewReader(report))
 		}
 		pk, vk, err := groth16.Setup(ccs)
 		if err != nil {
@@ -113,6 +142,9 @@ func runRelation(action string, prototype frontend.Circuit, assignment func(bool
 			name string
 			data io.WriterTo
 		}{{"circuit.r1cs", ccs}, {"pk.bin", pk}, {"vk.bin", vk}} {
+			if action == "setup-compiled" && artifact.name == "circuit.r1cs" {
+				continue
+			}
 			if err := write(artifact.name, artifact.data); err != nil {
 				return ccs.GetNbConstraints(), err
 			}
@@ -125,10 +157,10 @@ func runRelation(action string, prototype frontend.Circuit, assignment func(bool
 		}
 		ccs := groth16.NewCS(curve)
 		pk := groth16.NewProvingKey(curve)
-		if err := read("circuit.r1cs", ccs); err != nil {
+		if err := readBounded("circuit.r1cs", ccs, artifactLimit); err != nil {
 			return 0, err
 		}
-		if err := read("pk.bin", pk); err != nil {
+		if err := readBounded("pk.bin", pk, artifactLimit); err != nil {
 			return 0, err
 		}
 		witness, err := frontend.NewWitness(values, curve.ScalarField())

@@ -132,13 +132,34 @@ Do not commit toolchains, module caches, binaries, proving keys or local run
 directories. Public synthetic proof/key examples and numeric costs may be
 retained as explicit research evidence; they are not operational trust anchors.
 
-The artifact reader streams within its unchanged 256 MiB cap, rejects unsafe
-file types/links and requires exact decoder consumption. Commitment-scaling
+The artifact reader streams within a 256 MiB default cap, rejects unsafe
+file types/links and requires exact decoder consumption. Only the 32,768-unit
+commitment profile allows up to 24 GiB per artifact under an explicit parent budget. Commitment-scaling
 setup files move through pinned exclusive copies; worker inventories hash in
 bounded chunks. Detected mutations and failed copies reject before dependent
 workers. Gnark's constraint decoder still buffers internally; this is not a
 maximum-size setup/prover qualification. See
 [decision 0041](../../../docs/decisions/0041-streamed-proof-artifacts.md).
+
+## Maximum commitment artifacts and proof attempt
+
+`input-export CAPACITY` writes a compiled `circuit.r1cs` and numeric `capacity.json`;
+`input-inspect CAPACITY` reloads a caller-pinned circuit and writes its counts.
+`input-setup-compiled CAPACITY` reads that circuit and exclusively creates setup
+keys. It does not authenticate the supplied circuit: the controller must pin it
+against independently retained inputs before use. Failed setup no longer requires
+recompilation. The tiny export/reload/setup path has a real-proof unit test.
+
+The Mac maximum export and fresh reload pass; see
+[decision 0045](../../../docs/decisions/0045-standing-approval-and-maximum-artifacts.md)
+and [numeric evidence](../../evidence/w18-maximum-artifacts-2026-10-21.json).
+The larger-memory Linux campaign is a separate optional controller,
+`python -m hallmark._gnark_maximum --binary BINARY --expected-binary SHA256 --output FRESH_DIRECTORY`.
+It requires the explicit [HF run plan](../../../docs/decisions/0046-bounded-maximum-hf-proof.md),
+passes a tiny real-proof fixture first, and never sets `qualified_backend` true.
+The existing compilation-only command keeps its original limits. A prepared
+controller, native fixture agreement or CI test does not establish that the
+maximum setup or proof has executed.
 
 ## Run the staged qualification command
 

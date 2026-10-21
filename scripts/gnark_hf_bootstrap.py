@@ -1,4 +1,4 @@
-"""Public-input-only bootstrap for one pinned HF compilation diagnosis."""
+"""Public-input-only bootstrap for pinned HF compilation or maximum proof research."""
 
 import base64
 import hashlib
@@ -22,8 +22,9 @@ def digest(raw):
 
 
 def validate(plan):
+    maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
     if (
-        plan["schema_id"] != "hallmark.hf-compile-inputs/1"
+        plan["schema_id"] not in ("hallmark.hf-compile-inputs/1", "hallmark.hf-maximum-inputs/1")
         or not re.fullmatch("[a-f0-9]{40}", plan["source_commit"])
         or set(plan["files"])
         != {
@@ -47,6 +48,7 @@ def validate(plan):
             "src/hallmark/__init__.py",
             "src/hallmark/_gnark_probe.py",
             "src/hallmark/_gnark_linux_compile.py",
+            *(["src/hallmark/_gnark_maximum.py"] if maximum else []),
         }
         or plan["go_archive"]["filename"] != "go1.26.8.linux-amd64.tar.gz"
         or plan["go_archive"]["size"] != 66897291
@@ -54,6 +56,13 @@ def validate(plan):
         != "3cdd1a266ffba596d01b87a6bdcf51e141f92ae17d991bb9fe7f6e2149de01d4"
     ):
         raise ValueError("unapproved job input")
+    if maximum and (
+        not re.fullmatch(r"[0-9]{19}", plan["experiment"])
+        or digest(base64.b64decode(plan["patched_g1"], validate=True))
+        != "2c2368587355ffe6747a8fcf0d147180f74fd4b559efeccb428fbe0d2bb026ac"
+        or not re.fullmatch(r"[a-f0-9]{64}", plan["crypto_inventory_sha256"])
+    ):
+        raise ValueError("unapproved maximum setup candidate")
     for pin in [*plan["files"].values(), plan["go_archive"]]:
         if not re.fullmatch("[a-f0-9]{64}", pin["sha256"]):
             raise ValueError("invalid source pin")
@@ -77,6 +86,7 @@ def inventory(root):
 
 def main(plan):
     validate(plan)
+    maximum = plan["schema_id"] == "hallmark.hf-maximum-inputs/1"
     if platform.system() != "Linux" or platform.machine() != "x86_64":
         raise ValueError("Linux x86-64 required")
     root = Path("/tmp/hallmark-hf-compile")
@@ -98,7 +108,7 @@ def main(plan):
         return raw
 
     def run(label, command, cwd, env, seconds):
-        if time.monotonic() - start + seconds > 1100:
+        if time.monotonic() - start + seconds > (7150 if maximum else 1100):
             raise TimeoutError("insufficient remaining job budget")
         began = time.monotonic()
         failure = None
@@ -154,7 +164,11 @@ def main(plan):
     sys.path.insert(0, str(root / "repo/src"))
     from hallmark._gnark_linux_compile import container_memory_limit
 
-    print(json.dumps({"container_memory_limit_bytes": container_memory_limit()}), flush=True)
+    required_memory = 170_000_000_000 if maximum else 28_000_000_000
+    print(
+        json.dumps({"container_memory_limit_bytes": container_memory_limit(required_memory)}),
+        flush=True,
+    )
     go_raw = fetch(
         "https://go.dev/dl/" + plan["go_archive"]["filename"],
         root / "go.tar.gz",
@@ -188,6 +202,7 @@ def main(plan):
         "TMPDIR": str(root / "tmp"),
     }
     run("download", [go, "mod", "download"], source, env, 120)
+    run("module-verification", [go, "mod", "verify"], source, env, 30)
     for name in ["go.mod", "go.sum"]:
         assert (
             digest((source / name).read_bytes())
@@ -218,6 +233,29 @@ def main(plan):
         + b"\n"
     )
     shutil.copyfile(source / "go.sum", root / "patched.sum")
+    if maximum:
+        crypto = root / "crypto-patched"
+        shutil.copytree(
+            root
+            / "gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052",
+            crypto,
+        )
+        for directory, _, _ in os.walk(crypto):
+            os.chmod(directory, 0o700)
+        g1 = crypto / "ecc/bls12-381/g1.go"
+        assert digest(g1.read_bytes()) == (
+            "22544597ca454517d5a4ae788a5349ae2e2ec72380e101bf1d37b4d0ffe50165"
+        )
+        os.chmod(g1, 0o600)
+        g1.write_bytes(base64.b64decode(plan["patched_g1"], validate=True))
+        assert (
+            digest(json.dumps(inventory(crypto), sort_keys=True, separators=(",", ":")).encode())
+            == plan["crypto_inventory_sha256"]
+        )
+        with modfile.open("ab") as handle:
+            handle.write(
+                b"\nreplace github.com/consensys/gnark-crypto => " + str(crypto).encode() + b"\n"
+            )
     env["GOPROXY"] = "off"
     flags = ["-mod=readonly", "-modfile=" + str(modfile)]
     run("build-tests", [go, "test", "-c", *flags, "-o", str(root / "tests"), "."], source, env, 180)
@@ -226,7 +264,7 @@ def main(plan):
         [
             str(root / "tests"),
             "-test.run",
-            "Test(ArtifactReaderBoundaries|BooleanCache|Prefix|InputBatch|"
+            "Test(Artifact|CompiledSetup|BooleanCache|Prefix|InputBatch|"
             "AssignmentReader|CircuitFingerprints)",
             "-test.v",
         ],
@@ -269,21 +307,21 @@ def main(plan):
         "PYTHONDONTWRITEBYTECODE": "1",
     }
     run(
-        "compilation",
+        "maximum-proof" if maximum else "compilation",
         [
             sys.executable,
             "-m",
-            "hallmark._gnark_linux_compile",
+            "hallmark._gnark_maximum" if maximum else "hallmark._gnark_linux_compile",
             "--binary",
             str(root / "probe"),
             "--expected-binary",
             binary_sha,
             "--output",
-            str(root / "execution"),
+            "/output/w18-" + plan["experiment"] if maximum else str(root / "execution"),
         ],
         root,
         child_env,
-        650,
+        6650 if maximum else 650,
     )
 
 

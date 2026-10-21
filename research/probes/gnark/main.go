@@ -51,13 +51,20 @@ func write(name string, value io.WriterTo) error {
 }
 
 func read(name string, value io.ReaderFrom) error {
+	return readBounded(name, value, 256*1024*1024)
+}
+
+func readBounded(name string, value io.ReaderFrom, limit int64) error {
+	if limit <= 0 || limit > 24*1024*1024*1024 {
+		return errors.New("invalid artifact limit")
+	}
 	handle, err := os.OpenFile(name, os.O_RDONLY|syscall.O_NOFOLLOW|syscall.O_NONBLOCK, 0)
 	if err != nil {
 		return err
 	}
 	defer handle.Close()
 	before, err := handle.Stat()
-	if err != nil || !before.Mode().IsRegular() || before.Size() > 256*1024*1024 || before.Sys().(*syscall.Stat_t).Nlink != 1 {
+	if err != nil || !before.Mode().IsRegular() || before.Size() > limit || before.Sys().(*syscall.Stat_t).Nlink != 1 {
 		return errors.New("invalid artifact size")
 	}
 	reader := &io.LimitedReader{R: handle, N: before.Size() + 1}
@@ -82,7 +89,7 @@ func read(name string, value io.ReaderFrom) error {
 func run(args []string) (int, error) {
 	if len(args) == 2 {
 		switch args[0] {
-		case "input-compile", "input-setup", "input-prove", "input-batch", "input-verify":
+		case "input-compile", "input-export", "input-inspect", "input-setup", "input-setup-compiled", "input-prove", "input-batch", "input-verify":
 			return runInputScale(args[0][6:], args[1])
 		}
 	}

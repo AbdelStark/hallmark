@@ -126,12 +126,17 @@ func runInputScale(action, rawSize string) (int, error) {
 		return 0, errors.New("invalid input profile")
 	}
 	prototype := newInputScale(int(size))
+	artifactLimit := int64(256 * 1024 * 1024)
+	if size == 32768 {
+		// Maximum setup keys exceed the small-probe cap; the controller also caps total storage.
+		artifactLimit = 24 * 1024 * 1024 * 1024
+	}
 	if action == "batch" {
-		return inputScaleBatch(int(size))
+		return inputScaleBatch(int(size), artifactLimit)
 	}
 	return runRelation(action, prototype, func(private bool) (frontend.Circuit, error) {
 		return inputScaleAssignment(int(size), "assignment.txt", private)
-	})
+	}, artifactLimit)
 }
 
 func inputScaleAssignment(size int, name string, private bool) (frontend.Circuit, error) {
@@ -159,7 +164,7 @@ func inputScaleAssignment(size int, name string, private bool) (frontend.Circuit
 }
 
 // Real prover attempts share a single key load; verification remains in fresh processes.
-func inputScaleBatch(size int) (int, error) {
+func inputScaleBatch(size int, artifactLimit int64) (int, error) {
 	handle, err := os.Open("cases.json")
 	if err != nil {
 		return 0, err
@@ -191,10 +196,10 @@ func inputScaleBatch(size int) (int, error) {
 	}
 	curve := ecc.BLS12_381
 	ccs, pk := groth16.NewCS(curve), groth16.NewProvingKey(curve)
-	if err := read("circuit.r1cs", ccs); err != nil {
+	if err := readBounded("circuit.r1cs", ccs, artifactLimit); err != nil {
 		return 0, err
 	}
-	if err := read("pk.bin", pk); err != nil {
+	if err := readBounded("pk.bin", pk, artifactLimit); err != nil {
 		return 0, err
 	}
 	for _, c := range cases {

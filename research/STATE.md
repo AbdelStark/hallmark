@@ -382,6 +382,20 @@ not full-encoder qualification or independent security evidence. See
 time plus ancillary allowance is 514.800 of 600 approved seconds, at zero spend.
 Final retained checkout allocation is 33,955,835,904 bytes, below 40 GiB.
 
+The [maximum artifact evidence](evidence/w18-maximum-artifacts-2026-10-21.json)
+now retains the complete 32,768-unit circuit on the Mac. Export takes 79.600 seconds,
+peaks at 17,674,289,152 bytes RSS and writes 2,566,643,378 circuit bytes. A fresh
+reload takes 2.678 seconds and matches the hash and all original counts. A separate
+inventory reload adds commitment sizes: 48,477,333 total wires, one commitment and
+22,366,059 private committed wires. These are serialization/inspection results,
+not setup or proof results. The new adapter supports bounded large artifacts and
+setup from a pinned compiled circuit. Tiny actual proofs and seven small circuit
+fingerprints pass; a missed test-call argument and a pre-worker Python filename
+collision are retained as failures. [Decision 0045](../docs/decisions/0045-standing-approval-and-maximum-artifacts.md)
+records standing owner approval and replaces repeated micro-budget permission
+barriers. [Decision 0046](../docs/decisions/0046-bounded-maximum-hf-proof.md) prepares
+one bounded larger-memory L4 fallback; no new cloud job has launched at this point.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -606,27 +620,16 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-The streamed-artifact repository/package gates and corrected G1 component checks
-pass under the [approved validation increment](evidence/w18-approved-validation-2026-10-21.json).
-The [fresh small commitment campaign](evidence/w18-g1-small-proofs-2026-10-21.json)
-also passes twice, including separately pinned replay. Next: an explicit maximum
-setup/proving resource plan. Point equality, all seven circuit fingerprints and
-the existing cubic proof/reader unit fixture pass. The earlier failed build is
-retained. The optional patch remains disabled in the default module and HF bootstrap.
-The minimum key component already exceeds the existing 256 MiB artifact cap.
-Setup/prover peak memory remains unmeasured; compile success cannot satisfy either
-gate. Preserve the completed HF job and all failed Mac attempts. No new cloud job
-fits the current one-job allowance, and the previous local proving allocation is
-fully charged. Decision 0044 adds 600 seconds for the completed small-proof
-campaign and its checks; it does not authorize a maximum campaign or another HF job.
-Ordinary implementation and preparation can continue. Continue the complete
-encoder graph, including layer normalization,
-without treating the new commitment component as encoder qualification.
-Exact input/key enrollment, independent verification/security/setup review and
-measured costs remain required. Keep new proof runs inside the remaining recorded
-budget. Natural-data validation, genuine hardware and independent verification
-remain separate full-MVP requirements. Ordinary implementation within the recorded
-scope needs no new permission.
+The small proof, artifact-reader and G1 gates pass. The maximum circuit now
+exports and reloads on the Mac with an independently retained circuit hash.
+Continue the frozen maximum setup/proof campaign in decision 0046 under the
+owner's standing approval; do not ask for another small-run permission or reuse
+old exhausted reservations. The source-derived setup/key bounds justify a larger
+L4 host; they do not establish actual setup RSS or latency. All historical failures
+and budgets remain preserved. Current preparation has not produced a maximum
+proof, complete encoder, independent verifier/security review or genuine hardware
+evidence. Continue the admitted encoder graph, including layer normalization,
+after resolving the resource gate; the commitment component does not qualify it.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
@@ -635,7 +638,7 @@ The [hardware/reviewer options](proposals/inj-direct-v1/compute-and-review-optio
 are prepared; procurement and contact remain owner choices when those gates are
 ready. Neither blocks ordinary local implementation.
 
-Keep further proof work sequential within the remaining approved budget. The tiny graphs already have real proof evidence; they do not qualify a larger encoder. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
+Keep further proof work sequential within each recorded bounded campaign. The tiny graphs already have real proof evidence; they do not qualify a larger encoder. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
 
 ## Resume
 

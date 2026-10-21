@@ -5,16 +5,90 @@ import json
 import os
 import platform
 import sys
+import time
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from hallmark import _gnark_linux_compile as probe
+from hallmark._gnark_probe import PinnedArtifact, RunBudget
 
 linux = pytest.mark.skipif(
     platform.system() != "Linux" or platform.machine() != "x86_64",
     reason="actual kernel checks require Linux x86-64",
 )
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("case_seconds", 7201),
+        ("threads", 49),
+        ("cpu_seconds", 345601),
+        ("max_rss_bytes", 170_000_000_001),
+        ("max_output_bytes", 97 * 1024**3),
+    ],
+)
+def test_large_worker_invalid_budget_fails_before_creating_output(tmp_path, field, value):
+    budget = RunBudget(tmp_path, time.monotonic() + 30, 10, 5, 40, 4, 1024**3, 1024**2)
+    with pytest.raises(ValueError):
+        probe.invoke(
+            [sys.executable],
+            tmp_path / "worker",
+            seconds=1,
+            budget=replace(budget, **{field: value}),
+        )
+    assert not (tmp_path / "worker").exists()
+
+
+@pytest.mark.parametrize("name", ["../escape", "/absolute", ".", "..", ""])
+def test_worker_rejects_input_path_before_writing(tmp_path, name):
+    with pytest.raises(ValueError):
+        probe.invoke([sys.executable], tmp_path / "worker", seconds=1, inputs={name: b"x"})
+    assert not (tmp_path / "worker").exists()
+
+
+@linux
+def test_explicit_proof_budget_streams_pinned_input_and_output(tmp_path):
+    source = tmp_path / "source"
+    source.write_bytes(b"x" * 131072)
+    budget = RunBudget(tmp_path, time.monotonic() + 30, 10, 5, 40, 2, 1024**3, 1024**2)
+    code = """import os,pathlib,socket,errno
+assert os.environ['GOMAXPROCS']=='2'
+assert os.environ['GOMEMLIMIT']==str(3*1024**3//4)
+data=pathlib.Path('input.bin').read_bytes()
+assert len(data)==131072 and data==b'x'*131072
+pathlib.Path('output.bin').write_bytes(data)
+try: socket.socket()
+except OSError as e: assert e.errno==errno.EPERM
+else: raise AssertionError('network available')
+"""
+    cost = probe.invoke(
+        [sys.executable, "-c", code],
+        tmp_path / "worker",
+        seconds=5,
+        budget=budget,
+        max_rss=1024**3,
+        cutoff=512 * 1024**2,
+        max_file=256 * 1024,
+        inputs={"input.bin": PinnedArtifact(source, probe.digest(source.read_bytes()), 131072)},
+    )
+    assert cost["exit_code"] == 0 and cost["within_limits"]
+    assert cost["files"]["input.bin"] == cost["files"]["output.bin"]
+
+
+def test_explicit_worker_rejects_changed_input_before_launch(tmp_path):
+    source = tmp_path / "source"
+    source.write_bytes(b"changed")
+    with pytest.raises(ValueError):
+        probe.invoke(
+            [sys.executable],
+            tmp_path / "worker",
+            seconds=1,
+            inputs={"input.bin": PinnedArtifact(source, "0" * 64, 7)},
+        )
+    assert not (tmp_path / "worker/plan.json").exists()
 
 
 @pytest.mark.parametrize(

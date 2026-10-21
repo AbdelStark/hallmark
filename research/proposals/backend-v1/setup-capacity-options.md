@@ -1,13 +1,16 @@
 # Maximum commitment setup: source bounds and next candidate
 
-Status: optional patch component checks and two small-proof campaigns passed,
-2026-10-21. This is not an executed maximum setup or a new run authorization.
+Status: maximum circuit exported and reloaded on the Mac, 2026-10-21.
+Maximum setup and proof remain unexecuted; the prepared larger-memory fallback is
+[decision 0046](../../../docs/decisions/0046-bounded-maximum-hf-proof.md), under the
+standing approval in decision 0045.
 The [numeric source review](../../evidence/w18-setup-capacity-2026-10-21.json)
 pins every file and line range used below. Existing results keep their original
 source identities. The approved 120-second local validation increment closes the
 streamed-artifact gates and validates bounded G1 fixtures. It does not authorize
-a maximum setup/proving campaign or another cloud job. The later approved
-600-second small-proof campaign also excludes both.
+a maximum campaign. Those historical increments retain their original scope;
+decisions 0045/0046 now authorize bounded continued execution without repeated
+micro-budget approval.
 
 ## Established bounds
 
@@ -94,9 +97,24 @@ distribution or whole-setup memory; the final affine array and domain still exis
    alone supplies no cap or memory authority.
 5. Freeze the exact public-input manifest, host, deadlines, memory stop, logging,
    retention and cost cap before requesting or executing a further cloud run.
-   The current one-job allowance is consumed. No retry follows automatically.
+   The historical one-job allowance is consumed; decision 0046 records a new
+   single-job envelope under standing approval. No retry follows automatically.
 
 If that candidate cannot fit the approved host class, prepare a source-backed
 larger-host option with explicit cost/authority terms. A host change cannot fix
 the current artifact cap, supply independent setup/security review or qualify the
 full encoder. Do not purchase capacity from this proposal.
+
+## Measured maximum circuit and current fallback
+
+The [artifact evidence](../../evidence/w18-maximum-artifacts-2026-10-21.json)
+retains the exact circuit hash, 48,477,333 wires and one commitment over 22,366,059
+private wires. The compressed-key upper bound with a one-MiB metadata allowance
+is 16,027,358,074 bytes. The larger reader cap is 24 GiB for this profile only.
+Scalar-capacity, minimum affine/digit arrays and precomputed FFT tables account
+for at least 30,186,277,504 simultaneous backing bytes before the circuit and
+other allocations. This is not a measured RSS lower bound: allocation liveness,
+page residency and garbage collection affect RSS. A 186 GB HF L4 host gives a
+bounded fallback without another arithmetic patch; the GPUs are unused. The
+built-in `fft.WithoutPrecompute()` is a possible future candidate, not enabled
+in these results or the prepared job.
