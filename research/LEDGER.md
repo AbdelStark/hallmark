@@ -3022,3 +3022,66 @@ wheels match; installed core checks pass. The wheel hash is unchanged because
 this milestone adds optional probes, not a core runtime change. The package
 snapshot precedes this validation-only evidence/prose update. Installed train
 and guard fixtures remain the hosted matrix obligation.
+
+## 2026-10-21 — W18 complete encoder capacity and maximum-run preparation
+
+Hypothesis: the frozen complete synthetic encoder can export and reload at its
+32,768-byte profile maximum within the Mac budget. Baseline is the successful
+8-byte proof campaign, with unchanged graph, constants, profiles, threshold,
+compiler and parallel G1/Pedersen candidates. The fresh capacity protocol and raw
+numeric results are retained in `runs/w18-encoder-capacity-1792603242840959000`.
+The [public evidence](evidence/w18-complete-encoder-capacity-2026-10-21.json)
+records exact source, binary, protocol, circuit and worker-file pins before prose.
+
+Exports at 8/32/256/32,768 bytes pass. The maximum has 110,432,265 constraints,
+111,821,440 internal variables and 2,211,885 private variables. Its circuit is
+5,153,016,221 bytes with SHA-256
+`7ac28b310c9727aef8c98c3d2a4944a6730d7696ddad40ef4aba1b31a6f5451a`.
+Maximum export takes 276.780427542 seconds, peaking at 20,233,928,704 bytes RSS;
+fresh reload takes 6.084995625 seconds and peaks at 17,143,889,920 bytes. All counts
+and hashes match. Limits remain 1,200 seconds overall, 600 for maximum export,
+300 for reload, four threads, 32 GiB RSS and 28 GiB sampled stop, with a 1 GiB Go
+soft-memory target. The zero-cost diagnostic overlaps lightweight checkout
+preparation late in export; it is not a controlled latency comparison. Root byte
+accounting includes that preparation. No setup or proving occurs in this run.
+
+Pinned-source allocation formulas first reproduce the prior commitment analysis,
+then give 64,198,195,232 bytes of simultaneous backing allocations and a
+35,308,458,964-byte compressed proving-key upper bound with metadata allowance.
+These are allocation/file bounds, not observed setup RSS or exact key size;
+unused scalar capacity and excluded live arrays are disclosed. The resource
+choice is the approved larger-memory fallback, with explicit new limits in
+[decision 0053](../docs/decisions/0053-maximum-encoder-proof-campaign.md).
+
+Preparation uses `runs/w18-encoder-maximum-1792603925159848000` and a separate
+experiment identity. The existing maximum controller gains an encoder mode;
+commitment limits and previous runs remain unchanged. The maximum-only reader
+cap becomes 48 GiB, retention permits 128 GiB, and the explicit Linux RSS ceiling
+becomes 230 GB with a 210 GB sampled stop. Ordinary compile defaults stay fixed.
+Input pins are rechecked after every worker and all batch outcome records must
+match. No acceptance API or qualified-backend flag changes.
+
+The reproducible recipe freezes empty, 32,767-byte and 32,768-byte synthetic
+prompts. Every native intermediate agrees with the separate Decimal oracle;
+full assignments have 1,982,464 trace scalars and 100 public fields. Native scores
+are 0, -4 and -5. Rejections cover final input/encoding/position, count, prefix,
+byte/salt ranges, empty padding and first/middle/final traces. Native fixture
+identities and all assignment hashes are retained before a cloud proof. No model,
+private transcript, learned quality measurement or test-set selection occurs.
+
+Before any paid submission, the new source passes 94 focused Python tests with
+five Linux-only skips. Both dependency builds pass all 15 Go tests, preserve all
+seven prior fingerprints and match the eight-byte encoder fingerprint. Twelve
+new witness classes produce the required typed unsatisfied-constraint result in
+the small circuit. The rebuilt probe then passes the full small proof campaign:
+15 real proofs, 509 batch outcomes, 100 public mutations and the remaining
+malformed-proof/key cases, in 153.083 seconds (124 workers; peak RSS 1,110,802,432
+bytes). This is regression evidence, not a maximum proof. All 1,929 recorded file
+pins across this regression and capacity exports/reload are rehashed successfully.
+
+Local `make check` passes in 92.224 seconds: 2,230 tests, five Linux-only skips,
+one existing fork warning, all 156 software conformance matches and 32 explicitly
+unavailable genuine-evidence obligations. `make package-check` passes in 8.221
+seconds with matching reproducible distributions and installed core checks. The
+package snapshot precedes this validation-only prose/evidence update. Installed
+train/guard checks and Linux worker isolation remain exact-head CI obligations.

@@ -326,7 +326,7 @@ func runEncoder(action, rawSize string) (int, error) {
 	}
 	limit := int64(2 * 1024 * 1024 * 1024)
 	if size == 32768 {
-		limit = 24 * 1024 * 1024 * 1024
+		limit = 48 * 1024 * 1024 * 1024
 	}
 	if action == "batch" {
 		return relationBatch(func(name string) (frontend.Circuit, error) { return encoderAssignment(int(size), name, true) }, limit, 1024, 128*1024)

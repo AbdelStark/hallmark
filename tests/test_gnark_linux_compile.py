@@ -26,8 +26,8 @@ linux = pytest.mark.skipif(
         ("case_seconds", 7201),
         ("threads", 49),
         ("cpu_seconds", 345601),
-        ("max_rss_bytes", 170_000_000_001),
-        ("max_output_bytes", 97 * 1024**3),
+        ("max_rss_bytes", 230_000_000_001),
+        ("max_output_bytes", 129 * 1024**3),
     ],
 )
 def test_large_worker_invalid_budget_fails_before_creating_output(tmp_path, field, value):
@@ -237,11 +237,11 @@ def bootstrap_plan(monkeypatch):
     monkeypatch.setitem(
         bootstrap["validate"].__globals__,
         "digest",
-        lambda raw: (
-            "3cdd1a266ffba596d01b87a6bdcf51e141f92ae17d991bb9fe7f6e2149de01d4"
-            if raw == b"test builder"
-            else original_digest(raw)
-        ),
+        lambda raw: {
+            b"test builder": "3cdd1a266ffba596d01b87a6bdcf51e141f92ae17d991bb9fe7f6e2149de01d4",
+            b"test g1": "2c2368587355ffe6747a8fcf0d147180f74fd4b559efeccb428fbe0d2bb026ac",
+            b"test pedersen": "04d66b48c95d1a55319b3639f1034bd79d6ce6d98bc573723dd983db16249444",
+        }.get(raw, original_digest(raw)),
     )
     names = [
         "artifacts_test.go",
@@ -328,6 +328,36 @@ def test_bootstrap_requires_embedded_encoder_data(bootstrap_plan):
     validate, plan = bootstrap_plan
     del plan["files"]["research/probes/gnark/encoder-graph.json"]
     with pytest.raises(ValueError, match="input"):
+        validate(plan)
+
+
+@pytest.mark.parametrize("failure", [None, "fixture", "patch", "large", "scope"])
+def test_encoder_bootstrap_requires_exact_fixture_and_reviewed_patch(bootstrap_plan, failure):
+    import base64
+
+    validate, plan = bootstrap_plan
+    plan.update(
+        schema_id="hallmark.hf-encoder-maximum-inputs/1",
+        experiment="1792603925159848000",
+        patched_g1=base64.b64encode(b"test g1").decode(),
+        patched_pedersen=base64.b64encode(b"test pedersen").decode(),
+        crypto_inventory_sha256="a" * 64,
+    )
+    fixture = "research/probes/gnark/encoder-maximum-fixture.json"
+    plan["files"][fixture] = {"bytes": 99588, "sha256": "a" * 64}
+    plan["files"]["src/hallmark/_gnark_maximum.py"] = {"bytes": 1, "sha256": "a" * 64}
+    if failure == "fixture":
+        del plan["files"][fixture]
+    elif failure == "patch":
+        del plan["patched_pedersen"]
+    elif failure == "large":
+        plan["files"][fixture]["bytes"] = 262145
+    elif failure == "scope":
+        plan["schema_id"] = "hallmark.hf-maximum-inputs/1"
+    if failure:
+        with pytest.raises(ValueError):
+            validate(plan)
+    else:
         validate(plan)
 
 

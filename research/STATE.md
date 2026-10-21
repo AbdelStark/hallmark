@@ -780,3 +780,15 @@ followed by an explicit maximum setup/proof resource plan. W18 and W12 remain op
 `make check` passes 2,202 tests with five platform skips and one warning; the
 core installed-package gate passes. Both dependency builds execute the new Go
 checks. Hosted delivery for this proof milestone is pending.
+
+The [full encoder capacity measurement](evidence/w18-complete-encoder-capacity-2026-10-21.json)
+passes export at 8, 32, 256 and 32,768 bytes, plus a fresh maximum reload. The
+maximum circuit has 110,432,265 constraints and occupies 5,153,016,221 bytes;
+export takes 276.780 seconds and peaks at 20,233,928,704 bytes RSS. Reload matches
+all counts and bytes. Source-derived setup backing allocations exceed the Mac's
+32 GiB run envelope; they are not measured setup RSS. The native/Decimal-checked
+maximum fixture and bounded larger-memory controller are prepared under
+[decision 0053](../docs/decisions/0053-maximum-encoder-proof-campaign.md). Continue
+with the exact-source checked HF campaign, full artifact retention and original-
+dependency Mac verification. No maximum encoder setup or proof has run in this
+preparation milestone. W18 and W12 remain open; no backend is qualified.

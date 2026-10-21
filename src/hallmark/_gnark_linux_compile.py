@@ -105,8 +105,8 @@ def invoke(
             not 0 < budget.case_seconds <= 7200
             or not 0 < budget.cpu_seconds <= 48 * 7200
             or not 1 <= budget.threads <= 48
-            or not 0 < budget.max_rss_bytes <= 170_000_000_000
-            or not 0 < budget.max_output_bytes <= 96 * 1024**3
+            or not 0 < budget.max_rss_bytes <= 230_000_000_000
+            or not 0 < budget.max_output_bytes <= 128 * 1024**3
         ):
             raise ValueError("invalid proof budget")
         budget.inspect()
@@ -117,7 +117,7 @@ def invoke(
     if (
         not 0 < seconds <= max_seconds
         or not 0 < cutoff < max_rss <= allowed_rss
-        or not 0 < max_file <= (24 * 1024**3 if budget else MAX_FILE)
+        or not 0 < max_file <= (48 * 1024**3 if budget else MAX_FILE)
     ):
         raise ValueError("invalid compile limits")
     for name, value in (inputs or {}).items():

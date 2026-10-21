@@ -109,6 +109,7 @@ func TestCircuitFingerprints(t *testing.T) {
 		{"installation", &circuit{}}, {"rule", &ruleCircuit{}}, {"mlp", &mlpCircuit{}},
 		{"block", &blockCircuit{}}, {"input-8", newInputScale(8)},
 		{"input-32", newInputScale(32)}, {"input-256", newInputScale(256)},
+		{"encoder-8", newEncoder(8)},
 	} {
 		ccs, err := frontend.Compile(ecc.BLS12_381.ScalarField(), r1cs.NewBuilder, test.circuit)
 		if err != nil {
