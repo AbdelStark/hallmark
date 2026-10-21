@@ -32,6 +32,7 @@ jobs:
       - run: '"$RUNNER_TEMP/hallmark-go/bin/go" mod download'
       - run: '"$RUNNER_TEMP/hallmark-go/bin/go" mod verify'
       - run: '"$RUNNER_TEMP/hallmark-go/bin/go" test -mod=readonly -count=1 -v .'
+      - run: git diff --exit-code -- go.mod go.sum
   core:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10

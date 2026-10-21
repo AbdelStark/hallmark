@@ -1,0 +1,75 @@
+{
+  "schema_id": "hallmark.live-progress-evidence/1",
+  "protocol_sha256": "1acefde2d479a0adbb39d2e1be74c31b5cd1e22e0ad1b6160f30e1f35a628c5f",
+  "candidate_source_pins": {
+    "scripts/gnark_hf_bootstrap.py": "73cf34a82329ef4f4429b8badd9e62a722189cbf5c43acbf3206833ffe4462eb",
+    "src/hallmark/_gnark_maximum.py": "e7366d7966ed993ae9cd2ff4c83f0fb12ce4069167618b00c8e4a76d34e7d8a9",
+    "tests/test_gnark_linux_compile.py": "d517440bebd12f8ea654e4eb04880b5be8913e64a4985d685c6f027ed5f6c40b"
+  },
+  "focused_validation": {
+    "argv": [
+      "uv",
+      "run",
+      "--locked",
+      "pytest",
+      "-q",
+      "tests/test_gnark_linux_compile.py",
+      "tests/test_gnark_maximum.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 5.559691124828532
+  },
+  "tests_passed": 59,
+  "linux_only_skips": 5,
+  "assertions": [
+    "A real child requires a relay acknowledgement before it can exit.",
+    "Success and exit-code 3 retain exact stdout/stderr bytes, including split UTF-8, non-UTF-8 stderr and a tail larger than one relay chunk.",
+    "The deadline remains a TimeoutExpired failure.",
+    "Existing maximum-controller and bootstrap boundaries pass."
+  ],
+  "behavior": "Read at most 64 KiB from each captured log per polling iteration; emit the unrelayed tail before the final receipt. Complete captured-file hashes are unchanged in meaning.",
+  "limits": {
+    "local_seconds": 180,
+    "cost_minor": 0,
+    "cloud_jobs": 0
+  },
+  "running_job_unchanged": "6ad8ce6a0a35baab53a1dff0",
+  "run_directory": "runs/w18-live-progress-1792596929687095000",
+  "qualified_backend": false,
+  "whole_repository_validation": {
+    "make_check": {
+      "argv": [
+        "make",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 45.427525041857734
+    },
+    "package_check": {
+      "argv": [
+        "make",
+        "package-check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.862388708163053
+    },
+    "package_report": {
+      "status": "passed",
+      "source_id": "8ca76a391c74c9cfbb3c0da6ff09ca19ac62d873a862230b00a1db2a960d5407",
+      "distributions": {
+        "hallmark_research-0.1.0.tar.gz": "f6314f3098bf1c63b681d75748084b424a8c1841a41818f07c1b1501f45ed728",
+        "hallmark_research-0.1.0-py3-none-any.whl": "90a9d6219fea40e9d673cc2b92cdb64f0cc72220da8d109d0079b08530590f35"
+      },
+      "installed_train_checked": false,
+      "installed_guard_checked": false,
+      "retained": "runs/w18-hf-local-disk-1792588507859979000/result-worktree/dist/package-check-heaaxodo"
+    },
+    "tests_passed": 2114,
+    "linux_only_skips": 5,
+    "warnings": 1,
+    "software_conformance_matched": 156,
+    "full_evidence_unavailable": 32,
+    "hosted_validation": "pending"
+  },
+  "package_snapshot_note": "The package snapshot precedes this validation-only evidence update."
+}
