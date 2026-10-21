@@ -10,6 +10,42 @@ from hallmark import _gnark_maximum as maximum
 from hallmark._gnark_probe import PinnedArtifact, digest, stream_regular
 
 
+def test_retention_copies_failed_and_complete_outputs_with_source_pins(tmp_path):
+    source, target = tmp_path / "local", tmp_path / "bucket"
+    (source / "failed").mkdir(parents=True)
+    (source / "failed" / "partial.bin").write_bytes(b"partial circuit")
+    (source / "result.json").write_bytes(b'{"status":"incomplete"}')
+    maximum.retain_outputs(source, target)
+    receipt = json.loads((target / "retention.json").read_text())
+    assert receipt["total_bytes"] == 38
+    assert set(receipt["files"]) == {"failed/partial.bin", "result.json"}
+    for name, pin in receipt["files"].items():
+        assert (target / name).read_bytes() == (source / name).read_bytes()
+        assert stream_regular(target / name, 100) == pin
+    with pytest.raises(FileExistsError):
+        maximum.retain_outputs(source, target)
+
+
+@pytest.mark.parametrize("kind", ["file-link", "directory-link", "oversize"])
+def test_retention_rejects_unsafe_source_without_completion_record(tmp_path, monkeypatch, kind):
+    source, target = tmp_path / "local", tmp_path / "bucket"
+    source.mkdir()
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "private").write_bytes(b"must not copy")
+    if kind == "file-link":
+        (source / "linked").symlink_to(outside / "private")
+    elif kind == "directory-link":
+        (source / "linked").symlink_to(outside, target_is_directory=True)
+    else:
+        monkeypatch.setattr(maximum, "MAX_FILE", 1)
+        (source / "large").write_bytes(b"xx")
+    with pytest.raises((OSError, ValueError)):
+        maximum.retain_outputs(source, target)
+    assert not (target / "retention.json").exists()
+    assert not list(target.rglob("private"))
+
+
 @pytest.mark.parametrize("count", [0, 1, 23, 24, 255, 256, 32767, 32768])
 def test_maximum_fixture_matches_existing_canonical_native_vectors(count):
     reference = runpy.run_path(

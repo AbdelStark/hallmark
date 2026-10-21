@@ -619,13 +619,25 @@ W17 / #18 is merged in [PR #74](https://github.com/AbdelStark/hallmark/pull/74)
 as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
-W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
+W18 / #19's staged implementation is merged in [PR #72](https://github.com/AbdelStark/hallmark/pull/72)
+as `89c2585619d4404d702439a46c825c8f8241cef9`. All 28 final candidate jobs and
+all 14 [merged-main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39604077378)
+pass. Issue #19 stays open; no backend is selected.
 The small proof, artifact-reader and G1 gates pass. The maximum circuit now
 exports and reloads on the Mac with an independently retained circuit hash.
-Continue the frozen maximum setup/proof campaign in decision 0046 under the
+Continue the frozen maximum setup/proof campaign in decisions 0046 and
+[0047](../docs/decisions/0047-cpu-maximum-proof-fallback.md) under the
 owner's standing approval; do not ask for another small-run permission or reuse
 old exhausted reservations. The source-derived setup/key bounds justify a larger
-L4 host; they do not establish actual setup RSS or latency. All historical failures
+host; they do not establish actual setup RSS or latency. The queued L4 job was
+cancelled without observed execution, its empty bucket was removed, and a cheaper
+256 GB CPU attempt exports the identical maximum circuit but stops on the mounted
+bucket file-integrity guard. All 37 files are downloaded and checked, and the bucket
+is removed. [Failure evidence](evidence/w18-hf-storage-failure-2026-10-21.json)
+retains the missing maximum cost receipt and unavailable setup/proof. The
+[local-disk correction](../docs/decisions/0048-local-disk-proof-execution.md)
+keeps file checks strict and copies complete/failed outputs only after execution.
+All historical failures
 and budgets remain preserved. Current preparation has not produced a maximum
 proof, complete encoder, independent verifier/security review or genuine hardware
 evidence. Continue the admitted encoder graph, including layer normalization,

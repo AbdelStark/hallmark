@@ -2584,3 +2584,38 @@ The installed wheel hash is
 Train/guard execution and new Linux kernel cases remain exact-head hosted gates.
 A temporary private synthetic-output bucket has been created; no job is submitted
 yet. The GitHub repository remains public.
+
+
+## 2026-10-21: W18 merge and maximum-output storage correction
+
+PR #72 merged as `89c2585619d4404d702439a46c825c8f8241cef9` under the owner's
+explicit merge instruction. All 28 final candidate checks and all 14 merged-main
+checks pass. Issue #19 stays open; staged implementation does not qualify a
+backend. The repository remains public. Exact CI receipts are retained in
+`runs/w18-hf-maximum-1792587065696475000/ci-*-final.json`.
+
+The L4 attempt stayed queued and was cancelled at 315.345 observed seconds. Its
+empty bucket was removed. The cheaper 32-vCPU/256-GB CPU fallback passes module
+verification, seven circuit fingerprints and five tiny worker cases, then exports
+the maximum circuit in 141.093003386 seconds. The mounted bucket's integrity check
+raises `changed file` before a maximum cost record is written. No maximum RSS/CPU
+measurement, setup or proof is available. Retain the failed outcome.
+
+All 37 files (2,566,700,934 bytes) are downloaded and all available worker-cost
+pins checked. The circuit's 2,566,643,378 bytes exactly match the separately
+retained Mac hash. All local hashes are checked again before removing the bucket.
+The exact changed stat field is unknown. [Raw numeric evidence](evidence/w18-hf-storage-failure-2026-10-21.json)
+records the source/job identities, missing costs and conservative charges;
+`runs/w18-hf-cpu-maximum-1792587855982096000` retains logs, downloads and cleanup.
+Neither provider timing nor the estimate is an invoice.
+
+[Decision 0048](../docs/decisions/0048-local-disk-proof-execution.md) keeps file
+validation strict and runs workers on local ephemeral disk, followed by a bounded
+source-pinned copy of complete and failed artifacts. The four retention cases
+cover failed output preservation, exclusive destination creation, file/directory
+links and excess size. Fifty-five focused tests pass (five platform skips).
+`make check` passes 2,110 tests, five Linux-only skips and one warning; pytest takes
+39.83 seconds. Software conformance matches 156 cases; 32 full-evidence obligations
+remain unavailable. The core package check and corrected cloud run are pending
+at this commit. The protocol reserves copy time separately and stays under the
+standing USD 10 campaign ceiling; no further owner permission is required.

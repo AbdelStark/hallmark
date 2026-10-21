@@ -141,6 +141,43 @@
       "token_in_worker": false,
       "automatic_retries": 0,
       "top_up_authorized": false
+    },
+    "maximum_setup_cpu_fallback": {
+      "approval_ref": "docs/decisions/0047-cpu-maximum-proof-fallback.md",
+      "authority_basis": "Owner standing full approval; cheaper CPU-only host after confirmed queued L4 cancellation.",
+      "flavor": "cpu-performance",
+      "max_jobs": 1,
+      "max_job_seconds": 7200,
+      "max_creation_seconds": 7800,
+      "max_compute_cost_minor": 415,
+      "combined_l4_cpu_storage_cost_minor": 1000,
+      "currency": "USD-cent",
+      "max_memory_bytes": 170000000000,
+      "sampled_memory_stop_bytes": 150000000000,
+      "worker_thread_upper_bound": 48,
+      "host_vcpus": 32,
+      "max_output_bytes": 103079215104,
+      "temporary_private_bucket": true,
+      "private_inputs": false,
+      "token_in_worker": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false
+    },
+    "maximum_setup_local_disk": {
+      "approval_ref": "docs/decisions/0048-local-disk-proof-execution.md",
+      "authority_basis": "Owner standing full approval; corrected storage plumbing after retained failure.",
+      "flavor": "cpu-performance",
+      "max_jobs": 1,
+      "max_job_seconds": 8400,
+      "max_creation_seconds": 9000,
+      "copy_seconds": 900,
+      "max_compute_cost_minor": 480,
+      "combined_campaign_cost_minor": 1000,
+      "currency": "USD-cent",
+      "private_inputs": false,
+      "token_in_worker": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false
     }
   }
 }

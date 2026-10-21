@@ -4,17 +4,59 @@ import argparse
 import base64
 import copy
 import json
+import os
+import stat
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
 from ._gnark_linux_compile import container_memory_limit, invoke
-from ._gnark_probe import MODULUS, PinnedArtifact, RunBudget, digest, json_new, read_regular
+from ._gnark_probe import (
+    MODULUS,
+    PinnedArtifact,
+    RunBudget,
+    digest,
+    json_new,
+    read_regular,
+    stream_regular,
+)
 
 CAPACITY = 32768
 CIRCUIT_SHA = "cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489"
 MAX_FILE = 24 * 1024**3
+
+
+def retain_outputs(source: Path, destination: Path) -> None:
+    """Copy stopped local workers to object storage; check remote bytes after download."""
+    if not source.is_dir() or source.is_symlink():
+        raise ValueError("invalid retention source")
+    destination.mkdir(mode=0o700)
+    pins: dict[str, dict[str, Any]] = {}
+    total = 0
+
+    def walk_failed(error: OSError) -> None:
+        raise error
+
+    for directory, children, files in os.walk(source, followlinks=False, onerror=walk_failed):
+        current = Path(directory)
+        target = destination / current.relative_to(source)
+        for name in children:
+            if not stat.S_ISDIR((current / name).lstat().st_mode):
+                raise ValueError("unsafe retention directory")
+            (target / name).mkdir(mode=0o700)
+        for name in files:
+            size = (current / name).lstat().st_size
+            total += size
+            if total > 96 * 1024**3 or len(pins) >= 20000:
+                raise ValueError("retention budget exceeded")
+            pins[str((current / name).relative_to(source))] = stream_regular(
+                current / name, MAX_FILE, destination=target / name
+            )
+    json_new(
+        destination / "retention.json",
+        {"schema_id": "hallmark.hf-retention/1", "files": pins, "total_bytes": total},
+    )
 
 
 def vector(units: bytes) -> dict[str, list[int]]:

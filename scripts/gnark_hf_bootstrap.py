@@ -108,7 +108,9 @@ def main(plan):
         return raw
 
     def run(label, command, cwd, env, seconds):
-        if time.monotonic() - start + seconds > (7150 if maximum else 1100):
+        # Reserve a separate copy window; mutable bucket metadata is not a worker filesystem.
+        deadline = (8350 if label == "retain-output" else 7450) if maximum else 1100
+        if time.monotonic() - start + seconds > deadline:
             raise TimeoutError("insufficient remaining job budget")
         began = time.monotonic()
         failure = None
@@ -306,23 +308,42 @@ def main(plan):
         "PYTHONPATH": str(root / "repo/src"),
         "PYTHONDONTWRITEBYTECODE": "1",
     }
-    run(
-        "maximum-proof" if maximum else "compilation",
-        [
-            sys.executable,
-            "-m",
-            "hallmark._gnark_maximum" if maximum else "hallmark._gnark_linux_compile",
-            "--binary",
-            str(root / "probe"),
-            "--expected-binary",
-            binary_sha,
-            "--output",
-            "/output/w18-" + plan["experiment"] if maximum else str(root / "execution"),
-        ],
-        root,
-        child_env,
-        6650 if maximum else 650,
-    )
+    execution = root / "execution"
+    try:
+        run(
+            "maximum-proof" if maximum else "compilation",
+            [
+                sys.executable,
+                "-m",
+                "hallmark._gnark_maximum" if maximum else "hallmark._gnark_linux_compile",
+                "--binary",
+                str(root / "probe"),
+                "--expected-binary",
+                binary_sha,
+                "--output",
+                str(execution),
+            ],
+            root,
+            child_env,
+            6650 if maximum else 650,
+        )
+    finally:
+        if maximum and execution.exists():
+            run(
+                "retain-output",
+                [
+                    sys.executable,
+                    "-c",
+                    "from pathlib import Path; from hallmark._gnark_maximum import "
+                    "retain_outputs; import sys; "
+                    "retain_outputs(Path(sys.argv[1]), Path(sys.argv[2]))",
+                    str(execution),
+                    "/output/w18-" + plan["experiment"],
+                ],
+                root,
+                child_env,
+                900,
+            )
 
 
 if __name__ == "__main__":
