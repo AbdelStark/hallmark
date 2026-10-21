@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "FloatMlp": {
+      "additionalProperties": false,
+      "properties": {
+        "hidden_bias": {
+          "items": {
+            "maximum": 1000000000000.0,
+            "minimum": -1000000000000.0,
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden Bias",
+          "type": "array"
+        },
+        "hidden_weights": {
+          "items": {
+            "items": {
+              "maximum": 1000000000000.0,
+              "minimum": -1000000000000.0,
+              "type": "number"
+            },
+            "maxItems": 256,
+            "minItems": 256,
+            "type": "array"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden Weights",
+          "type": "array"
+        },
+        "output_bias": {
+          "maximum": 1000000000000.0,
+          "minimum": -1000000000000.0,
+          "title": "Output Bias",
+          "type": "number"
+        },
+        "output_weights": {
+          "items": {
+            "maximum": 1000000000000.0,
+            "minimum": -1000000000000.0,
+            "type": "number"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Output Weights",
+          "type": "array"
+        }
+      },
+      "required": [
+        "hidden_weights",
+        "hidden_bias",
+        "output_weights",
+        "output_bias"
+      ],
+      "title": "FloatMlp",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "config": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Config",
+      "type": "string"
+    },
+    "converged": {
+      "title": "Converged",
+      "type": "boolean"
+    },
+    "epoch": {
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Epoch",
+      "type": "integer"
+    },
+    "initialization_rng_json": {
+      "maxLength": 1024,
+      "minLength": 1,
+      "title": "Initialization Rng Json",
+      "type": "string"
+    },
+    "loss": {
+      "maximum": 1000000000000.0,
+      "minimum": 0,
+      "title": "Loss",
+      "type": "number"
+    },
+    "momentum": {
+      "$ref": "#/$defs/FloatMlp"
+    },
+    "parameters": {
+      "$ref": "#/$defs/FloatMlp"
+    },
+    "runtime": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Runtime",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/mlp-checkpoint/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "training": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Training",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "config",
+    "training",
+    "runtime",
+    "epoch",
+    "parameters",
+    "momentum",
+    "initialization_rng_json",
+    "loss",
+    "converged"
+  ],
+  "title": "MlpCheckpoint",
+  "type": "object"
+}

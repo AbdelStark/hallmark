@@ -1,7 +1,7 @@
 # Single-policy admission
 
-Status: **prototype study approved; evaluation design frozen; exact assets and
-measurement dossier pending**. Refs [W13 / #14](https://github.com/AbdelStark/hallmark/issues/14).
+Status: **synthetic pipeline development approved without human review;
+confirmatory measurement dossier pending**. Refs [W13 / #14](https://github.com/AbdelStark/hallmark/issues/14).
 The owner is the prototype decision owner and delegated evaluation design and
 licence-reviewed public source selection. [Decision 0019](../../../docs/decisions/0019-approved-study-scope.md)
 records that approval; [AUTHORITY](../../AUTHORITY.json) is the current resource
@@ -13,6 +13,14 @@ agent's technical design separately. It still cannot decode as an
 the final enrolled review pin are incomplete. Source review/import and engineering
 implementation may proceed under existing authority. No generic approval request
 is needed for that work.
+
+The [current source-review packet](source-review.md) now contains pinned public
+source acquisitions, a reproducible 64-item blank human label audit and lexical
+lineage candidates. Human answers and the final confirmatory measurement dossier remain pending,
+but no longer block pipeline implementation: [decision 0033](../../../docs/decisions/0033-approved-synthetic-pipeline.md)
+authorizes agent review and entirely synthetic data for that stage. The original proposal JSON remains
+a historical design record; it does not acquire completed-review status from
+this preparation.
 
 ## Rubric
 
@@ -45,7 +53,7 @@ FileRef byte hashes. The owner's delegation does not resolve licence conflicts.
 | Proposed source | Purpose | Remaining hold |
 |---|---|---|
 | [deepset/prompt-injections](https://huggingface.co/datasets/deepset/prompt-injections) at `4f61ecb038e9c3fb77e21034b22511b523772cdd` | Exploratory import/label audit | Apache-2.0 versus CC-BY-4.0 metadata conflict; parent lineage and label provenance missing. Preview examples were exposed, so this is not an unseen confirmatory source. |
-| [protectai/deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) at `90c9989b1a342275dd0d1a95aad283c04e075671` | Task-matched guard | Archived project; underlying rights and overlap need review. Full-coverage adaptation and dependencies remain unqualified. |
+| [protectai/deberta-v3-base-prompt-injection-v2](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) at `90c9989b1a342275dd0d1a95aad283c04e075671` | Task-matched guard | [Asset digests and complete-input CPU execution verified](../../evidence/w15-guard-cpu-2026-10-20.json). Task quality and contamination review remain unqualified; upstream unnamed data are not approved. |
 | [google/bert_uncased_L-2_H-128_A-2](https://huggingface.co/google/bert_uncased_L-2_H-128_A-2) at `30b0a37ccaaa32f332884b96992754e246e48c5f` | Compact encoder | Full notice/provenance, tokenizer/runtime and actual checkpoint review pending. Integer export and proof qualification are separate later gates. |
 | Independent confirmatory source | Once-only evaluation | Eligible source, lineage and audited labels are not selected. |
 

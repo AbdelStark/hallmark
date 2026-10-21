@@ -2,6 +2,11 @@
 
 The evaluator is part of the research protocol, not an optimizer-controlled metric. Changing splits, policy, preprocessing, metrics or acceptance criteria starts a new experiment identity and decision. The bootstrap tests validate plumbing, not safety capability.
 
+The [approved synthetic pipeline stage](decisions/0033-approved-synthetic-pipeline.md)
+needs no human reviewer. Use the explicit fixture path and retain agent review,
+source/group/configuration pins, failures and negative results. It supplies
+engineering evidence only; the confirmatory gates below remain separate.
+
 ## Data admission
 
 Each JSONL row follows `Record` in `src/hallmark/contracts.py`: stable record/group/family IDs, source and exact source revision, licence, policy, split, language, prompt, response and binary label. Label 1 means policy-positive/block; label 0 means benign/pass. The schema does not infer intent or label quality. Contradictory policies must never be pooled into a single target without a recorded mapping.
@@ -27,6 +32,40 @@ larger import limits do not change the baseline loader's 8 MiB limit.
 4. Freeze the artifact. Evaluate test once for the declared decision. Preserve negative/failed results. Later iterations require new predeclared test data or explicitly exploratory reporting.
 
 The small fixture uses a single prespecified baseline and does not implement encoder selection, train-internal folds or multiple-testing controls. Calibration empirical FPR is not a population guarantee.
+
+The separate [grouped comparison API](decisions/0028-grouped-baseline-selection.md)
+implements five train-internal rotations: three fitting folds, one internal
+threshold fold and one validation fold. Vocabulary and optimizer fitting receive
+only the fitting rows. Group assignment and representatives do not use labels.
+Every declared candidate/seed and failure is retained; selection uses pooled
+representative TPR, lower FPR, then lexical candidate ID, separately per family
+and seed. Nonconverged or incomplete candidates are ineligible. These selection
+estimates are not held-out quality results.
+
+Its outer calibration/evaluation calls require separately retained fit/calibration
+pins and reject wrong split tags or overlapping groups/prompts. Integer thresholds
+use boundary plus one; float n-gram thresholds use the next representable float.
+The allowed false-positive count uses exact decimal arithmetic. Test primary
+counts use one representative per group; all-descendant counts stay separate.
+The caller still enforces admitted inputs, once-only testing and the final quality
+gate. The original experiment/evaluator identities above are unchanged.
+
+The [fixed pretrained guard](decisions/0030-complete-input-guard.md) enters the
+same outer calibration/evaluation path through `bind_guard`. Its score is the
+maximum float64 logit margin over every contiguous content-token block, using the
+pinned lossy tokenizer and float32 CPU graph. It performs no local fitting or
+train-internal selection; its undocumented pretraining overlap remains unresolved.
+Engineering probes, including positive margins on harmless repetitive inputs,
+do not establish a calibrated low-FPR operating point.
+
+The [caller-enrolled command](decisions/0031-admitted-comparison-command.md)
+reproduces a pinned imported dataset and binds its source review, execution
+inventory and comparison plan before fitting. It retains every selected fit and
+outer threshold before the first test-scoring call. Its fixture flag cannot
+admit real data or supply human review. The compact encoder stays unavailable;
+the command reports no final statistical quality decision. Cross-run test reuse
+and hard process resource limits remain the caller's responsibility. See the
+[dossier layout and command](OPERATIONS.md#caller-enrolled-baseline-comparisons).
 
 ## Metrics and uncertainty
 

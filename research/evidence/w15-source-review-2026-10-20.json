@@ -1,0 +1,1154 @@
+{
+  "authority_sha256": "2c8235901ebbf95020a776f881d4d0591951c8af73847cf53e52c56691721f39",
+  "base_commit": "ec9f2f630a3cfa3f5c6cf44fe24f7e183db4b943",
+  "date": "2026-10-20",
+  "hf_token_used": false,
+  "limits": [
+    "Public/exposed sources are exploratory only.",
+    "Provisional source/class association is confounded and must not be treated as a classifier result.",
+    "Lexical candidates do not recover all semantic or historical lineage.",
+    "The pilot sample and source counts cannot establish the frozen study power targets.",
+    "Blank audit templates and agent source selection do not authenticate human annotation or final admission."
+  ],
+  "lineage_screen": {
+    "peak_rss_bytes": 216514560,
+    "plan": {
+      "block_rows": 128,
+      "candidate_cutoff": 0.9,
+      "limits": {
+        "memory_bytes": 2147483648,
+        "output_bytes": 8388608,
+        "seconds": 55,
+        "threads": 1
+      },
+      "max_pairs": 50000,
+      "method": "Fixed hashing of character 5-grams; lowercase; float32 L2-normalized counts; 262144 features; no learned vocabulary, labels or detector scores.",
+      "purpose": "Conservative lexical candidate inventory for human lineage review, not a complete semantic or historical-parent audit.",
+      "schema_id": "hallmark/w15-lineage-candidate-plan/1",
+      "script_sha256": "38b90146846d16e659df36039484db10825f979f41cdc23c186c0c0241a62604",
+      "source_receipt_sha256": "6a8d5150b71a75befcaafc432610380bb91bf6485e5896ed257da4bed19935a9",
+      "versions": {
+        "numpy": "2.5.4",
+        "scikit-learn": "1.9.1",
+        "scipy": "1.18.1"
+      }
+    },
+    "result": {
+      "candidate_pairs": 563,
+      "complete_semantic_lineage_claim": false,
+      "components_with_both_sources": 0,
+      "cross_gandalf_upstream_split_components": 1,
+      "elapsed_seconds": 1.022287166910246,
+      "human_accepted": false,
+      "largest_component": 33,
+      "measurement_permitted": false,
+      "multirow_components": 172,
+      "quality_claim": false,
+      "rows": 11544,
+      "schema_id": "hallmark/w15-lineage-candidate-result/1",
+      "total_components_including_singletons": 11265
+    }
+  },
+  "lock_sha256": "5009eb2ccaf75d6a4bedc1ce01ff5c00e8b4af68969c378ef739d1a17e7150ba",
+  "model_inference": false,
+  "natural_acquisition": {
+    "bytes": 13248844,
+    "cost_usd": 0,
+    "dolly_rows": 15011,
+    "elapsed_seconds": 4.554718625033274,
+    "files": [
+      {
+        "bytes": 16264,
+        "file": "gandalf-train-0000.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "8e47638c59d92799765b20ce6c181fb9598771695add75aeb212de889bc72ba3",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=0&length=100"
+      },
+      {
+        "bytes": 16246,
+        "file": "gandalf-train-0100.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "6cc385923ec7a937e6d61d457e18fc21a73d13ab8b0bb7435effea3fe0050298",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=100&length=100"
+      },
+      {
+        "bytes": 16171,
+        "file": "gandalf-train-0200.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "893226b3d6282fa843cf7d850f8ce18cc7430a66ff14aed6a186dfb2af28d43b",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=200&length=100"
+      },
+      {
+        "bytes": 16880,
+        "file": "gandalf-train-0300.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "b542adb867b90c7d0357e951bffd67e61491b07f6536d0f9b41dedfe47328712",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=300&length=100"
+      },
+      {
+        "bytes": 16202,
+        "file": "gandalf-train-0400.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "954746cfe2c19374bcad841aeba003203bd9760343c8be10157fb1698e0bfa2e",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=400&length=100"
+      },
+      {
+        "bytes": 16903,
+        "file": "gandalf-train-0500.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "e45de4903083ecf39cd5c248d7fd429abf81aa45e37cf8b780883a9efd31ca3f",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=500&length=100"
+      },
+      {
+        "bytes": 16016,
+        "file": "gandalf-train-0600.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "cdff00b06825a74477439a506a60120f9e81a726f9f2ae0cd2d843bced783905",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=600&length=100"
+      },
+      {
+        "bytes": 11949,
+        "file": "gandalf-train-0700.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "94538aa16bb31d00d11a8f9337d36182892c62f334df36e14835822eff734a15",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=train&offset=700&length=77"
+      },
+      {
+        "bytes": 16363,
+        "file": "gandalf-validation-0000.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "d8ffc68e34b057291ef44edddc838da9d22e96641bb8aad3e78d621ace0dd8a6",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=validation&offset=0&length=100"
+      },
+      {
+        "bytes": 1978,
+        "file": "gandalf-validation-0100.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "ff6d13ea803f4f90e56091b752bfc66867f74c4ec51810421cac4b279c190f88",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=validation&offset=100&length=11"
+      },
+      {
+        "bytes": 16395,
+        "file": "gandalf-test-0000.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "a29c809381773a700aded1f6ea52acd84ef277d20d03d4889afba5122279d761",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=test&offset=0&length=100"
+      },
+      {
+        "bytes": 2138,
+        "file": "gandalf-test-0100.json",
+        "reported_revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+        "sha256": "92cc0749afe7730e68cff8792aaf95d3f210c3ec7e196285becd196d61ab2d39",
+        "url": "https://datasets-server.huggingface.co/rows?dataset=Lakera%2Fgandalf_ignore_instructions&config=default&split=test&offset=100&length=12"
+      },
+      {
+        "bytes": 13085339,
+        "file": "databricks-dolly-15k.jsonl",
+        "sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec",
+        "url": "https://huggingface.co/datasets/databricks/databricks-dolly-15k/resolve/bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a/databricks-dolly-15k.jsonl"
+      }
+    ],
+    "gandalf_rows": 1000,
+    "hf_token_used": false,
+    "model_execution": false,
+    "schema_id": "hallmark/w15-natural-source-receipt/1"
+  },
+  "paid_compute_launched": false,
+  "preflight": {
+    "candidate_rows": {
+      "dolly": 10544,
+      "gandalf": 1000
+    },
+    "candidate_strata": {
+      "dolly": {
+        "brainstorming": 1766,
+        "classification": 2136,
+        "creative_writing": 709,
+        "general_qa": 2191,
+        "open_qa": 3742
+      },
+      "gandalf": {
+        "test": 112,
+        "train": 777,
+        "validation": 111
+      }
+    },
+    "dolly_exclusions": {
+      "nonempty_context": 4467
+    },
+    "dolly_raw_categories": {
+      "brainstorming": 1766,
+      "classification": 2136,
+      "closed_qa": 1773,
+      "creative_writing": 709,
+      "general_qa": 2191,
+      "information_extraction": 1506,
+      "open_qa": 3742,
+      "summarization": 1188
+    },
+    "exact_duplicate_groups": [
+      [
+        "dolly-00024",
+        "dolly-03845",
+        "dolly-14009"
+      ],
+      [
+        "dolly-00096",
+        "dolly-03058",
+        "dolly-07906"
+      ],
+      [
+        "dolly-00172",
+        "dolly-02995"
+      ],
+      [
+        "dolly-00204",
+        "dolly-01303",
+        "dolly-02337",
+        "dolly-05538",
+        "dolly-10061",
+        "dolly-11907"
+      ],
+      [
+        "dolly-00266",
+        "dolly-07680"
+      ],
+      [
+        "dolly-00339",
+        "dolly-05741"
+      ],
+      [
+        "dolly-00352",
+        "dolly-00513",
+        "dolly-13683"
+      ],
+      [
+        "dolly-00367",
+        "dolly-02130"
+      ],
+      [
+        "dolly-00556",
+        "dolly-07306"
+      ],
+      [
+        "dolly-00579",
+        "dolly-02212",
+        "dolly-06021"
+      ],
+      [
+        "dolly-00622",
+        "dolly-09401",
+        "dolly-13482"
+      ],
+      [
+        "dolly-00635",
+        "dolly-09673"
+      ],
+      [
+        "dolly-00716",
+        "dolly-02027"
+      ],
+      [
+        "dolly-00769",
+        "dolly-02483"
+      ],
+      [
+        "dolly-00899",
+        "dolly-03975"
+      ],
+      [
+        "dolly-00917",
+        "dolly-03876",
+        "dolly-04342",
+        "dolly-04734"
+      ],
+      [
+        "dolly-00926",
+        "dolly-10093"
+      ],
+      [
+        "dolly-00971",
+        "dolly-02415"
+      ],
+      [
+        "dolly-01025",
+        "dolly-03041"
+      ],
+      [
+        "dolly-01054",
+        "dolly-07798"
+      ],
+      [
+        "dolly-01062",
+        "dolly-14147"
+      ],
+      [
+        "dolly-01075",
+        "dolly-01245",
+        "dolly-03176",
+        "dolly-07075",
+        "dolly-08972",
+        "dolly-09273",
+        "dolly-12338"
+      ],
+      [
+        "dolly-01113",
+        "dolly-01391",
+        "dolly-02958",
+        "dolly-05071",
+        "dolly-05735",
+        "dolly-07767",
+        "dolly-11580",
+        "dolly-11972",
+        "dolly-12419"
+      ],
+      [
+        "dolly-01118",
+        "dolly-06489"
+      ],
+      [
+        "dolly-01169",
+        "dolly-10084"
+      ],
+      [
+        "dolly-01191",
+        "dolly-04936",
+        "dolly-05984",
+        "dolly-08034",
+        "dolly-08098",
+        "dolly-09630",
+        "dolly-10320",
+        "dolly-13391"
+      ],
+      [
+        "dolly-01204",
+        "dolly-07316"
+      ],
+      [
+        "dolly-01210",
+        "dolly-01456"
+      ],
+      [
+        "dolly-01219",
+        "dolly-11588"
+      ],
+      [
+        "dolly-01279",
+        "dolly-05889"
+      ],
+      [
+        "dolly-01440",
+        "dolly-03578"
+      ],
+      [
+        "dolly-01499",
+        "dolly-09722"
+      ],
+      [
+        "dolly-01736",
+        "dolly-11629"
+      ],
+      [
+        "dolly-01742",
+        "dolly-08602"
+      ],
+      [
+        "dolly-01769",
+        "dolly-12158"
+      ],
+      [
+        "dolly-01799",
+        "dolly-03525"
+      ],
+      [
+        "dolly-01852",
+        "dolly-03258",
+        "dolly-05078"
+      ],
+      [
+        "dolly-01872",
+        "dolly-08411"
+      ],
+      [
+        "dolly-01956",
+        "dolly-06640",
+        "dolly-12259"
+      ],
+      [
+        "dolly-01980",
+        "dolly-03842"
+      ],
+      [
+        "dolly-02195",
+        "dolly-04245"
+      ],
+      [
+        "dolly-02377",
+        "dolly-04920"
+      ],
+      [
+        "dolly-02432",
+        "dolly-12985"
+      ],
+      [
+        "dolly-02490",
+        "dolly-06015"
+      ],
+      [
+        "dolly-02498",
+        "dolly-03982"
+      ],
+      [
+        "dolly-02518",
+        "dolly-12794"
+      ],
+      [
+        "dolly-02537",
+        "dolly-02681",
+        "dolly-03263",
+        "dolly-11838",
+        "dolly-12675"
+      ],
+      [
+        "dolly-02541",
+        "dolly-13540"
+      ],
+      [
+        "dolly-02551",
+        "dolly-07236"
+      ],
+      [
+        "dolly-02669",
+        "dolly-02989",
+        "dolly-05465"
+      ],
+      [
+        "dolly-02747",
+        "dolly-03914",
+        "dolly-11654"
+      ],
+      [
+        "dolly-03009",
+        "dolly-11761"
+      ],
+      [
+        "dolly-03117",
+        "dolly-06010"
+      ],
+      [
+        "dolly-03120",
+        "dolly-04122"
+      ],
+      [
+        "dolly-03282",
+        "dolly-14948"
+      ],
+      [
+        "dolly-03300",
+        "dolly-03568"
+      ],
+      [
+        "dolly-03361",
+        "dolly-05011"
+      ],
+      [
+        "dolly-03381",
+        "dolly-03874",
+        "dolly-07884"
+      ],
+      [
+        "dolly-03382",
+        "dolly-05447"
+      ],
+      [
+        "dolly-03515",
+        "dolly-11257"
+      ],
+      [
+        "dolly-03533",
+        "dolly-09284"
+      ],
+      [
+        "dolly-03586",
+        "dolly-03607"
+      ],
+      [
+        "dolly-03718",
+        "dolly-06762",
+        "dolly-12894"
+      ],
+      [
+        "dolly-03776",
+        "dolly-05050",
+        "dolly-09039",
+        "dolly-14500"
+      ],
+      [
+        "dolly-03848",
+        "dolly-07108",
+        "dolly-08681",
+        "dolly-08687",
+        "dolly-10603",
+        "dolly-12592"
+      ],
+      [
+        "dolly-03863",
+        "dolly-13003"
+      ],
+      [
+        "dolly-03944",
+        "dolly-08206"
+      ],
+      [
+        "dolly-03946",
+        "dolly-05540"
+      ],
+      [
+        "dolly-03961",
+        "dolly-07840",
+        "dolly-09836"
+      ],
+      [
+        "dolly-03974",
+        "dolly-04547"
+      ],
+      [
+        "dolly-04034",
+        "dolly-11502"
+      ],
+      [
+        "dolly-04089",
+        "dolly-07227",
+        "dolly-13007"
+      ],
+      [
+        "dolly-04126",
+        "dolly-08737"
+      ],
+      [
+        "dolly-04143",
+        "dolly-09391",
+        "dolly-10429",
+        "dolly-12945"
+      ],
+      [
+        "dolly-04155",
+        "dolly-13089"
+      ],
+      [
+        "dolly-04156",
+        "dolly-08110"
+      ],
+      [
+        "dolly-04352",
+        "dolly-06201",
+        "dolly-06499",
+        "dolly-12907",
+        "dolly-14179"
+      ],
+      [
+        "dolly-04370",
+        "dolly-05819",
+        "dolly-14396"
+      ],
+      [
+        "dolly-04563",
+        "dolly-08066"
+      ],
+      [
+        "dolly-04670",
+        "dolly-11574"
+      ],
+      [
+        "dolly-04710",
+        "dolly-06342"
+      ],
+      [
+        "dolly-04740",
+        "dolly-07102"
+      ],
+      [
+        "dolly-04760",
+        "dolly-14303"
+      ],
+      [
+        "dolly-04867",
+        "dolly-12129"
+      ],
+      [
+        "dolly-04893",
+        "dolly-14037"
+      ],
+      [
+        "dolly-04972",
+        "dolly-07071"
+      ],
+      [
+        "dolly-05020",
+        "dolly-12637"
+      ],
+      [
+        "dolly-05105",
+        "dolly-11413"
+      ],
+      [
+        "dolly-05332",
+        "dolly-10442"
+      ],
+      [
+        "dolly-05742",
+        "dolly-09714"
+      ],
+      [
+        "dolly-05992",
+        "dolly-10921",
+        "dolly-11562"
+      ],
+      [
+        "dolly-06006",
+        "dolly-13472"
+      ],
+      [
+        "dolly-06267",
+        "dolly-11221"
+      ],
+      [
+        "dolly-06620",
+        "dolly-08986",
+        "dolly-14862"
+      ],
+      [
+        "dolly-06669",
+        "dolly-06702"
+      ],
+      [
+        "dolly-06874",
+        "dolly-09674"
+      ],
+      [
+        "dolly-07047",
+        "dolly-12790"
+      ],
+      [
+        "dolly-07209",
+        "dolly-12203"
+      ],
+      [
+        "dolly-07230",
+        "dolly-13936"
+      ],
+      [
+        "dolly-07314",
+        "dolly-11802"
+      ],
+      [
+        "dolly-07916",
+        "dolly-08776",
+        "dolly-09303",
+        "dolly-14107"
+      ],
+      [
+        "dolly-08582",
+        "dolly-13487"
+      ],
+      [
+        "dolly-08676",
+        "dolly-13323"
+      ],
+      [
+        "dolly-08774",
+        "dolly-10575"
+      ],
+      [
+        "dolly-08987",
+        "dolly-13762"
+      ],
+      [
+        "dolly-09043",
+        "dolly-14935"
+      ],
+      [
+        "dolly-09178",
+        "dolly-10144"
+      ],
+      [
+        "dolly-09615",
+        "dolly-11494"
+      ],
+      [
+        "dolly-09907",
+        "dolly-11884"
+      ],
+      [
+        "dolly-10660",
+        "dolly-12572"
+      ],
+      [
+        "dolly-11298",
+        "dolly-14032"
+      ],
+      [
+        "dolly-11382",
+        "dolly-13335"
+      ],
+      [
+        "dolly-11705",
+        "dolly-12381"
+      ],
+      [
+        "dolly-13406",
+        "dolly-13976"
+      ]
+    ],
+    "human_labels_observed": 0,
+    "label_review_items": 64,
+    "limits": [
+      "Source is confounded with provisional class; no binary labels are admitted.",
+      "English metadata has not been verified per record.",
+      "Gandalf similarity filtering is weak supervision, not human labels.",
+      "Dolly includes contributor paraphrases without parent IDs; Gandalf sessions/parents are not supplied. Exact text deduplication is not semantic lineage recovery.",
+      "Public/exposed sources cannot supply an unseen confirmatory set.",
+      "1000 total Gandalf rows cannot supply the planned 1375 independent positive test groups.",
+      "Blank pilot review is not an annotation audit result or final admission approval."
+    ],
+    "measurement_permitted": false,
+    "model_fits_or_scores": 0,
+    "prompt_byte_ranges": {
+      "dolly": [
+        4,
+        11698
+      ],
+      "gandalf": [
+        12,
+        516
+      ]
+    },
+    "quality_claim": false,
+    "sampling": "Gandalf 16 train/8 validation/8 test by minimum SHA256(hallmark/w15-source-label-audit/1|source-row-id). Dolly 32 by that same hash, allocated round-robin across sorted eligible source categories. No candidate labels or detector scores in the blinded packet.",
+    "schema_id": "hallmark/w15-source-review-preflight/1",
+    "source_rows": {
+      "dolly": 15011,
+      "gandalf": 1000
+    }
+  },
+  "preparation_verification": {
+    "all_original_source_file_hashes_verified": true,
+    "blank_review_items": 64,
+    "canonical_candidate_pairs_verified": 563,
+    "classifier_source_changed": false,
+    "components_verified": 172,
+    "human_review_completed": false,
+    "identical_packet_files": 6,
+    "source_card_git_blobs_verified": 2
+  },
+  "quality_claim": false,
+  "raw_inventory": {
+    "LINEAGE-REVIEW.md": {
+      "bytes": 619,
+      "sha256": "0335c611d6cd723a4772fed7f714e8dee63cf05c6e27d6c52b7fa731e4eae632"
+    },
+    "acquire-natural.log": {
+      "bytes": 220,
+      "sha256": "27ffd27f55f3e8b5b8e1388937d5b247d25a349f7c6636110d4e59465628aeeb"
+    },
+    "acquire_natural.py": {
+      "bytes": 4524,
+      "sha256": "5cca49c4e06506af2259b93f4a1d3df4ba3c2c803a71e431535fc1d12d27df92"
+    },
+    "acquisition-plan.json": {
+      "bytes": 1356,
+      "sha256": "ea59a19fe62fdd561931d5d06517d953c2e51fe7182b25a6da528cdb6b2966e8"
+    },
+    "acquisition-receipt.json": {
+      "bytes": 879,
+      "sha256": "4a0051dba43fbb8cb0216a6ad71a357fa5c7c33483e782f1abd352ee3afb4161"
+    },
+    "authored-preflight.json": {
+      "bytes": 1111,
+      "sha256": "0f883bfc0d2c4a8941f3ddc01b157049307ea1c173ff52d2a2ec1d5b9cc9c770"
+    },
+    "authored/LICENSE": {
+      "bytes": 845,
+      "sha256": "a5ed16a93ec7988c6344d8baa1e4ddf9d4fb9267637f0d372e5d81d0bf392bb2"
+    },
+    "authored/README.md": {
+      "bytes": 3791,
+      "sha256": "74f34fcb1a350a474146910d6d11da8a9511dced8512eb42ea07ee82ce9ab581"
+    },
+    "authored/generate_dataset.py": {
+      "bytes": 22260,
+      "sha256": "5fec442e94609d3f5e1e2bc284c4a81d3566f747b4bf49f974bb171105bfa54c"
+    },
+    "authored/prompt_injection_dataset.csv": {
+      "bytes": 1082123,
+      "sha256": "eb748eb8104f0a736934bf4f3c96335801010b09e17467fd4aadc1c1ae7bbced"
+    },
+    "build_review.py": {
+      "bytes": 8807,
+      "sha256": "01ad54e6063cc92d63185d3fc3d07db75fa0a6f3f877bb251ab6ae4021840db5"
+    },
+    "cc-by-4.0-browser-response.json": {
+      "bytes": 21262,
+      "sha256": "f49d0553e30380ffbd37a2111ef8df81a185cc281fb5e18ea20b0777b0ae0ae4"
+    },
+    "cc-by-sa-3.0-browser-response.json": {
+      "bytes": 28400,
+      "sha256": "191177ef2a75a10d7f752da878ed9ed0dd36504f5d1b2bf2fd46d533b7043dfe"
+    },
+    "dolly-README.md": {
+      "bytes": 8199,
+      "sha256": "db06c60090a11b20e79d1933b2f316f781605f07761ff2ae2795d6523e3e960b"
+    },
+    "dolly-metadata.json": {
+      "bytes": 1825,
+      "sha256": "07677792f5c9a8832e07f7ac24dafe8e454ad2be4d4dd0865276c74e81a4cd65"
+    },
+    "gandalf-README.md": {
+      "bytes": 2828,
+      "sha256": "94e2abfab9caf8cb881098d16633334c2f63069e52440aaa94d7c150a8d8455f"
+    },
+    "gandalf-metadata.json": {
+      "bytes": 2757,
+      "sha256": "034a41f6fc4e0c150aeb3976c65893501c53aedbf440fd61552831b9e665e890"
+    },
+    "gandalf-viewer-probe-headers.json": {
+      "bytes": 503,
+      "sha256": "15b747f4488f6d1a3c4a5b50b5f2da89f9dcfebf93c3f45425eae40486336cea"
+    },
+    "gandalf-viewer-probe.json": {
+      "bytes": 365,
+      "sha256": "243f092353469154b790d696b2d8074762768f55d841cac5700539b4e22cc630"
+    },
+    "legalcode-fetch-failure.json": {
+      "bytes": 268,
+      "sha256": "167ea96ce674478669c603bc1e4d5cf42c033730f200a3330053e77be8215430"
+    },
+    "lineage-resource.txt": {
+      "bytes": 777,
+      "sha256": "b5bc66c79c9231928f4f874dec989a16419728da9e06c44c8a66f1934c2b4445"
+    },
+    "lineage.log": {
+      "bytes": 468,
+      "sha256": "01589f00ec4f08ebcc93091ecc6303d259cdc619edd508dac5a4d77e4431b6f7"
+    },
+    "lineage/components.json": {
+      "bytes": 9995,
+      "sha256": "2503e89000cca9270d9569c262512296c00d610a5cae68aed645883ead59c34e"
+    },
+    "lineage/pairs.json": {
+      "bytes": 50007,
+      "sha256": "97e5db4eab58e859fed290100d937228d1c7b0ba174ff3fb987ba41b0a4ec320"
+    },
+    "lineage/plan.json": {
+      "bytes": 815,
+      "sha256": "2313e8707f032b2c1b8324e1681a4d0d65934bb2852cff894d94c6bb23e344d7"
+    },
+    "lineage/result.json": {
+      "bytes": 467,
+      "sha256": "92a65df7d89541e35e843d95c67d74dec3b763f333b715f2200af05332843bef"
+    },
+    "lineage_candidates.py": {
+      "bytes": 4335,
+      "sha256": "38b90146846d16e659df36039484db10825f979f41cdc23c186c0c0241a62604"
+    },
+    "metadata.json": {
+      "bytes": 1771,
+      "sha256": "73b502f76e6020daa96de361c9972a9e33ba99c03039bacc87d1577ccae0fb85"
+    },
+    "natural/databricks-dolly-15k.jsonl": {
+      "bytes": 13085339,
+      "sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec"
+    },
+    "natural/gandalf-test-0000.json": {
+      "bytes": 16395,
+      "sha256": "a29c809381773a700aded1f6ea52acd84ef277d20d03d4889afba5122279d761"
+    },
+    "natural/gandalf-test-0100.json": {
+      "bytes": 2138,
+      "sha256": "92cc0749afe7730e68cff8792aaf95d3f210c3ec7e196285becd196d61ab2d39"
+    },
+    "natural/gandalf-train-0000.json": {
+      "bytes": 16264,
+      "sha256": "8e47638c59d92799765b20ce6c181fb9598771695add75aeb212de889bc72ba3"
+    },
+    "natural/gandalf-train-0100.json": {
+      "bytes": 16246,
+      "sha256": "6cc385923ec7a937e6d61d457e18fc21a73d13ab8b0bb7435effea3fe0050298"
+    },
+    "natural/gandalf-train-0200.json": {
+      "bytes": 16171,
+      "sha256": "893226b3d6282fa843cf7d850f8ce18cc7430a66ff14aed6a186dfb2af28d43b"
+    },
+    "natural/gandalf-train-0300.json": {
+      "bytes": 16880,
+      "sha256": "b542adb867b90c7d0357e951bffd67e61491b07f6536d0f9b41dedfe47328712"
+    },
+    "natural/gandalf-train-0400.json": {
+      "bytes": 16202,
+      "sha256": "954746cfe2c19374bcad841aeba003203bd9760343c8be10157fb1698e0bfa2e"
+    },
+    "natural/gandalf-train-0500.json": {
+      "bytes": 16903,
+      "sha256": "e45de4903083ecf39cd5c248d7fd429abf81aa45e37cf8b780883a9efd31ca3f"
+    },
+    "natural/gandalf-train-0600.json": {
+      "bytes": 16016,
+      "sha256": "cdff00b06825a74477439a506a60120f9e81a726f9f2ae0cd2d843bced783905"
+    },
+    "natural/gandalf-train-0700.json": {
+      "bytes": 11949,
+      "sha256": "94538aa16bb31d00d11a8f9337d36182892c62f334df36e14835822eff734a15"
+    },
+    "natural/gandalf-validation-0000.json": {
+      "bytes": 16363,
+      "sha256": "d8ffc68e34b057291ef44edddc838da9d22e96641bb8aad3e78d621ace0dd8a6"
+    },
+    "natural/gandalf-validation-0100.json": {
+      "bytes": 1978,
+      "sha256": "ff6d13ea803f4f90e56091b752bfc66867f74c4ec51810421cac4b279c190f88"
+    },
+    "natural/plan.json": {
+      "bytes": 2216,
+      "sha256": "a9af6bbb1e3a9b7a8fc175f0a91e2cf0b8ca6919c1f38131afd288bec38d3001"
+    },
+    "natural/receipt.json": {
+      "bytes": 5189,
+      "sha256": "6a8d5150b71a75befcaafc432610380bb91bf6485e5896ed257da4bed19935a9"
+    },
+    "pint-repo.json": {
+      "bytes": 17763,
+      "sha256": "ce8dafe9748b684dbf13bb32277e6b58e11f0d5876b0d505f468111a34d0efce"
+    },
+    "pint-tree.json": {
+      "bytes": 11333,
+      "sha256": "e7a6b2ca40d4ded7765627f0a9e276153425ac4de3841e4095c31ca257f0eb88"
+    },
+    "pint/CONTRIBUTING.md": {
+      "bytes": 6555,
+      "sha256": "5d3bf515c78220e155e569cb8d2c433b5491ed2746353f9e8a70b5858e44b0f6"
+    },
+    "pint/DETAILS.md": {
+      "bytes": 2461,
+      "sha256": "bfe3884c26ee128446a3414c7796f7eca7ed74f6cb54bbe36514c699a3d26120"
+    },
+    "pint/LICENSE": {
+      "bytes": 1065,
+      "sha256": "5968e9fe3dd27f519635cea1e55aaa638434252e0d896f2f856c2ba0c07a9167"
+    },
+    "pint/README.md": {
+      "bytes": 10734,
+      "sha256": "04379dd79f2a6f4f0cb037b86bc3f5b3986973bf589ef46fdb5827dc471df1d1"
+    },
+    "preparation-verification.json": {
+      "bytes": 301,
+      "sha256": "b6717a40e3dc7b4d1e6f939546444e5d0527b703acd08b0585537767c0995180"
+    },
+    "protocol.json": {
+      "bytes": 1069,
+      "sha256": "94a66aa204fffe0da21e1fe70ca9e5736335b7df3a76dd91765e6b171dcdc376"
+    },
+    "qualifire-metadata.json": {
+      "bytes": 2183,
+      "sha256": "19461c29b2299e37217eb6aaa0d05d6cc7ec6a4587f7f2e0143ea4d8e988c7d1"
+    },
+    "review-first/ATTRIBUTION.md": {
+      "bytes": 1854,
+      "sha256": "e82a00d3420919dfcda5d19b5e51ed65eefdba8007a5b3c119f9005dc20665ec"
+    },
+    "review-first/LABEL-REVIEW.md": {
+      "bytes": 7517,
+      "sha256": "0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e"
+    },
+    "review-first/labels.json": {
+      "bytes": 6735,
+      "sha256": "20b5956458b6d2d1d22bb8b93bf17e81dad5784dd2a88dd16d007a4bf605dbbf"
+    },
+    "review-first/manifest.json": {
+      "bytes": 643,
+      "sha256": "ecd79ce6fd82cead324078bc3c0421d863c95482da4f25d9a44c489bdb4d18d8"
+    },
+    "review-first/preflight.json": {
+      "bytes": 9336,
+      "sha256": "a0b70a921e1642dbda37638a456be07407eccff4b47f92681be392fb33a1b68b"
+    },
+    "review-first/sample-manifest.json": {
+      "bytes": 17690,
+      "sha256": "1dfa8ea95ed622515b6c3ad87ecb3e9ccdbfa1508991bc257a3ae1074091c4df"
+    },
+    "review-repeat/ATTRIBUTION.md": {
+      "bytes": 1854,
+      "sha256": "e82a00d3420919dfcda5d19b5e51ed65eefdba8007a5b3c119f9005dc20665ec"
+    },
+    "review-repeat/LABEL-REVIEW.md": {
+      "bytes": 7517,
+      "sha256": "0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e"
+    },
+    "review-repeat/labels.json": {
+      "bytes": 6735,
+      "sha256": "20b5956458b6d2d1d22bb8b93bf17e81dad5784dd2a88dd16d007a4bf605dbbf"
+    },
+    "review-repeat/manifest.json": {
+      "bytes": 643,
+      "sha256": "ecd79ce6fd82cead324078bc3c0421d863c95482da4f25d9a44c489bdb4d18d8"
+    },
+    "review-repeat/preflight.json": {
+      "bytes": 9336,
+      "sha256": "a0b70a921e1642dbda37638a456be07407eccff4b47f92681be392fb33a1b68b"
+    },
+    "review-repeat/sample-manifest.json": {
+      "bytes": 17690,
+      "sha256": "1dfa8ea95ed622515b6c3ad87ecb3e9ccdbfa1508991bc257a3ae1074091c4df"
+    },
+    "storage-correction.json": {
+      "bytes": 525,
+      "sha256": "70e16ffdfc19b85f2a2da7bedd25cbddf094a5bf8a6dfe01750c7710cc7bcee6"
+    },
+    "validation-plan.json": {
+      "bytes": 236,
+      "sha256": "a2d4b9183c19d7d0cb3311d88b93e2aed21689897a51689de5585f3fe08ad37e"
+    },
+    "validation-receipt.json": {
+      "bytes": 43278,
+      "sha256": "1ee6591fb947b224aa62e9bdc1560b0c1eb8795bfdd077d9cde778486dcb707c"
+    },
+    "validation.log": {
+      "bytes": 43899,
+      "sha256": "1a336d058fd56c04f64e8966833abf0ffed0d2526a880929ae07cd7373367971"
+    }
+  },
+  "raw_root": "runs/w15-source-review-1792532338623341000",
+  "review_packet": {
+    "annotation_and_final_admission_pending": true,
+    "human_answers_at_preparation": 0,
+    "identical_files_in_two_fresh_builds": 6,
+    "items": 64,
+    "manifest": {
+      "ATTRIBUTION.md": {
+        "bytes": 1854,
+        "sha256": "e82a00d3420919dfcda5d19b5e51ed65eefdba8007a5b3c119f9005dc20665ec"
+      },
+      "LABEL-REVIEW.md": {
+        "bytes": 7517,
+        "sha256": "0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e"
+      },
+      "labels.json": {
+        "bytes": 6735,
+        "sha256": "20b5956458b6d2d1d22bb8b93bf17e81dad5784dd2a88dd16d007a4bf605dbbf"
+      },
+      "preflight.json": {
+        "bytes": 9336,
+        "sha256": "a0b70a921e1642dbda37638a456be07407eccff4b47f92681be392fb33a1b68b"
+      },
+      "sample-manifest.json": {
+        "bytes": 17690,
+        "sha256": "1dfa8ea95ed622515b6c3ad87ecb3e9ccdbfa1508991bc257a3ae1074091c4df"
+      }
+    },
+    "packet_sha256": "0ec4a6951b1939474aa70eb89b7b0228890ef71dec93846bbd63d6de51e2a57e",
+    "working_answers": "human-response/labels.json"
+  },
+  "schema_id": "hallmark/w15-source-review-evidence/1",
+  "scope": "Source acquisition and pilot human-review preparation. No source is admitted for measurement and no acquired row has been fitted or scored. Validation uses existing authored software fixtures.",
+  "source_decisions": [
+    {
+      "decision": "selected for local review only",
+      "licence": "MIT",
+      "missing": "human labels/language decisions, session and parent lineage, contamination review",
+      "original_rows": 1000,
+      "retrieval": "complete official viewer JSON; matching x-revision enforced on every page; no local Parquet decoding claim",
+      "revision": "04737b65e90a6794ec227012e4a255a7def6344b",
+      "source": "Lakera/gandalf_ignore_instructions"
+    },
+    {
+      "candidate_rows": 10544,
+      "decision": "selected for local review only",
+      "exclusions": {
+        "nonempty_context": 4467
+      },
+      "licence": "CC-BY-SA-3.0",
+      "missing": "inj.direct labels/language decisions, contributor paraphrase parents, contamination review",
+      "original_rows": 15011,
+      "raw_sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec",
+      "revision": "bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a",
+      "source": "databricks/databricks-dolly-15k"
+    },
+    {
+      "decision": "supplementary synthetic source only; not a replacement for real-world validation",
+      "licence": "CC-BY-4.0",
+      "missing": "template ancestry, preservation of original held-out construction, rubric adjudication",
+      "raw_sha256": "eb748eb8104f0a736934bf4f3c96335801010b09e17467fd4aadc1c1ae7bbced",
+      "revision": "011a9ae25b31feb48d23f837fdcbc3a6a4ee3b4e",
+      "rows": 5441,
+      "source": "mirzaakhi/prompt-injection-detection-dataset",
+      "upstream_code_executed": false
+    },
+    {
+      "decision": "excluded: auto-gated terms are outside delegated public-source selection",
+      "former_name": "qualifire/Qualifire-prompt-injection-benchmark",
+      "licence": "CC-BY-NC-4.0",
+      "raw_data_downloaded": false,
+      "revision": "9ef1aa46a7e5eedb096be0481be8011ede1e72e8",
+      "source": "rogue-security/prompt-injections-benchmark"
+    },
+    {
+      "decision": "hold full-corpus task fit and row-level provenance/rights review; repository tree provides example data only",
+      "full_corpus_downloaded": false,
+      "licence": "MIT repository notice",
+      "revision": "0efab3f463eae9c823130d8faffb71b2e7c06e63",
+      "source": "lakeraai/pint-benchmark"
+    }
+  ],
+  "storage_accounting": {
+    "after_bytes": 21457842176,
+    "before_bytes": 21475782656,
+    "budget_increase_approved": false,
+    "cap_bytes": 21474836480,
+    "mypy_cache_tag_verified": true,
+    "next_validation": "MYPY_CACHE_DIR=/dev/null make check",
+    "removed": "Only generated .mypy_cache/3.12/cache.db",
+    "removed_file_bytes": 17330176,
+    "research_evidence_removed": false,
+    "schema_id": "hallmark/storage-accounting-correction/1",
+    "scope": "Whole checkout including source, Git and caches; earlier three-directory accounting omitted these."
+  },
+  "synthetic_acquisition": {
+    "bytes": 1104383,
+    "code_executed": false,
+    "elapsed_seconds": 0.6510742080863565,
+    "files": [
+      {
+        "download_url": "https://raw.githubusercontent.com/mirzaakhi/prompt-injection-detection-dataset/011a9ae25b31feb48d23f837fdcbc3a6a4ee3b4e/generate_dataset.py",
+        "path": "generate_dataset.py",
+        "sha": "2fb9b6a9cbfd3a0d389219d2c4e048a062180696",
+        "sha256": "5fec442e94609d3f5e1e2bc284c4a81d3566f747b4bf49f974bb171105bfa54c",
+        "size": 22260
+      },
+      {
+        "download_url": "https://raw.githubusercontent.com/mirzaakhi/prompt-injection-detection-dataset/011a9ae25b31feb48d23f837fdcbc3a6a4ee3b4e/prompt_injection_dataset.csv",
+        "path": "prompt_injection_dataset.csv",
+        "sha": "71b25281e9b3371e02f6401cae2500fae0104e9c",
+        "sha256": "eb748eb8104f0a736934bf4f3c96335801010b09e17467fd4aadc1c1ae7bbced",
+        "size": 1082123
+      }
+    ]
+  },
+  "validation": {
+    "cache": "MYPY_CACHE_DIR=/dev/null",
+    "command": [
+      "make",
+      "check"
+    ],
+    "elapsed_seconds": 32.6958358339034,
+    "exit_code": 0,
+    "limits": {
+      "seconds": 55,
+      "training_threads": 1
+    },
+    "log_sha256": "1a336d058fd56c04f64e8966833abf0ffed0d2526a880929ae07cd7373367971",
+    "scope": "Existing harmless software fixtures; acquired source rows are not used.",
+    "summaries": [
+      "All checks passed!",
+      "======================= 1772 passed, 1 warning in 28.56s ======================="
+    ]
+  }
+}

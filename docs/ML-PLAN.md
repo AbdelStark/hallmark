@@ -10,6 +10,11 @@ Start with majority/block-all/pass-all sanity checks, the shipped byte-logistic 
 
 Use Laya as a candidate open decision-model teacher or hardware-tier classifier after checking the exact checkpoint, licence and serving surface. Do not assert its parameter count, task quality or relative speed from the historical packet without fresh model/config/benchmark verification. Hosted Jev-style systems are comparison candidates only on explicitly approved public/synthetic inputs; no confidential transcripts leave the research environment.
 
+The owner approved an initial pipeline-development stage using agent-reviewed or
+entirely synthetic data without human review; see [decision 0033](decisions/0033-approved-synthetic-pipeline.md).
+Keep its labels and results explicitly synthetic. The human/confirmatory review
+requirements below govern task-quality claims, not completion of that software stage.
+
 ## Dataset pipeline and governance
 
 The source packet inventories possible Hub datasets and tooling. None is admitted by being listed there. For each selected source, retain exact revision, licence text/hash, commercial/redistribution/derivative restrictions, consent/privacy review, original task/labels, contamination risk and intended use. Gated terms require the owner's acceptance. Store approval evidence outside the config allowlist. Keep raw downloads and checkpoints out of git.
@@ -26,12 +31,20 @@ No curation framework is needed for 52 synthetic records. Add NeMo Curator or eq
 4. Compare float, PTQ integer and, only if justified, QAT candidates using identical inputs. Export the integer semantics as normative. Freeze scales, signed representation, rounding, clipping, accumulators and mask behavior. Report decision disagreements near the threshold and on long text.
 5. Calibrate the exported integer model. Freeze before test. Run the real proof backend on the exact graph/weights selected; retraining after compiler failure changes the experiment.
 
-The training baseline implements only float64 logistic fitting, power-of-two PTQ
-and integer calibration. The separate [native MLP runtime](decisions/0014-integer-mlp-runtime.md)
-executes explicitly exported integer weights; it does not train or calibrate them.
-Teacher inference, encoder training, distillation, QAT, ONNX export and proving
-remain unimplemented. Training long inputs is rejected until a justified
-multiple-instance or chunk-labeling objective exists.
+The historical baseline implements float64 logistic fitting, power-of-two PTQ
+and integer calibration; it rejects multi-chunk training records. The separate
+[record-level MLP trainer](decisions/0027-record-level-mlp-training.md) uses the
+maximum chunk logit, exact same-environment optimizer resume and power-of-two PTQ
+into the [native MLP runtime](decisions/0014-integer-mlp-runtime.md). It accepts
+train rows only and preserves complete prompt bytes. Its synthetic fixture checks
+software behavior, not policy quality. The
+[grouped comparison API](decisions/0028-grouped-baseline-selection.md) adds fixed
+controls, character n-grams, train-internal candidate selection and separate native
+MLP calibration/evaluation. The guard uses a
+[pinned CPU runtime](decisions/0030-complete-input-guard.md) with complete token
+chunk coverage and separately calibrated maximum margins. Its real-weight
+authored probes are engineering evidence only. The full roster, admitted real-data runs, teacher inference,
+encoder training, distillation, QAT and proving remain unfinished on this branch.
 
 ## Operator and system bake-off
 

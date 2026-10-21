@@ -5,6 +5,7 @@ Run these from a reviewed Git checkout with the locked development environment:
 ```sh
 make package-check
 make package-check-train
+make package-check-guard
 ```
 
 The first gate installs only core dependencies; it requires scikit-learn to be
@@ -12,6 +13,9 @@ absent and runs all installed runtime/CLI fixtures. The second additionally
 creates a separate train environment, executes the synthetic fit and caller-pinned
 replay, and rejects an altered result. There is no skip path for installed training.
 Both use one BLAS/OpenMP thread. No model or research-data download occurs.
+The guard gate adds a separate environment for the optional ONNX/tokenizer
+runtime and executes a tiny authored graph, with complete chunk coverage.
+Linux/macOS CPython 3.12 CI exercises this additional gate without research assets.
 
 ## Inputs and environment
 

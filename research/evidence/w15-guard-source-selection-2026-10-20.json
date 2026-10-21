@@ -1,0 +1,101 @@
+{
+  "asset_bytes_downloaded": false,
+  "authority": "owner-delegated licence-reviewed public asset selection, decision 0019",
+  "authority_sha256": "2c8235901ebbf95020a776f881d4d0591951c8af73847cf53e52c56691721f39",
+  "caveats": [
+    "The guard project is archived/unmaintained; no operational support or quality guarantee is inferred.",
+    "Published benchmark metrics are publisher reports and were not reproduced.",
+    "Listed training sources and unknown additional sources remain contamination/provenance risks; do not claim an unseen confirmatory set without a separate audit.",
+    "The example code truncates at 512 tokens. It must not be copied into this study; complete-input chunking and mask semantics must be qualified."
+  ],
+  "cost_usd": 0,
+  "date": "2026-10-20",
+  "decision": "select-for-pinned-download-and-local-qualification",
+  "hf_token_used": false,
+  "licence_observations": [
+    "Pinned guard card and LICENSE agree on Apache-2.0 for the published model.",
+    "Pinned Microsoft base-model card declares MIT; the linked official code repository has retained MIT terms and copyright notice.",
+    "No conflicting model-specific or gated terms were observed in these reviewed files.",
+    "Selection relies on the publishers express model licence grants; it does not establish rights to every upstream training-data record.",
+    "The guard card labels some unlicensed datasets public domain without naming them. That assertion is not adopted and those data are not approved for acquisition or reuse."
+  ],
+  "measurement_permitted": false,
+  "metadata_files": [
+    {
+      "name": "guard-card",
+      "sha256": "37221a38df1e60ad56364c39a233c75b77fa08740ecdee248d1b4e07ccc8ef5a",
+      "size": 6327,
+      "url": "https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2/resolve/90c9989b1a342275dd0d1a95aad283c04e075671/README.md"
+    },
+    {
+      "name": "guard-license",
+      "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b",
+      "size": 10172,
+      "url": "https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2/resolve/90c9989b1a342275dd0d1a95aad283c04e075671/LICENSE"
+    },
+    {
+      "name": "base-metadata",
+      "sha256": "6ee88b3b4fa851fac2c1f196472faf1dd41a9932fb5953e0368f0e857ee20f6e",
+      "size": 5501,
+      "url": "https://huggingface.co/api/models/microsoft/deberta-v3-base?blobs=true"
+    },
+    {
+      "name": "base-card",
+      "sha256": "7e9ea69ca00d0609cc0e0b9cec76f9ba6ae71601244c4136a3f25bd02dce4c4d",
+      "size": 3472,
+      "url": "https://huggingface.co/microsoft/deberta-v3-base/resolve/8ccc9b6f36199bec6961081d44eb72fb3f7353f3/README.md"
+    },
+    {
+      "name": "base-code-license",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+      "size": 1141,
+      "url": "https://raw.githubusercontent.com/microsoft/DeBERTa/4d7fe0bd4fb3c7d4f4005a7cafabde9800372098/LICENSE"
+    }
+  ],
+  "planned_assets": [
+    {
+      "blobId": "3366690a064655366dd7dd57f9b3cf1e8ba8e78f",
+      "rfilename": "onnx/config.json",
+      "size": 1014
+    },
+    {
+      "blobId": "2d9532d6b214243ff14dfc0e2664e0d2667d75b5",
+      "lfs": {
+        "pointerSize": 134,
+        "sha256": "f0ea7f239f765aedbde7c9e163a7cb38a79c5b8853d3f76db5152172047b228c",
+        "size": 738563188
+      },
+      "rfilename": "onnx/model.onnx",
+      "size": 738563188
+    },
+    {
+      "blobId": "83fb22de184abab1b193b1f6001e3015e865e50b",
+      "rfilename": "onnx/special_tokens_map.json",
+      "size": 970
+    },
+    {
+      "blobId": "00c50710453478105265c838bfb3bad69b410891",
+      "rfilename": "onnx/tokenizer.json",
+      "size": 8648886
+    },
+    {
+      "blobId": "7a76cf2e0d2a72e3baf09096c657dc5d977b04ec",
+      "rfilename": "onnx/tokenizer_config.json",
+      "size": 1392
+    }
+  ],
+  "planned_runtime": "standard pinned ONNX Runtime and tokenizer library; no remote Python code or pickle loading",
+  "purpose": "bounded public/synthetic-input research comparison of a fixed task-matched guard",
+  "raw_root": "runs/w15-guard-metadata-1792528650785139000",
+  "remaining_gates": [
+    "review exact runtime packages/wheels and notices before install",
+    "download to fresh local root under remaining storage cap and verify advertised byte hashes",
+    "pin tokenizer files and inspect complete-input/token-mask coverage",
+    "execute actual short/long-input CPU guard comparison within recorded budget",
+    "complete source/split/label-audit and final measurement dossier"
+  ],
+  "repository": "protectai/deberta-v3-base-prompt-injection-v2",
+  "reviewer_role": "research-agent; not independent legal or scientific review",
+  "revision": "90c9989b1a342275dd0d1a95aad283c04e075671",
+  "schema_id": "hallmark.guard-source-selection/1"
+}

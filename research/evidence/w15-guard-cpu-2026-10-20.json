@@ -1,0 +1,961 @@
+{
+  "acquisition": {
+    "elapsed_seconds": 24.314500875072554,
+    "files": [
+      {
+        "advertised_digest_verified": true,
+        "name": "model.onnx",
+        "sha256": "f0ea7f239f765aedbde7c9e163a7cb38a79c5b8853d3f76db5152172047b228c",
+        "size": 738563188
+      },
+      {
+        "advertised_digest_verified": true,
+        "name": "tokenizer.json",
+        "sha256": "752fe5f0d5678ad563e1bd2ecc1ddf7a3ba7e2024d0ac1dba1a72975e26dff2f",
+        "size": 8648886
+      },
+      {
+        "advertised_digest_verified": true,
+        "name": "tokenizer_config.json",
+        "sha256": "77d3dd1a9c30397a06545251ed9274bd92e4a85feb98497eeed50c920f962274",
+        "size": 1392
+      },
+      {
+        "advertised_digest_verified": true,
+        "name": "special_tokens_map.json",
+        "sha256": "b2f1b2f15f29a6b6d9d6ea4eca1675d2c231a71477f151d48f79cc83a625ba21",
+        "size": 970
+      },
+      {
+        "advertised_digest_verified": true,
+        "name": "config.json",
+        "sha256": "3093743035223c46b1497a72e939e56fa0a50afbd7bafbf7eb8aad060b8d23f8",
+        "size": 1014
+      }
+    ],
+    "passed": true,
+    "protocol_sha256": "f98bc817cca200af0da11dfa6f318b983b7a4f409e1644afec0d25523519af53",
+    "schema_id": "hallmark/guard-acquisition-receipt/1"
+  },
+  "acquisition_local_root": "runs/w15-guard-assets-1792529768485391000",
+  "artifact_hashes_each_repeat": {
+    "inputs.json": "eacb1de016ce623dca9aeddcf16b4ae1fb759bb6c414851120b277843ce5595e",
+    "result.json": "a746d660164e15907bf2a374063b35c4723985592767618e368609ff5d34e464",
+    "runtime.json": "8362b1e8a7fbfe0aa2d2e5b3aa716b1298c14bd7d4c5da982e9c6baf8410d500",
+    "score-00.json": "26557fa5bc1a85aae50fc156ae2e29e0c21256f23eda3c5454f2fcd52c3c2dd1",
+    "score-01.json": "2593bf9d35c7b59faf285fa9b1e0d6d43098581a5294ab46e85a57c89d454402",
+    "score-02.json": "4215c4f49ee21a1ac08d09daac4c8cee9497e4dfa74a24b564b661136543ad0c",
+    "score-03.json": "47b98a100bd19ef5b4c7b7cedc4b6f6db2b73e8bebd7b4d9ec7edfab52361546",
+    "score-04.json": "6215f4c6a564e02ff62cfcd630397eb78534d151fc7acf641efe3114b1b07aac",
+    "score-05.json": "c132cecd604d66bea0926545e399a5c994003cd16f0f11733b38ffc190f4cb5d",
+    "score-06.json": "060d7f5a098a263f22dc224565b6fefb8a993bc14e39e9ab265e22ba3b624d67",
+    "spec.json": "657ac19b2ef09bc5eb04d17e5dff618dfa999fb647a8c4414bd74aee87866378"
+  },
+  "claims": {
+    "authored_probes_only": true,
+    "byte_preserving_tokenization": false,
+    "full_content_token_chunks": true,
+    "independent_verification": false,
+    "proof": false,
+    "quality_gate_passed": false,
+    "real_weights_executed": true
+  },
+  "commands": [
+    {
+      "elapsed_seconds": 7.253037249902263,
+      "exit_code": 0,
+      "name": "first",
+      "peak_rss_bytes": 4372217856,
+      "stderr_sha256": "d389cb9cd22acc6def9262b6da30ef90136899c3a00fd12f6572f18568d2e22c",
+      "stdout_sha256": "4d9aae1183551784e321aa2f363a6d295a2932ca6e9b55038f5c0005c601150a"
+    },
+    {
+      "elapsed_seconds": 7.007933542132378,
+      "exit_code": 0,
+      "name": "repeat",
+      "peak_rss_bytes": 4371480576,
+      "stderr_sha256": "977b7e82abb5ada315e1f83a60a9aba24c40ae1ffb4598fe3970595ae606b9ed",
+      "stdout_sha256": "4d9aae1183551784e321aa2f363a6d295a2932ca6e9b55038f5c0005c601150a"
+    }
+  ],
+  "cost_usd": 0,
+  "date": "2026-10-20",
+  "decision": "docs/decisions/0030-complete-input-guard.md",
+  "dependency_review": "research/evidence/w15-guard-dependencies-2026-10-20.json",
+  "execution_baseline_commit": "c3314135fb374d1b7d6823712adabdf2e615be65",
+  "graph_inspection": {
+    "elapsed_seconds": 0.13990391697734594,
+    "external_initializers": 0,
+    "functions": 0,
+    "initializers": 202,
+    "inputs": [
+      {
+        "name": "input_ids",
+        "shape": [
+          "batch_size",
+          "sequence_length"
+        ],
+        "type": 7
+      },
+      {
+        "name": "attention_mask",
+        "shape": [
+          "batch_size",
+          "sequence_length"
+        ],
+        "type": 7
+      }
+    ],
+    "ir_version": 7,
+    "nodes": 4113,
+    "operators": {
+      "::Abs": 1,
+      "::Add": 224,
+      "::And": 1,
+      "::Cast": 152,
+      "::Ceil": 1,
+      "::Clip": 2,
+      "::Concat": 192,
+      "::Constant": 1213,
+      "::ConstantOfShape": 48,
+      "::Div": 89,
+      "::Equal": 24,
+      "::Erf": 13,
+      "::Expand": 48,
+      "::Gather": 158,
+      "::GatherElements": 24,
+      "::Gemm": 2,
+      "::Greater": 1,
+      "::Identity": 24,
+      "::Less": 1,
+      "::LessOrEqual": 1,
+      "::Log": 1,
+      "::MatMul": 144,
+      "::Mul": 116,
+      "::Neg": 1,
+      "::Pow": 26,
+      "::Range": 1,
+      "::ReduceMean": 52,
+      "::Reshape": 192,
+      "::Shape": 362,
+      "::Sign": 1,
+      "::Slice": 160,
+      "::Softmax": 12,
+      "::Sqrt": 62,
+      "::Squeeze": 161,
+      "::Sub": 39,
+      "::Tile": 24,
+      "::Transpose": 120,
+      "::Unsqueeze": 370,
+      "::Where": 50
+    },
+    "opsets": [
+      [
+        "",
+        12
+      ]
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "shape": [
+          "batch_size",
+          2
+        ],
+        "type": 1
+      }
+    ],
+    "schema_id": "hallmark/guard-asset-inspection/1",
+    "tokenizer": {
+      "model": "Unigram",
+      "normalizer": [
+        {
+          "strip_left": true,
+          "strip_right": true,
+          "type": "Strip"
+        },
+        {
+          "precompiled_charsmap": "ce10d747170c5e102c99b841d1cdea976d54405ebc44791f9c3636741a894d8f",
+          "type": "Precompiled"
+        },
+        {
+          "content": " ",
+          "pattern": {
+            "Regex": " {2,}"
+          },
+          "type": "Replace"
+        }
+      ],
+      "padding": null,
+      "post_processor": {
+        "pair": [
+          {
+            "SpecialToken": {
+              "id": "[CLS]",
+              "type_id": 0
+            }
+          },
+          {
+            "Sequence": {
+              "id": "A",
+              "type_id": 0
+            }
+          },
+          {
+            "SpecialToken": {
+              "id": "[SEP]",
+              "type_id": 0
+            }
+          },
+          {
+            "Sequence": {
+              "id": "B",
+              "type_id": 1
+            }
+          },
+          {
+            "SpecialToken": {
+              "id": "[SEP]",
+              "type_id": 1
+            }
+          }
+        ],
+        "single": [
+          {
+            "SpecialToken": {
+              "id": "[CLS]",
+              "type_id": 0
+            }
+          },
+          {
+            "Sequence": {
+              "id": "A",
+              "type_id": 0
+            }
+          },
+          {
+            "SpecialToken": {
+              "id": "[SEP]",
+              "type_id": 0
+            }
+          }
+        ],
+        "special_tokens": {
+          "[CLS]": {
+            "id": "[CLS]",
+            "ids": [
+              1
+            ],
+            "tokens": [
+              "[CLS]"
+            ]
+          },
+          "[SEP]": {
+            "id": "[SEP]",
+            "ids": [
+              2
+            ],
+            "tokens": [
+              "[SEP]"
+            ]
+          }
+        },
+        "type": "TemplateProcessing"
+      },
+      "pre_tokenizer": {
+        "pretokenizers": [
+          {
+            "add_prefix_space": true,
+            "prepend_scheme": "always",
+            "replacement": "\u2581",
+            "type": "Metaspace"
+          }
+        ],
+        "type": "Sequence"
+      },
+      "truncation": null,
+      "vocabulary": 128000
+    },
+    "training_info": 0
+  },
+  "hf_token_used": false,
+  "issue": 16,
+  "limitations": [
+    "The fixed max-margin chunk adaptation needs separate calibration on admitted data.",
+    "The two maximum-length repetitive harmless probes have positive margins; zero is not an admitted threshold and this is not a measured false-positive rate.",
+    "Upstream training-data contamination and human label review remain unresolved.",
+    "No encoder, hardware attestation, end-to-end ZK proof or independently enrolled verification is supplied."
+  ],
+  "model": "protectai/deberta-v3-base-prompt-injection-v2",
+  "probes": [
+    {
+      "chunks": [
+        {
+          "logits": [
+            2.7772090435028076,
+            -3.013106107711792
+          ],
+          "start": 0,
+          "stop": 0
+        }
+      ],
+      "name": "empty",
+      "prompt_bytes": 0,
+      "prompt_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": -5.7903151512146,
+      "token_count": 0,
+      "tokens": "e93253c591e3e1701417cdd06d7f8d6536fc659da90af08e639ceb836d087bd8"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            6.491537570953369,
+            -7.0802812576293945
+          ],
+          "start": 0,
+          "stop": 6
+        }
+      ],
+      "name": "harmless-weather",
+      "prompt_bytes": 39,
+      "prompt_sha256": "ff6d8f9c2658c19999ace11a7f5fe44980e25d6a82a69f6bed6f7bef0dc7ce2a",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": -13.571818828582764,
+      "token_count": 6,
+      "tokens": "7bbf145e4165b0bbd56d94748c5ecdaed86cd5c5ae7b5c9c2f3a4eb02d9064fc"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            -8.417215347290039,
+            7.045528888702393
+          ],
+          "start": 0,
+          "stop": 9
+        }
+      ],
+      "name": "harmless-direct-instruction",
+      "prompt_bytes": 56,
+      "prompt_sha256": "843dffe24b8f3a14bd14db7acd8dd17d87a87e16e75115f1f33b252f1d6d0192",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": 15.462744235992432,
+      "token_count": 9,
+      "tokens": "af6ca6522a463d1cb3ba7aa0776184f751459fdc1191862f413c60a05d39ac27"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 0,
+          "stop": 510
+        },
+        {
+          "logits": [
+            -8.417215347290039,
+            7.045528888702393
+          ],
+          "start": 510,
+          "stop": 519
+        }
+      ],
+      "name": "late-direct-instruction",
+      "prompt_bytes": 3116,
+      "prompt_sha256": "27237c7976f1d214ade6ce3cae342d274ec6574865d0f599d2cb6edb7705a703",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": 15.462744235992432,
+      "token_count": 519,
+      "tokens": "cb85f7f17e892452ab03835a369077d820fbe64c7a7d3af4cf7e64b7d55e45a1"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            6.441401481628418,
+            -7.136214256286621
+          ],
+          "start": 0,
+          "stop": 5
+        }
+      ],
+      "name": "unicode-and-whitespace",
+      "prompt_bytes": 30,
+      "prompt_sha256": "4e13cd13ba25eedf30a96723ceafb6eb7d944b3ce8c56a5597038a7a2a515a40",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": -13.577615737915039,
+      "token_count": 5,
+      "tokens": "04a0c4cf32202b92c79d406326d6fdbda9ce3a72ddd32eff678cc569033cc84e"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 0,
+          "stop": 510
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 510,
+          "stop": 1020
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 1020,
+          "stop": 1530
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 1530,
+          "stop": 2040
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 2040,
+          "stop": 2550
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 2550,
+          "stop": 3060
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 3060,
+          "stop": 3570
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 3570,
+          "stop": 4080
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 4080,
+          "stop": 4590
+        },
+        {
+          "logits": [
+            -4.218857288360596,
+            3.9514148235321045
+          ],
+          "start": 4590,
+          "stop": 5100
+        },
+        {
+          "logits": [
+            -3.834367036819458,
+            3.583418607711792
+          ],
+          "start": 5100,
+          "stop": 5463
+        }
+      ],
+      "name": "maximum-ascii-repetition",
+      "prompt_bytes": 32768,
+      "prompt_sha256": "0bcf9d2c15c3b64531551bcabc38936dc619b03599c7fe347c84072ad5fa18d2",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": 8.1702721118927,
+      "token_count": 5463,
+      "tokens": "1d309234f80e64f02ea8304e0ffd3ba7ede6741713ff347c6dde587f7cc05626"
+    },
+    {
+      "chunks": [
+        {
+          "logits": [
+            -3.3347818851470947,
+            3.2403666973114014
+          ],
+          "start": 0,
+          "stop": 510
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 510,
+          "stop": 1020
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 1020,
+          "stop": 1530
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 1530,
+          "stop": 2040
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 2040,
+          "stop": 2550
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 2550,
+          "stop": 3060
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 3060,
+          "stop": 3570
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 3570,
+          "stop": 4080
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 4080,
+          "stop": 4590
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 4590,
+          "stop": 5100
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 5100,
+          "stop": 5610
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 5610,
+          "stop": 6120
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 6120,
+          "stop": 6630
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 6630,
+          "stop": 7140
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 7140,
+          "stop": 7650
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 7650,
+          "stop": 8160
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 8160,
+          "stop": 8670
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 8670,
+          "stop": 9180
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 9180,
+          "stop": 9690
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 9690,
+          "stop": 10200
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 10200,
+          "stop": 10710
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 10710,
+          "stop": 11220
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 11220,
+          "stop": 11730
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 11730,
+          "stop": 12240
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 12240,
+          "stop": 12750
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 12750,
+          "stop": 13260
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 13260,
+          "stop": 13770
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 13770,
+          "stop": 14280
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 14280,
+          "stop": 14790
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 14790,
+          "stop": 15300
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 15300,
+          "stop": 15810
+        },
+        {
+          "logits": [
+            -3.393798589706421,
+            3.2811357975006104
+          ],
+          "start": 15810,
+          "stop": 16320
+        },
+        {
+          "logits": [
+            0.29946112632751465,
+            -0.27824610471725464
+          ],
+          "start": 16320,
+          "stop": 16384
+        }
+      ],
+      "name": "maximum-unicode-repetition",
+      "prompt_bytes": 32768,
+      "prompt_sha256": "4f3213f6f3cb2bba2973ec02c8222e88161cdc2208dbd3d3634f43e12e6388ff",
+      "quality_claim": false,
+      "runtime": "0ff401b9afec4fde97fe2f7d54efd4835f11a46edfa02a97dbd0081e7b4f07a2",
+      "schema_id": "hallmark/guard-score/1",
+      "score": 6.674934387207031,
+      "token_count": 16384,
+      "tokens": "cec43ab57515bc1ffb2b2ce9f874261ac3f34bc10a19ecb172e1f201f5fb68e5"
+    }
+  ],
+  "protocol_sha256": "30e2e46c066c526ad4abf9a71278cee6445bfcc1afee486471a517205ca1bce1",
+  "raw_local_root": "runs/w15-guard-cpu-1792530020726182000",
+  "receipt_sha256": "5113ada479ae8fa5267d64d5c0a09f6e6b4864376cc38c2f3b80f84aacd8e809",
+  "repeat_equal": true,
+  "revision": "90c9989b1a342275dd0d1a95aad283c04e075671",
+  "runtime": {
+    "aggregation": "max-over-all-contiguous-content-chunks",
+    "binaries": {
+      "numpy": {
+        "numpy/_core/_multiarray_tests.cpython-312-darwin.so": "083ab89907471d9d6af7337ae44f6acbde5e5e23ef173394dc6251c925fc08ba",
+        "numpy/_core/_multiarray_umath.cpython-312-darwin.so": "af36cbbb39b27651a8b9f7dfa491775016f331a58e8d116eb6b4cfd5e22efb77",
+        "numpy/_core/_operand_flag_tests.cpython-312-darwin.so": "e910e6642301f2f28a986d819a3249d5d1013b2ee6ce4e5e9a95082ecc4d3627",
+        "numpy/_core/_rational_tests.cpython-312-darwin.so": "73d0f8c90654dd97fa2b0ed6c45882eb8fe83a8c4256e38bfc31713e5e07841b",
+        "numpy/_core/_simd.cpython-312-darwin.so": "e78efa667e9cd2d0f319968a7feae06adf7f0945efde8bbcad3bd0f75e199541",
+        "numpy/_core/_struct_ufunc_tests.cpython-312-darwin.so": "24218eec682f48246b450903e270be19eca1c6c2d828235ddef29949f2cc8950",
+        "numpy/_core/_umath_tests.cpython-312-darwin.so": "1c55454c29a1a5f500fc22cf095e862b0af0f17e14c2a1fbe7140832c21a0d66",
+        "numpy/fft/_pocketfft_umath.cpython-312-darwin.so": "51add49e0b523ae7b20a10a879a77e0998afb795d6d233ef8936f0a58ce4e36f",
+        "numpy/linalg/_umath_linalg.cpython-312-darwin.so": "aa8f5a2f363ad911eddb849e3ed82ba017bd2fec5b8dde28a330e2873f501fb8",
+        "numpy/linalg/lapack_lite.cpython-312-darwin.so": "a7895a9c0d4afdf3fbbdc2456e016590aa0fbd8d7e203079debee39bd0269b5c",
+        "numpy/random/_bounded_integers.cpython-312-darwin.so": "1215997585debe5651a77a52563dc32508e67414ef35761c49afa150ce1f8e1f",
+        "numpy/random/_common.cpython-312-darwin.so": "884ecb8d16bbb1572816a89fff6b2b5722bb8210273ff744ec0db5c0496de5fd",
+        "numpy/random/_generator.cpython-312-darwin.so": "87a6dfcf15b6107936915f76e1a52b00d68f2e539169aee194af7a3e5bbacc1b",
+        "numpy/random/_mt19937.cpython-312-darwin.so": "9779d38f6e586d845f2ee652959f3edf1acb44fbeff6f4ee16ec7fb58f23dd6d",
+        "numpy/random/_pcg64.cpython-312-darwin.so": "39fbdcf07c23901f4ae0b6ab3be3e05829a83495819a69cda8ddbd11d06ff136",
+        "numpy/random/_philox.cpython-312-darwin.so": "5a74868b1a98c3d0a776cf275c88959871376bab0ff15ef0d882229ddd5a2a56",
+        "numpy/random/_sfc64.cpython-312-darwin.so": "6bb290611b7fa2304d28f3c8ddb0156f435ead1aa0f5a997ddfe4e8a6762c200",
+        "numpy/random/bit_generator.cpython-312-darwin.so": "88bbb27d3f58e12c9be2ff6af6eff4e409599a3e6cece3b4144d4aa8878b149b",
+        "numpy/random/mtrand.cpython-312-darwin.so": "0e52c63a090850119f67a570ae2fd094861fcff3a0bad00cbf3a0c86faa82510"
+      },
+      "onnx": {
+        "onnx/onnx_cpp2py_export.abi3.so": "4b638f68beb21569cca37a26dca2d8711dec439800bd990ae176cbf90edf85f3"
+      },
+      "onnxruntime": {
+        "onnxruntime/capi/libonnxruntime.1.31.0.dylib": "ff52828ce7c6dd1aea99a5e9f5da9e2786e3d03e467fbf8b6893a4b624334920",
+        "onnxruntime/capi/onnxruntime_pybind11_state.so": "605defa19ccbb0e2254be08e783ebf1eb8aa4e6353d5308f04ffbeaedbdaf742"
+      },
+      "protobuf": {
+        "google/_upb/_message.abi3.so": "5fe9c5aa8c22f90136ea60aa2e46bdbd95d1953c1a35bdd3ca4cd643b1d74f6d"
+      },
+      "tokenizers": {
+        "tokenizers/tokenizers.abi3.so": "83c58f9ec4937f86521c76ba5222215d3e7707a25818d5ea69604e230fd4a96c"
+      }
+    },
+    "graph": {
+      "nodes": 4113,
+      "opsets": [
+        12
+      ]
+    },
+    "normalization": "pinned-tokenizer; lossy; no truncation or padding",
+    "optimizer": "none-frozen-pretrained",
+    "packages": {
+      "numpy": "2.5.4",
+      "onnx": "1.23.2",
+      "onnxruntime": "1.31.0",
+      "protobuf": "7.36.2",
+      "tokenizers": "0.23.3"
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "precision": "float32 logits, float64 margin",
+    "pretraining_contamination_reviewed": false,
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "python": "3.12.12",
+    "resume": "not-applicable",
+    "schema_id": "hallmark/guard-runtime/1",
+    "source_sha256": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+    "spec": "455a5967d870b6eaffdf6129800281a78e07269296f090e09e589c3bd8b7f663"
+  },
+  "schema_id": "hallmark/guard-cpu-engineering-evidence/1",
+  "source": {
+    "pyproject.toml": "07e3ae28d4ebbc61c1c363aa675873f9ea276270b4d803f1238c0918fed95f7d",
+    "scripts/check_guard.py": "c2ae5e2e7209b957fb551702855cd08a6c277da673a18cae22438aea396e9ee0",
+    "scripts/check_selection.py": "e2467596665728cab9588e5ad57ae1dec6c40bd5b2d563222e96183287e38518",
+    "scripts/run_guard.py": "5543ce4ba16cb7e3d89debe68078157c61ea7346999b9440c638a80c7a6d82d3",
+    "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+    "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+    "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+    "uv.lock": "5009eb2ccaf75d6a4bedc1ce01ff5c00e8b4af68969c378ef739d1a17e7150ba"
+  },
+  "source_note": "All changed executable paths used by the real probes are pinned in source. Other imported Hallmark modules retain the baseline commit bytes. The package source inventory independently records the complete pre-prose tree.",
+  "source_review": "research/evidence/w15-guard-source-selection-2026-10-20.json",
+  "spec": {
+    "max_prompt_bytes": 32768,
+    "model_bytes": 738563188,
+    "model_sha256": "f0ea7f239f765aedbde7c9e163a7cb38a79c5b8853d3f76db5152172047b228c",
+    "schema_id": "hallmark/guard-spec/1",
+    "sequence_tokens": 512,
+    "threads": 4,
+    "tokenizer_bytes": 8648886,
+    "tokenizer_sha256": "752fe5f0d5678ad563e1bd2ecc1ddf7a3ba7e2024d0ac1dba1a72975e26dff2f",
+    "vocabulary_size": 128100
+  },
+  "validation": {
+    "checks": [
+      {
+        "command": [
+          "make",
+          "check"
+        ],
+        "elapsed_seconds": 20.294407666195184,
+        "exit_code": 0,
+        "log_sha256": "932053f6eaabac173af46d6be8af04a7841939f272a7c798721da213e3699283"
+      },
+      {
+        "command": [
+          "make",
+          "check-train"
+        ],
+        "elapsed_seconds": 7.925238833995536,
+        "exit_code": 0,
+        "log_sha256": "11dabd6dfe6d9c71ab6ff65c827268291fc265f533f7adaaac2b4fb8ea88228e"
+      },
+      {
+        "command": [
+          "make",
+          "check-guard"
+        ],
+        "elapsed_seconds": 3.077314499998465,
+        "exit_code": 0,
+        "log_sha256": "73f384706d02a93c0886d321b5e7db545c79e40706a4f01800d79fce3f4e04bd"
+      },
+      {
+        "command": [
+          "make",
+          "package-check"
+        ],
+        "elapsed_seconds": 7.204369833925739,
+        "exit_code": 0,
+        "log_sha256": "f90a40a53f592d83e940783960d57bd7efa759cc36f4f86f58cdf70e6c1a4ab0"
+      },
+      {
+        "command": [
+          "uv",
+          "run",
+          "--locked",
+          "python",
+          "scripts/reproduce_package.py",
+          "--train",
+          "--guard"
+        ],
+        "elapsed_seconds": 28.78556145913899,
+        "exit_code": 0,
+        "log_sha256": "54a6bd6eb2a7b2781ba69c2904dbc33af7d431f0a150b5211e06614905bd3ede"
+      }
+    ],
+    "full_tests_passed": 1741,
+    "guard_tests_passed": 32,
+    "package_checks": [
+      {
+        "installed_guard_checked": false,
+        "installed_train_checked": false,
+        "result_sha256": "37158a3baa5a9452172f4edc915b5c31b51beb43e4ea7690fc733b15b852af95",
+        "retained": "dist/package-check-my4d5_wq",
+        "source_id": "76fb4bbbc68ec8b7217d494d5800a2cff9135cf1b792068a5d2095b8b30e1cf6"
+      },
+      {
+        "installed_guard_checked": true,
+        "installed_train_checked": true,
+        "result_sha256": "808505951967070346d297b63e7cc844af8644b47331397181b79b40c21d072b",
+        "retained": "dist/package-check-c06ibq2d",
+        "source_id": "76fb4bbbc68ec8b7217d494d5800a2cff9135cf1b792068a5d2095b8b30e1cf6"
+      }
+    ],
+    "pre_prose_distributions": {
+      "sdist": "3f72ce130a180ff8a749e233d49d1250feb949255bad98ed8c8b4ca4025dd52d",
+      "wheel": "2d5a12bb022de94eeeb5f2a8e8498887ebb2f76bffa0c9e9d4f3ffdc657c69ef"
+    },
+    "raw_local_root": "runs/w15-guard-gates-1792530308409104000",
+    "receipt_sha256": "7d757ebd7ef938972ea1cd9c643c968bf8fa8d636de22ceb57385531ba16caef",
+    "required_train_tests_passed": 35,
+    "retained_failure": {
+      "reason": "historical lock pin in unchanged statistical calculation",
+      "resolution": "separate fresh calculation equals every original field except lock hash; original evidence preserved",
+      "root": "runs/w15-guard-gates-1792530242676408000"
+    }
+  }
+}

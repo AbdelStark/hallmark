@@ -1,0 +1,118 @@
+{
+  "$defs": {
+    "MlpWeights": {
+      "additionalProperties": false,
+      "properties": {
+        "hidden_bias": {
+          "items": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden Bias",
+          "type": "array"
+        },
+        "hidden_weights": {
+          "items": {
+            "items": {
+              "maximum": 127,
+              "minimum": -128,
+              "type": "integer"
+            },
+            "maxItems": 256,
+            "minItems": 256,
+            "type": "array"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Hidden Weights",
+          "type": "array"
+        },
+        "output_bias": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "title": "Output Bias",
+          "type": "integer"
+        },
+        "output_weights": {
+          "items": {
+            "maximum": 127,
+            "minimum": -128,
+            "type": "integer"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Output Weights",
+          "type": "array"
+        },
+        "schema_id": {
+          "const": "hallmark/mlp-weights/1",
+          "title": "Schema Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "hidden_weights",
+        "hidden_bias",
+        "output_weights",
+        "output_bias"
+      ],
+      "title": "MlpWeights",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "checkpoint": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Checkpoint",
+      "type": "string"
+    },
+    "first_fraction": {
+      "maximum": 30,
+      "minimum": 0,
+      "title": "First Fraction",
+      "type": "integer"
+    },
+    "hidden_scale": {
+      "maximum": 256,
+      "minimum": 1,
+      "title": "Hidden Scale",
+      "type": "integer"
+    },
+    "last_fraction": {
+      "maximum": 30,
+      "minimum": 0,
+      "title": "Last Fraction",
+      "type": "integer"
+    },
+    "schema_id": {
+      "const": "hallmark.mlp-quantization/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "score_scale": {
+      "maximum": 4096,
+      "minimum": 1,
+      "title": "Score Scale",
+      "type": "integer"
+    },
+    "weights": {
+      "$ref": "#/$defs/MlpWeights"
+    }
+  },
+  "required": [
+    "schema_id",
+    "checkpoint",
+    "weights",
+    "first_fraction",
+    "last_fraction",
+    "hidden_scale",
+    "score_scale"
+  ],
+  "title": "MlpQuantization",
+  "type": "object"
+}

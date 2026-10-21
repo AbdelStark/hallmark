@@ -13,7 +13,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def install(root: Path, wheel: Path, env: Path, *, train: bool = False) -> Path:
+def install(
+    root: Path, wheel: Path, env: Path, *, train: bool = False, guard: bool = False
+) -> Path:
     subprocess.run(
         ["uv", "venv", "--no-config", "--python", sys.executable, str(env)], check=True, timeout=30
     )
@@ -34,6 +36,7 @@ def install(root: Path, wheel: Path, env: Path, *, train: bool = False) -> Path:
             "--output-file",
             str(requirements),
             *(["--extra", "train"] if train else []),
+            *(["--extra", "guard"] if guard else []),
         ],
         cwd=root,
         stdout=subprocess.DEVNULL,
@@ -94,6 +97,7 @@ def main() -> None:
     parser.add_argument("--dist", type=Path, default=ROOT / "dist")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--train", action="store_true")
+    parser.add_argument("--guard", action="store_true")
     args = parser.parse_args()
     root = args.source.resolve()
     subprocess.run(
@@ -121,6 +125,13 @@ def main() -> None:
         assert "hallmark/conformance.py" in names
         assert "hallmark/conformance_checks.py" in names
         assert "hallmark/integer_mlp.py" in names
+        assert "hallmark/mlp_export.py" in names
+        assert "hallmark/mlp_training.py" in names
+        assert "hallmark/guard.py" in names
+        assert "hallmark/comparison_run.py" in names
+        assert "hallmark/baselines.py" in names
+        assert "hallmark/selection.py" in names
+        assert "hallmark/comparison.py" in names
         assert "hallmark/rule.py" in names
         assert "hallmark/events.py" in names
         assert "hallmark/admission.py" in names
@@ -141,6 +152,24 @@ def main() -> None:
             "docs/roadmap/coverage.json",
             "scripts/build_conformance.py",
             "scripts/check_conformance.py",
+            "scripts/build_mlp_training_fixture.py",
+            "scripts/check_mlp_training.py",
+            "tests/test_mlp_training.py",
+            "fixtures/mlp-training.json",
+            "fixtures/mlp-training.sha256",
+            "docs/schemas/mlp-fit-config-v1.json",
+            "docs/schemas/mlp-checkpoint-v1.json",
+            "docs/schemas/mlp-quantization-v1.json",
+            "scripts/build_selection_fixture.py",
+            "scripts/check_selection.py",
+            "tests/test_selection.py",
+            "fixtures/grouped-selection.json",
+            "fixtures/grouped-selection.sha256",
+            "docs/schemas/ngram-fit-config-v1.json",
+            "docs/schemas/ngram-model-v1.json",
+            "docs/schemas/ngram-fit-v1.json",
+            "docs/schemas/grouped-selection-plan-v1.json",
+            "docs/schemas/comparison-calibration-v1.json",
             "scripts/build_mlp_fixture.py",
             "scripts/check_mlp_vectors.py",
             "scripts/build_rule_fixture.py",
@@ -446,6 +475,34 @@ def main() -> None:
         check=True,
         timeout=15,
     )
+    training_fixture = root / "fixtures/mlp-training.json"
+    training_pin = (root / "fixtures/mlp-training.sha256").read_text().strip()
+    subprocess.run(
+        [
+            str(python),
+            str(root / "scripts/check_mlp_training.py"),
+            str(training_fixture),
+            "--expected-fixture",
+            training_pin,
+        ],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
+    selection_fixture = root / "fixtures/grouped-selection.json"
+    selection_pin = (root / "fixtures/grouped-selection.sha256").read_text().strip()
+    subprocess.run(
+        [
+            str(python),
+            str(root / "scripts/check_selection.py"),
+            str(selection_fixture),
+            "--expected-fixture",
+            selection_pin,
+        ],
+        cwd=directory,
+        check=True,
+        timeout=15,
+    )
     corpus = root / "tests/vectors/v1"
     subprocess.run(
         [
@@ -530,7 +587,53 @@ def main() -> None:
             check=True,
             timeout=45,
         )
+        subprocess.run(
+            [
+                str(train_python),
+                str(root / "scripts/check_mlp_training.py"),
+                str(training_fixture),
+                "--expected-fixture",
+                training_pin,
+                "--output",
+                str(Path(directory) / "mlp-training-fixture"),
+            ],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
+        subprocess.run(
+            [
+                str(train_python),
+                str(root / "scripts/check_selection.py"),
+                str(selection_fixture),
+                "--expected-fixture",
+                selection_pin,
+                "--output",
+                str(Path(directory) / "grouped-selection-fixture"),
+            ],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
         inventories["train"] = installed_inventory(root, train_python, wheels[0], directory)
+    if args.guard:
+        guard_python = install(
+            root, wheels[0], Path(directory) / "guard-env", guard=True, train=args.train
+        )
+        subprocess.run(
+            [str(guard_python), str(root / "scripts/check_guard.py")],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
+        inventories["guard"] = installed_inventory(root, guard_python, wheels[0], directory)
+        if args.train:
+            subprocess.run(
+                [str(guard_python), str(root / "scripts/check_comparison_run.py")],
+                cwd=directory,
+                check=True,
+                timeout=55,
+            )
     if args.report:
         args.report.write_text(
             json.dumps(

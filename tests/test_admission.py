@@ -329,6 +329,14 @@ def test_study_budget_and_roles_match_current_authority() -> None:
     assert authority["source_selection"]["ambiguous_licences"] is False
     assert authority["hugging_face_jobs"]["authorized_if_needed"] is True
     assert authority["hugging_face_jobs"]["private_uploads"] is False
+    assert authority["local"]["max_disk_bytes"] == 40 * 1024**3
+    assert authority["data_review"]["synthetic_pipeline_permitted"] is True
+    assert authority["data_review"]["human_review_required_for_pipeline"] is False
+    assert authority["data_review"]["quality_claim_from_synthetic_pipeline"] is False
+    assert authority["hugging_face_jobs"]["agent_execution_limits"]["allowed_flavors"] == [
+        "t4-small",
+        "l4x1",
+    ]
     assert authority["hardware_procurement"] == authority["reviewer_contact"] == "options-only"
     assert authority["public_repository"] is True
     assert authority["make_private_only_on_explicit_request"] is True
@@ -338,7 +346,13 @@ def test_study_budget_and_roles_match_current_authority() -> None:
 def test_design_power_reproduces_with_exact_tail_cross_checks() -> None:
     pytest.importorskip("scipy")
     script = ROOT / "scripts/plan_admission_power.py"
-    expected = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
+    expected = json.loads(
+        (ROOT / "research/evidence/w15-design-power-lock-refresh-2026-10-20.json").read_text()
+    )
+    original = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
+    assert {k: v for k, v in expected.items() if k != "lock_sha256"} == {
+        k: v for k, v in original.items() if k != "lock_sha256"
+    }
     result = subprocess.run(
         [sys.executable, str(script)],
         cwd=ROOT,

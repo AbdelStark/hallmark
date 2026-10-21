@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "NgramConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "c": {
+          "exclusiveMinimum": 0,
+          "maximum": 1000,
+          "title": "C",
+          "type": "number"
+        },
+        "max_events": {
+          "maximum": 4194304,
+          "minimum": 1,
+          "title": "Max Events",
+          "type": "integer"
+        },
+        "max_features": {
+          "maximum": 65536,
+          "minimum": 1,
+          "title": "Max Features",
+          "type": "integer"
+        },
+        "max_iter": {
+          "maximum": 10000,
+          "minimum": 1,
+          "title": "Max Iter",
+          "type": "integer"
+        },
+        "max_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Max N",
+          "type": "integer"
+        },
+        "min_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Min N",
+          "type": "integer"
+        },
+        "schema_id": {
+          "const": "hallmark/ngram-fit-config/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "tolerance": {
+          "maximum": 1,
+          "minimum": 1e-12,
+          "title": "Tolerance",
+          "type": "number"
+        }
+      },
+      "required": [
+        "schema_id",
+        "min_n",
+        "max_n",
+        "max_features",
+        "max_events",
+        "c",
+        "tolerance",
+        "max_iter"
+      ],
+      "title": "NgramConfig",
+      "type": "object"
+    },
+    "NgramModel": {
+      "additionalProperties": false,
+      "properties": {
+        "coefficients": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 65536,
+          "minItems": 1,
+          "title": "Coefficients",
+          "type": "array"
+        },
+        "intercept": {
+          "title": "Intercept",
+          "type": "number"
+        },
+        "max_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Max N",
+          "type": "integer"
+        },
+        "max_prompt_bytes": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Max Prompt Bytes",
+          "type": "integer"
+        },
+        "min_n": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Min N",
+          "type": "integer"
+        },
+        "schema_id": {
+          "const": "hallmark/character-logistic/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "vocabulary": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 65536,
+          "minItems": 1,
+          "title": "Vocabulary",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_id",
+        "min_n",
+        "max_n",
+        "max_prompt_bytes",
+        "vocabulary",
+        "coefficients",
+        "intercept"
+      ],
+      "title": "NgramModel",
+      "type": "object"
+    },
+    "TrainingBounds": {
+      "additionalProperties": false,
+      "properties": {
+        "max_prompt_bytes": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "Max Prompt Bytes",
+          "type": "integer"
+        },
+        "max_rows": {
+          "maximum": 100000,
+          "minimum": 2,
+          "title": "Max Rows",
+          "type": "integer"
+        },
+        "max_total_bytes": {
+          "maximum": 33554432,
+          "minimum": 1,
+          "title": "Max Total Bytes",
+          "type": "integer"
+        },
+        "policy_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Policy Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_id",
+        "max_rows",
+        "max_prompt_bytes",
+        "max_total_bytes"
+      ],
+      "title": "TrainingBounds",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "bounds": {
+      "$ref": "#/$defs/TrainingBounds"
+    },
+    "config": {
+      "$ref": "#/$defs/NgramConfig"
+    },
+    "converged": {
+      "title": "Converged",
+      "type": "boolean"
+    },
+    "iterations": {
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Iterations",
+      "type": "integer"
+    },
+    "model": {
+      "$ref": "#/$defs/NgramModel"
+    },
+    "optimizer": {
+      "const": "liblinear-l2-float64",
+      "title": "Optimizer",
+      "type": "string"
+    },
+    "resume": {
+      "const": "not-supported-cold-fit",
+      "title": "Resume",
+      "type": "string"
+    },
+    "runtime": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Runtime",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/ngram-fit/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "seed": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "training": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Training",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "config",
+    "bounds",
+    "seed",
+    "training",
+    "runtime",
+    "model",
+    "iterations",
+    "converged",
+    "optimizer",
+    "resume"
+  ],
+  "title": "NgramFit",
+  "type": "object"
+}

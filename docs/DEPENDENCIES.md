@@ -7,12 +7,15 @@ No model, dataset, checkpoint or operational key is included in the packages.
 
 ## Reviewed upstream metadata
 
-On 2026-10-20, the [metadata review](../research/evidence/w37-dependencies-2026-10-20.json)
-matched all **518 locked distribution hashes** for **32 packages** against each
-exact version's PyPI JSON response. It covers build, core, train and development
-packages, including platform-conditional lock entries. The JSON records source
+On 2026-10-20, the [current metadata review](../research/evidence/w15-guard-dependencies-2026-10-20.json)
+matches all **684 locked distribution hashes** for **52 packages** against each
+exact version's PyPI JSON response. It extends the preserved
+[W37 review](../research/evidence/w37-dependencies-2026-10-20.json) of 32 packages
+without changing their versions. Coverage includes build, core, train, guard and
+development packages, including platform-conditional lock entries. The JSON records source
 URLs, metadata hashes, licence fields, Python requirements and dependency declarations.
-The table preserves upstream expressions or classifier labels; a broad classifier
+The table below preserves the original entries; the current JSON also inventories
+the 20 added guard dependencies. A broad classifier
 such as “BSD License” is not a substitute for the full notice.
 
 | Package | Locked version | Published licence expression or label |
@@ -75,6 +78,11 @@ uv version/binary hash. Retain their own upstream notices and installation prove
 Build equality is checked within that recorded environment, not asserted across
 all machines. The build matrix and limits are in [PACKAGING](PACKAGING.md).
 
-No new model-runtime, tokenizer, proof or hardware dependency is admitted here.
-Those still require their task-specific version, licence, security, host and owner
-review. Metadata and archive hashes do not establish absence of vulnerabilities.
+The optional guard uses ONNX 1.23.2 (Apache-2.0), ONNX Runtime 1.31.0 (MIT package
+licence plus its full third-party notices), and tokenizers 0.23.3 (Apache-2.0).
+All new selected Mac CPython 3.12 wheels were hash-checked before installation.
+The flatbuffers/tokenizers wheels omit full licence files; pinned upstream Apache
+notices are retained separately. The runtime's complete notices include MPL and
+component-specific terms, not just MIT. No third-party binary redistribution is
+part of this work. This bounded local-use review is not an independent security
+audit, legal warranty, proof/hardware admission or package-release approval.

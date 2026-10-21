@@ -1,0 +1,61 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "coefficients": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 65536,
+      "minItems": 1,
+      "title": "Coefficients",
+      "type": "array"
+    },
+    "intercept": {
+      "title": "Intercept",
+      "type": "number"
+    },
+    "max_n": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Max N",
+      "type": "integer"
+    },
+    "max_prompt_bytes": {
+      "maximum": 32768,
+      "minimum": 1,
+      "title": "Max Prompt Bytes",
+      "type": "integer"
+    },
+    "min_n": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Min N",
+      "type": "integer"
+    },
+    "schema_id": {
+      "const": "hallmark/character-logistic/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "vocabulary": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 65536,
+      "minItems": 1,
+      "title": "Vocabulary",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_id",
+    "min_n",
+    "max_n",
+    "max_prompt_bytes",
+    "vocabulary",
+    "coefficients",
+    "intercept"
+  ],
+  "title": "NgramModel",
+  "type": "object"
+}
