@@ -2694,3 +2694,59 @@ new compute reservation 480 cents and temporary-storage reserve 200 cents total
 961 cents, below the unchanged 1,000-cent ceiling; these estimates are not an
 invoice. The new run is active, with no result claimed. Frozen source, circuit,
 inputs, outcome roster and limits remain unchanged while it runs.
+
+
+## 2026-10-21 — Bounded artifact buffering (W18 / #19)
+
+Hypothesis: 64 KiB standard-library buffers preserve exact circuit/key/proof bytes
+and the existing file-boundary rejection contract. The maximum baseline reached
+key serialization before timing out; the dependency encoder performs individual
+48/96-byte point writes on the supplied writer. This motivates buffering, but
+provides no isolated phase or maximum performance measurement. Mutable paths are
+`research/probes/gnark/main.go` and its artifact tests; relation, randomness,
+serialization and evaluator thresholds remain fixed. The cloud source is unchanged.
+
+A prospective local protocol and source hashes precede execution in
+`runs/w18-buffered-artifacts-1792593992352000000`. Its original adapter suite passes
+in 5.359 seconds. The first candidate fixture panics because it reuses a decoded
+circuit for another CBOR decode; its logs remain retained. Using a fresh decoder
+for each load passes the entire probe suite in 4.236 seconds, with 652,345,344
+bytes cumulative child peak RSS. These one-off command times are not a speedup
+comparison. [Raw evidence](evidence/w18-buffered-artifacts-2026-10-21.json)
+contains source/environment identities and failure records before this prose.
+
+The writer flushes even when serialization fails, propagates serialization/flush
+errors and syncs only after success. The limiter wraps the buffered reader so
+prefetch cannot disguise an underreading decoder. Exact byte fixtures cross both
+64 KiB boundaries; real circuit, key and proof bytes match direct memory
+serialization. A child-only file-size limit exercises a real flush failure.
+Existing alias, malformed, trailing, changed-file, circuit fingerprint and real
+proof checks pass. Abrupt termination can lose at most one buffered prefix;
+partial artifacts remain failures. `make check` passes 2,111 tests, five Linux-only
+skips and one warning in 42.590 seconds. Core `make package-check` passes in
+7.514 seconds; source snapshot `52759220c43f4512c49c8d9f64b0b55b9172eca887203386c4100039dd5c0040`.
+The retained package snapshot precedes this evidence-only validation update.
+No optional installed train/guard claim follows from that core package check.
+
+
+The separate frozen large-key diagnostic in
+`runs/w18-key-io-1792594326143760000` passes for both adapters: each reloads and
+reserializes the same 77,522,639-byte proving key to its independently pinned
+SHA-256. Baseline read/write phases take 15.603/1.691 seconds; buffered phases
+take 15.080/0.095 seconds. Full worker times are 18.199/15.980 seconds, with
+279,609,344/280,150,016 bytes peak RSS. This single sequential pair has warm
+caches and is diagnostic only, with no maximum-scale extrapolation. The protocol,
+runner, source pins, worker plans and costs precede this report; raw evidence
+retains all values. No cloud job or private input was used for this diagnostic.
+
+PR #76 merged as `a73c47b287ccabc13ca8387c7352afdf7d23e999` after all 28
+checks passed on `9085a098ef27c42921268b3631985406a26062a8`. The merged-main
+workflow is pending. The running maximum experiment retains its original source.
+
+
+The hosted workflow previously ran Python fixtures without executing the Go
+adapter suite. A Linux proof-artifact job now installs the already reviewed
+Go 1.26.8 archive into runner-temporary storage after checking its exact SHA-256,
+verifies the locked module closure and runs all Go probe tests. It uses two
+threads, a 1 GiB Go soft memory target and a ten-minute job timeout. No dependency
+or circuit change is introduced. Linux runtime evidence remains pending.

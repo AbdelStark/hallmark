@@ -412,6 +412,14 @@ key is unusable; no maximum proof exists. The [parallel follow-up](evidence/w18-
 is running at frozen source `b5debd6e226b41755c702e0c490937bd7f5600f4`;
 its result remains pending. All 28 checks on that source pass.
 
+The [bounded artifact I/O candidate](evidence/w18-buffered-artifacts-2026-10-21.json)
+uses 64 KiB buffers while preserving decoder consumption accounting, exclusive
+creation, serialized bytes and error propagation. Local real-proof and boundary
+tests and a byte-identical 77.5 MB proving-key round-trip pass. Its initial fixture incorrectly reused a decoded circuit and failed;
+a fresh decoder fixes that test. No maximum performance result is claimed, and
+the active cloud run retains its original unbuffered adapter.
+
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)

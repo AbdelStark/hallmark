@@ -3,6 +3,35 @@ on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
+  proof-artifacts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GOTOOLCHAIN: local
+      GOTELEMETRY: 'off'
+      GOMAXPROCS: '2'
+      GOMEMLIMIT: 1GiB
+      CGO_ENABLED: '0'
+      GOFLAGS: '-p=2'
+    defaults:
+      run:
+        working-directory: research/probes/gnark
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install reviewed Go archive
+        run: |
+          curl --fail --silent --show-error --location --max-time 120 \
+            https://go.dev/dl/go1.26.8.linux-amd64.tar.gz \
+            --output "$RUNNER_TEMP/hallmark-go.tar.gz"
+          printf '%s  %s\n' d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b \
+            "$RUNNER_TEMP/hallmark-go.tar.gz" | sha256sum --check --strict
+          mkdir "$RUNNER_TEMP/hallmark-go"
+          tar -xzf "$RUNNER_TEMP/hallmark-go.tar.gz" --strip-components=1 -C "$RUNNER_TEMP/hallmark-go"
+      - run: '"$RUNNER_TEMP/hallmark-go/bin/go" mod download'
+      - run: '"$RUNNER_TEMP/hallmark-go/bin/go" mod verify'
+      - run: '"$RUNNER_TEMP/hallmark-go/bin/go" test -mod=readonly -count=1 -v .'
   core:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
