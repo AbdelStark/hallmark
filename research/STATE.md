@@ -280,6 +280,23 @@ Its 550-second reservation leaves 30 unreserved; retain all reservations until a
 receipt audit. All 2,042 Python tests and both installed-package gates pass,
 including required train/guard execution; the new Go checks pass on both builds.
 
+A [late compile diagnosis](evidence/w18-late-compile-2026-10-21.json) retains the
+same compiler/circuit and adds a local-only profiling hook. All six Go tests and
+seven serialized fingerprints pass. The maximum compile hits the live memory
+cutoff after 56.651 seconds at 15,037,972,480-byte peak RSS, below the 16 GiB ceiling.
+It produces a complete 40-second snapshot but no 80-second snapshot or circuit;
+the conditional unchanged-binary confirmation is skipped. The saved main stack
+is in deferred range-check recomposition. Instruction storage and hint construction
+account for about 63% of sampled live heap at their allocation sites. Sampling
+does not identify retaining paths, and instrumentation can perturb the run;
+these observations do not establish a performance regression or improvement.
+[Decision 0039](../docs/decisions/0039-late-compile-diagnosis.md) adopts a rechecked
+receipt audit, conservatively charging 6,660 prior seconds within the unchanged
+7,200-second allocation. A 500-second reservation leaves 40 unreserved; keep it
+charged until a later receipt audit. Full-input proving remains unavailable.
+All 2,042 Python tests and both installed-package gates pass, including required
+train/guard execution. Exact-head hosted verification remains separate.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -504,11 +521,13 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: audit consumed outer-command receipts before more proving; only 30 local
-seconds remain unreserved. The patched maximum compile now reaches its wall cap
-below the memory cutoff. Assess a separately budgeted compile diagnosis or the
-approved HF fallback with a pinned manifest, without repeating the small proof
-campaign unnecessarily. No HF job has been executed. Continue the complete
+Next: reconcile the retained late-diagnostic receipts before more proving; 40
+local seconds remain unreserved with its full reservation charged. The late
+snapshot places compilation in deferred range checks, with substantial instruction
+and hint storage. Assess the approved HF fallback's CPU/RAM capacity and exact
+bounded manifest, or a source-backed memory reduction, before another maximum
+attempt. Do not repeat the small proof campaign for diagnosis alone. No HF job
+has been executed. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and

@@ -2097,3 +2097,56 @@ builder bytes. Both 1,264-file inventories and the fresh setup circuit fingerpri
 match their pre-run records. Timed commands plus a 40-second ancillary allowance
 charge 458.185 seconds inside the 550-second reservation; the full reservation
 remains charged. Exact-head hosted verification is separate from local gates.
+
+## 2026-10-21 — W18 late compile diagnosis
+
+Hypothesis: more wall time could finish the compact-cache maximum compile within
+the unchanged memory envelope; late snapshots identify the active phase if it
+fails. Baseline `eb19201` timed out after 90.307 seconds. The
+[decision](../docs/decisions/0039-late-compile-diagnosis.md) freezes the circuit,
+canonical codec, evaluator, compiler patch and resource limits. Only a local
+standard-library profiling hook is added to a fresh ignored source copy. Numeric
+[evidence](evidence/w18-late-compile-2026-10-21.json) and raw receipts precede this
+prose. Raw root: `runs/w18-late-compile-1792576443956021000`.
+
+Rechecked receipt hashes retain the earlier 5,540-second charge and replace four
+later reservations with actual commands plus their original allowances. The
+6,641.365-second result rounds up to 6,660. Reserve 500 of the remaining 540
+seconds; authority stays at 7,200. No concurrency refund or extra spend is assumed.
+
+Commands: `uv run --locked python runs/w18-late-compile-1792576443956021000/build_and_check.py`
+and `uv run --locked python runs/w18-late-compile-1792576443956021000/run.py`, using
+isolated uv 0.9.18 and the pinned offline Go environment. All six existing Go tests
+pass; the seven serialized circuit fingerprints match the earlier candidate.
+The smallest input compile passes before the maximum attempt. No fresh setup,
+proving or verification is run; earlier proofs keep their own binary identities.
+
+The execution roster takes 57.741 seconds. Maximum compilation exits -9 after
+56.651 seconds, with a live memory cutoff and 15,037,972,480-byte peak RSS. There
+is no wall timeout or monitor failure; the observed peak remains below 16 GiB.
+The 40-second goroutine/heap snapshot completes in about 15 ms. The main goroutine
+is in deferred range-check recomposition. Sampled live space totals approximately
+6.86 GiB: instruction allocation accounts for 39.48%, hint construction 23.66%,
+linear-expression addition 13.30% and range-check commit 5.52%. Hint construction
+accounts for 62.19% of sampled live objects. These are allocation-site samples,
+not retaining paths or complete-run attribution. All three `go tool pprof -top`
+analyses succeed. Instrumentation can perturb timing and memory.
+
+The 80-second snapshot is absent, no maximum circuit/count/proof exists, and the
+conditional unchanged-binary confirmation is skipped because diagnosis failed.
+The complete 1,264-file patched-module inventory, 12 probe files, worker, runners
+and both binary hashes remain unchanged. The fresh run occupies about 52 MiB and
+all retained runs about 18.4 GiB of filesystem allocation. No HF token, job,
+private input, upload, external review or scheduler. PR #72 stays draft; #19 stays
+open. Next, review a bounded HF capacity plan or a source-backed memory reduction
+before another maximum attempt. Repository and package gates follow.
+
+Final validation passes all 2,042 Python tests, `make check`, `make package-check`
+and `make package-check-comparison`, including required installed train/guard
+execution. Both packages use source identity
+`6a3614d7b4487cf1f31243687e8ae9d9784663e834cfbd2dfcebacb43b2519ce`
+before this final evidence update. Timed outer commands and the full 40-second
+ancillary allowance fit the 500-second reservation; exact values and receipt
+hashes are in the evidence. Keep the full reservation charged pending audit.
+An unauthenticated HF hardware inventory refresh is retained locally as next-step
+preparation; no job or token access occurs. Exact-head hosted CI is separate.
