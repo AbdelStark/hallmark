@@ -2890,3 +2890,57 @@ profile, 33-field relation and shared gnark verifiers establish neither the
 review, accepted setup ceremony, hardware evidence or policy quality. Next is
 the complete admitted encoder graph, using fresh identities and explicit costs;
 the bounded normalization result above supplies only one required component.
+
+
+## 2026-10-21 — Complete native synthetic encoder (W18 / #19 preparation)
+
+[Numeric evidence](evidence/w18-complete-encoder-native-2026-10-21.json) is saved
+before this prose. The baseline is PR #79's merged
+`4e3258194b2484cfe69614f100587aee4459e946`; all 30 candidate checks and all 15
+merged-main checks pass. The repository remains public.
+
+The new graph composes byte and position embeddings, query/key/value attention,
+residual/normalization, a three-unit ReLU feed-forward layer, a second
+residual/normalization, masked pooling and two integer logits. The fixture pins
+exact input, classifier, program, arithmetic, constants and tokenizer records.
+All nine existing operators execute without optional dependencies. This is an
+owned synthetic graph with explicit piecewise attention and finite two-feature
+normalization tables, not an export of pretrained weights.
+
+The smallest eight vectors match 546 tensors. Every normalization-table entry is
+checked separately using 80-digit Decimal arithmetic, and all embedding classes
+and masks have independent formula and padding-isolation checks. Tests also reject
+rehashed malformed constants, unknown tokenizer recipes, altered bindings and
+int32 overflow before rescaling. A later chunk can change the strict verdict.
+
+The retained campaign is `runs/w18-complete-encoder-1792600222383037000`.
+Source/config/fixture pins precede execution. Candidate-02 snapshots caller dictionaries before validation. The final
+`candidate-03` also checks canonical private-trace decoding; its two fresh repetitions preserve every
+tensor for 32,767- and 32,768-byte inputs, check the separate oracle, and reproduce
+complete trace bytes exactly. Initial successful runs and three failed fixture
+checks remain retained. Failures were a tuple passed to the canonical wire codec,
+an incorrect expected exception for an already-rejected oversized transcript,
+and a test pair whose synthetic scores were equal. Model constants and the frozen
+conformance fixture did not change to improve a score.
+
+Commands are the retained `candidate-02/controller.py`/`worker.py`, plus
+`scripts/check_encoder_vectors.py` with the separate fixture hash. This campaign
+uses the Mac, one worker, a 120-second bound per repetition, 8 GiB RSS and
+128 MiB per file, within decision 0051's zero-cost envelope. There is no cloud
+job or new asset. These are diagnostic software timings, not a latency study.
+`make check` passes 2,181 tests, five platform skips and one warning in 80.885
+seconds; pytest takes 78.28 seconds. All 54 added checks execute. The core
+package gate passes in 12.389 seconds and runs all eight frozen encoder cases
+from a fresh installed wheel. Optional installed-train/guard checks are left to
+the hosted matrix. The package snapshot precedes this validation-only prose and
+evidence update. Full graph proof lowering,
+independent verifier/security review, actual encoder training/quality and genuine
+hardware evidence remain missing; W18 and W12 are not closed.
+
+
+The final native worker repetitions take 10.033 and 9.953 seconds respectively
+(see raw costs for full precision); kernel peak RSS and each forward-pass timing
+are retained in the numeric evidence. Each large case compares 638,976 tensors
+across 16,384 chunks. The complete trace files are 15,865,297 and 15,865,306 bytes.
+These timings are diagnostic, with one Mac and two repetitions, not a distribution
+or proof-cost result.

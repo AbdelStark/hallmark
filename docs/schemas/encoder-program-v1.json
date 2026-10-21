@@ -1,0 +1,86 @@
+{
+  "$defs": {
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "Exact bytes at a normalized relative POSIX path; parsing performs no I/O.",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path, at most 4096 UTF-8 bytes; no normalization or links.",
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "arithmetic": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Arithmetic",
+      "type": "string"
+    },
+    "input_profile": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-fA-F]{64}$",
+      "title": "Input Profile",
+      "type": "string"
+    },
+    "mask_input": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Mask Input",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/encoder-program/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "token_input": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Token Input",
+      "type": "string"
+    },
+    "tokenizer": {
+      "$ref": "#/$defs/FileRef"
+    },
+    "weights": {
+      "$ref": "#/$defs/FileRef"
+    }
+  },
+  "required": [
+    "schema_id",
+    "input_profile",
+    "arithmetic",
+    "weights",
+    "tokenizer",
+    "token_input",
+    "mask_input"
+  ],
+  "title": "EncoderProgram",
+  "type": "object"
+}

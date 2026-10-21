@@ -7,7 +7,7 @@ Research on transcript-bound classifier verdicts. The intended system pairs hard
 The repository is public; packages are unpublished and no open-source licence
 has been adopted. See [licence status](LICENSE.md).
 
-An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, ZK proof, encoder fine-tune or safety benchmark is implemented or claimed.
+An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, full-system ZK integration, encoder fine-tune or safety benchmark is implemented or claimed.
 
 The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
 binds ordered files, architecture, tokenizer, template, runtime and greedy generation
@@ -80,6 +80,13 @@ The [native byte-count MLP](docs/decisions/0014-integer-mlp-runtime.md) now exec
 bound affine/ReLU/affine exports with exact signed rescaling, full prompt coverage
 and strict threshold comparison. Fixed and generated vectors check every layer.
 This supplies native arithmetic, not trained-policy quality or a proof.
+
+The [native synthetic encoder](docs/decisions/0051-complete-synthetic-encoder.md)
+executes a full one-layer integer graph with both normalizations, a lossless byte
+tokenizer and all input chunks. Its fixed traces and maximum-length replays check
+software semantics. This two-feature authored fixture is not a trained classifier,
+a whole-graph proof or a qualified backend; see the
+[conformance command](docs/OPERATIONS.md#synthetic-encoder-conformance).
 
 The optional [MLP trainer](docs/decisions/0027-record-level-mlp-training.md) fits
 one loss per complete record, resumes pinned optimizer checkpoints and exports

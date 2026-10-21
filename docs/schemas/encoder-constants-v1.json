@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "hallmark/encoder-constants/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "tensors": {
+      "maxProperties": 4096,
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$": {
+          "items": {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "title": "Tensors",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "tensors"
+  ],
+  "title": "EncoderConstants",
+  "type": "object"
+}
