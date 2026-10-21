@@ -274,3 +274,19 @@ def test_bootstrap_rejects_unapproved_manifest(mutation):
         plan["patched_builder"] = "!"
     with pytest.raises(ValueError):
         bootstrap["validate"](plan)
+
+
+def test_optional_pedersen_candidate_is_pinned():
+    import base64
+    import runpy
+
+    bootstrap = runpy.run_path(str(Path(__file__).parents[1] / "scripts/gnark_hf_bootstrap.py"))
+    candidate = bootstrap["pedersen_candidate"]
+    assert candidate({"schema_id": "hallmark.hf-maximum-inputs/1"}) is None
+    for schema in ["hallmark.hf-compile-inputs/1", "hallmark.hf-maximum-inputs/1"]:
+        for raw in ["!", base64.b64encode(b"unreviewed").decode()]:
+            plan = {"schema_id": schema, "patched_pedersen": raw}
+            with pytest.raises(ValueError):
+                candidate(plan)
+            with pytest.raises(ValueError):
+                bootstrap["validate"](plan)

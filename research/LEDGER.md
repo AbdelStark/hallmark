@@ -2619,3 +2619,47 @@ links and excess size. Fifty-five focused tests pass (five platform skips).
 remain unavailable. The core package check and corrected cloud run are pending
 at this commit. The protocol reserves copy time separately and stays under the
 standing USD 10 campaign ceiling; no further owner permission is required.
+
+
+## 2026-10-21 — Optional parallel Pedersen setup preparation (W18 / #19)
+
+Hypothesis: disjoint parallel scalar multiplications preserve the original setup's
+ordered key bytes and inputs. Baseline: the pinned serial Pedersen setup and prior
+small circuit/proof roster. Mutable path: only `ecc/bls12-381/fr/pedersen/pedersen.go`
+in a separate dependency copy; the optional bootstrap admits that exact source
+hash and checks the full inventory. The active maximum cloud baseline is unchanged.
+
+Raw numbers and identities were saved before this prose in
+[evidence](evidence/w18-pedersen-parallel-2026-10-21.json). Sixteen sizes at one/two/four
+workers match the complete serial setup bytes, preserve bases and pass the race
+detector. Disclosed scalar randomness and related bases are insecure fixtures only.
+The fresh 50-case real-proof roster passes in 185.746 seconds, peak RSS
+1,246,986,240 bytes: eight valid proofs; 18 malformed witnesses; 33 public changes;
+field alias; altered proof; wrong setup key. All eight proofs replay under retained
+input/key pins. An unmodified-dependency build passes another 43 cases in 1.810
+seconds. Neither verifier is independently implemented. No maximum proof, speedup,
+hiding or general concurrency/security claim follows.
+
+Exact local commands and receipts are under
+`runs/w18-pedersen-parallel-1792590827210193000/`: `run_fixture.py`, `run_small.py`,
+`replay_unmodified.py`, `local-evidence.json`, `result.json`,
+`small-campaign-result.json`, `first-acceptance.json`, `first-enrollment.json` and
+`unmodified-replay/result.json`. Use the locked `.venv/bin/python`. Protocols and
+all sources were pinned before their respective executions. The actual command
+wall times total 236.841 seconds; retain the full 780-second reservations until
+a receipt audit. Zero cloud spend for this local preparation.
+
+The optional bootstrap rejects altered payloads and compile-only use; its focused
+suite passes 38 tests with five Linux-only skips. `make check` passes 2,111 tests
+with five Linux-only skips and one warning; the core `make package-check` passes.
+Hosted validation remains pending. See [decision 0049](../docs/decisions/0049-parallel-pedersen-setup.md).
+Review and retain the active baseline's terminal result before deciding on one
+bounded follow-up. Keep the USD 10 total ceiling and preserve all failures.
+
+PR #75 merged as `27ce26d43702cd5ba38c5fb0ebf7433dbf1c72e8`, with all 28 candidate
+checks successful. Merged workflow `39612502992` reports success. Its Linux 3.12
+train-job logs contain 35 passing training tests and a passing installed train
+package check; all ten job steps passed, though final job metadata was stale.
+A targeted rerun of that single job completes attempt 2 with all 14 jobs passing;
+the original status/log receipts remain retained.
+Repository visibility remains public.
