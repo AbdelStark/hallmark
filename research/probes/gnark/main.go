@@ -58,7 +58,7 @@ func read(name string, value io.ReaderFrom) error {
 }
 
 func readBounded(name string, value io.ReaderFrom, limit int64) error {
-	if limit <= 0 || limit > 24*1024*1024*1024 {
+	if limit <= 0 || limit > 48*1024*1024*1024 {
 		return errors.New("invalid artifact limit")
 	}
 	handle, err := os.OpenFile(name, os.O_RDONLY|syscall.O_NOFOLLOW|syscall.O_NONBLOCK, 0)

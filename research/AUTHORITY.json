@@ -230,6 +230,30 @@
       "ongoing_scheduler": false,
       "prior_budgets_preserved": true,
       "launch_requires": "Exact published-source CI, pinned native assignments/circuit/job manifest, fresh price/active-job/resource/storage checks and passing local small fixture. Retain all outputs before bucket cleanup."
+    },
+    "encoder_reader_correction": {
+      "recorded_at": "2026-10-21",
+      "approval_ref": "docs/decisions/0054-maximum-encoder-reader-correction.md",
+      "authority_basis": "Standing owner full approval; diagnosed correction with separately frozen new attempt after complete failed-run retention.",
+      "experiment": "w18-encoder-reader-fix-1792606117695924000",
+      "baseline_job": "6ad8fd3a5275124786e29010",
+      "baseline_terminal_and_retained_required": true,
+      "resource_limits_ref": "encoder_maximum_followup",
+      "jobs": 1,
+      "concurrent_jobs": 1,
+      "automatic_retries": 0,
+      "max_new_compute_minor": 1000,
+      "prior_conservative_bound_minor": 719,
+      "failed_encoder_compute_bound_minor": 32,
+      "shared_incremental_storage_reserve_minor": 200,
+      "combined_reserved_minor": 1951,
+      "combined_ceiling_minor": 2000,
+      "currency": "USD-cent",
+      "top_up_authorized": false,
+      "private_uploads": false,
+      "ongoing_scheduler": false,
+      "limits_are_estimates_not_invoice": true,
+      "prior_runs_and_budgets_preserved": true
     }
   }
 }
