@@ -143,7 +143,9 @@ class ModelManifest(_Artifact):
         return files
 
 
-def _verify_file(root_fd: int, ref: FileRef, seen: set[tuple[int, int]]) -> None:
+def _verify_file(
+    root_fd: int, ref: FileRef, seen: set[tuple[int, int]], *, retain: bool = False
+) -> bytes:
     parent_fd = os.dup(root_fd)
     try:
         parts = ref.path.split("/")
@@ -164,6 +166,7 @@ def _verify_file(root_fd: int, ref: FileRef, seen: set[tuple[int, int]]) -> None
                 raise HallmarkError("INPUT_INVALID", "verify")
             seen.add(inode)
             digest = hashlib.sha256()
+            chunks = []
             size = 0
             while size < ref.size:
                 block = os.read(fd, min(65536, ref.size - size))
@@ -171,6 +174,8 @@ def _verify_file(root_fd: int, ref: FileRef, seen: set[tuple[int, int]]) -> None
                     break
                 size += len(block)
                 digest.update(block)
+                if retain:
+                    chunks.append(block)
             after = os.fstat(fd)
             if (
                 size != ref.size
@@ -180,6 +185,7 @@ def _verify_file(root_fd: int, ref: FileRef, seen: set[tuple[int, int]]) -> None
                 != (after.st_size, after.st_mtime_ns, after.st_ctime_ns)
             ):
                 raise HallmarkError("INPUT_INVALID", "verify")
+            return b"".join(chunks)
         finally:
             os.close(fd)
     finally:

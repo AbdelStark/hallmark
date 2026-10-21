@@ -1,0 +1,1050 @@
+{
+  "baseline_commit": "7163ff1c7826df14ddbdebb798668d8229bb92ed",
+  "binary_sha256": "4a1b3033591885a78b770f1cc4edb6229f99dc807ea23e065a29ecba0147112e",
+  "budget": {
+    "approved_proving_seconds": 7200,
+    "candidate_measured_plus_allowance_seconds": 425.2591224568896,
+    "candidate_reserved_seconds": 600,
+    "charged_prior_seconds": 5840,
+    "cost_minor": 0,
+    "diagnostic_measured_plus_allowance_seconds": 40.502311499090865,
+    "diagnostic_reserved_seconds": 180,
+    "increment_accounting_sha256": "e05f9e42cbd416788cc6f3171863da55ba0fe65f5036fde2e4aa5104663202f1",
+    "live_cutoff_bytes": 15032385536,
+    "max_memory_bytes": 17179869184,
+    "max_retained_bytes": 42949672960,
+    "remaining_unreserved_seconds": 580,
+    "reservation_refunds": false,
+    "threads": 4
+  },
+  "candidate_frozen_inputs_sha256": "5b16db7c6a85b1d81902d571eaa12007d882b77500fce57e99c46deee7594193",
+  "candidate_source_files": {
+    "research/probes/gnark/block.go": "65f3b4c34c2d33ed17ced6d4ad93d49ddf971dc48f8a8e6ce1305e7dc1313da9",
+    "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+    "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+    "research/probes/gnark/graph.go": "e74d68d360a72a03aca944f85cb4ef0bac931eef77a2b3c4aa67ea066c721da6",
+    "research/probes/gnark/input.go": "c2074fc7313153b1fcd657d6a9dcc5bee58a646669e81a15e2a8048b0480b156",
+    "research/probes/gnark/input_scale.go": "4c12a118f7d27934f487935fe25360bc809d529afdb3dec7184039103d0fbd8c",
+    "research/probes/gnark/input_scale_test.go": "331016c289d43342be51f949ec92c8ea8a39046bf720dbeeb522bee20b77ee06",
+    "research/probes/gnark/main.go": "b962009beb6dea243ae7fd5a65fd42a4ce83f646bf3169513ef70d4fd98f90ee",
+    "research/probes/gnark/mlp.go": "2ffd0f0d821c814df04d508ead3b5dcc039120dcd2ec6647e4226a57da80475a",
+    "research/probes/gnark/rule.go": "ad993e81c61f73b3cfa49f55cdb86e1aa643ab4c3c5be2b0cb023f7f72898392",
+    "scripts/check_gnark_input_scale.py": "62e807791e3af0beeb94930466787be8d345456f4dcbe8beff82eafa801b2a19",
+    "src/hallmark/_gnark_probe.py": "7c6263474e8b8ea239b57789752c3aa44c90cb791a6ee51ea6b540c60cd716b6",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/test_gnark_input_scale.py": "fd8c1b86414640c907173f9430e96c88be56ddab7083dc741fab2bee0995b1d6"
+  },
+  "claim": "Eight small-component real proofs verify; 18 invalid witnesses reject; intermediate constraints decrease; maximum compilation remains unsuccessful.",
+  "constraint_counts": {
+    "32768": null,
+    "baseline": {
+      "256": 525403,
+      "32": 244924,
+      "8": 206049
+    },
+    "prefix_candidate": {
+      "256": 512502,
+      "32": 243222,
+      "8": 205547
+    }
+  },
+  "date": "2026-10-21",
+  "decision": "docs/decisions/0037-prefix-coverage-commitments.md",
+  "diagnostic_directory": "runs/w18-compile-profile-1792573233952310000",
+  "exit_diagnosis": {
+    "inference": "ESRCH during normal teardown explains the observed false monitor failure; original failed run did not retain errno.",
+    "normal_compile_exits": 5,
+    "observed_native_errors": [
+      {
+        "errno": 3,
+        "return_size": 0
+      },
+      {
+        "errno": 3,
+        "return_size": 0
+      },
+      {
+        "errno": 3,
+        "return_size": 0
+      },
+      {
+        "errno": 3,
+        "return_size": 0
+      }
+    ],
+    "result_sha256": "da90c3b3b1884bbb3c9216c1e9def58b7c5e5e24b65cd9adfa80aa73cecd41ed"
+  },
+  "final_source_files": {
+    "research/probes/gnark/input_scale.go": "4c12a118f7d27934f487935fe25360bc809d529afdb3dec7184039103d0fbd8c",
+    "research/probes/gnark/input_scale_test.go": "331016c289d43342be51f949ec92c8ea8a39046bf720dbeeb522bee20b77ee06",
+    "scripts/check_gnark_input_scale.py": "62e807791e3af0beeb94930466787be8d345456f4dcbe8beff82eafa801b2a19",
+    "src/hallmark/_gnark_probe.py": "e512b69a3809521ab5ea0e2485aceb4e111edb8e6ae7d8d76059696eb32a1245",
+    "tests/test_gnark_input_scale.py": "fd8c1b86414640c907173f9430e96c88be56ddab7083dc741fab2bee0995b1d6",
+    "tests/test_gnark_probe.py": "4bdfdaa036bfdacdc13a4057ea8ddac20ce3d088d3096e59417750d772e45c42"
+  },
+  "full_input_proof": false,
+  "heap_diagnostic": {
+    "annotated_profile_sha256": "fccf445748fd6393ece50a88ca8de23458b28ce137af98e8a6cdd0c791e647e1",
+    "bounded_stop": {
+      "cost_sha256": "2f61273e7e14d767dc29e4e05661eaa9f5d79624f0186f9ecea88a575bbb5686",
+      "elapsed_seconds": 8.792171250097454,
+      "exit_code": -9,
+      "max_rss_bytes": 1984348160,
+      "memory_limit_exceeded": true,
+      "memory_monitor_failed": false,
+      "sampled_peak_rss_bytes": 1982218240,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.497448,
+      "timed_out": false,
+      "user_seconds": 20.705267
+    },
+    "frozen_source_sha256": "24998863b78ab1c28eb3f4a58af01227beb185a1a225f7e3f1c89319b06508a0",
+    "heap_sha256": "19dc87d34b740f22017bcfb74d66ac3423324220a87601464f5e8ba4a0e285e4",
+    "live_profile_sha256": "f225e668edc5d4036ecd0419073f898ba5a2e562ec15a6462b7d124312475a67",
+    "mark_boolean_flat_megabytes": 225.14,
+    "padding_comparison_cumulative_megabytes": 589.73,
+    "padding_share_approx_percent": 83,
+    "result_sha256": "5df1faca39070bb3aba293d7e551d581ea8d56e433d57a3c674d90677a6614a5",
+    "sampled_live_heap_megabytes": 711.81,
+    "timing": "snapshot four seconds after starting the unchanged maximum compile; early sampled heap only"
+  },
+  "invalid_prover_cases": [
+    "invalid-array",
+    "invalid-body",
+    "invalid-count",
+    "invalid-encoded-mask-bit",
+    "invalid-encoded-mask-count",
+    "invalid-encoded-mask-gap",
+    "invalid-header",
+    "invalid-prefix-end",
+    "invalid-prefix-gap",
+    "invalid-prefix-start",
+    "invalid-salt",
+    "invalid-tail-padding",
+    "invalid-unit",
+    "invalid-unit-mask-bit",
+    "invalid-unit-mask-count",
+    "invalid-unit-mask-gap",
+    "invalid-unit-padding",
+    "invalid-unit-range"
+  ],
+  "issue": 19,
+  "limitations": [
+    "Maximum 32768-byte compilation stopped at the live memory cutoff; no complete circuit or proof.",
+    "No throughput comparison from early heap snapshots, different stopping policies or single runs.",
+    "Fresh local setups and same gnark verifier library; independent security, setup and hiding reviews remain missing.",
+    "Synthetic fixed profile and component only; no classifier, tokenizer, enrolled operational inputs or complete encoder.",
+    "Memory sampling and post-exit checks are not hard OS quotas.",
+    "No HF token access, private upload, paid compute, scheduler or genuine hardware attestation."
+  ],
+  "original_experiment": {
+    "command_sha256": "b894c5ce365773f6fb48a2a1cbdc7832b1b8356a2364ed97e360dff53d0c6992",
+    "completed_before_failure": 43,
+    "costs": {
+      "batch-256": {
+        "cost_sha256": "11bf7bd508606fbcdc9bec8f3f5007a230b4c08d8d0b20ab73b939131d0c5e62",
+        "elapsed_seconds": 46.31830874993466,
+        "exit_code": 0,
+        "max_rss_bytes": 1243840512,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": true,
+        "sampled_peak_rss_bytes": 1243824128,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.8184899999999999,
+        "timed_out": false,
+        "user_seconds": 179.558656
+      },
+      "batch-8": {
+        "cost_sha256": "8ff553e156f7f89ba5314a2d4471e3410ee342b1a68517a74380b7e63fbeefe9",
+        "elapsed_seconds": 17.720167041989043,
+        "exit_code": 0,
+        "max_rss_bytes": 643661824,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 643645440,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.237723,
+        "timed_out": false,
+        "user_seconds": 68.41744
+      },
+      "changed-proof": {
+        "cost_sha256": "87ecd9477c03cf49a3abd1f4602b8f0f6a531143bd9ef7e143e796548bc9255e",
+        "elapsed_seconds": 0.026756000006571412,
+        "exit_code": 1,
+        "max_rss_bytes": 8552448,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003346,
+        "timed_out": false,
+        "user_seconds": 0.008948
+      },
+      "field-alias": {
+        "cost_sha256": "8b3f10c3dc5077c5f07cf0a86504790f20181237e53b722f8273d86404b67595",
+        "elapsed_seconds": 0.02686883299611509,
+        "exit_code": 1,
+        "max_rss_bytes": 8011776,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003182,
+        "timed_out": false,
+        "user_seconds": 0.006336
+      },
+      "other-setup": {
+        "cost_sha256": "aa0e39ee22059ff7675cb6078473b5bd8499b2cf94e938b626a41f1c4c493020",
+        "elapsed_seconds": 33.92340537509881,
+        "exit_code": 0,
+        "max_rss_bytes": 720601088,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 720519168,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 1.8606989999999999,
+        "timed_out": false,
+        "user_seconds": 96.611836
+      },
+      "public-0": {
+        "cost_sha256": "1c835798e43e3dd713e6ea25552fbb09fff61a4ae15c558491d8e8b5ab5e201c",
+        "elapsed_seconds": 0.03721950016915798,
+        "exit_code": 1,
+        "max_rss_bytes": 9715712,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 8241152,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003423,
+        "timed_out": false,
+        "user_seconds": 0.011521
+      },
+      "public-1": {
+        "cost_sha256": "06ae21211b8c215390e1458194fa8895cfb335f755a2d6170e6e76d13844be5d",
+        "elapsed_seconds": 0.02678679209202528,
+        "exit_code": 1,
+        "max_rss_bytes": 9912320,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003822,
+        "timed_out": false,
+        "user_seconds": 0.011826
+      },
+      "public-10": {
+        "cost_sha256": "78040240765fd8289be74474098ec407827845d4974a67b27c6151f49702b32a",
+        "elapsed_seconds": 0.03675908292643726,
+        "exit_code": 1,
+        "max_rss_bytes": 9863168,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 6078464,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0036049999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011264
+      },
+      "public-11": {
+        "cost_sha256": "03ab51799d5219451dd6c099a8bb27a5c3011f22e8ad0ff5bd6893167bf03054",
+        "elapsed_seconds": 0.03914120816625655,
+        "exit_code": 1,
+        "max_rss_bytes": 9781248,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9682944,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0033959999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011118999999999999
+      },
+      "public-12": {
+        "cost_sha256": "8ce9b43536b988252dce8950d8f6bd6bb4537175aa2f7ade83ac3ab6198f6191",
+        "elapsed_seconds": 0.0379634159617126,
+        "exit_code": 1,
+        "max_rss_bytes": 9748480,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 4292608,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003431,
+        "timed_out": false,
+        "user_seconds": 0.011202
+      },
+      "public-13": {
+        "cost_sha256": "5711cac03a2bd9c8a736a9d11c3388adbbca8071d8b56d585f90bfbce2f919b3",
+        "elapsed_seconds": 0.026713083032518625,
+        "exit_code": 1,
+        "max_rss_bytes": 9699328,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 4292608,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.00331,
+        "timed_out": false,
+        "user_seconds": 0.011465999999999999
+      },
+      "public-14": {
+        "cost_sha256": "dd4773524273db1be17eed86a6259a7d101a96272a99e86b843d071e82f15761",
+        "elapsed_seconds": 0.02678624982945621,
+        "exit_code": 1,
+        "max_rss_bytes": 9863168,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003345,
+        "timed_out": false,
+        "user_seconds": 0.011484
+      },
+      "public-15": {
+        "cost_sha256": "2e6e5d08c1e6bbe2dd16f1dface098fda104c99052cc9b282a223aae80bf7191",
+        "elapsed_seconds": 0.02682666713371873,
+        "exit_code": 1,
+        "max_rss_bytes": 9568256,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.00325,
+        "timed_out": false,
+        "user_seconds": 0.011288999999999999
+      },
+      "public-16": {
+        "cost_sha256": "30cd2f3cf7b8eeda55fe176707d62bbafa26de47a5496c6094813f054e765727",
+        "elapsed_seconds": 0.02669375017285347,
+        "exit_code": 1,
+        "max_rss_bytes": 9568256,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0033599999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011224999999999999
+      },
+      "public-17": {
+        "cost_sha256": "ef1bb8dd4309fa2fbf656d343344a7ef1b296ecad9c3bfe445a817b93a4c46b4",
+        "elapsed_seconds": 0.03679458308033645,
+        "exit_code": 1,
+        "max_rss_bytes": 9682944,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9322496,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003691,
+        "timed_out": false,
+        "user_seconds": 0.011432999999999999
+      },
+      "public-18": {
+        "cost_sha256": "dfd4cdfdf2c7980ed374c9ecaf5c4a5c32c49942ec762494804a152064187a9a",
+        "elapsed_seconds": 0.026736375177279115,
+        "exit_code": 1,
+        "max_rss_bytes": 9715712,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 1359872,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0032879999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011217
+      },
+      "public-19": {
+        "cost_sha256": "31c8e806ef9f79d0ac81c0319f3980c4ab24a6a3316040316c1f9a7d963f96ce",
+        "elapsed_seconds": 0.026656874921172857,
+        "exit_code": 1,
+        "max_rss_bytes": 9879552,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003796,
+        "timed_out": false,
+        "user_seconds": 0.011439
+      },
+      "public-2": {
+        "cost_sha256": "9469f9204ed9f9862fb8ab6fee2d714b6119c0e8ce39a4f2e39adfbe990c6b8f",
+        "elapsed_seconds": 0.02685166709125042,
+        "exit_code": 1,
+        "max_rss_bytes": 9715712,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0036439999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011696999999999999
+      },
+      "public-20": {
+        "cost_sha256": "33faf9a15991db9f5107ddb43cd10679be292ad72ee547abfda24ebbf0bcf741",
+        "elapsed_seconds": 0.02685491694137454,
+        "exit_code": 1,
+        "max_rss_bytes": 9764864,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003597,
+        "timed_out": false,
+        "user_seconds": 0.011500999999999999
+      },
+      "public-21": {
+        "cost_sha256": "4cec133aa636ad123e93e6f177eabecfb16276d1cff8aa2b8eccd7153e222cbd",
+        "elapsed_seconds": 0.03836999996565282,
+        "exit_code": 1,
+        "max_rss_bytes": 9715712,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9601024,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003721,
+        "timed_out": false,
+        "user_seconds": 0.01153
+      },
+      "public-22": {
+        "cost_sha256": "30be50eaac37764bf1bb9b98c65416d156dc66c22b13f6839a96f9146636e182",
+        "elapsed_seconds": 0.03967249998822808,
+        "exit_code": 1,
+        "max_rss_bytes": 9682944,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003707,
+        "timed_out": false,
+        "user_seconds": 0.011668
+      },
+      "public-23": {
+        "cost_sha256": "6dad5ccb731ba7f6c472f477b36f6f96b5ca786841a7e23e76251be65b5a7412",
+        "elapsed_seconds": 0.02535987482406199,
+        "exit_code": 1,
+        "max_rss_bytes": 9617408,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003564,
+        "timed_out": false,
+        "user_seconds": 0.011202
+      },
+      "public-24": {
+        "cost_sha256": "9b8d6d655a5f0ed7984260a11a75a9eb28bb79a2485c6e2b52318c57874cbbaf",
+        "elapsed_seconds": 0.026850834023207426,
+        "exit_code": 1,
+        "max_rss_bytes": 9895936,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003469,
+        "timed_out": false,
+        "user_seconds": 0.011049
+      },
+      "public-25": {
+        "cost_sha256": "be24c15f627a74c406e77ce2ef856769ac9112a05df3042928c649c874d2bcb8",
+        "elapsed_seconds": 0.02630137512460351,
+        "exit_code": 1,
+        "max_rss_bytes": 9928704,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003511,
+        "timed_out": false,
+        "user_seconds": 0.011594
+      },
+      "public-26": {
+        "cost_sha256": "7da13f16c08e98288314c27fa90a81a4d65126eef8af723e1630044901ca23f3",
+        "elapsed_seconds": 0.026742208981886506,
+        "exit_code": 1,
+        "max_rss_bytes": 9912320,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003623,
+        "timed_out": false,
+        "user_seconds": 0.011098
+      },
+      "public-27": {
+        "cost_sha256": "50664f8e5a43a8008e5735941514cea2bb8cf870eceb652306dff4ea6c90fe0d",
+        "elapsed_seconds": 0.026637124828994274,
+        "exit_code": 1,
+        "max_rss_bytes": 9977856,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035859999999999998,
+        "timed_out": false,
+        "user_seconds": 0.011285
+      },
+      "public-28": {
+        "cost_sha256": "1f8e6d634abb8a09c728cbc83e85c14af8b1fb87f5547002150edc1ab8c098ab",
+        "elapsed_seconds": 0.026822666870430112,
+        "exit_code": 1,
+        "max_rss_bytes": 9748480,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.00424,
+        "timed_out": false,
+        "user_seconds": 0.011427
+      },
+      "public-29": {
+        "cost_sha256": "f148f2a105978ea2023f23cfc2b0e9dfbcc7c454cffb928903d22033cee527ca",
+        "elapsed_seconds": 0.026845292188227177,
+        "exit_code": 1,
+        "max_rss_bytes": 9879552,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035629999999999998,
+        "timed_out": false,
+        "user_seconds": 0.011732999999999999
+      },
+      "public-3": {
+        "cost_sha256": "3c659a390fee886f4f90641b5a0a53b9a44ab5c06f4a5b829f8413ed9b7c9361",
+        "elapsed_seconds": 0.0350942921359092,
+        "exit_code": 1,
+        "max_rss_bytes": 9568256,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 8732672,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035989999999999998,
+        "timed_out": false,
+        "user_seconds": 0.011626
+      },
+      "public-30": {
+        "cost_sha256": "941a2deee81bea9bc99ce6a378551e3186b1328d976dcb964a63b6319d0abc6c",
+        "elapsed_seconds": 0.025099333841353655,
+        "exit_code": 1,
+        "max_rss_bytes": 9895936,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 2473984,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035919999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011399
+      },
+      "public-31": {
+        "cost_sha256": "dc61666591db8d9ad36194e4c28234034ec74a4be78bb6b2e869d613958370b3",
+        "elapsed_seconds": 0.03743449994362891,
+        "exit_code": 1,
+        "max_rss_bytes": 9650176,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9142272,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035859999999999998,
+        "timed_out": false,
+        "user_seconds": 0.011224999999999999
+      },
+      "public-32": {
+        "cost_sha256": "1b64cd894a4327a45bc9544f4ed38b541b3314df133f705193e6e0b5016c5bd1",
+        "elapsed_seconds": 0.03940841602161527,
+        "exit_code": 1,
+        "max_rss_bytes": 9781248,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9338880,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003512,
+        "timed_out": false,
+        "user_seconds": 0.011001
+      },
+      "public-4": {
+        "cost_sha256": "fc54ce1766d95a93aec9a45cbfca9a6ddf275f8af0947a6fae9614384fc5b5e0",
+        "elapsed_seconds": 0.03562058415263891,
+        "exit_code": 1,
+        "max_rss_bytes": 9633792,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 6782976,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003567,
+        "timed_out": false,
+        "user_seconds": 0.011510999999999999
+      },
+      "public-5": {
+        "cost_sha256": "6494361d605b4f9cd6da014444c89af983ade90e6ec024870768b40e2cfd97aa",
+        "elapsed_seconds": 0.038120832992717624,
+        "exit_code": 1,
+        "max_rss_bytes": 9682944,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9240576,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0039959999999999996,
+        "timed_out": false,
+        "user_seconds": 0.012395
+      },
+      "public-6": {
+        "cost_sha256": "7380a65c21bcad523df3613f39b7d145fe8fdcafb8b34f89e066dc0ab8c827b6",
+        "elapsed_seconds": 0.039520000107586384,
+        "exit_code": 1,
+        "max_rss_bytes": 9912320,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 8568832,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0033009999999999997,
+        "timed_out": false,
+        "user_seconds": 0.011288
+      },
+      "public-7": {
+        "cost_sha256": "2dd98825598168314f519273fc5646e64695a8b6db8de0909b1cf8ec01c775a1",
+        "elapsed_seconds": 0.03739758301526308,
+        "exit_code": 1,
+        "max_rss_bytes": 9977856,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9535488,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.004121,
+        "timed_out": false,
+        "user_seconds": 0.011869999999999999
+      },
+      "public-8": {
+        "cost_sha256": "a7f6c7cc6d6197c433dfab12be18b10dd3302b5ccfa989613cbff08692445176",
+        "elapsed_seconds": 0.03715108404867351,
+        "exit_code": 1,
+        "max_rss_bytes": 9601024,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 4423680,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003981,
+        "timed_out": false,
+        "user_seconds": 0.012036999999999999
+      },
+      "public-9": {
+        "cost_sha256": "150474162d9ba21a36e459148bb3ad5e7873380dfab5317c4755e90c730fba48",
+        "elapsed_seconds": 0.03725141589529812,
+        "exit_code": 1,
+        "max_rss_bytes": 9781248,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9142272,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003375,
+        "timed_out": false,
+        "user_seconds": 0.010905999999999999
+      },
+      "setup-256": {
+        "cost_sha256": "1441fde4771e6ffe6a6d22b9551676ca70e09124dbf1caf133b05e8b2cccfa2f",
+        "elapsed_seconds": 73.37487529101782,
+        "exit_code": 0,
+        "max_rss_bytes": 1332969472,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 1332887552,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 4.359742,
+        "timed_out": false,
+        "user_seconds": 216.878452
+      },
+      "setup-8": {
+        "cost_sha256": "47414fe7fe44c09928e201c5236744ece83969d2bfa896fa6ad5816d175b0a48",
+        "elapsed_seconds": 34.58535304199904,
+        "exit_code": 0,
+        "max_rss_bytes": 673333248,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 673251328,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 1.895046,
+        "timed_out": false,
+        "user_seconds": 95.321663
+      },
+      "verify-empty": {
+        "cost_sha256": "6bc9e1d39912800bd73a19c768c950a4d1fdeb87e15857417f5a36e948e38146",
+        "elapsed_seconds": 0.039067708887159824,
+        "exit_code": 0,
+        "max_rss_bytes": 9863168,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 4407296,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.004654,
+        "timed_out": false,
+        "user_seconds": 0.011387
+      },
+      "verify-maximum": {
+        "cost_sha256": "b76555b75613b81d826468b68a8ee64b4965a5383dc9332575bafc3b82786025",
+        "elapsed_seconds": 0.03933112509548664,
+        "exit_code": 0,
+        "max_rss_bytes": 9486336,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9388032,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003418,
+        "timed_out": false,
+        "user_seconds": 0.011529
+      },
+      "verify-near": {
+        "cost_sha256": "76a740df1a1819ef7b2c2805e67bce891e50cf54fa3cfc7dd170890bdfa675c2",
+        "elapsed_seconds": 0.035705666057765484,
+        "exit_code": 0,
+        "max_rss_bytes": 9732096,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 5095424,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.00346,
+        "timed_out": false,
+        "user_seconds": 0.011318
+      },
+      "wrong-key": {
+        "cost_sha256": "99d1d653e6d5f8ce9e1a85650807147a16fc09f0b7e3619a9563f6dca3bef953",
+        "elapsed_seconds": 0.29275216697715223,
+        "exit_code": 1,
+        "max_rss_bytes": 9519104,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9388032,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.008472,
+        "timed_out": false,
+        "user_seconds": 0.024477
+      }
+    },
+    "elapsed_seconds": 208.39813129091635,
+    "failure_sha256": "53a837eea81c4d8b2c84e882896a37908f13ecff28eff0d0b1207d8d06a6083a",
+    "reason": "Larger batch exited 0 and generated five proofs, but the old sampler recorded an unavailable sample and rejected before verification. Original errno was not retained.",
+    "status": "failed"
+  },
+  "other_verifier_rejections": [
+    "field-alias",
+    "changed-proof",
+    "wrong-key"
+  ],
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "proofs": [
+    {
+      "bytes": 292,
+      "capacity": 8,
+      "name": "empty",
+      "proof_sha256": "a47865bc93493db7a9a0579ba6408dc79dc6d3879899cdad172bc73aa0b84cb2",
+      "verification_cost_sha256": "6bc9e1d39912800bd73a19c768c950a4d1fdeb87e15857417f5a36e948e38146"
+    },
+    {
+      "bytes": 292,
+      "capacity": 8,
+      "name": "near",
+      "proof_sha256": "2a5971fa696cf9fe58e4be4fde5840646aa5f55d3be42d237555f6dc5266ea4f",
+      "verification_cost_sha256": "76a740df1a1819ef7b2c2805e67bce891e50cf54fa3cfc7dd170890bdfa675c2"
+    },
+    {
+      "bytes": 292,
+      "capacity": 8,
+      "name": "maximum",
+      "proof_sha256": "46b83c1b08d2636b98bbc7e38df8ad917633b41744ddff474ea62166030edcc2",
+      "verification_cost_sha256": "b76555b75613b81d826468b68a8ee64b4965a5383dc9332575bafc3b82786025"
+    },
+    {
+      "bytes": 292,
+      "capacity": 256,
+      "name": "boundary-0",
+      "proof_sha256": "2add1787d7d0f966566f11f60f3b83c3857bd276bae9477d90c4137e9e169da3",
+      "verification_cost_sha256": "8c442f010294947477ade0fd99635780f130a18fcfb261c4ae76eac2d831c9d0"
+    },
+    {
+      "bytes": 292,
+      "capacity": 256,
+      "name": "boundary-23",
+      "proof_sha256": "9e4acd17a6ab2674eba46871d9b5498bc51fb2d68fa6bbb7afbd3c9c20ea0c1d",
+      "verification_cost_sha256": "b1c345c3f1e0117a7c9e62c2a03874fa95fe6466e75f07cd15cd3b8a6bea27f5"
+    },
+    {
+      "bytes": 292,
+      "capacity": 256,
+      "name": "boundary-24",
+      "proof_sha256": "3fdd31a36deb97f675049282a124aa591b290efaef27d2bce051252ea35ad3c4",
+      "verification_cost_sha256": "f29de4bedc508590b443d3adfd573e97370d50db28e804bbf0ad1f52b9eff801"
+    },
+    {
+      "bytes": 292,
+      "capacity": 256,
+      "name": "boundary-255",
+      "proof_sha256": "e9ed9eaf42a0b7d04dd0ec37a6a23a9fcdd466d547ca78dbe05bc43ae7be1687",
+      "verification_cost_sha256": "be3ec40ad6f0e2262b32efffc9b6d281c09f315faef3a8ff2fbcc6e9b7e38cb9"
+    },
+    {
+      "bytes": 292,
+      "capacity": 256,
+      "name": "boundary-256",
+      "proof_sha256": "813cc2e2bf2bf089fec59f62962e73a607a6b240c0e74ac74745fa1b0e147b77",
+      "verification_cost_sha256": "1b48a12fe2c41cf8b594c70a93e260dee00488f380c95d8bca4e3b1a5a675aea"
+    }
+  ],
+  "public_mutations_rejected": 33,
+  "python": "3.12.12",
+  "qualified_backend": false,
+  "raw_directory": "runs/w18-prefix-coverage-1792573572212248000",
+  "recovery": {
+    "component_checks": "passed",
+    "costs": {
+      "compile-32": {
+        "cost_sha256": "7625ef7697cdae00ce9415f7e1b67a4cc123fc46aa1579c268979158016032b5",
+        "elapsed_seconds": 0.35061458311975,
+        "exit_code": 0,
+        "max_rss_bytes": 304627712,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 304496640,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.021935,
+        "timed_out": false,
+        "user_seconds": 0.42377099999999995
+      },
+      "compile-32768": {
+        "cost_sha256": "bdb3395bfd00cdc14e9d6cdc54f944db3f4829cd73b88a1ae1dec5f97c0472a8",
+        "elapsed_seconds": 60.88892524992116,
+        "exit_code": -9,
+        "max_rss_bytes": 15033548800,
+        "memory_limit_exceeded": true,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 15033384960,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 5.680591,
+        "timed_out": false,
+        "user_seconds": 189.181428
+      },
+      "verify-boundary-0": {
+        "cost_sha256": "8c442f010294947477ade0fd99635780f130a18fcfb261c4ae76eac2d831c9d0",
+        "elapsed_seconds": 0.5006257500499487,
+        "exit_code": 0,
+        "max_rss_bytes": 9994240,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 8388608,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.012395999999999999,
+        "timed_out": false,
+        "user_seconds": 0.025379
+      },
+      "verify-boundary-23": {
+        "cost_sha256": "b1c345c3f1e0117a7c9e62c2a03874fa95fe6466e75f07cd15cd3b8a6bea27f5",
+        "elapsed_seconds": 0.03939612489193678,
+        "exit_code": 0,
+        "max_rss_bytes": 10108928,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 7995392,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.004318,
+        "timed_out": false,
+        "user_seconds": 0.012059
+      },
+      "verify-boundary-24": {
+        "cost_sha256": "f29de4bedc508590b443d3adfd573e97370d50db28e804bbf0ad1f52b9eff801",
+        "elapsed_seconds": 0.03716987487860024,
+        "exit_code": 0,
+        "max_rss_bytes": 9699328,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 4128768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.004719,
+        "timed_out": false,
+        "user_seconds": 0.014782
+      },
+      "verify-boundary-255": {
+        "cost_sha256": "be3ec40ad6f0e2262b32efffc9b6d281c09f315faef3a8ff2fbcc6e9b7e38cb9",
+        "elapsed_seconds": 0.026727667078375816,
+        "exit_code": 0,
+        "max_rss_bytes": 10010624,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.003482,
+        "timed_out": false,
+        "user_seconds": 0.011902999999999999
+      },
+      "verify-boundary-256": {
+        "cost_sha256": "1b48a12fe2c41cf8b594c70a93e260dee00488f380c95d8bca4e3b1a5a675aea",
+        "elapsed_seconds": 0.026699124835431576,
+        "exit_code": 0,
+        "max_rss_bytes": 9895936,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "memory_sample_process_missing": false,
+        "sampled_peak_rss_bytes": 32768,
+        "schema_id": "hallmark.gnark-probe-cost/1",
+        "system_seconds": 0.0035499999999999998,
+        "timed_out": false,
+        "user_seconds": 0.011937999999999999
+      }
+    },
+    "elapsed_seconds": 61.886316375108436,
+    "execution_source_sha256": "3a8b8c1c15a3711b3939083f94c4e4884810d93bebc3e98d01c808ec147c3ac3",
+    "frozen_source_files": {
+      "_gnark_probe.py": {
+        "bytes": 18082,
+        "sha256": "e512b69a3809521ab5ea0e2485aceb4e111edb8e6ae7d8d76059696eb32a1245"
+      },
+      "check_gnark_input_scale.py": {
+        "bytes": 11990,
+        "sha256": "62e807791e3af0beeb94930466787be8d345456f4dcbe8beff82eafa801b2a19"
+      },
+      "test_gnark_probe.py": {
+        "bytes": 18598,
+        "sha256": "4bdfdaa036bfdacdc13a4057ea8ddac20ce3d088d3096e59417750d772e45c42"
+      }
+    },
+    "inputs": {
+      "build/probe": {
+        "bytes": 13362834,
+        "sha256": "4a1b3033591885a78b770f1cc4edb6229f99dc807ea23e065a29ecba0147112e"
+      },
+      "experiment-01/batch-256/boundary-0.json": {
+        "bytes": 35,
+        "sha256": "c68199e96ae646f972567a7493d662a87c571c2afab5b89738eded719088cf62"
+      },
+      "experiment-01/batch-256/boundary-0.proof": {
+        "bytes": 292,
+        "sha256": "2add1787d7d0f966566f11f60f3b83c3857bd276bae9477d90c4137e9e169da3"
+      },
+      "experiment-01/batch-256/boundary-0.txt": {
+        "bytes": 3851,
+        "sha256": "29021ec57b465918f7bf7f3b43286c99a513bd070bce21cca585016440157b8f"
+      },
+      "experiment-01/batch-256/boundary-23.json": {
+        "bytes": 35,
+        "sha256": "c68199e96ae646f972567a7493d662a87c571c2afab5b89738eded719088cf62"
+      },
+      "experiment-01/batch-256/boundary-23.proof": {
+        "bytes": 292,
+        "sha256": "9e4acd17a6ab2674eba46871d9b5498bc51fb2d68fa6bbb7afbd3c9c20ea0c1d"
+      },
+      "experiment-01/batch-256/boundary-23.txt": {
+        "bytes": 4132,
+        "sha256": "41bd94a996ae58de6491f2f7900d64cb461a8124b4201818d06b635a4e607ad4"
+      },
+      "experiment-01/batch-256/boundary-24.json": {
+        "bytes": 35,
+        "sha256": "c68199e96ae646f972567a7493d662a87c571c2afab5b89738eded719088cf62"
+      },
+      "experiment-01/batch-256/boundary-24.proof": {
+        "bytes": 292,
+        "sha256": "3fdd31a36deb97f675049282a124aa591b290efaef27d2bce051252ea35ad3c4"
+      },
+      "experiment-01/batch-256/boundary-24.txt": {
+        "bytes": 4141,
+        "sha256": "5c641a6c1e2bf9bd686096fe1101db8dbbeeaf94d556a23b6f1cd7dd8b59e512"
+      },
+      "experiment-01/batch-256/boundary-255.json": {
+        "bytes": 35,
+        "sha256": "c68199e96ae646f972567a7493d662a87c571c2afab5b89738eded719088cf62"
+      },
+      "experiment-01/batch-256/boundary-255.proof": {
+        "bytes": 292,
+        "sha256": "e9ed9eaf42a0b7d04dd0ec37a6a23a9fcdd466d547ca78dbe05bc43ae7be1687"
+      },
+      "experiment-01/batch-256/boundary-255.txt": {
+        "bytes": 5343,
+        "sha256": "6cab58fe99cde1492ef36cc44e52d772d219266fa40b1922357c71f3255f1705"
+      },
+      "experiment-01/batch-256/boundary-256.json": {
+        "bytes": 35,
+        "sha256": "c68199e96ae646f972567a7493d662a87c571c2afab5b89738eded719088cf62"
+      },
+      "experiment-01/batch-256/boundary-256.proof": {
+        "bytes": 292,
+        "sha256": "813cc2e2bf2bf089fec59f62962e73a607a6b240c0e74ac74745fa1b0e147b77"
+      },
+      "experiment-01/batch-256/boundary-256.txt": {
+        "bytes": 5343,
+        "sha256": "3df778383f3e2170680acc306b6c437630ccbf591ea3fd4e4cfe1472495de413"
+      },
+      "experiment-01/batch-256/cost.json": {
+        "bytes": 3313,
+        "sha256": "11bf7bd508606fbcdc9bec8f3f5007a230b4c08d8d0b20ab73b939131d0c5e62"
+      },
+      "experiment-01/failure.json": {
+        "bytes": 121,
+        "sha256": "53a837eea81c4d8b2c84e882896a37908f13ecff28eff0d0b1207d8d06a6083a"
+      },
+      "experiment-01/protocol.json": {
+        "bytes": 114008,
+        "sha256": "4de63844636d84905485442baa663ade4b1704c67c4b5fe6165dbd59dce2ca9b"
+      },
+      "experiment-01/setup-256/circuit.r1cs": {
+        "bytes": 35283602,
+        "sha256": "043259786ca5db48c9f1c2b000c0f5fafbe71a24987c56eb10ae737d92b34f82"
+      },
+      "experiment-01/setup-256/cost.json": {
+        "bytes": 1258,
+        "sha256": "1441fde4771e6ffe6a6d22b9551676ca70e09124dbf1caf133b05e8b2cccfa2f"
+      },
+      "experiment-01/setup-256/pk.bin": {
+        "bytes": 173409493,
+        "sha256": "2ace3983920a959e8f4e7a804deb3bcc0d749aacde14aea8cf1e955ed855b31a"
+      },
+      "experiment-01/setup-256/vk.bin": {
+        "bytes": 2320,
+        "sha256": "76a616205ea6d25c292e04e7ed8971b9623bc832b4be75529fdd46881aca5166"
+      }
+    },
+    "maximum_compile": "failed-or-resource-limited",
+    "original_failure_preserved": true,
+    "plan_sha256": "91555d6cf7edb5c9670df2815f2be9006b537045b705f7c3a7b31cbfafe5bdd8",
+    "result_sha256": "4b508b3a859ecd09b7c7d2073503cf283e77d1856f2f16a76044ab05bf9d8b92",
+    "runner_sha256": "fe9589d3bde0193047b9eb5f86e0e1573d3fbe92e45b943b5ab39268d0731640",
+    "status": "incomplete"
+  },
+  "same_native_vectors_as_baseline": true,
+  "schema_id": "hallmark.prefix-coverage-evidence/1",
+  "status": "incomplete",
+  "validation": {
+    "boolean_mask_count_combinations": 80,
+    "build_receipt_sha256": "48f0279fda7f2d7afd85069cb66522916eff40a8b073c54c737fbdf1104e5152",
+    "combined_package_passed": true,
+    "core_package_passed": true,
+    "focused_python_tests": 136,
+    "go_tests": 3,
+    "go_tests_receipt_sha256": "83b583b0675a85842b210f91dbccca40b19947de2b5668847d27e22dbaefb439",
+    "installed_guard_checked": true,
+    "installed_train_checked": true,
+    "make_check_tests": 2042,
+    "new_python_cases": 9,
+    "nonboolean_mask_cases": 3,
+    "package_source_id_before_final_evidence_update": "0ffac8fe2688464163f79987443e81f3aa696f94988440f5fef7090d8cd06ef5",
+    "receipts": [
+      {
+        "elapsed_seconds": 38.198154375189915,
+        "exit_code": 0,
+        "receipt": "runs/w18-prefix-coverage-1792573572212248000/check-01.json",
+        "sha256": "d9a4e5759780a67717dcd373dc73fd2014531c62636f90610fa6064abd71fbbe"
+      },
+      {
+        "elapsed_seconds": 7.840012499829754,
+        "exit_code": 0,
+        "receipt": "runs/w18-prefix-coverage-1792573572212248000/package-core-01.json",
+        "sha256": "f3f0ecd27533b64fddeaf6bb24f7b5ea239074e528a7033a929ebf32f734ca31"
+      },
+      {
+        "elapsed_seconds": 51.119500166969374,
+        "exit_code": 0,
+        "receipt": "runs/w18-prefix-coverage-1792573572212248000/package-combined-01.json",
+        "sha256": "ea2b9d01111e3fd23f15e3b50cdaa0284c1e9dd03a1f17ae8e5d7a50407dc8d9"
+      }
+    ],
+    "status": "passed",
+    "warning": "Existing multithreaded-fork DeprecationWarning in test_events; test passed."
+  },
+  "work_item": "W18"
+}

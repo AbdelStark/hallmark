@@ -18,7 +18,8 @@ schemas below remain implementation targets except `ModelManifest`, `FileRef`,
 `ReceiptBody`, `SignedReceipt`, `EpochRecord`, `ProofArtifact`, `RegistryBody`,
 `RegistryEntry`, `RegistrySignature`, `SignedRegistry`, `TrustPolicy`, `Limits`,
 `RegistryState`, `Bundle`, `EmbeddedFile`, `ResponseEnvelope`, `BundleStatus`,
-`Claim`, `VerificationResult`, `RegistryTransition` and `SignedTransition`, implemented in
+`Claim`, `VerificationResult`, `RegistryTransition`, `SignedTransition` and
+`BackendQualification`, implemented in
 [manifests.py](../../src/hallmark/manifests.py) and
 [classifier_manifest.py](../../src/hallmark/classifier_manifest.py), with
 [policy/request contracts](../../src/hallmark/policy.py) and
@@ -27,6 +28,8 @@ schemas below remain implementation targets except `ModelManifest`, `FileRef`,
 [registry enrollment](../../src/hallmark/enrollment.py), with
 [offline bundle and result contracts](../../src/hallmark/bundles.py).
 Key-transition records are in [registry.py](../../src/hallmark/registry.py).
+The [backend record](../../src/hallmark/backend.py) binds declarations and file
+bytes; it does not establish that a backend is qualified.
 `Enrollment` is an in-process verified result, with no wire decoder or public constructor.
 Primitive decoding does not validate fields, versions or cross-field invariants.
 The [model JSON schema](../schemas/model-manifest-v1.json) is a hex-byte projection;

@@ -1,0 +1,149 @@
+{
+  "baseline": {
+    "elapsed_seconds": 2.112453125184402,
+    "exit_code": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "1e80c0031f3d7665e5430cb0226067a89ef586b435e488592090dc6b556b8282",
+    "timed_out": false
+  },
+  "baseline_commit": "aa6f9c73e90086046b4f59dc1516f8f9a3703714",
+  "baseline_g1_cases": [
+    {
+      "base": "generator",
+      "compressed_sha256": "25786c8329cb6233d206e4056196ea32bcb378b39070dd438fe683798f136393",
+      "coordinates_sha256": "05c9cdfc357fe4f18a88a9e03c51084477c346d5bb1109f2bc22cd48285096b5",
+      "length": 3
+    }
+  ],
+  "corrected_candidate": {
+    "build_executed": false,
+    "candidate_g1_sha256": "2c2368587355ffe6747a8fcf0d147180f74fd4b559efeccb428fbe0d2bb026ac",
+    "correction": "Rename existing minimum-cost variable to minCost so the builtin min is callable; no cost formula or comparison changes.",
+    "elapsed_seconds": 0.11021349998190999,
+    "exact_patch_application_passed": true,
+    "gofmt_parse_passed": true,
+    "patch_sha256": "652609cafa8cc3bae8e88c00bbd5374ca3a6fdff4deb669fafab76b2786234dc",
+    "point_equivalence_executed": false,
+    "remaining_seconds": 1.6292627488728613
+  },
+  "date": "2026-10-21",
+  "final_documentation_check": {
+    "argv": [
+      "make",
+      "check-spec"
+    ],
+    "elapsed_seconds": 0.9445392910856754,
+    "exit_code": 0,
+    "remaining_seconds": 0.6847234577871859,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "d51ad0f535240b632b8e55264a5f86180bb25635bd3eb55a47e5941297af3255",
+    "timed_out": false
+  },
+  "first_candidate_build": {
+    "elapsed_seconds": 1.3321359169203788,
+    "exit_code": 1,
+    "full_equivalence_passed": false,
+    "remaining_seconds": 1.7394762488547713,
+    "stderr_sha256": "c3f667cbea6c50da15caaadef1a0b2a4e966613fdd5a8d326c9b38096830a1e6",
+    "stdout_sha256": "a555d36c116979270f9ae29ca356d8f20c422d3569121a87d88e4d61fcc53aaf",
+    "three_point_equivalence_passed": false,
+    "timed_out": false
+  },
+  "first_preparation_failure": {
+    "command_tool_wall_seconds": 0.815183792,
+    "conservative_charge_seconds": 1.0,
+    "preserved_copy": "runs/w18-g1-chunks-1792582260992236000/gnark-crypto",
+    "reason": "post-patch source differed from generated candidate",
+    "status": "failed",
+    "unmeasured_command_internal_elapsed": true
+  },
+  "isolated_module_preparation": {
+    "baseline_elapsed_seconds": 2.112453125184402,
+    "candidate_g1_sha256": "f9576adf64eb403937a881e73a0f5c959adbb5724a16e157d4bea02b7d949d69",
+    "default_module_unchanged": true,
+    "elapsed_seconds": 1.0095944998320192,
+    "exact_patch_application_passed": true,
+    "failed_preparation_charge_seconds": 1.0,
+    "frozen_evaluator_sha256": "825a2f84b3383eeedf335e366944ba2c900936e25dcb40b7e91a81dd0a59aae1",
+    "gofmt_parse_passed": true,
+    "module_files": 1869,
+    "module_inventory_sha256": "9fb478c0664b9f33fb7c8853b874c878bd852084a654546b1a0fae3e8e22b85c",
+    "original_g1_sha256": "22544597ca454517d5a4ae788a5349ae2e2ec72380e101bf1d37b4d0ffe50165",
+    "patch_check_elapsed_seconds": 0.02028691698797047,
+    "patch_sha256": "3c901d3b101cc0c1412b30f3b0086d487f27b757b95f8bdd5a9a35ef380d6a4b",
+    "remaining_seconds": 3.07161216577515
+  },
+  "issue": 19,
+  "limits": {
+    "actual_setup_and_proofs": "not executed with this candidate",
+    "build_of_corrected_candidate": "not executed",
+    "default_module_changed": false,
+    "full_point_equivalence": "not executed",
+    "hf_job_launched": false,
+    "maximum_proving_feasibility": false,
+    "memory_and_latency_improvement": "unmeasured",
+    "qualified_backend": false,
+    "seven_circuit_fingerprints": "not executed with this candidate"
+  },
+  "patch_application_check": {
+    "argv": [
+      "/usr/bin/patch",
+      "--verbose",
+      "--batch",
+      "--forward",
+      "-p1",
+      "-i",
+      "/Users/abdel/dev/me/hallmark/research/probes/gnark/patches/bounded-g1-batch.patch"
+    ],
+    "elapsed_seconds": 0.02028691698797047,
+    "exact_apply": true,
+    "exit_code": 0
+  },
+  "protocol_sha256": "50b457acafab7252355954d7f203817a559c293db7fed45bd4f19e8d231f6c76",
+  "raw_directory": "runs/w18-g1-chunks-1792582260992236000",
+  "resource_accounting": {
+    "all_ancillary_allowances_preserved": true,
+    "new_cost_usd": 0,
+    "pending_owner_request": "120 additional Mac-only seconds for the streaming repository/package gates; no answer received",
+    "previous_charged_seconds": 56.78605329222046,
+    "previous_reserved_seconds": 64,
+    "remaining_inside_reservation_seconds": 0.6847234577871859,
+    "this_increment_seconds": 6.529223249992356,
+    "unreserved_seconds": 0
+  },
+  "roster": {
+    "baseline_subset_scalar_values": [
+      0,
+      1,
+      -1
+    ],
+    "bases": [
+      "generator",
+      "infinity"
+    ],
+    "executed_baseline_subset": {
+      "base": "generator",
+      "length": 3
+    },
+    "full_roster_executed": false,
+    "lengths": [
+      0,
+      1,
+      3,
+      4095,
+      4096,
+      4097,
+      8193,
+      "runtime.NumCPU()*4096+1"
+    ],
+    "per_worker_boundary_assertion": "parallel.Chunks(length) must include a span longer than 4096 for the final length"
+  },
+  "schema_id": "hallmark.g1-candidate-preparation-evidence/1",
+  "source_pins": {
+    "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+    "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+    "research/probes/gnark/patches/bounded-g1-batch.patch": "652609cafa8cc3bae8e88c00bbd5374ca3a6fdff4deb669fafab76b2786234dc",
+    "research/probes/gnark/patches/g1_batch_test.go": "825a2f84b3383eeedf335e366944ba2c900936e25dcb40b7e91a81dd0a59aae1"
+  },
+  "status": "prepared-unvalidated"
+}

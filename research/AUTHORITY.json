@@ -66,5 +66,81 @@
     "human_review_required_for_pipeline": false,
     "review_identity_must_be_truthful": true,
     "quality_claim_from_synthetic_pipeline": false
+  },
+  "local_validation_extension": {
+    "approved_at": "2026-10-21",
+    "approval_ref": "docs/decisions/0043-approved-local-validation-extension.md",
+    "additional_seconds": 120,
+    "purpose": "Complete pending Mac repository/package validation and, within the same allowance, corrected G1 component regression checks.",
+    "max_cost_minor": 0,
+    "currency": "USD-cent",
+    "additional_hf_jobs": 0,
+    "maximum_setup_or_proving_campaign": false,
+    "prior_limits_and_failures_preserved": true
+  },
+  "local_small_proof_extension": {
+    "approved_at": "2026-10-21",
+    "approval_ref": "docs/decisions/0044-approved-small-g1-proof-campaign.md",
+    "additional_seconds": 600,
+    "purpose": "Two fresh bounded small-commitment proof/negative campaigns under the corrected G1 candidate, with build, replay and validation.",
+    "max_cost_minor": 0,
+    "currency": "USD-cent",
+    "additional_hf_jobs": 0,
+    "maximum_setup_or_proof": false,
+    "prior_limits_and_failures_preserved": true
+  },
+  "autonomous_execution": {
+    "approved_at": "2026-10-21",
+    "approval_ref": "docs/decisions/0045-standing-approval-and-maximum-artifacts.md",
+    "standing_owner_approval": true,
+    "repeat_micro_budget_approval_required": false,
+    "limits_set_by": "research-agent",
+    "scope": "Future bounded foreground implementation and proof research; historical study budgets and charges stay intact.",
+    "local": {
+      "max_job_seconds": 7200,
+      "max_campaign_seconds": 21600,
+      "threads": 4,
+      "concurrent_jobs": 1,
+      "max_memory_bytes": 34359738368,
+      "sampled_memory_stop_bytes": 30064771072,
+      "max_retained_checkout_bytes": 137438953472,
+      "max_cost_minor": 0
+    },
+    "hugging_face_jobs": {
+      "allowed_flavors": [
+        "t4-small",
+        "l4x1"
+      ],
+      "max_additional_jobs": 4,
+      "max_job_seconds": 3600,
+      "max_total_cost_minor": 1000,
+      "currency": "USD-cent",
+      "automatic_retries": 0,
+      "top_up_authorized": false
+    },
+    "prior_run_records_preserved": true,
+    "private_uploads": false,
+    "ongoing_schedulers": false,
+    "maximum_setup_fallback": {
+      "approval_ref": "docs/decisions/0046-bounded-maximum-hf-proof.md",
+      "authority_basis": "Owner standing full approval; agent-selected bounded larger-memory L4 execution plan.",
+      "flavor": "l4x4",
+      "max_jobs": 1,
+      "max_job_seconds": 7200,
+      "max_creation_seconds": 7800,
+      "max_compute_cost_minor": 830,
+      "max_compute_and_storage_cost_minor": 1000,
+      "currency": "USD-cent",
+      "max_memory_bytes": 170000000000,
+      "sampled_memory_stop_bytes": 150000000000,
+      "threads": 48,
+      "max_output_bytes": 103079215104,
+      "temporary_private_bucket": true,
+      "bucket_contents": "Synthetic campaign only; no private transcripts, checkpoints, or previous local runs.",
+      "download_and_cleanup_target_hours": 24,
+      "token_in_worker": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false
+    }
   }
 }

@@ -1076,8 +1076,322 @@ results and the legacy 8 MiB loader are unchanged.
 ### W14 delivered
 
 [PR #71](https://github.com/AbdelStark/hallmark/pull/71) merged as
-`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`; the corresponding
-[main run](https://github.com/AbdelStark/hallmark/actions/runs/39466963984) passed.
+`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`. Final head
+`0bc7f3c8cf4c13b11f6633ee6193a832a2f2628b` passed all 24 push/PR jobs;
+[main run 39466963984](https://github.com/AbdelStark/hallmark/actions/runs/39466963984)
+passed all 12 jobs. Local, tracking and remote main matched the merge commit.
+Issue #15 is closed. The repository remains public.
+
+## 2026-10-20 — W18 real local proof probes, backend still unqualified
+
+Hypothesis: a reviewed local backend can produce genuine proofs of the exact
+salted complete-input commitment and a tiny native rule while rejecting changed
+public bindings and invalid witnesses. Baseline: 1,632 tests and no real proof
+backend execution at the W14 merge. Mutable paths: optional Go probes, their
+Python controllers, frozen harmless fixture, tests, source reviews and research
+documentation. The unrelated `.gitignore` edit remains unstaged.
+
+The [raw evidence](evidence/w18-proof-probes-2026-10-20.json), including source/
+environment pins, numeric costs, failures and one public proof/key example,
+precedes this entry. The
+[source review](proposals/backend-v1/candidate-review.md) holds EZKL on unresolved
+licence admission and chooses gnark v0.16.4 only for experiments. Fourteen
+compiled modules match the reviewed licence/version/checksum inventory.
+The isolated Go 1.26.8 archive was checked against its official SHA-256;
+system tools were not replaced.
+
+Preserved preparation failures: the archive extractor initially rejected the
+ordinary `go` root directory before extraction; the full upstream module graph
+failed on an unavailable optional Solidity checker; two initial sandbox attempts
+aborted in Apple's loader before Go ran. The corrected profile imports the OS
+`dyld-support.sb`. The selected compilation closure is verified; the optional
+full module graph is not. No failure was relabeled as a pass.
+
+The original 18-case cubic probe produced a 244-byte real Groth16 proof and
+verified it in fresh processes. The final binary and tightened worker profile
+repeated all 18 cases successfully in a new directory. Wrong inputs/keys,
+field aliases, malformed proof bytes and invalid witnesses reject.
+Randomized repeated proofs differ, which alone does not demonstrate privacy.
+
+The first rule experiment's setup completed, but the real prover rejected the
+empty input. The circuit encoded 16 for a 17-byte domain tag. Its source was
+retained with every reconstructed file verified against the original pre-build
+hash; setup and failure artifacts were not overwritten. It also exposed a
+platform limitation: `RLIMIT_CPU=40` was requested, but setup used 97.43 CPU
+seconds and the failed proof process used 58.81. The new experiment computes
+the tag length, requests a documented 120-second case budget and rejects
+measured CPU overages after exit. This fits the approved owner envelope;
+the OS request is not claimed to be a hard aggregate CPU boundary.
+
+The corrected experiment passed 134 cases in 321.904 seconds. Nine vectors
+cover empty input, canonical CBOR's small/wide byte representations, UTF-8,
+four-byte and near/maximum boundaries, cross-chunk matching and a final-byte
+match. Each produced an actual proof checked in a fresh verifier process.
+All 100 public-field mutations, out-of-range/alias values, changed private
+inputs, nonzero padding, omitted last byte, wrong count/verdict, corrupted or
+trailing proof bytes and a second setup's key reject.
+
+The circuit has 206,801 constraints, an 18,147,793-byte R1CS, 77,729,235-byte
+proving key, 5,536-byte verifier key and 292-byte proof. Valid proof processes
+took 15.856–16.208 seconds and verifier processes 0.031–0.062 seconds, including
+startup and artifact loading. Peak process RSS was 709,033,984 bytes; cumulative
+worker CPU was 1,173.542 seconds and measured output was 1,739,947,438 bytes.
+This is one diagnostic roster, not a repeated latency study, pure prover
+timing, p95 estimate or full-encoder extrapolation.
+
+Thirty-one offline tests cover file and identity boundaries, fixture reproduction,
+failed-result handling, sanitized CLI failures and the Mac sandbox. The live
+loopback control succeeds outside the worker and is denied inside; unrelated
+file reads, inherited sentinel variables and child-process creation reject,
+and a timed-out process is reaped. An initial curl control could not read its
+TLS configuration; the final test uses a local TCP utility without expanding
+permissions. `make check` passes 1,663 tests plus lock/lint/format/types, spec,
+software conformance and admission gates.
+
+The [decision](../docs/decisions/0022-local-proof-probes.md) bounds the claim:
+synthetic classifier tags, local research setup, shared verifier library,
+upstream gadget soundness warning, unqualified hiding/security, soft memory
+limit and post-run aggregate resource checks. No `BackendQualification` artifact,
+`hallmark qualify`, bounded MLP or complete encoder is implemented or qualified.
+W18 stays open. No real dataset/model, HF token, paid job or hardware evidence
+was used; local experimental assets have a 2026-11-19 retention limit without
+an ongoing scheduler.
+
+Both `make package-check` and `make package-check-train` passed repeated
+distributions, sdist rebuild and installed core/train checks. Their common
+pre-prose source identity is
+`539d4bff99a59f56265e42b568b30a6ac55df8042708e99be24ebb87b448d36d`;
+wheel SHA-256 `f7b93027de33840ce2d0ff3e2a6eb3574053d5557ccd1abf684a4a2b2c7c14e0`,
+sdist `0a7e21a490fe86cf8a1745b8ce98ea8a90b4e66465d034e19e21cc210a5aff63`.
+Final-head CI must rebuild the complete evidence/prose candidate. The public
+synthetic key/proof example was decoded from the evidence file and verified
+again in a fresh sandbox, with the key and expected fixture independently
+pinned from the preceding experiment records. This checks the published
+example transport; it does not establish independent implementation or enrollment.
+
+## 2026-10-20 — W18 backend declarations and bounded MLP proof
+
+Hypothesis: the same reviewed backend can prove the exact frozen integer MLP,
+including signed ties-to-even arithmetic, all intermediate values, complete
+chunk aggregation and salted input binding. Baseline: the prior tiny rule proof
+and 1,663 local tests. Mutable paths: the optional Go graph probes, shared input
+constraints/controller, MLP fixture, additive backend record/file validator,
+distribution checks and documentation. No historical experiment is overwritten.
+
+The [raw evidence](evidence/w18-backend-contract-and-mlp-2026-10-20.json)
+retains the protocol, source/build/dependency pins, every case's costs and
+artifact hashes, validation logs' hashes and a public synthetic proof/key
+example. Executed helper commands and source copies remain in the ignored
+run's `commands/`; portable controller invocations are documented in the
+[probe README](probes/gnark/README.md).
+
+[Decision 0023](../docs/decisions/0023-backend-declaration-contract.md) implements
+the RFC-0005 `BackendQualification` record and caller-pinned dependency/metadata
+file checks. The record binds opaque evidence identities, declared program
+coverage and a claimed hiding flag. It does not resolve reviews, authenticate
+setup, execute a verifier or establish qualification. Tests explicitly permit
+a separately enrolled true declaration to pass structural binding without
+mistaking it for evidence of hiding.
+
+The new protocol and complete source snapshot were written to
+`runs/w18-graphs-1792520823690561000` before compilation. The selected 14 module
+versions match the previous reviewed inventory, with `GOPROXY=off` and the
+unchanged isolated Go 1.26.8 toolchain. The build succeeded as
+`15c749c564acd18e56870c7412f9c6fbc6c713679f34bf2fec63641c32f9e107`.
+The nine-vector MLP fixture SHA-256 is
+`db1e5792c87d8e66617ba39a9ecb588dcb637e885211d5f241bdaf632b51f1fd`.
+The native implementation and separate arithmetic formula agree on all layers
+when reproducing that fixture.
+
+The actual MLP run passed all 156 cases in 654.918 seconds. Nine proofs verified
+in fresh processes. All 100 public-field mutations, 22 private layer mutations,
+invalid private inputs/padding/counts, proof corruption/trailing bytes and a
+second setup's key rejected. The 208,717-constraint circuit has an
+18,170,074-byte R1CS, 78,166,557-byte proving key, 5,536-byte verifier key and
+292-byte proof. Peak process RSS was 704,036,864 bytes, cumulative worker CPU
+2,477.395 seconds, and measured artifacts 3,867,731,554 bytes. No case exceeded
+the requested measured CPU budget; the largest used 98.541 CPU seconds.
+
+Valid proof processes took 15.824–16.092 seconds, including startup and artifact
+loading; verifier processes took 0.029–0.294 seconds. Offline software/package
+validation also ran on the host during part of this experiment. These costs
+are a single diagnostic roster, not an isolated latency study or p95 estimate.
+The shared input refactor changes circuit/key identity, so the rule regression
+uses a separate fresh setup rather than reusing the earlier proof.
+
+That regression passed all 134 cases in 320.919 seconds, with 692,666,368-byte
+peak process RSS and 1,739,957,340 measured artifact bytes. The final binary
+also passed all 18 cubic installation cases. The published MLP example was
+decoded from the evidence and verified in another fresh process, using the
+key and fixture pins retained from the original run. The confirmation took
+2.005 seconds in total. Fresh processes still share the same gnark verifier;
+this does not establish independent implementation or operational enrollment.
+
+`make check` passed 1,747 tests, including 77 backend tests and 38 probe
+boundary/fixture tests. Both package gates passed, including installed backend
+fixture checks and the required training extra. Their common source identity
+before final evidence/prose was
+`7a455d4a696b47978a3fb95eaa2bb111ae140696377fd90af86632c382066831`;
+wheel SHA-256 `4c79ab355f919c4bb4dd9a54bc2aebf233a06597275d68c184ae851273344d5b`,
+sdist `e1855343b8b09154dd4386b713d1ce7795434bc094c9de1e20de67c5f589e014`.
+
+[Decision 0024](../docs/decisions/0024-bounded-mlp-proof-probe.md) retains the
+limits: one fixed synthetic MLP with an eight-byte input bound, local setup,
+shared verifier library, upstream gadget warning and no security/hiding
+qualification. No `hallmark qualify`, encoder operator block or complete
+admitted encoder is supplied. The backend record and small proofs cannot
+replace those remaining gates. No HF token, paid job, private input or genuine
+hardware evidence was used. Repository visibility remains public.
+
+## 2026-10-20 — W18 exhaustive integer attention block
+
+Hypothesis: a fixed integer attention/feed-forward block can produce real proofs
+that match every arithmetic-oracle tensor for every admitted input/mask pair,
+while rejecting changed intermediate values. Baseline: rule/MLP proofs and
+1,747 local tests, with no attention-block evidence. Mutable paths: the optional
+Go block and shared process code, frozen oracle/controller, boundary tests and
+research documentation. No Python runtime acceptance path or dependency changes.
+
+The [raw evidence](evidence/w18-integer-attention-block-2026-10-20.json) precedes
+this entry. [Decision 0025](../docs/decisions/0025-integer-attention-block-probe.md)
+fixes the four-entry embedding vocabulary, two token positions, exact tables,
+signed rounding, residual/MLP weights, masked pooling and five public fields.
+The independent Python arithmetic implementation exhausts all 64 token/mask
+combinations and checks masked-token invariance before proving. Two hand-derived
+single-token results cover negative max pooling and signed half ties.
+
+The pre-build protocol/source snapshot is
+`runs/w18-block-1792522883989554000`. It records the prior measured intervals
+(retaining nested duplication), an additional conservative preflight allowance,
+fresh-run limits and actual storage. The same 14 reviewed modules, `go.mod`,
+`go.sum` and isolated Go executable hashes match the earlier reviewed pins.
+The offline-cache build produced
+`3befb4b0075de7415e4f91a50ece56cf97e3649201dc677c66581f2bd46ccdc3`.
+Fixture SHA-256:
+`4526e21b5fe001d81611c5ccd5bb23f7347cdcc79c5ed75a56776944f581c7bb`.
+Build, run and regression helper sources and commands are retained locally;
+portable controller commands are in the [probe README](probes/gnark/README.md).
+
+The block passed all 233 checks in 62.698 seconds. Every one of the 64 valid
+inputs produced an actual proof verified in a fresh process. All five public
+mutations and all 89 private intermediate mutations rejected, as did invalid
+tokens/masks/scores, field aliases, signed overflow in assignment transport,
+noncanonical decimal input, changed/trailing proof bytes and a second setup key.
+The circuit has 5,250 constraints, a 133,167-byte R1CS, 1,599,991-byte proving
+key, 732-byte verifier key and 244-byte proof. Peak process RSS was
+39,223,296 bytes and cumulative worker CPU 203.779 seconds. Proof processes
+took 0.363–0.403 seconds; verifier processes took 0.025–0.284 seconds.
+These include startup and artifact loading and are one finite-domain diagnostic
+roster, not pure prover timing, p95 or a full-encoder feasibility measurement.
+
+The shared worker refactor passed 30 rule/MLP regression cases and 18 cubic
+cases in 131.824 seconds.
+Fresh setups reproduced both previous R1CS hashes byte-for-byte. Fresh empty-input
+proofs verified, invalid padding/public fields and a wrong key rejected, and
+all 18 retained proofs verified under their separately pinned original keys.
+The published block proof/key example was decoded
+from the evidence and verified again in a new process with independently retained
+key/fixture pins. Verification still shares gnark with the prover.
+
+The recorded case-file sum for the block is 289,708,535 bytes; a complete
+post-run inventory including metadata is 290,309,998 bytes. The regression's
+full inventory including its nested cubic run is 603,653,502 bytes.
+Both meet their recorded limits. The protocol/source/command/result files stay
+in the ignored fresh directory, with the same 2026-11-19 retention limit and
+no scheduler. No failure or earlier result was overwritten.
+
+`make check` passed 1,764 tests, including 17 new exhaustive-fixture, malformed
+input, stale-pin, failure-retention and sanitized-path checks. Both package gates
+passed; the required training extra executed. The common pre-evidence/prose
+source identity is
+`ef439b2cdc190d52d8bf0884eff90f59d161adf7ef2954a536bac98d12db06b9`;
+sdist SHA-256 `814046250fba3371d3dbc778e8b553656cf84418061d2acea616ae760fb08a4c`.
+The unchanged runtime wheel is
+`4c79ab355f919c4bb4dd9a54bc2aebf233a06597275d68c184ae851273344d5b`.
+Final-head CI must rebuild the complete documentation/evidence candidate.
+
+This proves the stated tiny block only. It has no tokenizer, complete input
+commitment, layer normalization, trained model or full encoder. The power-of-two
+and reciprocal tables define its arithmetic; no float-parent equivalence is
+claimed. Local setup, shared verifier, independent review and complete graph
+qualification remain unresolved. `qualified_backend` stays false; W18 remains
+open. No HF token, GPU job, paid compute or private input was used.
+
+
+## 2026-10-20 — W18 staged qualification command
+
+Hypothesis: the existing real-proof controllers retain their correctness and
+failure behavior under one externally pinned protocol and shared budget.
+Baseline: standalone installation/rule/MLP/block controllers, 1,764 local tests
+and no installed qualification command. Mutable paths: packaged controllers,
+CLI, shared rooted file reader, tests, protocol schema/marker and documentation.
+The Go source/binary, arithmetic and frozen graph inputs remain unchanged.
+[Decision 0026](../docs/decisions/0026-staged-qualification-command.md) fixes the
+scope and criterion before execution. The [raw numeric evidence](evidence/w18-staged-qualification-2026-10-20.json)
+precedes this prose.
+
+The frozen plan/source snapshot is `runs/w18-qualification-1792524845681991000`.
+Protocol identity: `713f73c35a0fd80543c00dc1f8c8ff16205d8a20f28b89be33a2233c017ea766`.
+Controller identity: `004a15d94fbc6f271c27319d76b8855cbbb3c5aa422a45cfee5496f23dcb1b06`.
+Binary SHA-256: `3befb4b0075de7415e4f91a50ece56cf97e3649201dc677c66581f2bd46ccdc3`.
+The protocol pins the reviewed source/licence, dependency, build and authority
+records alongside all fixtures. The run retained them before execution; it does
+not authenticate approval or adjudicate those documents' claims.
+
+The exact command is retained in `command.json`; its portable form is:
+
+```text
+uv run --locked hallmark qualify APPROVED_PROTOCOL.json \
+  --expected-protocol 713f73c35a0fd80543c00dc1f8c8ff16205d8a20f28b89be33a2233c017ea766 \
+  --output FRESH_DIRECTORY
+```
+
+All 541 real cases pass in the prescribed order: installation 18, rule 134,
+MLP 156 and block 233. Fresh setups reproduce the earlier rule, MLP and block
+R1CS hashes exactly. Actual proofs verify in fresh processes; mutations to all
+100 public fields for rule/MLP, all 22/89 MLP/block intermediate values, aliases,
+proof bytes and setup keys reject. Complete raw case inventories and costs are
+retained. The evidence generator rehashes every stored file against the case
+records; no earlier experiment or failure is overwritten.
+
+The command correctly exits 3 with `status: incomplete`, not a qualification.
+Elapsed time is 1059.285s; worker peak RSS is 677,314,560 bytes;
+summed worker CPU is 3852.295s. The output contains
+4,424 files totaling 5,926,016,680 bytes, below its 6 GiB cap.
+The shared deadline was 1,200 seconds, four threads, one research worker at a
+time and zero spend. Prior recorded intervals plus a conservative preflight
+allowance were 4955.640s; the new 1,500-second reservation
+fit the study's 7,200-second proving envelope. The actual combined runs/dist
+allocation stayed below the owner's 20 GiB cap. Retention is through 2026-11-19;
+no scheduler was started. Installed-package validation overlapped the first
+8.59 seconds. These timings include startup, artifact I/O and checks, and are
+not isolated prover latency, p95 or an encoder-feasibility measurement.
+
+`make check` passes 1,807 tests, including 43 new protocol/controller cases.
+Tests cover wrong pins, duplicate JSON keys, incorrect fixture kinds, unsafe
+paths, hardlinks/FIFOs, source changes after snapshotting, resource limits,
+failure retention, interruption, private CLI errors and a live deadline that
+kills/reaps the worker while retaining timeout costs. Marker-worker tests never
+count as proof evidence. The common rooted reader retains all 128 model-file
+regressions. A transient import-order lint failure is retained in `check-02`;
+the final `check-03` passes without weakening checks.
+
+Both installed-package gates pass, including the actual training extra. Their
+common pre-evidence/prose source identity is
+`4aa11d2a4bd163f3a9889f64ef835067826b9dc97bd916f8bbe790d44e9b7d0e`;
+wheel SHA-256 is
+`2bb327c94c931195eb6ea7de4f1dc20dc95789b9e9b6de7060744379277fc4dd`.
+Final-head hosted CI must rebuild the completed documentation/evidence candidate.
+The standalone script paths remain compatibility commands for the packaged
+controllers; an additional 18-case real cubic run passed through the legacy
+script entry point in 1.41 seconds. No dependency or Go rebuild was required.
+
+Whole-encoder proofs at empty/near-boundary/maximum length, operational key/
+program enrollment, an independent verifier/security/hiding review and accepted
+setup lineage remain open. RSS/aggregate storage checks are postconditions,
+not hard OS quotas. Local setup and shared gnark verification remain research
+limitations. `qualified_backend` stays false and PR #72 stays draft. No HF token,
+GPU job, paid compute, private upload or operational acceptance occurred.
 
 ## 2026-10-20 — W15 record-level MLP component
 
@@ -1466,6 +1780,40 @@ The live spec audit matches all 40 work items and 106 dependency edges after the
 owner-approved W15 acceptance update. Final-head hosted CI remains required
 before merge. No HF token, GPU job, paid compute or reviewer contact occurred.
 
+
+## 2026-10-21 — Integrate the merged comparison pipeline into W18
+
+W15 / #16 merged through [PR #73](https://github.com/AbdelStark/hallmark/pull/73)
+as `de29271d21196202fc951ebe5f5fc3348fbf9a63`. All 28 candidate jobs and all 14
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39562563658) pass;
+local/tracking/remote main match. The owner-approved synthetic stage is delivered.
+
+Hypothesis: the existing qualification and comparison commands coexist with both
+sets of installed-package checks. Baselines: W18 at
+`32aecdbed4869cdff6bd28d7e0725763ef1c5c85` and the W15 merge above. Mutable paths
+are the five conflicting changelog/ML-plan/ledger/state/package-check files and
+current status/evidence documentation. Both implementations and historical proof
+records remain intact. The bounded gate is combined software/package validation,
+not a new cryptographic qualification experiment.
+
+[Evidence](evidence/w18-main-integration-2026-10-21.json) retains
+`runs/w18-main-integration-1792567953903508000`. The package-check conflict now
+runs qualification/backend fixtures as well as MLP/selection/guard/comparison
+checks. The ledger retains both branches' historical entries; state reflects
+W15's merged delivery and W18's remaining whole-encoder gate. The owner-approved
+40 GiB envelope and synthetic/no-human-review pipeline stage are inherited from
+main. The unrelated `.gitignore` bytes are unchanged.
+
+All 140 focused integration tests and all 1,947 local tests pass. Both core and
+combined train/guard package gates pass, including installed protocol/selection
+and comparison commands. The proof source, Go circuits and packaged controllers
+are byte-unchanged from the W18 parent. No new proof run, setup, token use or
+paid compute occurred; existing proof time accounting is unchanged.
+Final-head hosted checks are required before publishing this integration as
+verified. PR #72 remains draft: full encoder/input qualification, independent
+verification, security/hiding review, accepted setup and operational enrollment
+remain incomplete. W17 / #18 is now dependency-ready for synthetic reporting.
+
 ## 2026-10-21 — W17 frozen group-aware reporting
 
 Hypothesis: existing frozen test predictions can support versioned slice and
@@ -1512,3 +1860,727 @@ The package snapshot before this evidence/documentation update is
 `e21d8170269b46ab75c2702576326e47705ffbf290af71d7cc0667ce1d4ec51f`.
 No proof run, HF token, paid compute, model download or private-data upload occurred.
 Exact-head hosted checks remain required before merge.
+
+## 2026-10-21 — W18 complete-input commitment scaling
+
+Hypothesis: indexed lookup removes quadratic CBOR packing and makes the admitted
+maximum-input component measurable. Baseline: eight-byte rule/MLP input binding.
+Decision [0035](../docs/decisions/0035-input-commitment-scaling.md) fixes the new
+component, byte/header boundaries, negative cases and resource envelope. Mutable
+paths are the optional Go component/worker dispatch, its research runner, tests
+and evidence. Rule, MLP, attention-block and original input circuit bytes are
+unchanged. W17 / PR #74 was integrated as `132c65e`, preserving both implementations;
+83 focused reporting/qualification tests passed before the new experiment.
+
+[Numeric evidence](evidence/w18-input-scaling-2026-10-21.json) retains
+`runs/w18-input-scale-1792570054284510000`: predeclared plans, exact source snapshots,
+reviewed cached dependency pins, offline builds, both candidate identities, every
+attempt/cost and synthetic proof/key bytes. No transcript, model checkpoint,
+token, HF job, fee or scheduler is involved. The native fixture cross-checks a
+hand-assembled encoding/hash against the existing canonical codec at lengths
+0/1/8/23/24/255/256/32767/32768. The 33-field relation binds count and salted input
+digest under a synthetic fixed profile; it is not a classifier statement.
+
+The first 118.892-second run produced three small proofs, then failed on a valid
+empty 256-byte solver assignment. Inspection of the pinned gnark commitment
+placeholder established that standalone `IsSolved` lacks the real prover's hint.
+Its negative solver outcomes are inadmissible and remain marked as such. The
+corrected source uses only actual Groth16 proving, with one key load per batch,
+and fresh verifier processes. No placeholder/dummy hint was introduced. Source
+snapshots of the failed Go candidate reproduce its pre-run hashes exactly.
+
+The corrected 318.353-second command records 51 worker processes, including
+two proving batches: eight valid proofs
+(empty/near/max at capacity 8 and lengths 0/23/24/255/256 at capacity 256), twelve
+invalid prover witnesses, eight successful fresh verifications, 33 changed
+public-field rejections, field alias/proof corruption/wrong-key rejections,
+setups and compilation probes. Padding, byte range, salt range, header/array
+encoding and prefix gaps reject. The small circuits contain 206,049, 244,924 and
+525,403 constraints for capacities 8, 32 and 256. Capacity 32 is compile-only.
+
+Maximum capacity 32,768 fails compilation: the watchdog kills it after 90.335
+seconds, with measured peak RSS 17,181,917,184 bytes, 2,048,000 above the approved
+16 GiB postcondition. The late supplemental memory observer found no matching
+live process and sent no signal. No complete constraint count or maximum-input
+proof exists; this is not a throughput estimate or whole-encoder result. Future
+large attempts need a conservative live cutoff and an accounting audit first.
+Old conservative consumption 4,955.640 seconds and the prior 1,500-second
+reservation remain intact; this increment reserves 700 of the remaining 744.360
+seconds, including failures, builds and checks. No time refund is assumed.
+
+Validation so far: 16 new Python tests, all 2,003 repository tests and two Go
+boundary tests pass. Seven Go manifest cases cover unsafe names, duplicates,
+unknown/missing fields, trailing/oversized input and empty batches; seven numeric
+transport cases reject malformed or excessive assignments. The first package
+attempt retained in `dist/package-check-jssm2d0r` correctly rejected missing linked
+documentation because new files had not yet entered the Git-index source snapshot.
+Stage exact intended files before repeating the package gate. No unrelated
+`.gitignore` change is staged. Backend selection and issue #19 remain open.
+
+Final validation passes all 2,004 Python tests and both package gates, including
+required installed training and guard/comparison/report/qualification checks.
+The package source identity is `c8d57b9251622d2c3a14305c60ce025754e3a4da7f9ff7b6f0cd9e1a43db3b29`.
+Seventeen new Python tests include sanitized CLI argument errors; that post-run
+CLI hardening does not relabel the frozen cryptographic experiment. The timed new
+commands total 648.176 seconds; a further ten-second preflight/test allowance
+keeps consumption inside the 700-second reservation. Final-head hosted verification
+is separate from these local results.
+
+## 2026-10-21 — W18 live memory cutoff and receipt audit
+
+Hypothesis: native RSS sampling can stop the existing proof worker below its
+approved ceiling. Baseline `2ac8fe5` checked memory only after exit and retained
+an over-limit maximum compile. [Decision 0036](../docs/decisions/0036-live-proof-worker-memory.md)
+freezes the circuits and changes only resource handling, failure classification,
+tests and evidence. The shared worker now samples macOS `proc_pidinfo` every
+10 ms, stops at seven eighths of the ceiling and retains post-exit peak checks.
+Sampling remains fallible and is not a hard OS memory quota.
+
+Raw records: `runs/w18-memory-budget-1792571904712696000`. The receipt audit
+selects outer commands/rosters rather than double-counting nested workers; it
+keeps failures, the original unattributed 1,800 seconds and conservative software
+allowances. Measured selected time is 3,429.129 seconds; total prior charge rounds
+to 5,540 seconds. Reserve 300 of the existing 7,200 seconds for this increment,
+leaving 1,360 unreserved. No budget increase, concurrency refund or paid compute.
+The [evidence](evidence/w18-live-memory-2026-10-21.json) pins the full raw audit,
+source, ABI header, commands and costs.
+
+The initial native stop exposed macOS group-signal `EPERM` on a completed child;
+that attempt has no cutoff cost receipt and retains an explicit failure record.
+An intermediate correction stopped two compiles below 384 MiB, but an existing
+short-lived network-denial test exposed an exit-transition race. The final worker
+allows one 10 ms exit grace and, on group `EPERM`, signals only its unreaped child
+PID. Genuine signal permission failures still propagate. Another attempted
+confirmation completed below its cutoff, so it failed the planned stop criterion;
+its measured peak is 340,852,736 bytes. These failures are not deleted or relabeled.
+
+Final command: `uv run --locked python runs/w18-memory-budget-1792571904712696000/experiment-04/run.py`
+with the recorded isolated uv 0.9.18 tool. The unchanged pinned gnark binary first
+compiles the eight-byte fixture in 0.760 seconds at 281,444,352 bytes peak RSS.
+Two maximum-capacity cutoff tests exit -9 after 11.212 / 11.797 seconds at
+1,891,549,184 / 1,963,802,624 bytes, both below their deliberately lowered 2 GiB
+ceiling. Both report a live memory cutoff, no monitor failure and no wall timeout.
+This validates stopping, not a complete maximum-input circuit or proof.
+
+New tests cover the native ABI, cutoff boundaries, lost samples, sampling and
+signal exit races, peak-only overshoots, standalone/staged callers and genuine
+signal denial. Maximum-compilation accounting now distinguishes monitor failure
+from resource failure, including a cutoff racing a normal exit. Final repository
+and installed-package checks are recorded in the evidence after execution.
+
+Final validation passes all 2,033 Python tests (29 new), `make check`, core
+`make package-check` and combined `make package-check-comparison`, with installed
+training and guard checks required and executed. Both packages use source identity
+`d16500bf7fb47a7fce783dff1297b62ecf079b66c20371896ddaeb3c50eabc31`
+before this final evidence update. A first lint failure is retained; its only
+worker edit shortens a limitation string. The measured worker source remains
+frozen and separately pinned. New scaling-controller failure classification is
+validated offline; historical cryptographic runs keep their original identities.
+The increment's timed commands plus conservative unrecorded-attempt/software
+allowances consume 177.419 seconds inside the 300-second reservation. Keep the
+entire reservation charged until a later audit. Exact-head hosted CI is separate.
+
+## 2026-10-21 — W18 prefix coverage and exit-transition recovery
+
+Hypothesis: exact Boolean prefix masks reduce complete-input compilation cost
+without changing canonical bytes, public fields or the relation. Baseline
+`7163ff1` retains failed 32,768-byte compilation. The diagnostic root is
+`runs/w18-compile-profile-1792573233952310000`; the candidate root is
+`runs/w18-prefix-coverage-1792573572212248000`. The
+[evidence](evidence/w18-prefix-coverage-2026-10-21.json) pins source, environment,
+heap sample, plans, proofs, costs and the retained failure before this prose.
+
+The unchanged circuit's four-second heap sample attributes approximately 83% of
+sampled live allocation to the per-encoded-byte padding comparison. Compilation
+is stopped below a deliberately lowered 2 GiB ceiling after retaining the sample.
+This is an early allocation diagnosis, not a complete-run memory or speed result.
+[Decision 0037](../docs/decisions/0037-prefix-coverage-commitments.md) replaces
+17/18-bit per-position comparisons with Boolean coverage flags, monotone Boolean
+differences and exact sums. The canonical codec, eight valid byte/public vectors,
+33 public fields, capacity roster and original rule/MLP/block circuits stay frozen.
+The candidate's private assignment changes, so its source, setups and proofs have
+new identities. Exhaustive checks cover 80 four-bit mask/count combinations and
+three non-Boolean masks; all three focused Go tests pass.
+
+Command: `uv run --locked python scripts/check_gnark_input_scale.py --binary runs/w18-prefix-coverage-1792573572212248000/build/probe --expected-binary 4a1b3033591885a78b770f1cc4edb6229f99dc807ea23e065a29ecba0147112e --output runs/w18-prefix-coverage-1792573572212248000/experiment-01`
+using the retained isolated uv 0.9.18 executable. The 208.398-second command fails
+after generating eight real proofs. Three small proofs verify and all 18 invalid
+prover attempts, 33 public changes, field alias, altered proof and wrong key reject.
+The five larger proofs exist, but their batch's unavailable memory sample causes
+the controller to reject after a normal exit. Its failure and 44 worker receipts
+remain unchanged. A separate five-compile diagnosis observes four native `ESRCH`
+samples during normal exit; the original failed run did not retain native errno.
+
+The shared worker now preserves native errno and only resolves an absent-process
+sample after reaping an actual normal exit. A live child killed after losing a
+sample and generic unresolved sample failures reject; peak checks remain. Nine
+new Python cases cover errno, stale errno and normal/killed exit transitions,
+including both standalone and budgeted callers. The 136 focused regressions pass.
+
+Fresh recovery command: `uv run --locked python runs/w18-prefix-coverage-1792573572212248000/recovery-01/run.py`.
+It pins the original binary/setup/proofs/assignments and corrected worker before
+fresh verification of all five larger proofs. No setup or proving is repeated.
+The 61.886-second recovery passes those checks and compiles capacity 32, then
+records the failed maximum compile: exit -9, 60.889 seconds, 15,033,548,800-byte
+peak RSS, live cutoff true, no monitor failure or timeout. The limit stops it below
+16 GiB; no complete maximum circuit exists. Constraint counts for capacities
+8 / 32 / 256 are 205,547 / 243,222 / 512,502, versus 206,049 / 244,924 / 525,403.
+Capacity 32 remains compile-only. This evidence does not qualify a full encoder,
+operational input enrollment, independent verification, setup or hiding.
+
+Keep the prior 5,840-second charge, plus the entire 180-second diagnostic and
+600-second candidate reservations, leaving 580 unreserved. No refunds, private
+inputs, HF token access, paid jobs, external reviewers or hardware claims.
+Repository and installed-package gates are recorded after execution. Preserve
+the unrelated `.gitignore` edit. PR #72 stays draft and issue #19 stays open.
+
+Final validation: all 2,042 Python tests, `make check`, `make package-check` and
+`make package-check-comparison` pass, with installed train/guard checks executed.
+Both package gates use source identity
+`0ffac8fe2688464163f79987443e81f3aa696f94988440f5fef7090d8cd06ef5`
+before this final evidence update. The diagnostic's timed commands plus allowance
+charge 40.502 seconds inside its 180-second reservation; the candidate, failure,
+recovery and validation charge 425.259 seconds inside its 600-second reservation.
+The entire reservations remain charged. Final-head hosted verification is separate.
+
+## 2026-10-21 — W18 compiler Boolean-cache candidate
+
+Hypothesis: a packed bitmap for individual unit-coefficient Boolean wires reduces
+compiler allocation without changing serialized relations. Baseline `9f17d33`
+still fails maximum compilation. The [decision](../docs/decisions/0038-boolean-wire-cache-candidate.md)
+freezes circuit/assignment/evaluation sources and changes only one upstream
+compiler file in a separately inventoried module copy. The original module cache
+and default dependency remain unchanged. The copied source retains Apache-2.0
+licensing; no new dependency is introduced. Initial formatting failed because
+copied directories were read-only; that preparation failure is retained, and only
+the fresh copy's directories were made writable before any build or execution.
+
+Raw root: `runs/w18-boolean-cache-1792575116013016000`. The
+[evidence](evidence/w18-boolean-cache-2026-10-21.json) records numeric results and
+source/build/protocol hashes before this prose. Full serialized R1CS bytes match
+for seven fixtures: installation, rule, MLP, attention block and commitments at
+capacities 8/32/256. Two new cache tests check constants, metadata aliases,
+public/private/internal wire separation and rejection of two in each of 132 input
+wires on both builds. The third new Go test emits the compared fingerprints.
+Existing prefix/manifest/assignment tests also pass under the patched compiler.
+These are finite fixture checks, not general compiler correctness.
+
+Command: `uv run --locked python runs/w18-boolean-cache-1792575116013016000/run_experiment.py`
+using isolated uv 0.9.18. It executes the frozen input controller with only its
+resource deadline reduced from 420 to 330 seconds. The 304.056-second command
+retains 51 workers, fresh setups, eight actual verified proofs, 18 invalid prover
+witnesses, all 33 public-input mutations, field alias, altered proof and wrong key.
+All available component checks pass. Both private and public vectors match the
+prior prefix run, and the corrected worker matches that run's separate recovery.
+
+Maximum compilation still fails: the 90-second wall limit kills it after
+90.307 seconds, with 14,839,169,024-byte peak RSS. Neither the 14 GiB live cutoff
+nor the 16 GiB ceiling is exceeded; there is no monitor failure. No complete
+maximum circuit, count or proof is produced. Different failure triggers and
+single runs do not establish a speed or memory improvement. The unchanged small
+constraint counts and byte equality do not qualify a complete encoder or provide
+independent verifier/security/setup/hiding evidence.
+
+Reserve 550 seconds after the prior 6,620-second charge, leaving 30 unreserved
+in the existing 7,200-second proving allocation. Keep the full reservation until
+an explicit receipt audit. No token, HF job, private input, spend or scheduler.
+Repository and installed-package checks follow; PR #72 and issue #19 stay open.
+
+Final gates pass all 2,042 Python tests, core package checks and combined
+train/guard package checks, with installed training and guard execution required.
+Both package builds use source identity
+`67c908543d4763cc36c558b76476d6f3183a7ac016f59b5c8d5c4f9f61948c48`
+before this final evidence update. The literal unified patch is excluded from
+prose whitespace checking because its context prefixes intentionally precede Go
+tabs and blank lines. Applying it to the pinned original reproduces the measured
+builder bytes. Both 1,264-file inventories and the fresh setup circuit fingerprints
+match their pre-run records. Timed commands plus a 40-second ancillary allowance
+charge 458.185 seconds inside the 550-second reservation; the full reservation
+remains charged. Exact-head hosted verification is separate from local gates.
+
+## 2026-10-21 — W18 late compile diagnosis
+
+Hypothesis: more wall time could finish the compact-cache maximum compile within
+the unchanged memory envelope; late snapshots identify the active phase if it
+fails. Baseline `eb19201` timed out after 90.307 seconds. The
+[decision](../docs/decisions/0039-late-compile-diagnosis.md) freezes the circuit,
+canonical codec, evaluator, compiler patch and resource limits. Only a local
+standard-library profiling hook is added to a fresh ignored source copy. Numeric
+[evidence](evidence/w18-late-compile-2026-10-21.json) and raw receipts precede this
+prose. Raw root: `runs/w18-late-compile-1792576443956021000`.
+
+Rechecked receipt hashes retain the earlier 5,540-second charge and replace four
+later reservations with actual commands plus their original allowances. The
+6,641.365-second result rounds up to 6,660. Reserve 500 of the remaining 540
+seconds; authority stays at 7,200. No concurrency refund or extra spend is assumed.
+
+Commands: `uv run --locked python runs/w18-late-compile-1792576443956021000/build_and_check.py`
+and `uv run --locked python runs/w18-late-compile-1792576443956021000/run.py`, using
+isolated uv 0.9.18 and the pinned offline Go environment. All six existing Go tests
+pass; the seven serialized circuit fingerprints match the earlier candidate.
+The smallest input compile passes before the maximum attempt. No fresh setup,
+proving or verification is run; earlier proofs keep their own binary identities.
+
+The execution roster takes 57.741 seconds. Maximum compilation exits -9 after
+56.651 seconds, with a live memory cutoff and 15,037,972,480-byte peak RSS. There
+is no wall timeout or monitor failure; the observed peak remains below 16 GiB.
+The 40-second goroutine/heap snapshot completes in about 15 ms. The main goroutine
+is in deferred range-check recomposition. Sampled live space totals approximately
+6.86 GiB: instruction allocation accounts for 39.48%, hint construction 23.66%,
+linear-expression addition 13.30% and range-check commit 5.52%. Hint construction
+accounts for 62.19% of sampled live objects. These are allocation-site samples,
+not retaining paths or complete-run attribution. All three `go tool pprof -top`
+analyses succeed. Instrumentation can perturb timing and memory.
+
+The 80-second snapshot is absent, no maximum circuit/count/proof exists, and the
+conditional unchanged-binary confirmation is skipped because diagnosis failed.
+The complete 1,264-file patched-module inventory, 12 probe files, worker, runners
+and both binary hashes remain unchanged. The fresh run occupies about 52 MiB and
+all retained runs about 18.4 GiB of filesystem allocation. No HF token, job,
+private input, upload, external review or scheduler. PR #72 stays draft; #19 stays
+open. Next, review a bounded HF capacity plan or a source-backed memory reduction
+before another maximum attempt. Repository and package gates follow.
+
+Final validation passes all 2,042 Python tests, `make check`, `make package-check`
+and `make package-check-comparison`, including required installed train/guard
+execution. Both packages use source identity
+`6a3614d7b4487cf1f31243687e8ae9d9784663e834cfbd2dfcebacb43b2519ce`
+before this final evidence update. Timed outer commands and the full 40-second
+ancillary allowance fit the 500-second reservation; exact values and receipt
+hashes are in the evidence. Keep the full reservation charged pending audit.
+An unauthenticated HF hardware inventory refresh is retained locally as next-step
+preparation; no job or token access occurs. Exact-head hosted CI is separate.
+
+## 2026-10-21 — W18 Linux fallback preparation
+
+Hypothesis: the approved L4 host's additional RAM can compile the unchanged
+maximum-input relation. Baseline `d70a029` retains the Mac memory-cutoff result.
+The [numeric record](evidence/w18-hf-compile-2026-10-21.json) precedes this prose;
+raw root: `runs/w18-hf-compile-1792577568568485000`. Rechecking every late-diagnosis
+receipt adopts its actual 200.412 seconds plus the previously retained 6,660,
+rounding to 6,870. Reserve 300 local seconds for implementation checks and gates,
+leaving 30. The unchanged cloud ceiling is one job, one hour, two dollars.
+
+The separate Linux controller reuses the existing private file/hash/termination
+helpers without modifying the Mac worker. It checks the container's memory limit,
+denies socket creation and alternate syscall ABIs, drops inherited credentials
+and file descriptors, samples procfs RSS and retains kernel peak/CPU/wall results.
+It first checks actual network denial, then the eight-unit constraint count,
+then maximum compilation and conditional fresh-process confirmation. Failure
+skips dependent cases. Compilation never sets backend/proof qualification true.
+
+The bootstrap admits only pinned public Hallmark sources, the unchanged reviewed
+compiler-cache candidate and Go 1.26.8. It verifies the patched module inventory
+and all seven small circuit fingerprints before the large attempt. The official
+Python 3.12.15 slim-bookworm OCI image and Linux Go archive are digest pinned.
+Docker Python's MIT and CPython's PSF/historical grants were reviewed and retained;
+the image is not independently rebuilt. No system packages or model code are
+installed. Read-only HF authentication/Jobs access pass using the owner's local
+token; zero earlier Hallmark jobs are found. The token stays on the control plane.
+
+Initial local fixtures pass 18 tests with four Linux kernel checks skipped; adding
+container-limit cases passes 22 with the same four skips. The first full software
+gate passes before a bootstrap ordering adjustment that checks container RAM
+before downloading Go. An initial lint overlong string and mypy inference error
+were corrected; no research job ran. Final repository/package gates and real Linux
+kernel checks are still required before a cloud submission at this checkpoint.
+
+Final local preparation gates pass 2,068 tests with four Linux-only kernel skips,
+plus core and combined train/guard packages. Both package builds use source
+identity `6f3da4b3c1ca7fa0c35eb34523c9d46544a07f8a545d828f57aafb23025a28ef`
+before this evidence update. Thirty new tests include real Linux network denial,
+credential isolation, timeout, memory cutoff and missing-monitor checks; their
+kernel-dependent cases have not run on the Mac. Publish this exact source and
+require the Linux CI execution before freezing/submitting a cloud job. The full
+reservation remains charged. No cloud job has run at this checkpoint.
+
+Linux push CI on `f63946fa0313409076408b421b858f96aa2c6334` executes all 30 new
+tests, including the four real kernel checks, with no skips in that test file.
+Run `39584591191`, core job `119170243496`, passes. The existing 87 Linux skips
+belong to other platform/optional-runtime tests. Review found that a bootstrap
+command timeout could discard captured diagnostics; the bootstrap now emits the
+stage, elapsed-time receipt and captured logs after termination before propagating
+the failure. The Linux worker is unchanged. Recheck the final source and packages
+before publishing the correction and freezing a job manifest.
+
+The corrected bootstrap passes another full local gate (2,068 tests, four Linux
+skips) and both package gates with installed train/guard execution. Package source
+identity is `f05cb8df00c19c9319eac92a40db56029779f87e85d92af0b51ca1a2958dcbd4`
+before the final evidence update. Preserve all earlier preparation checks too.
+Reserve the previously unreserved 30 seconds for local cloud-control receipts,
+making this increment's total reservation 330 and leaving zero unreserved within
+7,200. This changes allocation, not authority. Numeric command totals and hashes
+are retained before submission. Cloud execution remains unsubmitted here.
+
+## 2026-10-21 — W18 maximum compilation reproduced on HF
+
+The frozen hypothesis passes its compile-only criterion: unchanged commitment
+circuits at capacity 32,768 compile twice with 40,015,721 constraints. The
+[numeric evidence](evidence/w18-hf-compile-2026-10-21.json) and local
+`result-audit.json` precede this prose. Mutable delivery paths are that evidence,
+STATE, this ledger and the stale storage-authority sentence; no runtime, circuit,
+codec, evaluator or frozen input changes follow execution.
+
+Job [6ad896465275124786e2490b](https://huggingface.co/jobs/abdelstark/6ad896465275124786e2490b)
+uses public source commit `de05e111e92d356a1c472abe7ceb934660a4ccc1`, a pinned
+Python image and Go archive, the existing optional Boolean-cache patch and the
+same 1,264-file module inventory. All six Go tests and seven small serialized
+circuit fingerprints pass. The Linux binary is
+`e3f8c85e996612b38abb72345097f441c35904a43b850cc63192d89969541904`.
+Local `job-manifest.json` and `job-spec.json` freeze the exact bootstrap command;
+the local `control_job.py submit` is called once, followed only by `poll`/`logs`.
+The post-run audit rechecks every public source pin, bootstrap/spec hash, logged
+result, small fingerprint, build identity, prerequisite and resource receipt.
+
+Actual socket denial passes first. The eight-unit compile takes 0.725 seconds.
+Maximum and fresh-process confirmation take 250.655/244.997 seconds, with kernel
+peak RSS 21,509,857,280/21,476,012,032 bytes. Their sampled peaks are
+21,510,488,064/21,475,983,360 bytes, below the 26-billion-byte stop. There is no
+timeout, memory cutoff or lost monitor. The container reports 29,999,996,928 bytes
+of memory. Maximum count reproduction is not serialized-circuit reproduction:
+this command retains no maximum circuit, setup, witness, proof or verifier result.
+It leaves `qualified_backend` and `full_input_proof` false and status incomplete.
+
+The provider reports COMPLETED, 4 scheduling seconds, 552 running seconds and
+557 total seconds. At the launch API's 13,333 micro-USD/minute, rounding all total
+time up to ten minutes gives a conservative USD 0.133330 estimate. No invoice was
+available. This CPU compilation used no GPU; no private input, token in worker,
+checkpoint upload, retry, scheduler, system-package install or external reviewer was involved.
+The local control receipts total 15.933833 seconds; preparation, control and full
+ancillary allowance total 293.657855 seconds. The final `make check-spec` passes
+in 0.452052 seconds, bringing the increment to 294.109907 within its 330-second
+reservation. The prior
+charge was 6,870 seconds. Retain the whole reservation and all failures; zero local
+proving seconds remain unreserved and the single HF job is consumed.
+
+Before launch, all 28 exact-runtime-head jobs passed on `de05e11`: push
+`39585332622` and PR `39585339006`. Push attempt one failed the macOS Python 3.13
+train-package gate and cancelled 3.14 by fail-fast. Its retained outer log does
+not establish a cause. Rerunning only failed jobs on the same head passed; the PR
+run passed initially. Local gates already passed 2,068 tests (four Linux-only
+skips) and both installed-package modes; real Linux kernel cases passed in CI.
+Final evidence-only delivery still needs its own hosted head checks.
+
+Next prepare bounded streaming for the current 256 MiB proof-artifact reader,
+then a fresh setup/proving plan with explicit memory, storage and resource terms.
+This result supplies no maximum proof cost. Full encoder/layer normalization,
+operational enrollment, independent verifier/security/hiding/setup review and
+genuine hardware remain separate missing gates. PR #72 remains draft and #19 open.
+
+## 2026-10-21 — W18 bounded artifact streaming
+
+The previous gate delivered commit `dd34b9b` with all 28 exact-head jobs passing:
+push `39587810550` and PR `39587816547`. The next hypothesis is that adapter
+streaming preserves exact small-proof behavior without whole-file adapter copies.
+Baseline: `dd34b9b`; raw root: `runs/w18-stream-artifacts-1792580363962082000`.
+The [numeric evidence](evidence/w18-stream-artifacts-2026-10-21.json) precedes prose.
+Mutable paths are the Go file reader/test, shared Python file helper, scaling
+controller, future bootstrap test inventory and their tests/docs. Circuit, codec,
+compiler patch, fixtures and size caps stay fixed.
+
+`timed.py baseline-link` reproduces acceptance of a symbolic link. Its failed test
+is retained. The candidate uses bounded Go decoding, regular/single-link checks,
+exact decoder counts and detected metadata/path changes. Python worker costs now
+hash bounded chunks; scaling setup files carry path/hash/size pins and copy into
+exclusive private files. A wrong source digest or failed copy prevents the next
+worker and preserves evidence. Earlier tiny controllers keep their byte interfaces.
+
+`timed.py focused` passes 13 Python tests. An 8 MiB copy stays below the fixed
+3 MiB traced-allocation assertion. `go-test-build` and `go-boundaries` build/run
+seven Go tests under the existing Mac worker, including eleven reader cases and
+a tiny actual setup/prove/verify unit fixture. That fixture rejects a changed
+public input and trailing bytes on each real artifact type; its temporary proof
+files are not retained. `go-probe-build` builds the separate candidate binary.
+`reverify` pins the prior eight-unit commitment result via published evidence,
+copies its exact key/proof/input files, verifies in a fresh worker and rejects an
+appended proof byte. Fresh costs and artifacts are retained. No maximum proof or
+new setup campaign occurs.
+
+The audited prior total is 7,135.886826 seconds, including the original 5,540 base
+charge and all later ancillary allowances. Rounding to 7,136 leaves 64 seconds;
+reserve all 64, with eight for overhead. This removes only unused reservations
+and nested rounding, not measured work or allowances. The validation wrapper
+caps commands at remaining time. Standard `make check` may use its normal mypy
+cache; no timing comparison is claimed. Repository and core package gates follow.
+The installed train/guard matrix remains required in exact-head CI. No HF job,
+private upload, additional spend or authority increase occurs.
+
+The full `make check` passes lock, lint, formatting and type checks, then reaches
+the declared 39-second stop at 94% of pytest, with no test failure reported before
+termination. The timeout is retained, not reported as a pass. Commands total
+48.312088 seconds; with the eight-second allowance the charge is 56.312088, leaving
+7.687912 inside the reserved 64. The package gate has not run. An owner question
+requests 120 additional Mac-only validation seconds at zero spend, with no new HF
+job. Source publication may remain draft while that validation gap is explicit;
+it does not finish W18 or qualify a backend.
+
+## 2026-10-21 — W18 source-backed setup capacity review
+
+The preceding streaming commit `d03f9d1` passes all 28 exact-head hosted jobs:
+push `39589743317`, PR `39589749300`. The local 39-second timeout and unrun package
+gate remain explicit; the 120-second validation question is still pending.
+
+Without launching a research job, inspect the pinned gnark/gnark-crypto setup,
+serialization, domain and point-storage code. Hypothesis: source-derived lower
+bounds can identify a concrete prerequisite before spending another maximum run.
+Baseline: the two 40,015,721-constraint compilation reports. Mutable paths are
+this state/ledger, the numeric evidence and a proposal; no implementation,
+evaluator, circuit, source dependency or resource cap changes.
+
+The [numeric evidence](evidence/w18-setup-capacity-2026-10-21.json) precedes the
+[proposal](proposals/backend-v1/setup-capacity-options.md). Raw source snippets,
+hashes and the result are in its fresh `raw_directory`. The explicit 26-stage
+sum agrees with the closed form. Source-pin and arithmetic verification takes
+0.003302 seconds; it allocates no FFT domain or point array and runs no Go build,
+setup, proof or model. Charge the 0.003302 seconds within the existing reservation's
+7.687912-second remainder, retaining its full overhead allowance. No additional
+runtime reservation or authority is claimed.
+
+The default setup uses domain size 67,108,864. Its encoded Z vector alone requires
+3,221,225,428 bytes, so the current 256 MiB artifact cap cannot support it. Two
+twiddle tables and two coset tables occupy 8,589,936,192 bytes. G1 conversion holds
+at least 9,663,676,416 Jacobian bytes and 6,442,450,944 affine bytes simultaneously,
+while the domain remains live for the proving key. Their sum is at least
+24,696,063,552 bytes of backing storage, not measured RSS or a total peak bound.
+The circuit, scalars/digits, extra points, masks, G2 and allocator/GC overhead are
+excluded. Do not add the historical compile peak to this source bound.
+
+The first concrete candidate is chunked G1 conversion inside the existing scalar
+loop, preserving its window/table/digit choices and output ordering. It trades
+additional inversions for bounded Jacobian temporaries; performance is unmeasured.
+Inspection rejects the same rationale for G2: that implementation already writes
+each result directly to affine. The proposal freezes the required point equivalence,
+small-circuit/proof regressions and resource-plan gates before a maximum attempt.
+No patch, extra job, private upload, larger host or full-backend qualification is
+authorized or supplied by this analysis.
+
+`make check-spec` passes all 51 sections, 18 invariants, 10 RFCs, 40 work items and
+106 dependency edges. Source/arithmetic verification plus this documentation gate
+charge 0.473966 seconds, bringing the prior streaming increment to 56.786053 of
+its 64 reserved seconds, with the eight-second overhead allowance retained.
+No runtime-code gate is represented as newly passed by this documentation check.
+
+## 2026-10-21 — W18 optional G1 patch and frozen point evaluator
+
+The source-review commit `aa6f9c7` passes all 28 exact-head hosted jobs:
+push `39591302057`, PR `39591308540`. PR #72 remains draft. The selected hypothesis
+is that bounding G1 Jacobian temporaries per worker preserves all output points.
+Mutable candidate path: gnark-crypto's `ecc/bls12-381/g1.go` in an isolated copy;
+the default module, circuit and existing compiler-cache patch remain unchanged.
+The new frozen evaluator is `research/probes/gnark/patches/g1_batch_test.go`.
+The [numeric record](evidence/w18-g1-candidate-preparation-2026-10-21.json) precedes
+this account; its raw directory retains the protocol, commands and failed copies.
+
+Inspection finds that `parallel.Execute` partitions by `runtime.NumCPU()`, not
+`GOMAXPROCS`. Add `runtime.NumCPU()*4096+1` to the fixed length roster and assert
+that a worker crosses the 4,096-point boundary. The evaluator compares coordinates
+and compressed/uncompressed encodings with separate scalar multiplication, checks
+input immutability and emits ordered-output digests for cross-build comparison.
+Generator/infinity bases and deterministic zero/one/minus-one/wider/repeated
+scalars are frozen before candidate evaluation. These are public synthetic inputs.
+
+`go test -mod=readonly -count=1 -v -run
+'^TestG1BatchEquivalence$/^generator$/^n3$' patches/g1_batch_test.go` passes against
+the unchanged upstream module in 2.112453 seconds including compilation. This is
+only the three-point baseline, not full-roster execution. An initial module-copy
+patch check rejects an unchanged source despite a zero patch exit; retain that
+copy and charge a conservative one second. A fresh explicit patch check passes
+in 0.020287 seconds. Preparation of a writable fresh module copy and full 1,869-file
+inventory takes 1.009594 seconds; only the intended G1 source differs.
+
+The candidate's same small command, with its separate modfile, fails to compile
+in 1.332136 seconds: the original `min` cost variable shadows the built-in used by
+the chunk loop. Preserve its patch, source and compiler error. Rename only that
+variable to `minCost`, keeping the cost expression/comparisons. The correction
+passes Go parsing and exact patch application in 0.110213 seconds. It has not
+been built or executed. The optional patch is disabled by default and absent
+from the HF bootstrap. See [decision 0042](../docs/decisions/0042-bounded-g1-preparation.md).
+
+These commands charge 5.584684 seconds inside the existing reservation, leaving
+1.629263 seconds before the final documentation check. All earlier ancillary
+allowances remain charged. The pending 120-second question remains unanswered;
+no extra time, cloud job, setup/proof attempt or spend is inferred. Full corrected
+point equivalence, serialized circuit fingerprints, small proof negatives and
+allocation/latency measurements remain open before any maximum attempt.
+
+`make check-spec` then passes all 51 sections, 18 invariants, 10 RFCs, 40 work
+items and 106 edges in 0.944539 seconds. This increment totals 6.529223 seconds;
+0.684723 remains inside the existing reservation. No corrected-candidate build
+or full local repository/package gate is claimed from that documentation check.
+
+## 2026-10-21 — W18 approved local gates and corrected G1 validation
+
+The owner approved 120 additional Mac-only validation seconds under
+[decision 0043](../docs/decisions/0043-approved-local-validation-extension.md).
+Keep the previous proving reservation, 39-second timeout and failed G1 build
+charged and unchanged. No new HF job or spend is permitted by this increment.
+Hypothesis: the corrected optional G1 candidate preserves points and serialized
+circuits while bounding its Jacobian temporary. Baseline: the same admitted
+Boolean-cache build with unchanged gnark-crypto. Mutable paths are a fresh full
+module copy, the separate diagnostic fixture and evidence/documentation; default
+dependencies, circuits, point evaluator and artifact caps remain fixed.
+
+The [numeric record](evidence/w18-approved-validation-2026-10-21.json) precedes
+this account. Its raw directory retains the frozen protocol, complete 1,869-file
+candidate inventory, separate modfiles/binaries, command receipts and stdout.
+`make check` passes lock, lint, format, mypy and 2,081 tests with four platform
+skips and one warning. Software conformance matches 156 cases; 32 genuine-evidence
+cases remain unavailable. `make package-check` passes the core installed-wheel
+gate. These close the previously outstanding local gates without deleting the
+earlier timeout. Required train/guard execution remains in final-head hosted CI.
+
+The corrected three-scalar candidate builds and passes first. Explicit
+`go test -mod=readonly -modfile=VARIANT.mod -count=1 -v patches/g1_batch_test.go`
+then passes all 16 generator/infinity cases in each variant. Every output agrees
+with separate scalar multiplication and all ordered output hashes agree between
+builds. On this 16-CPU host, the 65,537-point case proves that an actual worker
+span exceeds 4,096. Input immutability and both encodings pass. No evaluator or
+point threshold changes after observing the candidate.
+
+Build both complete probe test binaries and invoke
+`-test.run '^Test(CircuitFingerprints|ArtifactReaderBoundaries|ArtifactReaderRealProof)$' -test.v`
+through the existing network-denied Mac worker. All seven serialized circuit
+fingerprints match. Both variants pass eleven reader-boundary cases and the
+existing cubic setup/prove/verify unit fixture, rejecting changed public input
+and trailing bytes on circuit/key/proof artifacts. The unit test deletes its
+temporary proof/key files; this is not a retained commitment proof campaign.
+
+Freeze `patches/g1_alloc_test.go` and its allocation plan before running baseline
+then candidate, once each, with
+`-test.run '^$' -test.bench '^BenchmarkG1Batch262145$' -test.benchtime 1x -test.benchmem`.
+Both produce the same ordered compressed-point digest for 262,145 deterministic
+public scalars. Baseline/candidate allocated bytes are 80,061,592 / 76,999,144;
+allocation counts are 250 / 2,622; operation nanoseconds are 3,697,711,000 /
+3,687,230,916; worker peak RSS is 96,813,056 / 79,331,328 bytes. Report the increased
+allocation count as well as the lower byte/RSS observation. One sample each cannot
+establish statistical performance, whole-setup memory or maximum feasibility.
+
+The initial 14 commands consume 86.664973 seconds; with five seconds of ancillary
+allowance, 91.664973 of the new 120 seconds is charged. Final documentation/package
+receipts extend this same counter in the evidence. Prior unused time is not
+reclaimed. The optional G1 patch remains disabled by default. A fresh small
+commitment proof/negative campaign, an explicit multi-GiB setup/storage/host plan,
+the complete encoder and independent verification/security/setup evidence remain
+open. W18 is incomplete and PR #72 remains draft.
+
+Final `make check-spec` and core `make package-check` pass, including the newly
+tracked diagnostic/evidence/documentation. The wheel hash is unchanged from the
+initial core package gate. All 16 commands consume 93.747097 seconds; the total
+charge with the five-second allowance is 98.747097, leaving 21.252903 seconds.
+The raw initial result and final evidence remain separate immutable records.
+
+## 2026-10-21 — W18 fresh small proofs with the corrected G1 candidate
+
+The owner approved the prepared ten-minute Mac-only campaign under
+[decision 0044](../docs/decisions/0044-approved-small-g1-proof-campaign.md).
+Reserve 600 additional local seconds: two rosters capped at 240 seconds each,
+100 seconds for preflight/build/replay/validation, and 20 seconds ancillary
+allowance. Preserve the old 7,200-second proving charge and separate 120-second
+validation reservation. No maximum attempt, HF job or spend is authorized here.
+
+Hypothesis: the corrected G1 candidate preserves actual small commitment proof
+acceptance/rejection with fresh setup keys. Baseline: frozen native vectors,
+circuit fingerprints and the existing rejection roster. Mutable paths are a
+fresh local controller copy, build/output directories and evidence; candidate
+patch, circuit semantics and all expected rejections remain fixed. The
+[numeric evidence](evidence/w18-g1-small-proofs-2026-10-21.json) precedes this prose.
+Its raw directory retains the protocol, diff, source/module/build identities,
+inputs, proofs, setup files, output inventories and every command/cost receipt.
+
+Preflight verifies all 1,869 gnark-crypto and 1,264 gnark module files against
+their frozen inventories. The complete checkout occupies 32,369,647,616 allocated
+bytes according to `du -sk`, leaving 10,580,025,344 within the 40 GiB envelope;
+reserve eight GiB for the two outputs. The global audit retains a conservative
+7,200-second non-proof charge against 504.086 seconds of located top-level actual
+elapsed receipts, including duplicates, plus unitemized historical preparation
+and validation. Alongside prior proving, validation and this new reservation,
+15,120 seconds are charged/reserved within the 21,600-second envelope. This is
+conservative accounting, not complete timing instrumentation of old commands.
+
+Build the candidate with the existing offline Go environment, both explicit
+module replacements and `-trimpath -buildvcs=false -mod=readonly`. The new binary
+first passes the existing 18-case cubic installation/proof fixture. Copy the
+input-scaling controller without changing vectors or negative cases; set its
+deadline to 240 seconds, remove only maximum compilation and explicitly report
+`not-run-small-proof-only`. Freeze that exact diff and source before execution.
+
+`execute.py first` and `execute.py repeat` each pass all 50 workers: eight actual
+proofs at capacities 8 and 256, 18 rejected malformed witnesses, all 33 rejected
+public-field changes, field alias, altered proof and wrong key, plus capacity-32
+compilation. Serialized setup circuits match the frozen fingerprints, including
+the independent wrong-key setup. Both runs use identical native vectors; their
+three corresponding setup keys differ. Roster elapsed times are 213.851414 /
+212.831651 seconds; peak worker RSS is 1,264,451,584 / 1,248,935,936 bytes.
+
+After each roster, enroll exact key/proof/native-public-input pins outside its
+output directory. Pass the enrollment manifest hash explicitly to `execute.py
+replay-first` / `replay-repeat`; all eight proofs per run verify in fresh workers.
+This is caller-pinned local replay with the same verifier library, not independent
+verification or authenticated operational key enrollment. The original proofs and
+keys remain local. Randomized proof/key bytes are not expected to reproduce.
+
+The initial proof-result record charges 443.057732 command seconds plus the
+20-second allowance. Final summary and software/package receipts extend the same
+counter. No failures or old reservations are refunded. The 33-field component
+retains its synthetic profile pin; full classifier/encoder binding, maximum setup
+and proof, accepted setup lineage, independent security/hiding/verification and
+genuine hardware remain unavailable. Keep W18 open and PR #72 draft.
+
+Final `make check` passes all 2,081 tests with four platform skips and one warning,
+plus lock/lint/format/type/spec, 156 software conformance cases and the admission
+fixture. The core `make package-check` passes; required train/guard execution
+remains an exact-head hosted gate. All command receipts total 494.800234 seconds;
+with the 20-second ancillary allowance, 514.800234 of the approved 600 seconds is
+charged, leaving 85.199766. Final retained checkout allocation is 33,955,835,904
+bytes, below 40 GiB; the two proof outputs retain 718,090,504 / 718,090,659 logical
+bytes. No source/runtime code or default dependency was changed by this campaign.
+
+## 2026-10-21: maximum circuit retained on the Mac; larger proof campaign prepared
+
+Under the owner's explicit instruction to continue without repeated approval
+pauses, decision 0045 records standing execution authority. The original study
+budgets, historical charges and failed runs are preserved.
+
+Raw roots: `runs/w18-max-artifacts-1792586199768569000` and
+`runs/w18-max-inventory-corrected-1792586489227090000` (the exact corrected root is
+also retained in the numeric evidence). Commands: the frozen `execute.py` runs
+`fixture`, `export-8`, `inspect-8`, `export-32768`, `inspect-32768`; the separate
+`check_inventory.py` reloads the same externally pinned maximum circuit and
+reports commitment sizes. All worker argv, environments, limits and hashes are
+in the individual `plan.json` and `cost.json` files.
+
+The 18-case cubic fixture passes. Seven small R1CS hashes are unchanged. Maximum
+export succeeds in 79.599983 seconds with 17,674,289,152 bytes peak process RSS;
+the 2,566,643,378-byte R1CS hash is
+`cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489`.
+Fresh inspection succeeds in 2.677502 seconds at 10,367,139,840 bytes RSS and
+matches counts and bytes. Expanded inventory reports 48,477,333 total wires,
+one commitment and 22,366,059 private committed wires. Raw numeric results precede
+this entry in `research/evidence/w18-maximum-artifacts-2026-10-21.json`.
+
+The first Go build missed one changed helper call in a test; corrected tests pass.
+A separate inventory controller named `inspect.py` shadowed Python's standard
+library and failed before a worker started. That directory is preserved; the
+fresh corrected inventory run passes. No result from either failure is reused
+as a passing measurement.
+
+Decision 0046 prepares one larger-memory HF L4 job with public pinned source,
+the same optional compiler/G1 patches, a tiny real-proof gate, three maximum-profile
+proofs and nine invalid witnesses, followed by changed-public/key/proof rejection.
+Native fixture generation matches the existing canonical encoder at eight count
+boundaries. The Linux controller keeps its original compile-only defaults and
+accepts an explicit bounded proof budget. New actual Linux kernel checks await
+hosted CI; local macOS appropriately skips them. Stubbed scheduling tests do not
+count as proof evidence. No cloud job, maximum setup or maximum proof has run in
+this increment yet. Full local/package validation is recorded separately below.
+
+Local `make check` passes, including specification/admission checks and all 156
+software conformance cases; 32 full-evidence obligations remain unavailable. Core
+`make package-check` passes from staged reviewed paths, retaining
+`dist/package-check-uohk4ae6`; the earlier snapshot omitted untracked additions and
+failed its link audit in `dist/package-check-j5rz7zoe`. Both diagnostics remain.
+The installed wheel hash is
+`470b8e55660e613b02f47562768ac11dbd7311586d696846031c7e9edbac2956`.
+Train/guard execution and new Linux kernel cases remain exact-head hosted gates.
+A temporary private synthetic-output bucket has been created; no job is submitted
+yet. The GitHub repository remains public.

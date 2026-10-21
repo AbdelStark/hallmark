@@ -240,6 +240,30 @@ acceptance to external requirements. A decoded `VerificationResult` is a report
 whose authenticity must be established separately, not a verifier invocation.
 See [field rules, opening exchange and limits](../decisions/0011-offline-bundle-contracts.md).
 
+`hallmark.backend` implements the RFC-0005 backend declaration and caller-pinned
+file checks:
+
+```python
+from hallmark.backend import BackendQualification, validate_backend_files
+
+validate_backend_files(
+    backend: BackendQualification, *,
+    expected_backend: ArtifactDigest,
+    required_programs: tuple[ArtifactDigest, ...],
+    require_zero_knowledge: bool,
+    files: dict[str, bytes],
+    max_bytes: int,
+) -> None
+```
+
+The record exposes checked `encode`, `decode` and `identity`. The function
+compares an externally enrolled record pin, declared program coverage, the
+claimed hiding flag and every dependency/security/layout file within the caller
+byte budget. It performs no I/O or proof verification and returns no acceptance
+result. Other evidence identities remain opaque. A matching record or true
+`zero_knowledge` declaration does not qualify a backend; see
+[decision 0023](../decisions/0023-backend-declaration-contract.md).
+
 Generic schema dispatch and the following interfaces remain targets. Their types are
 defined in [data model](03-data-model.md#v1-types); see [codec decision](../decisions/0003-v1-codec.md).
 

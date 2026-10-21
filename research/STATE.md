@@ -143,6 +143,258 @@ case/whitespace equivalence only; broader semantic lineage, actual rights and
 human label review remain external obligations. See
 [decision 0021](../docs/decisions/0021-lineage-data-admission.md).
 No real source was downloaded/admitted or task quality measured.
+[PR #71](https://github.com/AbdelStark/hallmark/pull/71) merged as
+`c4586a7107c59fb7ba4665247e73ff7e0146cf7d`; all 12
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39466963984) passed.
+Issue #15 is closed.
+
+W18 / issue #19 now has actual local Groth16/BLS12-381 proof probes using
+pinned, licence-reviewed gnark and an isolated Go toolchain. The
+[raw evidence](evidence/w18-proof-probes-2026-10-20.json) records an 18-case
+cubic installation probe and a 134-case complete eight-byte marker/hash probe.
+Nine native rule vectors produced real proofs checked in fresh processes;
+mutating each of the 100 public fields, witness/padding/counts, proof bytes and
+the setup key rejected. The rule circuit has 206,801 constraints and a 292-byte
+proof. Its diagnostic run took 321.90 seconds with 709,033,984-byte peak process
+RSS and zero spend. These are small-program observations, not full-encoder costs.
+
+The first rule candidate failed because its hash-domain length was wrong;
+its source hashes, setup, numeric costs and failure remain intact. Earlier
+toolchain/module/sandbox failures are also retained. The corrected runner denies
+forks/network, checks expected artifacts and measured resource limits, and has
+31 offline boundary/fixture tests. `make check` passes 1,663 tests; both
+installed-package gates pass. The published synthetic proof/key example also
+reverifies from its encoded evidence under separately pinned key/fixture inputs.
+See [decision 0022](../docs/decisions/0022-local-proof-probes.md) and the
+[source review](proposals/backend-v1/candidate-review.md) for licence/setup/gadget
+limits. Classifier enrollment tags are synthetic, setup is local, and verification
+shares the proving library. Neither hiding nor independent security review is
+established. `qualified_backend` is always false; W18 remains open.
+
+W18 now also implements the RFC-0005 `BackendQualification` declaration and
+caller-pinned file/program/claimed-hiding checks. These are structural bindings,
+not a qualification result; see
+[decision 0023](../docs/decisions/0023-backend-declaration-contract.md).
+The bounded synthetic integer MLP produced nine actual proofs and passed
+156 cases, including all 100 public-field mutations and all 22 private layer
+mutations. Its circuit has 208,717 constraints and a 292-byte proof.
+The diagnostic run took 654.92 seconds with 704,036,864-byte peak process RSS
+and zero spend. Some offline software/package checks ran concurrently on the
+host, so these are not isolated latency measurements. `make check` passes
+1,747 tests; both installed-package gates pass.
+The [new raw evidence](evidence/w18-backend-contract-and-mlp-2026-10-20.json)
+also records all 134 rule regression cases under the changed circuit, all
+18 cubic cases under the final binary, and fresh verification of the published
+MLP proof/key example against separately retained key and fixture pins.
+[Decision 0024](../docs/decisions/0024-bounded-mlp-proof-probe.md) preserves the
+eight-byte/synthetic-graph, setup, shared-library and security limitations.
+At that stage, the general qualification runner, encoder operator block and
+complete admitted encoder remained open; no backend was selected.
+
+W18's fixed integer attention/feed-forward block now passes all 233 real-worker
+checks. Its 64 proofs exhaust the four-token, two-position Boolean-mask domain;
+all five public-field mutations and all 89 private intermediate mutations
+reject. The 5,250-constraint circuit uses a 244-byte proof. The diagnostic roster
+took 62.70 seconds, peaked at 39,223,296-byte process RSS and cost zero.
+The [raw evidence](evidence/w18-integer-attention-block-2026-10-20.json) also
+records exact reproduction of the earlier rule/MLP circuit hashes, all 18
+retained proofs verified under the rebuilt worker, fresh proof/rejection cases,
+18 cubic regression cases and fresh verification of the published block example.
+`make check` passes 1,764 tests; both installed-package gates pass.
+See [decision 0025](../docs/decisions/0025-integer-attention-block-probe.md).
+This is a five-field standalone block, not the complete Hallmark proof statement.
+At that stage, tokenizer, layer normalization, full encoder/input binding, the
+qualification runner and independent setup/security review remained open.
+
+W18 now exposes `hallmark qualify` with a caller-pinned protocol, safe input
+snapshots and shared execution/storage limits. The
+[raw evidence](evidence/w18-staged-qualification-2026-10-20.json) records all
+541 actual worker cases passing in order: installation 18, rule 134, MLP 156
+and attention block 233. Fresh setups reproduce the prior graph circuit hashes.
+The command reports `incomplete` with exit 3 and `qualified_backend: false`.
+Its diagnostic run took 1059.29 seconds, peaked at 677,314,560-byte worker
+RSS and retained 5,926,016,680 bytes. Initial package validation overlapped
+by 8.59 seconds; these are not isolated latency measurements. All 1,807 local
+tests and both installed-package gates pass. See
+[decision 0026](../docs/decisions/0026-staged-qualification-command.md).
+The full admitted encoder, operational program/key enrollment, independent
+verifier/security/hiding evidence and accepted setup lineage remain missing.
+Review-file hashes bind documents without authenticating their approval or
+adjudicating their claims. No backend is selected; W18 remains open.
+
+W18's separate [input-scaling evidence](evidence/w18-input-scaling-2026-10-21.json)
+now covers indexed canonical CBOR packing with 33 public commitment fields.
+Eight actual proofs verify at capacities 8 and 256, including count boundaries
+23/24 and 255/256. Twelve corrupted witnesses, all 33 public-field mutations,
+an alias, altered proof and wrong setup key reject. Constraints are 206,049 /
+244,924 / 525,403 at capacities 8 / 32 / 256. The 32,768-byte compile times out
+after 90.335 seconds and peaks at 17,181,917,184 bytes RSS: 2,048,000 bytes above
+the 16 GiB measured limit. No maximum-input circuit or proof is produced.
+The corrected run takes 318.353 seconds; its predecessor's 118.892-second failure
+is retained. Direct `IsSolved` lacked the actual commitment hint; those earlier
+solver-negative outcomes are discarded as evidence. Real prover batches replace
+that path without dummy hints. See [decision 0035](../docs/decisions/0035-input-commitment-scaling.md).
+All 2,004 repository tests and both installed-package gates pass, with training
+and guard checks executed. This isolates a full-input resource obstacle before adding encoder layers.
+That run's post-exit memory checks did not prevent the small overage. This is a component with a
+synthetic profile pin, not the 100-field classifier statement or a full encoder.
+
+The new [live-memory evidence](evidence/w18-live-memory-2026-10-21.json) records a
+shared native macOS RSS sampler and seven-eighths cutoff, plus retained signal
+race and non-triggering test failures. Final maximum-capacity compilation attempts
+stop twice below a deliberately lowered 2 GiB ceiling, at 1,891,549,184 and
+1,963,802,624 bytes RSS. Small compilation passes. These are worker-boundary tests,
+not full-input proofs or hard memory isolation. The historical receipt audit
+charges 5,540 seconds, retaining failed runs and the original unattributed allowance;
+this increment reserves 300 seconds, leaving 1,360 unreserved in the existing
+7,200-second proving allocation. All 2,033 tests and both installed-package gates pass,
+including required train/guard execution. See [decision 0036](../docs/decisions/0036-live-proof-worker-memory.md).
+
+The [prefix-coverage candidate](evidence/w18-prefix-coverage-2026-10-21.json)
+replaces per-position comparisons with exact Boolean prefix masks. All eight
+small proofs verify, including five separately pinned proofs recovered after
+a false monitor failure; all 18 malformed witnesses and the existing public/key/
+proof mutations reject. Constraints fall to 205,547 / 243,222 / 512,502 at capacities
+8 / 32 / 256. The maximum compile still fails: the live cutoff stops it after
+60.889 seconds at 15,033,548,800 bytes peak RSS, below the 16 GiB ceiling.
+There is no complete maximum circuit or proof. The failed original controller
+run remains intact; a fresh recovery freezes corrected native-errno handling.
+An early diagnostic heap guided the optimization but does not establish full-run
+memory or speed improvements. See [decision 0037](../docs/decisions/0037-prefix-coverage-commitments.md).
+The diagnostic and candidate reserve another 180 and 600 seconds respectively,
+leaving 580 unreserved in the existing local proving allocation. All 2,042 tests
+and both installed-package gates pass, including required train/guard execution.
+
+An opt-in [compiler-cache candidate](evidence/w18-boolean-cache-2026-10-21.json)
+changes one of 1,264 inventoried gnark source files in a separate copy. The original
+cache and default dependency stay unchanged. Seven small fixtures have identical
+serialized R1CS bytes across builds, and cache boundary/alias/constant tests pass.
+A fresh 304.056-second campaign verifies eight proofs and rejects all 18 malformed
+witnesses plus the public/key/proof mutations. The maximum compile still fails,
+this time at the wall limit: 90.307 seconds and 14,839,169,024-byte peak RSS,
+below the live cutoff and approved ceiling. No maximum circuit or proof exists.
+Fixture equivalence and different stop conditions do not establish general compiler
+correctness, an overall performance improvement or full-encoder qualification.
+See [decision 0038](../docs/decisions/0038-boolean-wire-cache-candidate.md).
+Its 550-second reservation leaves 30 unreserved; retain all reservations until a
+receipt audit. All 2,042 Python tests and both installed-package gates pass,
+including required train/guard execution; the new Go checks pass on both builds.
+
+A [late compile diagnosis](evidence/w18-late-compile-2026-10-21.json) retains the
+same compiler/circuit and adds a local-only profiling hook. All six Go tests and
+seven serialized fingerprints pass. The maximum compile hits the live memory
+cutoff after 56.651 seconds at 15,037,972,480-byte peak RSS, below the 16 GiB ceiling.
+It produces a complete 40-second snapshot but no 80-second snapshot or circuit;
+the conditional unchanged-binary confirmation is skipped. The saved main stack
+is in deferred range-check recomposition. Instruction storage and hint construction
+account for about 63% of sampled live heap at their allocation sites. Sampling
+does not identify retaining paths, and instrumentation can perturb the run;
+these observations do not establish a performance regression or improvement.
+[Decision 0039](../docs/decisions/0039-late-compile-diagnosis.md) adopts a rechecked
+receipt audit, conservatively charging 6,660 prior seconds within the unchanged
+7,200-second allocation. A 500-second reservation leaves 40 unreserved; keep it
+charged until a later receipt audit. Full-input proving remains unavailable.
+All 2,042 Python tests and both installed-package gates pass, including required
+train/guard execution. Exact-head hosted verification remains separate.
+
+The [Linux fallback evidence](evidence/w18-hf-compile-2026-10-21.json) now records
+two successful maximum-capacity (32,768-unit) commitment compilations under
+[decision 0040](../docs/decisions/0040-bounded-hf-compile.md). Both report
+40,015,721 constraints. They take 250.655/244.997 seconds, with kernel peak RSS
+21,509,857,280/21,476,012,032 bytes, within the frozen limits. The one approved
+L4 job completes in 557 provider-reported seconds. Compilation uses CPU; the GPU
+is unused. A rounded-total-duration cost estimate is USD 0.133330, not an invoice.
+Six Go tests and seven small serialized circuit fingerprints pass before the
+large attempts. Maximum reproduction checks equal counts; no serialized maximum
+circuit, setup, witness or proof is retained. The synthetic profile pin and this
+commitment component do not qualify an enrolled classifier or complete encoder.
+
+The pinned public bootstrap keeps the HF token on the Mac. Its separate worker
+passes actual socket-denial smoke and bounded time/memory checks; this is not a
+general sandbox. All 30 new tests, including four actual kernel cases, pass in
+Linux CI. Local validation passes 2,068 tests with four Linux-only skips; both
+package gates pass with installed train/guard execution. All 28 exact-runtime-head
+jobs pass on `de05e111e92d356a1c472abe7ceb934660a4ccc1`. A prior push attempt's
+macOS package failure and fail-fast cancellation remain retained; their cause is
+unestablished and the failed jobs passed on same-head rerun. The increment charges
+294.110 local seconds, including control commands and the full ancillary allowance,
+within its 330-second reservation. Keep that reservation charged: zero unreserved
+within the 7,200-second proving allocation. The one-job HF allowance is consumed.
+
+The [streamed-artifact preparation](evidence/w18-stream-artifacts-2026-10-21.json)
+removes the Go adapter's whole-file buffer and carries commitment-scaling setup
+files through pinned, exclusive streaming copies. Existing size caps stay fixed.
+The baseline accepts a symbolic link; new file-boundary tests reject it, malformed
+sizes, trailing bytes and detected changes. Thirteen focused Python tests and
+seven Go tests pass, including a tiny real-proof unit fixture. A retained
+eight-unit commitment proof verifies with the new binary; an appended proof byte
+rejects. The Python copy fixture asserts less than 3 MiB traced allocation for an
+8 MiB file. This is adapter behavior, not whole-decoder or full-prover memory.
+Lint, formatting and type checks pass, but the initial full local gate reaches its
+39-second cap at 94% of tests, with no test failure reported before termination.
+The package gate was unrun at that point; the approved validation below closes
+both local gaps while preserving the timeout. The receipt audit
+retains all actual commands and allowances, rounds prior usage to 7,136 seconds
+and reserves the remaining 64 under [decision 0041](../docs/decisions/0041-streamed-proof-artifacts.md).
+
+Streaming commit `d03f9d1` passes all 28 hosted jobs: push `39589743317` and PR
+`39589749300`. Its retained local timeout and unrun local package gate remain
+separate. The [setup capacity review](evidence/w18-setup-capacity-2026-10-21.json)
+now derives a 3,221,225,428-byte minimum for the maximum key's Z vector alone,
+above the unchanged 256 MiB cap. Default FFT precomputation and simultaneously
+live G1 Jacobian/affine arrays require at least 24,696,063,552 bytes of slice
+backing storage before other allocations; this is not measured RSS. The
+[next candidate](proposals/backend-v1/setup-capacity-options.md) bounds G1
+Jacobian temporaries. G2 already converts directly to affine. Neither a patch
+nor a new setup run is executed by this source review; total memory/time and
+L4 fit remain unestablished.
+
+The [approved validation](evidence/w18-approved-validation-2026-10-21.json) passes
+`make check` with 2,081 tests, four platform skips and one warning, and the core
+`make package-check`. The corrected optional G1 patch builds from a fresh full
+module copy. All 16 point cases agree with separate scalar multiplication and
+across builds, including an actual per-worker chunk boundary. Seven serialized
+circuit fingerprints match. Both variants pass the existing tiny cubic real-proof
+unit fixture and changed-input/trailing-byte rejections; its temporary proof/key
+bytes are not retained as published proof evidence.
+
+One 262,145-point allocation sample per variant produces identical ordered-output
+digests. Allocated bytes are 80,061,592 / 76,999,144; allocation counts increase
+from 250 to 2,622; observed worker RSS is 96,813,056 / 79,331,328 bytes. This is
+neither a statistical speedup nor maximum setup memory evidence. The first failed
+build, local timeout and previous resource charges remain intact. The additional
+120-second allowance costs zero and launches no HF job. At that stage, a fresh
+small commitment proof/negative campaign and maximum setup resource plan remained open.
+
+The [fresh G1 proof campaign](evidence/w18-g1-small-proofs-2026-10-21.json) now
+passes twice under the owner's additional 600-second Mac-only approval. Each
+fresh run passes 50 worker cases: eight proofs at capacities 8 and 256 verify;
+18 malformed witnesses, all 33 public-field changes, an alias, changed proof and
+wrong key reject. All 16 proofs also verify in fresh replay workers against
+key/proof/native-input pins stored outside the run outputs. Circuit and native
+input identities agree across runs; independently generated setup keys differ.
+The diagnostic rosters take 213.851 / 212.832 seconds and peak at 1,264,451,584 /
+1,248,935,936 bytes process RSS. No maximum compile/setup/proof is attempted.
+These are small commitment proofs with local setup and a shared verifier library,
+not full-encoder qualification or independent security evidence. See
+[decision 0044](../docs/decisions/0044-approved-small-g1-proof-campaign.md).
+`make check` passes 2,081 tests and the core package gate passes. Total command
+time plus ancillary allowance is 514.800 of 600 approved seconds, at zero spend.
+Final retained checkout allocation is 33,955,835,904 bytes, below 40 GiB.
+
+The [maximum artifact evidence](evidence/w18-maximum-artifacts-2026-10-21.json)
+now retains the complete 32,768-unit circuit on the Mac. Export takes 79.600 seconds,
+peaks at 17,674,289,152 bytes RSS and writes 2,566,643,378 circuit bytes. A fresh
+reload takes 2.678 seconds and matches the hash and all original counts. A separate
+inventory reload adds commitment sizes: 48,477,333 total wires, one commitment and
+22,366,059 private committed wires. These are serialization/inspection results,
+not setup or proof results. The new adapter supports bounded large artifacts and
+setup from a pinned compiled circuit. Tiny actual proofs and seven small circuit
+fingerprints pass; a missed test-call argument and a pre-worker Python filename
+collision are retained as failures. [Decision 0045](../docs/decisions/0045-standing-approval-and-maximum-artifacts.md)
+records standing owner approval and replaces repeated micro-budget permission
+barriers. [Decision 0046](../docs/decisions/0046-bounded-maximum-hf-proof.md) prepares
+one bounded larger-memory L4 fallback; no new cloud job has launched at this point.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -165,7 +417,7 @@ These failures remain visible; the pipeline pass is not a task-quality pass.
 [Decision 0028](../docs/decisions/0028-grouped-baseline-selection.md) fixes the
 selection rule, source bounds and remaining admission obligations.
 
-[Draft PR #73](https://github.com/AbdelStark/hallmark/pull/73) contains this work.
+[Merged PR #73](https://github.com/AbdelStark/hallmark/pull/73) contains this work.
 The [guard source review](evidence/w15-guard-source-selection-2026-10-20.json) and
 [decision 0029](../docs/decisions/0029-guard-source-selection.md) select the pinned
 published guard for bounded asset/runtime qualification under the reviewed model
@@ -178,7 +430,8 @@ the pinned calibration/evaluation API; its tiny installed-runtime fixture needs
 no research assets. The tokenizer remains lossy, and both maximum-length harmless
 repetitive probes have positive uncalibrated margins. These are software results,
 not measured task quality. Contamination/label review and admitted real-data
-commands remain required before issue #16 can close; the compact encoder belongs
+commands remain required for confirmatory task-quality claims; decision 0033
+permits completion of the synthetic software stage. The compact encoder belongs
 to W16. See [decision 0030](../docs/decisions/0030-complete-input-guard.md).
 
 The [comparison command evidence](evidence/w15-comparison-command-2026-10-20.json)
@@ -195,7 +448,7 @@ The larger local combined-package check is deferred under the nearly exhausted
 20 GiB storage limit; Linux/macOS CI requires that installed comparison fixture.
 The [command template](../docs/OPERATIONS.md#caller-enrolled-baseline-comparisons)
 is implemented, but no genuine reviewed real-data dossier has been enrolled.
-PR #73 therefore remains draft. See [decision 0031](../docs/decisions/0031-admitted-comparison-command.md).
+PR #73 remained draft at that point. See [decision 0031](../docs/decisions/0031-admitted-comparison-command.md).
 
 The [source review](evidence/w15-source-review-2026-10-20.json) now retains 1,000
 Gandalf viewer rows at an exact reported revision and Dolly's SHA-256-verified
@@ -294,7 +547,7 @@ pass without changing the global tool. See [decision 0034](../docs/decisions/003
 
 ## Not implemented or established
 
-TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Next bounded task
 
@@ -354,23 +607,29 @@ real proofs, genuine hardware and independent verification remain required for
 the full MVP.
 
 W14 / #15 is merged in [PR #71](https://github.com/AbdelStark/hallmark/pull/71).
-W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72)
-with staged proof fixtures; complete-input encoder qualification and independent
-verification remain missing. Its implementation/evidence are on that draft branch.
-
 W15 / #16 is merged in [PR #73](https://github.com/AbdelStark/hallmark/pull/73)
-as `de29271d21196202fc951ebe5f5fc3348fbf9a63`; all 28 candidate and 14 main jobs
-passed. W18's integration at `7cc267dd707d3d8c738a1d14ba0897b71e78be91` passes
-1,947 local tests, both package gates and all 28 hosted jobs. Its proof source
-and qualification limitations are unchanged; PR #72 remains draft.
-
-Next: verify W17's exact-head hosted CI and merge its report implementation, then
-continue W18 full-input/encoder work within the remaining recorded proof budget.
+as `de29271d21196202fc951ebe5f5fc3348fbf9a63`; all 28 candidate jobs and all 14
+[merge-commit jobs](https://github.com/AbdelStark/hallmark/actions/runs/39562563658) passed.
 The owner's [synthetic-stage approval](../docs/decisions/0033-approved-synthetic-pipeline.md)
-permits agent review without human labels, 40 GiB retained storage, Mac-first
-execution and bounded HF T4/L4 fallback. Natural-data validation, genuine hardware
-and independent verification remain separate full-MVP requirements. No new
-permission is needed for ordinary implementation inside the recorded scope.
+permits agent review without human labels for pipeline development, 40 GiB
+retained storage, Mac-first execution and HF T4/L4 fallback. The earlier label
+packet and all failures remain retained. Confirmatory task quality is separate.
+
+W17 / #18 is merged in [PR #74](https://github.com/AbdelStark/hallmark/pull/74)
+as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
+[main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
+
+W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
+The small proof, artifact-reader and G1 gates pass. The maximum circuit now
+exports and reloads on the Mac with an independently retained circuit hash.
+Continue the frozen maximum setup/proof campaign in decision 0046 under the
+owner's standing approval; do not ask for another small-run permission or reuse
+old exhausted reservations. The source-derived setup/key bounds justify a larger
+L4 host; they do not establish actual setup RSS or latency. All historical failures
+and budgets remain preserved. Current preparation has not produced a maximum
+proof, complete encoder, independent verifier/security review or genuine hardware
+evidence. Continue the admitted encoder graph, including layer normalization,
+after resolving the resource gate; the commitment component does not qualify it.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
@@ -379,7 +638,7 @@ The [hardware/reviewer options](proposals/inj-direct-v1/compute-and-review-optio
 are prepared; procurement and contact remain owner choices when those gates are
 ready. Neither blocks ordinary local implementation.
 
-In parallel only when explicitly authorized, qualify a tiny real proof graph before selecting a larger encoder. The goal is a measured statement and cost record, not a mock end-to-end demo. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
+Keep further proof work sequential within each recorded bounded campaign. The tiny graphs already have real proof evidence; they do not qualify a larger encoder. Preserve the hybrid hardware/ZK split and the B1/B2 trust distinction in [SPEC](../docs/SPEC.md).
 
 ## Resume
 

@@ -2,6 +2,37 @@
 
 ## Unreleased
 
+Add an opt-in, pinned gnark Boolean-wire cache experiment with original/patched
+circuit-byte comparisons, cache boundary tests and separate proof/cost evidence.
+Keep the upstream dependency default and full-graph qualification gates unchanged.
+
+Constrain commitment coverage with exact Boolean prefixes and retain malformed
+mask prover attempts. Preserve native memory-sampler error codes so normal child
+teardown does not become a false monitor failure. Full-input feasibility and
+backend qualification remain separate gates.
+
+Stop optional proof workers using live macOS RSS samples with conservative
+headroom, preserve cutoff/failure costs and handle child-exit signal races.
+Sampling and post-exit checks do not provide a hard memory quota.
+
+Add an optional complete-input commitment scaling probe with canonical indexed
+CBOR packing, small real proofs and bounded maximum-size compilation. Keep
+proof results and resource failures distinct; no backend
+or encoder qualification follows.
+
+Add `hallmark qualify` with an externally pinned protocol, safe input snapshots
+and a shared deadline/storage budget across the existing real-proof probes. Keep
+standalone commands compatible. Passing available stages reports incomplete with
+exit 3; full-encoder and independent qualification evidence remain unavailable.
+
+Add the RFC-0005 backend declaration, caller-enrolled file/program/hiding-claim
+checks, a synthetic schema/vector and installed-package checks. These bind
+declarations without executing or selecting a backend. Separate local proof
+probes retain genuine small-circuit results, failures and measured costs.
+Extend those probes with an exhaustive fixed integer attention/feed-forward
+block, including masked lookup/normalization, residuals and signed pooling.
+This remains operator-block evidence, not complete encoder qualification.
+
 Add caller-pinned group evaluation reports with fixed slices, all training seeds,
 10,000 paired root-group resamples and separate float/integer drift. Preserve
 unavailable members, null denominators and whole-group exclusions. A core-only
@@ -10,12 +41,13 @@ command consumes existing scores; descriptive reports never claim task quality.
 Add exact-text character n-grams, fixed controls and five grouped train-internal
 selection rotations. Retain every convergence/unsupported-input failure, then
 calibrate and evaluate separately pinned native models with overlap rejection.
-Record guard source selection; actual guard runtime/data admission remains open.
+Execute the pinned complete-input guard and synthetic comparison command;
+confirmatory real-data quality remains unvalidated.
 
 Add train-only record-level byte MLP fitting, externally pinned optimizer resume
 and explicit integer export. Check three authored-marker seeds, full 32,768-byte
 inputs, numerical gradients and installed core/train paths. Preserve the historical
-logistic baseline; grouped selection and real-data comparison remain unfinished.
+logistic baseline and its negative results; real-data validation remains separate.
 
 Add caller-pinned source import, raw-row lineage sidecars and deterministic
 grouped splits. Preserve contrastive pairs, bind review/rights documents and

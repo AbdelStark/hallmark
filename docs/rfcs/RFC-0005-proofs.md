@@ -33,6 +33,11 @@ Use the [prove/verify interfaces](../spec/02-public-api.md#v1-supported-interfac
 
 `BackendQualification={schema_id:"hallmark/backend/1", source:Digest, dependencies:List[FileRef], build:Digest, proof_system:Id, security_parameters:FileRef, zero_knowledge:bool, setup:Digest, supported_programs:List[Digest], public_input_layout:FileRef, verifier:Digest, license_review:Digest, security_review:Digest, conformance:Digest, costs:Digest}`. No unspecified defaults enter setup or verification. `zero_knowledge` must be true for v1 private-witness claims. Record setup lineage and whether trusted setup is required; a generated parameter file is not an independently trusted setup.
 
+The record and caller-pinned dependency/metadata file checks are implemented in
+`hallmark.backend`; see [decision 0023](../decisions/0023-backend-declaration-contract.md).
+This is structural binding only. The runner, whole-graph evidence and semantic
+security/setup admission remain open; no true field can substitute for them.
+
 Public input layout serializes `ProofInputs` in fixed field order. Pack each 32-byte digest as 32 byte-range-constrained field elements; never reduce a digest modulo the scalar field. Booleans constrain to 0/1; counts are range-constrained U64 and within the admitted profile; signed int32 thresholds use a specified offset encoding `x+2^31`, range 0..2^32−1. Layout is part of backend identity. Native and circuit adapters reject aliases.
 
 The relation checks program/key/setup identity, full salted input commitment, chunk count/masks/indices, exact integer operations/ranges, max aggregation and strict threshold. Context is a public interaction binder; B1 independently connects the input digest to context's transcript, while B2 relies on the attested receipt's link. No claim that a free context field alone proves the transcript opening is allowed.

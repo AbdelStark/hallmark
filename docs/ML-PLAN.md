@@ -6,7 +6,7 @@ Decision: preserve the hybrid architecture, establish a measured classifier/prov
 
 Separate policy tasks: prompt injection, jailbreak/attack intent and response-policy violations. An injection detector is not a response safety classifier. Policy definitions, annotation instructions, abstention and disagreement resolution precede training. The current marker fixture is none of these tasks.
 
-Start with majority/block-all/pass-all sanity checks, the shipped byte-logistic floor, a word/character n-gram baseline, an existing task-matched guard and one compact encoder. These additional baselines are planned, not shipped. Candidate encoder families from the inherited packet include classic BERT, Ettin and DeBERTa. Benchmark exact operator graphs, tokenizer and sequence policy before selecting a checkpoint. Relative attention, layer normalization, nonlinear activations, padding and dynamic shape support can dominate proof integration; do not infer support from ONNX export alone.
+Start with majority/block-all/pass-all sanity checks, the shipped byte-logistic floor, a word/character n-gram baseline, an existing task-matched guard and one compact encoder. The W15 comparison pipeline implements the controls, character baseline and pinned guard; the compact encoder remains W16. Candidate encoder families from the inherited packet include classic BERT, Ettin and DeBERTa. Benchmark exact operator graphs, tokenizer and sequence policy before selecting a checkpoint. Relative attention, layer normalization, nonlinear activations, padding and dynamic shape support can dominate proof integration; do not infer support from ONNX export alone.
 
 Use Laya as a candidate open decision-model teacher or hardware-tier classifier after checking the exact checkpoint, licence and serving surface. Do not assert its parameter count, task quality or relative speed from the historical packet without fresh model/config/benchmark verification. Hosted Jev-style systems are comparison candidates only on explicitly approved public/synthetic inputs; no confidential transcripts leave the research environment.
 
@@ -45,6 +45,9 @@ MLP calibration/evaluation. The guard uses a
 chunk coverage and separately calibrated maximum margins. Its real-weight
 authored probes are engineering evidence only. The full roster, admitted real-data runs, teacher inference,
 encoder training, distillation, QAT and proving remain unfinished on this branch.
+The bounded synthetic [rule and MLP probes](decisions/0024-bounded-mlp-proof-probe.md)
+and attention block are separate real-proof backend experiments; none qualifies
+a complete encoder or operational classifier.
 
 ## Operator and system bake-off
 

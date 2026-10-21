@@ -31,6 +31,11 @@ source/review bytes, preserves raw-row provenance and groups connected lineage
 before splitting. Its 26-row marker fixture retains contrastive examples.
 It does not authenticate human review or establish real-data quality.
 
+The local [`qualify` command](research/probes/gnark/README.md#run-the-staged-qualification-command)
+runs pinned installation/rule/MLP/attention-block proofs under one budget. It
+retains failures and reports incomplete qualification while full-encoder and
+independent security/setup evidence is missing. It does not select a backend.
+
 The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind exact
 transcript bytes, caller context and complete classifier input. Portable vectors
 include a separate JavaScript hash check; neither is proof or hardware evidence.

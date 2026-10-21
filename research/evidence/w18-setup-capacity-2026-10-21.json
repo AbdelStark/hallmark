@@ -1,0 +1,215 @@
+{
+  "artifact_cap_bytes": 268435456,
+  "baseline_commit": "d03f9d1c758a23e40348f96e4a865b876e0bab3c",
+  "constraints": 40015721,
+  "date": "2026-10-21",
+  "domain_cardinality": 67108864,
+  "domain_precomputation_backing_bytes": 8589936192,
+  "domain_stages": 26,
+  "full_input_proof": false,
+  "issue": 19,
+  "local_budget": {
+    "authority_changed": false,
+    "combined_increment_charged_seconds": 56.78605329222046,
+    "overhead_allowance_preserved_seconds": 8,
+    "prior_checkpoint_sha256": "ac45b19436cf4453addbdd323dc7f2bbdc2ac84b6c43490b083caaeee0cf31c3",
+    "prior_increment_charged_seconds": 56.31208762526512,
+    "remaining_inside_reservation_seconds": 7.213946707779542,
+    "remaining_unreserved_seconds": 0,
+    "reservation_seconds": 64,
+    "source_review_and_spec_check_seconds": 0.47396566695533693
+  },
+  "max_setup_executed": false,
+  "minimum_g1_affine_backing_bytes": 6442450944,
+  "minimum_g1_jacobian_backing_bytes": 9663676416,
+  "omitted_from_lower_bound": [
+    "slice headers, allocator/GC overhead, boolean masks",
+    "the circuit, scalar and digit arrays",
+    "additional G1 points beyond the domain length",
+    "G2 points and setup commitments"
+  ],
+  "one_twiddle_element_count": 67108889,
+  "pins": {
+    "coordinate-storage": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/fp/element.go",
+      "ranges": [
+        [
+          33,
+          39
+        ]
+      ],
+      "sha256": "d3a79f8d966e90771d007aa6630e3d0726f3a13fd4d839b09e98b969fd85cc06"
+    },
+    "digits": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/multiexp.go",
+      "ranges": [
+        [
+          706,
+          719
+        ]
+      ],
+      "sha256": "a9b1355e455a69f86bf7ec748e3cdb7573377f21e12f0deba9292d4433822016"
+    },
+    "fft-default": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/fr/fft/options.go",
+      "ranges": [
+        [
+          97,
+          110
+        ]
+      ],
+      "sha256": "f43645eb28aeaba96a22f5f0648e37af5426ee13ec8a3dc2ae2e8b5092ed391a"
+    },
+    "fft-domain": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/fr/fft/domain.go",
+      "ranges": [
+        [
+          173,
+          197
+        ],
+        [
+          244,
+          274
+        ],
+        [
+          277,
+          297
+        ]
+      ],
+      "sha256": "43b5c69a06ad46deffff431a5154c8f6a20fa9840e3eea6d84fd89d1f8e916ba"
+    },
+    "g1-batches": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/g1.go",
+      "ranges": [
+        [
+          21,
+          29
+        ],
+        [
+          1266,
+          1311
+        ],
+        [
+          1349,
+          1391
+        ]
+      ],
+      "sha256": "22544597ca454517d5a4ae788a5349ae2e2ec72380e101bf1d37b4d0ffe50165"
+    },
+    "g2-batches": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/g2.go",
+      "ranges": [
+        [
+          1359,
+          1414
+        ]
+      ],
+      "sha256": "a488626ce5043355fb6b85133b7d54df4d68bac3e9c3a090857ad53765744efb"
+    },
+    "gnark-key-encoding": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark@v0.16.4/backend/groth16/bls12-381/marshal.go",
+      "ranges": [
+        [
+          243,
+          280
+        ]
+      ],
+      "sha256": "3562b18cba3c8f7dec4699e3bacb8ea279409cc2aaa7e2a459dda3a9f06e2112"
+    },
+    "gnark-setup": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark@v0.16.4/backend/groth16/bls12-381/setup.go",
+      "ranges": [
+        [
+          101,
+          114
+        ],
+        [
+          226,
+          238
+        ],
+        [
+          249,
+          255
+        ],
+        [
+          302,
+          313
+        ],
+        [
+          330,
+          333
+        ]
+      ],
+      "sha256": "6037449d71b795d11e74f62f688606b95e196e0f2b93ab39dfb4a60c5175c06d"
+    },
+    "point-encoding": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/marshal.go",
+      "ranges": [
+        [
+          569,
+          585
+        ],
+        [
+          806,
+          810
+        ]
+      ],
+      "sha256": "6360189f4b7c477bc4bc97c94a1cf12aed82a8fc5f5b7a9d445709469358fce6"
+    },
+    "scalar-storage": {
+      "path": "runs/w18-preflight-1792517857486510000/gomodcache/github.com/consensys/gnark-crypto@v0.21.1-0.20260913224755-1409fe592052/ecc/bls12-381/fr/element.go",
+      "ranges": [
+        [
+          33,
+          39
+        ]
+      ],
+      "sha256": "3271d84ff4d17e629aed822c77ce04497cfc9651a3aa4e272f08bac9f071993a"
+    }
+  },
+  "prior_hf_container_limit_bytes": 29999996928,
+  "prior_hf_live_rss_stop_bytes": 26000000000,
+  "prior_review_sha256": "f0315fc13e7554249cc6448a8e60da29688b0437c2c14952df2fadcc844ea53d",
+  "qualified_backend": false,
+  "raw_directory": "runs/w18-setup-capacity-1792581513224400000",
+  "schema_id": "hallmark.setup-capacity-evidence/1",
+  "scope": "Source-derived allocation/file lower bounds; no setup or proving execution.",
+  "serialized_z_vector_bytes_including_length": 3221225428,
+  "simultaneously_live_backing_bytes_lower_bound": 24696063552,
+  "source_findings": [
+    "Default FFT setup precomputes and retains two twiddle arrays and two coset arrays through pk.Domain assignment.",
+    "G1 batch multiplication materializes all Jacobian points, then converts them with a simultaneously live full affine output.",
+    "G2 already writes each scalar result directly as affine; it has no corresponding full Jacobian result slice.",
+    "Chunking G1 conversion inside the existing parallel scalar loop can preserve the window/table/scalar order while bounding Jacobian temporaries. This is an unimplemented candidate."
+  ],
+  "storage_not_rss": true,
+  "unestablished": [
+    "Total setup/prover peakRSS or elapsedtime",
+    "Maximum circuit/key serialized size",
+    "L4 fit after any optimization",
+    "Independent security/setup/hiding qualification"
+  ],
+  "validation": {
+    "check_spec": {
+      "command": [
+        "make",
+        "check-spec"
+      ],
+      "elapsed_seconds": 0.47066383296623826,
+      "exit_code": 0,
+      "schema_id": "hallmark.setup-capacity-spec-check/1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e541183aba80598114fdd52a5881671dfc2ee109f51a7ca1fa865495afb9ebae"
+    },
+    "full_local_gate": "still incomplete from d03f9d1 timeout; no repeat authorized",
+    "local_package": "still not run",
+    "new_runtime_or_scientific_measurement": false
+  },
+  "verification": {
+    "benchmark_or_large_allocation_run": false,
+    "closed_form_matches_explicit_stage_sum": true,
+    "elapsed_seconds": 0.003301833989098668,
+    "source_pins_match_prior_review": true
+  },
+  "work_item": "W18"
+}

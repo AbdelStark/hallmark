@@ -2,7 +2,7 @@
 
 ## Current authority
 
-The original bootstrap limits were superseded by the owner's 2026-10-20 study and resource approval in [AUTHORITY](../../research/AUTHORITY.json). The current local envelope is four CPU threads, 16 GiB RAM, 20 GiB working storage, two hours per job and six hours total, with zero local spend. Licence-reviewed public assets are allowed; HF Jobs are an authorized conditional fallback with a separate bounded job record. Hardware procurement and independent-reviewer contact remain options only. The declaration does not enforce OS limits.
+The original bootstrap limits were superseded by the owner's 2026-10-20 study and resource approval in [AUTHORITY](../../research/AUTHORITY.json). The current local envelope is four CPU threads, 16 GiB RAM, 40 GiB working storage, two hours per job and six hours total, with zero local spend. Licence-reviewed public assets are allowed; HF Jobs are an authorized conditional fallback with a separate bounded job record. Hardware procurement and independent-reviewer contact remain options only. The declaration does not enforce OS limits.
 
 ## Proposed v1 envelopes
 

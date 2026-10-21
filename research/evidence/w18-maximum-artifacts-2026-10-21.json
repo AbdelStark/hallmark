@@ -1,0 +1,124 @@
+{
+  "schema_id": "hallmark.maximum-artifacts-evidence/1",
+  "date": "2026-10-21",
+  "approval_ref": "docs/decisions/0045-standing-approval-and-maximum-artifacts.md",
+  "raw_roots": [
+    "runs/w18-max-artifacts-1792586199768569000",
+    "runs/w18-max-inventory-corrected-1792586489227090000"
+  ],
+  "export_protocol_sha256": "42ba902a6d7436854e36a59466a7eaab0aef20d033b4b03dd2bb0cb9fb56e3ef",
+  "export_binary_sha256": "ad6eac2328f9c9a6f5a452d156674d59bf6731f438e27551bbf8f650bacc79c3",
+  "inventory_binary_sha256": "08d10f7ad01dbba7201098f66e4048cb0553a73927645eed7e793ec3a9d286b8",
+  "circuit": {
+    "bytes": 2566643378,
+    "path": "runs/w18-max-artifacts-1792586199768569000/export-32768/circuit.r1cs",
+    "sha256": "cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489"
+  },
+  "capacity": {
+    "coefficients": 410813,
+    "commitments": 1,
+    "constraints": 40015721,
+    "instructions": 58846504,
+    "internal_variables": 48247878,
+    "private_committed_variables": 22366059,
+    "public_variables": 34,
+    "schema_id": "hallmark.gnark-circuit-capacity/1",
+    "secret_variables": 229421
+  },
+  "export": {
+    "constraints": 40015721,
+    "cost_sha256": "3da7c414e51941114d28f2d9758b693833710df0047ac6be1557d71969991595",
+    "elapsed_seconds": 79.59998299996369,
+    "max_rss_bytes": 17674289152,
+    "operation": "export-32768",
+    "qualified_backend": false,
+    "status": "passed"
+  },
+  "reload": {
+    "constraints": 40015721,
+    "cost_sha256": "1c8ee89a3d4ac3ba11e14f863229970490cbd63829775f40e66cb884ce29af55",
+    "elapsed_seconds": 2.6775022079236805,
+    "max_rss_bytes": 10367139840,
+    "operation": "inspect-32768",
+    "qualified_backend": false,
+    "status": "passed"
+  },
+  "expanded_inventory_reload": {
+    "elapsed_seconds": 3.6130208338145167,
+    "max_rss_bytes": 10366042112
+  },
+  "source_bounds": {
+    "total_wires": 48477333,
+    "fft_domain": 67108864,
+    "private_committed_variables": 22366059,
+    "private_key_wires": 26111239,
+    "public_and_commitment_wires": 35,
+    "g1_scalar_capacity_bytes": 6801307712,
+    "g1_affine_minimum_bytes": 11096275200,
+    "g1_digit_minimum_bytes": 3698758400,
+    "fft_precomputation_bytes": 8589936192,
+    "main_key_g1_upper_points": 190174771,
+    "main_key_g2_upper_points": 48477335,
+    "pedersen_key_points": 44732118,
+    "simultaneous_backing_lower_bytes": 30186277504,
+    "compressed_key_upper_with_1MiB_allowance": 16027358074
+  },
+  "fixture_cases": 18,
+  "small_fingerprints_unchanged": 7,
+  "failures_retained": [
+    "First Go build missed the changed batch helper argument in one test; corrected before any worker ran.",
+    "First inventory controller was named inspect.py and shadowed the Python standard library; failed before starting a worker. Fresh corrected directory retained.",
+    "Initial package snapshot excluded new untracked files; staging exact reviewed paths fixed packaging. The failed distribution directory is retained."
+  ],
+  "full_input_setup": false,
+  "full_input_proof": false,
+  "qualified_backend": false,
+  "cost_minor": 0,
+  "hf_jobs_launched": 0,
+  "limitations": [
+    "Source-derived backing sizes are not observed RSS. Key bound includes a 1 MiB allowance for bounded metadata; actual key size remains unmeasured.",
+    "This is a 33-field commitment component with a synthetic profile, not the full encoder or 100-field classifier statement.",
+    "Compiler/G1 patches remain optional; local setup and shared verifier do not provide independent security or setup review."
+  ],
+  "validation": {
+    "go_tests": "passed",
+    "make_check": {
+      "status": "passed",
+      "receipt": "runs/w18-max-artifacts-1792586199768569000/commands/make-check.json"
+    },
+    "package_check": {
+      "status": "passed",
+      "receipt": "runs/w18-max-artifacts-1792586199768569000/commands/package-check-staged.json",
+      "source_id": "ba2ded52fc7e9cfbcfb3a871f1ccb3ddbc1998750ff5283c73bf1fe2d55ae779",
+      "sdist_sha256": "9d6ffac9bb66388bc8ba3cf6dd83765b31f442515ce4c628ed6887ff0f99c73a",
+      "wheel_sha256": "470b8e55660e613b02f47562768ac11dbd7311586d696846031c7e9edbac2956"
+    },
+    "hosted_checks": "pending exact commit"
+  },
+  "bound_source_pins": [
+    {
+      "path": "runs/w18-boolean-cache-1792575116013016000/gnark-patched/backend/groth16/bls12-381/setup.go",
+      "sha256": "6037449d71b795d11e74f62f688606b95e196e0f2b93ab39dfb4a60c5175c06d"
+    },
+    {
+      "path": "runs/w18-boolean-cache-1792575116013016000/gnark-patched/backend/groth16/bls12-381/marshal.go",
+      "sha256": "3562b18cba3c8f7dec4699e3bacb8ea279409cc2aaa7e2a459dda3a9f06e2112"
+    },
+    {
+      "path": "runs/w18-approved-validation-1792583153615058000/candidate-module/ecc/bls12-381/g1.go",
+      "sha256": "2c2368587355ffe6747a8fcf0d147180f74fd4b559efeccb428fbe0d2bb026ac"
+    },
+    {
+      "path": "runs/w18-approved-validation-1792583153615058000/candidate-module/ecc/bls12-381/multiexp.go",
+      "sha256": "a9b1355e455a69f86bf7ec748e3cdb7573377f21e12f0deba9292d4433822016"
+    },
+    {
+      "path": "runs/w18-approved-validation-1792583153615058000/candidate-module/ecc/bls12-381/fr/fft/domain.go",
+      "sha256": "43b5c69a06ad46deffff431a5154c8f6a20fa9840e3eea6d84fd89d1f8e916ba"
+    },
+    {
+      "path": "runs/w18-approved-validation-1792583153615058000/candidate-module/ecc/bls12-381/fr/pedersen/pedersen.go",
+      "sha256": "8a9597c6901ad2e67542c475e93ec23f8330f586a835a2dc82d9818eaba1ee0e"
+    }
+  ]
+}
