@@ -1,0 +1,39 @@
+--- a/frontend/cs/r1cs/builder.go
++++ b/frontend/cs/r1cs/builder.go
+@@ -47,7 +47,8 @@
+ 	kvstore.Store
+ 
+ 	// map for recording boolean constrained variables (to not constrain them twice)
+-	mtBooleans map[[16]byte][]expr.LinearExpression[E]
++	mtBooleans   map[[16]byte][]expr.LinearExpression[E]
++	booleanWires []uint64
+ 
+ 	tOne        E
+ 	eZero, eOne expr.LinearExpression[E]
+@@ -233,6 +234,15 @@
+ 	}
+ 	// v is a linear expression
+ 	l := v.(expr.LinearExpression[E])
++	// Hallmark research patch: compact metadata for a single unit-coefficient wire.
++	if len(l) == 1 && l[0].VID > 0 && builder.isCstOne(l[0].Coeff) {
++		word, bit := l[0].VID/64, uint(l[0].VID%64)
++		if word >= len(builder.booleanWires) {
++			builder.booleanWires = append(builder.booleanWires, make([]uint64, word+1-len(builder.booleanWires))...)
++		}
++		builder.booleanWires[word] |= uint64(1) << bit
++		return
++	}
+ 	sort.Sort(l)
+ 
+ 	key := l.HashCode()
+@@ -250,6 +260,10 @@
+ 	}
+ 	// v is a linear expression
+ 	l := v.(expr.LinearExpression[E])
++	if len(l) == 1 && l[0].VID > 0 && builder.isCstOne(l[0].Coeff) {
++		word, bit := l[0].VID/64, uint(l[0].VID%64)
++		return word < len(builder.booleanWires) && builder.booleanWires[word]&(uint64(1)<<bit) != 0
++	}
+ 	sort.Sort(l)
+ 
+ 	key := l.HashCode()

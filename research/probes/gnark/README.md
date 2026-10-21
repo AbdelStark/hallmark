@@ -58,6 +58,12 @@ Build/module acquisition is separate from the network-denied proof worker.
 Do not use `@latest`, an unreviewed replacement dependency or automatic toolchain
 downloads. This documentation does not authorize a new host or budget.
 
+The optional [Boolean-wire cache patch](patches/README.md) uses a separately
+inventoried module copy and explicit modfile replacement. The default dependency
+is unchanged. Compare full serialized circuit fingerprints and run fresh actual
+proof checks before using that candidate; its small-fixture equivalence does not
+qualify arbitrary circuits or a complete encoder.
+
 From the repository root, under a recorded approved local protocol:
 
 ```text

@@ -265,6 +265,21 @@ The diagnostic and candidate reserve another 180 and 600 seconds respectively,
 leaving 580 unreserved in the existing local proving allocation. All 2,042 tests
 and both installed-package gates pass, including required train/guard execution.
 
+An opt-in [compiler-cache candidate](evidence/w18-boolean-cache-2026-10-21.json)
+changes one of 1,264 inventoried gnark source files in a separate copy. The original
+cache and default dependency stay unchanged. Seven small fixtures have identical
+serialized R1CS bytes across builds, and cache boundary/alias/constant tests pass.
+A fresh 304.056-second campaign verifies eight proofs and rejects all 18 malformed
+witnesses plus the public/key/proof mutations. The maximum compile still fails,
+this time at the wall limit: 90.307 seconds and 14,839,169,024-byte peak RSS,
+below the live cutoff and approved ceiling. No maximum circuit or proof exists.
+Fixture equivalence and different stop conditions do not establish general compiler
+correctness, an overall performance improvement or full-encoder qualification.
+See [decision 0038](../docs/decisions/0038-boolean-wire-cache-candidate.md).
+Its 550-second reservation leaves 30 unreserved; retain all reservations until a
+receipt audit. All 2,042 Python tests and both installed-package gates pass,
+including required train/guard execution; the new Go checks pass on both builds.
+
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
 integer export. The [evidence](evidence/w15-record-mlp-training-2026-10-20.json)
@@ -489,10 +504,11 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: reduce compiler allocation or prepare a pinned approved-host fallback for
-the still-failing maximum-input commitment, within the remaining 580-second
-unreserved local proving budget. The early heap identifies Boolean-cache allocation
-as a candidate lead; no dependency patch or HF job has been executed. Continue the complete
+Next: audit consumed outer-command receipts before more proving; only 30 local
+seconds remain unreserved. The patched maximum compile now reaches its wall cap
+below the memory cutoff. Assess a separately budgeted compile diagnosis or the
+approved HF fallback with a pinned manifest, without repeating the small proof
+campaign unnecessarily. No HF job has been executed. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and

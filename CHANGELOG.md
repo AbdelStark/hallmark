@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Add an opt-in, pinned gnark Boolean-wire cache experiment with original/patched
+circuit-byte comparisons, cache boundary tests and separate proof/cost evidence.
+Keep the upstream dependency default and full-graph qualification gates unchanged.
+
 Constrain commitment coverage with exact Boolean prefixes and retain malformed
 mask prover attempts. Preserve native memory-sampler error codes so normal child
 teardown does not become a false monitor failure. Full-input feasibility and

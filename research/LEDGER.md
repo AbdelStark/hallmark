@@ -2042,3 +2042,58 @@ before this final evidence update. The diagnostic's timed commands plus allowanc
 charge 40.502 seconds inside its 180-second reservation; the candidate, failure,
 recovery and validation charge 425.259 seconds inside its 600-second reservation.
 The entire reservations remain charged. Final-head hosted verification is separate.
+
+## 2026-10-21 — W18 compiler Boolean-cache candidate
+
+Hypothesis: a packed bitmap for individual unit-coefficient Boolean wires reduces
+compiler allocation without changing serialized relations. Baseline `9f17d33`
+still fails maximum compilation. The [decision](../docs/decisions/0038-boolean-wire-cache-candidate.md)
+freezes circuit/assignment/evaluation sources and changes only one upstream
+compiler file in a separately inventoried module copy. The original module cache
+and default dependency remain unchanged. The copied source retains Apache-2.0
+licensing; no new dependency is introduced. Initial formatting failed because
+copied directories were read-only; that preparation failure is retained, and only
+the fresh copy's directories were made writable before any build or execution.
+
+Raw root: `runs/w18-boolean-cache-1792575116013016000`. The
+[evidence](evidence/w18-boolean-cache-2026-10-21.json) records numeric results and
+source/build/protocol hashes before this prose. Full serialized R1CS bytes match
+for seven fixtures: installation, rule, MLP, attention block and commitments at
+capacities 8/32/256. Two new cache tests check constants, metadata aliases,
+public/private/internal wire separation and rejection of two in each of 132 input
+wires on both builds. The third new Go test emits the compared fingerprints.
+Existing prefix/manifest/assignment tests also pass under the patched compiler.
+These are finite fixture checks, not general compiler correctness.
+
+Command: `uv run --locked python runs/w18-boolean-cache-1792575116013016000/run_experiment.py`
+using isolated uv 0.9.18. It executes the frozen input controller with only its
+resource deadline reduced from 420 to 330 seconds. The 304.056-second command
+retains 51 workers, fresh setups, eight actual verified proofs, 18 invalid prover
+witnesses, all 33 public-input mutations, field alias, altered proof and wrong key.
+All available component checks pass. Both private and public vectors match the
+prior prefix run, and the corrected worker matches that run's separate recovery.
+
+Maximum compilation still fails: the 90-second wall limit kills it after
+90.307 seconds, with 14,839,169,024-byte peak RSS. Neither the 14 GiB live cutoff
+nor the 16 GiB ceiling is exceeded; there is no monitor failure. No complete
+maximum circuit, count or proof is produced. Different failure triggers and
+single runs do not establish a speed or memory improvement. The unchanged small
+constraint counts and byte equality do not qualify a complete encoder or provide
+independent verifier/security/setup/hiding evidence.
+
+Reserve 550 seconds after the prior 6,620-second charge, leaving 30 unreserved
+in the existing 7,200-second proving allocation. Keep the full reservation until
+an explicit receipt audit. No token, HF job, private input, spend or scheduler.
+Repository and installed-package checks follow; PR #72 and issue #19 stay open.
+
+Final gates pass all 2,042 Python tests, core package checks and combined
+train/guard package checks, with installed training and guard execution required.
+Both package builds use source identity
+`67c908543d4763cc36c558b76476d6f3183a7ac016f59b5c8d5c4f9f61948c48`
+before this final evidence update. The literal unified patch is excluded from
+prose whitespace checking because its context prefixes intentionally precede Go
+tabs and blank lines. Applying it to the pinned original reproduces the measured
+builder bytes. Both 1,264-file inventories and the fresh setup circuit fingerprints
+match their pre-run records. Timed commands plus a 40-second ancillary allowance
+charge 458.185 seconds inside the 550-second reservation; the full reservation
+remains charged. Exact-head hosted verification is separate from local gates.
