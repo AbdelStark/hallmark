@@ -2,16 +2,20 @@
   "baseline_commit": "d70a029316be1cde7d843603a8e0c50fbc8b87e8",
   "cloud_budget": {
     "automatic_retries": 0,
-    "charged_cost_minor": 0,
+    "charged_cost_minor": null,
+    "conservative_estimate_micro_usd": 133330,
     "currency": "USD-cent",
     "flavor": "l4x1",
-    "jobs_submitted": 0,
+    "invoice_available": false,
+    "jobs_submitted": 1,
     "max_cost_minor": 200,
     "max_jobs": 1,
     "max_seconds": 3600,
     "private_inputs": false,
+    "provider_total_seconds": 557,
     "token_in_worker": false
   },
+  "compile_gate": "passed",
   "date": "2026-10-21",
   "environment": {
     "go_archive": {
@@ -30,34 +34,444 @@
     "observed_tag": "3.12.15-slim-bookworm",
     "review_sha256": "f199f2173bfc264470d098be49c703409e768fe8920ce4bfd42e40683ac261bb"
   },
+  "execution": {
+    "bootstrap_receipts": [
+      {
+        "argv": [
+          "/tmp/hallmark-hf-compile/go/bin/go",
+          "mod",
+          "download"
+        ],
+        "elapsed_seconds": 1.6673137280004084,
+        "exit_code": 0,
+        "failure_type": null,
+        "stage": "download",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "/tmp/hallmark-hf-compile/go/bin/go",
+          "test",
+          "-c",
+          "-mod=readonly",
+          "-modfile=/tmp/hallmark-hf-compile/patched.mod",
+          "-o",
+          "/tmp/hallmark-hf-compile/tests",
+          "."
+        ],
+        "elapsed_seconds": 23.116317934000108,
+        "exit_code": 0,
+        "failure_type": null,
+        "stage": "build-tests",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "/tmp/hallmark-hf-compile/tests",
+          "-test.run",
+          "Test(BooleanCache|Prefix|InputBatch|AssignmentReader|CircuitFingerprints)",
+          "-test.v"
+        ],
+        "elapsed_seconds": 4.7745248119999815,
+        "exit_code": 0,
+        "failure_type": null,
+        "stage": "small-fixtures",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "0381f0d32d5445c51107c53c724a1f0e84740509b0e5160299a4cfa3d2e57d02"
+      },
+      {
+        "argv": [
+          "/tmp/hallmark-hf-compile/go/bin/go",
+          "build",
+          "-trimpath",
+          "-buildvcs=false",
+          "-mod=readonly",
+          "-modfile=/tmp/hallmark-hf-compile/patched.mod",
+          "-o",
+          "/tmp/hallmark-hf-compile/probe",
+          "."
+        ],
+        "elapsed_seconds": 18.25648944599925,
+        "exit_code": 0,
+        "failure_type": null,
+        "stage": "build-probe",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "/usr/local/bin/python",
+          "-m",
+          "hallmark._gnark_linux_compile",
+          "--binary",
+          "/tmp/hallmark-hf-compile/probe",
+          "--expected-binary",
+          "e3f8c85e996612b38abb72345097f441c35904a43b850cc63192d89969541904",
+          "--output",
+          "/tmp/hallmark-hf-compile/execution"
+        ],
+        "elapsed_seconds": 496.54227396399983,
+        "exit_code": 0,
+        "failure_type": null,
+        "stage": "compilation",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "7917d2d2f2e658c6690fea62416914f493058469fc911036254e623763f05d11"
+      }
+    ],
+    "build": {
+      "binary_sha256": "e3f8c85e996612b38abb72345097f441c35904a43b850cc63192d89969541904",
+      "environment": {
+        "CGO_ENABLED": "0",
+        "GOCACHE": "/tmp/hallmark-hf-compile/gocache",
+        "GOFLAGS": "-p=2",
+        "GOMAXPROCS": "2",
+        "GOMEMLIMIT": "1GiB",
+        "GOMODCACHE": "/tmp/hallmark-hf-compile/gomodcache",
+        "GOPATH": "/tmp/hallmark-hf-compile/gopath",
+        "GOPROXY": "off",
+        "GOROOT": "/tmp/hallmark-hf-compile/go",
+        "GOSUMDB": "sum.golang.org",
+        "GOTELEMETRY": "off",
+        "GOTOOLCHAIN": "local",
+        "LANG": "C",
+        "PATH": "/tmp/hallmark-hf-compile/go/bin:/usr/bin:/bin",
+        "TMPDIR": "/tmp/hallmark-hf-compile/tmp",
+        "TZ": "UTC"
+      },
+      "fingerprints": [
+        {
+          "bytes": 2615,
+          "constraints": 45,
+          "name": "installation",
+          "sha256": "42c5b40328dcbfa37ac5959ee95f3a226a29a244c3b3e3c7f2d7e3bc5d40a52a"
+        },
+        {
+          "bytes": 18148452,
+          "constraints": 206801,
+          "name": "rule",
+          "sha256": "594c0ba54765923e756d931f97e4193d2076f69146d1c07ca46b4af0cbd96eb3"
+        },
+        {
+          "bytes": 18170074,
+          "constraints": 208717,
+          "name": "mlp",
+          "sha256": "2fef47c5f815dbbf3d544f98db1a523ae3b49b2b11f7949b5d70366d491ae533"
+        },
+        {
+          "bytes": 133167,
+          "constraints": 5250,
+          "name": "block",
+          "sha256": "fdaf7659738875e05fa8296a0d4a50193de804663baa05e5ead383e6f411d41d"
+        },
+        {
+          "bytes": 18075976,
+          "constraints": 205547,
+          "name": "input-8",
+          "sha256": "3441dda74a6fd3fac6276d7a32ac7074d95f0c7fb1ffe074ca1054012d8aa302"
+        },
+        {
+          "bytes": 20208810,
+          "constraints": 243222,
+          "name": "input-32",
+          "sha256": "43399776e04cb9134f1325b68ef842fee1a394f6a056b6beb868c2ef9be8dbd7"
+        },
+        {
+          "bytes": 35283602,
+          "constraints": 512502,
+          "name": "input-256",
+          "sha256": "043259786ca5db48c9f1c2b000c0f5fafbe71a24987c56eb10ae737d92b34f82"
+        }
+      ],
+      "module_inventory_sha256": "1ff166d58f8daafb5ca00ee53e26d6256ba0fd46a9a349b044d8ac12b41a1e73",
+      "platform": "Linux-6.12.103-127.188.amzn2023.x86_64-x86_64-with-glibc2.36",
+      "python": "3.12.15 (main, Oct 21 2026, 01:08:07) [GCC 12.2.0]"
+    },
+    "cost_estimate": {
+      "conservative_estimate_micro_usd": 133330,
+      "invoice_available": false,
+      "rounded_total_minutes": 10,
+      "unit_cost_micro_usd_per_minute": 13333
+    },
+    "gpu_used": false,
+    "job": {
+      "createdAt": "2026-10-21T10:39:02.092Z",
+      "durations": {
+        "runningSecs": 552,
+        "schedulingSecs": 4,
+        "totalSecs": 557
+      },
+      "finishedAt": "2026-10-21T10:48:19.505Z",
+      "flavor": "l4x1",
+      "id": "6ad896465275124786e2490b",
+      "retry": 0,
+      "startedAt": "2026-10-21T10:39:06.688Z",
+      "status": {
+        "failureCount": 0,
+        "message": null,
+        "stage": "COMPLETED"
+      }
+    },
+    "local_budget": {
+      "control_receipts": [
+        {
+          "elapsed_seconds": 1.0112996250391006,
+          "name": "control-timing-1792579142167917000.json",
+          "sha256": "f8ba85ce5f409b8f4b9a5b40c965048a7ca6366a620df201610dc6b0768cb4d4"
+        },
+        {
+          "elapsed_seconds": 0.159962291829288,
+          "name": "control-timing-1792579168990532000.json",
+          "sha256": "ae3e0c6be90cd2c7922731e4b5f7f75ae616a0e4c0a2ea4713782a02d40e0c0f"
+        },
+        {
+          "elapsed_seconds": 8.154301499947906,
+          "name": "control-timing-1792579188371274000.json",
+          "sha256": "c4b1bd415c6746bef96a063a2c21568142c6f01d15590e93e90b2e4945a958ad"
+        },
+        {
+          "elapsed_seconds": 0.22405445901677012,
+          "name": "control-timing-1792579263679648000.json",
+          "sha256": "b47f4319f9a173d12ca49e1b7a2ce9d57a99392b8d8892ecafafc7a22462e510"
+        },
+        {
+          "elapsed_seconds": 0.22711395798251033,
+          "name": "control-timing-1792579351661725000.json",
+          "sha256": "40dccaf99a10be8076b81fef0ebe4cd5d0a19ff1817bf24412471e4cdb67a7d8"
+        },
+        {
+          "elapsed_seconds": 5.1769752921536565,
+          "name": "control-timing-1792579366600510000.json",
+          "sha256": "b8209a8f8a608cfd4b8c8c80cf1a2620acc102cb39d150d9a7f6282a1773be97"
+        },
+        {
+          "elapsed_seconds": 0.21997195901349187,
+          "name": "control-timing-1792579471747401000.json",
+          "sha256": "adeee4815f34106cc210ea8352382603d339b501568dcded86664a42f52fab1e"
+        },
+        {
+          "elapsed_seconds": 0.1648643750231713,
+          "name": "control-timing-1792579547090146000.json",
+          "sha256": "48ab257b177f327861f49a3e58d86a765d0c9f3ea3e9c2c7124d4fa7bf40a54f"
+        },
+        {
+          "elapsed_seconds": 0.21701616584323347,
+          "name": "control-timing-1792579638272904000.json",
+          "sha256": "7c8eadfe160f0208eaae25690829e58e52cf2f477ad14f5f0b8e2c3f0669e532"
+        },
+        {
+          "elapsed_seconds": 0.1720157500822097,
+          "name": "control-timing-1792579711977074000.json",
+          "sha256": "6af05e6b4b77ff71d6b47405876827e83f90d3a1a4da98cca5a50e625c4829e0"
+        },
+        {
+          "elapsed_seconds": 0.2062580417841673,
+          "name": "control-timing-1792579723230823000.json",
+          "sha256": "b9e1e8bf7818a4bbe0bc523c89b881e60440445a186de10059cdee16ac68fee9"
+        }
+      ],
+      "control_seconds": 15.933833417715505,
+      "increment_charged_seconds": 293.65785491792485,
+      "preparation_plus_allowance_seconds": 277.72402150020935,
+      "prior_charge_seconds": 6870,
+      "remaining_inside_reservation_seconds": 36.34214508207515,
+      "reservation_seconds": 330,
+      "total_charged_seconds": 7163.657854917925,
+      "unreserved_seconds": 0
+    },
+    "network_smoke": {
+      "case": "network-smoke",
+      "cost": {
+        "elapsed_seconds": 0.023429050999766332,
+        "exit_code": 0,
+        "files": {
+          "plan.json": {
+            "bytes": 1417,
+            "sha256": "1fb53f223e066d05715191e58505e9112f431e7eb233c378c6ce66271997d23b"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "max_rss_bytes": 27414528,
+        "memory_limit_exceeded": false,
+        "memory_monitor_failed": false,
+        "sampled_peak_rss_bytes": 9703424,
+        "schema_id": "hallmark.linux-compile-cost/1",
+        "system_seconds": 0.0,
+        "timed_out": false,
+        "user_seconds": 0.019761,
+        "within_limits": true
+      }
+    },
+    "raw_logs": {
+      "name": "logs-1792579723024756000.sse",
+      "sha256": "d6cace2e71a6a6b23670ff4d881f713546f83f07a8017e8e8d382b8637786f7a"
+    },
+    "result": {
+      "binary_sha256": "e3f8c85e996612b38abb72345097f441c35904a43b850cc63192d89969541904",
+      "cases": [
+        {
+          "cost": {
+            "elapsed_seconds": 0.7251431189997675,
+            "exit_code": 0,
+            "files": {
+              "plan.json": {
+                "bytes": 1299,
+                "sha256": "b054324d39895560384ec17cdf2af1c5fcb85001755c03ffd3daa8b2f18b866d"
+              },
+              "stderr.txt": {
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout.txt": {
+                "bytes": 114,
+                "sha256": "ad832972aef59e9d3853937e492e944771e4325fe4a2bab48239518f9d3a50b0"
+              }
+            },
+            "max_rss_bytes": 274096128,
+            "memory_limit_exceeded": false,
+            "memory_monitor_failed": false,
+            "sampled_peak_rss_bytes": 274628608,
+            "schema_id": "hallmark.linux-compile-cost/1",
+            "system_seconds": 0.17984599999999998,
+            "timed_out": false,
+            "user_seconds": 0.829291,
+            "within_limits": true
+          },
+          "name": "small"
+        },
+        {
+          "cost": {
+            "elapsed_seconds": 250.6546861909992,
+            "exit_code": 0,
+            "files": {
+              "plan.json": {
+                "bytes": 1306,
+                "sha256": "60efb730345c552bd82fb90132eea96e1c822b295e0085a106131b49e124f578"
+              },
+              "stderr.txt": {
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout.txt": {
+                "bytes": 119,
+                "sha256": "31c137742660524ec16a1a8cabe9987be111af2d0e0224b30b0d33df33cc4395"
+              }
+            },
+            "max_rss_bytes": 21509857280,
+            "memory_limit_exceeded": false,
+            "memory_monitor_failed": false,
+            "sampled_peak_rss_bytes": 21510488064,
+            "schema_id": "hallmark.linux-compile-cost/1",
+            "system_seconds": 102.969084,
+            "timed_out": false,
+            "user_seconds": 710.787822,
+            "within_limits": true
+          },
+          "name": "maximum"
+        },
+        {
+          "cost": {
+            "elapsed_seconds": 244.99665666500005,
+            "exit_code": 0,
+            "files": {
+              "plan.json": {
+                "bytes": 1311,
+                "sha256": "7a263429a090f57cc7995abbed50a2001f1e7a1c1dd3810d5b47a221004d05fa"
+              },
+              "stderr.txt": {
+                "bytes": 0,
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout.txt": {
+                "bytes": 119,
+                "sha256": "d010e0d0bec6245594582a38a90f5ce90cf8822aeca27915883d1bf9087d3b8a"
+              }
+            },
+            "max_rss_bytes": 21476012032,
+            "memory_limit_exceeded": false,
+            "memory_monitor_failed": false,
+            "sampled_peak_rss_bytes": 21475983360,
+            "schema_id": "hallmark.linux-compile-cost/1",
+            "system_seconds": 92.679176,
+            "timed_out": false,
+            "user_seconds": 709.147712,
+            "within_limits": true
+          },
+          "name": "confirmation"
+        }
+      ],
+      "constraints": 40015721,
+      "container_memory_limit_bytes": 29999996928,
+      "elapsed_seconds": 496.4241792110006,
+      "full_input_proof": false,
+      "maximum_compile_reproduced": true,
+      "qualified_backend": false,
+      "schema_id": "hallmark.linux-compile-result/1",
+      "status": "incomplete"
+    },
+    "schema_id": "hallmark.hf-compile-result-audit/1",
+    "serialized_maximum_circuit_retained": false,
+    "source_commit": "de05e111e92d356a1c472abe7ceb934660a4ccc1",
+    "source_pins_rechecked": true
+  },
   "full_input_proof": false,
   "hypothesis": "Additional host RAM on the approved L4 may finish the unchanged maximum-input circuit; CPU compilation only.",
   "issue": 19,
   "limitations": [
-    "No job, maximum circuit or proof from this increment yet.",
+    "Compilation only: no maximum circuit serialization, setup, witness, proof or verifier execution in this cloud increment.",
+    "Maximum compile reproduction checks equal constraint counts, not serialized maximum circuit bytes.",
+    "The component uses a synthetic profile pin and is not an enrolled classifier or full encoder.",
     "Network seccomp filtering is not a hostile-code or filesystem sandbox.",
     "RSS sampling can overshoot; kernel peak and provider/container limits remain distinct.",
     "Mac worker, circuit/compiler sources and historical proof identities stay unchanged.",
-    "Full encoder, operational enrollment, independent security/setup/hiding and genuine hardware remain unqualified."
+    "Full encoder, operational enrollment, independent security/setup/hiding and genuine hardware remain unqualified.",
+    "Cloud cost is a rounded-duration estimate, not an invoice; L4 GPU was unused."
   ],
   "local_budget": {
     "approved_proving_seconds": 7200,
+    "control_seconds": 15.933833417715505,
+    "final_spec_check_seconds": 0.452051708009094,
+    "increment_charged_seconds": 294.10990662593395,
     "preparation_measured_plus_allowance_seconds": 277.72402150020935,
+    "preparation_plus_allowance_seconds": 277.72402150020935,
     "preparation_receipts_sha256": "450e1e1e6ac8c001b38559c9411c8c68e21dc47b206317ea469ac9611c5de18c",
     "prior_charge_seconds": 6870,
+    "remaining_inside_reservation_seconds": 35.890093374066055,
     "remaining_unreserved_seconds": 0,
-    "reservation_seconds": 330
+    "reservation_seconds": 330,
+    "total_charged_seconds": 7164.109906625934,
+    "unreserved_seconds": 0
   },
   "local_receipt_sha256": {
+    "budget-final.json": "7e535d37efb4640f1534777586b61bca7793712d248c894d42b54e19e1eb4fc3",
     "check-01.json": "f2ae0b00cb0b88f0b4d3021d6e418a4727171192729ac2fff8fe62f201662ca1",
+    "ci-prep-pr-final.json": "6fd4503b7c4f1e98d76866472268ef5538a906835725781c4b95b39e8d7cfb19",
+    "ci-prep-push-attempt-1-failed.json": "095d44411c9bb67e2292cd6e12de89178217e8a068580857d866c20ca1f54973",
+    "ci-prep-push-failure.log": "d61dc8afa6ae3678587ec420bc141d0f5a348dd339d6fd7f628fb2859f301d57",
+    "ci-prep-push-final.json": "b89ca89a16810828027fbe4685246754f3d149d14c200236d65ec57fb2151e8a",
+    "cloud-result.json": "b1e7923590017fa2727f91be220588dd536cf1e9e03bb95a4c2d3af9c26cfb2e",
     "environment-pins.json": "3205fb34b818bbae4384b98cb550e77b0a4d75b91da75f3fdbf3f09fa51d7d9e",
     "environment-review.json": "f199f2173bfc264470d098be49c703409e768fe8920ce4bfd42e40683ac261bb",
     "focused-01.json": "cd12436aab2bac70258fe41e21c3de118f1b5c3c40de777cde0deb9589be2a0f",
     "focused-02.json": "674e0964c0c846832110d8bddcd799923a550d3033bf8c1de0fc84c4ea17e54a",
     "image-license-sources.json": "610555752eae1400d5ebceb3356804fec44f54e8d86da046a249b74f831aede2",
-    "preflight-plan.json": "7d32681fe9bc17c8ad0aa29796b8b9584fda3f46cfe00038e20f9b8e66ca7b0e"
+    "job-manifest.json": "67497884b3437ab18c5c21035fbd827459a49233f011bca9fc1d88860e0160b0",
+    "job-spec.json": "c10f795d9ed55603aa65e7b2191a5b68a1818ca4837128e6fbdc60c33f38710e",
+    "logs-1792579723024756000.sse": "d6cace2e71a6a6b23670ff4d881f713546f83f07a8017e8e8d382b8637786f7a",
+    "preflight-plan.json": "7d32681fe9bc17c8ad0aa29796b8b9584fda3f46cfe00038e20f9b8e66ca7b0e",
+    "result-audit.json": "224185e6770fc1be6ac0f9d2341bf1670861b822f8401e183bb178d50d2a5ad1",
+    "spec-final.json": "fa3200de1d2683a6f654a6ebac9f026ff93c3089daac95374991ebaf234a1ffc",
+    "terminal.json": "82fc27369a3e8c6b67a4550304d87b757ec8b2054de770578bd215819ef17093"
   },
-  "maximum_compile_reproduced": false,
+  "maximum_compile_reproduced": true,
   "preflight": {
     "authentication_passed": true,
     "input_preview_passed_validation": true,
@@ -74,10 +488,11 @@
     "src/hallmark/_gnark_probe.py": "e512b69a3809521ab5ea0e2485aceb4e111edb8e6ae7d8d76059696eb32a1245",
     "tests/test_gnark_linux_compile.py": "77697f209a3a0eae2ee1619be3b1f2fdeabedd3ecfcecf4eac4edad5e56bbe96"
   },
-  "status": "prepared_not_executed",
+  "status": "incomplete",
   "validation": {
     "combined_package_passed": true,
     "core_package_passed": true,
+    "exact_runtime_head_ci_jobs_passed": 28,
     "final_receipts": [
       {
         "elapsed_seconds": 39.47926849988289,
@@ -95,6 +510,8 @@
         "sha256": "ac72060e94bb178df3a9b51e1e9bd7d0ffb7d1705a270010f8925ba9a072e6cb"
       }
     ],
+    "final_spec_check_passed": true,
+    "go_tests_passed": 6,
     "installed_guard_checked": true,
     "installed_train_checked": true,
     "linux_ci_job": 119170243496,
@@ -107,7 +524,17 @@
     "local_platform_skips": 4,
     "new_python_tests": 30,
     "package_source_id_before_final_evidence_update": "f05cb8df00c19c9319eac92a40db56029779f87e85d92af0b51ca1a2958dcbd4",
-    "status": "local_gates_and_linux_kernel_passed_cloud_pending"
+    "pr_ci_url": "https://github.com/AbdelStark/hallmark/actions/runs/39585339006",
+    "prior_push_attempt": {
+      "cancelled": "macOS Python 3.14 train-package",
+      "cause": "not established by retained outer log",
+      "failed": "macOS Python 3.13 train-package",
+      "failed_jobs_rerun_same_head_passed": true
+    },
+    "push_ci_url": "https://github.com/AbdelStark/hallmark/actions/runs/39585332622",
+    "runtime_source_commit": "de05e111e92d356a1c472abe7ceb934660a4ccc1",
+    "serialized_small_fingerprints_matched": 7,
+    "status": "local_gates_linux_kernel_and_cloud_compilation_passed"
   },
   "work_item": "W18"
 }

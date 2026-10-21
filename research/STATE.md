@@ -297,20 +297,29 @@ charged until a later receipt audit. Full-input proving remains unavailable.
 All 2,042 Python tests and both installed-package gates pass, including required
 train/guard execution. Exact-head hosted verification remains separate.
 
-The [Linux fallback preparation](evidence/w18-hf-compile-2026-10-21.json) adds a
-separate compile-only controller and a public-input bootstrap under
-[decision 0040](../docs/decisions/0040-bounded-hf-compile.md). It pins the official
-Python image and Linux Go archive, preserves the compiler/circuit, denies worker
-socket creation and bounds wall time, files and sampled memory. Authentication
-and read-only HF Jobs access pass; no cloud job has been submitted. All 30 new
-tests, including the four actual kernel cases, pass in Linux CI. Maximum cloud
-compilation remains unexecuted. Rechecked receipts conservatively charge 6,870
-local seconds. After bootstrap rechecks, reserve the remaining 330 seconds,
-including local control-plane receipts, leaving zero unreserved in the existing
-7,200-second allocation.
-Local validation passes 2,068 tests with four Linux-only kernel checks skipped;
-both package gates pass, including installed train/guard execution. The bootstrap
-timeout-log retention correction also passes these gates before cloud execution.
+The [Linux fallback evidence](evidence/w18-hf-compile-2026-10-21.json) now records
+two successful maximum-capacity (32,768-unit) commitment compilations under
+[decision 0040](../docs/decisions/0040-bounded-hf-compile.md). Both report
+40,015,721 constraints. They take 250.655/244.997 seconds, with kernel peak RSS
+21,509,857,280/21,476,012,032 bytes, within the frozen limits. The one approved
+L4 job completes in 557 provider-reported seconds. Compilation uses CPU; the GPU
+is unused. A rounded-total-duration cost estimate is USD 0.133330, not an invoice.
+Six Go tests and seven small serialized circuit fingerprints pass before the
+large attempts. Maximum reproduction checks equal counts; no serialized maximum
+circuit, setup, witness or proof is retained. The synthetic profile pin and this
+commitment component do not qualify an enrolled classifier or complete encoder.
+
+The pinned public bootstrap keeps the HF token on the Mac. Its separate worker
+passes actual socket-denial smoke and bounded time/memory checks; this is not a
+general sandbox. All 30 new tests, including four actual kernel cases, pass in
+Linux CI. Local validation passes 2,068 tests with four Linux-only skips; both
+package gates pass with installed train/guard execution. All 28 exact-runtime-head
+jobs pass on `de05e111e92d356a1c472abe7ceb934660a4ccc1`. A prior push attempt's
+macOS package failure and fail-fast cancellation remain retained; their cause is
+unestablished and the failed jobs passed on same-head rerun. The increment charges
+294.110 local seconds, including control commands and the full ancillary allowance,
+within its 330-second reservation. Keep that reservation charged: zero unreserved
+within the 7,200-second proving allocation. The one-job HF allowance is consumed.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -536,14 +545,12 @@ as `5312460d8a48a4771d502592a05fb3ba362bdc03`; all 28 candidate jobs and all 14
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39565926086) passed.
 
 W18 / #19 remains [draft PR #72](https://github.com/AbdelStark/hallmark/pull/72).
-Next: finish the Linux controller's repository/package and actual Linux kernel
-checks, publish its exact source revision, then freeze and submit at most one
-bounded approved L4 compilation job. The full remaining 330 local seconds are
-reserved, including control-plane receipts. The late snapshot places compilation in
-deferred range checks, with substantial instruction and hint storage. Keep the
-same circuit/compiler and require small fixtures before maximum compilation;
-diagnosis alone does not need another small-proof campaign. No HF job has been
-executed. Continue the complete
+Next: prepare large-artifact bounded streaming and a concrete setup/proving plan
+before any maximum-input proof attempt. The existing 256 MiB artifact reader and
+unmeasured setup/prover memory are separate gates; compile success cannot satisfy
+them. Preserve the completed HF job and all failed Mac attempts. No new cloud job
+fits the current one-job allowance, and no local proving time is unreserved.
+Ordinary implementation and preparation can continue. Continue the complete
 encoder graph, including layer normalization,
 without treating the new commitment component as encoder qualification.
 Exact input/key enrollment, independent verification/security/setup review and

@@ -2211,3 +2211,58 @@ Reserve the previously unreserved 30 seconds for local cloud-control receipts,
 making this increment's total reservation 330 and leaving zero unreserved within
 7,200. This changes allocation, not authority. Numeric command totals and hashes
 are retained before submission. Cloud execution remains unsubmitted here.
+
+## 2026-10-21 — W18 maximum compilation reproduced on HF
+
+The frozen hypothesis passes its compile-only criterion: unchanged commitment
+circuits at capacity 32,768 compile twice with 40,015,721 constraints. The
+[numeric evidence](evidence/w18-hf-compile-2026-10-21.json) and local
+`result-audit.json` precede this prose. Mutable delivery paths are that evidence,
+STATE, this ledger and the stale storage-authority sentence; no runtime, circuit,
+codec, evaluator or frozen input changes follow execution.
+
+Job [6ad896465275124786e2490b](https://huggingface.co/jobs/abdelstark/6ad896465275124786e2490b)
+uses public source commit `de05e111e92d356a1c472abe7ceb934660a4ccc1`, a pinned
+Python image and Go archive, the existing optional Boolean-cache patch and the
+same 1,264-file module inventory. All six Go tests and seven small serialized
+circuit fingerprints pass. The Linux binary is
+`e3f8c85e996612b38abb72345097f441c35904a43b850cc63192d89969541904`.
+Local `job-manifest.json` and `job-spec.json` freeze the exact bootstrap command;
+the local `control_job.py submit` is called once, followed only by `poll`/`logs`.
+The post-run audit rechecks every public source pin, bootstrap/spec hash, logged
+result, small fingerprint, build identity, prerequisite and resource receipt.
+
+Actual socket denial passes first. The eight-unit compile takes 0.725 seconds.
+Maximum and fresh-process confirmation take 250.655/244.997 seconds, with kernel
+peak RSS 21,509,857,280/21,476,012,032 bytes. Their sampled peaks are
+21,510,488,064/21,475,983,360 bytes, below the 26-billion-byte stop. There is no
+timeout, memory cutoff or lost monitor. The container reports 29,999,996,928 bytes
+of memory. Maximum count reproduction is not serialized-circuit reproduction:
+this command retains no maximum circuit, setup, witness, proof or verifier result.
+It leaves `qualified_backend` and `full_input_proof` false and status incomplete.
+
+The provider reports COMPLETED, 4 scheduling seconds, 552 running seconds and
+557 total seconds. At the launch API's 13,333 micro-USD/minute, rounding all total
+time up to ten minutes gives a conservative USD 0.133330 estimate. No invoice was
+available. This CPU compilation used no GPU; no private input, token in worker,
+checkpoint upload, retry, scheduler, system-package install or external reviewer was involved.
+The local control receipts total 15.933833 seconds; preparation, control and full
+ancillary allowance total 293.657855 seconds. The final `make check-spec` passes
+in 0.452052 seconds, bringing the increment to 294.109907 within its 330-second
+reservation. The prior
+charge was 6,870 seconds. Retain the whole reservation and all failures; zero local
+proving seconds remain unreserved and the single HF job is consumed.
+
+Before launch, all 28 exact-runtime-head jobs passed on `de05e11`: push
+`39585332622` and PR `39585339006`. Push attempt one failed the macOS Python 3.13
+train-package gate and cancelled 3.14 by fail-fast. Its retained outer log does
+not establish a cause. Rerunning only failed jobs on the same head passed; the PR
+run passed initially. Local gates already passed 2,068 tests (four Linux-only
+skips) and both installed-package modes; real Linux kernel cases passed in CI.
+Final evidence-only delivery still needs its own hosted head checks.
+
+Next prepare bounded streaming for the current 256 MiB proof-artifact reader,
+then a fresh setup/proving plan with explicit memory, storage and resource terms.
+This result supplies no maximum proof cost. Full encoder/layer normalization,
+operational enrollment, independent verifier/security/hiding/setup review and
+genuine hardware remain separate missing gates. PR #72 remains draft and #19 open.
