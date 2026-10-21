@@ -1465,3 +1465,50 @@ is `45e564fabc36a7f0256a45fee9213b235d399767e81bdc2b840190bbbebf4d4c`.
 The live spec audit matches all 40 work items and 106 dependency edges after the
 owner-approved W15 acceptance update. Final-head hosted CI remains required
 before merge. No HF token, GPU job, paid compute or reviewer contact occurred.
+
+## 2026-10-21 — W17 frozen group-aware reporting
+
+Hypothesis: existing frozen test predictions can support versioned slice and
+paired root-group reports without training, scoring or threshold selection.
+Baseline: W15 has separate per-model counts but no shared reporting adapter.
+Decision [0034](../docs/decisions/0034-frozen-group-reports.md) freezes the report
+semantics; mutable paths are report API/command, fixture/tests, package checks
+and documentation. Prior evaluator/data/threshold identities remain unchanged.
+
+[Raw numeric evidence](evidence/w17-group-evaluation-2026-10-21.json) retains
+`runs/w17-group-report-1792568480677539000`: predeclared implementation/execution
+plans, the preparation controller and pin, verified prior artifact inventories,
+source/provenance/observation inputs, separately retained plan pin, exact commands,
+resource receipts and byte-equal reports. The new synthetic experiment explicitly
+records prior exposure to W15 test outputs. It does not reuse them as unseen
+confirmatory evidence. All 38 original run artifacts and the entire source dossier
+were checked against their existing inventories before preparing report inputs.
+
+The correlated software fixture has 36 authored-score rows in 12 declared groups,
+three seeds, three paired 10,000-resample comparisons, one positive quantization
+regression and one benign false positive per seed. Existing calibrator tests check
+ties and no benign calibration; new checks reject changed labels/thresholds,
+missing seeds/rows, split overlap, pin changes and adaptive confirmatory requests.
+Counts for correlated descendants have no binomial intervals. Empty denominators
+and absent bootstrap denominators remain null. Missing attempts remain explicit.
+
+Two new CLI processes report the retained W15 outputs in 0.292/0.283 seconds,
+peaking at 41,697,280/41,779,200 bytes RSS. Both report files are byte-identical.
+Ten available members and nine paired comparisons execute; twelve absent
+float/encoder members and nine quantization comparisons remain unavailable.
+Original pass/block control counts are retained in the pinned provenance.
+The guard's three negative-control positives, character models' two and MLPs'
+twenty missed positive controls remain unchanged. Shared templates are not
+independent statistical units or policy labels, so these intervals only check
+software. No human review, task-quality claim or independent verification occurred.
+
+Validation: 40 new tests, 47 focused checks and all 1,812 tests pass. Both core
+and combined train/guard package gates pass, including the installed report
+fixture and comparison pipeline. The first package attempt rejected uv 0.13.4
+before building; `dist/package-check-go3nqolb` retains that failure. Restoring
+required uv 0.9.18 in a private tool directory (published wheel SHA-256 checked,
+MIT/Apache notices retained) resolved it without modifying global tools or source.
+The package snapshot before this evidence/documentation update is
+`e21d8170269b46ab75c2702576326e47705ffbf290af71d7cc0667ce1d4ec51f`.
+No proof run, HF token, paid compute, model download or private-data upload occurred.
+Exact-head hosted checks remain required before merge.
