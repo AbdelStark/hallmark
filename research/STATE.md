@@ -664,12 +664,18 @@ keeps file checks strict and copies complete/failed outputs only after execution
 The local-disk serial attempt reached key serialization but exceeded the
 3,600-second setup-stage deadline. Kernel peak RSS was 57,714,008,064 bytes;
 this was a wall-time failure, not a memory-limit failure. All files are retained
-and its bucket removed. The separately frozen parallel candidate is now running
-within the unchanged USD 10 total ceiling. All historical failures
-and budgets remain preserved. Current preparation has not produced a maximum
-proof, complete encoder, independent verifier/security review or genuine hardware
-evidence. Continue the admitted encoder graph, including layer normalization,
-after resolving the resource gate; the commitment component does not qualify it.
+and its bucket removed. The separately frozen parallel candidate now passes the
+[maximum commitment campaign](evidence/w18-parallel-maximum-result-2026-10-21.json):
+three real proofs for 0, 32,767 and 32,768 bytes, the full frozen rejection roster,
+and two 38-case Mac replays, including an unmodified-dependency verifier. All
+361 cloud files are retained and hash-checked; its temporary bucket is removed.
+The conservative campaign total including the storage reserve is USD 7.19 within
+the unchanged USD 10 ceiling, not an invoice. All historical failures and budgets
+remain preserved. The 1,791.308-second batch passes its 1,800-second limit with
+narrow timing headroom; this is one diagnostic result. The commitment resource
+gate is cleared. Continue composing and admitting the complete encoder graph,
+including the separately tested normalization component. No complete encoder,
+independent verifier/security review or genuine hardware evidence is supplied.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use
@@ -700,14 +706,39 @@ PR #77 merged bounded artifact buffering and a pinned Linux Go test job as
 all 15 merged-main jobs passing. The Linux job executes all 12 Go probe tests,
 including actual flush failure, real proofs and circuit fingerprints.
 [Delivery receipts](evidence/w18-proof-artifact-delivery-2026-10-21.json) record the
-exact sources and checks. The maximum cloud result is still pending at delivery;
-its frozen source remains unbuffered. Repository visibility is public.
+exact sources and checks. The maximum cloud result was pending at that delivery;
+its frozen executed source remains unbuffered. Repository visibility is public.
 
 
 The [live-progress follow-up](evidence/w18-live-progress-2026-10-21.json) relays
 future controller logs while keeping the bootstrap's captured files and complete
 byte hashes. Worker start events contain only fixed case names and timeouts.
 Local acknowledgement, byte-preservation, exit-code and timeout fixtures pass;
-`make check` passes 2,114 tests and the core package gate passes. Hosted checks
-are pending. The running cloud job retains its original capture
+`make check` passes 2,114 tests and the core package gate passes. PR #78 merged as
+`e97659f2695a8f0bfdc6a14159bc1554a46cc329`; all 30 candidate checks and all 15
+[merged-main checks](https://github.com/AbdelStark/hallmark/actions/runs/39629089766)
+pass. One candidate job required a targeted rerun after successful steps/logs
+retained stale final metadata. The cloud experiment kept its original capture
 behavior. This changes diagnostics only, with no proof/evaluator claim.
+
+The separate [bounded normalization component](evidence/w18-integer-normalization-2026-10-21.json)
+now passes all 605 Mac cases: 289 real proofs and fresh verifier processes,
+25 rejection cases and two setups. All eleven intermediate values match the
+independent Decimal oracle over the complete two-feature `[-8,8]^2` domain.
+The 73.013-second diagnostic peaks at 24,182,784 bytes worker RSS. All 13 Go
+tests, including older circuit fingerprints, pass; `make check` passes 2,127
+tests and the core package gate passes after staging the reviewed new files.
+The initial packaging failure is retained. See [decision 0050](../docs/decisions/0050-bounded-integer-normalization.md).
+This is a four-field integer relation with declared approximations. It is not
+integrated into an admitted complete encoder, does not establish floating model
+equivalence and does not select a backend. Hosted delivery is pending.
+
+The maximum commitment result retains the independently frozen Mac circuit hash
+`cd91ff70e706fb2d3aecb83d40eae5d82c34611923b67b16a539f69291d0e489`.
+Its 40,015,721 constraints produce three 292-byte proofs. Setup takes 2,195.581
+seconds; the batch takes 1,791.308 seconds and peaks at 87,162,712,064 bytes worker
+RSS on the declared 32-vCPU/256-GB HF CPU host. Both patched and original-module
+Mac verifiers accept the three proofs and reject all 33 public-field changes,
+the field alias and changed proof. These are compatibility checks using shared
+gnark verifier code. The relation has 33 public fields and a synthetic profile;
+it does not prove the 100-field classifier statement or qualify a backend.

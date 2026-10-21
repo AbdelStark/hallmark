@@ -100,7 +100,8 @@ func run(args []string) (int, error) {
 	if len(args) == 1 {
 		switch args[0] {
 		case "rule-setup", "rule-prove", "rule-verify", "mlp-setup", "mlp-prove", "mlp-verify",
-			"block-setup", "block-prove", "block-verify":
+			"block-setup", "block-prove", "block-verify",
+			"normalization-setup", "normalization-prove", "normalization-verify":
 			return runGraph(args[0])
 		}
 	}
