@@ -2663,3 +2663,34 @@ package check; all ten job steps passed, though final job metadata was stale.
 A targeted rerun of that single job completes attempt 2 with all 14 jobs passing;
 the original status/log receipts remain retained.
 Repository visibility remains public.
+
+
+## 2026-10-21 — Serial maximum timeout retained; parallel candidate launched (W18 / #19)
+
+The local-disk serial baseline ended ERROR. Its export passes in 166.812 seconds,
+with the same 2,566,643,378-byte circuit SHA-256 as the Mac. Setup takes
+3,603.555 seconds, is killed by the wall deadline, and peaks at 57,714,008,064
+bytes kernel RSS. Memory-limit and monitor-failure flags are false. The generic
+controller budget exception does not establish a memory failure. The
+[raw numeric evidence](evidence/w18-maximum-baseline-timeout-2026-10-21.json)
+records CPU, cost and artifact pins before this prose.
+
+The 4,944,217,141-byte partial proving key establishes only that serialization
+started after Setup returned; no isolated phase time was measured. It is unusable
+and unenrolled. No complete verification key, maximum proof or maximum replay
+exists. All 45 files / 10,077,572,415 bytes were downloaded, worker/retention pins
+checked and local hashes rechecked before the temporary bucket was removed.
+Exact commands and receipts remain in `runs/w18-hf-local-disk-1792588507859979000`:
+`control.py poll`, `control.py logs`, `retain.py download`, `retain.py cleanup`,
+`terminal.json`, `download-verified.json` and `bucket-cleaned.json`.
+
+After this retention gate, the parallel candidate began HF job
+`6ad8ce6a0a35baab53a1dff0` from exact source
+`b5debd6e226b41755c702e0c490937bd7f5600f4`. All 28 checks on that source pass;
+one push job required a targeted rerun after stale final metadata. Its
+[launch record](evidence/w18-parallel-maximum-launch-2026-10-21.json) pins inputs,
+CI, launcher and whole-checkout storage. Prior conservative compute 281 cents,
+new compute reservation 480 cents and temporary-storage reserve 200 cents total
+961 cents, below the unchanged 1,000-cent ceiling; these estimates are not an
+invoice. The new run is active, with no result claimed. Frozen source, circuit,
+inputs, outcome roster and limits remain unchanged while it runs.

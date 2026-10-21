@@ -405,8 +405,12 @@ cases. The small roster takes 185.746 seconds with 1,246,986,240-byte peak worke
 RSS. These are implementation/compatibility checks with shared gnark verification,
 not a measured maximum speedup, independent security review or accepted setup.
 [Decision 0049](../docs/decisions/0049-parallel-pedersen-setup.md) freezes the optional
-candidate and a conditional sequential follow-up. The active maximum baseline
-keeps its serial setup and original identity; its result is still pending.
+candidate and a conditional sequential follow-up. The serial baseline has now
+[failed its setup wall-time limit](evidence/w18-maximum-baseline-timeout-2026-10-21.json),
+with all 45 files retained and the temporary bucket removed. Its 4.94 GB partial
+key is unusable; no maximum proof exists. The [parallel follow-up](evidence/w18-parallel-maximum-launch-2026-10-21.json)
+is running at frozen source `b5debd6e226b41755c702e0c490937bd7f5600f4`;
+its result remains pending. All 28 checks on that source pass.
 
 W15 / issue #16 now has the record-level MLP component: train-only complete-input
 max-logit fitting, pinned same-environment optimizer resume and explicit native
@@ -649,7 +653,11 @@ is removed. [Failure evidence](evidence/w18-hf-storage-failure-2026-10-21.json)
 retains the missing maximum cost receipt and unavailable setup/proof. The
 [local-disk correction](../docs/decisions/0048-local-disk-proof-execution.md)
 keeps file checks strict and copies complete/failed outputs only after execution.
-All historical failures
+The local-disk serial attempt reached key serialization but exceeded the
+3,600-second setup-stage deadline. Kernel peak RSS was 57,714,008,064 bytes;
+this was a wall-time failure, not a memory-limit failure. All files are retained
+and its bucket removed. The separately frozen parallel candidate is now running
+within the unchanged USD 10 total ceiling. All historical failures
 and budgets remain preserved. Current preparation has not produced a maximum
 proof, complete encoder, independent verifier/security review or genuine hardware
 evidence. Continue the admitted encoder graph, including layer normalization,
