@@ -90,3 +90,24 @@ Enroll the manifest hash outside the bundle. `audit-run` checks the enrolled has
 Measure the whole path on a named host: preprocessing, inference, quantization/export, setup, witness generation, proving, verification, serialization and attestation checks. Record CPU/GPU/RAM/VRAM, versions, thread count, cold/warm mode, batch size, sequence/chunk count, repetitions, p50/p95, peak memory, proof bytes and failures. Setup cost is not free; amortization states its denominator. Compare candidates on identical inputs and actual approved proof backends. Host inference speed and parameter count do not establish proving performance.
 
 Accept proof integration only after bit-exact host/circuit decisions on adversarial and boundary vectors, rejection of every mutated public input and key, overflow/range tests, complete chunk coverage and an independently checked proof. A compiler's successful import is not end-to-end verification.
+
+## Frozen grouped reports
+
+[Decision 0034](decisions/0034-frozen-group-reports.md) defines the separate
+`group_report` API and `scripts/report_groups.py` command. They consume a
+caller-pinned plan, source/provenance bytes, exact test records and previously
+frozen calibration/prediction records. They perform no training, scoring or
+threshold selection. Keep the expected plan identity outside the input bundle.
+
+Reports retain all three training seeds, unavailable attempts, root-representative
+counts, correlated descendant counts, fixed slices and 10,000 paired group
+bootstrap draws per available pair. Nominal slice/pair intervals are descriptive;
+missing denominators and resample denominators remain null. Float/integer
+comparisons retain both discordance directions and separately calibrated
+thresholds. Whole-group exclusions are frozen and disclosed. A new reporting
+plan over previously viewed test results is a new exploratory/synthetic
+experiment, never unseen confirmatory evidence.
+
+The report records missing joint-classifier, simultaneous-bound, actual-count
+power and authenticated admission evidence. It cannot return a passing quality
+decision. See the [command usage](OPERATIONS.md#frozen-group-report-command).

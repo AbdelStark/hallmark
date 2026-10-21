@@ -277,6 +277,21 @@ asset, paid job, private upload, hardware evidence or independent review occurre
 [main jobs](https://github.com/AbdelStark/hallmark/actions/runs/39457001526) passed.
 Issue #14 is closed as admission preparation, not completed measurement.
 
+W17 / issue #18 now adds caller-pinned versioned slice and paired group reports.
+The [evidence](evidence/w17-group-evaluation-2026-10-21.json) records 40 new tests,
+1,812 total tests and both installed-package gates. The authored correlated
+fixture keeps 36 records in 12 resampling groups, all three seeds and deliberate
+float/integer regressions. The report never fits, scores or calibrates a model.
+Two fresh report commands over retained W15 controls reproduce identical bytes
+in 0.292/0.283 seconds, with less than 42 MB peak RSS. They retain ten available
+models, nine 10,000-resample comparisons, twelve unavailable members and nine
+unavailable quantization pairs. Original fixed controls remain in the pinned
+provenance. Shared marker templates are not independent policy samples; this is
+software evidence. Synthetic/exploratory reports do not evaluate a confirmatory
+decision, and confirmatory requests remain inconclusive. The initial package
+check rejected global uv 0.13.4; an isolated required uv 0.9.18 made both gates
+pass without changing the global tool. See [decision 0034](../docs/decisions/0034-frozen-group-reports.md).
+
 ## Not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, ZK proving/verification, full bundle assembly and combined verification, independent verifier implementation, real safety-policy dataset/evaluation, encoder/teacher/student training, proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
@@ -343,15 +358,19 @@ W18 / #19 has a separate [draft PR #72](https://github.com/AbdelStark/hallmark/p
 with staged proof fixtures; complete-input encoder qualification and independent
 verification remain missing. Its implementation/evidence are on that draft branch.
 
-Next: finish W15 / #16's exact-head hosted CI checks, then merge the
-comparison pipeline under the owner's [synthetic-stage approval](../docs/decisions/0033-approved-synthetic-pipeline.md).
-Human review is no longer a prerequisite for this software stage. The owner
-approved 40 GiB retained storage and both T4/L4 fallback options, with the Mac
-preferred. Existing data packets and failures remain retained; no fabricated
-human labels or claimed human review are needed. Continue W18's full-input/
-encoder work afterward within its remaining budget, and W17 once W15 is merged.
-Natural-data validation, genuine hardware and independent verification remain
-separate evidence requirements for the full MVP.
+W15 / #16 is merged in [PR #73](https://github.com/AbdelStark/hallmark/pull/73)
+as `de29271d21196202fc951ebe5f5fc3348fbf9a63`; all 28 candidate and 14 main jobs
+passed. W18's integration at `7cc267dd707d3d8c738a1d14ba0897b71e78be91` passes
+1,947 local tests, both package gates and all 28 hosted jobs. Its proof source
+and qualification limitations are unchanged; PR #72 remains draft.
+
+Next: verify W17's exact-head hosted CI and merge its report implementation, then
+continue W18 full-input/encoder work within the remaining recorded proof budget.
+The owner's [synthetic-stage approval](../docs/decisions/0033-approved-synthetic-pipeline.md)
+permits agent review without human labels, 40 GiB retained storage, Mac-first
+execution and bounded HF T4/L4 fallback. Natural-data validation, genuine hardware
+and independent verification remain separate full-MVP requirements. No new
+permission is needed for ordinary implementation inside the recorded scope.
 Under [AUTHORITY](AUTHORITY.json), review public source rights
 and complete exact inventories; exclude ambiguous/gated assets. Freeze actual
 data, candidate and evaluator identities before measurement. Use

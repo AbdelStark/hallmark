@@ -403,3 +403,47 @@ must record the real authority, exact guard assets, resources and agent review.
 The same command can use the pinned real guard weights with an explicitly
 synthetic dossier; this does not validate injection-detection quality.
 Human labels and the old blank review packet are not prerequisites for this stage.
+
+## Frozen group report command
+
+The core-only API is `hallmark.group_evaluation.group_report`. Construct and retain
+`GroupReportPlan` before reporting, including the source/provenance SHA-256 values,
+`dataset_identity(test_rows)`, `evaluator_identity()`, member fit/calibration pins,
+annotations, whole-group exclusions and prespecified pairs. Save `plan.identity()`
+outside the input directory. Every family/variant needs all seeds 17/29/43 or one
+fixed, untrained member (`seed: null`). Represent failed/missing members explicitly
+with `ReportUnavailable`; do not drop them or average only surviving seeds.
+
+For existing W15 output, copy each calibration into `ReportObservation.calibration`
+and the corresponding evaluation's `predictions` into its predictions field.
+Use the already retained `frozen.json` fit/calibration identities in the plan;
+keep that file's externally enrolled inventory pin. Preserve the originating
+source, run, review and data identities in the provenance document. This adapter
+does not authenticate those artifacts or their historical freeze order. Native
+score scales must match the retained fit/export record; float scales are one.
+
+```sh
+uv run --locked python scripts/report_groups.py \
+  --plan /path/to/plan.json --expected-plan "$REPORT_PLAN_ID" \
+  --records /path/to/test-records.jsonl \
+  --observations /path/to/name-to-observation.json \
+  --source /path/to/source-inventory.json --provenance /path/to/provenance.json \
+  --output runs/new-group-report
+```
+
+The command rejects existing output directories. New reports contain no prompt
+text, but identifiers and source/provenance metadata can still be private. Keep
+inputs, raw scores and reports local unless publication is separately authorized.
+A failed attempt retains `failure.json` and has no completed `report.json`.
+
+Reproduce the authored, correlated fixture without NumPy, model files or downloads:
+
+```sh
+uv run --locked python scripts/check_group_evaluation.py --output runs/new-group-fixture
+```
+
+This fixture uses 36 records in 12 declared groups, three training-seed labels,
+three 10,000-resample float/integer comparisons and explicit unavailable encoder
+members. Its scores are authored software controls, not trained classifiers.
+Repeat into a second fresh directory and compare report bytes. Python and its
+random implementation are part of the evaluator identity.

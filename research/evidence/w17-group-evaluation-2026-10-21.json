@@ -1,0 +1,687 @@
+{
+  "baseline_commit": "de29271d21196202fc951ebe5f5fc3348fbf9a63",
+  "decision": "docs/decisions/0034-frozen-group-reports.md",
+  "expected_plan": "9afbdf1839e77a897ba8f33ac6744282378d6d0eec786ad8da3c0383b7974447",
+  "frozen_plan": {
+    "adaptive": false,
+    "annotations": [
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-002"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-004"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-013"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-016"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-019"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-025"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-029"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-041"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-045"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-050"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-054"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-057"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-062"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-075"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-079"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-084"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-088"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-092"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-109"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-110"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-114"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-116"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-119"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-126"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-132"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-135"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-137"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-138"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-140"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-141"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-145"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-146"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-152"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-155"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-156"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-165"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-168"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-183"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-197"
+      },
+      {
+        "benign_hard_negative": null,
+        "obfuscation": null,
+        "record_id": "r-199"
+      }
+    ],
+    "bootstrap_seed": 113,
+    "dataset": "a22ba663eff1fddf8ae1ffd81dfae5386a1fc76e59b9524c47fbaadd1f7c2eb4",
+    "evaluator": "23a464c06f8264ea20b5224289e5f7f0245ca86bafa7c880c390b450c7ef0f27",
+    "evidence_class": "synthetic",
+    "exclusions": [],
+    "experiment_id": "w17.retained-synthetic.2026-10-21",
+    "pairs": [
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-logistic-17"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-logistic-29"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-logistic-43"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-mlp-17"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-mlp-29"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "byte-mlp-43"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "char-ngram-17"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "char-ngram-29"
+      },
+      {
+        "left": "task-guard",
+        "purpose": "comparison",
+        "right": "char-ngram-43"
+      },
+      {
+        "left": "byte-logistic-float-17",
+        "purpose": "quantization",
+        "right": "byte-logistic-17"
+      },
+      {
+        "left": "byte-logistic-float-29",
+        "purpose": "quantization",
+        "right": "byte-logistic-29"
+      },
+      {
+        "left": "byte-logistic-float-43",
+        "purpose": "quantization",
+        "right": "byte-logistic-43"
+      },
+      {
+        "left": "byte-mlp-float-17",
+        "purpose": "quantization",
+        "right": "byte-mlp-17"
+      },
+      {
+        "left": "byte-mlp-float-29",
+        "purpose": "quantization",
+        "right": "byte-mlp-29"
+      },
+      {
+        "left": "byte-mlp-float-43",
+        "purpose": "quantization",
+        "right": "byte-mlp-43"
+      },
+      {
+        "left": "compact-encoder-float-17",
+        "purpose": "quantization",
+        "right": "compact-encoder-17"
+      },
+      {
+        "left": "compact-encoder-float-29",
+        "purpose": "quantization",
+        "right": "compact-encoder-29"
+      },
+      {
+        "left": "compact-encoder-float-43",
+        "purpose": "quantization",
+        "right": "compact-encoder-43"
+      }
+    ],
+    "provenance": "831fa377765989b3d33b092f62e55e497017a78796821e3ba346ab2478943bf4",
+    "resamples": 10000,
+    "roster": [
+      {
+        "calibration": "2d2d506f90094f6acca37245b90d660ab49d4dd9014008d42a54f04a1f4e8eca",
+        "family": "byte-logistic",
+        "fit": "90b23a2b2a1a8e4069a90ca200c489435ad1d54a32951ce847e1bb5609843047",
+        "name": "byte-logistic-17",
+        "score_scale": 64,
+        "seed": 17,
+        "variant": "native"
+      },
+      {
+        "calibration": "cc55f273956e32d3723f168e404305008f49171353257202ed1e8cc9907ef4c8",
+        "family": "byte-logistic",
+        "fit": "f15494a1b342cf48eefaed2e0f22a765a42a9d1936e25c0cf991413b0653fed2",
+        "name": "byte-logistic-29",
+        "score_scale": 64,
+        "seed": 29,
+        "variant": "native"
+      },
+      {
+        "calibration": "8971a9802a9ef5e95ca7db2a105d278612aecd1e285dfa25260add3957e2e964",
+        "family": "byte-logistic",
+        "fit": "0d5ae9c100c48d75f15617a216699e947970f920095132e0f1e7bbe0e6391498",
+        "name": "byte-logistic-43",
+        "score_scale": 64,
+        "seed": 43,
+        "variant": "native"
+      },
+      {
+        "calibration": "e050f25af16903807f464d716a3337d0bafa3cec70bfed6d24b2e1af08bf8025",
+        "family": "byte-mlp",
+        "fit": "f40f51d8781e3510681262f7eee6d4c52706b728bfb4d2e6a8fb71a82df6b195",
+        "name": "byte-mlp-17",
+        "score_scale": 4096,
+        "seed": 17,
+        "variant": "native"
+      },
+      {
+        "calibration": "a7f31ef687591529bd06f86b5278388d3f6a6b10eeb10b90f607decb1926d1e3",
+        "family": "byte-mlp",
+        "fit": "51d688b6a68f00911a434f9ab99eeb8d346e691d1f1d9f4b7617d8cfe22b9920",
+        "name": "byte-mlp-29",
+        "score_scale": 4096,
+        "seed": 29,
+        "variant": "native"
+      },
+      {
+        "calibration": "0960384b892d1539145e50db62e73cc32bd2f9a780ff8df5d6dc964fbb95061f",
+        "family": "byte-mlp",
+        "fit": "8bee19d502120bbc13a01b4264d71034f1c529d283eb09103af819704e2621ec",
+        "name": "byte-mlp-43",
+        "score_scale": 4096,
+        "seed": 43,
+        "variant": "native"
+      },
+      {
+        "calibration": "273d599dc9ac40109f812e2107398c5f0be55aade10d88a444900332a42f34d3",
+        "family": "char-ngram",
+        "fit": "3d97622edbf7dbd17bdc03fe3230383f5f8f3c9f0339b61661cf1403cbc18871",
+        "name": "char-ngram-17",
+        "score_scale": 1,
+        "seed": 17,
+        "variant": "native"
+      },
+      {
+        "calibration": "41397c7cad413d87e0770545ea1ea4ad4bad0c0e628f2f396a34ad794b5f411a",
+        "family": "char-ngram",
+        "fit": "8d5e0ba5c43ea74e78a42729636fb95147014711b90c79276c9a7997537e2641",
+        "name": "char-ngram-29",
+        "score_scale": 1,
+        "seed": 29,
+        "variant": "native"
+      },
+      {
+        "calibration": "e1f26033f8bd48a41d0d9c240fdfe8651b3479ae3a4071e1da72eac3210b627b",
+        "family": "char-ngram",
+        "fit": "0fe448c8fee7c7c4c1bb1ac30a578d48fd4f2a6852617427e7672c04e75e2386",
+        "name": "char-ngram-43",
+        "score_scale": 1,
+        "seed": 43,
+        "variant": "native"
+      },
+      {
+        "calibration": "6c16b6dc1a9fa0b781e20a1a9628eefd8aa52151318844ab6fea7c6ff54c3f52",
+        "family": "task-guard",
+        "fit": "caca25cf1488517a6694a06de7198a65b58eaf9d1ef443d19170ce034ad84097",
+        "name": "task-guard",
+        "score_scale": 1,
+        "seed": null,
+        "variant": "native"
+      },
+      {
+        "calibration": null,
+        "family": "byte-logistic",
+        "fit": null,
+        "name": "byte-logistic-float-17",
+        "score_scale": 1,
+        "seed": 17,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "byte-logistic",
+        "fit": null,
+        "name": "byte-logistic-float-29",
+        "score_scale": 1,
+        "seed": 29,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "byte-logistic",
+        "fit": null,
+        "name": "byte-logistic-float-43",
+        "score_scale": 1,
+        "seed": 43,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "byte-mlp",
+        "fit": null,
+        "name": "byte-mlp-float-17",
+        "score_scale": 1,
+        "seed": 17,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "byte-mlp",
+        "fit": null,
+        "name": "byte-mlp-float-29",
+        "score_scale": 1,
+        "seed": 29,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "byte-mlp",
+        "fit": null,
+        "name": "byte-mlp-float-43",
+        "score_scale": 1,
+        "seed": 43,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-17",
+        "score_scale": 1,
+        "seed": 17,
+        "variant": "native"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-float-17",
+        "score_scale": 1,
+        "seed": 17,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-29",
+        "score_scale": 1,
+        "seed": 29,
+        "variant": "native"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-float-29",
+        "score_scale": 1,
+        "seed": 29,
+        "variant": "float"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-43",
+        "score_scale": 1,
+        "seed": 43,
+        "variant": "native"
+      },
+      {
+        "calibration": null,
+        "family": "compact-encoder",
+        "fit": null,
+        "name": "compact-encoder-float-43",
+        "score_scale": 1,
+        "seed": 43,
+        "variant": "float"
+      }
+    ],
+    "schema_id": "hallmark/group-report-plan/1",
+    "seeds": [
+      17,
+      29,
+      43
+    ],
+    "source": "55688b17f082db599f8c2786aeac3ce9d9153e8c5de9bc406ab54239b9cc0a31"
+  },
+  "hf_token_used": false,
+  "issue": 18,
+  "limitations": [
+    "Authored scores in the correlated fixture are not model training.",
+    "W15 shared-template software controls are not independent injection-policy samples; their intervals are only conditional software outputs.",
+    "No rescoring, refitting, threshold change, new model download or task-quality result.",
+    "Twelve members and nine quantization pairs unavailable in the retained W15 report; original fixed control counts remain in pinned provenance.",
+    "Confirmatory joint-classifier decisions, simultaneous exact bounds, actual-count power and independently authenticated admission/test history remain missing.",
+    "Fresh report repetition verifies software determinism, not independent validation."
+  ],
+  "paid_compute_minor": 0,
+  "quality_claim": false,
+  "raw_root": "runs/w17-group-report-1792568480677539000",
+  "raw_sha256": {
+    "execution-protocol.json": "3b63e66d962af89061589ba7692f011111f6b35015b59b44e89104b769babf4f",
+    "expected-report-plan.id": "97491bf90ec30ce99a1bb73230a8efb1460e6a3448a4fe2d65e38735a370be5b",
+    "input-inventory.json": "6b7263a1efddd8593b11d0b984c53609339746ee40874368fed02cf003fa908d",
+    "pinned-package-validation-plan.json": "c45d3335c25a77977658ec9b42cbcb872e6798397b412089110f4f86dd75461a",
+    "plan.json": "b7121420f8820ab172c720c28551c4b122d9f42a4ffbd5684c2f4321f5d1ef74",
+    "prepare-controller.sha256": "7a55df0e73a39eb626e895af838d8dfd5b152070ffe6b0c181fda5136bbbb21c",
+    "prepare_reports.py": "9bf53cb62820e8950462423a03e05a5135b68978514c932fc1447dc0dc51632c",
+    "reproduction.json": "b4317d58b2e1216ead05c7f6124e1011de09ae24cd776bdd0f431220640bdd42",
+    "run-receipts.json": "345202e9bfc05627d7784599b038da56b7b36f1947286b18bab8a56875e8e251",
+    "validation-plan.json": "aed5df2fe013f008c5da47249aa77d5421bb3487098f9d7c8543458e7ca51141",
+    "validation-receipts.json": "362d60f01f0b4a2847c5ccea696e0a75083bbdfe353e6ba46dbaaca9a798c858"
+  },
+  "recorded_at": "2026-10-21",
+  "reproduction": {
+    "byte_identical": true,
+    "pairs_reported": 9,
+    "pairs_unavailable": 9,
+    "quality_claim": false,
+    "records": 40,
+    "report_sha256": "a914fe4d1429fd2919fe0d311131f080ee1e473b531de3c647a4b93d24894953",
+    "reported": 10,
+    "root_groups": 40,
+    "unavailable": 12
+  },
+  "runs": [
+    {
+      "elapsed_seconds": 0.2924000001512468,
+      "name": "first",
+      "peak_rss_bytes": 41697280,
+      "returncode": 0
+    },
+    {
+      "elapsed_seconds": 0.2829655408859253,
+      "name": "repeat",
+      "peak_rss_bytes": 41779200,
+      "returncode": 0
+    }
+  ],
+  "schema_id": "hallmark/w17-group-evaluation-evidence/1",
+  "source_sha256": {
+    "scripts/check_group_evaluation.py": "4531e6dd774a39e81859d76e4377e5961a2047dbe34025f51defcadb8b8d931b",
+    "scripts/check_package.py": "f935da96d5bc06a056cffed41ae79ed3531ff582f526671f7d1d25da52ec9de4",
+    "scripts/report_groups.py": "034e03bfa70a6281e57706ac45a678c657385f224d49bd8b3f7d08c7728015cb",
+    "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+    "tests/test_group_evaluation.py": "f3aeccfabd0947425e25f80a2d4c9639e731611606463e02547e91a8daa272f6"
+  },
+  "validation": {
+    "commands": [
+      {
+        "argv": [
+          "uv",
+          "run",
+          "--locked",
+          "pytest",
+          "tests/test_group_evaluation.py",
+          "tests/test_evaluation.py",
+          "-q"
+        ],
+        "elapsed_seconds": 2.3063212078996003,
+        "name": "focused",
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "make",
+          "check"
+        ],
+        "elapsed_seconds": 36.10844483296387,
+        "name": "check",
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "make",
+          "package-check"
+        ],
+        "elapsed_seconds": 0.10877187480218709,
+        "name": "package-check",
+        "returncode": 2
+      },
+      {
+        "argv": [
+          "make",
+          "package-check"
+        ],
+        "elapsed_seconds": 6.564749666955322,
+        "name": "package-check-pinned",
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "make",
+          "package-check-comparison"
+        ],
+        "elapsed_seconds": 50.3750376671087,
+        "name": "package-check-comparison-pinned",
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "make",
+          "check"
+        ],
+        "elapsed_seconds": 33.913231417071074,
+        "name": "check-pinned",
+        "returncode": 0,
+        "uv_version": "0.9.18"
+      }
+    ],
+    "focused_tests": 47,
+    "full_tests": 1812,
+    "initial_package_failure": {
+      "path": "dist/package-check-go3nqolb/failure.json",
+      "reason": "Current global uv 0.13.4 differs from required 0.9.18; source snapshot checks separately passed.",
+      "remedy": "Isolated PyPI-hash-checked uv 0.9.18 tool, no global modification",
+      "tool": {
+        "binary_sha256": "00bfc5ba2eb99c5e74a448df28656c644e4dd62df0d847ee07081c48b41cd8bc",
+        "filename": "uv-0.9.18-py3-none-macosx_11_0_arm64.whl",
+        "license_expression": null,
+        "license_files": [
+          "uv-0.9.18.dist-info/licenses/LICENSE-APACHE",
+          "uv-0.9.18.dist-info/licenses/LICENSE-MIT"
+        ],
+        "purpose": "Restore the existing reviewed project toolchain requirement without modifying the global tool",
+        "sha256": "cf33f4146fd97e94cdebe6afc5122208eea8c55b65ca4127f5a5643c9717c8b8",
+        "source": "https://pypi.org/pypi/uv/0.9.18/json",
+        "system_install": false,
+        "version": "0.9.18"
+      }
+    },
+    "new_tests": 40,
+    "packages_before_evidence_docs": [
+      {
+        "distributions": {
+          "hallmark_research-0.1.0-py3-none-any.whl": "2a7479e43678a3800aec21b8430ccf047dd364a9c41d02ffc5e49a870e1d5056",
+          "hallmark_research-0.1.0.tar.gz": "adefa11483e791eb5ed334899d1168253f15fd301705b577490fdaed5badaf6c"
+        },
+        "installed_guard_checked": false,
+        "installed_train_checked": false,
+        "retained": "/Users/abdel/dev/me/hallmark/dist/package-check-6evz95gr",
+        "source_id": "e21d8170269b46ab75c2702576326e47705ffbf290af71d7cc0667ce1d4ec51f",
+        "status": "passed"
+      },
+      {
+        "distributions": {
+          "hallmark_research-0.1.0-py3-none-any.whl": "2a7479e43678a3800aec21b8430ccf047dd364a9c41d02ffc5e49a870e1d5056",
+          "hallmark_research-0.1.0.tar.gz": "adefa11483e791eb5ed334899d1168253f15fd301705b577490fdaed5badaf6c"
+        },
+        "installed_guard_checked": true,
+        "installed_train_checked": true,
+        "retained": "/Users/abdel/dev/me/hallmark/dist/package-check-oft33w7v",
+        "source_id": "e21d8170269b46ab75c2702576326e47705ffbf290af71d7cc0667ce1d4ec51f",
+        "status": "passed"
+      }
+    ]
+  }
+}

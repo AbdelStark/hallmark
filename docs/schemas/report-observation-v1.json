@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "ComparisonCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Calibration",
+          "type": "string"
+        },
+        "fit": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Fit",
+          "type": "string"
+        },
+        "groups": {
+          "items": {
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Groups",
+          "type": "array"
+        },
+        "prompts": {
+          "items": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "maxItems": 100000,
+          "minItems": 1,
+          "title": "Prompts",
+          "type": "array"
+        },
+        "schema_id": {
+          "const": "hallmark/comparison-calibration/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "score_type": {
+          "enum": [
+            "integer",
+            "float64"
+          ],
+          "title": "Score Type",
+          "type": "string"
+        },
+        "target_fpr": {
+          "pattern": "^(?:0|1|0\\.[0-9]{0,17}[1-9])$",
+          "title": "Target Fpr",
+          "type": "string"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "schema_id",
+        "fit",
+        "calibration",
+        "target_fpr",
+        "score_type",
+        "threshold",
+        "groups",
+        "prompts"
+      ],
+      "title": "ComparisonCalibration",
+      "type": "object"
+    },
+    "ReportPrediction": {
+      "additionalProperties": false,
+      "properties": {
+        "block": {
+          "title": "Block",
+          "type": "boolean"
+        },
+        "group_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Group Id",
+          "type": "string"
+        },
+        "label": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Label",
+          "type": "integer"
+        },
+        "record_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+          "title": "Record Id",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "ge": -1000000000000.0,
+          "le": 1000000000000.0,
+          "title": "Score"
+        }
+      },
+      "required": [
+        "record_id",
+        "group_id",
+        "label",
+        "score",
+        "block"
+      ],
+      "title": "ReportPrediction",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "calibration": {
+      "$ref": "#/$defs/ComparisonCalibration"
+    },
+    "predictions": {
+      "items": {
+        "$ref": "#/$defs/ReportPrediction"
+      },
+      "maxItems": 100000,
+      "minItems": 1,
+      "title": "Predictions",
+      "type": "array"
+    },
+    "schema_id": {
+      "const": "hallmark/report-observation/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "calibration",
+    "predictions"
+  ],
+  "title": "ReportObservation",
+  "type": "object"
+}

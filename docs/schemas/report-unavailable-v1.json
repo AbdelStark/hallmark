@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "reason": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,127}$",
+      "title": "Reason",
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "hallmark/report-unavailable/1",
+      "title": "Schema Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "reason"
+  ],
+  "title": "ReportUnavailable",
+  "type": "object"
+}
