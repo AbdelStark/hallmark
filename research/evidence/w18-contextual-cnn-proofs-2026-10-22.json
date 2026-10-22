@@ -1,0 +1,617 @@
+{
+  "actual_original_proofs": 12,
+  "binary_sha256": "24d4bd744d6956b6accb8d5e1eb6a5a1fb208b7f16d6449eb651f76863f8909b",
+  "experiment": "w18-contextual-cnn-proof-v1",
+  "groups": [
+    {
+      "capacity": 8,
+      "enrollment": [
+        {
+          "circuit": {
+            "bytes": 24556495,
+            "sha256": "54a12a58122bcb94b2d3617dbc7f26882a87d241ecdd032709671e91d9bc9c45"
+          },
+          "classifier_cbor_hex": "ad646b696e6467656e636f6465726573636f70656670726f6d70746573657475705820b2b5e8c26e6c7509d8c1db3ccc50fb53d2c302dfdd970395413c83aab7b9b766666c6162656c73826f73796e7468657469632d696e6572747773796e7468657469632d72756e2d666f7262696464656e676261636b656e64582087c10ef3e00602a888b2cbd49588ca981c7e1e58a997488ece39b9f9b98d38226770726f6772616d5820ef90bf45331d2f9287090ab48c4eb9166a7d9c712efc1c2f5cf92b797640cc166777656967687473582013c904a9f5563bafd03951cc9e51c1c9e3a7aad83bfb1e6580b0dd2b6bee8c3869736368656d615f69647568616c6c6d61726b2f636c61737369666965722f31697468726573686f6c64390e9469746f6b656e697a657258201b95019d05724fcdd80c205ae2b976472ec910a6c5caf25bd5fda844b419656d6a61726974686d6574696358201a312b4605e73ed02e2fa302d80e690bad83f1b31e606ad7c8092f3c6257c7566c76657269666965725f6b657958200af2e018bd1d08da80e2f7847b3ac72d3607abb41f78f49c5586a83e2f945cc56d696e7075745f70726f66696c655820ef5ff14fe4520e9ae87851f3fc3c94c5f018de1be0c0f03b85d793246e33d609",
+          "key_sha256": "d4e8bb606a227f9b5a6129c7c57e382f131a338f25eeb20d7d234d1714eacb8a",
+          "model_sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        },
+        {
+          "circuit": {
+            "bytes": 24556495,
+            "sha256": "54a12a58122bcb94b2d3617dbc7f26882a87d241ecdd032709671e91d9bc9c45"
+          },
+          "classifier_cbor_hex": "ad646b696e6467656e636f6465726573636f70656670726f6d7074657365747570582045d442acc3fec6e3bedfe85d8037e1f35e4e8766ff353a9e594d7c74999043b9666c6162656c73826f73796e7468657469632d696e6572747773796e7468657469632d72756e2d666f7262696464656e676261636b656e64582087c10ef3e00602a888b2cbd49588ca981c7e1e58a997488ece39b9f9b98d38226770726f6772616d5820ef90bf45331d2f9287090ab48c4eb9166a7d9c712efc1c2f5cf92b797640cc166777656967687473582013c904a9f5563bafd03951cc9e51c1c9e3a7aad83bfb1e6580b0dd2b6bee8c3869736368656d615f69647568616c6c6d61726b2f636c61737369666965722f31697468726573686f6c64390e9469746f6b656e697a657258201b95019d05724fcdd80c205ae2b976472ec910a6c5caf25bd5fda844b419656d6a61726974686d6574696358201a312b4605e73ed02e2fa302d80e690bad83f1b31e606ad7c8092f3c6257c7566c76657269666965725f6b6579582044cba0a0c4e5223438ac608d576ddd612c70fa3152056d2f1a48131270e0dcf56d696e7075745f70726f66696c655820ef5ff14fe4520e9ae87851f3fc3c94c5f018de1be0c0f03b85d793246e33d609",
+          "key_sha256": "8d2e6a43475625c412e4d4739b1cfb8927b6e2a2c3e1810dcf8053b678ed322f",
+          "model_sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        }
+      ],
+      "runs": [
+        {
+          "constraints": 398877,
+          "setup_elapsed_ns": 54052459375,
+          "verifier_outcomes": {
+            "accepted": 4,
+            "malformed": 22,
+            "rejected": 109
+          },
+          "worker_costs": {
+            "batch": {
+              "elapsed_seconds": 31.002949208021164,
+              "exit_code": 0,
+              "max_rss_bytes": 1089912832,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1089912832,
+              "system_seconds": 0.531695,
+              "timed_out": false,
+              "user_seconds": 119.22749
+            },
+            "independent": {
+              "elapsed_seconds": 142.30933245806955,
+              "exit_code": 0,
+              "max_rss_bytes": 50102272,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": false,
+              "sampled_peak_rss_bytes": 50102272,
+              "system_seconds": 4.57733,
+              "timed_out": false,
+              "user_seconds": 103.209554
+            },
+            "setup": {
+              "elapsed_seconds": 54.90560800000094,
+              "exit_code": 0,
+              "max_rss_bytes": 1080213504,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1080197120,
+              "system_seconds": 0.858826,
+              "timed_out": false,
+              "user_seconds": 174.198962
+            }
+          }
+        },
+        {
+          "constraints": 398877,
+          "setup_elapsed_ns": 52104884042,
+          "verifier_outcomes": {
+            "accepted": 4,
+            "malformed": 22,
+            "rejected": 109
+          },
+          "worker_costs": {
+            "batch": {
+              "elapsed_seconds": 30.357393708080053,
+              "exit_code": 0,
+              "max_rss_bytes": 1112129536,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1112129536,
+              "system_seconds": 0.427625,
+              "timed_out": false,
+              "user_seconds": 117.468549
+            },
+            "independent": {
+              "elapsed_seconds": 103.94563450012356,
+              "exit_code": 0,
+              "max_rss_bytes": 49807360,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": false,
+              "sampled_peak_rss_bytes": 49758208,
+              "system_seconds": 4.149333,
+              "timed_out": false,
+              "user_seconds": 99.298677
+            },
+            "setup": {
+              "elapsed_seconds": 52.73477604216896,
+              "exit_code": 0,
+              "max_rss_bytes": 1038581760,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1038581760,
+              "system_seconds": 0.740922,
+              "timed_out": false,
+              "user_seconds": 173.169009
+            }
+          }
+        }
+      ]
+    },
+    {
+      "capacity": 96,
+      "enrollment": [
+        {
+          "circuit": {
+            "bytes": 54098539,
+            "sha256": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb"
+          },
+          "classifier_cbor_hex": "ad646b696e6467656e636f6465726573636f70656670726f6d70746573657475705820e67a851e87cf88787918190704d8cad5dbd8000f0d969cf2cc037826b3e1a105666c6162656c73826f73796e7468657469632d696e6572747773796e7468657469632d72756e2d666f7262696464656e676261636b656e64582087c10ef3e00602a888b2cbd49588ca981c7e1e58a997488ece39b9f9b98d38226770726f6772616d5820ef90bf45331d2f9287090ab48c4eb9166a7d9c712efc1c2f5cf92b797640cc166777656967687473582013c904a9f5563bafd03951cc9e51c1c9e3a7aad83bfb1e6580b0dd2b6bee8c3869736368656d615f69647568616c6c6d61726b2f636c61737369666965722f31697468726573686f6c64390e9469746f6b656e697a657258201b95019d05724fcdd80c205ae2b976472ec910a6c5caf25bd5fda844b419656d6a61726974686d6574696358201a312b4605e73ed02e2fa302d80e690bad83f1b31e606ad7c8092f3c6257c7566c76657269666965725f6b657958203748b98a1c6b64f0c965d75bca8378252cb7773cdd544d23d4d9fec8b48496bb6d696e7075745f70726f66696c655820ef5ff14fe4520e9ae87851f3fc3c94c5f018de1be0c0f03b85d793246e33d609",
+          "key_sha256": "fefa5efc8ca987b330fbf6ea65f0d73cc4acaebaf17978301a68a34b8fdb4332",
+          "model_sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        },
+        {
+          "circuit": {
+            "bytes": 54098539,
+            "sha256": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb"
+          },
+          "classifier_cbor_hex": "ad646b696e6467656e636f6465726573636f70656670726f6d7074657365747570582091dce2aef9d0bd59452559c8d8559578bf1861b94d7a7cc5a429b4755110e481666c6162656c73826f73796e7468657469632d696e6572747773796e7468657469632d72756e2d666f7262696464656e676261636b656e64582087c10ef3e00602a888b2cbd49588ca981c7e1e58a997488ece39b9f9b98d38226770726f6772616d5820ef90bf45331d2f9287090ab48c4eb9166a7d9c712efc1c2f5cf92b797640cc166777656967687473582013c904a9f5563bafd03951cc9e51c1c9e3a7aad83bfb1e6580b0dd2b6bee8c3869736368656d615f69647568616c6c6d61726b2f636c61737369666965722f31697468726573686f6c64390e9469746f6b656e697a657258201b95019d05724fcdd80c205ae2b976472ec910a6c5caf25bd5fda844b419656d6a61726974686d6574696358201a312b4605e73ed02e2fa302d80e690bad83f1b31e606ad7c8092f3c6257c7566c76657269666965725f6b65795820f151ac83d8a18d005700082beb346459ef996c7d161144778cbf3f511e24c2966d696e7075745f70726f66696c655820ef5ff14fe4520e9ae87851f3fc3c94c5f018de1be0c0f03b85d793246e33d609",
+          "key_sha256": "8d6d0cd8a22b3b87eb1752819036fc0c0539a687687a34087975897637079f8c",
+          "model_sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        }
+      ],
+      "runs": [
+        {
+          "constraints": 975708,
+          "setup_elapsed_ns": 115661458500,
+          "verifier_outcomes": {
+            "accepted": 4,
+            "malformed": 22,
+            "rejected": 109
+          },
+          "worker_costs": {
+            "batch": {
+              "elapsed_seconds": 67.93154408410192,
+              "exit_code": 0,
+              "max_rss_bytes": 1684291584,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1684291584,
+              "system_seconds": 1.609611,
+              "timed_out": false,
+              "user_seconds": 259.614762
+            },
+            "independent": {
+              "elapsed_seconds": 105.50933600007556,
+              "exit_code": 0,
+              "max_rss_bytes": 49725440,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": false,
+              "sampled_peak_rss_bytes": 49709056,
+              "system_seconds": 4.181404,
+              "timed_out": false,
+              "user_seconds": 100.784555
+            },
+            "setup": {
+              "elapsed_seconds": 115.72902974998578,
+              "exit_code": 0,
+              "max_rss_bytes": 2110586880,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 2110586880,
+              "system_seconds": 2.414504,
+              "timed_out": false,
+              "user_seconds": 399.317433
+            }
+          }
+        },
+        {
+          "constraints": 975708,
+          "setup_elapsed_ns": 109246561750,
+          "verifier_outcomes": {
+            "accepted": 4,
+            "malformed": 22,
+            "rejected": 109
+          },
+          "worker_costs": {
+            "batch": {
+              "elapsed_seconds": 65.69888558401726,
+              "exit_code": 0,
+              "max_rss_bytes": 1699151872,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 1699151872,
+              "system_seconds": 1.310226,
+              "timed_out": false,
+              "user_seconds": 255.267898
+            },
+            "independent": {
+              "elapsed_seconds": 102.47211379185319,
+              "exit_code": 0,
+              "max_rss_bytes": 49545216,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": false,
+              "sampled_peak_rss_bytes": 49496064,
+              "system_seconds": 4.267123,
+              "timed_out": false,
+              "user_seconds": 97.849312
+            },
+            "setup": {
+              "elapsed_seconds": 109.55594183411449,
+              "exit_code": 0,
+              "max_rss_bytes": 2228649984,
+              "memory_limit_exceeded": false,
+              "memory_monitor_failed": false,
+              "memory_sample_process_missing": true,
+              "sampled_peak_rss_bytes": 2228649984,
+              "system_seconds": 1.601801,
+              "timed_out": false,
+              "user_seconds": 385.182891
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "hardware_claim": false,
+  "manual_review": {
+    "checks": [
+      "Embedding byte lookup and masks precede all causal windows; short proof capacities supply zero beyond their admitted range.",
+      "Every convolution product/partial sum and rescale has a conservative signed-int32 envelope; the derived native head scaling is checked too.",
+      "Empty pooling is zero; only active positions enter maxima; score equality blocks.",
+      "Canonical JSON shape/range/pin checks, actual-key enrollment and caller-owned public inputs precede proving.",
+      "Real malformed computation cases include a re-encoded changed input with stale neural trace, beyond a simple commitment mismatch.",
+      "Dedicated circuit has no general-purpose VM; controller remains a trusted research compiler/enrollment boundary."
+    ],
+    "independent_human_review": false,
+    "limitations": [
+      "No independent security/hiding or setup-custody qualification.",
+      "Native model and public-input semantics depend on trusted controller enrollment; standalone model metadata is not authenticated admission.",
+      "No hardware provenance or response-generation claim.",
+      "Synthetic grammar quality only; maximum profile 96 bytes."
+    ],
+    "reviewer": "research-agent",
+    "source_before_sha256": "f0948c60168357283ccd4b94e27d2af4fa578e8ed3885d264b779c19d43b8c30"
+  },
+  "new_cloud_compute_usd": 0,
+  "program": "ef90bf45331d2f9287090ab48c4eb9166a7d9c712efc1c2f5cf92b797640cc16",
+  "qualified_backend": false,
+  "real_world_quality_claim": false,
+  "runs": [
+    {
+      "elapsed_seconds": 521.3222645418718,
+      "peak_worker_rss_bytes": 2110586880,
+      "qualified_backend": false,
+      "results": [
+        {
+          "actual_proofs": 3,
+          "arithmetic_cases": 135,
+          "capacity": 8,
+          "scores": [
+            -17,
+            -154,
+            -108
+          ],
+          "verdicts": [
+            0,
+            0,
+            0
+          ],
+          "witness_rejections": [
+            "late-unit",
+            "mask",
+            "convolution",
+            "rounded",
+            "relu",
+            "pooled",
+            "score",
+            "threshold",
+            "reencoded-input-stale-trace"
+          ]
+        },
+        {
+          "actual_proofs": 3,
+          "arithmetic_cases": 135,
+          "capacity": 96,
+          "scores": [
+            -4884,
+            4937,
+            4695
+          ],
+          "verdicts": [
+            1,
+            0,
+            0
+          ],
+          "witness_rejections": [
+            "late-unit",
+            "mask",
+            "convolution",
+            "rounded",
+            "relu",
+            "pooled",
+            "score",
+            "threshold",
+            "reencoded-input-stale-trace"
+          ]
+        }
+      ],
+      "retained_bytes": 1035302451,
+      "status": "passed",
+      "synthetic_only": true,
+      "workers": 6
+    },
+    {
+      "elapsed_seconds": 468.65461316588335,
+      "peak_worker_rss_bytes": 2228649984,
+      "qualified_backend": false,
+      "results": [
+        {
+          "actual_proofs": 3,
+          "arithmetic_cases": 135,
+          "capacity": 8,
+          "scores": [
+            -17,
+            -154,
+            -108
+          ],
+          "verdicts": [
+            0,
+            0,
+            0
+          ],
+          "witness_rejections": [
+            "late-unit",
+            "mask",
+            "convolution",
+            "rounded",
+            "relu",
+            "pooled",
+            "score",
+            "threshold",
+            "reencoded-input-stale-trace"
+          ]
+        },
+        {
+          "actual_proofs": 3,
+          "arithmetic_cases": 135,
+          "capacity": 96,
+          "scores": [
+            -4884,
+            4937,
+            4695
+          ],
+          "verdicts": [
+            1,
+            0,
+            0
+          ],
+          "witness_rejections": [
+            "late-unit",
+            "mask",
+            "convolution",
+            "rounded",
+            "relu",
+            "pooled",
+            "score",
+            "threshold",
+            "reencoded-input-stale-trace"
+          ]
+        }
+      ],
+      "retained_bytes": 1035302537,
+      "status": "passed",
+      "synthetic_only": true,
+      "workers": 6
+    }
+  ],
+  "schema_id": "hallmark.contextual-proof-evidence/1",
+  "selected_quantization_sha256": "8de31ae0215178f5c74aa43e58dd63511bc3b6a881c2045cc96def9e149b8f0b",
+  "separate_arithmetic_cases": 540,
+  "source": {
+    "research/probes/gnark/README.md": "884e7bdfcc2d37f6d431b80837c79a6740d42ae428ad975fbb34e9b003b3f5d2",
+    "research/probes/gnark/artifacts_test.go": "2f6a8cafa742ada9af0f7b8c9e806cee127a78bf074ae86907affe976eb2e85f",
+    "research/probes/gnark/block-fixture.json": "4526e21b5fe001d81611c5ccd5bb23f7347cdcc79c5ed75a56776944f581c7bb",
+    "research/probes/gnark/block.go": "65f3b4c34c2d33ed17ced6d4ad93d49ddf971dc48f8a8e6ce1305e7dc1313da9",
+    "research/probes/gnark/cache_test.go": "b48f10647f9a22afa47a45bb391212af81e576d1f8e138a5fe630fd1ab018ccc",
+    "research/probes/gnark/contextual_cnn.go": "71911a66e3c32752e868046bfb261a9cea8067828899dcd2acd55b059b9e1721",
+    "research/probes/gnark/contextual_cnn_test.go": "f59f6cc5e394db4f514097c205ed53f6cf6c0e4ec58f75470bf508fc4752680d",
+    "research/probes/gnark/encoder-classes-fixture.json": "e7990fbd38768c9de6151a02a1391b2696a27be01f9633e010989745c726429f",
+    "research/probes/gnark/encoder-fixture.json": "14cec4e70126684e7698d74b01dd279bf637be53d18cec343e02b3d7e05f5c60",
+    "research/probes/gnark/encoder-graph.json": "1cf452df3baf10177542ef4689dc3438322a9d83025541c31718613bf6b47c22",
+    "research/probes/gnark/encoder-maximum-fixture.json": "a5a7dcc541edb5e75fc634b1b0d90326c891c3247ab49da7cae61368990188d3",
+    "research/probes/gnark/encoder.go": "4cfe79fa8ce3d60407cd4fb53c8a2fa82189b559bfec53c8e46c62ae494f39ea",
+    "research/probes/gnark/encoder_test.go": "56aef28d24c4d80fb65e1b484bc556478aee725d556d6e7175f23fa783061e89",
+    "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+    "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+    "research/probes/gnark/graph.go": "8092032e5531eb319fd45b7adce5a6c1c05a07da498c7c29755e8ad545beb7d8",
+    "research/probes/gnark/input.go": "c2074fc7313153b1fcd657d6a9dcc5bee58a646669e81a15e2a8048b0480b156",
+    "research/probes/gnark/input_scale.go": "5414d3094e57085f8e8863dc0f8322d47c7b75d686ea020bc395bb60a8df7c99",
+    "research/probes/gnark/input_scale_test.go": "67bdc35821449ee8fc98f40c8ffaa05c4d9a582a32bf13290230331ac22a1d9a",
+    "research/probes/gnark/main.go": "20dea0d23209b41b46e6916f9e5634d133672cef4b1fc81ce4de049326ea87c5",
+    "research/probes/gnark/mlp-fixture.json": "db1e5792c87d8e66617ba39a9ecb588dcb637e885211d5f241bdaf632b51f1fd",
+    "research/probes/gnark/mlp.go": "b0032cb02f6912b1041eebd42de5b97edece0a06f71c60a645563ffded46a477",
+    "research/probes/gnark/normalization-fixture.json": "c2eea1685a324e5ef1d84caa2cd9fb5ae7ca5414112ebc638fe1b9ae10194092",
+    "research/probes/gnark/normalization.go": "212853337d11ccd8a4da99ddd8af45662f04ad3b8bfb1c805583281ee5b0fc9b",
+    "research/probes/gnark/normalization_test.go": "874332cb3e8571b667baf8b7b09f1c0302095f519c132f3d5f255386769df2d5",
+    "research/probes/gnark/program_test.go": "be9fbbe2a9278bdc349623aecd49fe268348d2013cf7ab7b30786118311575bb",
+    "research/probes/gnark/rule-fixture.json": "681cc89e3059e54ab387d41770ce9a44380755af3cfe23f11171359d4512db6f",
+    "research/probes/gnark/rule.go": "285f3d4a25335438ac5cfa427c309ed28956a010eceaa639cbecea8c45e82ab6",
+    "research/probes/gnark/trained_mlp.go": "bdd3ed73dee933a630792cae4b63f763a610293dc9c1c62ac4f554a25d35796e",
+    "research/probes/gnark/trained_mlp_test.go": "d78143f04e8a1f5fd5a58ce49151cead80c00421476394959e5f9c35ad2a4971",
+    "research/probes/py_ecc/check.py": "ef8736a68baa25929e6c50e48a5b7285ab1b1b52ea84e60ab1829a7a5ca6cdc3",
+    "research/probes/py_ecc/generate_fixture.py": "efeed41b6bff704a055ed188681aad49b6380599475cf5ef683858f4817cc738",
+    "research/probes/py_ecc/verify.py": "1ba84b98163f24c0c18e020c2afc15c2996045992c4dfc4b79489c812fff69d6",
+    "research/probes/py_ecc/verify_set.py": "cb42efdde192f3a2b232607d936aa4096eae325cb72d2d627b08c4cbc6efc7e5",
+    "scripts/build_admission_fixture.py": "d6173400f1beb2cad75306325e54435cdefaa429abeca5f73a8aff2371ae4aa6",
+    "scripts/build_backend_fixture.py": "0372fd396d4d9b4b891c6dd7fb87dfac8cae305da9c48603a752e2cce315a397",
+    "scripts/build_conformance.py": "27646e25fc85573b27c5ddaa956fb04ecb9e2d5af2835e5bd1f8ba6858fe0615",
+    "scripts/build_data_fixture.py": "29d4fdd718290efd1e87f0cdc87463c2b9346c52b8cf5b6d41f8e774114fed87",
+    "scripts/build_encoder_classes_fixture.py": "ef15d88997f139b7a2a09b573904aa700874caccaea8bf20cd0e57f799894f3d",
+    "scripts/build_encoder_fixture.py": "165b60650bed5594f60211d41ca9de20ed32500454a09c3097e2a4923d2420e3",
+    "scripts/build_gnark_block_fixture.py": "9c25062e83281035ab847e5eb53fb28a8133768558c38dcbde4627cd2980b3ea",
+    "scripts/build_gnark_encoder_fixture.py": "00e35f192fe2e75ca8e66ee309ad215bab5d58543c03f3e046bf1ddd7c56865d",
+    "scripts/build_gnark_encoder_maximum_fixture.py": "ff3b7a2cf2a4a6257e64a2670769a843aab84bc33c16b9053ca476db0f1aecc2",
+    "scripts/build_gnark_mlp_fixture.py": "cd95720949f2b6261e497399704468663b0b25473800df8f8082cfa8df48555e",
+    "scripts/build_gnark_normalization_fixture.py": "c5f57d02da4734b86fe631648a8d06b80d3ffb7fe750090cc33fe83eb8c604c0",
+    "scripts/build_gnark_rule_fixture.py": "94a4cfe5c34b04447f82d8b89358a06bba089f636cb0edf6e852748240ed6b5d",
+    "scripts/build_mlp_fixture.py": "df52764ffe2334d2ceede6c114069d0f99f1830b96586c76be55d62d0cd515e4",
+    "scripts/build_mlp_training_fixture.py": "3a382c5240de1bd676a87963abc16ad3bf4423f8656ecd6f87585b41b0db641f",
+    "scripts/build_qualification_fixture.py": "877962f8d229f6de145c275b553f86151a639b3e42a415b6383ca82cca223639",
+    "scripts/build_rule_fixture.py": "e310d7006053f10ec790ddd6893eba5f64fb58230f852f641285eaa60ee8498c",
+    "scripts/build_selection_fixture.py": "4832091a9202239d27b844e15786129065cf4a1eae45a984d2c284415f38e795",
+    "scripts/check_admission.py": "0aac9ce36e32f58e155424f13ce8eb5f7e4f9998e78f2e96732868d7bba01d88",
+    "scripts/check_backend_fixture.py": "6035cd1d3a132f6aad62a2603800d94578f9aa1f5f46db3e5ca391d7293c6df4",
+    "scripts/check_comparison_run.py": "fa65c82a03f8cee000fc076257cfbf1161ba2090aff24d1f8eb843b9f48e6c5a",
+    "scripts/check_conformance.py": "7edaf42ac11e04e5cc3cd6aa6ebec288733c39fedae91621c963f7dd74f30f6a",
+    "scripts/check_data_import.py": "9308d401de2b7ac6c7e091bec7d8e2d1792a3a5628ee436db6e7da06542b1f3d",
+    "scripts/check_docs.py": "eec8fad5cbfbdf0ce947445542aa12905c60e8e53122c21781277f08b219bc63",
+    "scripts/check_encoder_vectors.py": "d98278a9f0e2cab6bea5dbe844805778adf059e5ac157bec6bd29cf493b09c27",
+    "scripts/check_event_storage.py": "3472cdf6194382f9a346e60eeecbc107053c996efd45a631d6eee17faafd16d5",
+    "scripts/check_gnark_block_probe.py": "bf2d87d0fe82aaf1c554a4e5f865fbb3404642ae66c79366ec3a5cb77885d89a",
+    "scripts/check_gnark_encoder.py": "23d5fd8946ed1b39a310e81a70a4c45ea1acd2927089def9c14ecfb8d89ea1ed",
+    "scripts/check_gnark_input_scale.py": "437a7ba47e842dda34e47f3052866ef27c5a9e1b32df6ef3ae7ced75ed4d920e",
+    "scripts/check_gnark_normalization.py": "2528c174e6532221175fe59a5283589115bb2c230a82f60a403a4fe8912a22db",
+    "scripts/check_gnark_probe.py": "bf654dda3381733840e038683126a781b98412653c06f76cb52f528f3e0cdeea",
+    "scripts/check_gnark_rule_probe.py": "9fbf588e8e5ed9cc830df25848c230e3574a2352fad95879164a70bd65842717",
+    "scripts/check_group_evaluation.py": "4531e6dd774a39e81859d76e4377e5961a2047dbe34025f51defcadb8b8d931b",
+    "scripts/check_guard.py": "c2ae5e2e7209b957fb551702855cd08a6c277da673a18cae22438aea396e9ee0",
+    "scripts/check_installed_train.py": "ccbf1ccfbd3afa099643692d2f97f13b240667dde7c951e3d6a59ff9bb3ed332",
+    "scripts/check_mlp_training.py": "f767da55fef69260be33817aede4f393228fc0dff7e547997b97818bcce0de4f",
+    "scripts/check_mlp_vectors.py": "0a094dad8a72217dfe2ddb2933f68614664ddc2502681f1db8993cea5ef7b117",
+    "scripts/check_package.py": "398afeedd6672e3b7a2baf4fab0e169f00b69879e8d18dab5b4b11c493dd846a",
+    "scripts/check_qualification_fixture.py": "1d792970f20e2a215db3ba04da97366edace8ad9df6aa199f587df86b6b63eef",
+    "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
+    "scripts/check_rule_vectors.py": "268e4c823c8f06faefbd510215e786e56e884d403055d7c6516d59f13b1cf12f",
+    "scripts/check_selection.py": "e2467596665728cab9588e5ad57ae1dec6c40bd5b2d563222e96183287e38518",
+    "scripts/check_spec.py": "78f41fd98b9b7a4a2b3b80a16a26b8b8455298a68a88ed2a5b7b04afbfe4cd44",
+    "scripts/common_input.py": "492c207a32e0847e91c6e7ef24b4079852f62ebf16949e236f281f234a361f25",
+    "scripts/contextual_cnn.py": "b7daf1d9bef15e217612327ab5eee93c04f0016fad039395dafd79801a22a094",
+    "scripts/gnark_hf_bootstrap.py": "b852c4e5b22abff07dad7c8411b37f9ceb1aadcdeb756d9e6ed8a71babda6856",
+    "scripts/package_inventory.py": "b0b4c1d80fa676e16427e52237712ed554b6aa6bccd2966f281d1c9be0ddffb0",
+    "scripts/plan_admission_power.py": "4709f9a788c39944fe5ba21fb64cb3b407563671638f1d93fb02b2a721df8866",
+    "scripts/report_groups.py": "034e03bfa70a6281e57706ac45a678c657385f224d49bd8b3f7d08c7728015cb",
+    "scripts/reproduce_package.py": "00798c91820757e65bae66e0481b7c710bd80a15a84db4c56abd400484018217",
+    "scripts/run_common_input.py": "1323411e668618ba46e865c86d4d3fb4f51be73a80cc2132f97173fc51d8bd7b",
+    "scripts/run_comparisons.py": "37fbd3d2e3c9e3badb330324712e1d9dea70d813057f7183fdf5944b677b3405",
+    "scripts/run_contextual_cnn.py": "a036c82aab829dca839c6fe223792046aa4518af2203bbcae0c5e248ff649001",
+    "scripts/run_contextual_proof.py": "20c0a90f198919770f660f1e6c6efc8bc26cc271f614d6d3504a043616f0910a",
+    "scripts/run_guard.py": "5543ce4ba16cb7e3d89debe68078157c61ea7346999b9440c638a80c7a6d82d3",
+    "scripts/run_trained_mlp.py": "495306824acf2b5d42fe993474aa6b8893df8619eeefa1669503e2001f2978fd",
+    "src/hallmark/__init__.py": "e1687dfa545112140e5fa13d0e3a209252c3f8f88bca6c8751f3f06c74de4d94",
+    "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+    "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+    "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+    "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+    "src/hallmark/_gnark_probe.py": "752f64b1d4090b58d3478f654b54e8927d612864dfcbeb4133fe88a35a0feb74",
+    "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+    "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+    "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+    "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/cli.py": "76a1808b2609aeb5f13ffb615b6c957b8e3892749cd3326e4fc65eeb7d1ca14c",
+    "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+    "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+    "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+    "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+    "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+    "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+    "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+    "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+    "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+    "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+    "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+    "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+    "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+    "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+    "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+    "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+    "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+    "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+    "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+    "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+    "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+    "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+    "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "tests/conftest.py": "1fa9fe74fb145e8aee47b3566c4950ae232388aa43e48d975242d7a778f05256",
+    "tests/test_admission.py": "6ac7c27c21281ef6ff75149ae87fe84aab5898e1eee734d97ae611539f709cf8",
+    "tests/test_backend.py": "c5649480da0ff0440fe4abd424bf98236c1bf3fcc7d2d9cf7f1e28456a3d6158",
+    "tests/test_bundles.py": "328e6e94a755f8a1b1cb1158db7e0b6543397a5592936583734cc2be77963651",
+    "tests/test_classifier_manifest.py": "2561e8318afdce4190de5a7bf4c9e282a8bd2cb67c86b3f7bab56ff4869260d1",
+    "tests/test_common_input.py": "6d9219691e4a63efd9684a2174feebd4b8732d591f81ba87abe5775e87335afe",
+    "tests/test_comparison_run.py": "d0b312030f79bacd60ff4661ed4f15649bd124fe2a4c11b15ba74e8990751f6b",
+    "tests/test_conformance.py": "033192f78e56bd4ff0122d11894878a612fa392c729a59c75c7005ecf1d45263",
+    "tests/test_contextual_cnn.py": "81af4fd20d1ade1a86bbbea2648094422d1a5b39ee348c5d18ff9d4d482c756e",
+    "tests/test_contextual_proof.py": "606736c122a368ca06d2e727a0e7ff92cba2d19b7fd1faae0f7062b58e93a4a6",
+    "tests/test_contracts.py": "9329959e9a1f9e23edfba51b82f1ce0784d110454a589db9adc24b119367c125",
+    "tests/test_data_admission.py": "21bc165b1aa34c5d56fb5869fa2d1cfc9af9f94a78a966c4cbf4587a3a903b72",
+    "tests/test_doc_check.py": "20351fc48952c148db50d3577f65f4fe7331377fb65fb9ac34d6e097bede92f2",
+    "tests/test_encoder_classes.py": "0df6da41852d50c61ee1f5a1a9678825af086dc5f56243d3cd1f2b9c40304af1",
+    "tests/test_enrollment.py": "1356d2c15206b2b921d38ce5a37eab1e8441703be599c2a6326f2e59aa8dd0d0",
+    "tests/test_error_privacy.py": "8d399b57b0a9a0e9a65d91b904e99abc4b52918530557b0d8bd601d5f06a7ad9",
+    "tests/test_evaluation.py": "8dd18f7138243563174c44289ee2b2c03e90d994085729eb16963f1abfa8eeea",
+    "tests/test_events.py": "6b8541f471c6ab17a6a21186dd491c12af15646b45fefef4d7a4fabcd9c81fe1",
+    "tests/test_gnark_block_probe.py": "2e640e9d7abe3b20fb43b6f8e19fb47f5321d66b1b4bbcde36e386a41f921c59",
+    "tests/test_gnark_encoder.py": "722bcffa32337f3908ba91453d3349eba2e214ec38c7d2361d423c3d613084e4",
+    "tests/test_gnark_encoder_maximum.py": "0289b0c72d29486cd80542fc56a28050dde3478c43da955be79c753609df065e",
+    "tests/test_gnark_input_scale.py": "c6c041e871b7e233644c260487eb2be02eee47f5335753a04743abaa9652d17f",
+    "tests/test_gnark_linux_compile.py": "d674dc4293f51a5066a0677fc5dfed8da50bc0d3692ce908e840e575e61969cb",
+    "tests/test_gnark_maximum.py": "9ba79d6073565f9c47080088e872f1429c1f06521f96f06e021f3e72961e9731",
+    "tests/test_gnark_normalization.py": "a08552b4793952f6416a3673d63d3b89083d7214750458b8fd9049d012e892bb",
+    "tests/test_gnark_probe.py": "02f1c7d09c8b4ea12dd1f3cac134888827bb561fd22960edd2cadb554de98836",
+    "tests/test_group_evaluation.py": "f3aeccfabd0947425e25f80a2d4c9639e731611606463e02547e91a8daa272f6",
+    "tests/test_guard.py": "4b5ad5ea72157daba1b6af04e4969e22f1d802164db0c2a30c161349dff35fc4",
+    "tests/test_integer_encoder.py": "6e615abb0e0a3809ad64e0f3990df7ffd9c760bff0b7c17d68969e3281bce551",
+    "tests/test_integer_graph.py": "884535acb0b91631a86aad72e0030e32cc93fb54ad085fc4a48a7ad087b719c1",
+    "tests/test_integer_mlp.py": "874cd435f3c0542238141eb359cf1a9cd01a189bbd823ba379619f4fecc30a1a",
+    "tests/test_manifests.py": "d75f7b0f230bfc8fccaaf0e421bf584293b89d5565268107313e5e05af58041c",
+    "tests/test_mlp_training.py": "1e6e28154f4e5c471f7e0e5279e6698c92cafcbe33c12b987d24c2f1e1aa856c",
+    "tests/test_openings.py": "710f86e104571e1d5a585a2ba327d2a206f7b7f694e517695abd870a912aee54",
+    "tests/test_package.py": "9d5abd6b19ad2e462f0f8973142925b6edd1a48996dc3d529d18bc7da18ed23f",
+    "tests/test_pipeline.py": "13b10b0df1a3a9b91c665f9cdfd65b158a4a7b9b86a9a2f7673434ea7aae2d73",
+    "tests/test_policy.py": "487eccf0ca1564f6a60ca76d04cb5a5bc78ecf5e43f0f129e6a8fbdd65e35cad",
+    "tests/test_qualification.py": "41c010d2396e5de8584922c62b0867d96ae8170d90d6241f4073548179dad832",
+    "tests/test_receipt_contracts.py": "f7badcd763d90a7aebfa1763def60833d20957cf12ffce0c24ec8b0a9bcb777b",
+    "tests/test_reference.py": "b17c847fc66b02d5afd042cf23a649b2b6fcc161b59f7fce34d2487dc673b4fe",
+    "tests/test_registry.py": "76efbbf52aea891f5b01b4adb326ae56bfa4a2bc8fd74caa68ba6cb632f1589e",
+    "tests/test_rule.py": "7995db9d4b7cd2e30e5525e510b422aac12737f745c91100d0ec49a76b5cd224",
+    "tests/test_selection.py": "4d3984b64568702c006bd47038ac3a84cf3ea972d85ae8436b298c521072c143",
+    "tests/test_source_packet.py": "0b6ae573195a47b4b9a2272f51ca76a0c4b7fd318c50d254e31925157fb99ee1",
+    "tests/test_spec_check.py": "49e6b25a01d1afa05c266f4f80f356e2ae13ab5acb714f1af7ef073a93c84f29",
+    "tests/test_train_gate.py": "086a6c1c0684e5cbfc01b518df5a6975ee9d07d21a4e5f213a1d5c30db42d794",
+    "tests/test_trained_mlp.py": "aa8b2ac6396cdff0b49487e8c0460f2e9b68fcc6e84373851372953ad34e10ec",
+    "tests/test_wire.py": "e91f3e0313a95800bfbe9d87046aeab93ec1c1eb796ca6bccd82fbffd5d41233"
+  },
+  "source_hashes_unchanged": true,
+  "threshold": -3733,
+  "unsatisfied_witness_mutations": 36,
+  "validation": {
+    "full_hybrid_executed": false,
+    "go_reported_test_functions": 22,
+    "historical_fingerprints_unchanged": 10,
+    "make_check": true,
+    "new_sources_in_sdist": true,
+    "package_check": true,
+    "pytest_passed": 2251,
+    "pytest_skipped": 50,
+    "python_focused_tests": 5,
+    "software_conformance_cases": 156
+  },
+  "verifier_environment": {
+    "checked_during": "second proof campaign; not claimed as a pre-launch check",
+    "packages": {
+      "annotated-types": "0.8.0",
+      "cytoolz": "1.2.0",
+      "eth-hash": "0.8.0",
+      "eth-typing": "6.0.0",
+      "eth-utils": "6.0.0",
+      "py-ecc": "8.0.0",
+      "pydantic": "2.14.1",
+      "pydantic-core": "2.50.1",
+      "toolz": "1.2.0",
+      "typing-extensions": "4.16.0",
+      "typing-inspection": "0.4.4"
+    },
+    "requirements_sha256": "5dd2b5ababbc9d3f47a70bb51dc5840862c77e437174d374492887bafcd1df7b"
+  }
+}

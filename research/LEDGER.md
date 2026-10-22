@@ -3556,3 +3556,69 @@ placeholders, with no operational enrollment. Seed 17 was selected in the second
 protocol before test for the next proof integration. These results do not establish
 real-world quality, a ZK proof, independent security review or hardware provenance.
 Issue #17 stays open pending qualified-graph acceptance.
+
+
+## 2026-10-22 — W18 complete trained contextual CNN proofs
+
+[Decision 0061](../docs/decisions/0061-complete-contextual-cnn-proof.md), issue #19.
+The selected seed-17 quantization, native program and threshold -3733 are frozen
+from W16's second synthetic screen. No training/evaluator/data change is made.
+Hypothesis: the entire learned byte CNN relation can be proved and checked with
+separate arithmetic while preserving complete byte/window/mask/threshold binding.
+
+A dedicated circuit uses constant embedding lookups and convolution affines,
+nearest-even rescaling, ReLU, masked global maximum and head/strict threshold.
+It reuses the exact typed input-commitment circuit and 100 public scalars, without
+any VM. Static int32 checks include the native graph's 256-scaled head envelope.
+The controller enrolls model/circuit/key before worker assignments and supplies
+independently reconstructed public inputs to the separate pairing implementation.
+
+Small fixture gates pass: authored Go numeric/mutation tests and five Python
+statement/trace tests. Each actual campaign first proves empty, NUL and UTF-8 at
+capacity eight, then requires all separate-verifier cases before capacity 96.
+The latter uses the predeclared first held-out action pair and a space-padded
+positive input of exactly 96 bytes. This roster tests execution, not new quality.
+Scores are -4884, 4937, 4695 at the unchanged threshold; verdicts pass/block/block.
+The small empty/NUL/UTF-8 probes all block and are not claimed as quality successes.
+
+Two fresh runs each produce six actual proofs, reject 18 altered witnesses and
+pass 270 separate-arithmetic cases. Every group includes the nine prescribed
+mutations, including a correctly re-encoded changed input with the stale neural
+trace. Failure is an unsatisfied constraint, not a parser or dependency error.
+Each separate-verifier corpus has 4 accepted cases (three originals plus the valid
+joint point-negation variant), 109 algebraic rejections and 22 malformed inputs.
+Totals: 12 original proofs, 36 witness rejections, 540 separate-arithmetic cases.
+Each proof is 292 bytes and each verification key is 5,536 bytes.
+
+Both model/circuit identities reproduce and all four setups use fresh keys.
+Capacity-eight/96 constraint counts are 398,877 / 975,708. First-run setups take
+54.052459375 / 115.6614585 seconds. Whole runs take 521.3222645418718 /
+468.65461316588335 seconds; peak worker RSS is 2,110,586,880 / 2,228,649,984 bytes.
+Retained outputs are 1,035,302,451 / 1,035,302,537 bytes. These are diagnostic samples,
+not performance distributions. New cloud compute spend is zero; execution stayed
+on the Mac within the declared time/memory/output limits. Before confirmation,
+total allocated checkout storage was 221,603,454,976 bytes below the 256 GiB cap.
+
+The [numeric evidence](evidence/w18-contextual-cnn-proofs-2026-10-22.json) SHA-256 is
+`50f5e28188f4631f7baf8945f35761c85f45f25ea1a07c508ee9d13696fa37dc`.
+All 183 source-file hashes match across both runs. Retained local evidence is
+`runs/w18-contextual-proof-1792664655696226000/`: execution plans, before/after
+source snapshots, build environment, `run-01/02`, original worker stdout/stderr,
+all keys/proofs/assignments, costs, negative cases and a labeled agent review.
+The verifier's 11 pinned package versions match a fresh check made during the
+second run, not misreported as pre-launch inspection. No raw checkpoint or trace
+is committed. See the [exact invocation](../docs/OPERATIONS.md#proving-the-selected-contextual-cnn).
+
+Validation: `make check` passes 2,251 tests with 50 optional/platform skips and
+156 software conformance cases; the full hybrid suite is still unavailable.
+All Go tests pass (22 reported test functions), and all ten historical circuit
+fingerprints are unchanged. `make package-check` passes and the sdist contains
+the new controller, circuit and tests. The installed core wheel remains identical;
+research scripts are included in the source distribution.
+
+This is complete computation evidence for the admitted synthetic CNN, not a
+qualified backend. The controller remains a trusted compiler/enrollment boundary;
+metadata parsing does not authenticate model admission. Setup custody, hiding,
+independent security review, real-world task quality, hardware provenance and
+response generation remain unqualified. Next integrate this trained classifier
+into one common-request rule/MLP/CNN proof roster. Issue #19 remains open.
