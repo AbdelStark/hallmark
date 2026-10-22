@@ -9,6 +9,18 @@ has been adopted. See [licence status](LICENSE.md).
 
 An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, full-system ZK integration, encoder fine-tune or safety benchmark is implemented or claimed.
 
+The current research path connects training to exact integer export and dedicated
+classifier proofs, without a general-purpose zkVM. The
+[trained byte CNN](docs/OPERATIONS.md#trained-contextual-cnn-screen) distinguishes
+active versus quoted actions on a frozen synthetic grammar; the failed first
+screen is preserved. Its [proof controller](docs/OPERATIONS.md#proving-the-selected-contextual-cnn)
+binds the complete 0–96-byte computation to caller-pinned model/key/input records
+and runs a separate arithmetic verifier. The earlier
+[trained MLP proofs](research/evidence/w18-trained-mlp-proofs-2026-10-22.json) and
+[common-input experiments](research/evidence/w18-common-input-proofs-2026-10-22.json)
+remain limited baselines. These are research execution results, not a deployed
+safety policy, reviewed cryptographic backend or hardware-provenance system.
+
 The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
 binds ordered files, architecture, tokenizer, template, runtime and greedy generation
 settings. Explicit rooted file checks reject links and mismatches. This does not
@@ -64,7 +76,9 @@ remain distinct; parsing a reported accepted result does not verify its evidence
 The [frozen conformance corpus](docs/decisions/0013-frozen-conformance-corpus.md)
 checks 156 software cases and reports 32 unavailable hardware/proof obligations.
 `make check-conformance` checks software scope and its failure self-tests.
-The full-evidence gate remains incomplete; there is no independent verifier.
+The full-evidence gate and independent hybrid verifier remain incomplete. A
+[separate arithmetic checker](research/probes/py_ecc/README.md) exists for the
+bounded proof experiments; it is unaudited and does not verify hardware evidence.
 
 The [package gate](docs/PACKAGING.md) compares two builds under a pinned toolchain,
 checks exact source/archive inventories and exercises fresh installed core/train

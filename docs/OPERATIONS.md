@@ -597,3 +597,44 @@ also trains/exports the smallest 32-channel fixture against the installed wheel.
 This is a 96-byte local-context software candidate. It rejects longer inputs and
 has no backend enrollment or proof. The artificial run/quote grammar and small,
 shared-vocabulary groups do not establish a real-world safety operating point.
+
+## Proving the selected contextual CNN
+
+[Decision 0061](decisions/0061-complete-contextual-cnn-proof.md) freezes the
+follow-up's preselected seed-17 quantization, program and threshold. The controller
+rejects a different export; retraining to a different artifact requires a new
+model identity and experiment. Keep the trained quantization/checkpoint local.
+
+Build the reviewed probe with the pinned Go toolchain and enroll its binary hash.
+Use the separately installed, hash-pinned py-ecc environment described above.
+The interpreter argument must preserve its virtual-environment invocation path.
+Then run on the admitted Mac into an unused directory:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+uv run --locked --extra train python scripts/run_contextual_proof.py \
+  --binary "$PROBE_BINARY" --expected-binary "$PROBE_SHA256" \
+  --verifier-python "$VERIFIER_PYTHON" \
+  --quantization "$CNN_TRAIN/17/quantization.json" \
+  --output runs/contextual-proof-fresh
+```
+
+The controller checks the learned graph against the original native program,
+requires the frozen full-length pair's decision contrast, and enrolls each actual
+circuit/key before proving. It runs three small proofs first, nine witness
+rejections and the separate arithmetic corpus; only then does it run three
+capacity-96 proofs. The re-encoded-input mutation updates the commitment while
+retaining the wrong neural trace. Success requires an unsatisfied constraint for
+every negative assignment, not merely a child-process error.
+
+Inspect each worker's `plan.json`, `cost.json`, raw proof and verifier output.
+Record source/environment/binary pins before execution and compare afterward.
+Repeat in a fresh directory with new setup keys; compare model/circuit, scores,
+verdicts and rejection rosters. Preserve all failures. The controller enforces
+7,200 seconds overall, four worker threads, 8 GiB worker RSS and 8 GiB output;
+check the 256 GiB total retained-checkout ceiling before launching. No new cloud
+compute is required for the documented Mac path.
+
+These are complete proofs of the admitted synthetic CNN computation. They do not
+qualify its task quality, setup custody, hiding, compiler/enrollment authenticity,
+hardware provenance, response generation or the full hybrid verifier.
