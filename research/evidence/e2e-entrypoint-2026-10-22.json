@@ -68,6 +68,14 @@
       "resolution": "retain check as first recipe; assert default and explicit command with make -n",
       "result": "failed before target reorder",
       "stage": "default target regression test"
+    },
+    {
+      "cause": "GNU Make adds a directory banner when invoked inside the parent make check process",
+      "job": 119896591361,
+      "resolution": "Pass --no-print-directory to both dry runs; no driver or Make recipe change",
+      "result": "Make default-target assertion failed",
+      "run": 39799706998,
+      "stage": "first hosted core run"
     }
   ],
   "hardware_claim": "not-accepted",

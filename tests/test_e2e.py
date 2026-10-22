@@ -151,9 +151,13 @@ except KeyboardInterrupt:
 
 
 def test_make_keeps_validation_as_default():
-    default = e2e.subprocess.check_output(["make", "-n"], cwd=e2e.ROOT, text=True)
+    default = e2e.subprocess.check_output(
+        ["make", "--no-print-directory", "-n"], cwd=e2e.ROOT, text=True
+    )
     assert default.splitlines()[0] == "uv lock --check"
-    explicit = e2e.subprocess.check_output(["make", "-n", "e2e"], cwd=e2e.ROOT, text=True)
+    explicit = e2e.subprocess.check_output(
+        ["make", "--no-print-directory", "-n", "e2e"], cwd=e2e.ROOT, text=True
+    )
     assert explicit.strip() == (
         "uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py"
     )

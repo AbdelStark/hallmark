@@ -3766,3 +3766,10 @@ full-evidence obligations remain unavailable. All 15 focused driver tests and
 76 required training tests pass. Core and train package checks pass, with the
 new driver, proof explainer and tests present in the source archives. Hosted
 exact-head and exact-main checks remain publication gates.
+
+The first hosted core run exposed a test portability issue: GNU Make prepends a
+directory banner when the dry-run assertion is itself run under `make check`.
+The assertion now requests `--no-print-directory` for both dry runs. This changes
+only the test's output normalization; the entrypoint and all measured pipeline
+bytes remain unchanged. The failed hosted job and correction are retained in the
+numeric evidence record.
