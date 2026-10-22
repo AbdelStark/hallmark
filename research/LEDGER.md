@@ -3494,3 +3494,65 @@ operational enrollment, genuine hardware evidence and full hybrid acceptance
 remain absent. W18 / #19 stays open; no policy adoption or backend qualification
 is inferred. The next gate is one useful compact contextual model with a complete
 operator/binding port, before larger tensor-proof or complete-audit measurements.
+
+
+## 2026-10-22 — W16 contextual byte CNN screen and exact export
+
+Decisions [0059](../docs/decisions/0059-contextual-byte-cnn-screen.md) and
+[0060](../docs/decisions/0060-contextual-screen-followup.md), issue #17. The owner
+permits agent-reviewed synthetic pipeline work, local CPU execution and bounded
+existing-credit fallback. This campaign used only the Mac, with zero new compute
+spend and no downloaded model or external data.
+
+Hypothesis: a small order-sensitive classifier can distinguish active versus
+quoted synthetic action clauses where every pair has the same byte histogram.
+The byte-count baseline necessarily has equal TPR and FPR on these pairs. New
+candidate scripts reuse the existing integer DAG/encoder and frozen evaluation
+functions; no evaluator or historical split is modified.
+
+The initial 8-channel candidate fails the all-seed screen: seeds 17/29 classify
+20 positives and 20 benign examples correctly; seed 43 has 20 TP, 3 FP, 17 TN.
+Two fresh runs reproduce 65 substantive artifacts. Its frozen source is retained
+at commit `42ae7ab`, with [numeric evidence](evidence/w16-contextual-screen-v1-2026-10-22.json).
+The old test is explicitly exploratory training data for the new experiment.
+
+The 32-channel follow-up has 4,161 learned parameters, 156 training groups,
+50 calibration groups and 50 fresh test groups. Each group contains opposite
+labels with the same bytes in a different order. The grammar and vocabulary are
+shared; labels follow the artificial run/quote rubric. All three seeds use CPU
+float64, 200 full-batch Adam epochs, exact 100+100 resume, then int8/PTQ export and
+calibration before any test score. Termination is the fixed budget, not convergence.
+
+Both follow-up runs pass the predeclared TPR >=0.8/FPR <=0.1 structural screen:
+TP=50 for every seed; FP=0/1/0, TN=50/49/50, FN=0. All 65 substantive files match
+byte for byte, including full/resumed checkpoints, quantization, graph/weights,
+calibration and predictions. Native scalar DAG scores match the separate vector
+integer oracle for all 200 calibration/test records per seed in each run.
+The maximum float/integer score difference across the reported test roster is
+0.2584964230387712 float-logit units; no tested decisions flip under either the
+integer threshold or separately calibrated floating threshold.
+
+The [follow-up numeric evidence](evidence/w16-contextual-screen-v2-2026-10-22.json)
+SHA-256 is `7e4d44333797166010e2951552ae6d4ea2fdfc8298178d089d0949d9cf019a29`.
+Actual run times are 168.01392870908603 and 174.78115574992262 seconds; peak worker
+RSS is 159,924,224 and 162,299,904 bytes. Raw artifacts and controller/resource
+receipts remain local under `runs/w16-contextual-cnn-1792663486688409000/`:
+`run-01/02` preserve the negative first screen and `followup-01/02` the new screen.
+Every run has an externally retained protocol/manifest pin and before/after source
+hashes. See [operations](../docs/OPERATIONS.md#trained-contextual-cnn-screen) for the
+exact pinned command. Checkpoints and raw traces are not in git.
+
+Validation: ten focused tests, `make check` (2,246 passed, 50 optional/platform
+skips, 156 software conformance cases) and `make package-check-train` pass. The
+installed-wheel check executes the smallest 32-channel train/export fixture.
+Retained failures include the first output-fraction lowering mismatch, a directed
+out-of-envelope zero-weight fixture, and an unstaged-file package snapshot; none
+is relabeled as a successful run. Full hybrid conformance remains unexecuted.
+
+The complete ten-node map admits only 0–96 bytes, including empty, NUL, Unicode
+and the maximum boundary; overlength rejects. It preserves masks, signed ranges,
+rounding and strict threshold equality. Backend/key/setup fields are zero research
+placeholders, with no operational enrollment. Seed 17 was selected in the second
+protocol before test for the next proof integration. These results do not establish
+real-world quality, a ZK proof, independent security review or hardware provenance.
+Issue #17 stays open pending qualified-graph acceptance.

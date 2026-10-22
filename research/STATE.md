@@ -4,26 +4,31 @@ Updated: 2026-10-22. Phase: research software foundation in a public repository,
 
 ## Next bounded task
 
-Current direction: specialized classifier verification, with no general-purpose
-zkVM. The [trained-MLP evidence](evidence/w18-trained-mlp-proofs-2026-10-22.json) now connects freshly trained integer
-exports to real proofs at capacities eight and 1,024 bytes. Two fresh runs each
-verify 18 proofs, reject 18 altered witnesses and pass 810 separate-arithmetic
-cases. All 27 training artifacts reproduce byte for byte; circuit identities
-match and all six setup keys differ. This closes the connection between the
-synthetic trainer/exporter and a dedicated proof circuit, not model quality or
-backend qualification.
+A trained contextual candidate now passes its frozen synthetic scope screen.
+The [first CNN screen](evidence/w16-contextual-screen-v1-2026-10-22.json) failed
+(seed 43: 3/20 false positives); its results are preserved. The explicitly new
+[follow-up](evidence/w16-contextual-screen-v2-2026-10-22.json) uses fresh held-out
+action-pair groups, 32 channels and the same evaluator. Seeds 17/29/43 each detect
+50/50 positives, with 0/1/0 false positives among 50 benign examples. Both runs
+reproduce all 65 substantive files; resume is exact and native/oracle integer
+scores agree. The ten-node operator map covers the complete 0–96-byte profile.
+This is a synthetic grammar screen, not real-world safety quality or a proof.
 
-Next freeze one compact contextual classifier and its complete operator/binding
-map before scaling a tensor-proof or complete commit-and-audit path. Require
-quality screening and compare identical admitted models/inputs; keep the trained
-marker MLP and pass-all encoder as explicitly limited baselines. See
-[decision 0058](../docs/decisions/0058-specialized-trained-classifier-path.md) and
-the [specialized-path review](proposals/backend-v1/specialized-paths.md).
-Use the Mac first and the approved existing Modal/Vast/HF credits for bounded
-fallback work. GCP is not a dependency of this proof pipeline. Hardware evidence,
-setup custody and security/hiding qualification remain separate missing gates.
-Issue #19 stays open. Historical entries below retain earlier failures and stages;
-use this section for the current direction.
+Next connect the preselected seed-17 CNN export to a complete specialized proof:
+exact byte commitment, learned embedding, every causal window, affine/ReLU,
+masked maximum and calibrated strict threshold. Verify actual proofs under
+independently pinned keys/public inputs, reject altered input/intermediate/mask/
+threshold witnesses, and repeat with fresh keys. Keep the same admitted model and
+input roster across any backend comparison. Do not expand capacity or change the
+trained model silently. See [0059](../docs/decisions/0059-contextual-byte-cnn-screen.md)
+and [0060](../docs/decisions/0060-contextual-screen-followup.md).
+
+The dedicated circuits use no general-purpose zkVM. Mac first; approved existing
+Modal/Vast/HF credits remain fallback resources. GCP is not a proof dependency.
+Issues #17/#19 remain open: graph/backend qualification, setup custody,
+security/hiding, genuine hardware evidence and operational integration are still
+missing. The earlier trained MLP and pass-all encoder remain limited baselines.
+Historical entries below retain earlier failures and stages.
 
 ## Implemented
 

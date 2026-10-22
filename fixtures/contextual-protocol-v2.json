@@ -1,0 +1,66 @@
+{
+  "architecture": {
+    "capacity": 96,
+    "channels": 32,
+    "embedding": 4,
+    "kernel": 24
+  },
+  "baseline": "Every equal-byte-count pair receives one shared MLP score; TPR equals FPR on these paired groups at any threshold.",
+  "dataset_sha256": "c28358a88348f954449203d72eb723a8a7b8c2e1faed3d390cce345706c11e67",
+  "experiment": "w16-contextual-cnn-v2",
+  "fit": {
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "device": "cpu",
+    "dtype": "float64",
+    "epochs": 200,
+    "epsilon": 1e-08,
+    "learning_rate": 0.025,
+    "optimizer": "full-batch Adam"
+  },
+  "frozen_evaluator": [
+    "src/hallmark/integer_graph.py",
+    "src/hallmark/integer_encoder.py",
+    "src/hallmark/classifier_manifest.py",
+    "src/hallmark/evaluation.py"
+  ],
+  "mutable": [
+    "scripts/contextual_cnn.py",
+    "scripts/run_contextual_cnn.py",
+    "tests/test_contextual_cnn.py"
+  ],
+  "prior_experiment": "v1 failed with seed43 FPR .15; no original test reused for new quality claims",
+  "proof_candidate_if_all_seeds_pass": 17,
+  "quantization": "per-weight-tensor largest power-of-two fraction 0..16 fitting signed int8 without clipping; hidden and score fraction 8; nearest ties to even; int32 accumulation",
+  "repeat": "two fresh directories; same source/env/data/config; compare all training and export artifacts; fresh run on validation failure",
+  "resources": {
+    "max_output_bytes": 1073741824,
+    "max_retained_checkout_bytes": 274877906944,
+    "max_rss_bytes": 8589934592,
+    "new_compute_usd": 0,
+    "seconds": 7200,
+    "threads": 1,
+    "workers": 1
+  },
+  "schema_id": "hallmark.contextual-protocol/1",
+  "screen": {
+    "all_seeds": true,
+    "max_test_fpr": 0.1,
+    "min_test_tpr": 0.8,
+    "not_real_world_quality": true
+  },
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "source_baseline_commit": "42ae7ab",
+  "source_sha256": "1ac67271c56f2373979e5e8cabddb8cfbc52b434452536c680e5a7d710bdb749",
+  "split_groups": {
+    "calibration": 50,
+    "test": 50,
+    "train": 156
+  },
+  "stop": "No candidate, threshold policy, data or quality gate tuning after first test. Failed gate remains failed; later candidate requires new exploratory identity.",
+  "target_calibration_fpr": 0.01
+}

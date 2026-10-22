@@ -186,6 +186,15 @@ def main() -> None:
             "scripts/check_encoder_vectors.py",
             "tests/test_integer_encoder.py",
             "tests/test_integer_graph.py",
+            "scripts/contextual_cnn.py",
+            "scripts/run_contextual_cnn.py",
+            "tests/test_contextual_cnn.py",
+            "fixtures/contextual-protocol.json",
+            "fixtures/contextual-protocol-v2.json",
+            "fixtures/contextual-source.json",
+            "fixtures/contextual-source-v2.json",
+            "fixtures/contextual-scope.jsonl",
+            "fixtures/contextual-scope-v2.jsonl",
             "fixtures/wire/integer-encoder-v1.json",
             "fixtures/wire/integer-encoder-v1.sha256",
             "docs/schemas/encoder-program-v1.json",
@@ -677,6 +686,24 @@ def main() -> None:
                 selection_pin,
                 "--output",
                 str(Path(directory) / "grouped-selection-fixture"),
+            ],
+            cwd=directory,
+            check=True,
+            timeout=45,
+        )
+        subprocess.run(
+            [
+                str(train_python),
+                "-I",
+                "-c",
+                "import sys; from pathlib import Path; "
+                "root=Path(sys.argv[1]); sys.path.insert(0,str(root/'scripts')); "
+                "import contextual_cnn as c; from hallmark.data import load_records; "
+                "rows=load_records(root/'fixtures/contextual-scope.jsonl')[:2]; "
+                "p=c.train(rows,17,channels=32,stop=1); q=c.quantize(p['parameters']); "
+                "e=c.export(q); prompts=['','é','A'*96]; "
+                "assert c.graph_scores(e,prompts)==c.integer_scores(q,prompts)",
+                str(root),
             ],
             cwd=directory,
             check=True,
