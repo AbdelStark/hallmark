@@ -1,5 +1,9 @@
 # Optional local proof probes
 
+For the current trained rule/MLP/CNN composition, use the
+[complete demo walkthrough](../../../docs/DEMO.md). This page preserves the
+individual experiment recipes below, including older fixed-weight fixtures.
+
 This directory contains bounded real-proof experiments for W18, not a qualified
 Hallmark backend. The Python runtime has no new dependency or acceptance path.
 See [decision 0022](../../../docs/decisions/0022-local-proof-probes.md) and the

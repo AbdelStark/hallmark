@@ -1,172 +1,178 @@
 # Hallmark
 
-Research on transcript-bound classifier verdicts. The intended system pairs hardware-attested model provenance with independently verifiable classifier computation. A classifier pass is a result under a fixed policy, not evidence of safety in the world.
+**Train a classifier. Prove its exact computation. Verify the verdict.**
 
-The [trained common-request experiment](docs/OPERATIONS.md#trained-classifiers-on-one-opened-request)
-composes a literal rule, trained MLP and contextual CNN over the same complete
-96-byte prompt. Its separate verifier checks real dedicated-circuit proofs;
-its research result does not accept hardware provenance or qualify policy safety.
+[![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-## Implemented now
+[Run the proof demo](docs/DEMO.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
 
-The repository is public; packages are unpublished and no open-source licence
-has been adopted. See [licence status](LICENSE.md).
+Hallmark is an MIT-licensed research toolkit for verifiable text classification. It connects
+synthetic training, exact integer inference and specialized cryptographic circuits
+so a separate verifier can check classifier verdicts against a caller's expected
+input, model and policy.
 
-An offline research foundation: strict data/config/model contracts, exact group and transcript leakage checks, canonical research commitments, byte-exact transcript openings, a trained linear floor baseline, an integer reference runtime, calibration on a separate split, uncertainty-aware reports, immutable run directories and caller-pinned artifact replay. The committed fixture is harmless synthetic plumbing data. No actual TEE evidence, operational registry, full-system ZK integration, encoder fine-tune or safety benchmark is implemented or claimed.
+**The classifier demo works end to end, without hardware attestation.** It trains
+an MLP and a contextual byte CNN, combines them with a literal rule, and verifies
+real Groth16 proofs for all three over the same request. The circuits use gnark
+and BLS12-381; verification uses a separate py-ecc implementation. There is no
+general-purpose zkVM in this path.
 
-The current research path connects training to exact integer export and dedicated
-classifier proofs, without a general-purpose zkVM. The
-[trained byte CNN](docs/OPERATIONS.md#trained-contextual-cnn-screen) distinguishes
-active versus quoted actions on a frozen synthetic grammar; the failed first
-screen is preserved. Its [proof controller](docs/OPERATIONS.md#proving-the-selected-contextual-cnn)
-binds the complete 0–96-byte computation to caller-pinned model/key/input records
-and runs a separate arithmetic verifier. The earlier
-[trained MLP proofs](research/evidence/w18-trained-mlp-proofs-2026-10-22.json) and
-[common-input experiments](research/evidence/w18-common-input-proofs-2026-10-22.json)
-remain limited baselines. These are research execution results, not a deployed
-safety policy, reviewed cryptographic backend or hardware-provenance system.
+This is research software. The demo uses authored synthetic data and prompts of
+at most **96 UTF-8 bytes**. A valid proof establishes the admitted integer
+computation; it does not establish that a classifier is a good safety policy.
+The broader hardware-attested inference system remains unfinished.
 
-The separate [v1 model manifest API](docs/spec/02-public-api.md#v1-supported-interfaces)
-binds ordered files, architecture, tokenizer, template, runtime and greedy generation
-settings. Explicit rooted file checks reject links and mismatches. This does not
-load a model or attest to execution; [schema and limits](docs/decisions/0005-model-manifests.md).
+## What the demo does
 
-The [classifier contract API](docs/decisions/0006-classifier-contracts.md) binds
-input recipes, integer graph metadata and classifier identities. Supplied hashed
-operator files are checked for topology, shapes, masks, scales and conservative
-range bounds. This is static validation; classifier execution and proof/backend
-qualification remain separate work.
-
-The [policy/request contracts](docs/decisions/0007-policy-request-contracts.md)
-resolve the ordered classifier set and compare requests with explicit caller
-expectations. The [prototype `inj.direct/1` study](docs/decisions/0019-approved-study-scope.md)
-is approved; actual assets, measurement admission and production policy adoption
-remain separate gates.
-
-The [data import API](docs/decisions/0021-lineage-data-admission.md) checks pinned
-source/review bytes, preserves raw-row provenance and groups connected lineage
-before splitting. Its 26-row marker fixture retains contrastive examples.
-It does not authenticate human review or establish real-data quality.
-
-The local [`qualify` command](research/probes/gnark/README.md#run-the-staged-qualification-command)
-runs pinned installation/rule/MLP/attention-block proofs under one budget. It
-retains failures and reports incomplete qualification while full-encoder and
-independent security/setup evidence is missing. It does not select a backend.
-
-The [v1 opening helpers](docs/decisions/0008-transcript-input-openings.md) bind exact
-transcript bytes, caller context and complete classifier input. Portable vectors
-include a separate JavaScript hash check; neither is proof or hardware evidence.
-
-The [receipt/epoch/proof containers](docs/decisions/0009-receipt-evidence-contracts.md)
-check declared identities, time intervals and public-input packing. They do not
-verify signatures, attestations or proofs.
-
-The [registry enrollment API](docs/decisions/0010-external-enrollment.md) verifies
-Ed25519 signatures and complete successor links against external trust and a
-retained checkpoint. A local SQLite transaction persists verified state and rejects
-stale writers. [Provisioning](docs/OPERATIONS.md#external-registry-checkpoint-provisioning)
-requires owner-approved roots; the shipped keys are public test fixtures.
-
-The [registry authoring API](docs/decisions/0012-registry-authoring-rotation.md)
-signs reviewed snapshots, retains complete local history and enforces irreversible
-retirement. Key rotation requires both old and new thresholds and externally supplied
-policies. `registry-check` verifies offline files and atomically advances the checkpoint
-and its trust binding. Operational key custody remains an owner gate.
-
-The [offline bundle contracts](docs/decisions/0011-offline-bundle-contracts.md)
-check embedded bytes, logical paths, declared evidence bindings and caller limits.
-Openings travel separately. Collection states and reported verification results
-remain distinct; parsing a reported accepted result does not verify its evidence.
-
-The [frozen conformance corpus](docs/decisions/0013-frozen-conformance-corpus.md)
-checks 156 software cases and reports 32 unavailable hardware/proof obligations.
-`make check-conformance` checks software scope and its failure self-tests.
-The full-evidence gate and independent hybrid verifier remain incomplete. A
-[separate arithmetic checker](research/probes/py_ecc/README.md) exists for the
-bounded proof experiments; it is unaudited and does not verify hardware evidence.
-
-The [package gate](docs/PACKAGING.md) compares two builds under a pinned toolchain,
-checks exact source/archive inventories and exercises fresh installed core/train
-contracts. [Dependency notices](docs/DEPENDENCIES.md) are recorded separately
-from project release approval.
-
-The [private event log](docs/decisions/0015-private-event-storage.md) retains
-allowlisted stage events and failed attempts, with bounded storage and durable
-completion checks. It has no telemetry; metadata stays under the run's private
-retention policy. Full-path cost measurement remains separate work.
-
-The [native byte-count MLP](docs/decisions/0014-integer-mlp-runtime.md) now executes
-bound affine/ReLU/affine exports with exact signed rescaling, full prompt coverage
-and strict threshold comparison. Fixed and generated vectors check every layer.
-This supplies native arithmetic, not trained-policy quality or a proof.
-
-The [native synthetic encoder](docs/decisions/0051-complete-synthetic-encoder.md)
-executes a full one-layer integer graph with both normalizations, a lossless byte
-tokenizer and all input chunks. Its fixed traces and maximum-length replays check
-software semantics. This two-feature authored fixture is not a trained classifier,
-a whole-graph proof or a qualified backend; see the
-[conformance command](docs/OPERATIONS.md#synthetic-encoder-conformance).
-
-The optional [MLP trainer](docs/decisions/0027-record-level-mlp-training.md) fits
-one loss per complete record, resumes pinned optimizer checkpoints and exports
-the native integer graph. Its three-seed marker fixture checks numerical and
-resume behavior; see the [fixture command](docs/OPERATIONS.md#mlp-training-fixture).
-The [grouped comparison pipeline](docs/decisions/0028-grouped-baseline-selection.md)
-adds pass/block controls, the preserved byte-logistic floor, exact-text character
-n-grams, five train-internal folds and separate native calibration/evaluation.
-The optional [CPU guard adapter](docs/decisions/0030-complete-input-guard.md)
-scores every token chunk and joins the same pinned calibration/evaluation path.
-Seven authored probes ran twice on the selected real weights with identical
-results; this is execution evidence, not a policy-quality benchmark. Admitted
-real-data evaluation remains unfinished.
-
-The [literal byte-rule runtime](docs/decisions/0020-complete-byte-rule.md) scans
-every prompt byte with bounded state across chunk boundaries. It binds exact
-patterns/provenance and blocks score one at threshold one. Independent complete-byte
-oracle tests cover early, spanning and late matches. The marker patterns establish
-matching behavior only; no general injection detection or proof is claimed.
-
-## Run
-
-CPython 3.12–3.14 and uv (3.12 is the default local pin). From this checkout:
-
-```sh
-uv sync --locked --extra train
-make check
-make check-train
-uv run --locked hallmark validate-data fixtures/smoke.jsonl
-uv run --locked hallmark schema experiment
-uv run --locked --extra train hallmark run configs/fixture.json --output runs/bootstrap
+```mermaid
+flowchart LR
+    D["Synthetic training data"] --> T["Train MLP + CNN"]
+    T --> E["Exact integer exports"]
+    E --> P["Dedicated classifier circuits"]
+    I["Caller-owned prompt + request"] --> P
+    P --> Z["Three real proofs"]
+    I --> V["Separate verifier"]
+    Z --> V
+    E --> V
+    K["Enrolled circuit + key pins"] --> V
+    V --> R["All pass → release"]
 ```
 
-The run prints the SHA-256 of its manifest. Save that hash separately, then replay:
+The caller reconstructs the public inputs from its own transcript opening and
+expected context. The prover's bundle cannot choose those expectations. The
+controller pins each compiled circuit and verification key before proving.
 
-```sh
-uv run --locked hallmark audit-run runs/bootstrap --dataset fixtures/smoke.jsonl --expected-manifest <saved-sha256>
-```
+| Classifier | Computation | Role in the demo |
+|---|---|---|
+| Literal rule | Complete byte scan for `BAD`, including chunk boundaries | Blocks the marker case |
+| Trained MLP | Byte counts → four hidden ReLU units → score | Learned arithmetic baseline; insensitive to word order within a chunk |
+| Trained CNN | Byte embeddings → width-24 convolution → ReLU → masked max pooling → score | Distinguishes an active action from the same action inside a quotation |
 
-Choose a fresh output directory on every run. Outputs contain the integer model, predictions, calibration/test metrics, configuration, code/environment snapshot and artifact hashes. Transcript text is not copied into reports. A manifest hash enrolled from an untrusted bundle is not a trust anchor. Replay checks software arithmetic and reporting, not provenance of the historical training run.
+Each classifier sees the complete prompt admitted by this demo. Oversized inputs
+are rejected, never silently truncated. The response is authored fixture text;
+no LLM generates it and no proof claims otherwise.
+
+The fixed three-case run produces:
+
+| Case | Rule | MLP | CNN | Classifier gate |
+|---|---|---|---|---|
+| Benign action, quoted restricted action | Pass | Pass | Pass | `release: true` |
+| Restricted action, quoted benign action | Pass | Pass | Block | `release: false` |
+| Benign case prefixed with `BAD; ` | Block | Pass | Pass | `release: false` |
+
+`release` is the demo's all-pass classifier decision. It is not authorization to
+release a real model response. Results retain `qualified_backend: false` and
+`hardware_claim: "not-accepted"`.
 
 ## Start here
 
-- [Canonical specification](SPEC.md): proposed v1 scope, typed contracts, RFCs and complete implementation work map.
-- [Baseline technical contract](docs/SPEC.md): existing research commitments, arithmetic and evidence limits.
-- [Research program](research/PROGRAM.md): hypotheses, controls, ablations and stop gates.
-- [ML and data plan](docs/ML-PLAN.md): encoder bake-off, Laya teacher, distilled student and licence review.
-- [Evaluation contract](docs/EVALUATION.md): frozen splits, thresholds, uncertainty and artifact replay.
-- [Agent operations](AGENTS.md): read order, commands and bounded work.
-- [Current research state](research/STATE.md): next task and what remains untested.
-- [Evidence sources](research/SOURCES.md): checked primary sources and inherited research limits.
+### Quick software smoke test
 
-The existing hybrid design is preserved in the [source packet](research/source/README.md). New normative decisions live in this repo's specification; the imported research remains a dated design record.
+Requires Git, **uv 0.9.18** and CPython **3.12**. Core CI also covers 3.13 and 3.14
+on Linux and macOS. Packages are not published; use the checkout.
+
+```sh
+git clone https://github.com/AbdelStark/hallmark.git
+cd hallmark
+uv sync --locked --python 3.12
+uv run --locked hallmark validate-data fixtures/smoke.jsonl
+make check-conformance
+```
+
+Expect a dataset summary, then **156 matched software cases** and **32 unavailable
+full-evidence obligations**. This smoke test checks software contracts; it does
+not generate a proof. Dependencies may be downloaded during setup. The fixture
+itself is local, harmless and synthetic.
+
+### Train, prove and verify
+
+Follow the **[end-to-end demo walkthrough](docs/DEMO.md)**. It includes the pinned
+Go build, separate verifier environment, both training commands, proof generation,
+expected results, retained artifacts and troubleshooting.
+
+The current combined controller requires an **Apple Silicon Mac**. It needs no
+GPU, cloud account, API token, downloaded model weights or private data. Two
+recorded M4 Max campaigns took about **15 minutes each** for setup, proofs and
+verification after training, retained **2.57 GB** each, and peaked below **2.15 GB
+worker RSS**. These are observations on that host, not performance guarantees.
+The walkthrough declares the larger resource caps and startup costs separately.
+
+## Evidence, with its limits
+
+| Question | Current evidence | What it does not establish |
+|---|---|---|
+| Can training reproduce the integer models? | Three fixed seeds; full/resumed checkpoints agree; repeated CNN exports and decisions match | Robustness to other runtimes, data or tasks |
+| Does the CNN learn the synthetic scope task? | All three v2 seeds detect 50/50 positives; false positives are 0/50, 1/50 and 0/50 | Real-world safety or a population 1% false-positive rate |
+| Can the three classifiers be proved together? | Original two campaigns: **18 real proofs**, **6 verified three-proof sets** | Authenticated compiler/enrollment or a trusted setup ceremony |
+| Do the checks reject altered claims? | **36 cross-request substitutions rejected**; **810 arithmetic cases matched expected outcomes** | A security audit or proof of absence of implementation bugs |
+| Is the full hybrid system complete? | Software contracts and bounded classifier proofs exist | Hardware provenance, protected response generation, B2 or operational hybrid acceptance |
+
+The arithmetic corpus includes valid controls and malformed/rejected cases; its
+810 cases are not 810 rejected attacks. The first CNN screen **failed** and remains
+published. The second screen is a new experiment with fresh calibration/test
+pairs, sharing a synthetic grammar and vocabulary. See [results and model/data
+notes](docs/RESULTS.md) for counts, identities, costs and direct evidence links.
+
+## How the project is organized
+
+```text
+src/hallmark/             Contracts, native integer runtimes, training and binding
+scripts/                 Reproducible experiments and local validation commands
+research/probes/gnark/   Dedicated Go proof circuits and negative fixtures
+research/probes/py_ecc/  Separate proof decoder and pairing verifier
+fixtures/                Authored synthetic data and frozen protocols
+tests/                   Contract, arithmetic, mutation and distribution checks
+docs/                    Walkthroughs, specifications and design decisions
+research/                Current state, numeric evidence and chronological ledger
+```
+
+The [API reference](docs/spec/02-public-api.md) distinguishes supported library
+interfaces from proposed commands. The research proof controllers run from source;
+there is no production `verify-b` endpoint to deploy.
+
+## Documentation
+
+| I want to… | Read |
+|---|---|
+| Run the whole classifier demo | [Demo walkthrough](docs/DEMO.md) |
+| Assess the models, data and measured results | [Results and limitations](docs/RESULTS.md) |
+| Find a contract, recipe or research record | [Documentation index](docs/README.md) |
+| Understand the proposed full system | [Canonical specification](SPEC.md) |
+| Reproduce or resume a research experiment | [Operations guide](docs/OPERATIONS.md) |
+| Understand split, calibration and test rules | [Evaluation contract](docs/EVALUATION.md) |
+| See what remains unfinished | [Current state](research/STATE.md) |
 
 ## Development
 
-`make check` runs lock, formatting, lint, strict typing, tests and local documentation-link checks. `make package-check` builds wheel/sdist and checks installed CLI/type metadata. Default tests are offline. Training is an optional extra; encoder/prover/hardware work belongs to separately admitted experiments. No automatic model downloads, hosted telemetry, paid compute or open-ended agent loop.
+```sh
+uv sync --locked --python 3.12
+make check
+make package-check
+make check-train
+make package-check-train
+```
 
-Public repository visibility does not change the current [licence status](LICENSE.md).
-See [contributing](CONTRIBUTING.md) and [security and evidence boundaries](SECURITY.md).
+`make check` runs lock, lint, formatting, strict typing, tests, documentation and
+software conformance checks. Core-only environments legitimately skip optional
+training; the train gate requires execution. Package checks build and install
+fresh wheel/sdist artifacts. CI also checks a fresh synthetic proof with the
+separate arithmetic verifier; it does not run the full Mac demo or attest hardware.
 
-Contributor setup, required checks and evidence boundaries are in
-[CONTRIBUTING](CONTRIBUTING.md). `make check-spec` checks local anchors and
-requirement coverage; the [explicit live audit](docs/SPEC-CHECK.md) checks issue metadata.
+Start with [CONTRIBUTING](CONTRIBUTING.md) for setup, focused checks and the PR
+workflow. Changes to integer semantics or binding need rejection tests; changes
+to data, thresholds or evaluation need a new experiment identity. Keep failures
+and raw evidence. Never commit credentials, private transcripts, checkpoints or
+local run directories.
+
+## Security and licence
+
+See [SECURITY](SECURITY.md) for trust assumptions and private reporting. Setup
+custody, authenticated program/key enrollment, independent security/hiding review
+and operational verifier integration remain open gates.
+
+Hallmark is released under the **[MIT licence](LICENSE.md)**. Third-party software,
+referenced datasets and model weights retain their own terms; see the
+[dependency notices](docs/DEPENDENCIES.md). Packages and model checkpoints are
+not published. Historical experiment records preserve their original licence
+labels and hashes; [decision 0063](docs/decisions/0063-mit-license.md) records the
+licence adoption without rewriting those artifacts.

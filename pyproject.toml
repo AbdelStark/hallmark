@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Research on transcript-bound, verifiable classifier decisions"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
-license = "LicenseRef-Proprietary"
+license = "MIT"
 dependencies = ["cbor2>=5.6,<6", "pydantic>=2.10,<3", "cryptography==50.0.2"]
 
 [project.optional-dependencies]

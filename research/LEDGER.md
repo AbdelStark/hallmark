@@ -3678,3 +3678,43 @@ unchanged historical circuit fingerprints. Both `make package-check` and
 `make package-check-train` passed; all six new controller/helper/circuit/test/
 decision paths were checked in the source distribution. Raw logs remain alongside
 the two campaigns. These checks do not qualify the operational hybrid verifier.
+
+
+## 2026-10-22: reproducible demo documentation and MIT adoption
+
+Issue #92. Hypothesis: a reader can reproduce the trained rule/MLP/CNN research
+pipeline from a checkout using documented prerequisites and complete commands,
+then distinguish its result from operational/hardware qualification. Baseline:
+`aef20aa9082b5f0a654872f09c61b5d024cd43db`; scattered recipes and a chronological
+README, with stale replay-only wording. Mutable paths: README, supporting docs,
+licence/package metadata and this evidence/state record. Runtime, dependency
+lock, models, data, evaluator, thresholds and circuits remain unchanged.
+
+The [numeric reproduction record](evidence/docs-demo-reproduction-2026-10-22.json)
+was retained before this prose. All nine shell blocks in [the walkthrough](../docs/DEMO.md)
+ran in a fresh isolated worktree (clone/cd omitted because the worktree already
+existed), with a newly downloaded, checksum-verified Go archive and separately
+installed verifier. Both quantization pins reproduced. The CNN's three seeds
+retained TP=50 and FP=0/1/0. Nine real proofs verified under fresh keys, all three
+case decisions matched, 18 cross-request substitutions rejected and 405 arithmetic
+cases matched their expected outcomes. Source hashes stayed unchanged throughout.
+Models and circuits match the original composition study. The proof campaign took
+882.44 seconds, retained 2,574,972,675 bytes and peaked at 2,121,187,328 worker-RSS
+bytes. Software checks also ran on the host; this is documentation reproduction,
+not a controlled performance benchmark or new held-out quality evidence. No cloud
+compute was used and no proof worker failed. All raw runs remain local under
+`runs/readme-demo-2026-10-22/runs/`.
+
+Local validation: `make check`, 2,206 passed with 121 legitimate optional-dependency
+skips; `make check-train`, 76 passed; specification/link and 156 software conformance
+cases passed, with 32 full-evidence obligations still unavailable. Core/train
+package gates passed. Explicit archive inspection confirmed MIT metadata/text in
+six wheels, MIT and all three new guides in four sdists. GitHub Markdown rendering
+recognized all four README tables and the Mermaid diagram container. This does
+not claim a full visual/accessibility audit of GitHub's interface.
+
+After the reproduction, the owner explicitly requested MIT. [Decision 0063](../docs/decisions/0063-mit-license.md)
+records the grant, updates current licence guidance and keeps third-party terms
+and historical experiment bytes intact. The repository remains public; packages
+and checkpoints were not uploaded. The documentation gate is complete; backend,
+hardware, operational verification and real-world quality gates remain open.

@@ -1,9 +1,13 @@
 # Dependency licences and restrictions
 
 This is an engineering inventory, not a legal opinion or release approval.
-The repository is public, but Hallmark remains `LicenseRef-Proprietary` and no
-open-source licence or package publication is authorized by this inventory.
-No model, dataset, checkpoint or operational key is included in the packages.
+Hallmark adopted the [MIT licence](../LICENSE.md) at the owner's explicit request
+on 2026-10-22. That grant covers original project material; third-party software,
+models and datasets retain their own terms. Package publication remains a separate
+release action. Source distributions include authored synthetic fixtures, but no
+external model checkpoints, private datasets or operational keys. Historical
+licence labels in frozen records describe their original admission; see
+[decision 0063](decisions/0063-mit-license.md).
 
 ## Reviewed upstream metadata
 
