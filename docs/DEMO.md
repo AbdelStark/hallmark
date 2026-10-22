@@ -1,262 +1,134 @@
-# End-to-end classifier demo
+# Run the end-to-end demo
 
-Train two models, export their integer graphs, generate real proofs and verify
-three classifiers against the same caller-owned request. This walkthrough uses
-only authored synthetic data. It needs **no hardware attestation, GPU, API token,
-cloud account or model download**.
+From the repository root:
 
-The result is a research classifier gate. It does not generate an LLM response,
-qualify a cryptographic backend or establish safety. Read the [results and
-limitations](RESULTS.md) alongside the output.
+```sh
+make e2e
+```
 
-## Requirements and cost
+This trains an MLP and a contextual byte CNN, exports their integer graphs, builds
+specialized circuits, and generates and separately verifies rule/MLP/CNN proofs
+for three fixed requests. It also checks substituted proofs and an arithmetic
+mutation corpus. **No hardware attestation, GPU, API token, cloud account or
+model download is needed.** All training data is authored and synthetic.
 
-| Requirement | This walkthrough |
+Read [what the proofs mean](PROOFS.md) before interpreting the result. A proved
+classifier verdict is a claim about exact computation, not a guarantee that the
+classifier's judgment is correct.
+
+## Prerequisites
+
+| Requirement | Supported path |
 |---|---|
-| Host | Apple Silicon Mac (`Darwin`, `arm64`); the combined controller enforces this |
-| Python | CPython 3.12.12 for the recorded training reproduction |
-| Package manager | uv 0.9.18, already installed and on `PATH` |
-| Native toolchain | Go 1.26.8; downloaded and hash-checked below, without a system install |
-| Network | Dependency acquisition only; no external training data or inference |
-| Storage | Allow at least 12 GiB free for environments, toolchain, caches and one fresh campaign |
-| Time | Recorded training about 3 minutes; combined proof campaign about 15 minutes; acquisition/build extra |
+| Host | Native Apple Silicon Mac (`Darwin`, `arm64`) |
+| Tools on `PATH` | Git, Make, curl and **uv 0.9.18** |
+| Python | **CPython 3.12.12**, selected/acquired by uv |
+| Network | Initial Python, Go and dependency acquisition; no external data or inference |
+| Storage | At least **12 GiB free** before starting |
+| Time | About **20 minutes plus dependency/build time** on the recorded M4 Max, 48 GiB RAM |
 
-Those timings are observations on an M4 Max with 48 GiB RAM. The proof controller
-caps its campaign at 7,200 seconds, four worker threads, 8 GiB worker RSS and 8 GiB
-output. RSS is sampled, not a hard OS memory quota. Training needs caller
-supervision under the declared 7,200-second/8 GiB envelope. Do not run concurrent
-campaigns. Existing research checkouts must also respect their recorded retention
-ceiling; the owner's current ceiling is 256 GiB.
-
-Linux CI checks smaller proof artifacts and the separate verifier. It does not
-establish support for this full Mac controller on Linux.
-
-## 1. Prepare a fresh workspace
-
-From a new checkout, use a Bash or Zsh shell. Keep the same shell for all steps;
-subsequent commands use the variables set here. If already in the checkout, omit
-the first two commands.
+For a fresh checkout:
 
 ```sh
 git clone https://github.com/AbdelStark/hallmark.git
 cd hallmark
-uv --version
-uv sync --locked --python 3.12.12 --extra train
-
-export DEMO="$PWD/runs/demo-$(date -u +%Y%m%dT%H%M%SZ)"
-mkdir -m 700 "$DEMO"
-export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
-export VECLIB_MAXIMUM_THREADS=1
-
-git rev-parse HEAD > "$DEMO/source-commit.txt"
-git status --short > "$DEMO/source-status.txt"
-git diff --binary HEAD > "$DEMO/source-diff.patch"
-uv --version > "$DEMO/uv-version.txt"
-uv run --locked --extra train python --version > "$DEMO/python-version.txt"
-uv pip freeze --python .venv/bin/python > "$DEMO/python-packages.txt"
-df -h .
+make e2e
 ```
 
-Check that uv reports `0.9.18` and Python reports `3.12.12`. `runs/` is ignored by
-git. Every child output below must be new: retries use a new `DEMO`, never overwrite
-a failed run. Keep raw runs, checkpoints and generated setup material local.
+The target prepares the locked project `.venv` with the training extra. It checks
+the exact uv/Python versions, downloads and SHA-256-checks Go 1.26.8, builds the
+circuits using pinned Go modules, and installs the separate verifier in its own
+hash-pinned environment. No system package install or credential setup is needed.
+See the [reviewed dependency inventory](../research/evidence/w18-backend-dependencies-2026-10-20.json).
 
-Record hashes of the tracked source before running:
+The full controller is Mac-only. Linux CI tests smaller proof artifacts and the
+separate verifier; it does not validate this entire workflow on Linux. For a
+quick software-only check on either platform, run `make check-conformance`.
+
+## Progress and expected output
+
+The command prints a fresh evidence directory, then each stage and its log path:
+
+```text
+Evidence: .../runs/e2e-<unique-id>
+Expect about 20 minutes plus dependency/build time.
+Running python-packages; log: ...
+...
+Running mlp-training; log: ...
+Running cnn-training; log: ...
+Running proofs; log: ...
+```
+
+The proof stage includes fresh setup and negative checks, so it is the longest
+stage. It can be quiet for several minutes. To see completed case records while
+it runs, use the printed directory in a second terminal:
 
 ```sh
-uv run --locked python - <<'PY'
-import hashlib
-import json
-import os
-import subprocess
-from pathlib import Path
-
-paths = subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0")
-pins = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
-(Path(os.environ["DEMO"]) / "source-pins.json").write_text(
-    json.dumps(pins, sort_keys=True, indent=2) + "\n"
-)
-PY
+tail -f runs/e2e-<unique-id>/proofs.log
 ```
 
-The local commit, source inventory and later binary digest identify this run.
-They do not authenticate an arbitrary checkout. Review the source and
-[dependency inventory](../research/evidence/w18-backend-dependencies-2026-10-20.json)
-before enrolling a binary for a real relying party.
+A successful run exits zero and ends with:
 
-## 2. Build the dedicated circuits
-
-This fetches the exact reviewed **macOS arm64** Go archive, verifies its SHA-256,
-and isolates the build/module caches under this run. The modules are pinned by
-`go.mod` and `go.sum`; automatic toolchain selection is disabled.
-
-```sh
-curl --fail --silent --show-error --location --max-time 120 \
-  https://go.dev/dl/go1.26.8.darwin-arm64.tar.gz \
-  --output "$DEMO/go.tar.gz"
-printf '%s  %s\n' \
-  a012b25b571bd0138a03dcd25375ceba866fe5ca822f426d2c66a4de56fd3f4b \
-  "$DEMO/go.tar.gz" | shasum -a 256 --check
-mkdir "$DEMO/toolchain"
-tar -xzf "$DEMO/go.tar.gz" -C "$DEMO/toolchain"
-
-export GOROOT="$DEMO/toolchain/go"
-export GOPATH="$DEMO/gopath" GOMODCACHE="$DEMO/gomodcache"
-export GOCACHE="$DEMO/gocache" GOTOOLCHAIN=local GOTELEMETRY=off
-export CGO_ENABLED=0 GOFLAGS=-p=2 GOMAXPROCS=2 GOMEMLIMIT=1GiB
-export PROBE_BINARY="$DEMO/probe"
-"$GOROOT/bin/go" version > "$DEMO/go-version.txt"
-(
-  cd research/probes/gnark
-  "$GOROOT/bin/go" mod download
-  "$GOROOT/bin/go" mod verify
-  "$GOROOT/bin/go" build -trimpath -buildvcs=false -mod=readonly -o "$PROBE_BINARY" .
-)
-export PROBE_SHA256="$(shasum -a 256 "$PROBE_BINARY" | cut -d ' ' -f 1)"
-printf '%s\n' "$PROBE_SHA256" > "$DEMO/probe.sha256"
+```text
+PASS: 9 proofs verified; 18 cross-request substitutions rejected; 405 arithmetic cases matched.
+  allow: [1, 1, 1] release=true
+  cnn-block: [1, 1, 0] release=false
+  rule-block: [0, 1, 1] release=false
+Results: .../runs/e2e-<unique-id>/result.json
+Proof meaning: docs/PROOFS.md
 ```
 
-The circuit implementation uses gnark as a library for specialized classifier
-relations. It does not execute an arbitrary program inside a zkVM. The build
-covers the rule, trained MLP and contextual CNN, including their input-binding
-relations.
+`1` means classifier pass; `0` means block. **All nine proofs must verify**, including
+proofs of blocked decisions. `release` is the host's all-pass classifier gate,
+not authorization to release a real model response. The 405 arithmetic cases
+include valid controls as well as rejected cases.
 
-## 3. Install the separate verifier
+The entrypoint returns nonzero if a subprocess fails, the CNN's frozen synthetic
+screen fails, either integer export differs from its expected hash, proof results
+are missing/unexpected, or pipeline source bytes change during the run. A final
+`result.json` with `status: "passed"` is written only after these checks.
 
-The verifier has its own hash-pinned environment. It shares no gnark decoder,
-pairing implementation or verification code. Its experimental py-ecc dependency
-is not an independent security audit; see the [verifier guide](../research/probes/py_ecc/README.md).
+## Evidence and resource bounds
 
-```sh
-uv venv --python 3.12.12 "$DEMO/verifier-env"
-export VERIFIER_PYTHON="$DEMO/verifier-env/bin/python"
-uv pip install --python "$VERIFIER_PYTHON" \
-  --require-hashes --only-binary :all: \
-  -r research/probes/py_ecc/requirements.txt
-```
+Every invocation creates a new private `runs/e2e-*` directory. Retries preserve
+previous successes and failures. Outputs stay local and are ignored by git.
 
-Keep this virtual-environment invocation path. Resolving its Python symlink to
-the base interpreter would lose the installed verifier packages.
-
-## 4. Train and export both models
-
-The MLP fixture checks seeds 17/29/43 and optimizer resume. Its marker task checks
-training/arithmetic behavior; it is not the CNN scope-quality experiment.
-
-```sh
-uv run --locked --extra train python scripts/check_mlp_training.py \
-  fixtures/mlp-training.json \
-  --expected-fixture "$(cat fixtures/mlp-training.sha256)" \
-  --output "$DEMO/mlp-training" > "$DEMO/mlp-training.log"
-```
-
-The CNN command runs the fixed v2 protocol: three seeds, full/resumed training,
-integer export, separate calibration and the frozen synthetic test screen.
-
-```sh
-uv run --locked --extra train python scripts/run_contextual_cnn.py \
-  --study v2 \
-  --expected-protocol 3c47c07a5a3413f00814b957ae8752bcb3f786b0c6484becd6cab5290beb5394 \
-  --output "$DEMO/cnn-training"
-```
-
-Expect `screen=True` for all three seeds and a final `manifest_sha256`. Save that
-printed manifest hash separately from the bundle. Check
-`cnn-training/results.json`: `all_seeds_pass` must be true. A completed training
-command can still report a failed quality screen.
-
-The combined proof controller requires these exact seed-17 quantization files;
-it does not silently accept a newly trained model with a different identity:
-
-```sh
-printf '%s  %s\n' \
-  f8090161455ee56cdcd73eaab44437efa3b278a786d7c246491da5f1e1431a9c \
-  "$DEMO/mlp-training/seed-17/quantization.json" \
-  8de31ae0215178f5c74aa43e58dd63511bc3b6a881c2045cc96def9e149b8f0b \
-  "$DEMO/cnn-training/17/quantization.json" | shasum -a 256 --check
-```
-
-A mismatch is a failed reproduction. Preserve it and investigate the environment;
-do not replace the expected hashes or tune on the test data to make this run pass.
-
-## 5. Prove and verify the common request
-
-```sh
-uv run --locked --extra train python scripts/run_trained_common.py \
-  --binary "$PROBE_BINARY" --expected-binary "$PROBE_SHA256" \
-  --verifier-python "$VERIFIER_PYTHON" \
-  --mlp-quantization "$DEMO/mlp-training/seed-17/quantization.json" \
-  --cnn-quantization "$DEMO/cnn-training/17/quantization.json" \
-  --output "$DEMO/proofs"
-```
-
-The controller first creates fresh circuit/key material and pins enrollment.
-For each fixed input it computes the native classifier outputs, produces three
-real proofs, reconstructs the public inputs from the caller's opening/context,
-and invokes the separate verifier. It then checks cross-request substitutions
-and the arithmetic mutation corpus. Progress appears once each case is verified;
-setup and individual proof workers can be quiet for minutes.
-
-Expected case records (`1` means pass, `0` means block):
-
-```json
-{"name":"allow","proofs_verified":3,"release":true,"verdicts":[1,1,1]}
-{"name":"cnn-block","proofs_verified":3,"release":false,"verdicts":[1,1,0]}
-{"name":"rule-block","proofs_verified":3,"release":false,"verdicts":[0,1,1]}
-```
-
-A successful `proofs/result.json` has `status: "passed"`, 18 entries in
-`cross_request_rejections`, and 135 `arithmetic_cases` for each of `rule`, `mlp`
-and `encoder` (the CNN occupies the encoder slot). The arithmetic roster includes
-valid controls as well as rejection cases. It always retains
-`qualified_backend: false` and `hardware_claim: "not-accepted"`.
-
-## 6. Inspect and retain the evidence
-
-| Artifact under `DEMO` | What to inspect |
+| Artifact under the printed directory | Contents |
 |---|---|
-| `source-pins.json`, version files, `probe.sha256` | Source/environment and locally enrolled binary identity |
-| `mlp-training/`, `cnn-training/` | Checkpoints, exports, calibration and predictions |
-| `proofs/protocol.json` | Frozen inputs, capacities, code/binary pins and resource caps |
-| `proofs/enrollment.json`, `enrollment-pin.json`, `circuit-pins.json` | Model/program/circuit/key roster established before proving |
-| `proofs/*-request.json`, `*-bundle.json` | Caller expectations and produced proof bundles |
-| Worker `plan.json`, `cost.json`, `stdout.txt`, `stderr.txt` | Exact invocation, measured resources and failures |
-| `proofs/result.json` or `failure.json` | Final completed outcome or retained failure |
+| `result.json` / `failure.json` | Overall success, or failed stage and error type |
+| `*.log` | Output of each preparation, training and proof stage |
+| `source-pins.json`, `environment.json`, `probe.sha256` | Executable source/config/fixture hashes, versions and locally enrolled binary identity |
+| `mlp-training/`, `cnn-training/` | Training checkpoints, exports, calibration, predictions and model results |
+| `proofs/protocol.json` | Frozen inputs, capacities, source/binary pins and proof resource caps |
+| `proofs/enrollment.json`, `enrollment-pin.json`, `circuit-pins.json` | Program/circuit/key roster pinned before proving |
+| `proofs/*-request.json`, `*-bundle.json` | Caller expectations and proof bundles |
+| Worker `plan.json`, `cost.json`, `stdout.txt`, `stderr.txt` | Exact invocation, resources and failures |
+| `proofs/result.json` | Three verified decisions, rejection roster and arithmetic-case counts |
 
-Retain the enrollment digest outside the prover's bundle. A digest obtained only
-from an untrusted bundle cannot authenticate its enrollment. The binding helper
-constructs pairing jobs; only the separate arithmetic verifier checks the proofs.
+The driver has a **7,200-second shared deadline** after uv bootstraps the project
+environment. Training uses one BLAS thread. The proof controller caps its work at
+four worker threads, 8 GiB worker RSS and 8 GiB output; RSS is sampled rather than
+an OS quota. There is no hard quota on the entire run directory. The previous
+campaign retained about 2.57 GB of proof artifacts, plus environments and build
+caches. Run one campaign at a time and retain failures for diagnosis. Maintainer
+runs also follow [research authority](../research/AUTHORITY.json).
 
-Confirm that source bytes remained unchanged:
-
-```sh
-uv run --locked python - <<'PY'
-import hashlib
-import json
-import os
-from pathlib import Path
-
-pins = json.loads((Path(os.environ["DEMO"]) / "source-pins.json").read_text())
-assert all(hashlib.sha256(Path(p).read_bytes()).hexdigest() == h for p, h in pins.items())
-print("source-pins-matched")
-PY
-```
-
-Repeat from step 1 with a new `DEMO` to check reproduction. Compare learned model
-and circuit identities, verdicts and rejection rosters. Random setup keys/proofs,
-wall time and RSS need not match. Do not overwrite the earlier evidence.
+The driver checks hashes of tracked pipeline files before and after execution;
+documentation edits do not affect this check. These hashes identify local inputs.
+They do not authenticate an arbitrary checkout or a prover-supplied key. Keep the
+enrollment digest outside an untrusted proof bundle.
 
 ## Troubleshooting
 
-| Symptom | Meaning and next step |
+| Failure | Next step |
 |---|---|
-| `this controller requires the approved Mac host` | Use a native arm64 Mac environment. Linux support for this controller is not implemented. |
-| `selected quantization pin mismatch` | Training did not reproduce the frozen export. Keep the output; compare Python, lock, protocol and thread settings. |
-| `binary enrollment mismatch` | The binary changed after hashing, or the wrong path/pin was supplied. Review and rebuild before starting a fresh campaign. |
-| Missing py-ecc import | Use `verifier-env/bin/python` from step 3, without resolving its symlink. |
-| Output directory already exists | Use a fresh run directory; failed artifacts are intentionally retained. |
-| Timeout or memory/storage limit | Inspect the last worker's `cost.json` and stderr. A resource failure is not a proof rejection or a pass. |
-| No final `result.json` | The campaign is incomplete. Inspect `failure.json` and worker records rather than assuming acceptance. |
+| Host or version check | Use native Mac arm64, uv 0.9.18 and the target's pinned Python; do not change export pins to fit another environment |
+| Download/build/install failure | Inspect the named log; fix network/tool availability and rerun `make e2e` |
+| CNN screen or quantization mismatch | Retain the run and compare environment/protocol identities; do not tune on test or replace expected hashes |
+| Proof failure, timeout or resource limit | Inspect `failure.json`, `proofs/failure.json` and the last worker's logs/cost record |
+| Interrupted or missing final result | Treat the run as incomplete; rerun into a fresh directory |
 
-For smaller circuit experiments and historical reproduction commands, see
-[operations](OPERATIONS.md) and the [proof probe guide](../research/probes/gnark/README.md).
+[`scripts/run_e2e.py`](../scripts/run_e2e.py) contains the exact preparation
+commands and pins. It delegates to the existing [MLP fixture](../scripts/check_mlp_training.py),
+[CNN study](../scripts/run_contextual_cnn.py) and [common-request proof controller](../scripts/run_trained_common.py).
+For focused experiments, see [operations](OPERATIONS.md) and the [proof probe guide](../research/probes/gnark/README.md).

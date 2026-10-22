@@ -4,7 +4,7 @@
 
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-[Run the proof demo](docs/DEMO.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
+[Run the proof demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
 
 Hallmark is an MIT-licensed research toolkit for verifiable text classification. It connects
 synthetic training, exact integer inference and specialized cryptographic circuits
@@ -21,6 +21,21 @@ This is research software. The demo uses authored synthetic data and prompts of
 at most **96 UTF-8 bytes**. A valid proof establishes the admitted integer
 computation; it does not establish that a classifier is a good safety policy.
 The broader hardware-attested inference system remains unfinished.
+
+## What exactly is proved?
+
+For a fixed integer classifier and a particular prompt, Hallmark proves that the
+classifier computes the stated pass/block verdict on the complete prompt bytes.
+A **valid proof can prove a block**: proof validity and classifier approval are
+separate outcomes.
+
+The proof covers input hashing and integer inference, including the final threshold
+comparison. Training supplies the weights; its history is not proved. The caller
+checks request/model/key binding, and host code combines three verified verdicts
+with `all-pass`. No LLM generates a response in this demo.
+
+Read [the proof statement, public inputs and trust boundary](docs/PROOFS.md) for a
+concrete example and the exact division between circuit checks and caller checks.
 
 ## What the demo does
 
@@ -54,14 +69,32 @@ release a real model response. Results retain `qualified_backend: false` and
 
 ## Start here
 
-### Quick software smoke test
+### Train, prove and verify
 
-Requires Git, **uv 0.9.18** and CPython **3.12**. Core CI also covers 3.13 and 3.14
-on Linux and macOS. Packages are not published; use the checkout.
+On an **Apple Silicon Mac**, with Git, Make, curl and **uv 0.9.18** on `PATH`:
 
 ```sh
 git clone https://github.com/AbdelStark/hallmark.git
 cd hallmark
+make e2e
+```
+
+One command prepares pinned Python/Go environments, trains both models, builds the
+circuits, generates **nine real proofs** and checks them with the separate verifier.
+It checks **18 cross-request substitutions** and **405 arithmetic cases**, then
+prints the three decisions and the path to its result. Every run gets a fresh
+local evidence directory; failures return nonzero and retain their logs.
+
+Allow **12 GiB free storage** and roughly **20 minutes plus dependency/build time**
+on the recorded M4 Max. No GPU, API token, cloud account, downloaded model weights
+or private data is needed. See the [demo guide](docs/DEMO.md) for prerequisites,
+progress, expected output, resource bounds and troubleshooting.
+
+### Quick software smoke test
+
+For a smaller check on Linux or macOS, from the checkout:
+
+```sh
 uv sync --locked --python 3.12
 uv run --locked hallmark validate-data fixtures/smoke.jsonl
 make check-conformance
@@ -69,21 +102,8 @@ make check-conformance
 
 Expect a dataset summary, then **156 matched software cases** and **32 unavailable
 full-evidence obligations**. This smoke test checks software contracts; it does
-not generate a proof. Dependencies may be downloaded during setup. The fixture
-itself is local, harmless and synthetic.
-
-### Train, prove and verify
-
-Follow the **[end-to-end demo walkthrough](docs/DEMO.md)**. It includes the pinned
-Go build, separate verifier environment, both training commands, proof generation,
-expected results, retained artifacts and troubleshooting.
-
-The current combined controller requires an **Apple Silicon Mac**. It needs no
-GPU, cloud account, API token, downloaded model weights or private data. Two
-recorded M4 Max campaigns took about **15 minutes each** for setup, proofs and
-verification after training, retained **2.57 GB** each, and peaked below **2.15 GB
-worker RSS**. These are observations on that host, not performance guarantees.
-The walkthrough declares the larger resource caps and startup costs separately.
+not generate a proof. Core CI also covers CPython 3.13 and 3.14. Packages are not
+published; use the checkout.
 
 ## Evidence, with its limits
 
@@ -122,6 +142,7 @@ there is no production `verify-b` endpoint to deploy.
 
 | I want to… | Read |
 |---|---|
+| Understand exactly what a proof establishes | [Proof statement and trust boundary](docs/PROOFS.md) |
 | Run the whole classifier demo | [Demo walkthrough](docs/DEMO.md) |
 | Assess the models, data and measured results | [Results and limitations](docs/RESULTS.md) |
 | Find a contract, recipe or research record | [Documentation index](docs/README.md) |

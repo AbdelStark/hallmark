@@ -1,4 +1,4 @@
-.PHONY: check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
+.PHONY: e2e check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
 
 check:
 	uv lock --check
@@ -9,6 +9,9 @@ check:
 	$(MAKE) check-spec
 	$(MAKE) check-conformance
 	$(MAKE) check-admission
+
+e2e:
+	uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py
 
 check-admission:
 	uv run --locked python scripts/check_admission.py

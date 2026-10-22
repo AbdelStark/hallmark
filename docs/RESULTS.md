@@ -3,7 +3,7 @@
 As of 2026-10-22, Hallmark has a working **synthetic classifier research pipeline**:
 training → integer export → dedicated-circuit proofs → separate verification →
 all-pass composition. It has no accepted hardware attestation or operational
-hybrid verifier. [Reproduce the demo](DEMO.md).
+hybrid verifier. [Reproduce the demo](DEMO.md) or read [what is proved](PROOFS.md).
 
 ## Models and task
 
@@ -125,13 +125,20 @@ combined demo's 96-byte limit.
 ## Walkthrough reproduction
 
 The [documentation reproduction](../research/evidence/docs-demo-reproduction-2026-10-22.json)
-ran all nine shell blocks in the [demo guide](DEMO.md) from a fresh worktree,
+ran all nine shell blocks in the [original demo guide](https://github.com/AbdelStark/hallmark/blob/7e7eab1c1c514d7e584e44f811af7fe80574a42e/docs/DEMO.md) from a fresh worktree,
 including a fresh toolchain download, both training runs and new setup keys.
 Nine proofs verified, all three decisions matched, 18 cross-request substitutions
 rejected and 405 arithmetic cases matched. Models and circuits match the original
 composition study above. Source hashes remained unchanged throughout execution.
 This is an additional engineering reproduction, not new held-out quality evidence
 or a controlled performance benchmark.
+
+The [one-command reproduction](../research/evidence/e2e-entrypoint-2026-10-22.json)
+then ran `make e2e` with the same frozen inputs. It passed the same nine proofs,
+18 substitution rejections and 405 arithmetic outcomes, with matching model and
+circuit identities. The driver took 19.20 minutes including pinned
+preparation and training; the proof campaign took 15.93 minutes.
+These remain engineering observations, not an additional quality study.
 
 ## What remains open
 
