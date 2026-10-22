@@ -9,7 +9,18 @@ const ruleProfile = "1c90a8bd4419e53b0284c1d37684705c6bc695f6fd261d57d259011d84c
 type ruleCircuit struct{ Input inputCircuit }
 
 func (c *ruleCircuit) Define(api frontend.API) error {
-	active, err := c.Input.bind(api, ruleClassifier, ruleProfile, 1)
+	return c.define(api, ruleClassifier)
+}
+
+// Program enrollment pins the completed classifier after setup, avoiding a key/hash cycle.
+type ruleProgramCircuit ruleCircuit
+
+func (c *ruleProgramCircuit) Define(api frontend.API) error {
+	return (*ruleCircuit)(c).define(api, "")
+}
+
+func (c *ruleCircuit) define(api frontend.API, classifier string) error {
+	active, err := c.Input.bind(api, classifier, ruleProfile, 1)
 	if err != nil {
 		return err
 	}

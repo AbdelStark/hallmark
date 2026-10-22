@@ -3353,3 +3353,56 @@ independent human security/hiding review, a useful admitted encoder and genuine
 hardware evidence are still missing. W18/W12 stay open. The private review packet
 offers independent reproduction first and a separately scoped cryptographic
 assessment; no contact or paid engagement has occurred.
+
+
+## 2026-10-22 — Common-input three-classifier proof pipeline
+
+Hypothesis: fixed rule/MLP/encoder programs can prove one common request after
+fresh actual key enrollment, with independently reconstructed public inputs and
+separate pairing arithmetic. Baseline: isolated proofs on different inputs and
+legacy rule/MLP classifier constants containing placeholder setup/key identities.
+Mutable paths: two opt-in program circuits, composition/controller, separate
+verification entry point and focused tests; legacy circuits/native arithmetic,
+thresholds, evaluator and qualification policy stay fixed. Pass criterion: three
+frozen request cases, all nine actual proofs, all 18 cross-request substitutions
+and the complete separate-arithmetic rejection roster, repeated with fresh keys.
+
+Raw numeric/source/cost evidence was written first in
+[evidence/w18-common-input-proofs-2026-10-22.json](evidence/w18-common-input-proofs-2026-10-22.json).
+Local immutable records are in `runs/w18-common-input-1792653184447688000`,
+including `protocol-03.json`, `execution-plan.json`, `command.json`,
+`confirmation-plan.json`, `confirmation-command.json`, both run directories and
+`confirmation-result.json`. Exact source pins cover 129 files and the built
+binary; the separate verifier uses the previously admitted py-ecc 8.0.0 environment.
+
+Preflight failures are preserved: `AAxxxxxx` and `xxxxxxAA` both score zero and
+pass the MLP, contrary to their intended rejection-control role. The final fixed
+control `xxxxAAzz` scores exactly the unchanged threshold 2 and rejects. This
+corrects known-arithmetic synthetic fixtures before proving; no model/threshold
+selection or task-quality measurement occurred. A separate test-construction
+failure used an invalid rule threshold; the well-formed manifest mutation now
+changes the MLP threshold. Old protocols and failed logs remain intact.
+
+Both fresh setup/prove/verify runs pass. `okayxxxx` gives verdicts `[1,1,1]`,
+`xxBADxxx` gives `[0,1,1]`, and `xxxxAAzz` gives `[1,0,1]`. Each run produces nine
+292-byte proofs, all accepted by the separately implemented verifier. Its 135-case
+suite per classifier comprises four accepted cases (the three real proofs and a
+valid joint A/B negation), 109 algebraic rejections and 22 malformed encodings.
+All 18 cross-request substitutions reject. The enrollment file precedes proving
+worker plans; local filesystem order is not authenticated operational enrollment.
+Fresh keys differ while decisions and negative rosters reproduce.
+
+Run 1: 661.115961875068 seconds, 1,176,485,888-byte peak worker RSS,
+1,478,030,987 retained bytes. Run 2: 680.9500690831337 seconds,
+1,219,641,344-byte peak worker RSS, 1,478,030,919 retained bytes. No new cloud job,
+dependency or charge. The original eight circuit fingerprints match exactly;
+two explicit program-bound paths have new identities. All 18 Go tests pass.
+The focused Python suite passes 35 tests. `make check` passes 2,221 tests with
+45 optional-guard and five Linux-only skips, plus 156 software conformance
+matches; `make package-check` passes. Final prose/package and exact-head hosted
+checks are separate delivery gates.
+
+The selected synthetic criterion passes. The pipeline remains eight-byte and
+unaudited, with an authored response and the unchanged pass-all encoder.
+`qualified_backend` stays false. No hiding/security qualification, real safety
+quality, authenticated model execution or full hybrid acceptance is inferred.
