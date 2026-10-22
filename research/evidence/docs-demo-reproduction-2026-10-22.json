@@ -76,7 +76,13 @@
     "python": "3.12.12",
     "uv": "0.9.18"
   },
-  "failures": [],
+  "failures": [
+    {
+      "observation": "Mermaid enrichment container was accepted by the Markdown API but the live page displayed Unable to render rich display.",
+      "resolution": "Replace dynamic Mermaid rendering with a self-contained accessible SVG; retain the same pipeline and textual explanation.",
+      "stage": "GitHub browser preview"
+    }
+  ],
   "hardware_claim": "not-accepted",
   "host": "macOS arm64, Apple M4 Max, 48 GiB RAM",
   "licence": {
@@ -126,7 +132,7 @@
     "core_tests_passed": 2206,
     "dependency_lock_unchanged": true,
     "full_evidence_obligations_unavailable": 32,
-    "github_markdown_render": "four tables and Mermaid enrichment container",
+    "github_markdown_render": "four tables rendered; live Mermaid display failed and was replaced with a self-contained SVG",
     "mit_packages": [
       {
         "gate": "package-mit-core.log",
@@ -146,7 +152,8 @@
     "readme_smoke": "valid, 52 synthetic records",
     "required_training_tests_passed": 76,
     "software_conformance_matched": 156,
-    "spec_check": "passed"
+    "spec_check": "passed",
+    "static_svg_preview": "parsed as XML; rendered successfully in Chrome with accessible title/description; no scripts or external assets"
   },
   "walkthrough_log_sha256": "e376b398b705aec2d0a9faeadc26b3373d161492583b0e194cb56fca52214db4"
 }

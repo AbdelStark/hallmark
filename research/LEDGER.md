@@ -3710,8 +3710,11 @@ skips; `make check-train`, 76 passed; specification/link and 156 software confor
 cases passed, with 32 full-evidence obligations still unavailable. Core/train
 package gates passed. Explicit archive inspection confirmed MIT metadata/text in
 six wheels, MIT and all three new guides in four sdists. GitHub Markdown rendering
-recognized all four README tables and the Mermaid diagram container. This does
-not claim a full visual/accessibility audit of GitHub's interface.
+recognized all four README tables and the Mermaid container, but the live browser
+returned “Unable to render rich display.” Replaced the dynamic diagram with a
+self-contained SVG carrying a title, description and Markdown alt text; its
+local Chrome preview rendered correctly. This is
+a focused documentation preview, not a full accessibility audit of GitHub's interface.
 
 After the reproduction, the owner explicitly requested MIT. [Decision 0063](../docs/decisions/0063-mit-license.md)
 records the grant, updates current licence guidance and keeps third-party terms

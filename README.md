@@ -24,19 +24,7 @@ The broader hardware-attested inference system remains unfinished.
 
 ## What the demo does
 
-```mermaid
-flowchart LR
-    D["Synthetic training data"] --> T["Train MLP + CNN"]
-    T --> E["Exact integer exports"]
-    E --> P["Dedicated classifier circuits"]
-    I["Caller-owned prompt + request"] --> P
-    P --> Z["Three real proofs"]
-    I --> V["Separate verifier"]
-    Z --> V
-    E --> V
-    K["Enrolled circuit + key pins"] --> V
-    V --> R["All pass → release"]
-```
+![Synthetic training, integer export and dedicated proofs feed a separate verifier, bound to the caller request and enrolled keys, then an all-pass classifier gate.](docs/assets/classifier-pipeline.svg)
 
 The caller reconstructs the public inputs from its own transcript opening and
 expected context. The prover's bundle cannot choose those expectations. The
