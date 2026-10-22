@@ -1,10 +1,11 @@
 # Contributing
 
-Hallmark is a public research repository with no adopted open-source licence.
-Read [AGENTS.md](AGENTS.md), [STATE](research/STATE.md), the [canonical spec](SPEC.md)
-and the relevant RFC/work item before changing behavior. Source visibility does
-not authorize data/model redistribution, paid compute, operational keys or new
-reviewer access. Keep the repository public unless the owner explicitly asks otherwise.
+Hallmark is MIT-licensed research software. To try it first, follow the
+[demo walkthrough](docs/DEMO.md). For a code or documentation contribution,
+read [AGENTS.md](AGENTS.md), [STATE](research/STATE.md), the [canonical spec](SPEC.md)
+and the relevant RFC/work item before changing behavior. The project licence does
+not change third-party data/model terms or authorize paid compute, operational keys or access to private
+research material. Keep the repository public unless the owner explicitly asks otherwise.
 
 ## Setup and checks
 

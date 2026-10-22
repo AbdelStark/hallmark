@@ -2,7 +2,12 @@
 
 ## Private delivery gates
 
-The repository is public at the owner's explicit request. Packages remain unpublished and `LicenseRef-Proprietary`; no open-source licence has been adopted. A repository issue, signed manifest or installable wheel grants no additional permission to redistribute source, data or weights. Package release and new reviewers/collaborators need owner authorization. Review the dependency/model/data inventory with the appropriate owner; do not infer legal rights from a metadata tag.
+The repository is public and the owner adopted the [MIT licence](../../LICENSE.md)
+on 2026-10-22. Packages remain unpublished. Third-party data, weights and software
+retain their own terms; the project licence does not grant rights to those assets.
+Package publication and access to private research material remain separate owner
+instructions. [Decision 0063](../decisions/0063-mit-license.md) records the change;
+frozen experiment records retain their historical licence labels and hashes.
 
 Every release packet contains source commit plus tree hash, lock and build-environment identity, wheel/sdist hashes, artifact inventory, license/restriction inventory, conformance result, independent-verifier result, actual hosted-check status, known limitations and a changelog. Research/hardware evidence is included only through approved private access; raw transcripts and checkpoints stay outside git.
 
@@ -37,7 +42,9 @@ The signature dependency's exact transitives are cffi 2.1.1 and pycparser 3.11;
 the linked review records all distribution hashes, licence metadata, target
 platforms and primary advisory sources. This software selection is not approval
 for operational signing-root custody. New model-runtime, tokenizer, proof and
-hardware libraries have no admitted version yet. Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
+hardware dependencies require explicit admission. Reviewed proof/guard dependencies
+are recorded in the [dependency inventory](../DEPENDENCIES.md) and
+[probe guide](../../research/probes/gnark/README.md). Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
 
 ## Contributor and automation workflow
 

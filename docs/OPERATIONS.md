@@ -1,5 +1,9 @@
 # Run and resume guide
 
+For the complete current training/proof path, start with the [demo walkthrough](DEMO.md).
+This guide retains focused commands and historical experiments; their capacities
+and evidence boundaries differ. See [results](RESULTS.md) for the current comparison.
+
 Read `AGENTS.md`, `research/STATE.md`, this guide, then the task's spec. Inspect branch, remote and `git status --short` before edits. Preserve other work. Do not use an old agent summary as evidence that a run passed.
 
 ## Local gates
@@ -22,8 +26,9 @@ runs cannot pass. Plain `make check` retains the optional-training boundary.
 The supported interpreter matrix is CPython 3.12, 3.13 and 3.14, with 3.12 as
 the default local pin. Linux and macOS run core/package and required-train/installed
 train gates on each version; see [reproducible packaging](PACKAGING.md). CI runs core checks/package installation and a separate
-required-training job on each interpreter. These are software fixture checks,
-not research results or hardware/proof integration.
+required-training job on each interpreter. The Python jobs are software fixture checks. A separate proof-artifact job builds
+a pinned synthetic encoder proof and checks it with separate arithmetic; it does
+not run the full Mac campaign or establish hardware/operational qualification.
 
 CI has read-only repository permissions, disables persisted checkout credentials,
 and has no secrets, self-hosted runners or transcript/artifact uploads. Push, PR
@@ -594,8 +599,9 @@ gradients, resume mismatches, byte boundaries, integer oracle agreement, ties,
 near-threshold quantization flips and source/label lineage. `make package-check-train`
 also trains/exports the smallest 32-channel fixture against the installed wheel.
 
-This is a 96-byte local-context software candidate. It rejects longer inputs and
-has no backend enrollment or proof. The artificial run/quote grammar and small,
+This training command produces a 96-byte local-context software candidate and
+rejects longer inputs. The following sections separately reproduce its real
+proof and research enrollment; training alone does not provide them. The artificial run/quote grammar and small,
 shared-vocabulary groups do not establish a real-world safety operating point.
 
 ## Proving the selected contextual CNN

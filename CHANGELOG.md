@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Document the end-to-end synthetic rule/MLP/CNN proof demo, its pinned Mac setup,
+separate verifier, expected outputs and measured limits. Add a documentation index
+and model/data/results guide; distinguish current proof evidence from historical
+baseline status. Adopt the MIT licence at the owner's explicit request and update package metadata
+and current licence guidance. Runtime, model and evaluator semantics are unchanged.
+
 Add an opt-in, pinned gnark Boolean-wire cache experiment with original/patched
 circuit-byte comparisons, cache boundary tests and separate proof/cost evidence.
 Keep the upstream dependency default and full-graph qualification gates unchanged.

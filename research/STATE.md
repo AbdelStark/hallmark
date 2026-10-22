@@ -1,8 +1,17 @@
 # Research state
 
-Updated: 2026-10-22. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
+Updated: 2026-10-22. Phase: MIT-licensed research software in a public repository, with bounded classifier proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
 ## Next bounded task
+
+Reader entry points: [end-to-end demo](../docs/DEMO.md),
+[results and limits](../docs/RESULTS.md), [documentation index](../docs/README.md).
+The walkthrough now has [fresh reproduction evidence](evidence/docs-demo-reproduction-2026-10-22.json):
+both exports match, nine real proofs verify, all three decisions match, all 18
+cross-request substitutions reject and all 405 arithmetic cases match their
+expected outcomes. The owner explicitly adopted [MIT](../docs/decisions/0063-mit-license.md);
+historical experiment records remain byte-identical. This closes the documentation
+reproduction gate, not the qualification gates below.
 
 The trained classifier research pipeline now has
 [complete common-request proof evidence](evidence/w28-trained-common-proofs-2026-10-22.json).

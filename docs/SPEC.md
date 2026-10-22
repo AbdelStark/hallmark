@@ -2,7 +2,14 @@
 
 Entry point: [canonical specification corpus](../SPEC.md). This file preserves the existing research contract; its future-interface sketches are superseded for proposed v1 by the new RFCs.
 
-Status: normative for the software baseline only. Hardware, registry and proving sections specify proposed interfaces, not implemented integrations. AI-assisted technical design, reviewed against the executable baseline on 2026-10-20.
+Status: normative for the original software baseline only. Statements below about
+implementation availability describe that baseline as of 2026-10-20; later
+[decisions](README.md#understand-the-design), [supported APIs](spec/02-public-api.md)
+and [current results](RESULTS.md) document the implemented research proofs and registry.
+
+The hardware, registry and proving sections preserve the original proposed
+interfaces. AI-assisted technical design, reviewed against the executable
+baseline on 2026-10-20.
 
 ## 1. Claims and system boundary
 

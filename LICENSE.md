@@ -1,14 +1,21 @@
-# Research source, no open-source licence
+MIT License
 
-The owner has made this repository public. No general open-source licence or
-additional permission to redistribute, sublicense or use its contents outside
-authorized research is granted by that visibility change.
+Copyright (c) 2026 Hallmark contributors
 
-Ownership and an eventual release licence must be confirmed by the appropriate
-owner before package distribution. Referenced third-party software, model weights
-and datasets retain their own licences and access conditions. Dependency
-installation does not grant rights to redistribute a checkpoint or dataset.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-`LicenseRef-Proprietary` remains the package licence identifier. It does not claim
-ownership of third-party material. See the [dependency inventory](docs/DEPENDENCIES.md)
-for recorded upstream metadata and notices; it is not release approval.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

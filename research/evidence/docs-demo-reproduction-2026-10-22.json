@@ -1,0 +1,159 @@
+{
+  "arithmetic_cases": {
+    "encoder": 135,
+    "mlp": 135,
+    "rule": 135
+  },
+  "baseline_commit": "aef20aa9082b5f0a654872f09c61b5d024cd43db",
+  "binary_sha256": "9847fdb32c9b98c4c493c40041206079191cd08989418147735dc14141ef49cd",
+  "case_results": [
+    {
+      "name": "allow",
+      "proofs_verified": 3,
+      "release": true,
+      "verdicts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "cnn-block",
+      "proofs_verified": 3,
+      "release": false,
+      "verdicts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "rule-block",
+      "proofs_verified": 3,
+      "release": false,
+      "verdicts": [
+        0,
+        1,
+        1
+      ]
+    }
+  ],
+  "circuits": {
+    "encoder": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb",
+    "mlp": "abcd0e292275670ec449610890295da1042ca86af531fac76b52f508da0d8fe9",
+    "rule": "f8bd6db87c2fe0264a96bc97f6686d60c978fd62c3f61b98500192a6f9b02898"
+  },
+  "cnn_all_seeds_pass": true,
+  "cnn_counts": [
+    {
+      "fn": 0,
+      "fp": 0,
+      "seed": 17,
+      "tn": 50,
+      "tp": 50
+    },
+    {
+      "fn": 0,
+      "fp": 1,
+      "seed": 29,
+      "tn": 49,
+      "tp": 50
+    },
+    {
+      "fn": 0,
+      "fp": 0,
+      "seed": 43,
+      "tn": 50,
+      "tp": 50
+    }
+  ],
+  "cnn_training_seconds": 169.55185204208829,
+  "commands_source": "docs/DEMO.md: nine shell blocks, excluding clone/cd in the new isolated worktree",
+  "cross_request_rejections": 18,
+  "date": "2026-10-22",
+  "environment": {
+    "go": "1.26.8",
+    "python": "3.12.12",
+    "uv": "0.9.18"
+  },
+  "failures": [
+    {
+      "observation": "Mermaid enrichment container was accepted by the Markdown API but the live page displayed Unable to render rich display.",
+      "resolution": "Replace dynamic Mermaid rendering with a self-contained accessible SVG; retain the same pipeline and textual explanation.",
+      "stage": "GitHub browser preview"
+    }
+  ],
+  "hardware_claim": "not-accepted",
+  "host": "macOS arm64, Apple M4 Max, 48 GiB RAM",
+  "licence": {
+    "applied_after_walkthrough": true,
+    "decision": "docs/decisions/0063-mit-license.md",
+    "historical_records_unchanged": true,
+    "owner_request": "Adopt MIT"
+  },
+  "limits": [
+    "synthetic task and 96-byte common proof capacity",
+    "authored response, no LLM inference provenance",
+    "controller-trusted compiler/program/key enrollment and fresh setup",
+    "no independent security/hiding qualification",
+    "timing is a reproduction observation, with separate software checks also executed on the host"
+  ],
+  "local_validation_root": "runs/doc-validation",
+  "matches_prior_models_and_circuits": true,
+  "model_sha256": {
+    "encoder": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9",
+    "mlp": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+  },
+  "mutable_paths": [
+    "README and documentation",
+    "licence and package licence metadata",
+    "state/ledger and reproduction evidence"
+  ],
+  "new_cloud_compute_usd": 0,
+  "original_proofs": 9,
+  "peak_worker_rss_bytes": 2121187328,
+  "private_worktree": "runs/readme-demo-2026-10-22",
+  "proof_campaign_seconds": 882.4436220841017,
+  "proof_result_sha256": "187575d81a6d0889c41054fa728e16271d71a00687162eca568dda3d63130b9d",
+  "proof_retained_bytes": 2574972675,
+  "qualified_backend": false,
+  "quantizations": {
+    "cnn": "8de31ae0215178f5c74aa43e58dd63511bc3b6a881c2045cc96def9e149b8f0b",
+    "mlp": "f8090161455ee56cdcd73eaab44437efa3b278a786d7c246491da5f1e1431a9c"
+  },
+  "run_root": "runs/demo-20261022T124608Z",
+  "runtime_models_data_evaluator_unchanged": true,
+  "schema_id": "hallmark.documentation-reproduction/1",
+  "scope": "README walkthrough reproduction; same frozen synthetic protocols, not a new quality study or performance benchmark",
+  "source_pins_sha256": "be8fd362e2d1d0ed226a315c68a873ad5d86db5bf6f4bdd7aeb89b2623e43a2b",
+  "source_unchanged_during_walkthrough": true,
+  "validation": {
+    "core_optional_skips": 121,
+    "core_tests_passed": 2206,
+    "dependency_lock_unchanged": true,
+    "full_evidence_obligations_unavailable": 32,
+    "github_markdown_render": "four tables rendered; live Mermaid display failed and was replaced with a self-contained SVG",
+    "mit_packages": [
+      {
+        "gate": "package-mit-core.log",
+        "mit_sdists_checked": 2,
+        "mit_wheels_checked": 3,
+        "source_id": "34580583e40724fd4d3895f355a28759505efd9e3c760bad6de857395806c508",
+        "status": "passed"
+      },
+      {
+        "gate": "package-mit-train.log",
+        "mit_sdists_checked": 2,
+        "mit_wheels_checked": 3,
+        "source_id": "34580583e40724fd4d3895f355a28759505efd9e3c760bad6de857395806c508",
+        "status": "passed"
+      }
+    ],
+    "readme_smoke": "valid, 52 synthetic records",
+    "required_training_tests_passed": 76,
+    "software_conformance_matched": 156,
+    "spec_check": "passed",
+    "static_svg_preview": "parsed as XML; rendered successfully in Chrome with accessible title/description; no scripts or external assets"
+  },
+  "walkthrough_log_sha256": "e376b398b705aec2d0a9faeadc26b3373d161492583b0e194cb56fca52214db4"
+}

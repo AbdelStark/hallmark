@@ -1,7 +1,8 @@
-# Separate synthetic encoder verifier
+# Separate research proof verifier
 
-This research probe checks the fixed Groth16/BLS12-381 encoder profile with
-py-ecc arithmetic. It shares no gnark proof decoder, pairing implementation or
+This research probe checks the supported Groth16/BLS12-381 encoding with
+py-ecc arithmetic. The [combined demo](../../../docs/DEMO.md) uses it for the
+rule, trained MLP and contextual CNN. It shares no gnark proof decoder, pairing implementation or
 verification code. It supports exactly 100 public scalars and one Pedersen
 commitment with no publicly committed indices. It does not qualify a backend,
 authenticate a model or key, or establish a trusted setup.
