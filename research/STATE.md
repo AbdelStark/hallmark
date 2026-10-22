@@ -4,6 +4,12 @@ Updated: 2026-10-22. Phase: MIT-licensed research software in a public repositor
 
 ## Next bounded task
 
+The owner-requested code cleanup consolidates four proof controllers onto one
+checked worker runner and replaces global sandbox overrides with per-call read
+paths. [Validation](evidence/worker-cleanup-2026-10-22.json) covers retained failure
+costs, artifact tampering, sandbox isolation and real proof/verification execution.
+This maintenance gate changes no model, proof relation or qualification status.
+
 The owner-requested usability gate now has a one-command entrypoint: `make e2e`.
 The [fresh reproduction](evidence/e2e-entrypoint-2026-10-22.json) completed pinned
 preparation, both training/export runs, nine proofs, all 18 cross-request

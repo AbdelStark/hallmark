@@ -67,6 +67,7 @@ def run(binary, binary_pin, verifier_python, output):
             threads=4,
             max_rss_bytes=budget.max_rss_bytes,
             max_output_bytes=budget.max_output_bytes,
+            worker_sha256=digest(Path(worker.__file__).read_bytes()),
             qualified_backend=False,
             hardware_claim="not-accepted",
         ),
@@ -74,57 +75,17 @@ def run(binary, binary_pin, verifier_python, output):
     costs = []
 
     def invoke(name, executable, args, inputs, produced, *, python=False):
-        work = output / name
-        work.mkdir(mode=0o700)
-        for filename, value in inputs.items():
-            if isinstance(value, PinnedArtifact):
-                value.copy_to(work / filename, MAX_FILE)
-            else:
-                write_new(work / filename, value)
-        original = worker.sandbox_profile
-        if python:
-            # Python needs its reviewed environment and source read-only; writes stay in work.
-            roots = (verifier_python.parent.parent, prefix, common.ROOT)
-            worker.sandbox_profile = lambda binary, work: (
-                original(binary, work)
-                + (
-                    "\n(allow file-read* file-map-executable "
-                    + " ".join("(subpath " + json.dumps(str(p)) + ")" for p in roots)
-                    + ")\n"
-                )
-            )
-        try:
-            cost = worker.invoke(
-                executable,
-                work,
-                args,
-                seconds=600,
-                cpu_seconds=2400,
-                max_file=MAX_FILE,
-                budget=budget,
-            )
-        finally:
-            worker.sandbox_profile = original
-        costs.append(dict(name=name, **cost))
-        if cost["exit_code"] != 0:
-            raise ValueError("proof worker failed: " + name)
-        allowed = (
-            set(inputs) | set(produced) | {"sandbox.sb", "plan.json", "stdout.txt", "stderr.txt"}
+        return worker.run_case(
+            executable,
+            output / name,
+            args,
+            inputs,
+            produced,
+            budget=budget,
+            max_file=MAX_FILE,
+            costs=costs,
+            read_paths=(verifier_python.parent.parent, prefix, common.ROOT) if python else (),
         )
-        if set(cost["files"]) != allowed:
-            raise ValueError("unexpected worker artifact inventory")
-        for filename, value in inputs.items():
-            expected = (
-                dict(bytes=value.size, sha256=value.sha256)
-                if isinstance(value, PinnedArtifact)
-                else dict(bytes=len(value), sha256=digest(value))
-            )
-            if cost["files"][filename] != expected:
-                raise ValueError("worker changed an input")
-        report = json.loads(read_regular(work / "stdout.txt", 1024**2).splitlines()[-1])
-        if report["status"] != "passed":
-            raise ValueError("worker did not pass")
-        return cost, report
 
     def args(kind, action):
         return ["encoder-" + action, "8"] if kind == "encoder" else [kind + "-program-" + action]

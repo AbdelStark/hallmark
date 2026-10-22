@@ -1,4 +1,4 @@
-"""Run the pinned cubic installation probe on macOS; never qualify a Hallmark backend."""
+"""Bounded Mac proof workers and the pinned cubic installation probe."""
 
 import argparse
 import ctypes
@@ -249,6 +249,7 @@ def invoke(
     max_file: int = MAX_FILE,
     cpu_seconds: int = 40,
     budget: RunBudget | None = None,
+    read_paths: Sequence[Path] = (),
 ) -> dict[str, Any]:
     """Fixed environment and OS network/file restrictions; process-group timeout."""
     if budget is not None:
@@ -258,6 +259,12 @@ def invoke(
             seconds = min(seconds, budget.verify_seconds)
         cpu_seconds = min(cpu_seconds, budget.cpu_seconds)
     profile = sandbox_profile(binary, work)
+    if read_paths:
+        profile += (
+            "\n(allow file-read* file-map-executable "
+            + " ".join("(subpath " + json.dumps(str(path)) + ")" for path in read_paths)
+            + ")\n"
+        )
     max_rss = budget.max_rss_bytes if budget else 16 * 1024**3
     cutoff = max_rss * 7 // 8
     resident_bytes = _rss_reader()
@@ -361,6 +368,55 @@ def invoke(
     if memory_limit_exceeded or memory_monitor_failed or usage.ru_maxrss > max_rss:
         raise MemoryError("qualification worker memory budget")
     return result
+
+
+def run_case(
+    binary: Path,
+    work: Path,
+    args: list[str],
+    inputs: dict[str, bytes | PinnedArtifact],
+    produced: Sequence[str],
+    *,
+    budget: RunBudget,
+    max_file: int,
+    costs: list[dict[str, Any]],
+    read_paths: Sequence[Path] = (),
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Run a fresh proof case; retain costs before checking its output and unchanged inputs."""
+    work.mkdir(mode=0o700)
+    for filename, value in inputs.items():
+        if isinstance(value, PinnedArtifact):
+            value.copy_to(work / filename, max_file)
+        else:
+            write_new(work / filename, value)
+    cost = invoke(
+        binary,
+        work,
+        args,
+        seconds=budget.case_seconds,
+        cpu_seconds=budget.cpu_seconds,
+        max_file=max_file,
+        budget=budget,
+        read_paths=read_paths,
+    )
+    costs.append(dict(name=work.name, **cost))
+    if cost["exit_code"] != 0:
+        raise ValueError("proof worker failed: " + work.name)
+    allowed = set(inputs) | set(produced) | {"sandbox.sb", "plan.json", "stdout.txt", "stderr.txt"}
+    if set(cost["files"]) != allowed:
+        raise ValueError("unexpected worker artifact inventory")
+    for filename, value in inputs.items():
+        expected = (
+            dict(bytes=value.size, sha256=value.sha256)
+            if isinstance(value, PinnedArtifact)
+            else dict(bytes=len(value), sha256=digest(value))
+        )
+        if cost["files"][filename] != expected:
+            raise ValueError("worker changed an input")
+    report: dict[str, Any] = json.loads(read_regular(work / "stdout.txt", 1024**2).splitlines()[-1])
+    if report.get("status") != "passed":
+        raise ValueError("worker did not pass")
+    return cost, report
 
 
 def check(

@@ -222,62 +222,24 @@ def run(binary, binary_pin, verifier_python, quantization, output):
             cases={str(k): list(v) for k, v in cases.items()},
             controller_sha256=digest(Path(__file__).read_bytes()),
             verifier_sha256=digest((ROOT / "research/probes/py_ecc/check.py").read_bytes()),
+            worker_sha256=digest(Path(worker.__file__).read_bytes()),
             qualified_backend=False,
         ),
     )
     costs, results = [], []
 
     def invoke(name, executable, args, inputs, produced, *, python=False):
-        work = output / name
-        work.mkdir(mode=0o700)
-        for filename, value in inputs.items():
-            if isinstance(value, PinnedArtifact):
-                value.copy_to(work / filename, MAX_FILE)
-            else:
-                write_new(work / filename, value)
-        original = worker.sandbox_profile
-        if python:
-            worker.sandbox_profile = lambda binary, work: (
-                original(binary, work)
-                + "\n(allow file-read* file-map-executable "
-                + " ".join(
-                    "(subpath " + json.dumps(str(p)) + ")"
-                    for p in (verifier_python.parent.parent, prefix, ROOT)
-                )
-                + ")\n"
-            )
-        try:
-            cost = worker.invoke(
-                executable,
-                work,
-                args,
-                seconds=900,
-                cpu_seconds=3600,
-                max_file=MAX_FILE,
-                budget=budget,
-            )
-        finally:
-            worker.sandbox_profile = original
-        costs.append(dict(name=name, **cost))
-        if cost["exit_code"] != 0:
-            raise ValueError("worker failed: " + name)
-        report = json.loads(read_regular(work / "stdout.txt", 1024**2).splitlines()[-1])
-        if report.get("status") != "passed" or set(cost["files"]) != set(inputs) | set(produced) | {
-            "sandbox.sb",
-            "plan.json",
-            "stdout.txt",
-            "stderr.txt",
-        }:
-            raise ValueError("unexpected worker result/inventory")
-        for filename, value in inputs.items():
-            pin = (
-                dict(bytes=value.size, sha256=value.sha256)
-                if isinstance(value, PinnedArtifact)
-                else dict(bytes=len(value), sha256=digest(value))
-            )
-            if cost["files"][filename] != pin:
-                raise ValueError("worker changed an input")
-        return cost, report
+        return worker.run_case(
+            executable,
+            output / name,
+            args,
+            inputs,
+            produced,
+            budget=budget,
+            max_file=MAX_FILE,
+            costs=costs,
+            read_paths=(verifier_python.parent.parent, prefix, ROOT) if python else (),
+        )
 
     try:
         for capacity, prompts in cases.items():

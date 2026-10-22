@@ -1,3 +1,3 @@
-"""Research contracts; no hardware-attestation or ZK-proof acceptance is implemented."""
+"""Transcript-bound classifier contracts, runtimes and research proof tooling."""
 
 __version__ = "0.1.0"

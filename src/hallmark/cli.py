@@ -1,4 +1,4 @@
-"""Local research commands. No external service, attestation or proof stub."""
+"""Local dataset, training, replay, registry and proof-research commands."""
 
 import argparse
 import json
