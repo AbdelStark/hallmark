@@ -25,9 +25,20 @@ from hallmark.integer_graph import IntegerGraph
 from hallmark.manifests import FileRef
 from hallmark.wire import encode
 
-CAPACITY, KERNEL, EMBEDDING, CHANNELS = 96, 24, 4, 8
-SHAPES = {"embedding": (256, 4), "kernel": (8, 96), "bias": (8,), "head": (1, 8), "out": (1,)}
+CAPACITY, KERNEL, EMBEDDING = 96, 24, 4
 FIT = {"epochs": 200, "learning_rate": 0.025, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-8}
+
+
+def shapes(channels):
+    if type(channels) is not int or channels not in (8, 32):
+        raise ValueError("unadmitted CNN width")
+    return {
+        "embedding": (256, 4),
+        "kernel": (channels, 96),
+        "bias": (channels,),
+        "head": (1, channels),
+        "out": (1,),
+    }
 
 
 def json_bytes(value):
@@ -59,10 +70,11 @@ def runtime():
 def arrays(parameters):
     import numpy as np
 
-    if type(parameters) is not dict or parameters.keys() != SHAPES.keys():
+    if type(parameters) is not dict or parameters.keys() != shapes(8).keys():
         raise ValueError("invalid CNN parameter inventory")
+    expected = shapes(len(parameters["bias"]))
     result = {k: np.asarray(v, dtype=np.float64) for k, v in parameters.items()}
-    if any(v.shape != SHAPES[k] or not np.isfinite(v).all() for k, v in result.items()):
+    if any(v.shape != expected[k] or not np.isfinite(v).all() for k, v in result.items()):
         raise ValueError("invalid CNN parameter shape or value")
     return result
 
@@ -70,7 +82,7 @@ def arrays(parameters):
 def inputs(prompts):
     import numpy as np
 
-    if not 1 <= len(prompts) <= 256:
+    if not 1 <= len(prompts) <= 512:
         raise ValueError("invalid CNN batch size")
     tokens = np.zeros((len(prompts), CAPACITY), dtype=np.int64)
     mask = np.zeros_like(tokens)
@@ -109,15 +121,16 @@ def forward(p, tokens, mask):
 def gradient(p, tokens, mask, labels):
     import numpy as np
 
+    channels = len(p["bias"])
     scores, (x, z, pooled, argmax) = forward(p, tokens, mask)
     loss = float(np.mean(np.logaddexp(0, scores) - labels * scores))
     delta = (1 / (1 + np.exp(-np.clip(scores, -700, 700))) - labels) / len(tokens)
     dpool = delta[:, None] * p["head"]
     dz = np.zeros_like(z)
-    dz[np.arange(len(tokens))[:, None], argmax, np.arange(CHANNELS)] = dpool
+    dz[np.arange(len(tokens))[:, None], argmax, np.arange(channels)] = dpool
     dz *= (z > 0) * mask[:, :, None]
     g = {"head": delta[None, :] @ pooled, "out": np.array([delta.sum()])}
-    g["kernel"] = dz.reshape(-1, CHANNELS).T @ x.reshape(-1, KERNEL * EMBEDDING)
+    g["kernel"] = dz.reshape(-1, channels).T @ x.reshape(-1, KERNEL * EMBEDDING)
     g["bias"] = dz.sum(axis=(0, 1))
     dx = (dz @ p["kernel"]).reshape(len(tokens), CAPACITY, KERNEL, EMBEDDING)
     index, causal = windows()
@@ -134,7 +147,7 @@ def gradient(p, tokens, mask, labels):
     return loss, g
 
 
-def train(rows, seed, *, stop=200, checkpoint=None):
+def train(rows, seed, *, channels=8, stop=200, checkpoint=None):
     """Train-only full-batch Adam; exact same-environment resume, no test access."""
     import numpy as np
 
@@ -145,7 +158,8 @@ def train(rows, seed, *, stop=200, checkpoint=None):
         or not 0 <= stop <= 200
     ):
         raise ValueError("unadmitted training configuration")
-    if not 2 <= len(rows) <= 256 or any(type(r) is not Record for r in rows):
+    shape_map = shapes(channels)
+    if not 2 <= len(rows) <= 512 or any(type(r) is not Record for r in rows):
         raise ValueError("invalid training records")
     rows = tuple(sorted(rows, key=lambda r: r.record_id))
     if (
@@ -163,6 +177,7 @@ def train(rows, seed, *, stop=200, checkpoint=None):
         dict(
             rows=[r.model_dump() for r in rows],
             seed=seed,
+            channels=channels,
             fit=FIT,
             source=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             runtime=runtime(),
@@ -171,9 +186,9 @@ def train(rows, seed, *, stop=200, checkpoint=None):
     rng = np.random.default_rng(seed)
     p = {
         k: rng.normal(0, 0.15, shape) if k in ("embedding", "kernel", "head") else np.zeros(shape)
-        for k, shape in SHAPES.items()
+        for k, shape in shape_map.items()
     }
-    m, v = ({k: np.zeros(shape) for k, shape in SHAPES.items()} for _ in range(2))
+    m, v = ({k: np.zeros(shape) for k, shape in shape_map.items()} for _ in range(2))
     epoch, history = 0, []
     if checkpoint is not None:
         if (
@@ -187,6 +202,8 @@ def train(rows, seed, *, stop=200, checkpoint=None):
         if type(epoch) is not int or not 0 <= epoch <= stop:
             raise ValueError("invalid resume epoch")
         p, m, v = (arrays(checkpoint[k]) for k in ("parameters", "m", "v"))
+        if any(x["bias"].shape != (channels,) for x in (p, m, v)):
+            raise ValueError("resume architecture mismatch")
         history = list(checkpoint["history"])
         if (
             len(history) != epoch
@@ -392,7 +409,7 @@ def export(q, *, threshold=0):
         "pooled",
         "masked-reduce",
         ("relu", "row-mask"),
-        (CHANNELS,),
+        (len(p["bias"]),),
         0,
         max(0, z.maximum),
         8,

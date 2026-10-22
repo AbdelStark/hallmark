@@ -57,8 +57,14 @@ def native(exported, prompts):
     return results
 
 
-def run(output, expected_protocol):
-    raw = read_regular(ROOT / "fixtures/contextual-protocol.json", 16384)
+def run(output, expected_protocol, study="v1"):
+    if study not in ("v1", "v2"):
+        raise ValueError("unknown frozen study")
+    suffix = "" if study == "v1" else "-v2"
+    channels, group_count, counts = (
+        (8, 100, [120, 40, 40]) if study == "v1" else (32, 256, [312, 100, 100])
+    )
+    raw = read_regular(ROOT / f"fixtures/contextual-protocol{suffix}.json", 16384)
     if sha(raw) != expected_protocol:
         raise ValueError("protocol differs from caller pin")
     protocol = parse_json(raw.decode())
@@ -66,18 +72,18 @@ def run(output, expected_protocol):
         protocol["seeds"] != [17, 29, 43]
         or protocol["fit"]
         != (cnn.FIT | {"optimizer": "full-batch Adam", "dtype": "float64", "device": "cpu"})
-        or protocol["architecture"] != dict(capacity=96, kernel=24, embedding=4, channels=8)
+        or protocol["architecture"] != dict(capacity=96, kernel=24, embedding=4, channels=channels)
     ):
         raise ValueError("protocol does not describe this candidate")
     for filename, key in (
-        ("contextual-scope.jsonl", "dataset_sha256"),
-        ("contextual-source.json", "source_sha256"),
+        (f"contextual-scope{suffix}.jsonl", "dataset_sha256"),
+        (f"contextual-source{suffix}.json", "source_sha256"),
     ):
         if sha(read_regular(ROOT / "fixtures" / filename, 1024**2)) != protocol[key]:
             raise ValueError("dataset/source pin mismatch")
-    rows = load_records(ROOT / "fixtures/contextual-scope.jsonl")
+    rows = load_records(ROOT / f"fixtures/contextual-scope{suffix}.jsonl")
     if any(
-        r.source_id != "owned-synthetic-contextual"
+        r.source_id != "owned-synthetic-contextual" + suffix
         or r.source_revision != protocol["source_sha256"]
         or r.license_id != "LicenseRef-Proprietary"
         or r.policy_id != "synthetic-run-quote-scope-v1"
@@ -88,7 +94,7 @@ def run(output, expected_protocol):
     groups = {}
     for row in rows:
         groups.setdefault(row.group_id, []).append(row)
-    if len(groups) != 100 or any(
+    if len(groups) != group_count or any(
         len(g) != 2
         or {r.label for r in g} != {0, 1}
         or Counter(g[0].prompt.encode()) != Counter(g[1].prompt.encode())
@@ -96,8 +102,13 @@ def run(output, expected_protocol):
     ):
         raise ValueError("paired histogram baseline does not apply")
     splits = {s: tuple(r for r in rows if r.split == s) for s in ("train", "calibration", "test")}
-    if [len(x) for x in splits.values()] != [120, 40, 40]:
+    if [len(x) for x in splits.values()] != counts:
         raise ValueError("wrong frozen split roster")
+    if study == "v2":
+        previous = load_records(ROOT / "fixtures/contextual-scope.jsonl")
+        seen = {r.prompt for r in previous}
+        if any(r.prompt in seen for r in (*splits["calibration"], *splits["test"])):
+            raise ValueError("old evaluation reused in new study")
     env = cnn.runtime()
     if any(v != "1" for v in env["threads"].values()):
         raise ValueError("run needs the three declared one-thread environment variables")
@@ -127,11 +138,11 @@ def run(output, expected_protocol):
             directory = output / str(seed)
             directory.mkdir(mode=0o700)
             t0 = time.monotonic()
-            checkpoint = cnn.train(splits["train"], seed)
+            checkpoint = cnn.train(splits["train"], seed, channels=channels)
             json_new(directory / "checkpoint.json", checkpoint)
-            partial = cnn.train(splits["train"], seed, stop=100)
+            partial = cnn.train(splits["train"], seed, channels=channels, stop=100)
             json_new(directory / "resume-100.json", partial)
-            resumed = cnn.train(splits["train"], seed, checkpoint=partial)
+            resumed = cnn.train(splits["train"], seed, channels=channels, checkpoint=partial)
             json_new(directory / "resumed.json", resumed)
             if resumed != checkpoint:
                 raise ValueError("resume differs from uninterrupted training")
@@ -274,5 +285,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--expected-protocol", required=True)
+    parser.add_argument("--study", choices=("v1", "v2"), default="v1")
     args = parser.parse_args()
-    run(args.output, args.expected_protocol)
+    run(args.output, args.expected_protocol, args.study)

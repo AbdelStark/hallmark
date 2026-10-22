@@ -1,6 +1,8 @@
 """Numerical and admission checks for the optional research candidate."""
 
 import copy
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -27,8 +29,9 @@ def rows():
     return load_records(Path(__file__).resolve().parents[1] / "fixtures/contextual-scope.jsonl")[:2]
 
 
-def test_gradient_and_resume(np, rows):
-    cp = cnn.train(rows, 17, stop=1)
+@pytest.mark.parametrize("channels", [8, 32])
+def test_gradient_and_resume(np, rows, channels):
+    cp = cnn.train(rows, 17, channels=channels, stop=1)
     p = cnn.arrays(cp["parameters"])
     tokens, mask = cnn.inputs([r.prompt for r in rows])
     labels = np.array([r.label for r in rows])
@@ -47,7 +50,9 @@ def test_gradient_and_resume(np, rows):
         minus, _ = cnn.gradient(p, tokens, mask, labels)
         p[name][index] = before
         assert gradients[name][index] == pytest.approx((plus - minus) / 2e-6, abs=1e-7)
-    assert cnn.train(rows, 17, stop=3, checkpoint=cp) == cnn.train(rows, 17, stop=3)
+    assert cnn.train(rows, 17, channels=channels, stop=3, checkpoint=cp) == cnn.train(
+        rows, 17, channels=channels, stop=3
+    )
     with pytest.raises(ValueError, match="identity mismatch"):
         cnn.train(rows, 29, stop=3, checkpoint=cp)
     altered = (rows[0].model_copy(update={"prompt": rows[0].prompt + "!"}), rows[1])
@@ -57,8 +62,9 @@ def test_gradient_and_resume(np, rows):
         cnn.train((rows[0].model_copy(update={"split": "test"}), rows[1]), 17)
 
 
-def test_export_integer_parity_coverage_and_threshold(np, rows):
-    cp = cnn.train(rows, 17, stop=1)
+@pytest.mark.parametrize("channels", [8, 32])
+def test_export_integer_parity_coverage_and_threshold(np, rows, channels):
+    cp = cnn.train(rows, 17, channels=channels, stop=1)
     q = cnn.quantize(cp["parameters"])
     exported = cnn.export(q)
     prompts = ["", "\x00", "é", "A" * 95, "A" * 95 + "B", "A" * 96, rows[0].prompt]
@@ -104,3 +110,54 @@ def test_pair_baseline_and_lineage():
         assert len(pair) == 2 and {r.label for r in pair} == {0, 1}
         assert len({r.split for r in pair}) == 1
         assert Counter(pair[0].prompt.encode()) == Counter(pair[1].prompt.encode())
+
+
+def test_fresh_v2_groups():
+    fixture = Path(__file__).resolve().parents[1] / "fixtures"
+    old = load_records(fixture / "contextual-scope.jsonl")
+    new = load_records(fixture / "contextual-scope-v2.jsonl")
+    previous = {r.prompt for r in old}
+    assert not previous & {r.prompt for r in new if r.split != "train"}
+    assert previous <= {r.prompt for r in new if r.split == "train"}
+    assert len({r.group_id for r in new if r.split == "test"}) == 50
+
+
+def test_quantization_near_threshold_and_ties(np):
+    p = {name: np.zeros(shape) for name, shape in cnn.shapes(8).items()}
+    with pytest.raises(ValueError):
+        cnn.export(cnn.quantize({k: v.tolist() for k, v in p.items()}))
+    # Keep the hidden product scale inside the existing 30-fraction-bit envelope.
+    p["embedding"][0, 0] = p["kernel"][0, 0] = 0.5
+    for value, expected in ((-0.5, 0), (0.5, 0), (1.5, 2), (-1.5, -2)):
+        p["out"][0] = value / 256
+        q = cnn.quantize({k: v.tolist() for k, v in p.items()})
+        assert cnn.integer_scores(q, [""]) == [expected]
+        assert cnn.graph_scores(cnn.export(q), [""]) == [expected]
+    p["out"][0] = -0.49 / 256
+    float_score, _ = cnn.forward(p, *cnn.inputs([""]))
+    q = cnn.quantize({k: v.tolist() for k, v in p.items()})
+    assert float_score[0] < 0
+    assert cnn.integer_scores(q, [""])[0] >= 0
+
+
+def test_protocol_pin_rejected_before_output(tmp_path):
+    from run_contextual_cnn import run
+
+    output = tmp_path / "run"
+    with pytest.raises(ValueError, match="caller pin"):
+        run(output, "0" * 64)
+    assert not output.exists()
+
+
+@pytest.mark.parametrize("suffix", ["", "-v2"])
+def test_every_authored_label_matches_frozen_grammar(suffix):
+    fixture = Path(__file__).resolve().parents[1] / "fixtures"
+    source_raw = (fixture / f"contextual-source{suffix}.json").read_bytes()
+    source = json.loads(source_raw)
+    rows = load_records(fixture / f"contextual-scope{suffix}.jsonl")
+    for row in rows:
+        active, quoted = row.prompt.removeprefix("run: ").split("; quote: ")
+        assert row.label == int(active in source["forbidden"])
+        assert (active in source["benign"]) != (quoted in source["benign"])
+        assert {active, quoted} <= set(source["benign"] + source["forbidden"])
+        assert row.source_revision == hashlib.sha256(source_raw).hexdigest()

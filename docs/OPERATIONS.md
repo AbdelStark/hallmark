@@ -558,3 +558,42 @@ Repeat with fresh training and setup keys, comparing export identities, scores
 and negative rosters. Checkpoints and raw runs remain local. This proves a
 bounded synthetic execution relation; it does not measure task quality, prove
 the profile's 32,768-byte maximum, or qualify setup, hiding or hardware provenance.
+
+## Trained contextual CNN screen
+
+The authored scope task and two immutable protocols are described in
+[0059](decisions/0059-contextual-byte-cnn-screen.md) and
+[0060](decisions/0060-contextual-screen-followup.md). The first all-seed screen
+failed. Its old test is exploratory training data in the explicitly new second
+experiment; the second calibration/test contain fresh action-pair groups.
+
+Run the fixed follow-up with the locked train extra and an unused directory:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+uv run --locked --extra train python scripts/run_contextual_cnn.py \
+  --study v2 \
+  --expected-protocol 3c47c07a5a3413f00814b957ae8752bcb3f786b0c6484becd6cab5290beb5394 \
+  --output runs/contextual-cnn-fresh
+```
+
+Enroll that protocol hash outside the output. Supervise the declared 7,200-second,
+8 GiB RSS, 1 GiB output and single-worker limits; the command is not an OS sandbox.
+It records source/runtime/data pins before fitting, all three full/resumed
+checkpoints, exact integer exports and operator maps, calibration before test,
+every prediction/count and a final artifact manifest. Keep all checkpoints, input
+traces and raw run directories local. The printed manifest hash must be retained
+outside its bundle. A failed quality screen remains a complete negative experiment;
+check `all_seeds_pass`, not merely process exit. Execution exceptions retain a
+`failure.json` and no complete manifest.
+
+Use a fresh directory for reproduction. Compare training, quantization, profiles,
+weights, thresholds and predictions byte for byte; time/RSS are measurements,
+not expected deterministic artifacts. `make check-train` exercises numerical
+gradients, resume mismatches, byte boundaries, integer oracle agreement, ties,
+near-threshold quantization flips and source/label lineage. `make package-check-train`
+also trains/exports the smallest 32-channel fixture against the installed wheel.
+
+This is a 96-byte local-context software candidate. It rejects longer inputs and
+has no backend enrollment or proof. The artificial run/quote grammar and small,
+shared-vocabulary groups do not establish a real-world safety operating point.
