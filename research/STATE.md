@@ -4,33 +4,39 @@ Updated: 2026-10-22. Phase: research software foundation in a public repository,
 
 ## Next bounded task
 
-The screened contextual CNN now has [actual complete-relation proofs](evidence/w18-contextual-cnn-proofs-2026-10-22.json).
-Two fresh Mac campaigns verify 12 proofs at capacities eight and 96, reject all
-36 altered witnesses, and pass 540 separate-arithmetic cases. The model and both
-circuits match; fresh keys differ. The 96-byte roster preserves a benign pass and
-positive blocks at the frozen threshold -3733. The circuit has 975,708 constraints
-at capacity 96; peak worker RSS remains below 2.23 GB. No cloud compute was used.
+The trained classifier research pipeline now has
+[complete common-request proof evidence](evidence/w28-trained-common-proofs-2026-10-22.json).
+Two fresh Mac campaigns produced 18 real proofs for the literal rule, trained MLP
+and screened contextual CNN over one caller-pinned request and all-pass policy.
+All 36 cross-request substitutions rejected; all 810 separate-arithmetic cases
+matched their expected outcomes. All three circuits and both learned models
+reproduced, with six distinct setup keys. The benign case passes all classifiers;
+the contextual case blocks in the CNN and the literal marker blocks in the rule.
 
-This is the seed-17 model selected before test in the
-[second synthetic screen](evidence/w16-contextual-screen-v2-2026-10-22.json).
-The [failed first screen](evidence/w16-contextual-screen-v1-2026-10-22.json) remains
-retained. No model, dataset, native evaluator or threshold changed for the proof.
-The complete relation binds bytes, learned embeddings, every causal window,
-rounding/ReLU, active-window pooling and verdict. It uses a dedicated circuit,
-with no general-purpose zkVM. See [0061](../docs/decisions/0061-complete-contextual-cnn-proof.md).
+[Decision 0062](../docs/decisions/0062-trained-common-request-proofs.md) admits at
+most 96 complete prompt bytes and preserves the old eight-byte composition.
+Its new rule profile has an explicit identity; its first native fixture failed
+with the inherited eight-byte limit and is retained. The trained models,
+thresholds and native evaluators remain frozen. The CNN circuit exactly matches
+[the earlier complete proof](evidence/w18-contextual-cnn-proofs-2026-10-22.json).
+The two campaigns took 882.75 and 869.34 seconds, each retained about 2.57 GB,
+and peak worker RSS remained below 2.15 GB. New cloud compute cost was zero.
 
-Next replace the pass-all encoder in the common-request experiment with this
-trained CNN and align the rule/MLP proof capacities to the same admitted prompt.
-Require actual proofs for all three classifier kinds, caller-enrolled common
-context and policy, complete per-classifier input reconstruction and cross-request
-substitution rejection. Keep the old eight-byte baseline unchanged. This is
-composition software, not adoption of the artificial grammar as a safety policy.
+This completes the bounded synthetic training/export/proof/composition research
+slice. The authored response has no inference provenance, and `release` means
+only that all classifier verdicts pass. No operational hybrid acceptance,
+production policy adoption, task-quality or hiding/security qualification follows.
+The [second synthetic screen](evidence/w16-contextual-screen-v2-2026-10-22.json)
+and [failed first screen](evidence/w16-contextual-screen-v1-2026-10-22.json) retain
+their original evidence boundaries; the reused test pair is an engineering case.
 
-Mac first; the approved existing Modal/Vast/HF credits remain bounded fallbacks.
-GCP is not a classifier-proof dependency. Issues #17/#19 stay open: authenticated
-compiler/enrollment, setup custody, security/hiding review, genuine hardware
-provenance and the operational hybrid verifier remain separate missing gates.
-Historical entries below preserve earlier failures and evidence limits.
+The remaining qualification gates are explicit: authenticated compiler/program
+and key enrollment, setup custody, independent security/hiding review and an
+admitted B1 verifier adapter. B2 and the full hybrid path additionally need genuine
+hardware provenance and protected inference/output evidence. Issues #19/#29
+remain open; research proofs do not satisfy those operational dependencies.
+Mac first; approved Modal/Vast/HF credits remain bounded fallbacks, and GCP is
+not a classifier-proof dependency. Historical entries below preserve prior results.
 
 ## Implemented
 

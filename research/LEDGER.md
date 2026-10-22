@@ -3622,3 +3622,59 @@ metadata parsing does not authenticate model admission. Setup custody, hiding,
 independent security review, real-world task quality, hardware provenance and
 response generation remain unqualified. Next integrate this trained classifier
 into one common-request rule/MLP/CNN proof roster. Issue #19 remains open.
+
+
+## 2026-10-22 — W28 trained common-request composition
+
+Hypothesis and frozen limits: [decision 0062](../docs/decisions/0062-trained-common-request-proofs.md).
+Baseline: the unchanged eight-byte rule/MLP/pass-all encoder composition. Candidate:
+96-byte literal rule plus the already frozen seed-17 MLP and contextual CNN,
+with common caller expectations, policy and opening. No training, calibration or
+new quality evaluation occurred. The reused synthetic pair supplies engineering
+cases only.
+
+[Numeric evidence](evidence/w28-trained-common-proofs-2026-10-22.json) records two
+fresh campaigns: 18 real proofs verified in six separate three-proof checks;
+36 cross-request substitutions rejected; 810 separate-arithmetic cases passed.
+Per classifier and campaign, four valid cases were accepted, 109 invalid equations
+rejected and 22 malformed encodings rejected. The three decision rosters reproduce
+as `(1,1,1)`, `(1,1,0)` and `(0,1,1)`. All three circuits and both models match,
+all six keys differ, and the CNN circuit matches the earlier capacity-96 proof.
+All 171 recorded runtime/data/environment source hashes remained unchanged.
+
+Constraints: rule 321,617; MLP 325,123; CNN 975,708. Every proof is 292 bytes and
+every verifier key is 5,536 bytes. Controller times were 882.7476142498199 and
+869.3436405411921 seconds; peak worker RSS was 2,134,130,688 and 2,142,519,296 bytes.
+Retained output was 2,574,971,665 and 2,574,971,858 bytes. These include setup,
+proof production, binding reconstruction and verification, with raw per-worker
+costs retained; they are not full hybrid inference/attestation costs. No cloud
+compute or new dependency was used. Eleven pinned separate-verifier package
+versions matched before launch; ten historical circuit fingerprints stayed fixed.
+
+Failure retained: the first native fixture inherited the old eight-byte rule
+profile and rejected the longer fixed prompt. The candidate gives the 96-byte
+rule profile/program a new identity and pins it in the dedicated circuit. Native
+and circuit checks passed before either actual campaign. No proof campaign failed.
+
+Reproduction command: `scripts/run_trained_common.py --binary "$PROBE_BINARY"
+--expected-binary "$PROBE_SHA256" --verifier-python "$VERIFIER_PYTHON"
+--mlp-quantization "$MLP_TRAIN/seed-17/quantization.json"
+--cnn-quantization "$CNN_TRAIN/17/quantization.json" --output "$FRESH_RUN"`, using
+the locked train environment. [Operations](../docs/OPERATIONS.md#trained-classifiers-on-one-opened-request)
+records the full invocation and bounds. Exact commands, source/environment pins,
+failed fixture log, requests, setup/proof artifacts, checker outputs, costs and
+agent review remain local under `runs/w28-trained-common-1792666639440872000/`.
+
+Scope: real research proof composition, public model constants and opened synthetic
+requests. The agent review is not independent human security review. Compiler/key
+enrollment authenticity, setup custody, hiding/security qualification, operational
+B1 admission and genuine hardware/B2 remain incomplete; issue #29 stays open.
+
+Validation: `make check` passed 2,277 tests with 50 optional skips; all 156
+executable software conformance cases matched, while 32 full-evidence cases remain
+unavailable. The 26 new Python binding/transport cases passed within that suite.
+All 24 Go test functions passed, including the maximum-tail rule fixture and ten
+unchanged historical circuit fingerprints. Both `make package-check` and
+`make package-check-train` passed; all six new controller/helper/circuit/test/
+decision paths were checked in the source distribution. Raw logs remain alongside
+the two campaigns. These checks do not qualify the operational hybrid verifier.

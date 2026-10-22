@@ -93,6 +93,8 @@ func readBounded(name string, value io.ReaderFrom, limit int64) error {
 func run(args []string) (int, error) {
 	if len(args) == 2 {
 		switch args[0] {
+		case "scaled-rule-compile", "scaled-rule-setup", "scaled-rule-prove", "scaled-rule-verify", "scaled-rule-batch":
+			return runScaledRule(args[0][12:], args[1])
 		case "contextual-compile", "contextual-setup", "contextual-prove", "contextual-verify", "contextual-batch":
 			return runContextual(args[0][11:], args[1])
 		case "trained-mlp-compile", "trained-mlp-setup", "trained-mlp-prove", "trained-mlp-verify", "trained-mlp-batch":

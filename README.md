@@ -2,6 +2,11 @@
 
 Research on transcript-bound classifier verdicts. The intended system pairs hardware-attested model provenance with independently verifiable classifier computation. A classifier pass is a result under a fixed policy, not evidence of safety in the world.
 
+The [trained common-request experiment](docs/OPERATIONS.md#trained-classifiers-on-one-opened-request)
+composes a literal rule, trained MLP and contextual CNN over the same complete
+96-byte prompt. Its separate verifier checks real dedicated-circuit proofs;
+its research result does not accept hardware provenance or qualify policy safety.
+
 ## Implemented now
 
 The repository is public; packages are unpublished and no open-source licence

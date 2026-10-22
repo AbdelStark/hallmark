@@ -638,3 +638,40 @@ compute is required for the documented Mac path.
 These are complete proofs of the admitted synthetic CNN computation. They do not
 qualify its task quality, setup custody, hiding, compiler/enrollment authenticity,
 hardware provenance, response generation or the full hybrid verifier.
+
+## Trained classifiers on one opened request
+
+[Decision 0062](decisions/0062-trained-common-request-proofs.md) composes the
+literal rule, frozen seed-17 trained MLP and screened seed-17 contextual CNN.
+It preserves the old eight-byte fixture and admits up to 96 complete prompt bytes.
+Reproduce the model exports using the MLP training fixture and contextual-v2
+command above; the controller requires their exact frozen quantization hashes.
+Use the reviewed probe binary and separately pinned verifier environment:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
+uv run --locked --extra train python scripts/run_trained_common.py \
+  --binary "$PROBE_BINARY" --expected-binary "$PROBE_SHA256" \
+  --verifier-python "$VERIFIER_PYTHON" \
+  --mlp-quantization "$MLP_TRAIN/seed-17/quantization.json" \
+  --cnn-quantization "$CNN_TRAIN/17/quantization.json" \
+  --output runs/trained-common-fresh
+```
+
+The binary must include `scaled-rule-* 96`, `trained-mlp-* 96` and `contextual-* 96`.
+The controller sets up all three relations, retains the exact circuit/key/model
+roster and pins enrollment before producing nine proofs across three fixed cases.
+For each case it reconstructs every public input from one caller-owned opening,
+checks the all-pass decision and verifies all three proofs in a separate py-ecc
+process. It then rejects all 18 cross-request substitutions and runs the
+separate arithmetic mutation corpus for each classifier. The result is research
+proof composition: `release` is the classifier gate, with hardware explicitly
+unaccepted and backend qualification false. The response is authored fixture text.
+
+Keep the external enrollment digest, exact exports, circuit roster, requests,
+proofs, worker costs and separate-verifier output. A bundle-provided enrollment
+hash is not a trust anchor. The Python binding helper returns pairing jobs, never
+cryptographic acceptance. Repeat into a new directory with fresh setup keys and
+compare model/circuit identities and decisions. Check the total retained checkout
+limit before each launch; per-run limits are 7,200 seconds, four worker threads,
+8 GiB RSS and 8 GiB output. No private inputs or cloud jobs are needed.

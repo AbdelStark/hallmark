@@ -246,7 +246,7 @@ func trainedMlpAssignment(size int, d *trainedMlpData, name string, private bool
 
 func runTrainedMlp(action, rawSize string) (int, error) {
 	size, err := number(rawSize, 16)
-	if err != nil || (size != 8 && size != 1024) {
+	if err != nil || (size != 8 && size != 96 && size != 1024) {
 		return 0, errors.New("unsupported trained MLP capacity")
 	}
 	d, err := loadTrainedMlp()
