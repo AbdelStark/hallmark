@@ -1,6 +1,6 @@
 # Research state
 
-Updated: 2026-10-21. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
+Updated: 2026-10-22. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
 
 ## Implemented
 
@@ -888,3 +888,28 @@ Accepted setup lineage, authenticated program/key enrollment, independent human
 security/hiding review, a useful admitted encoder and genuine hardware evidence
 remain absent. W18 and W12 remain open. Prepared review options distinguish
 independent reproduction from cryptographic assessment; no reviewer was contacted.
+
+
+The [common-input campaign](evidence/w18-common-input-proofs-2026-10-22.json)
+now verifies the rule, MLP and complete tiny encoder on the same request/context.
+Two fresh Mac runs enroll actual setup keys before proving, construct complete
+classifier manifests and independently reconstruct all public inputs. Each run
+produces nine real proofs across three fixed eight-byte requests; separate py-ecc
+arithmetic accepts all nine, rejects all 18 cross-request substitutions and passes
+135 arithmetic/encoding cases for each classifier. The all-pass, rule-reject and
+MLP-reject decisions reproduce under different fresh keys.
+
+[Decision 0057](../docs/decisions/0057-common-input-program-enrollment.md) adds
+explicit program-bound rule/MLP commands to remove the classifier/key identity
+cycle. The original eight circuit fingerprints remain unchanged. The two runs
+take 661.116 and 680.950 seconds with peak worker RSS 1,176,485,888 and
+1,219,641,344 bytes. No cloud work or new dependencies were used. These are
+synthetic diagnostic observations, not task quality or latency distributions.
+`make check` passes 2,221 tests with 50 platform/optional-guard skips and all 156
+software conformance outcomes; packaging and all 18 Go tests pass.
+
+This is an executable common-input research pipeline, not qualified operational
+verification. It is bounded to eight input bytes, uses the pass-all synthetic
+encoder and an authored response, and has no genuine hardware evidence. Setup
+custody, independent security/hiding review, useful trained-model proof integration
+and full hybrid acceptance remain open. W18 and W12 remain open.

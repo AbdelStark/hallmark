@@ -479,3 +479,50 @@ See [decision 0051](decisions/0051-complete-synthetic-encoder.md) for the exact
 nonlinear tables, limits and approximations. The native result cannot satisfy
 W18 qualification, W12 qualified-encoder admission, a real proof, safety quality
 or independent verification. Keep prior experiments and missing results intact.
+
+## Common-input synthetic proofs
+
+`scripts/run_common_input.py` connects the three fixed native classifiers to
+fresh actual keys and a shared caller-bound transcript. It is a Mac arm64
+research controller, with an eight-byte input capacity and the limits in
+[decision 0057](decisions/0057-common-input-program-enrollment.md). It does not
+run inference, produce hardware evidence, admit a backend, or accept a policy.
+
+Use the already reviewed Go toolchain/dependency pins to build
+`research/probes/gnark` into a local binary. Use a separate Python environment
+installed from `research/probes/py_ecc/requirements.txt` with `--require-hashes`;
+the main locked environment remains unchanged. Record the binary's SHA-256
+outside the output directory, then run with a fresh directory:
+
+```sh
+uv run --locked python scripts/run_common_input.py \
+  --binary /absolute/path/to/probe --expected-binary "$PROBE_SHA256" \
+  --verifier-python /absolute/path/to/verifier-env/bin/python \
+  --output runs/common-input-fresh
+```
+
+The runner checks exact compiled relations, sets up three keys, and writes
+`enrollment.json` and its separately retained pin before any proving worker.
+It derives complete classifier manifests and a policy from those real keys,
+reconstructs native public inputs, and verifies each three-proof case with
+separate arithmetic. The first `allow` case must pass before either rejection
+case runs. Each case retains its caller expectation/opening, native assignments,
+proof bundle, separate-verifier jobs, worker plans and raw costs. Eighteen
+cross-request proof substitutions and the fixed arithmetic-negative roster for
+each key must reject before `result.json` is written. Failures retain
+`failure.json` and all preceding artifacts; use a new directory for a retry.
+
+For a separate caller-side binding check, `common_input.check_bundle` takes the
+externally retained enrollment hash, caller-owned `TranscriptOpening` and
+`RequestExpectation`, and candidate bundle bytes. It returns exactly three
+pairing jobs, **not acceptance**. Pin those job bytes and pass them to
+`research/probes/py_ecc/verify_set.py --jobs jobs.json --expected-jobs HASH`
+using the reviewed separate environment. Do not substitute openings, expectations
+or enrollment hashes supplied only by a prover for caller-owned values.
+
+A `release` value in these research bundles is only the native all-pass decision.
+The encoder is the frozen synthetic pass-all control; the two rejecting cases
+exercise rule/MLP composition, not useful safety classification. The separate
+verifier is experimental and unaudited. Neither a successful run nor its local
+setup keys establish production enrollment, setup security, zero knowledge,
+hardware provenance or full MVP completion.

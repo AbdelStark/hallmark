@@ -16,6 +16,14 @@ import (
 )
 
 func graph(kind string) (frontend.Circuit, *inputCircuit, []frontend.Variable) {
+	if kind == "rule-program" {
+		c := &ruleProgramCircuit{}
+		return c, &c.Input, nil
+	}
+	if kind == "mlp-program" {
+		c := &mlpProgramCircuit{}
+		return c, &c.Input, c.Trace[:]
+	}
 	if kind == "rule" {
 		c := &ruleCircuit{}
 		return c, &c.Input, nil
@@ -90,6 +98,10 @@ func runGraph(command string) (int, error) {
 	}
 	if kind == "normalization" {
 		return runRelation(action, &normalizationCircuit{}, normalizationAssignment, 256*1024*1024)
+	}
+	if strings.HasPrefix(action, "program-") {
+		kind += "-program"
+		action = strings.TrimPrefix(action, "program-")
 	}
 	prototype, _, _ := graph(kind)
 	return runRelation(action, prototype, func(private bool) (frontend.Circuit, error) {

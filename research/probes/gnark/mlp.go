@@ -29,7 +29,18 @@ func roundHalf(api frontend.API, value frontend.Variable) frontend.Variable {
 }
 
 func (c *mlpCircuit) Define(api frontend.API) error {
-	active, err := c.Input.bind(api, mlpClassifier, mlpProfile, 2)
+	return c.define(api, mlpClassifier)
+}
+
+// The caller must enroll this program/key before completing the classifier manifest.
+type mlpProgramCircuit mlpCircuit
+
+func (c *mlpProgramCircuit) Define(api frontend.API) error {
+	return (*mlpCircuit)(c).define(api, "")
+}
+
+func (c *mlpCircuit) define(api frontend.API, classifier string) error {
+	active, err := c.Input.bind(api, classifier, mlpProfile, 2)
 	if err != nil {
 		return err
 	}
