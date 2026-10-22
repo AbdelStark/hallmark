@@ -526,3 +526,35 @@ exercise rule/MLP composition, not useful safety classification. The separate
 verifier is experimental and unaudited. Neither a successful run nor its local
 setup keys establish production enrollment, setup security, zero knowledge,
 hardware provenance or full MVP completion.
+
+## Trained MLP proof fixture
+
+`scripts/run_trained_mlp.py` connects the existing three-seed trainer and integer
+exporter to a dedicated byte-weight lookup circuit. It requires Mac arm64 and
+the reviewed Go binary and separate verifier environment described above. The
+fixed authored data, threshold, capacities and limits are in
+[decision 0058](decisions/0058-specialized-trained-classifier-path.md).
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+uv run --locked --extra train python scripts/run_trained_mlp.py \
+  --binary /absolute/path/to/probe --expected-binary "$PROBE_SHA256" \
+  --verifier-python /absolute/path/to/verifier-env/bin/python \
+  --output runs/trained-mlp-fresh
+```
+
+Keep the verifier's virtual-environment invocation path; resolving its Python
+symlink to the base interpreter loses that environment's packages. Record source,
+environment and binary hashes outside the fresh output before running. The
+controller trains and exports seeds 17/29/43, enrolls the exact model/circuit/key
+before each batch, and runs all eight-byte proofs before the 1,024-byte roster.
+The larger roster must show both decisions under threshold zero. Each batch
+requires three proofs, three unsatisfied witness mutations and separate pairing
+verification with the existing malformed/public-input/key/proof corpus.
+
+Inspect each worker's `plan.json`, `cost.json`, result files and stderr. Any
+failure retains the preceding artifacts; restart only into a new directory.
+Repeat with fresh training and setup keys, comparing export identities, scores
+and negative rosters. Checkpoints and raw runs remain local. This proves a
+bounded synthetic execution relation; it does not measure task quality, prove
+the profile's 32,768-byte maximum, or qualify setup, hiding or hardware provenance.
