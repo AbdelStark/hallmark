@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Add `make e2e` to prepare pinned dependencies and run the frozen Mac training,
+export, proof and separate-verification workflow in a fresh retained directory.
+Fail on incomplete results or changed exports; retain stage logs and failures.
+Explain the exact proof statement, caller trust and distinction between a valid
+proof and a passing classifier verdict. Models and proof semantics are unchanged.
+
 Document the end-to-end synthetic rule/MLP/CNN proof demo, its pinned Mac setup,
 separate verifier, expected outputs and measured limits. Add a documentation index
 and model/data/results guide; distinguish current proof evidence from historical

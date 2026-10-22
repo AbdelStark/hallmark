@@ -1,0 +1,165 @@
+{
+  "arithmetic_cases": {
+    "encoder": 135,
+    "mlp": 135,
+    "rule": 135
+  },
+  "baseline_commit": "7e7eab1c1c514d7e584e44f811af7fe80574a42e",
+  "binary_sha256": "376c9aea1c28e5656099b8248d449323268670d77a67196f501301ab8d80a377",
+  "cases": [
+    {
+      "name": "allow",
+      "proofs_verified": 3,
+      "release": true,
+      "verdicts": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "cnn-block",
+      "proofs_verified": 3,
+      "release": false,
+      "verdicts": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "rule-block",
+      "proofs_verified": 3,
+      "release": false,
+      "verdicts": [
+        0,
+        1,
+        1
+      ]
+    }
+  ],
+  "circuits": {
+    "encoder": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb",
+    "mlp": "abcd0e292275670ec449610890295da1042ca86af531fac76b52f508da0d8fe9",
+    "rule": "f8bd6db87c2fe0264a96bc97f6686d60c978fd62c3f61b98500192a6f9b02898"
+  },
+  "cnn_all_seeds_pass": true,
+  "cnn_training_seconds": 171.25893508293666,
+  "command": "make e2e (uv 0.9.18 on PATH)",
+  "cross_request_rejections": 18,
+  "date": "2026-10-22",
+  "driver_sha256": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+  "elapsed_seconds": 1152.1622739171144,
+  "environment": {
+    "go": "1.26.8",
+    "host": "macOS arm64, Apple M4 Max, 48 GiB RAM",
+    "python": "3.12.12",
+    "uv": "0.9.18"
+  },
+  "failures_retained": [
+    {
+      "cause": "subprocess stub also intercepted platform metadata query",
+      "resolution": "stub host metadata explicitly",
+      "result": "12 passed, 1 failed",
+      "stage": "unit fixture"
+    },
+    {
+      "cause": "first recipe made e2e the default for plain make",
+      "resolution": "retain check as first recipe; assert default and explicit command with make -n",
+      "result": "failed before target reorder",
+      "stage": "default target regression test"
+    }
+  ],
+  "hardware_claim": "not-accepted",
+  "issue": 94,
+  "limitations": [
+    "synthetic data; complete prompt limited to 96 UTF-8 bytes",
+    "authored response, no LLM generation or response classification",
+    "local compiler/program/key enrollment and fresh setup remain trusted",
+    "native verdict recomputation remains part of caller helper",
+    "no hardware, hiding, security or operational backend qualification",
+    "timing is a reproduction observation with software checks also run on the host"
+  ],
+  "local_validation_root": "runs/validation",
+  "models": {
+    "encoder": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9",
+    "mlp": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+  },
+  "models_and_circuits_match_prior_reproduction": true,
+  "new_cloud_compute_usd": 0,
+  "peak_worker_rss_bytes": 2105245696,
+  "post_run_change": {
+    "change": "Move e2e below check to preserve plain make default; explicit e2e recipe unchanged",
+    "during_run_sha256": "fb6fe261834f094cf3adaf1fe34c957035ae2bfc18c0d28dd2cf919abf43ef53",
+    "final_sha256": "0f8ad8c6f88c0f050f61d1a8afbd7fc86ff83f077333631de0a3de344048ee95",
+    "path": "Makefile"
+  },
+  "private_worktree": "runs/e2e-entrypoint-2026-10-22",
+  "proof_campaign_seconds": 955.9340643750038,
+  "proof_result_sha256": "940129d57e0c9f20d6c311d42c12b405edbf32ac8a6f438ea75d4a94b5effd0a",
+  "proof_retained_bytes": 2574971771,
+  "proofs_verified": 9,
+  "protocol": {
+    "authority": "research/AUTHORITY.json autonomous_execution",
+    "baseline_commit": "7e7eab1c1c514d7e584e44f811af7fe80574a42e",
+    "checkout_kib_before": 227857580,
+    "cloud_cost_minor": 0,
+    "compute": "local Mac arm64",
+    "concurrent_campaigns": 1,
+    "criterion": {
+      "arithmetic_cases_matched": 405,
+      "cross_request_rejections": 18,
+      "decisions": [
+        true,
+        false,
+        false
+      ],
+      "exports": "exact frozen SHA256",
+      "proofs_verified": 9,
+      "source_pins": "unchanged"
+    },
+    "data": "unchanged authored synthetic fixtures with original provenance and licence records",
+    "free_disk_gib_before": 321,
+    "hypothesis": "make e2e reproduces the frozen nine-block demo without changing classifier or proof semantics",
+    "max_retained_checkout_bytes": 274877906944,
+    "max_wall_seconds": 7200,
+    "mutable_paths": [
+      "Makefile",
+      "scripts/run_e2e.py",
+      "tests/test_e2e.py",
+      "README.md",
+      "docs",
+      "CHANGELOG.md",
+      "research/STATE.md",
+      "research/LEDGER.md",
+      "research/evidence"
+    ],
+    "proof_max_output_bytes": 8589934592,
+    "proof_max_rss_bytes": 8589934592,
+    "repeat_campaign": "only after diagnosed failure; preserve prior outputs",
+    "schema_id": "hallmark.e2e-usability-protocol/1"
+  },
+  "qualified_backend": false,
+  "result_sha256": "500fb432e8a2659f4ba62fb99fb49453fb276ab94a02ec1457d4d03935436c92",
+  "run_root": "runs/e2e-i8mto7kh",
+  "schema_id": "hallmark.e2e-reproduction/1",
+  "scope": "One-command reproduction of frozen synthetic pipeline; no new model, evaluation or cryptographic qualification claim",
+  "source_pins_matched_during_run": true,
+  "source_pins_sha256": "2dcf87bb85d4df8f692d93ffd673a831b2bed160687e69cbc13f139997354bd7",
+  "tracked_pipeline_files": 185,
+  "validation": {
+    "final_evidence_metadata_written_after_package_checks": true,
+    "focused_tests": 15,
+    "full_evidence_obligations_unavailable": 32,
+    "new_source_distribution_files_checked": true,
+    "package_check": "passed",
+    "package_check_train": "passed",
+    "package_source_id": "e0bd3610826f7150098cc57dbe31f549f750f834a4f67a6e401ca090040cecca",
+    "repository_check": "passed",
+    "repository_tests_passed": 2292,
+    "repository_tests_skipped": 50,
+    "required_train_tests": 76,
+    "software_conformance_matched": 156,
+    "spec_check": "passed"
+  }
+}

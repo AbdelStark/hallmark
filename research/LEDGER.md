@@ -3721,3 +3721,48 @@ records the grant, updates current licence guidance and keeps third-party terms
 and historical experiment bytes intact. The repository remains public; packages
 and checkpoints were not uploaded. The documentation gate is complete; backend,
 hardware, operational verification and real-world quality gates remain open.
+
+
+## 2026-10-22: One-command classifier reproduction and proof explanation
+
+Issue #94. Hypothesis: a single `make e2e` can reproduce the frozen manual
+walkthrough without changing its models, data, evaluator, circuit or verifier.
+Baseline: `7e7eab1c1c514d7e584e44f811af7fe80574a42e` and the documentation
+reproduction. Mutable paths: Makefile, the new driver and focused tests, public
+documentation, state/ledger and numeric evidence. Criterion: both export pins,
+nine verified proofs, the exact three decisions, 18 rejected substitutions and
+405 expected arithmetic outcomes, with unchanged executable source during the run.
+
+The [numeric record](evidence/e2e-entrypoint-2026-10-22.json) was saved before this
+summary. Exact command: `make e2e`, with uv 0.9.18 on PATH. The driver acquired
+pinned Go, built the existing circuits, prepared the hash-pinned separate verifier
+and invoked the existing MLP, CNN and common-request controllers. Raw evidence:
+`runs/e2e-entrypoint-2026-10-22/runs/e2e-i8mto7kh`; validation logs:
+`runs/e2e-entrypoint-2026-10-22/runs/validation`. All are local and ignored.
+
+Result: passed in 1152.16 seconds; CNN training 171.26 seconds;
+proof campaign 955.93 seconds. Nine proofs verified; decisions were
+`[1,1,1]`, `[1,1,0]`, `[0,1,1]`; all 18 cross-request substitutions rejected;
+135 arithmetic cases per classifier matched, including valid controls. Both
+model hashes and all three circuit hashes match the earlier reproduction. Peak
+worker RSS was 2105245696 bytes and retained proof output
+2574971771 bytes. New cloud compute cost: zero. Source pins matched.
+
+An initial unit fixture intercepted the platform query incorrectly; it was fixed
+and retained in the validation record. A Make dry-run regression then exposed
+an unintended expensive default target. After the full reproduction, only the
+recipe order changed to preserve `make` as validation; `make e2e` and the driver
+are unchanged. The focused tests cover default/explicit targets, retained
+failures, timeouts and detached-worker cleanup, failed CNN screens, changed
+exports, incomplete proof results and unsupported hosts.
+
+The README and [proof explainer](../docs/PROOFS.md) now explain the exact statement,
+public inputs, trusted local enrollment, native verdict recomputation and
+separate arithmetic verification. `release` remains only an all-pass classifier
+decision. No training-history, response-generation, real-task quality, hiding,
+hardware or qualified backend claim follows. Validation: `make check` passes 2,292 tests with 50 optional/platform skips,
+lock/lint/format/typing/spec/admission and 156 software conformance cases; 32
+full-evidence obligations remain unavailable. All 15 focused driver tests and
+76 required training tests pass. Core and train package checks pass, with the
+new driver, proof explainer and tests present in the source archives. Hosted
+exact-head and exact-main checks remain publication gates.

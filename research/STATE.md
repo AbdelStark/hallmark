@@ -4,6 +4,18 @@ Updated: 2026-10-22. Phase: MIT-licensed research software in a public repositor
 
 ## Next bounded task
 
+The owner-requested usability gate now has a one-command entrypoint: `make e2e`.
+The [fresh reproduction](evidence/e2e-entrypoint-2026-10-22.json) completed pinned
+preparation, both training/export runs, nine proofs, all 18 cross-request
+rejections and all 405 expected arithmetic outcomes. Both model identities and
+all three circuit identities match the earlier walkthrough; the executable
+pipeline stayed frozen. The [proof explainer](../docs/PROOFS.md) distinguishes
+in-circuit input hashing/arithmetic from caller-owned context/program/key binding,
+and a valid proof from a passing classifier verdict. Native verdict recomputation
+remains part of the caller helper. This usability gate does not close the
+qualification gates below.
+
+
 Reader entry points: [end-to-end demo](../docs/DEMO.md),
 [results and limits](../docs/RESULTS.md), [documentation index](../docs/README.md).
 The walkthrough now has [fresh reproduction evidence](evidence/docs-demo-reproduction-2026-10-22.json):

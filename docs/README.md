@@ -1,12 +1,14 @@
 # Hallmark documentation
 
 Start with the [project overview](../README.md). For a runnable path, go directly
-to the [classifier demo](DEMO.md); for evidence, read [results](RESULTS.md).
+to the [classifier demo](DEMO.md). Read [what is proved](PROOFS.md) for the claim
+and trust boundary; for evidence, read [results](RESULTS.md).
 
 ## Use and reproduce
 
 | Document | Purpose |
 |---|---|
+| [What is proved](PROOFS.md) | Concrete claim, public inputs, caller checks and exclusions |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |
 | [Results and limitations](RESULTS.md) | Model/data notes, measured results, failed experiments and evidence links |
 | [Operations](OPERATIONS.md) | Focused experiment recipes, enrollment, retained artifacts and recovery |
