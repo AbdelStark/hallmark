@@ -3406,3 +3406,91 @@ The selected synthetic criterion passes. The pipeline remains eight-byte and
 unaudited, with an authored response and the unchanged pass-all encoder.
 `qualified_backend` stays false. No hiding/security qualification, real safety
 quality, authenticated model execution or full hybrid acceptance is inferred.
+
+
+## 2026-10-22 — Trained integer MLP proofs through byte lookups
+
+Hypothesis: the exact exports of the existing three-seed trainer can produce
+complete native decisions through a dedicated lookup-and-sum proof circuit.
+Baseline: trained integer exports and hardcoded synthetic proof circuits were
+separate. Mutable paths are the new circuit/controller/tests and explicit command
+dispatch; the native evaluator, dataset, threshold and ten existing circuits stay
+fixed. [Decision 0058](../docs/decisions/0058-specialized-trained-classifier-path.md)
+records the owner-directed specialized approach and current compute authority.
+No general-purpose VM, new model source or new dependency is introduced.
+
+Raw costs, source/input identities and numeric results precede this prose in
+[trained-MLP evidence](evidence/w18-trained-mlp-proofs-2026-10-22.json). The retained root is
+`runs/w18-trained-mlp-1792656290921358000`. It includes all three protocols,
+execution plans, build environment, logs, failed `run-01`, successful `run-02`
+and confirmatory `run-03`, source audits and the numeric evidence collector.
+Exact learned weights become circuit constants; program identities must match
+the trainer's exports. Model/circuit/key records precede every proving worker.
+Local controller enrollment is not authenticated operational setup custody.
+
+The fixed fixture contains 12 authored records, seeds 17/29/43, width four,
+512-byte chunks and 80 epochs. The threshold remains zero. First prove empty,
+`A` and `B` at capacity eight for all seeds; only then prove 512 `A` bytes, 512
+`B` bytes and 512 `A` followed by 512 `B` at capacity 1,024. Every larger native
+roster must have both decisions before setup. No model or threshold is selected
+from these results. All seeds hit the epoch limit without convergence; the largest
+observed integer/float score error remains 0.01615650609705188 within the existing
+0.1 fixture engineering bound, not a policy-quality threshold.
+
+Each successful run produces 18 actual 292-byte proofs. Six independently keyed
+verifier suites each pass 135 cases: three original proofs and one valid joint
+A/B negation accept, 109 algebraic mutations reject and 22 encodings are malformed.
+Each of the six proving batches also rejects final-unit, hidden-state and
+decision-changing threshold mutations as actual unsatisfied constraints. All 100
+public fields, keys and proof encodings are covered by the existing separate
+arithmetic checker. No dependency failure is counted as a cryptographic rejection.
+
+The 27 training artifacts, exact decisions, circuit identities and rejection
+rosters reproduce; every corresponding fresh key differs. `run-02` takes
+1791.5260970408563 seconds with 3669164032 peak worker RSS
+bytes and 4130682049 retained bytes. `run-03` takes
+1878.6779127910268 seconds with 3615326208 peak worker RSS
+bytes and 4130681946 retained bytes. These are diagnostic observations,
+not performance distributions or a matched backend comparison. Both remain within
+7,200 seconds, four threads, one research worker, 8 GiB worker RSS and 8 GiB output.
+Total retained checkout was checked below 256 GiB. New paid compute is zero.
+
+Preserved failures: the existing encoder rounding helper cannot handle a one-bit
+shift because its lower slice is empty; the new circuit now dispatches that case
+to the existing `roundHalf`, leaving old circuits unchanged. A Python test initially
+used the wrong quantization schema spelling. The first live campaign generated
+three proofs but launched the separate verifier through the resolved base Python,
+which lacked py-ecc; no verification result followed. Preserve the virtual-env
+invocation path and check worker exit before parsing its output. A focused CLI
+regression test covers the correction. The two successful runs use the same fixed
+source and binary, verified again after completion.
+
+Commands, with independently retained binary and environment pins:
+
+```sh
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+uv run --locked --extra train python scripts/run_trained_mlp.py \
+  --binary runs/EXPERIMENT/probe --expected-binary BINARY_SHA256 \
+  --verifier-python REVIEWED_VERIFIER_ENV/bin/python \
+  --output runs/EXPERIMENT/run-02
+# Repeat into fresh run-03 using the identical source, data and binary.
+go test -count=1 -v ./...
+go test -count=1 -run '^TestCircuitFingerprints$' -v .
+make check package-check
+```
+
+The Go commands use the reviewed 1.26.8 toolchain/environment in the probe directory;
+Python uses locked uv 0.9.18 and the separately admitted py-ecc environment. Fifteen
+focused Python tests and all 21 Go tests pass; all ten previous circuit fingerprints
+match. `make check` passes 2,236 tests with
+50 platform/optional-guard skips and the software
+conformance gate; packaging passes. Final prose/package and exact-head CI remain
+delivery checks for this evidence snapshot.
+
+The selected synthetic criterion passes. This is a width-four byte-histogram
+classifier with proof capacity 1,024, not a useful contextual detector or proof
+of its native 32,768-byte maximum. Independent human security/hiding review,
+operational enrollment, genuine hardware evidence and full hybrid acceptance
+remain absent. W18 / #19 stays open; no policy adoption or backend qualification
+is inferred. The next gate is one useful compact contextual model with a complete
+operator/binding port, before larger tensor-proof or complete-audit measurements.

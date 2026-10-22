@@ -2,6 +2,29 @@
 
 Updated: 2026-10-22. Phase: research software foundation in a public repository, not a deployed or cryptographically verified system. AI-assisted code and research initialization.
 
+## Next bounded task
+
+Current direction: specialized classifier verification, with no general-purpose
+zkVM. The [trained-MLP evidence](evidence/w18-trained-mlp-proofs-2026-10-22.json) now connects freshly trained integer
+exports to real proofs at capacities eight and 1,024 bytes. Two fresh runs each
+verify 18 proofs, reject 18 altered witnesses and pass 810 separate-arithmetic
+cases. All 27 training artifacts reproduce byte for byte; circuit identities
+match and all six setup keys differ. This closes the connection between the
+synthetic trainer/exporter and a dedicated proof circuit, not model quality or
+backend qualification.
+
+Next freeze one compact contextual classifier and its complete operator/binding
+map before scaling a tensor-proof or complete commit-and-audit path. Require
+quality screening and compare identical admitted models/inputs; keep the trained
+marker MLP and pass-all encoder as explicitly limited baselines. See
+[decision 0058](../docs/decisions/0058-specialized-trained-classifier-path.md) and
+the [specialized-path review](proposals/backend-v1/specialized-paths.md).
+Use the Mac first and the approved existing Modal/Vast/HF credits for bounded
+fallback work. GCP is not a dependency of this proof pipeline. Hardware evidence,
+setup custody and security/hiding qualification remain separate missing gates.
+Issue #19 stays open. Historical entries below retain earlier failures and stages;
+use this section for the current direction.
+
 ## Implemented
 
 Strict dataset/config/integer-model/run contracts; exact group/transcript split checks; canonical typed research hashes and salted byte-exact transcript commitment; optional synthetic-data logistic training/PTQ; full-coverage integer inference; separate calibration; metrics and uncertainty; fresh run bundles; caller-pinned replay; offline conformance/tamper tests; locked distribution and CI definitions. See [ledger](LEDGER.md) for actual commands and results.
@@ -573,7 +596,7 @@ pass without changing the global tool. See [decision 0034](../docs/decisions/003
 
 TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, separate verifier for complete hybrid bundles, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
-## Next bounded task
+## Implementation history
 
 The [proposed v1 corpus](../SPEC.md) defines the full hybrid POC, with 10 draft RFCs and explicit owner-review gates. Merged [PR #1](https://github.com/AbdelStark/hallmark/pull/1) contains the corpus and [implementation tracker](../docs/roadmap/IMPLEMENTATION.md): 40 work issues, 10 RFC trackers and 102 implementation dependency edges. The [live audit](evidence/spec-publication-2026-10-20.json) checked all issue bodies, labels, milestones, comments and child checklists. This is specification/backlog delivery, not implementation or new scientific evidence; see [decision 0002](../docs/decisions/0002-v1-specification-scope.md). The owner explicitly authorized public repository visibility on 2026-10-20; the standing visibility instruction is in [AGENTS.md](../AGENTS.md).
 
@@ -913,3 +936,27 @@ verification. It is bounded to eight input bytes, uses the pass-all synthetic
 encoder and an authored response, and has no genuine hardware evidence. Setup
 custody, independent security/hiding review, useful trained-model proof integration
 and full hybrid acceptance remain open. W18 and W12 remain open.
+
+
+The [trained-MLP evidence](evidence/w18-trained-mlp-proofs-2026-10-22.json) passes with three actual learned MLPs. The circuit
+specializes each byte-count affine into indexed weight lookups and integer sums,
+while preserving nearest-even rescaling, ReLU, complete-input commitment, chunk
+maximum and strict threshold zero. Larger inputs include a full final chunk and
+both allow/reject decisions for every seed. New commands and the Mac controller
+leave the original ten circuit fingerprints unchanged.
+
+Successful runs `run-02` / `run-03` take 1791.526 /
+1878.678 seconds, peak at 3,669,164,032 /
+3,615,326,208 bytes worker RSS and retain
+4,130,682,049 / 4,130,681,946 bytes. All actual proofs are
+292 bytes. No new cloud job, paid compute or dependency was used. The initial
+rounding-helper test failure, malformed test schema and verifier-environment
+launcher failure remain retained. Local checks pass 2,236
+tests with 50 platform/optional-guard skips, all 21 Go
+tests and packaging. Final documentation and exact-head hosted checks are delivery
+gates, separate from these frozen proof results.
+
+These are width-four byte-histogram models trained on authored markers. All seeds
+reach the fixed 80-epoch limit without convergence; no task-quality, calibration,
+32,768-byte proof or full hybrid acceptance result follows. Checkpoints and raw
+proof material remain local; `qualified_backend` stays false.

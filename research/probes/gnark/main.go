@@ -93,6 +93,8 @@ func readBounded(name string, value io.ReaderFrom, limit int64) error {
 func run(args []string) (int, error) {
 	if len(args) == 2 {
 		switch args[0] {
+		case "trained-mlp-compile", "trained-mlp-setup", "trained-mlp-prove", "trained-mlp-verify", "trained-mlp-batch":
+			return runTrainedMlp(args[0][12:], args[1])
 		case "encoder-compile", "encoder-export", "encoder-inspect", "encoder-setup", "encoder-setup-compiled", "encoder-prove", "encoder-verify", "encoder-batch":
 			return runEncoder(args[0][8:], args[1])
 		case "input-compile", "input-export", "input-inspect", "input-setup", "input-setup-compiled", "input-prove", "input-batch", "input-verify":

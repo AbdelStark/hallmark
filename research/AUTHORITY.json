@@ -1,6 +1,6 @@
 {
   "schema_id": "hallmark.research-authority/2",
-  "recorded_at": "2026-10-21",
+  "recorded_at": "2026-10-22",
   "owner": "Abdel",
   "purpose": "inj.direct/1 prototype research and autonomous backlog implementation",
   "approval_ref": "docs/decisions/0033-approved-synthetic-pipeline.md",
@@ -254,6 +254,28 @@
       "ongoing_scheduler": false,
       "limits_are_estimates_not_invoice": true,
       "prior_runs_and_budgets_preserved": true
+    },
+    "compute_platform_extension": {
+      "recorded_at": "2026-10-22",
+      "approval_ref": "docs/decisions/0058-specialized-trained-classifier-path.md",
+      "authority_basis": "Owner explicitly authorizes existing Modal, Vast.ai and HF credentials and credits for necessary foreground work. Mac remains preferred.",
+      "authorized_providers": [
+        "Modal",
+        "Vast.ai",
+        "Hugging Face Jobs"
+      ],
+      "existing_credits_only": true,
+      "live_balance_and_price_check_before_launch": true,
+      "token_source": "ignored local environment file",
+      "agent_selected_initial_campaign_ceiling_minor": 500,
+      "currency": "USD-cent",
+      "concurrent_jobs": 1,
+      "pinned_job_manifest_required": true,
+      "private_uploads": false,
+      "top_up_authorized": false,
+      "ongoing_schedulers": false,
+      "repeat_micro_budget_approval_required": false,
+      "historical_protocols_and_budgets_preserved": true
     }
   }
 }
