@@ -4,31 +4,33 @@ Updated: 2026-10-22. Phase: research software foundation in a public repository,
 
 ## Next bounded task
 
-A trained contextual candidate now passes its frozen synthetic scope screen.
-The [first CNN screen](evidence/w16-contextual-screen-v1-2026-10-22.json) failed
-(seed 43: 3/20 false positives); its results are preserved. The explicitly new
-[follow-up](evidence/w16-contextual-screen-v2-2026-10-22.json) uses fresh held-out
-action-pair groups, 32 channels and the same evaluator. Seeds 17/29/43 each detect
-50/50 positives, with 0/1/0 false positives among 50 benign examples. Both runs
-reproduce all 65 substantive files; resume is exact and native/oracle integer
-scores agree. The ten-node operator map covers the complete 0–96-byte profile.
-This is a synthetic grammar screen, not real-world safety quality or a proof.
+The screened contextual CNN now has [actual complete-relation proofs](evidence/w18-contextual-cnn-proofs-2026-10-22.json).
+Two fresh Mac campaigns verify 12 proofs at capacities eight and 96, reject all
+36 altered witnesses, and pass 540 separate-arithmetic cases. The model and both
+circuits match; fresh keys differ. The 96-byte roster preserves a benign pass and
+positive blocks at the frozen threshold -3733. The circuit has 975,708 constraints
+at capacity 96; peak worker RSS remains below 2.23 GB. No cloud compute was used.
 
-Next connect the preselected seed-17 CNN export to a complete specialized proof:
-exact byte commitment, learned embedding, every causal window, affine/ReLU,
-masked maximum and calibrated strict threshold. Verify actual proofs under
-independently pinned keys/public inputs, reject altered input/intermediate/mask/
-threshold witnesses, and repeat with fresh keys. Keep the same admitted model and
-input roster across any backend comparison. Do not expand capacity or change the
-trained model silently. See [0059](../docs/decisions/0059-contextual-byte-cnn-screen.md)
-and [0060](../docs/decisions/0060-contextual-screen-followup.md).
+This is the seed-17 model selected before test in the
+[second synthetic screen](evidence/w16-contextual-screen-v2-2026-10-22.json).
+The [failed first screen](evidence/w16-contextual-screen-v1-2026-10-22.json) remains
+retained. No model, dataset, native evaluator or threshold changed for the proof.
+The complete relation binds bytes, learned embeddings, every causal window,
+rounding/ReLU, active-window pooling and verdict. It uses a dedicated circuit,
+with no general-purpose zkVM. See [0061](../docs/decisions/0061-complete-contextual-cnn-proof.md).
 
-The dedicated circuits use no general-purpose zkVM. Mac first; approved existing
-Modal/Vast/HF credits remain fallback resources. GCP is not a proof dependency.
-Issues #17/#19 remain open: graph/backend qualification, setup custody,
-security/hiding, genuine hardware evidence and operational integration are still
-missing. The earlier trained MLP and pass-all encoder remain limited baselines.
-Historical entries below retain earlier failures and stages.
+Next replace the pass-all encoder in the common-request experiment with this
+trained CNN and align the rule/MLP proof capacities to the same admitted prompt.
+Require actual proofs for all three classifier kinds, caller-enrolled common
+context and policy, complete per-classifier input reconstruction and cross-request
+substitution rejection. Keep the old eight-byte baseline unchanged. This is
+composition software, not adoption of the artificial grammar as a safety policy.
+
+Mac first; the approved existing Modal/Vast/HF credits remain bounded fallbacks.
+GCP is not a classifier-proof dependency. Issues #17/#19 stay open: authenticated
+compiler/enrollment, setup custody, security/hiding review, genuine hardware
+provenance and the operational hybrid verifier remain separate missing gates.
+Historical entries below preserve earlier failures and evidence limits.
 
 ## Implemented
 
