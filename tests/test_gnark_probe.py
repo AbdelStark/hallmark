@@ -202,6 +202,93 @@ def test_assigned_file_reads_and_external_file_denial(tmp_path):
 
 
 @mac
+def test_extra_read_paths_are_read_only_and_do_not_leak_to_next_worker(tmp_path):
+    source = work(tmp_path, 'reviewed "environment"')
+    text = source / "public.txt"
+    text.write_text("harmless fixture")
+    directory = work(tmp_path, "reader")
+    result = probe.invoke(
+        Path("/bin/cat"),
+        directory,
+        [str(text)],
+        read_paths=(source,),
+    )
+    assert result["exit_code"] == 0
+    assert (directory / "stdout.txt").read_text() == "harmless fixture"
+    write_dir = work(tmp_path, "writer")
+    denied_write = probe.invoke(
+        Path("/bin/sh"),
+        write_dir,
+        ["-c", 'echo changed > "$1"', "sh", str(text)],
+        read_paths=(source,),
+    )
+    assert denied_write["exit_code"] != 0
+    assert b"Operation not permitted" in (write_dir / "stderr.txt").read_bytes()
+    assert text.read_text() == "harmless fixture"
+    denied = probe.invoke(Path("/bin/cat"), work(tmp_path, "next-worker"), [str(text)])
+    assert denied["exit_code"] == 1
+
+
+@mac
+@pytest.mark.parametrize(
+    ("script", "error"),
+    [
+        (
+            'read -r value < input.txt; printf %s "$value" > proof.bin; '
+            'echo \'{"status":"passed"}\'',
+            None,
+        ),
+        ("exit 7", "proof worker failed"),
+        ('echo \'{"status":"passed"}\'', "artifact inventory"),
+        (': > proof.bin; : > extra.bin; echo \'{"status":"passed"}\'', "artifact inventory"),
+        (
+            'echo tampered > input.txt; : > proof.bin; echo \'{"status":"passed"}\'',
+            "changed an input",
+        ),
+        (': > proof.bin; echo \'{"status":"failed"}\'', "did not pass"),
+        (": > proof.bin; echo malformed", "Expecting value"),
+    ],
+)
+def test_checked_worker_preserves_artifact_checks_and_failed_costs(tmp_path, script, error):
+    source = tmp_path / "source.txt"
+    source.write_bytes(b"pinned input")
+    pinned = probe.PinnedArtifact(source, probe.digest(source.read_bytes()), source.stat().st_size)
+    budget = probe.RunBudget(tmp_path, time.monotonic() + 30, 10, 5, 10, 1, 1024**3, 1024**2)
+    directory, costs = (tmp_path / "case").resolve(), []
+
+    def run():
+        return probe.run_case(
+            Path("/bin/sh"),
+            directory,
+            ["-c", script],
+            {"input.txt": pinned, "inline.txt": b"inline input"},
+            ("proof.bin",),
+            budget=budget,
+            max_file=65536,
+            costs=costs,
+        )
+
+    if error:
+        with pytest.raises(ValueError, match=error):
+            run()
+    else:
+        cost, report = run()
+        assert report == {"status": "passed"}
+        assert cost["exit_code"] == 0
+        assert (directory / "proof.bin").read_bytes() == b"pinned input"
+        assert directory.stat().st_mode & 0o777 == 0o700
+    assert len(costs) == 1 and costs[0]["name"] == "case"
+    assert json.loads((directory / "cost.json").read_text()) == {
+        k: v for k, v in costs[0].items() if k != "name"
+    }
+    assert source.read_bytes() == b"pinned input"
+    assert (directory / "inline.txt").read_bytes() == b"inline input"
+    with pytest.raises(FileExistsError):
+        run()
+    assert len(costs) == 1
+
+
+@mac
 def test_network_denied_with_live_loopback_control(tmp_path):
     with socket.socket() as listener:
         listener.bind(("127.0.0.1", 0))

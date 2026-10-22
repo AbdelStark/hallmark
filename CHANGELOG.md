@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Consolidate four proof controllers' worker setup and artifact checks. Pass reviewed
+read-only paths per invocation instead of replacing a global sandbox function.
+Preserve resource limits, input hashes, output inventories and failure evidence.
+
 Add `make e2e` to prepare pinned dependencies and run the frozen Mac training,
 export, proof and separate-verification workflow in a fresh retained directory.
 Fail on incomplete results or changed exports; retain stage logs and failures.

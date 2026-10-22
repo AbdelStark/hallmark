@@ -3773,3 +3773,25 @@ The assertion now requests `--no-print-directory` for both dry runs. This change
 only the test's output normalization; the entrypoint and all measured pipeline
 bytes remain unchanged. The failed hosted job and correction are retained in the
 numeric evidence record.
+
+## 2026-10-22: Proof-controller cleanup
+
+Hypothesis: one shared worker runner can replace four copies without weakening
+sandbox isolation, input/output checks or resource limits. Baseline: main
+`421615b`, 79 worker tests. Mutable code: `_gnark_probe.py`, the four proof
+controllers, two module descriptions and the worker tests. Models, circuits,
+fixtures, numerical contracts and evaluator code remain frozen.
+
+Pass criterion: existing checks plus rejection of changed/missing/extra worker
+artifacts, failed status/process, malformed output and attempts to write through
+read-only grants; a later worker must not inherit those grants. All 87 worker
+tests pass. A fresh cubic proof verifies, a changed public input rejects, and
+three retained classifier proofs pass separate py-ecc verification through the
+shared runner. This tests orchestration, not a new classifier or LLM result.
+
+`make check` passes 2,229 tests with 121 platform/optional-extra skips;
+`make package-check` passes. Required train tests pass 76 cases; focused
+controller/export/entrypoint regressions pass 96. No new dependency or cloud spend. The
+[evidence record](evidence/worker-cleanup-2026-10-22.json) pins changed source,
+commands, counts and retained failures. Production code shrinks by 99 lines.
+No full training/proving campaign or cryptographic audit was repeated.

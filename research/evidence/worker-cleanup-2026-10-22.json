@@ -1,0 +1,77 @@
+{
+  "schema_id": "hallmark.maintenance-evidence/1",
+  "recorded_at": "2026-10-22",
+  "baseline_commit": "421615b09d400672576bbb14b5914dfe38480aa0",
+  "hypothesis": "Four proof controllers can share worker setup and output validation without weakening artifact, budget or sandbox checks.",
+  "mutable_paths": [
+    "scripts/run_common_input.py",
+    "scripts/run_contextual_proof.py",
+    "scripts/run_trained_common.py",
+    "scripts/run_trained_mlp.py",
+    "src/hallmark/__init__.py",
+    "src/hallmark/_gnark_probe.py",
+    "src/hallmark/cli.py",
+    "tests/test_gnark_probe.py"
+  ],
+  "source_sha256": {
+    "scripts/run_common_input.py": "ffacd4ea6ff3fd9dddae7aab68d37b8d4f67fbcbd77531f16e16cfde4613d5df",
+    "scripts/run_contextual_proof.py": "c3af5023d2640a867b593c06e14b386b7b84df874ea2542810f9a71c4b26d74e",
+    "scripts/run_trained_common.py": "430a930afa2962e1555c4d335fe57fdcf077b07d9518f9380b1a65867c1c84d6",
+    "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
+    "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+    "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471",
+    "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+    "tests/test_gnark_probe.py": "5ea7bf6ee2df8ed21f6b3972d53ae4089d7c6cd3e8fbdbf277a1d9372b961fe8"
+  },
+  "baseline_worker_tests_passed": 79,
+  "candidate_worker_tests_passed": 87,
+  "production_lines_removed_net": 99,
+  "make_check": {
+    "passed": 2229,
+    "skipped": 121,
+    "lint": "passed",
+    "format": "passed",
+    "mypy": "passed",
+    "software_conformance_matched": 156,
+    "unavailable_full_conformance": 32
+  },
+  "package_check": "passed",
+  "real_worker_validation": {
+    "changed_input_rejected": true,
+    "elapsed_seconds": 3.6239497079513967,
+    "fresh_installation_proofs": 1,
+    "retained_classifier_proofs_verified": 3,
+    "status": "passed",
+    "workers": 5
+  },
+  "cloud_cost_minor": 0,
+  "limitations": [
+    "No full training/proving campaign rerun; model, circuit, arithmetic, fixtures and lockfile unchanged.",
+    "No proving-speed claim or cryptographic security audit."
+  ],
+  "retained_failures": [
+    "Initial shell-based new tests tried launching cat/touch outside the granted executable allowlist; corrected tests to use separately admitted executables or shell builtins. Sandbox restrictions were preserved.",
+    "Test line-length lint failure corrected."
+  ],
+  "local_evidence": "runs/validation/",
+  "commands": [
+    "uv run --locked pytest -q tests/test_gnark_probe.py",
+    "make check",
+    "make package-check",
+    "uv run --locked python runs/validation/replay_worker.py",
+    "make check-train",
+    "uv run --locked --extra train pytest -q tests/test_common_input.py tests/test_trained_common.py tests/test_contextual_proof.py tests/test_trained_mlp.py tests/test_e2e.py"
+  ],
+  "required_train_tests_passed": 76,
+  "controller_regression_tests_passed": 96,
+  "local_evidence_sha256": {
+    "baseline.log": "319a8a70d694e8ed7d3260e5abf5d46407e5277291b7d951e4703ebe71b37d6a",
+    "worker-fixed.log": "ad3b969db6396c09a47db4d066e8bed1ad4afec63daba43c75ece93579b52f5d",
+    "check-final.log": "b3f9a5b003bbade937a4160394589f49a8e565caab366d720a3ecc2756e6c5a1",
+    "train.log": "1431a9a43a16d4b65fce64322ced4c6caaac8eb7d0cc47102fd5983d4cea3beb",
+    "controllers.log": "7a979d0ab18f34fef97a468b2c7062d8faa54024168dd841c234d43d9cf15a82",
+    "package.log": "0f821ae1dd229899fd3050e3049e6846672ed4ff8e0caff2b463872b6f59e6ba",
+    "real-worker/result.json": "a517c333d68f14c087eefae16d48c5aa072dd01fc6737f146d08cc14b20f1f3f",
+    "real-worker/protocol.json": "b13221fc14b4c57128622faa3d9439a3f7a851fed9a47c3ba5a65765eeeabcf9"
+  }
+}
