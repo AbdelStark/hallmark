@@ -1,4 +1,4 @@
-.PHONY: e2e e2e-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
+.PHONY: e2e e2e-llm verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
 
 check:
 	uv lock --check
@@ -15,6 +15,9 @@ e2e:
 
 e2e-llm:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10
+
+verify-llm:
+	uv run --locked --python 3.12.12 python scripts/verify_llm.py --run "$(LLM_RUN)"
 
 check-admission:
 	uv run --locked python scripts/check_admission.py
