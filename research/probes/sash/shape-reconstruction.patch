@@ -1,0 +1,33 @@
+diff --git a/prover/src/layer.rs b/prover/src/layer.rs
+index 73b1cbb..cb98365 100644
+--- a/prover/src/layer.rs
++++ b/prover/src/layer.rs
+@@ -1042,6 +1042,13 @@ impl Layer {
+         }
+         let mats: Vec<Mat> = p.mats.iter().map(|m| {
+             let variant = DeqVariant::parse(&m.variant);
++            let (sx_exp, sw_exp) = if variant == DeqVariant::Fold {
++                assert!(p.fold_alpha < 134, "fold split has no normal token scale");
++                // Zero placeholders must fit both halves of the declared divisor split.
++                (134 - p.fold_alpha, 120 + p.fold_alpha)
++            } else {
++                (127, 0)
++            };
+             Mat {
+                 name: m.name.clone(), variant, n_in: m.n_in, n_out: m.n_out, tokens: m.tokens,
+                 acc: vec![0i64; m.tokens * m.n_out],
+@@ -1049,12 +1056,8 @@ impl Layer {
+                 qw: vec![0i32; m.n_in * m.n_out],
+                 jx: vec![0i32; m.tokens],
+                 jw: vec![0i32; m.n_out],
+-                // a per-token scale of 1.0, not of zero, exactly as the
+-                // model-only load leaves it: `fold_gt` reads the biased
+-                // exponent and a subnormal there is not a shape the dequant
+-                // gadget is built for
+-                sx: vec![(0u32, 127u32); m.tokens],
+-                sw: vec![(0u32, 0u32); m.n_out],
++                sx: vec![(0u32, sx_exp); m.tokens],
++                sw: vec![(0u32, sw_exp); m.n_out],
+                 jv2: if variant == DeqVariant::Fold { vec![0i32; m.n_out] } else { vec![] },
+             }
+         }).collect();

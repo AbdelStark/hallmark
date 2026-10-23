@@ -21,8 +21,20 @@ rounded an exact integer through float32. [Decision 0065](../docs/decisions/0065
 records a one-line Python fix, a failing/passing regression and fresh generation.
 The new witness checks all 23,552 attention rows and passes the Rust root builder.
 Its roots are locally enrolled. Proof generation then failed a memory allocation
-under the 96 GiB address-space cap; no real-layer proof was produced. The next
-gate is the identical candidate on a separately bounded larger-memory worker.
+under the 96 GiB address-space cap; no real-layer proof was produced in that run.
+The larger worker serialized a first-layer proof, but its verifier rejected the
+parameter-only shape constructor. [Decision 0066](../docs/decisions/0066-llm-shape-reconstruction.md)
+and [retained evidence](evidence/llm-shape-reconstruction-2026-10-23.json) isolate that
+bug. A separate source and verdict check also found an **open activation-scale
+binding** in the delayed-value profile, despite its broad binding summary.
+A constructor repair cannot make that profile qualify for complete inference.
+
+[Decision 0067](../docs/decisions/0067-bind-the-value-activation-scale.md) selects the
+existing non-delayed `y-attnout-w12` profile. It preserves the pretrained weights,
+prompt, calibration and exact-integer witness fix, and produces the same answer.
+Fresh extraction covers all layers and the output head. The next gate is a real
+proof with every detailed binding closed, followed by the complete response and
+changed-claim rejection. No delayed-profile proof or root is reused.
 Complete LLM proofs and caller-side rejection remain open. Do not
 replace that target with the existing synthetic classifiers or a one-layer proof.
 

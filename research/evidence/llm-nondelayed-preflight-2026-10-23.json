@@ -1,0 +1,114 @@
+{
+  "schema_id": "hallmark.sash-nondelayed-preflight/1",
+  "recorded_at": "2026-10-23",
+  "issue": 19,
+  "decision": "docs/decisions/0067-bind-the-value-activation-scale.md",
+  "source_commit": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+  "model_revision": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+  "model_licence": "Apache-2.0",
+  "spec": "y-attnout-w12",
+  "delay_matmuls": [],
+  "witness_patch_sha256": "fee63bfa895089e063fab5b7a03f98e3d443def158fa9b9ab4131450295da97e",
+  "rust_patch": null,
+  "native": {
+    "generated_tokens": [
+      1576,
+      7483,
+      310,
+      3444,
+      338,
+      3681,
+      29889,
+      2,
+      29871,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13,
+      13
+    ],
+    "response": "The capital of France is Paris.</s> \n\n\n\n\n\n\n",
+    "fixed_length": true,
+    "eos_positions": [
+      7
+    ],
+    "calibration_sha256": "000b9347aac7889340f952b15457f6a7357001ce432add95e0ba920f6d3e04fc",
+    "elapsed_seconds": 5.870236292015761
+  },
+  "witness": {
+    "schema_id": "hallmark.sash-chain-witness-validation/1",
+    "valid": true,
+    "spec": "y-attnout-w12",
+    "fold_components": 0,
+    "file_count": 1902,
+    "array_bytes": 1355379200,
+    "residual_links": 22,
+    "input_positions": 32,
+    "prompt_positions": 25,
+    "head_output_positions": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "answer_tokens": [
+      1576,
+      7483,
+      310,
+      3444,
+      338,
+      3681,
+      29889,
+      2
+    ],
+    "exact_attention_rows": 23552,
+    "proof": false
+  },
+  "retained_failures": [
+    "First extraction runner expected a directory instead of the upstream output prefix; layer extraction succeeded and was retained.",
+    "First new checker incorrectly required chain for the power-of-two output head; corrected checker requires exactly the declared variant per matmul."
+  ],
+  "archive": {
+    "schema_id": "hallmark.sash-response-input-archive/1",
+    "passed": true,
+    "seconds": 40.128246167209,
+    "peak_rss_bytes": 29917184,
+    "files": 1930,
+    "archive_bytes": 1161652023,
+    "archive_sha256": "9588a82ad5d80edf616176a9079b93bf7fcad173966b0abc41879bdd528cd0d9",
+    "proof": false
+  },
+  "table_bits_min": 21,
+  "table_bits_max": 26,
+  "original_master_table_plan_retained": true,
+  "table_width_rule": "Upstream exact witness-key bounds pinned before root enrollment; no proof-time resizing.",
+  "full_response_proof": false,
+  "proof_status": "running",
+  "run_directory": "runs/preflight/chain-proof-job",
+  "artifact_hashes": {
+    "generation-chain-protocol-v2.json": "1db85b2086b6818e7ed39b7981069b472349c420edc051c32634f0809c20f3a3",
+    "extract_chain_v2.py": "692ec4750b5fa25feba17d4f7bc95b205b45894de38b8cdb756355751715c4a4",
+    "validate_chain_witness_v2.py": "93c97968754ba28c3930b22ee7592aa1a26812456beb74342528a6aa9ecff093",
+    "full-witness-chain-v2/validation.json": "408fd7af8bd3eda860d869433213122cd7a08beb7317362750876ef24b711191",
+    "full-witness-chain-v2/fields.json": "e6af6f78abee32c4c110b53323bcd125eef3d1f9ef556cee10f46bf92c673c00",
+    "full-witness-chain-v2/head-fields.json": "35779712413c3f8d9cf52590148f0e11d26681462b49514073b01d71573cc368",
+    "full-witness-chain-v2/plan-tight.txt": "5f98f429ab127c68364c41220fb9a3b0b0f3780494c43c592d909ce63476f594",
+    "chain-proof-job/worker.py": "7a380a1eedfb8a80f5e536a819fddef82fe8b1738de7de9ca58d9a924a482d94",
+    "chain-proof-job/protocol.json": "88052b8bf9ff5924f8c6e0890ab9f10882e66a67ef4a39e2a4a61935461399d3"
+  },
+  "proof_job_id": "6adb376a925af0e27d4fd725",
+  "job_protocol_sha256": "88052b8bf9ff5924f8c6e0890ab9f10882e66a67ef4a39e2a4a61935461399d3",
+  "enrollment": {
+    "roots_sha256": "d91fd0124da65b2e62c312a29bd92e4bb160afc656e1287206222f3b730a339f",
+    "segments": 23,
+    "before_proving": true,
+    "root_process_seconds": 72.01414822600054,
+    "same_implementation": true
+  }
+}
