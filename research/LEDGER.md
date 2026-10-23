@@ -4136,3 +4136,11 @@ Distribution checks pass. Gate logs and the failed first check are retained unde
 This closes the one-command reproduction gate. The fixed authored prompt is an
 engineering case; independent security/hiding review, authenticated enrollment,
 operational backend admission and hardware provenance remain separate obligations.
+
+The first hosted train run at `a506dab` failed on a second historical whole-lock
+pin in the design-power fixture; the [failed job](https://github.com/AbdelStark/hallmark/actions/runs/39952275508/job/120409377447)
+and its local log are retained. A new lock-only fixture preserves all numeric
+expectations, evaluator/source hashes and acceptance thresholds. After that
+refresh, `make check-train` executes and passes all 76 selected tests. This changes
+no LLM workflow source file or statistical design; the real proof-run hashes
+remain unchanged.

@@ -282,6 +282,13 @@
       "stage": "package review fixture",
       "cause": "New optional-extra metadata changed the whole-lock hash; all third-party package entries were unchanged",
       "log_sha256": "2621e514973ecb438b15cb4408d86913297cb5a004e13547d1b23c4233f481c1"
+    },
+    {
+      "stage": "required train CI fixture",
+      "source_commit": "a506dab92aa42213845b5377f049dec966801984",
+      "job_url": "https://github.com/AbdelStark/hallmark/actions/runs/39952275508/job/120409377447",
+      "cause": "Historical design-power fixture still pinned the old whole-lock hash; numeric expectations, evaluator and thresholds unchanged",
+      "log_sha256": "ee1c5ae2ff32921c49cc1bdd99ff4948a5137f2111f46a34cbaa572ed548e86c"
     }
   ],
   "validation": {
@@ -292,7 +299,9 @@
     "full_evidence_cases_unavailable": 32,
     "package_check_passed": true,
     "core_log_sha256": "1ed2f3f47f64c4959bb41d15eed582092a07211464f864b9c67880fd28553f6a",
-    "initial_package_log_sha256": "ab698b4ed8f257f28b8734e76a5f10914ff85bce32e78176f5e062c4844ba16f"
+    "initial_package_log_sha256": "ab698b4ed8f257f28b8734e76a5f10914ff85bce32e78176f5e062c4844ba16f",
+    "required_train_tests_passed": 76,
+    "required_train_log_sha256": "0c0a9403024bac2dfa80993dac8eded3f27050287f1686a07b4ccfe430dde42d"
   },
   "local_evidence": "runs/llm-e2e-e8yegx2i in the isolated research checkout; raw run directories are ignored",
   "artifact_sha256": {

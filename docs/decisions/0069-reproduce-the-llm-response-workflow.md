@@ -46,6 +46,10 @@ The optional `llm` extra names the already locked Hub SDK. Its first repository
 check rejected the old whole-lock review hash. A new review confirms that all
 52 third-party package entries are unchanged, carries forward their existing
 licence evidence and pins the new lock. Historical reviews remain unchanged.
+The required train CI job also caught the old lock pin in the design-power
+fixture. Its [new lock-only refresh](../../research/evidence/llm-design-power-lock-refresh-2026-10-23.json)
+preserves every numeric expectation, source hash and acceptance criterion. This
+is a packaging metadata update, not a new statistical design or model result.
 
 The [fresh full run](../../research/evidence/llm-e2e-reproduction-2026-10-23.json)
 passes in 31 minutes 15 seconds. All 23 proofs are generated anew; all 69 proof,
