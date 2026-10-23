@@ -7,8 +7,10 @@ hybrid verifier. [Reproduce the demo](DEMO.md) or read [what is proved](PROOFS.m
 
 A separate [TinyLlama experiment](LLM-PROOF.md) verifies a complete eight-token
 response with 23 SASH proof segments and 22 residual links. Its quantization,
-measurements, failure history and remaining reproduction work are documented
-separately from the classifier results below.
+measurements and failure history are documented separately from the classifier
+results below. `make e2e-llm` now [reproduces that result](../research/evidence/llm-e2e-reproduction-2026-10-23.json)
+from fresh preparation, build and proofs in 31 minutes 15 seconds, with two fresh
+verifications and all 14 changed-claim rejections.
 
 ## Models and task
 

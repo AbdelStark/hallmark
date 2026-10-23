@@ -4,7 +4,7 @@
 
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-[Run the proof demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
+[LLM response proof](docs/LLM-PROOF.md) · [Classifier demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
 
 Hallmark is an MIT-licensed research toolkit for verifiable text classification. It connects
 synthetic training, exact integer inference and specialized cryptographic circuits
@@ -24,8 +24,8 @@ The broader hardware-attested inference system remains unfinished.
 
 **A complete TinyLlama response also verifies.** The [LLM proof explanation](docs/LLM-PROOF.md)
 shows the actual prompt and answer, the quantized model, all 23 proof segments and
-what the verifier checks. This separate SASH research path has no one-command
-reproduction yet; `make e2e` remains the classifier demo.
+what the verifier checks. Run `make e2e-llm` to reproduce it with local preparation
+and bounded HF CPU jobs. `make e2e` runs the classifier demo entirely on your Mac.
 
 ## What exactly is proved?
 
@@ -74,7 +74,7 @@ release a real model response. Results retain `qualified_backend: false` and
 
 ## Start here
 
-### Train, prove and verify
+### Train, prove and verify classifiers
 
 On an **Apple Silicon Mac**, with Git, Make, curl and **uv 0.9.18** on `PATH`:
 
@@ -94,6 +94,24 @@ Allow **12 GiB free storage** and roughly **20 minutes plus dependency/build tim
 on the recorded M4 Max. No GPU, API token, cloud account, downloaded model weights
 or private data is needed. See the [demo guide](docs/DEMO.md) for prerequisites,
 progress, expected output, resource bounds and troubleshooting.
+
+### Prove a pretrained LLM response
+
+On the same Mac, with **16 GiB free storage**, 32 GB RAM and an HF account with
+Jobs access and prepaid credits, set `HF_TOKEN` in the environment or ignored
+`.env` file, then run:
+
+```sh
+make e2e-llm
+```
+
+The command downloads pinned TinyLlama-1.1B weights, generates “The capital of
+France is Paris.” and produces fresh SASH proofs for the complete quantized
+inference. It builds, proves and verifies on three sequential CPU jobs with a
+**$2.10 timeout-based cost ceiling**. No local GPU is needed. See the
+[LLM guide](docs/LLM-PROOF.md#run-it) for the exact statement, limits and artifacts.
+The recorded fresh run took **31 minutes 15 seconds**, with a **$0.31 compute
+bound**; two full verifications took about **80 seconds** each.
 
 ### Quick software smoke test
 
@@ -149,6 +167,7 @@ there is no production `verify-b` endpoint to deploy.
 |---|---|
 | Understand exactly what a proof establishes | [Proof statement and trust boundary](docs/PROOFS.md) |
 | Run the whole classifier demo | [Demo walkthrough](docs/DEMO.md) |
+| Prove a complete pretrained LLM response | [TinyLlama workflow and proof statement](docs/LLM-PROOF.md) |
 | Assess the models, data and measured results | [Results and limitations](docs/RESULTS.md) |
 | Find a contract, recipe or research record | [Documentation index](docs/README.md) |
 | Understand the proposed full system | [Canonical specification](SPEC.md) |

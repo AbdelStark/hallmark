@@ -11,7 +11,7 @@ licence labels in frozen records describe their original admission; see
 
 ## Reviewed upstream metadata
 
-On 2026-10-20, the [current metadata review](../research/evidence/w15-guard-dependencies-2026-10-20.json)
+On 2026-10-20, the [guard metadata review](../research/evidence/w15-guard-dependencies-2026-10-20.json)
 matches all **684 locked distribution hashes** for **52 packages** against each
 exact version's PyPI JSON response. It extends the preserved
 [W37 review](../research/evidence/w37-dependencies-2026-10-20.json) of 32 packages
@@ -90,3 +90,13 @@ notices are retained separately. The runtime's complete notices include MPL and
 component-specific terms, not just MIT. No third-party binary redistribution is
 part of this work. This bounded local-use review is not an independent security
 audit, legal warranty, proof/hardware admission or package-release approval.
+
+The optional `llm` extra exposes the already locked `huggingface-hub==2.2.0`
+dependency for the foreground Jobs controller. The [2026-10-23 lock review](../research/evidence/llm-extra-dependencies-2026-10-23.json)
+checks that all 52 third-party package entries are unchanged and carries forward
+their earlier metadata and licence evidence; it does not claim a new upstream
+metadata observation. The [LLM workflow](LLM-PROOF.md)
+downloads the separately pinned SASH source, its locked Python witness environment
+and the Apache-2.0 TinyLlama checkpoint. The [source review](../research/real-llm-proof-plan.md)
+records their revisions and licence scope. These model files, the CUDA build image
+and the resulting prover binary are not part of Hallmark's wheel or source archive.

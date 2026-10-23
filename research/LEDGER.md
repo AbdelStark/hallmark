@@ -4074,3 +4074,65 @@ rejection. No core dependency, classifier relation or admitted backend changed.
 `make package-check` also passes. Its core environment omits optional training;
 the train-extra CI jobs remain required. Raw checkpoints, proofs and credentials
 remain outside Git.
+
+## 2026-10-23 — One-command TinyLlama reproduction
+
+[Decision 0069](../docs/decisions/0069-reproduce-the-llm-response-workflow.md) packages
+fresh native preparation, a fresh Rust build, all 23 proof invocations and the
+proof-only verification suite as `make e2e-llm`. The checkpoint, calibration,
+quantized relation, prompt/answer and caller-enrolled roots remain frozen. The
+[new evidence](evidence/llm-e2e-reproduction-2026-10-23.json) records source/input
+hashes, provider receipts and every verification outcome.
+
+The first invocation failed before creating a cloud job: Git discovered the
+parent Hallmark checkout and silently skipped the witness patch. The exact-GEMM
+oracle caught the unpatched float32 conversion. That run remains unchanged at
+`runs/llm-e2e-y372z3cr`. Isolating Git's parent search fixes the cause; the nested
+checkout regression and all four exact integer oracle cases pass on fresh source.
+The first repository gate also rejected the changed whole-lock hash. The new
+optional `llm` extra only exposes the already locked Hub SDK; a separate review
+confirms all 52 third-party package entries and previous licence evidence are
+unchanged. The previous review is preserved.
+
+The corrected invocation, `runs/llm-e2e-e8yegx2i` in the isolated checkout, exits 0
+in 1,875.20 seconds (31 minutes 15 seconds). Native preparation takes 32.22 seconds
+and reproduces the calibration hash, answer and all residual arrays. The fresh
+build passes the frozen synthetic digest and six upstream control tests. Newly
+derived roots match all 23 caller-owned roots before proving. Every proof,
+statement and claim file is byte-identical to the prior accepted bundle: 69 files,
+737,858,641 proof bytes, 761,015,496 bytes with statements and claims. No old proof
+was supplied to the proving job.
+
+The 23 prove stages total 328.459 seconds; the full proving job takes 533.637
+seconds, with peak process RSS 116,204,756,992 bytes. A fresh worker with no weights
+or witness verifies the complete response twice in 80.110 and 78.446 seconds.
+All 11 caller mutations and three native cryptographic mutations reject; the
+control files remain unchanged. Peak verifier RSS is 14,345,064,448 bytes.
+
+The build/prove/verify compute bounds are $0.01/$0.29/$0.01, respectively; these
+are conservative bounds, not invoices. The controller's current-rate timeout
+bound plus storage reserve was $1.96 against the $2.10 requested ceiling. No
+retry or top-up occurred. All three output inventories are locally retained and
+hashed, and all temporary buckets are deleted. The build uses the provider's
+32 GB memory limit; the prove and verify workers additionally set process address
+space limits. A new binary hash is recorded, without a byte-identical build claim.
+
+Commands, with uv 0.9.18 on PATH:
+
+```sh
+make e2e-llm
+.venv/bin/pytest -q tests/test_llm_e2e.py tests/test_sash_response.py
+UV_PROJECT_ENVIRONMENT=runs/llm-workflow-2026-10-23/check-env make check
+UV_PROJECT_ENVIRONMENT=runs/llm-workflow-2026-10-23/check-env make package-check
+```
+
+The 33 focused tests pass. The full core gate passes 2,261 tests with 122
+platform/optional skips, 156 matched software conformance cases and 32 unavailable
+full-evidence obligations. The extra-dependent controller case runs in the focused
+suite and the new offline LLM CI job; core-only runs legitimately skip it.
+Distribution checks pass. Gate logs and the failed first check are retained under
+`runs/llm-workflow-2026-10-23`.
+
+This closes the one-command reproduction gate. The fixed authored prompt is an
+engineering case; independent security/hiding review, authenticated enrollment,
+operational backend admission and hardware provenance remain separate obligations.

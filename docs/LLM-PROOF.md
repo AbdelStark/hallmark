@@ -14,11 +14,66 @@ connections between layers verify against roots enrolled before proving.
 [Raw results and hashes](../research/evidence/llm-response-composition-2026-10-23.json)
 retain the failed first composition as well as the corrected result.
 
-**This is a research result, not yet a one-command LLM demo.** `make e2e` runs the
-[synthetic classifier workflow](DEMO.md). The LLM runs and large proof artifacts
-remain local; packaging a reproducible LLM command is the next implementation task.
-A fresh worker containing no weights or witness accepted the complete response
-twice and rejected all 14 changed claims.
+Run `make e2e-llm` to reproduce this fixed response with new witnesses and proofs.
+Preparation runs on your Mac; three bounded Hugging Face CPU jobs build, prove and
+verify. A fresh verifier worker receives no weights or witness. `make e2e` runs
+the separate [synthetic classifier workflow](DEMO.md).
+
+## Run it
+
+You need an **Apple Silicon Mac**, Git, Make, **uv 0.9.18**, at least **16 GiB free
+storage**, and a Hugging Face account with Jobs access and enough prepaid credits.
+Allow 32 GB RAM for local preparation; the recorded preparation process peaked at
+13.27 GB. The command downloads the public 2.2 GB Apache-2.0 checkpoint and creates
+an isolated, locked witness environment. You do not need a local GPU or CUDA.
+
+Put `HF_TOKEN` in the environment or in an ignored `.env` file at the checkout
+root, then run:
+
+```sh
+make e2e-llm
+```
+
+This starts paid jobs. The command refuses current provider rates whose fixed
+timeouts exceed **$2.10**, including a storage reserve. It allows 30 minutes each
+for build and verification on CPU Upgrade, and 60 minutes for proving on CPU
+Performance. Jobs run sequentially, with one attempt each. It does not add credits
+or configure recharge. Check your available credits before starting.
+
+The command checks all checkpoint hashes, reproduces calibration and the exact
+answer, then derives model roots and compares them with the caller's frozen
+enrollment before proving. It rebuilds the original Rust prover, generates **23
+new proofs**, verifies them in **two fresh processes** and rejects **14 mutations**.
+Credentials remain in the local controller; workers receive only the reviewed
+public case and its derived artifacts.
+
+Each invocation prints a fresh `runs/llm-e2e-*` directory. On success, its
+`result.json` reports:
+
+```json
+{
+  "passed": true,
+  "response": "The capital of France is Paris.",
+  "proofs": 23,
+  "residual_links": 22,
+  "fresh_verifications": 2,
+  "mutations_rejected": 14,
+  "qualified_backend": false,
+  "hardware_claim": "not-accepted",
+  "hiding_claim": false
+}
+```
+
+The run directory keeps source/input hashes, command logs, all proofs and claims,
+verification results and resource receipts. Temporary buckets are deleted only
+after their outputs are downloaded and hashed. Failures return nonzero and keep
+their evidence. If job creation or retention is uncertain, the recorded bucket
+is kept: inspect the job URL or bucket record before starting another run. The
+controller refuses to start while another HF job is active.
+
+This command supports the pinned prompt and model. Another prompt, response
+length, model or arithmetic profile needs a new case and caller enrollment;
+editing expected tokens alone does not establish a new proved response.
 
 ## The statement
 
@@ -71,7 +126,34 @@ implementation used by the prover; a fresh process is not an independently
 developed verifier or security audit. No trace blinding or witness-hiding claim
 is made.
 
-## Measured result
+## Measured results
+
+The [fresh one-command reproduction](../research/evidence/llm-e2e-reproduction-2026-10-23.json)
+completed in **31 minutes 15 seconds**, including downloads, local preparation,
+a new prover build, new proofs, transfers and verification. Its compute bound was
+**$0.31**, not an invoice; the controller separately reserves $0.01 for storage.
+Every one of the 69 proof, statement and claim files matches the earlier accepted
+bundle byte for byte. The rebuilt binary has its own recorded hash; byte-identical
+binary builds are not claimed.
+
+| Fresh workflow stage | Recorded result |
+|---|---:|
+| Native preparation, excluding downloads and packing | 32.22 seconds |
+| Build job, including six upstream tests | 560.40 seconds |
+| Proving job, including root derivation and serialization | 533.64 seconds |
+| Summed proving-only time across 23 segments | 328.46 seconds |
+| Fresh proof-only verification, two processes | 80.11 / 78.45 seconds |
+| Changed claims rejected | 14 / 14 |
+| Peak prover / verifier process RSS | 116.20 / 14.35 GB |
+
+All temporary buckets were deleted after local retention and hashing. Jobs ran
+sequentially: the build and verifier on 8-vCPU / 32-GB CPU Upgrade workers, proving
+on a 32-vCPU / 256-GB CPU Performance worker. CPU time, process RSS and end-to-end
+wall time measure different costs. CI runs offline controller/statement fixtures;
+it does not run the paid model workflow.
+
+The earlier composition, which reused 22 transformer proofs while correcting the
+head, remains recorded separately:
 
 | Measure | Recorded result |
 |---|---:|
@@ -111,6 +193,10 @@ claim. The original proof files were rehashed afterward and remained unchanged.
    the output head. All individual proofs passed, but the last layer connection
    failed. Extracting only the final-norm head repaired that connection without
    changing the other 22 proofs. [Decision 0068](decisions/0068-prove-the-output-head-final-norm.md).
+4. The first one-command run found that Git had silently skipped the witness patch
+   inside an enclosing checkout. The exact-GEMM regression stopped it before any
+   cloud job. Patch application now stops Git's parent-directory search; a focused
+   regression covers that layout. [Decision 0069](decisions/0069-reproduce-the-llm-response-workflow.md).
 
 The result establishes one bounded computation under the enrolled relation. It
 does not establish model quality, safety-policy quality, authentic capture of a
