@@ -4240,3 +4240,73 @@ conformance cases and 32 unavailable full-evidence obligations. `make package-ch
 passes. Neither candidate binary links CUDA or has an undefined CUDA symbol.
 Logs and hashes are retained under `runs/boundary-delivery`. Required optional
 runtime jobs remain separate hosted CI obligations.
+
+## 2026-10-23 — Signed LLM parameter enrollment (#19)
+
+Hypothesis: an externally supplied Ed25519 key can authorize the exact frozen LLM
+case and verifier source inventory, while invalid or expired records fail before
+compilation. Baseline: decision 0071's native verifier and retained TinyLlama
+23-proof bundle. Mutable candidate paths are the enrollment module and native
+controller; arithmetic, Rust constraints, quantization and proof files stay frozen.
+[Decision 0072](../docs/decisions/0072-signed-llm-parameter-enrollment.md) defines the
+format and pass criterion. [Raw numeric results and hashes](evidence/llm-signed-enrollment-2026-10-23.json)
+precede these conclusions.
+
+The first study passes nine preflight rejections and two real signed proof
+workflows. Format review then corrects the JSON schema's signature description
+from 64 characters to the actual 128-character hex encoding. Both preliminary
+runs remain under their original source identity. A public conformance vector
+and strict schema snapshots bind the format. A separate Node v24.22.0 fixture
+check independently constructs the canonical body/message, verifies the signature
+and rejects a changed message. Shared cryptographic-library risk remains;
+this is interoperability evidence, not independent security review.
+
+A fresh current-source study rejects ten cases before compilation: wrong key,
+expired/not-yet-valid enrollment, wrong case, wrong verifier source, tampered
+signature, malformed record, either missing trust input, and the earlier valid
+signature over the now-changed source. All have the exact expected errors and
+retained failure directories. No invalid enrollment falls back to the checkout
+case.
+
+The real signed command, using a separately supplied disposable public key, is:
+
+```sh
+LLM_ENROLLMENT="$ENROLLMENT_FILE" \
+LLM_TRUST_KEY="$SIGNER_PUBLIC_KEY_HEX" \
+make verify-llm LLM_RUN="$RETAINED_LLM_RUN"
+```
+
+Intermediate directories `runs/llm-verify-fro254_8` and
+`runs/llm-verify-nguo9lg8` pass all 38 proof cases each under signed enrollment in
+210.808980 and 206.873425 seconds. A separate checkout-case compatibility run,
+`runs/llm-verify-qrwmb70l`, passes the same suite in 205.564529 seconds. Each accepts
+two honest verifications and explicitly rejects all 36 mutations. The four signed
+honest checks take 3.556955/3.379222 and 3.777087/3.393402 seconds. All original
+proof bytes remain unchanged. Source inventories match across the three current
+runs. Compilation peaks at 2,480,865,280 sampled process-group RSS bytes and the
+suite at 1,187,692,544 bytes. All sandbox controls pass; no cloud job starts.
+
+Version tags are then added to the new authority/result JSON reports. This
+changes only the controller's source hash and therefore requires fresh enrollment.
+Final-source directories `runs/llm-verify-w4bb0vvk` and
+`runs/llm-verify-mw88chgy` each pass all 38 proof cases and all three validity
+checks. They take 205.468509 and 206.545980 seconds. Honest checks take
+3.568990/3.366695 and 3.513864/3.391349 seconds. Peak sampled process-group RSS is
+2,447,802,368 bytes for build and 1,152,598,016 bytes for the suite. Ten preflight
+rejections pass again, including the previous source's otherwise valid enrollment.
+All earlier runs remain unchanged under their own source identities. No constraint,
+proof, quantization or calibration changes occur in these format corrections.
+
+The signer authorizes 55 exact source files and case bytes. Both signed runs
+check validity before build, before the worker and after verification. The
+integration private key is never serialized; its public key is supplied outside
+the enrollment. It is a disposable research issuer, not an owner-provisioned
+operational root. The legacy path reports `checkout-case` explicitly. Revocation,
+persistent rollback protection, operational custody and independent security
+qualification remain separate gates; issue #19 stays open.
+
+Final local gates pass: 2,301 tests with 122 optional/platform skips, 47 typed
+source files, 156 matched software conformance cases and 32 unavailable genuine
+evidence obligations. `make package-check` passes. Focused tests pass 72 cases
+with one optional SDK skip. Final logs are retained under `runs/enrollment-delivery`;
+all 55 final source hashes still match both signed proof runs.

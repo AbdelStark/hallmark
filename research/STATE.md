@@ -27,8 +27,8 @@ All 69 proof/statement/claim files match the earlier accepted bundle byte for
 byte. Two fresh verifications took 80.11 and 78.45 seconds; all 14 mutations reject.
 All outputs are retained and the three temporary buckets are deleted. The first
 local patching failure remains recorded in [decision 0069](../docs/decisions/0069-reproduce-the-llm-response-workflow.md).
-`make e2e` still runs the classifier demo. The remaining gates are authenticated
-enrollment and independent security/hiding qualification; hardware provenance is
+`make e2e` still runs the classifier demo. The remaining operational gates are
+root provisioning and independent security/hiding qualification; hardware provenance is
 a separate extension, not part of this LLM demo.
 
 An optional native Mac verifier now specializes the same proof relation to the
@@ -38,7 +38,7 @@ weights, witnesses or paid jobs. The [native experiment](evidence/native-llm-ver
 requires two honest checks, all 14 original mutations and two direct native
 unknown-shape/calibration rejections. [Decision 0070](../docs/decisions/0070-native-enrolled-llm-verifier.md)
 explains the preprocessing change and retained linker/sandbox failures. This
-variant does not rederive shape trees or qualify authenticated enrollment;
+variant does not rederive shape trees; operational root qualification remains separate.
 `make e2e-llm` retains the original Linux verifier's runtime derivation.
 
 The native suite now includes 20 additional boundary mutations. The expanded
@@ -48,8 +48,19 @@ checks vocabulary ranges, tree/column dimensions and redundant configuration;
 the complete suite requires two honest checks and 36 explicit rejections.
 [Decision 0071](../docs/decisions/0071-native-proof-input-boundaries.md) and
 [numeric evidence](evidence/native-proof-boundaries-2026-10-23.json) preserve the
-baseline and candidate outcomes. This strengthens the native boundary without
-closing authenticated enrollment or independent security review.
+baseline and candidate outcomes. Operational root custody and independent
+security review remain open.
+
+The native verifier now supports detached Ed25519 authorization of the exact
+case and verifier source inventory, using a public key supplied separately by
+the caller. It checks authorization before build, before the proof worker and
+after verification, and reports whether it used signed enrollment or the
+checkout case. [Decision 0072](../docs/decisions/0072-signed-llm-parameter-enrollment.md)
+defines the format; [evidence](evidence/llm-signed-enrollment-2026-10-23.json)
+retains wrong-key, tampering, expiry and changed-source rejections. The integration
+issuer is a disposable research key. This implements parameter authentication;
+operational key custody, revocation/rollback policy and independent security
+qualification remain separate obligations.
 
 Earlier failures are documented in decisions [0065](../docs/decisions/0065-exact-llm-witness-accumulators.md),
 [0066](../docs/decisions/0066-llm-shape-reconstruction.md) and

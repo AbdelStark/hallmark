@@ -1,0 +1,1168 @@
+{
+  "baseline_commit": "32010b1a18bd46b19a51845606acc5ad6e97f4c3",
+  "changes_since_preliminary": [
+    "scripts/verify_llm.py",
+    "src/hallmark/llm_enrollment.py"
+  ],
+  "claim_limits": {
+    "hardware_provenance": false,
+    "hiding_claim": false,
+    "independent_security_review": false,
+    "persistent_rollback_protection": false,
+    "qualified_backend": false,
+    "revocation_service": false,
+    "v1_registry_replaced": false
+  },
+  "cloud_cost_usd": 0,
+  "cloud_jobs_started": 0,
+  "current": {
+    "artifacts": {
+      "runs/enrollment-study-final/negative-results.json": "921370cf6739039f3e90e576b4e04b41704a447f2d5645820323afaeb0cb3165",
+      "runs/enrollment-study-final/protocol.json": "e542a247a826190c73b165e32a2ea5e56c249862486bba863a01e62c6c54e28c"
+    },
+    "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "controller_sha256": "d092b8f8ddbf965d7d02048e2381549c3589b3cdb4ae6778b35d3050b8a8b54c",
+    "directory": "runs/enrollment-study-final",
+    "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+    "negative_cases": [
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-1ql11d_n",
+        "name": "wrong-key",
+        "seconds": 0.003806042019277811
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-ecsxu8c6",
+        "name": "expired",
+        "seconds": 0.003711625002324581
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-16ql5wft",
+        "name": "not-yet-valid",
+        "seconds": 0.0035600000992417336
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-1v9wz49n",
+        "name": "wrong-case",
+        "seconds": 0.0036157499998807907
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-9mfz0a1j",
+        "name": "wrong-verifier",
+        "seconds": 0.0036478331312537193
+      },
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-8ms_skf2",
+        "name": "tampered-signature",
+        "seconds": 0.004553083097562194
+      },
+      {
+        "accepted": false,
+        "code": "INPUT_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-ekgs9gvu",
+        "name": "malformed-record",
+        "seconds": 0.0038045840337872505
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-b34r7f2z",
+        "name": "missing-key",
+        "seconds": 0.003810625057667494
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-fupa8w83",
+        "name": "missing-enrollment",
+        "seconds": 0.003745957976207137
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-wt3a64y4",
+        "name": "previous-source-enrollment",
+        "seconds": 0.004286667099222541
+      }
+    ],
+    "positive_runs": [
+      {
+        "artifacts": {
+          "runs/llm-verify-w4bb0vvk/build/cost.json": "cef3eb258de394aec1c1e95b28ef02155a57731577dafa7642aaf12e4498c58b",
+          "runs/llm-verify-w4bb0vvk/protocol.json": "aa9a6c580405c338909a81fbdd9e106bd60f6b65395f9b7ea98fc74f2265fb04",
+          "runs/llm-verify-w4bb0vvk/result.json": "e182df9a260daa9fba788fbd739988d619ebd1983ac1214b701e95604a1cf452",
+          "runs/llm-verify-w4bb0vvk/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-w4bb0vvk/verification/output/commands.json": "1cc252bfd2ce377b80e94937d4ba0227c6cdef218f74dabc30e25ddddf161140",
+          "runs/llm-verify-w4bb0vvk/verification/output/result.json": "df2fbe83d106a7fca5ac1825b45f2977a65396ea5cba74cf9438db8c172bacdd",
+          "runs/llm-verify-w4bb0vvk/verify/cost.json": "4bdec5d753f5e4579bb33016fc363131fc2c29a6f376c15afee8cb3a837304c1"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2447802368,
+          "seconds": 105.09525833302177
+        },
+        "directory": "runs/llm-verify-w4bb0vvk",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792772931,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "after-verification",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "before-build": {
+            "checked_at": 1792772726,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "before-build",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "before-worker": {
+            "checked_at": 1792772833,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "before-worker",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          }
+        },
+        "honest_seconds": [
+          3.568990374915302,
+          3.366694875061512
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792772931,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "after-verification",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "schema_id": "hallmark.native-llm-result/1",
+          "seconds": 205.46850879094563,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "7ca97aa979259788e1adf6532dfd5b28cc18a00ff33764501d6f0772c846b69b"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1152598016,
+          "seconds": 98.53448950010352
+        }
+      },
+      {
+        "artifacts": {
+          "runs/llm-verify-mw88chgy/build/cost.json": "598b79d53b2a49e34b6480fff217a0badabce7a2f7c883413bd8660ba62a0e87",
+          "runs/llm-verify-mw88chgy/protocol.json": "aa9a6c580405c338909a81fbdd9e106bd60f6b65395f9b7ea98fc74f2265fb04",
+          "runs/llm-verify-mw88chgy/result.json": "92e60b2f3f035839d097b92362e48350e3f11d79cfe2f618c24d3b71137a6c5b",
+          "runs/llm-verify-mw88chgy/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-mw88chgy/verification/output/commands.json": "e637e995652418bb5e87b38d68a02713cca0fc359dce62dd36d932845895481d",
+          "runs/llm-verify-mw88chgy/verification/output/result.json": "cb83357cddb5452f82ff14d4c99b5c44186f47d475d45a01c0d91e893a53ee9b",
+          "runs/llm-verify-mw88chgy/verify/cost.json": "f303ab861e32ad994ec19809ce7b524407a817218a160b8f682077f159296ce2"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2423242752,
+          "seconds": 104.5793111671228
+        },
+        "directory": "runs/llm-verify-mw88chgy",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792773138,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "after-verification",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "before-build": {
+            "checked_at": 1792772931,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "before-build",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "before-worker": {
+            "checked_at": 1792773038,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "before-worker",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          }
+        },
+        "honest_seconds": [
+          3.513864415930584,
+          3.3913489170372486
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792773138,
+            "enrollment_sha256": "f9cc571bc18ea584aff4bdc7bbe4051b10758135dba1d56961772c01c9aaf0a8",
+            "expires_at": 1792779925,
+            "kind": "ed25519",
+            "not_before": 1792772665,
+            "schema_id": "hallmark.llm-parameter-authority/1",
+            "stage": "after-verification",
+            "trusted_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "schema_id": "hallmark.native-llm-result/1",
+          "seconds": 206.54597979201935,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "813465bcc09ac4cd4f723f54ef8911f92e1797eb01cda2bfbba9ba5f54f448a0"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1055539200,
+          "seconds": 100.19119195779786
+        }
+      }
+    ],
+    "protocol_sha256": "e542a247a826190c73b165e32a2ea5e56c249862486bba863a01e62c6c54e28c",
+    "public_key_sha256": "df4e9ba8de7a77fc957210e382f5372f20e21a24010dbf28cdceae4c9695fa3b",
+    "source_files": {
+      "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+      "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+      "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+      "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+      "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+      "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+      "scripts/verify_llm.py": "2a7c68890093824399e888e245967abf7b781d7ad05f4c9acb296afb56ba9031",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+      "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+    },
+    "verifier_identity": "703f77605614c04db2bbab761358fac30473f60c175fb8142a17ab22ecec8e41"
+  },
+  "decision": "docs/decisions/0072-signed-llm-parameter-enrollment.md",
+  "hypothesis": "Detached Ed25519 authorization binds the exact case/source and expires under the caller clock; invalid records never reach compilation.",
+  "intermediate": {
+    "artifacts": {
+      "runs/enrollment-study-current/negative-results.json": "1b1311e7d982ee28600c714edeb357e981de34e7bb94af476cf740fd3e4ac3da",
+      "runs/enrollment-study-current/protocol.json": "9be5f9c9def847011e3f7afb1f25ec0112b33499354b8d7c62914b60265b69c8"
+    },
+    "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "controller_sha256": "04b8a2010f15a55383043ed52618e9352063368b8af14f3c3b90a58b15d15d40",
+    "directory": "runs/enrollment-study-current",
+    "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+    "negative_cases": [
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-58r4_cyy",
+        "name": "wrong-key",
+        "seconds": 0.005514458054676652
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-h3jj6z4q",
+        "name": "expired",
+        "seconds": 0.004248416982591152
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-jgu9pfte",
+        "name": "not-yet-valid",
+        "seconds": 0.004073916003108025
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-8toub_d7",
+        "name": "wrong-case",
+        "seconds": 0.003638375084847212
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-702ezwvp",
+        "name": "wrong-verifier",
+        "seconds": 0.004122500075027347
+      },
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-jorw3xtm",
+        "name": "tampered-signature",
+        "seconds": 0.004780707880854607
+      },
+      {
+        "accepted": false,
+        "code": "INPUT_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-edtfytj6",
+        "name": "malformed-record",
+        "seconds": 0.003970416029915214
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-5oakmafv",
+        "name": "missing-key",
+        "seconds": 0.0038098329678177834
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-7s3aguf8",
+        "name": "missing-enrollment",
+        "seconds": 0.004419957986101508
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-tf07eqhb",
+        "name": "previous-source-enrollment",
+        "seconds": 0.004002583213150501
+      }
+    ],
+    "positive_runs": [
+      {
+        "artifacts": {
+          "runs/llm-verify-fro254_8/build/cost.json": "fcd4c2f51f90f0c6b3012e7d1ebdd40d9ce3808a2bbaa6d9d637fd4e9797cb06",
+          "runs/llm-verify-fro254_8/protocol.json": "999ea28640ab2750c06f8cc3197a3fc74d1cc1288e14499aa1acc738fa390046",
+          "runs/llm-verify-fro254_8/result.json": "81a4014d550aae3c23a163fbdcc1a12df5c84273f6b96c173d7997f1c478a5d0",
+          "runs/llm-verify-fro254_8/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-fro254_8/verification/output/commands.json": "c3218a5c71a2b8f59f76041c2f00af47d8ae76d7a0ba797efd4aff294c2d4765",
+          "runs/llm-verify-fro254_8/verification/output/result.json": "018719e4018bdf456db064e28ebf44f285bcd259e785501a946f0f6ecbfcf670",
+          "runs/llm-verify-fro254_8/verify/cost.json": "cece04191c01d5ec20d85fade4c9e6f2b228c7f07a6bccf3871593fe3fab1c37"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2480865280,
+          "seconds": 109.94378987513483
+        },
+        "directory": "runs/llm-verify-fro254_8",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792771709,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "after-verification",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "before-build": {
+            "checked_at": 1792771498,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "before-build",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "before-worker": {
+            "checked_at": 1792771610,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "before-worker",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          }
+        },
+        "honest_seconds": [
+          3.5569545407779515,
+          3.379222334129736
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792771709,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "after-verification",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "seconds": 210.80897958390415,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "73d46544855af3566f77e16802b509bc76a90cc3d6f5dda790733c7ff6b282d1"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 911032320,
+          "seconds": 98.99979579099454
+        }
+      },
+      {
+        "artifacts": {
+          "runs/llm-verify-nguo9lg8/build/cost.json": "1d1d22ff2647cff91c3ce834316ddfa496f8c705db4d8e32f9d4ef3b9a1dfdc9",
+          "runs/llm-verify-nguo9lg8/protocol.json": "999ea28640ab2750c06f8cc3197a3fc74d1cc1288e14499aa1acc738fa390046",
+          "runs/llm-verify-nguo9lg8/result.json": "623392d6cfb75689291a594f1f8c06477c984d2def42b45ca9e0caa8db4a0043",
+          "runs/llm-verify-nguo9lg8/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-nguo9lg8/verification/output/commands.json": "bf23e41f157465ba0482dafd863eda8d079fc9128e81f6d52428b5bed28b9303",
+          "runs/llm-verify-nguo9lg8/verification/output/result.json": "de886aeccebbb553229307bec513ea579e6d9e87dd2e5e91cf1a90c61b7645bb",
+          "runs/llm-verify-nguo9lg8/verify/cost.json": "77f30e3a7dda95add21fa103f49b6e23e135879bde3df27d1d0756fa406990dd"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2439233536,
+          "seconds": 106.70312925009057
+        },
+        "directory": "runs/llm-verify-nguo9lg8",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792771916,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "after-verification",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "before-build": {
+            "checked_at": 1792771709,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "before-build",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "before-worker": {
+            "checked_at": 1792771817,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "before-worker",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          }
+        },
+        "honest_seconds": [
+          3.7770865000784397,
+          3.393401874927804
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792771916,
+            "enrollment_sha256": "5da6eee87a5e909caaaaa6c11d2c10cf5f80d4220786599f8edcc7331e15c31f",
+            "expires_at": 1792778697,
+            "kind": "ed25519",
+            "not_before": 1792771437,
+            "stage": "after-verification",
+            "trusted_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "seconds": 206.8734248331748,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "b8d86ebc456a8841fe26ebb82c58c5991446976f4d5d669863d965b52e4b7695"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1187692544,
+          "seconds": 98.55904758395627
+        }
+      },
+      {
+        "artifacts": {
+          "runs/llm-verify-qrwmb70l/build/cost.json": "d5d391c1fe97f4a2c7e42a242e4eb23757a63646c10635aa4c0e72fd45c9c95f",
+          "runs/llm-verify-qrwmb70l/protocol.json": "999ea28640ab2750c06f8cc3197a3fc74d1cc1288e14499aa1acc738fa390046",
+          "runs/llm-verify-qrwmb70l/result.json": "64e32069fb675e32f80921ceda22e91c59546073b6b00fd99cc6ee0148465118",
+          "runs/llm-verify-qrwmb70l/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-qrwmb70l/verification/output/commands.json": "cc5497edca630866f9e07ffa1d111ee540fe8409e82620c5d3a6a441b4efec84",
+          "runs/llm-verify-qrwmb70l/verification/output/result.json": "20bf616d759577c20966e1c79092b554e8b9e3520549d2bf006792bd114378c9",
+          "runs/llm-verify-qrwmb70l/verify/cost.json": "78fb0ab0b2ea9d8734dca1babb28192865f6fba41faee40d082291f158441d93"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2448244736,
+          "seconds": 105.11880175000988
+        },
+        "directory": "runs/llm-verify-qrwmb70l",
+        "enrollment_checks": {},
+        "honest_seconds": [
+          3.52615312486887,
+          3.4124144171364605
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "kind": "checkout-case"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "seconds": 205.5645285411738,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "356dd2c7c582b891a153f76aa54531475edfaad42cd3cfc122a14eb3215ef693"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1161887744,
+          "seconds": 98.71509166690521
+        }
+      }
+    ],
+    "protocol_sha256": "9be5f9c9def847011e3f7afb1f25ec0112b33499354b8d7c62914b60265b69c8",
+    "public_key_sha256": "ec691f714b3afad10a599cc19be0f54b6d5c9d082b82a17a02d46680578a0343",
+    "source_files": {
+      "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+      "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+      "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+      "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+      "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+      "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+      "scripts/verify_llm.py": "b5536e9a7af155546160b1015a412835fd23688be8748cf6050f69518b2e493c",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+      "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+    },
+    "verifier_identity": "768a60fa21553bfa16d15e388f4d8626c8595ca0f30c00fa1ccaa0bbaa7e55d7"
+  },
+  "intermediate_note": "Two signed runs, one checkout-case compatibility run and ten preflight rejections passed before adding version tags to the authority/result JSON reports. Current evidence uses fresh authorization and run directories.",
+  "issue": 19,
+  "key_custody": {
+    "role": "disposable research issuer; not an operational root",
+    "root_provisioned_by_owner": false,
+    "study_private_key_serialized": false
+  },
+  "limits": {
+    "build_seconds": 1800,
+    "cloud_cost_usd": 0,
+    "concurrent_jobs": 1,
+    "sampled_memory_stop_bytes": 4294967296,
+    "threads": 4,
+    "verification_seconds": 600
+  },
+  "node_vector": {
+    "body_cbor_matched": true,
+    "changed_message_rejected": true,
+    "node": "v24.22.0",
+    "schema_id": "hallmark.llm-enrollment-node-vector/1",
+    "scope": "Fixture interoperability; shared cryptographic library risks remain.",
+    "signature_verified": true,
+    "signing_message_matched": true
+  },
+  "node_vector_artifact_sha256": "556fab3907f6d24c34c24cc92d9a3b6b36dafe9e4cdcb185f40ea8e9c1ac22c5",
+  "node_vector_artifacts": {
+    "runs/enrollment-vector-check/check.mjs": "cf6e587b6b5bddcd49c884cd2def6b30096694489df9089d1e466026910de9b9",
+    "runs/enrollment-vector-check/protocol.json": "75a1140dec34b00862aad5dcbc35878e0f0e8f9f01a46fc7cc8c9ac4ee95c8c3",
+    "runs/enrollment-vector-check/result.json": "556fab3907f6d24c34c24cc92d9a3b6b36dafe9e4cdcb185f40ea8e9c1ac22c5"
+  },
+  "preliminary": {
+    "artifacts": {
+      "runs/enrollment-study/negative-results.json": "a4238731dd1d52e2eda944ea855244433a3e138cf6683e7b872b96b6df13c344",
+      "runs/enrollment-study/protocol.json": "cfe11b0066d7cad1e87f8d2b86594ede3a816ead9fb128a763a3acdf9d797336"
+    },
+    "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "controller_sha256": "2ec93f4397b23a2e1ddcba0d3cce050ec89611a2fd74293e5fb5f8952b3ac16c",
+    "directory": "runs/enrollment-study",
+    "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+    "negative_cases": [
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-4ovyyktj",
+        "name": "wrong-key",
+        "seconds": 0.004526209086179733
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-qe00aa5t",
+        "name": "expired",
+        "seconds": 0.003250791924074292
+      },
+      {
+        "accepted": false,
+        "code": "STALE_EVIDENCE",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-sshqm0_u",
+        "name": "not-yet-valid",
+        "seconds": 0.003124041948467493
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-lobze6m0",
+        "name": "wrong-case",
+        "seconds": 0.0035427080001682043
+      },
+      {
+        "accepted": false,
+        "code": "REQUEST_MISMATCH",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-2ftcw96z",
+        "name": "wrong-verifier",
+        "seconds": 0.0034497911110520363
+      },
+      {
+        "accepted": false,
+        "code": "SIGNATURE_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-cb_4okkg",
+        "name": "tampered-signature",
+        "seconds": 0.004139540949836373
+      },
+      {
+        "accepted": false,
+        "code": "INPUT_INVALID",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-hoygnj5h",
+        "name": "malformed-record",
+        "seconds": 0.0039475420489907265
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-ku1u70qf",
+        "name": "missing-key",
+        "seconds": 0.003399499924853444
+      },
+      {
+        "accepted": false,
+        "code": "ValueError",
+        "compiler_started": false,
+        "directory": "runs/llm-verify-hqaeb97v",
+        "name": "missing-enrollment",
+        "seconds": 0.00357954204082489
+      }
+    ],
+    "positive_runs": [
+      {
+        "artifacts": {
+          "runs/llm-verify-c8feneg0/build/cost.json": "9e32cee0a048dc5d53c3ff33c3d9bcd17eb23bbb5ea3529a8e739845a4e5fc84",
+          "runs/llm-verify-c8feneg0/protocol.json": "99418400a23ce2b6fe402c8b714b6e49c455a2f792b4222595547ce4823988b6",
+          "runs/llm-verify-c8feneg0/result.json": "c20956d4ec5d9657b87aaa2ca0349b8995c0790483fed86741bab14126a5daf1",
+          "runs/llm-verify-c8feneg0/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-c8feneg0/verification/output/commands.json": "ff7cec5c9524fe8fa4f75b1763be30fdab223011903628ec2d48eec3ce811f28",
+          "runs/llm-verify-c8feneg0/verification/output/result.json": "326a7d0e6e543df724a20d96d1c6f90c5ddf50ae82e4bcb6c53fdc52f3a24a15",
+          "runs/llm-verify-c8feneg0/verify/cost.json": "79c895d1ba4279e2a820df0b548bec2efb54571d7ccd1146d660a2742a7d32dc"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2443575296,
+          "seconds": 103.76505283406004
+        },
+        "directory": "runs/llm-verify-c8feneg0",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792770846,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "after-verification",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "before-build": {
+            "checked_at": 1792770639,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "before-build",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "before-worker": {
+            "checked_at": 1792770744,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "before-worker",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          }
+        },
+        "honest_seconds": [
+          3.5011181668378413,
+          3.3811918748542666
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792770846,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "after-verification",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "seconds": 207.84211520804092,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "c0a011ed85a12bd9523344e3442117c4b1c47faea3ef7dcc738754c3e47481d3"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1155743744,
+          "seconds": 102.28258829191327
+        }
+      },
+      {
+        "artifacts": {
+          "runs/llm-verify-3a59bbp4/build/cost.json": "edd1763fdefef8956577b2cfe228d1e3a898db988dca8f22db31872e20530c89",
+          "runs/llm-verify-3a59bbp4/protocol.json": "99418400a23ce2b6fe402c8b714b6e49c455a2f792b4222595547ce4823988b6",
+          "runs/llm-verify-3a59bbp4/result.json": "4158540183384aa16b2723475b41737b7c4f77c0527ef27d9ed11f506ac2d54d",
+          "runs/llm-verify-3a59bbp4/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+          "runs/llm-verify-3a59bbp4/verification/output/commands.json": "f3b49399aa4960f2b9511efe266cd759f410f42e70c0538fa9794fa761072b41",
+          "runs/llm-verify-3a59bbp4/verification/output/result.json": "f175c28f466c79f3596b43edcb0e39675c80bbcf5df7cc23c66611312398002c",
+          "runs/llm-verify-3a59bbp4/verify/cost.json": "2de295c4be6f636d072bd56e4a1027af6ad49f9267f35f9b239acb78cf5bfc8b"
+        },
+        "build": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 2445410304,
+          "seconds": 104.74513558414765
+        },
+        "directory": "runs/llm-verify-3a59bbp4",
+        "enrollment_checks": {
+          "after-verification": {
+            "checked_at": 1792771052,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "after-verification",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "before-build": {
+            "checked_at": 1792770846,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "before-build",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "before-worker": {
+            "checked_at": 1792770953,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "before-worker",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          }
+        },
+        "honest_seconds": [
+          3.503764082910493,
+          3.4678047911729664
+        ],
+        "original_proof_bytes_unchanged": true,
+        "proof_suite": {
+          "accepted": 2,
+          "caller_rejections": 14,
+          "cases": 38,
+          "native_rejections": 22,
+          "rejected": 36
+        },
+        "result": {
+          "baseline_mutations_rejected": 14,
+          "cloud_cost_usd": 0,
+          "fresh_verifications": 2,
+          "native_boundary_mutations_rejected": 20,
+          "native_enrollment_mutations_rejected": 2,
+          "parameter_authority": {
+            "checked_at": 1792771052,
+            "enrollment_sha256": "83d65e4bfb38186e0980baf32e21b65923365af5f372ebe5db3fa32c1484efbf",
+            "expires_at": 1792777839,
+            "kind": "ed25519",
+            "not_before": 1792770579,
+            "stage": "after-verification",
+            "trusted_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026"
+          },
+          "passed": true,
+          "proofs": 23,
+          "qualified_backend": false,
+          "residual_links": 22,
+          "response": "The capital of France is Paris.",
+          "seconds": 205.63135029212572,
+          "security_review": false,
+          "shape_root_source": "compiled-enrollment",
+          "verifier_sha256": "c83262a807f3a2a6c437f7bfa7903e3d3465e893e2daf75b224d99d3e4b2101a"
+        },
+        "verify": {
+          "exit_code": 0,
+          "failure": null,
+          "memory_stop_bytes": 4294967296,
+          "sample_seconds": 0.25,
+          "sampled_process_group_peak_rss_bytes": 1019789312,
+          "seconds": 99.01104341610335
+        }
+      }
+    ],
+    "protocol_sha256": "cfe11b0066d7cad1e87f8d2b86594ede3a816ead9fb128a763a3acdf9d797336",
+    "public_key_sha256": "a9a44d215957dc170803e994f7b71f3bba00b716c4af593d2a1fef667eee3026",
+    "source_files": {
+      "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+      "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+      "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+      "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+      "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+      "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+      "scripts/verify_llm.py": "b5536e9a7af155546160b1015a412835fd23688be8748cf6050f69518b2e493c",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "53125ae6e08cd831c30488ae05b2b1ac37ee05866a41950391d655db0e654667",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+      "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+    },
+    "verifier_identity": "83994c43a1b21dcd1e8db89213625d3fe71f0aad54bb1323390e1d11947634b9"
+  },
+  "preliminary_note": "Two proof runs and nine preflight rejections passed before correcting signature JSON-schema metadata. Preserve their original source identity.",
+  "recorded_at": "2026-10-23",
+  "schema_id": "hallmark.llm-signed-enrollment-evidence/1",
+  "schemas": {
+    "docs/schemas/llm-enrollment-v1.json": "1a8c73c948a180035fe88a7b6eb909792d9046427cb9da68b817dce26c4063e6",
+    "docs/schemas/signed-llm-enrollment-v1.json": "52a219802370180989855e1e98be7507d4cd82c39cd82f60c269c9923a1badcd"
+  },
+  "validation": {
+    "commands": [
+      "make check",
+      "make package-check"
+    ],
+    "core_tests_passed": 2301,
+    "core_tests_skipped": 122,
+    "final_source_pins_match_both_signed_runs": true,
+    "focused_skip": "Optional Hugging Face SDK absent in core environment.",
+    "focused_tests_passed": 72,
+    "focused_tests_skipped": 1,
+    "full_evidence_obligations_unavailable": 32,
+    "independent_security_review": false,
+    "logs": {
+      "runs/enrollment-delivery/final-check.log": "3879f56f866d4270de32573b3c47ffb4365240608238c32a73a49469983130ad",
+      "runs/enrollment-delivery/final-package-check.log": "6bec2e8460065baaca8297ada4a7488ce97e3b7ed72e6205e452f22c1899331c"
+    },
+    "mypy_source_files": 47,
+    "skip_scope": "Optional dependencies and platform checks; required extra jobs remain hosted CI obligations.",
+    "software_conformance_matched": 156,
+    "status": "passed"
+  },
+  "vector_sha256": "e80a4c0e66d1381213b2b905042f45d0d856260cb63f59684ed87aa1d9f4f60e"
+}

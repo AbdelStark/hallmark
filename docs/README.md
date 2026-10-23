@@ -9,7 +9,7 @@ and trust boundary; for evidence, read [results](RESULTS.md).
 | Document | Purpose |
 |---|---|
 | [What is proved](PROOFS.md) | Classifier claim, public inputs, caller checks and exclusions |
-| [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local `make verify-llm`, exact inference relation and limits |
+| [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |
 | [Results and limitations](RESULTS.md) | Model/data notes, measured results, failed experiments and evidence links |
 | [Operations](OPERATIONS.md) | Focused experiment recipes, enrollment, retained artifacts and recovery |

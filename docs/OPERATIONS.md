@@ -7,6 +7,8 @@ For pretrained LLM inference, use [the `make e2e-llm` guide](LLM-PROOF.md#run-it
 local witness preparation, bounded HF CPU jobs and retained proof-only verification.
 To verify a retained proof bundle locally, use
 `make verify-llm LLM_RUN=runs/llm-e2e-...`; see the [native verifier prerequisites and enrollment boundary](LLM-PROOF.md#verify-retained-proofs-on-your-mac).
+For a separately authorized case/source inventory, provide `LLM_ENROLLMENT` and
+`LLM_TRUST_KEY` as described in [signed LLM enrollment](LLM-PROOF.md#verify-a-signed-parameter-enrollment).
 
 Read `AGENTS.md`, `research/STATE.md`, this guide, then the task's spec. Inspect branch, remote and `git status --short` before edits. Preserve other work. Do not use an old agent summary as evidence that a run passed.
 

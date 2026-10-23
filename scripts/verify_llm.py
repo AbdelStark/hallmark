@@ -1,9 +1,11 @@
 """Build a fixed-case Mac verifier and check a retained TinyLlama proof bundle."""
 
 import argparse
+import hashlib
 import json
 import os
 import platform
+import re
 import resource
 import shutil
 import signal
@@ -17,12 +19,34 @@ from pathlib import Path
 from run_e2e import sha, write_json
 from run_llm_e2e import fetch, require
 
-from hallmark._gnark_probe import sandbox_profile, stream_regular
+from hallmark._gnark_probe import read_regular, sandbox_profile, stream_regular
+from hallmark.integrity import parse_json
+from hallmark.llm_enrollment import verify_llm_enrollment
+from hallmark.wire import H
 
 ROOT = Path(__file__).resolve().parents[1]
 PROBE = ROOT / "research/probes/sash"
 TOOLCHAIN = "nightly-2025-07-14"
 MEMORY_STOP = 4 * 1024**3
+
+
+def source_inventory():
+    paths = (
+        Path(__file__),
+        ROOT / "scripts/run_e2e.py",
+        ROOT / "scripts/run_llm_e2e.py",
+        *sorted((ROOT / "src/hallmark").glob("*.py")),
+        ROOT / "uv.lock",
+        PROBE / "response-case.json",
+        PROBE / "native-verifier.patch",
+        PROBE / "verify_response.py",
+        PROBE / "check_response.py",
+    )
+    return {str(path.relative_to(ROOT)): sha(path) for path in paths}
+
+
+def verifier_identity(inventory):
+    return H("program", dict(schema_id="hallmark/llm-verifier-source/1", files=inventory))
 
 
 def process_group_rss(group):
@@ -92,7 +116,7 @@ def enrolled_shapes(case):
     return roots
 
 
-def run(previous):
+def run(previous, *, enrollment=None, trusted_key=None):
     require(
         (platform.system(), platform.machine()) == ("Darwin", "arm64"),
         "Native verification requires an Apple Silicon Mac",
@@ -101,25 +125,15 @@ def run(previous):
     require(shutil.disk_usage(ROOT).free >= 8 * 1024**3, "At least 8 GiB free storage is required")
     previous = previous.resolve()
     require((previous / "proofs.tar.gz").is_file(), "Choose a retained make e2e-llm run directory")
-    case = json.loads((PROBE / "response-case.json").read_text())
+    case_raw = read_regular(PROBE / "response-case.json", 1024**2)
+    case = parse_json(case_raw.decode("utf-8"))
     shapes = enrolled_shapes(case)
     (ROOT / "runs").mkdir(exist_ok=True)
     output = Path(tempfile.mkdtemp(prefix="llm-verify-", dir=ROOT / "runs"))
     print(f"Outputs: {output}", flush=True)
     started = time.monotonic()
-    frozen = {
-        str(p.relative_to(ROOT)): sha(p)
-        for p in (
-            Path(__file__),
-            ROOT / "scripts/run_e2e.py",
-            ROOT / "scripts/run_llm_e2e.py",
-            ROOT / "src/hallmark/_gnark_probe.py",
-            PROBE / "response-case.json",
-            PROBE / "native-verifier.patch",
-            PROBE / "verify_response.py",
-            PROBE / "check_response.py",
-        )
-    }
+    frozen = source_inventory()
+    verifier = verifier_identity(frozen)
     write_json(
         output / "protocol.json",
         dict(
@@ -134,11 +148,53 @@ def run(previous):
             threads=4,
             cloud_cost_usd=0,
             qualified_backend=False,
+            verifier_identity=verifier.hex(),
         ),
     )
     environment = {k: os.environ[k] for k in ("PATH", "HOME", "TMPDIR") if k in os.environ}
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     try:
+        require(
+            (enrollment is None) == (trusted_key is None),
+            "Supply enrollment and trusted key together",
+        )
+        signed = None
+        key = None
+        if enrollment is not None:
+            require(
+                isinstance(trusted_key, str) and re.fullmatch(r"[0-9a-f]{64}", trusted_key),
+                "Trusted Ed25519 key must be 64 lowercase hex characters",
+            )
+            key = bytes.fromhex(trusted_key)
+            signed = read_regular(enrollment, 16384)
+
+        def check_enrollment(stage):
+            if signed is None:
+                return dict(kind="checkout-case")
+            checked_at = int(time.time())
+            body = verify_llm_enrollment(
+                signed,
+                trusted_key=key,
+                expected_case=hashlib.sha256(case_raw).digest(),
+                expected_verifier=verifier,
+                now=checked_at,
+            )
+            metadata = dict(
+                schema_id="hallmark.llm-parameter-authority/1",
+                kind="ed25519",
+                enrollment_sha256=hashlib.sha256(signed).hexdigest(),
+                trusted_key_sha256=hashlib.sha256(key).hexdigest(),
+                not_before=body.not_before,
+                expires_at=body.expires_at,
+                checked_at=checked_at,
+                stage=stage,
+            )
+            write_json(output / ("enrollment-" + stage + ".json"), metadata)
+            return metadata
+
+        check_enrollment("before-build")
+        if signed is not None:
+            (output / "enrollment.cbor").write_bytes(signed)
         compressed = output / "source.tar.gz"
         source = case["source"]
         if (previous / "source.tar.gz").is_file():
@@ -275,6 +331,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             "--work",
             worker / "work",
         ]
+        check_enrollment("before-worker")
         print("Verifying twice, then checking changed claims and unknown shapes", flush=True)
         bounded(
             args,
@@ -286,7 +343,10 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
         report = json.loads((worker / "output/result.json").read_text())
         require(report["passed"] is True and len(report["cases"]) == 38, "incomplete suite")
         require(sum(c["accepted"] for c in report["cases"]) == 2, "incorrect suite outcomes")
+        require(all(sha(ROOT / name) == pin for name, pin in frozen.items()), "source changed")
+        authority = check_enrollment("after-verification")
         result = dict(
+            schema_id="hallmark.native-llm-result/1",
             passed=True,
             response=case["response"],
             proofs=23,
@@ -301,6 +361,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             cloud_cost_usd=0,
             qualified_backend=False,
             security_review=False,
+            parameter_authority=authority,
         )
         write_json(output / "result.json", result)
         print(json.dumps(result, indent=2), flush=True)
@@ -319,4 +380,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--run", required=True, type=Path, help="retained make e2e-llm run directory"
     )
-    run(parser.parse_args().run)
+    parser.add_argument("--enrollment", type=Path, default=os.environ.get("LLM_ENROLLMENT"))
+    parser.add_argument("--trusted-key", default=os.environ.get("LLM_TRUST_KEY"))
+    args = parser.parse_args()
+    run(args.run, enrollment=args.enrollment, trusted_key=args.trusted_key)
