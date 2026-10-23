@@ -1,0 +1,342 @@
+{
+  "schema_id": "hallmark.llm-e2e-evidence/1",
+  "recorded_at": "2026-10-23",
+  "issue": 19,
+  "decision": "docs/decisions/0069-reproduce-the-llm-response-workflow.md",
+  "command": "make e2e-llm",
+  "baseline": "research/evidence/llm-response-composition-2026-10-23.json",
+  "result": {
+    "all_buckets_deleted": true,
+    "answer_ids": [
+      1576,
+      7483,
+      310,
+      3444,
+      338,
+      3681,
+      29889,
+      2
+    ],
+    "compute_bound_micro_usd": 310000,
+    "fresh_verifications": 2,
+    "hardware_claim": "not-accepted",
+    "hiding_claim": false,
+    "invoice": false,
+    "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "mutations_rejected": 14,
+    "passed": true,
+    "prompt": "Name the capital of France in one short sentence.",
+    "proofs": 23,
+    "qualified_backend": false,
+    "quantized_profile": "y-attnout-w12",
+    "residual_links": 22,
+    "response": "The capital of France is Paris.",
+    "revision": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+    "schema_id": "hallmark.llm-e2e-result/1",
+    "seconds": 1873.0179943330586
+  },
+  "native": {
+    "passed": true,
+    "prompt": "Name the capital of France in one short sentence.",
+    "response": "The capital of France is Paris.",
+    "answer_ids": [
+      1576,
+      7483,
+      310,
+      3444,
+      338,
+      3681,
+      29889,
+      2
+    ],
+    "max_float_logit_difference": 9.918212890625e-05,
+    "calibration_sha256": "000b9347aac7889340f952b15457f6a7357001ce432add95e0ba920f6d3e04fc",
+    "seconds": 32.21533970790915,
+    "proof_produced": false
+  },
+  "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+  "source_files": {
+    "Makefile": "6829e79ac54d5a9a209d9c05172c748bf338f5987cf3f749ac2d7979e72bcd9f",
+    "pyproject.toml": "a533a1b87b22791cc1b4d42639b0124f8dba7768343518de53e8a57b6e93908d",
+    "research/probes/sash/LICENSE.upstream": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "research/probes/sash/NOTICE.upstream": "6e3ba54a8b82cd8dc8e2109d31bebc34cb8631ac450b3b62548e117618c84de3",
+    "research/probes/sash/README.md": "6e880fbaa5f3e925d2072aa3afb893383321bd140571b4cd449998d9a54c2d73",
+    "research/probes/sash/build_prover.sh": "81791a7a261d3e53e9aa3e18ba1509487e636195d82c16acb1f672789fb99a11",
+    "research/probes/sash/check_exact_gemm.py": "36c350dd6c128254d68656c61b1fb22ee06f4474682993747f88b7eeda92189a",
+    "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+    "research/probes/sash/exact-gemm.patch": "fee63bfa895089e063fab5b7a03f98e3d443def158fa9b9ab4131450295da97e",
+    "research/probes/sash/fold_shape.rs": "599e26d7066e02241c2e49cb40bd9fa1b57fdc0dbaaa98770ee70d68432dd2bb",
+    "research/probes/sash/prepare_native.py": "821b88fea80efa0cdd9fd9459273c6a37f0835804693212e2b062b70f8a965f2",
+    "research/probes/sash/prove_response.py": "c1639a52c57563a09860872f1bc0327402b2b874dc59f141542243190d84d5e6",
+    "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "research/probes/sash/response-plan.txt": "8898508ec4f300b7c7bfae18bc1abf6bf12b4c2863d12e601367f5931705a1d6",
+    "research/probes/sash/shape-reconstruction.patch": "1a46f77c76a5c113d63ae8086487ddcc124caed407633eac495ec73393e59efb",
+    "research/probes/sash/verify_response.py": "85ed9547aadbf82273ae5a066b1830b6b668293933be9e71b3655c3208b92e47",
+    "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+    "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+    "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+  },
+  "enrollment": {
+    "roots_equal_to_baseline": true,
+    "derived_roots_equal_before_proving": true,
+    "case_roots": 23,
+    "checkpoint_revision": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+    "calibration_sha256": "000b9347aac7889340f952b15457f6a7357001ce432add95e0ba920f6d3e04fc"
+  },
+  "build": {
+    "binary": {
+      "bytes": 62508016,
+      "sha256": "4407cc9963aafab099e7169a0202d3ec6a5638c784867904c4c87f42e9aa45a6"
+    },
+    "upstream_tests_passed": 6,
+    "frozen_synthetic_digest_matched": true,
+    "rust_source_modified": false,
+    "byte_identical_binary_rebuild_claim": false,
+    "provider_memory_gb": 32,
+    "additional_process_address_space_cap_applied": false
+  },
+  "proving": {
+    "segments": 23,
+    "summed_prove_seconds": 328.45879856700003,
+    "peak_process_rss_bytes": 116204756992,
+    "serialized_proof_bytes": 737858641,
+    "proof_and_claim_bytes": 761015496,
+    "fresh_invocations": 23,
+    "proof_statement_claim_files_byte_identical_to_baseline": 69
+  },
+  "verification": {
+    "cases": [
+      {
+        "name": "honest-0",
+        "accepted": true,
+        "stage": "real verifier",
+        "seconds": 80.10962471499806,
+        "failures": []
+      },
+      {
+        "name": "honest-1",
+        "accepted": true,
+        "stage": "real verifier",
+        "seconds": 78.44647859598626,
+        "failures": []
+      },
+      {
+        "name": "changed-prompt",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong input tokens",
+        "seconds": 0.0013910790148656815
+      },
+      {
+        "name": "changed-answer",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong input tokens",
+        "seconds": 0.0013007509987801313
+      },
+      {
+        "name": "changed-model",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong model_root",
+        "seconds": 0.001203573978273198
+      },
+      {
+        "name": "changed-calibration",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "unenrolled parameters",
+        "seconds": 0.0012566990044433624
+      },
+      {
+        "name": "missing-layer",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "missing or extra proof files",
+        "seconds": 0.0001860939955804497
+      },
+      {
+        "name": "wrong-layer-coordinate",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong layer",
+        "seconds": 0.0022252439812291414
+      },
+      {
+        "name": "changed-final-output",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong output tokens",
+        "seconds": 0.02576386698638089
+      },
+      {
+        "name": "token-alias",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "invalid token IDs",
+        "seconds": 0.001237396994838491
+      },
+      {
+        "name": "boolean-token",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "invalid token IDs",
+        "seconds": 0.0012314459891058505
+      },
+      {
+        "name": "open-scale-profile",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "open-scale matmul profile",
+        "seconds": 0.001178211998194456
+      },
+      {
+        "name": "weaker-security",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong security parameters",
+        "seconds": 0.0011568109912332147
+      },
+      {
+        "name": "altered-proof",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 61.119505605020095,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: sum-check invalid in layer 1: sum does not match the claim in round 0 (sum (195505714 + 2110612255i) + (1235022576 + 1574705970i)u, claim (1248543304 + 33220148i) + (477864488 + 1892554444i)u)\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ]
+      },
+      {
+        "name": "altered-residual-boundary",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 79.96816166699864,
+        "failures": [
+          "B0L10: the chunk proof does not verify: {\"derived\":\"1d8d4104f1a331433c64fe39096a083ad8adbf482b8dde726d94636a856bb009\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ]
+      },
+      {
+        "name": "altered-output-claim",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 79.67570603499189,
+        "failures": [
+          "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ]
+      }
+    ],
+    "peak_process_rss_bytes": 14345064448,
+    "weights_present": false,
+    "witness_present": false,
+    "same_upstream_verifier_implementation": true
+  },
+  "jobs": {
+    "build": {
+      "job_id": "6adb48aa046eb82b1ecd3f7d",
+      "stage": "COMPLETED",
+      "running_seconds": 560.402,
+      "compute_bound_micro_usd": 10000,
+      "invoice": false,
+      "all_outputs_retained": true,
+      "bucket_deleted": true
+    },
+    "prove": {
+      "job_id": "6adb4b1f1e112550ce7d4749",
+      "stage": "COMPLETED",
+      "running_seconds": 533.637,
+      "compute_bound_micro_usd": 290000,
+      "invoice": false,
+      "all_outputs_retained": true,
+      "bucket_deleted": true
+    },
+    "verify": {
+      "job_id": "6adb4dbd1e112550ce7d4913",
+      "stage": "COMPLETED",
+      "running_seconds": 400.522,
+      "compute_bound_micro_usd": 10000,
+      "invoice": false,
+      "all_outputs_retained": true,
+      "bucket_deleted": true
+    }
+  },
+  "cost": {
+    "requested_cap_usd": 2.1,
+    "timeout_and_storage_bound_micro_usd": 1960000,
+    "actual_compute_bound_micro_usd": 310000,
+    "storage_reserve_micro_usd": 10000,
+    "invoice": false,
+    "automatic_retries": 0,
+    "topups": 0
+  },
+  "failures_preserved": [
+    {
+      "run": "runs/llm-e2e-y372z3cr",
+      "stage": "exact integer GEMM regression",
+      "cause": "Git found the enclosing Hallmark checkout and silently skipped the patch in the extracted source",
+      "cloud_jobs": 0,
+      "failure_sha256": "8669a3eb10ebd23dbfbf0f8b9e530532e85be78a82019cff41d025553713e908",
+      "regression_sha256": "32c6f734a8ae46c82284c9430576a85a2ab6b53b9db452501f90b91ff9140e70"
+    },
+    {
+      "run": "runs/llm-workflow-2026-10-23/make-check.log",
+      "stage": "package review fixture",
+      "cause": "New optional-extra metadata changed the whole-lock hash; all third-party package entries were unchanged",
+      "log_sha256": "2621e514973ecb438b15cb4408d86913297cb5a004e13547d1b23c4233f481c1"
+    },
+    {
+      "stage": "required train CI fixture",
+      "source_commit": "a506dab92aa42213845b5377f049dec966801984",
+      "job_url": "https://github.com/AbdelStark/hallmark/actions/runs/39952275508/job/120409377447",
+      "cause": "Historical design-power fixture still pinned the old whole-lock hash; numeric expectations, evaluator and thresholds unchanged",
+      "log_sha256": "ee1c5ae2ff32921c49cc1bdd99ff4948a5137f2111f46a34cbaa572ed548e86c"
+    }
+  ],
+  "validation": {
+    "focused_tests_passed": 33,
+    "core_tests_passed": 2261,
+    "core_tests_skipped": 122,
+    "software_conformance_passed": 156,
+    "full_evidence_cases_unavailable": 32,
+    "package_check_passed": true,
+    "core_log_sha256": "1ed2f3f47f64c4959bb41d15eed582092a07211464f864b9c67880fd28553f6a",
+    "initial_package_log_sha256": "ab698b4ed8f257f28b8734e76a5f10914ff85bce32e78176f5e062c4844ba16f",
+    "required_train_tests_passed": 76,
+    "required_train_log_sha256": "0c0a9403024bac2dfa80993dac8eded3f27050287f1686a07b4ccfe430dde42d"
+  },
+  "local_evidence": "runs/llm-e2e-e8yegx2i in the isolated research checkout; raw run directories are ignored",
+  "artifact_sha256": {
+    "protocol.json": "99c150a49a486b714be79137cb3571d3213fae55d9da645726fccc76ec7b8950",
+    "inputs.tar.gz": "85556911bdf8a492d2d8d31181ec0114ccd8541502ba332753510e59145ee559",
+    "inventory.json": "f8941cf4e3b1c7bec4b35da8b306adca1a9bca2765324295fb8931bf95c80443",
+    "expected.json": "57bdd9f2feeb32a05dcc48bcca8ee10650409a3fb192d38254bbbe9333254008",
+    "proofs.tar.gz": "9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb",
+    "proof-inventory.json": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+    "result.json": "5d6800b9ac9b66ea9aba296aaf802c35bbdaef80f7b5c17b8e9d7ee86b5595cc",
+    "native/generation.json": "e96bd8c2b22908fef01065aed4996753162d0a99c06215bddc435f7d3ecae07c",
+    "build/protocol.json": "4c2714486002c6a44f1afa39c845a4a68a32ee415363d6f1379b486938fa4c9a",
+    "build/retention.json": "327bbd5206123efc58a0ba6c6579547807760bd0dad99a97147aff8d2cd6dfb2",
+    "build/job.log": "dfa48fc500e642ea3218798cfc9e17d3da42fa8d7fa25ec59ed24533f05c9e14",
+    "prove/protocol.json": "4c7550ed46d25a10c8b72df1aa10f88ca5ba4b932c41cdd72d1aa32d1d07a22e",
+    "prove/retention.json": "c3512aed0f52dd21aebd82e71cddabc930298e0710004248f07d1974c9ef8f2b",
+    "prove/job.log": "54bf04e1f555f2405a2766b782b0c5bb4595baa3020fa418dd034b97a64f1400",
+    "verify/protocol.json": "6f47f8d2e81ba3da3359f83498cc2d59a74000d4dba0dfe4f006771b5a2ab0b6",
+    "verify/retention.json": "b19108a04cdbfb9e5a887e14d123df801596fe256e87e815f8759440ab3e86fe",
+    "verify/job.log": "56dbd1c0c4a192d86a085ebf29bf3c1e0b0218459c8db98a4c78df06116e0d5d",
+    "build/retained/worker.log": "5ae846803c365a81396b66da36b499936bc4da116ae8b9ef7557fabc71158360",
+    "build/retained/os-packages.txt": "c4031ed50b7702c3475afb3e5470bc2b2dcf5485290b9ce1a515395f4a0dc329",
+    "prove/retained/output/commands.json": "5934ddc0f058acf83ec57dbd20360d47b71825c126daf974c9bc61e01dbdf831",
+    "verify/retained/output/commands.json": "43edf793e059364bf2382aab05b6079d2188792f8d6d70d9c3f1d6850b895467",
+    "verify/retained/output/result.json": "7cb535b3f2d431b6556b8625813f99129358ada348bfec0b23fa04442f232421"
+  },
+  "limits": [
+    "One authored engineering prompt, not a language-quality evaluation",
+    "Mac preparation and pinned model/profile only",
+    "Caller enrollment is frozen, not operationally authenticated",
+    "Same prover/verifier implementation; no independent security review",
+    "No hiding or hardware claim; backend qualification remains open"
+  ],
+  "command_process": {
+    "exit_code": 0,
+    "seconds": 1875.1993239999283
+  }
+}

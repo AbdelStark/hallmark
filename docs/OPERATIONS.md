@@ -3,6 +3,8 @@
 For the complete current training/proof path, start with the [demo walkthrough](DEMO.md).
 This guide retains focused commands and historical experiments; their capacities
 and evidence boundaries differ. See [results](RESULTS.md) for the current comparison.
+For pretrained LLM inference, use [the `make e2e-llm` guide](LLM-PROOF.md#run-it):
+local witness preparation, bounded HF CPU jobs and retained proof-only verification.
 
 Read `AGENTS.md`, `research/STATE.md`, this guide, then the task's spec. Inspect branch, remote and `git status --short` before edits. Preserve other work. Do not use an old agent summary as evidence that a run passed.
 

@@ -1,0 +1,23 @@
+--table-bits 26 --round even --diagonal-block --ao-rem-bits 15 --witness witness_B0_L0 --ser-tag B0L0
+--table-bits 25 --round even --diagonal-block --ao-rem-bits 14 --witness witness_B0_L1 --ser-tag B0L1
+--table-bits 24 --round even --diagonal-block --ao-rem-bits 14 --witness witness_B0_L2 --ser-tag B0L2
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L3 --ser-tag B0L3
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 12 --witness witness_B0_L4 --ser-tag B0L4
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L5 --ser-tag B0L5
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 12 --witness witness_B0_L6 --ser-tag B0L6
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L7 --ser-tag B0L7
+--table-bits 23 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L8 --ser-tag B0L8
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L9 --ser-tag B0L9
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L10 --ser-tag B0L10
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L11 --ser-tag B0L11
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L12 --ser-tag B0L12
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 14 --witness witness_B0_L13 --ser-tag B0L13
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 14 --witness witness_B0_L14 --ser-tag B0L14
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L15 --ser-tag B0L15
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L16 --ser-tag B0L16
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L17 --ser-tag B0L17
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L18 --ser-tag B0L18
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L19 --ser-tag B0L19
+--table-bits 22 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L20 --ser-tag B0L20
+--table-bits 21 --round even --diagonal-block --ao-rem-bits 13 --witness witness_B0_L21 --ser-tag B0L21
+--table-bits 21 --deq-per-row 501 --round even --layer 22 --block 0 --witness head_B0 --ser-tag head

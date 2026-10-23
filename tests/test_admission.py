@@ -347,7 +347,7 @@ def test_design_power_reproduces_with_exact_tail_cross_checks() -> None:
     pytest.importorskip("scipy")
     script = ROOT / "scripts/plan_admission_power.py"
     expected = json.loads(
-        (ROOT / "research/evidence/w15-design-power-lock-refresh-2026-10-20.json").read_text()
+        (ROOT / "research/evidence/llm-design-power-lock-refresh-2026-10-23.json").read_text()
     )
     original = json.loads((ROOT / "research/evidence/w13-design-power-2026-10-20.json").read_text())
     assert {k: v for k, v in expected.items() if k != "lock_sha256"} == {

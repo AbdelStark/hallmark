@@ -20,9 +20,16 @@ A fresh proof-only worker passes: two honest verification processes and all
 14 changed-claim rejections, with no model weights or witness mounted. The honest
 runs take 83.99 and 79.16 seconds.
 The caller checks pinned shape digests, exact tokens, complete coverage and the
-final-norm head. The next usability gate is a reproducible LLM command; `make e2e`
-still runs the classifier demo. Independent security/hiding qualification and
-hardware provenance remain separate, open obligations.
+final-norm head. **`make e2e-llm` now reproduces this result from fresh preparation,
+build and proofs.** Its [recorded run](evidence/llm-e2e-reproduction-2026-10-23.json)
+took 31 minutes 15 seconds, with a $0.31 compute bound rather than an invoice.
+All 69 proof/statement/claim files match the earlier accepted bundle byte for
+byte. Two fresh verifications took 80.11 and 78.45 seconds; all 14 mutations reject.
+All outputs are retained and the three temporary buckets are deleted. The first
+local patching failure remains recorded in [decision 0069](../docs/decisions/0069-reproduce-the-llm-response-workflow.md).
+`make e2e` still runs the classifier demo. The remaining gates are authenticated
+enrollment and independent security/hiding qualification; hardware provenance is
+a separate extension, not part of this LLM demo.
 
 Earlier failures are documented in decisions [0065](../docs/decisions/0065-exact-llm-witness-accumulators.md),
 [0066](../docs/decisions/0066-llm-shape-reconstruction.md) and
