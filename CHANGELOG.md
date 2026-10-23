@@ -5,7 +5,14 @@
 Record a complete quantized TinyLlama response proof: 23 SASH segments, all 22
 residual links and eight output tokens through EOS. Preserve the failed head
 composition and its extraction fix. Add caller statement guards and an LLM proof
-explanation; one-command LLM reproduction and qualification remain open.
+explanation. `make e2e-llm` reproduces fresh proofs; `make verify-llm` checks them
+locally with compiled case parameters. Backend qualification remains open.
+
+Add optional Ed25519 enrollment of the exact LLM case and verifier source
+inventory. Require a separately supplied trusted key and check validity before
+build, before the proof worker and after verification. Retain rejection evidence;
+invalid enrollment cannot fall back to checkout-case verification. Key custody,
+revocation and independent security qualification remain separate obligations.
 
 Consolidate four proof controllers' worker setup and artifact checks. Pass reviewed
 read-only paths per invocation instead of replacing a global sandbox function.

@@ -120,6 +120,70 @@ the regression suite requires structured rejection rather than a crash. See
 [its evidence](../research/evidence/native-proof-boundaries-2026-10-23.json) for
 the exact counterexample, baseline failures and corrected runs.
 
+### Verify a signed parameter enrollment
+
+For parameters authorized by a separate signer, obtain the signer's Ed25519
+public key through your own authenticated channel. Supply its 64 lowercase hex
+characters separately from the enrollment and submitted proofs:
+
+```sh
+LLM_ENROLLMENT=/path/to/enrollment.cbor \
+LLM_TRUST_KEY="$SIGNER_PUBLIC_KEY_HEX" \
+make verify-llm LLM_RUN=runs/llm-e2e-...
+```
+
+The equivalent script flags are `--enrollment FILE --trusted-key HEX`. The signed
+record authorizes the exact case bytes, verifier source inventory and validity
+interval. The controller checks it before compilation, before starting the proof
+worker and after verification. A wrong key, altered record, mismatched case/code
+or expired interval fails; it cannot fall back to unsigned verification.
+
+Set `SIGNER_PUBLIC_KEY_HEX` from that authenticated channel. Successful results
+report `parameter_authority.kind: "ed25519"`, SHA-256 fingerprints of the CBOR
+enrollment and raw 32-byte public key, and the final check time. Without these arguments,
+the existing command reports `parameter_authority.kind: "checkout-case"` and
+uses the repository case. The public key is never taken from the signed record.
+The result schema is `hallmark.native-llm-result/1`; the three retained authority
+checks use `hallmark.llm-parameter-authority/1`.
+
+The parameter owner can authorize a reviewed checkout using the Python API.
+This example assumes a caller-owned `Ed25519PrivateKey` object named `key`; key
+custody and provisioning stay outside the proof workflow:
+
+```python
+import hashlib
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, "scripts")  # Run from the reviewed source checkout.
+from verify_llm import PROBE, source_inventory, verifier_identity
+from hallmark.llm_enrollment import LIMITS, LlmEnrollment, sign_llm_enrollment
+
+now = int(time.time())
+body = LlmEnrollment(
+    schema_id="hallmark/llm-enrollment/1",
+    case_sha256=hashlib.sha256((PROBE / "response-case.json").read_bytes()).digest(),
+    verifier=verifier_identity(source_inventory()),
+    not_before=now,
+    expires_at=now + 86400,  # Choose and review the intended validity interval.
+)
+signed = sign_llm_enrollment(body, key)
+with Path("enrollment.cbor").open("xb") as output:
+    output.write(signed.encode(limits=LIMITS))
+```
+
+Review the actual source inventory and independently derived parameters before
+signing. Do not authorize an inventory supplied only by the prover. Any bound
+source or case change requires a new enrollment. The API generates no keys and
+the verifier never receives a private key.
+
+This authorization uses the caller's trusted clock. It has no revocation service
+or persistent rollback protection and does not replace the separate v1 registry.
+A valid signature authenticates the signer's decision; model quality and
+independent security qualification remain separate. [Decision 0072](decisions/0072-signed-llm-parameter-enrollment.md)
+defines the format and scope.
+
 ## The statement
 
 For the enrolled quantized model and exact input token sequence, the answer tokens

@@ -118,6 +118,8 @@ Already have a completed run? Verify its proofs locally with
 weights or HF credentials. Recorded honest checks take **3.33–4.00 seconds**
 after compilation. It uses compiled parameters for the fixed case;
 see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
+For signer-authorized parameters, [verify a signed enrollment](docs/LLM-PROOF.md#verify-a-signed-parameter-enrollment)
+with a public key obtained through your own authenticated channel.
 
 ### Quick software smoke test
 

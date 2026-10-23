@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "LlmEnrollment": {
+      "additionalProperties": false,
+      "description": "Exact case/source authorization; no security-review or key-custody verdict.",
+      "properties": {
+        "case_sha256": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Case Sha256",
+          "type": "string"
+        },
+        "expires_at": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Expires At",
+          "type": "integer"
+        },
+        "not_before": {
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "title": "Not Before",
+          "type": "integer"
+        },
+        "schema_id": {
+          "const": "hallmark/llm-enrollment/1",
+          "title": "Schema Id",
+          "type": "string"
+        },
+        "verifier": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "title": "Verifier",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_id",
+        "case_sha256",
+        "verifier",
+        "not_before",
+        "expires_at"
+      ],
+      "title": "LlmEnrollment",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "body": {
+      "$ref": "#/$defs/LlmEnrollment"
+    },
+    "schema_id": {
+      "const": "hallmark/signed-llm-enrollment/1",
+      "title": "Schema Id",
+      "type": "string"
+    },
+    "signature": {
+      "maxLength": 128,
+      "minLength": 128,
+      "pattern": "^[0-9a-fA-F]{128}$",
+      "title": "Signature",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_id",
+    "body",
+    "signature"
+  ],
+  "title": "SignedLlmEnrollment",
+  "type": "object"
+}
