@@ -284,7 +284,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             cwd=worker,
         )
         report = json.loads((worker / "output/result.json").read_text())
-        require(report["passed"] is True and len(report["cases"]) == 18, "incomplete suite")
+        require(report["passed"] is True and len(report["cases"]) == 38, "incomplete suite")
         require(sum(c["accepted"] for c in report["cases"]) == 2, "incorrect suite outcomes")
         result = dict(
             passed=True,
@@ -294,6 +294,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             fresh_verifications=2,
             baseline_mutations_rejected=14,
             native_enrollment_mutations_rejected=2,
+            native_boundary_mutations_rejected=20,
             seconds=time.monotonic() - started,
             verifier_sha256=sha(binary),
             shape_root_source="compiled-enrollment",

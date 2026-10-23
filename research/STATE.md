@@ -41,6 +41,16 @@ explains the preprocessing change and retained linker/sandbox failures. This
 variant does not rederive shape trees or qualify authenticated enrollment;
 `make e2e-llm` retains the original Linux verifier's runtime derivation.
 
+The native suite now includes 20 additional boundary mutations. The expanded
+probe found an output-token field alias accepted only when the caller was
+bypassed, plus four malformed shapes that crashed. The native verifier now
+checks vocabulary ranges, tree/column dimensions and redundant configuration;
+the complete suite requires two honest checks and 36 explicit rejections.
+[Decision 0071](../docs/decisions/0071-native-proof-input-boundaries.md) and
+[numeric evidence](evidence/native-proof-boundaries-2026-10-23.json) preserve the
+baseline and candidate outcomes. This strengthens the native boundary without
+closing authenticated enrollment or independent security review.
+
 Earlier failures are documented in decisions [0065](../docs/decisions/0065-exact-llm-witness-accumulators.md),
 [0066](../docs/decisions/0066-llm-shape-reconstruction.md) and
 [0067](../docs/decisions/0067-bind-the-value-activation-scale.md).

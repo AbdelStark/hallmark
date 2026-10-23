@@ -118,3 +118,26 @@ def test_memory_monitor_failure_stops_the_command(tmp_path, monkeypatch):
         )
     cost = json.loads((tmp_path / "failed/cost.json").read_text())
     assert cost["exit_code"] != 0 and cost["failure"] == "OSError"
+
+
+@pytest.mark.parametrize(
+    "operation,original,expected",
+    [("alias", 2, 2147483649), ("empty", [3], []), ("zero", 100, 0), ("increment", 0, 1)],
+)
+def test_native_mutations_preserve_the_hardlinked_control(tmp_path, operation, original, expected):
+    control = tmp_path / "control.json"
+    control.write_text(json.dumps({"nested": [{"value": original}], "unchanged": 7}))
+    changed = tmp_path / "changed.json"
+    os.link(control, changed)
+    worker.mutate_native(changed, ["nested", 0, "value"], operation)
+    assert json.loads(changed.read_text()) == {"nested": [{"value": expected}], "unchanged": 7}
+    assert json.loads(control.read_text()) == {"nested": [{"value": original}], "unchanged": 7}
+
+
+def test_unknown_native_mutation_leaves_the_file_unchanged(tmp_path):
+    path = tmp_path / "proof.json"
+    original = b'{"value":2}'
+    path.write_bytes(original)
+    with pytest.raises(ValueError, match="unknown native mutation"):
+        worker.mutate_native(path, ["value"], "unsupported")
+    assert path.read_bytes() == original

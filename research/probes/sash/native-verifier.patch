@@ -113,7 +113,54 @@
      let Ok(claims) = serde_json::from_slice::<Claims>(claims_bytes) else {
          return Verdict::rejected("unparseable claims");
      };
-@@ -7935,7 +7920,6 @@
+@@ -7411,6 +7396,18 @@
+     };
+     let plan = Plan::new(&fixed.params);
+     let p = &plan.p;
++    let output_vocab = plan.argmax_mat().map(|mi| p.mats[mi].n_out).unwrap_or(0);
++    if fixed.tok_in.iter().any(|&id| id as usize >= p.embed_vocab)
++        || fixed.tok_out.iter().any(|&id| id as usize >= output_vocab)
++    {
++        return Verdict::rejected("token ID outside enrolled vocabulary");
++    }
++    let n_trees = plan.n_trees() + 1; // Includes the composition polynomial.
++    if proof.commitments.len() != n_trees || proof.sampled_values.len() != n_trees
++        || proof.decommitments.len() != n_trees || proof.queried_values.len() != n_trees
++    {
++        return Verdict::rejected("proof tree count mismatch");
++    }
+     // the claims' shape must match the plan before anything indexes into them
+     let n_residual_stream = plan.residual_stream.as_ref().map(|g| g.components.len()).unwrap_or(0);
+     if claims.key_tiles.len() != plan.shapes.len() || claims.mat_h.len() != p.mats.len()
+@@ -7448,7 +7445,17 @@
+     {
+         return Verdict::rejected("claims shape mismatch");
+     }
++    if fixed.sizes[0] != plan.shape_sizes() || fixed.sizes[1] != plan.model_sizes()
++        || fixed.sizes.iter().flatten().any(|&size| size > 30)
++        || fixed.sizes.iter().zip(proof.sampled_values.iter())
++            .any(|(sizes, samples)| sizes.len() != samples.len())
++    {
++        return Verdict::rejected("proof column shape mismatch");
++    }
+     let config = pcs_config();
++    if json!(proof.config) != json!(config) {
++        return Verdict::rejected("proof configuration mismatch");
++    }
+     if fixed.log_blowup != crate::util::LOG_BLOWUP || fixed.n_queries != crate::util::N_QUERIES
+         || fixed.pow_bits != crate::util::POW_BITS
+     {
+@@ -7549,6 +7556,9 @@
+     let derived = TreeVec::concat_cols(components.iter().map(|c| c.trace_log_degree_bounds()));
+     let sizes_ok = derived.len() == plan.n_trees()
+         && (1..plan.n_trees()).all(|t| derived[t] == fixed.sizes[t]);
++    if !sizes_ok {
++        return Verdict::rejected("trace column sizes mismatch");
++    }
+ 
+     let vres = verify(&components, &mut ch, &mut vcs, proof);
+     let stark_ok = vres.is_ok();
+@@ -7935,7 +7945,6 @@
      // publisher's commitment to weights this verifier does not hold, and what
      // pins it is `boundary-grid --expect-model-roots` against the same
      // manifest.

@@ -86,7 +86,8 @@ make verify-llm LLM_RUN=runs/llm-e2e-...
 ```
 
 This builds a native Apple Silicon verifier and checks all 23 proofs twice, then
-runs the 14 original mutation checks and two direct native enrollment checks.
+runs 36 rejection checks: the 14 original mutations, two enrollment mutations and
+20 direct native checks for field aliases, malformed shapes and configuration drift.
 It needs 8 GiB free storage, the pinned Rust toolchain and the same Python setup.
 Building can download locked Rust dependencies. Verification is sandboxed and
 offline; it uses no model weights, witness, HF token or paid compute. Results and
@@ -102,14 +103,22 @@ are separate from the Linux verifier, which still derives those roots at runtime
 This is research enrollment, not authenticated operational enrollment or an
 independently reviewed verifier.
 
-Two fresh native workflows completed in **128.75 and 128.19 seconds**, including
-rebuilding the verifier and running the full suite. Their four honest checks took
-**3.87, 3.28, 3.41 and 3.22 seconds**. Each run rejected all 16 mutations. Peak
-sampled process-group RSS was **2.51 GB while building** and **0.49 GB for the
-verification suite**. The confirmation explicitly passed the sandbox fork,
-network-denial and outside-file-denial controls. No cloud job was started.
+Two fresh native workflows completed in **214.45 and 203.98 seconds**, including
+rebuilding the verifier and running the expanded suite. Their four honest checks
+took **4.00, 3.57, 3.50 and 3.33 seconds**. Each run rejected all 36 mutations. Peak
+sampled process-group RSS was **2.47 GB while building** and **1.19 GB for the
+verification suite**. Both runs passed the sandbox fork, network-denial and
+outside-file-denial controls. No cloud job was started.
 These fixed-case observations use different preprocessing and hardware from the
 Linux measurements below; they are not a matched speedup benchmark.
+
+The expanded boundary probe found a native output-token alias and four malformed
+shapes that crashed the process. The caller already rejected the alias. The native
+verifier now checks vocabulary ranges and proof dimensions before using them;
+the regression suite requires structured rejection rather than a crash. See
+[decision 0071](decisions/0071-native-proof-input-boundaries.md) and
+[its evidence](../research/evidence/native-proof-boundaries-2026-10-23.json) for
+the exact counterexample, baseline failures and corrected runs.
 
 ## The statement
 

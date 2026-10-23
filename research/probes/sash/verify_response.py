@@ -20,6 +20,120 @@ from check_response import TAGS, bundle, read_json
 if not __debug__:
     raise RuntimeError("Run research workers without Python optimization")
 
+NATIVE_BOUNDARY_CASES = [
+    ("claim-head-alias", "head.claims.json", ["head_tok", 0, 0], "alias", "OodsNotMatching"),
+    ("claim-embedding-alias", "B0L0.claims.json", ["embed_tok", 0, 0], "alias", "OodsNotMatching"),
+    ("sample-alias", "B0L0.proof.json", ["sampled_values", 0, 0, 0, 0, 0], "alias", "Merkle("),
+    ("query-alias", "B0L0.proof.json", ["queried_values", 0, 0], "alias", "Merkle("),
+    (
+        "column-alias",
+        "B0L0.proof.json",
+        ["decommitments", 0, "column_witness", 0],
+        "alias",
+        "Merkle(",
+    ),
+    (
+        "fri-polynomial-alias",
+        "B0L0.proof.json",
+        ["fri_proof", "last_layer_poly", "coeffs", 0, 0, 0],
+        "alias",
+        "Merkle(",
+    ),
+    ("empty-commitments", "B0L0.proof.json", ["commitments"], "empty", "proof tree count mismatch"),
+    ("empty-samples", "B0L0.proof.json", ["sampled_values"], "empty", "proof tree count mismatch"),
+    (
+        "empty-decommitments",
+        "B0L0.proof.json",
+        ["decommitments"],
+        "empty",
+        "proof tree count mismatch",
+    ),
+    ("empty-queries", "B0L0.proof.json", ["queried_values"], "empty", "proof tree count mismatch"),
+    (
+        "empty-fri-layers",
+        "B0L0.proof.json",
+        ["fri_proof", "inner_layers"],
+        "empty",
+        "Fri(InvalidNumFriLayers)",
+    ),
+    (
+        "empty-fri-witness",
+        "B0L0.proof.json",
+        ["fri_proof", "first_layer", "fri_witness"],
+        "empty",
+        "Fri(FirstLayerEvaluationsInvalid)",
+    ),
+    (
+        "config-queries",
+        "B0L0.proof.json",
+        ["config", "fri_config", "n_queries"],
+        "zero",
+        "proof configuration mismatch",
+    ),
+    (
+        "config-blowup",
+        "B0L0.proof.json",
+        ["config", "fri_config", "log_blowup_factor"],
+        "zero",
+        "proof configuration mismatch",
+    ),
+    (
+        "config-pow",
+        "B0L0.proof.json",
+        ["config", "pow_bits"],
+        "increment",
+        "proof configuration mismatch",
+    ),
+    ("empty-gkr", "B0L0.claims.json", ["gkr"], "empty", "unparseable GKR proof"),
+    (
+        "input-token-field-alias",
+        "B0L0.fixed.json",
+        ["tok_in", 0],
+        "alias",
+        "token ID outside enrolled vocabulary",
+    ),
+    (
+        "output-token-field-alias",
+        "head.fixed.json",
+        ["tok_out", 31],
+        "alias",
+        "token ID outside enrolled vocabulary",
+    ),
+    ("empty-fixed-sizes", "B0L0.fixed.json", ["sizes"], "empty", "claims shape mismatch"),
+    (
+        "empty-fixed-column-sizes",
+        "B0L0.fixed.json",
+        ["sizes", 0],
+        "empty",
+        "proof column shape mismatch",
+    ),
+]
+
+
+def write_mutated(path, value):
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(value, separators=(",", ":")))
+    tmp.replace(path)
+
+
+def mutate_native(path, keys, operation):
+    document = read_json(path, 128 * 1024**2)
+    value = document
+    for key in keys[:-1]:
+        value = value[key]
+    key = keys[-1]
+    if operation == "alias":
+        value[key] += 2**31 - 1
+    elif operation == "empty":
+        value[key] = []
+    elif operation == "zero":
+        value[key] = 0
+    elif operation == "increment":
+        value[key] += 1
+    else:
+        raise ValueError("unknown native mutation")
+    write_mutated(path, document)
+
 
 def check_inventory(inventory):
     wanted = {f"proof/{tag}.{kind}.json" for tag in TAGS for kind in ("fixed", "claims", "proof")}
@@ -51,12 +165,12 @@ def main(root, work):
     resource.setrlimit(resource.RLIMIT_FSIZE, (job["max_single_file_bytes"],) * 2)
     os.environ["RAYON_NUM_THREADS"] = "4"
 
-    def run(name, directory, expected, accept, native_negative=False):
+    def run(name, directory, expected, accept, native_failure=None):
         t = time.monotonic()
         print("Starting " + name, flush=True)
         try:
-            assert not native_negative or not accept, "native bypass is negative-only"
-            if not native_negative:
+            assert native_failure is None or not accept, "native bypass is negative-only"
+            if native_failure is None:
                 bundle(directory, expected)
         except (AssertionError, ValueError, KeyError) as e:
             assert not accept, name
@@ -133,10 +247,10 @@ def main(root, work):
                 and v["verified"]["accepted"] < 23
                 and v["failures"]
             ), name
-        if native_negative:
-            assert any("unenrolled shape" in failure for failure in v["failures"]), name
+        if native_failure is not None:
+            assert any(native_failure in failure for failure in v["failures"]), name
         result = {
-            "caller_checks": not native_negative,
+            "caller_checks": native_failure is None,
             "name": name,
             "accepted": accepted,
             "stage": "real verifier",
@@ -146,17 +260,12 @@ def main(root, work):
         cases.append(result)
         print(json.dumps(result), flush=True)
 
-    def write_mutated(path, value):
-        tmp = path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(value, separators=(",", ":")))
-        tmp.replace(path)
-
-    def mutate(name, edit, native_negative=False):
+    def mutate(name, edit, native_failure=None):
         d = work / name
         shutil.copytree(work / "proof", d, copy_function=os.link)
         expected = copy.deepcopy(enrolled)
         edit(d, expected)
-        run(name, d, expected, False, native_negative)
+        run(name, d, expected, False, native_failure)
         (out / "cases.json").write_text(json.dumps(cases, indent=2) + "\n")
 
     try:
@@ -261,21 +370,27 @@ def main(root, work):
                 lambda d, e: fixed_edit(
                     d, "B0L0", lambda f: f["params"].__setitem__("round", "away")
                 ),
-                native_negative=True,
+                native_failure="unenrolled shape",
             )
             mutate(
                 "native-changed-calibration",
                 lambda d, e: e["roots"][0]["frac_per_head"].__setitem__(
                     0, e["roots"][0]["frac_per_head"][0] + 1
                 ),
-                native_negative=True,
+                native_failure="unenrolled shape",
             )
+            for name, filename, keys, operation, failure in NATIVE_BOUNDARY_CASES:
+                mutate(
+                    name,
+                    lambda d, e, f=filename, k=keys, op=operation: mutate_native(d / f, k, op),
+                    native_failure=failure,
+                )
         for name, row in inventory.items():
             with (work / name).open("rb") as f:
                 assert hashlib.file_digest(f, "sha256").hexdigest() == row["sha256"], (
                     "control proof changed during mutations"
                 )
-        assert len(cases) == (18 if native else 16) and sum(x["accepted"] for x in cases) == 2
+        assert len(cases) == (38 if native else 16) and sum(x["accepted"] for x in cases) == 2
         (out / "result.json").write_text(
             json.dumps(
                 {
