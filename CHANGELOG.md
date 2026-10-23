@@ -2,9 +2,10 @@
 
 ## Unreleased
 
-Record the real LLM response-proof plan, pinned SASH/TinyLlama inputs, retained
-Mac build failures, Linux synthetic proof reproduction and corrected full witness.
-Complete response proofs and caller-side rejection remain an implementation gate.
+Record a complete quantized TinyLlama response proof: 23 SASH segments, all 22
+residual links and eight output tokens through EOS. Preserve the failed head
+composition and its extraction fix. Add caller statement guards and an LLM proof
+explanation; one-command LLM reproduction and qualification remain open.
 
 Consolidate four proof controllers' worker setup and artifact checks. Pass reviewed
 read-only paths per invocation instead of replacing a global sandbox function.

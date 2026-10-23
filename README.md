@@ -22,10 +22,10 @@ at most **96 UTF-8 bytes**. A valid proof establishes the admitted integer
 computation; it does not establish that a classifier is a good safety policy.
 The broader hardware-attested inference system remains unfinished.
 
-[Real LLM response proofs](research/real-llm-proof-plan.md) are the current research
-target: a short response from a pinned, quantized TinyLlama model using SASH.
-A disclosed witness-precision fix passes native generation and extraction.
-The complete response proof is still in progress.
+**A complete TinyLlama response also verifies.** The [LLM proof explanation](docs/LLM-PROOF.md)
+shows the actual prompt and answer, the quantized model, all 23 proof segments and
+what the verifier checks. This separate SASH research path has no one-command
+reproduction yet; `make e2e` remains the classifier demo.
 
 ## What exactly is proved?
 

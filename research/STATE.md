@@ -1,42 +1,34 @@
 # Research state
 
-Updated: 2026-10-23. Phase: MIT-licensed research software in a public repository, with bounded classifier proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-23. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
 ## Next bounded task
 
-The current target is the owner's **complete short pretrained LLM response proof**,
-with disclosed quantization and public witnesses permitted. [Decision 0064](../docs/decisions/0064-real-llm-build.md)
-freezes the first gates; [the source review](real-llm-proof-plan.md) selects SASH
-for assessment, not adoption. The initial [execution evidence](evidence/llm-preflight-2026-10-23.json)
-retains two failed Mac linking attempts and a verified TinyLlama checkpoint.
-On one authored prompt the float implementation agrees with Transformers at every
-prompt position; the quantized model emits the same eight-token answer through EOS.
-The 16-step run deliberately continues beyond EOS and records that suffix.
-The Linux CPU build reproduced the aligned synthetic proof digest and passed
-three upstream integration suites. The corrected complete witness passes array,
-residual-link and eight-output-token checks; the first extraction misapplied
-embedding to later layers and remains retained. The first real layer-0 attempt
-then failed: the upstream witness helper
-rounded an exact integer through float32. [Decision 0065](../docs/decisions/0065-exact-llm-witness-accumulators.md)
-records a one-line Python fix, a failing/passing regression and fresh generation.
-The new witness checks all 23,552 attention rows and passes the Rust root builder.
-Its roots are locally enrolled. Proof generation then failed a memory allocation
-under the 96 GiB address-space cap; no real-layer proof was produced in that run.
-The larger worker serialized a first-layer proof, but its verifier rejected the
-parameter-only shape constructor. [Decision 0066](../docs/decisions/0066-llm-shape-reconstruction.md)
-and [retained evidence](evidence/llm-shape-reconstruction-2026-10-23.json) isolate that
-bug. A separate source and verdict check also found an **open activation-scale
-binding** in the delayed-value profile, despite its broad binding summary.
-A constructor repair cannot make that profile qualify for complete inference.
+The owner's complete short pretrained LLM response now has a passing composed
+proof: **23 segments, 22 residual links and eight answer tokens through EOS**.
+The model is pinned TinyLlama-1.1B-Chat-v1.0 with the disclosed `y-attnout-w12`
+quantization. [The proof explanation](../docs/LLM-PROOF.md) states the exact claim;
+[raw evidence](evidence/llm-response-composition-2026-10-23.json) retains the failures.
 
-[Decision 0067](../docs/decisions/0067-bind-the-value-activation-scale.md) selects the
-existing non-delayed `y-attnout-w12` profile. It preserves the pretrained weights,
-prompt, calibration and exact-integer witness fix, and produces the same answer.
-Fresh extraction covers all layers and the output head. The next gate is a real
-proof with every detailed binding closed, followed by the complete response and
-changed-claim rejection. No delayed-profile proof or root is reused.
-Complete LLM proofs and caller-side rejection remain open. Do not
-replace that target with the existing synthetic classifiers or a one-layer proof.
+The first non-delayed composition passed every individual proof but rejected the
+last link. [Decision 0068](../docs/decisions/0068-prove-the-output-head-final-norm.md)
+corrects the head extraction's family selection. Only that head is reproved;
+the 22 transformer proofs remain byte-identical. The original Rust binary is
+unchanged. Full verification takes 92.10 seconds on the smaller CPU worker.
+
+A fresh proof-only worker passes: two honest verification processes and all
+14 changed-claim rejections, with no model weights or witness mounted. The honest
+runs take 83.99 and 79.16 seconds.
+The caller checks pinned shape digests, exact tokens, complete coverage and the
+final-norm head. The next usability gate is a reproducible LLM command; `make e2e`
+still runs the classifier demo. Independent security/hiding qualification and
+hardware provenance remain separate, open obligations.
+
+Earlier failures are documented in decisions [0065](../docs/decisions/0065-exact-llm-witness-accumulators.md),
+[0066](../docs/decisions/0066-llm-shape-reconstruction.md) and
+[0067](../docs/decisions/0067-bind-the-value-activation-scale.md).
+The delayed-value profile remains ineligible because its activation-scale binding
+is open; its constructor repair is not used in the complete-response result.
 
 The owner-requested code cleanup consolidates four proof controllers onto one
 checked worker runner and replaces global sandbox overrides with per-call read
