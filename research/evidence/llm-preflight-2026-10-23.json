@@ -529,7 +529,7 @@
     },
     "full_inventory_sha256": "6dd9bed1c9b5c5f59780cc502488136031aa3f05344e446c1b2ff28fac58001f",
     "cloud_job_id": "6adb2a86c191903149a7d5c3",
-    "cloud_status": "RUNNING",
+    "cloud_status": "ERROR",
     "cloud_total_ceiling_usd": 1.1,
     "root_build": {
       "passed": true,
@@ -537,6 +537,57 @@
       "peak_child_rss_kib": 15951828,
       "enrolled_manifest_sha256": "b08d0a7afb4d0485f46cc77283010c6ab36332806b84804edb36a471dae8c638",
       "enrollment": "Retained in the local controller before permitting proof execution; same upstream implementation, not independent cryptographic review."
+    },
+    "proof_attempt": {
+      "passed": false,
+      "proof_produced": false,
+      "running_seconds": 481.051,
+      "proving_seconds_before_abort": 363.9165470280277,
+      "exit_code": -6,
+      "peak_child_rss_kib": 96638864,
+      "max_address_space_bytes": 103079215104,
+      "failed_allocation_bytes": 33554432,
+      "failure": "32 MiB allocation failed under the frozen 96 GiB virtual-address-space limit; process aborted with signal 6.",
+      "compute_bound_usd": 0.15,
+      "invoice": false,
+      "retained_files": 8,
+      "retained_bytes": 8442,
+      "receipt_sha256": "66dc5bbef6a1081b6f66706c9bb68d8cc0fbf1791296bf3638c20548d9fca467",
+      "output_inventory": {
+        "commands.json": {
+          "bytes": 1303,
+          "sha256": "0393c61cc431c7623f5347986d1d4bad6701045e72089b52ede1f62908fc53ef"
+        },
+        "failure.json": {
+          "bytes": 85,
+          "sha256": "a1f6ccb41aa5e5e623ed8f5d5dbbdf1bfc628e4d6bec55ae7428748a514c4faf"
+        },
+        "model-roots.json": {
+          "bytes": 985,
+          "sha256": "b08d0a7afb4d0485f46cc77283010c6ab36332806b84804edb36a471dae8c638"
+        },
+        "proof.stderr": {
+          "bytes": 276,
+          "sha256": "4da76b826efc132c674803a18465c1ee83d2570717a6028799c325860e056a55"
+        },
+        "proof.stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "roots-ready.json": {
+          "bytes": 106,
+          "sha256": "680f59214eacd5e0c6da125bf47f3c755d477b7b007a515380e6a2b7ab9f6cec"
+        },
+        "roots.stderr": {
+          "bytes": 78,
+          "sha256": "f5687faa570b7836a5e2b1bb9a1d61da208e96fae12b8b993b557368f8f9039f"
+        },
+        "roots.stdout": {
+          "bytes": 5609,
+          "sha256": "f9c4299aae3cecdf8cbf430d1f1b764fbedc05895f5ec7ea7fcbe006a40113e3"
+        }
+      },
+      "next_gate": "A separately bounded larger-memory attempt with identical arithmetic, input archive, binary and pre-enrolled roots."
     }
   }
 }

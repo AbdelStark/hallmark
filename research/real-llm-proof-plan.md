@@ -158,3 +158,9 @@ result back to float32, losing an odd integer above 2²⁴. The
 candidate a new identity. Fresh generation returns the same answer. All 23,552
 attention rows in its new witness agree with exact integer Q/K products and
 the exponent-table rule. The Rust proof and verifier code remain unchanged.
+
+The corrected root builder passes; its roots were retained locally before proving.
+Proof generation then aborted on a 32 MiB allocation under the frozen 96 GiB
+address-space cap, after 363.917 proving seconds. Peak child RSS was 96,638,864 KiB.
+All eight output files are retained and hashed. No real-layer proof was produced;
+the next gate is a separately bounded larger-memory run of the same candidate.

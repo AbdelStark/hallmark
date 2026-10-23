@@ -20,7 +20,10 @@ then failed: the upstream witness helper
 rounded an exact integer through float32. [Decision 0065](../docs/decisions/0065-exact-llm-witness-accumulators.md)
 records a one-line Python fix, a failing/passing regression and fresh generation.
 The new witness checks all 23,552 attention rows and passes the Rust root builder.
-Its roots are locally enrolled; the bounded proof attempt is running. Complete LLM proofs and caller-side rejection remain open. Do not
+Its roots are locally enrolled. Proof generation then failed a memory allocation
+under the 96 GiB address-space cap; no real-layer proof was produced. The next
+gate is the identical candidate on a separately bounded larger-memory worker.
+Complete LLM proofs and caller-side rejection remain open. Do not
 replace that target with the existing synthetic classifiers or a one-layer proof.
 
 The owner-requested code cleanup consolidates four proof controllers onto one

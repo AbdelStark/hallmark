@@ -3914,3 +3914,14 @@ and admission checks. `make package-check` passes; its source archive includes t
 new optional probe, patch and upstream licence/notice. The checker initially
 failed import grouping, then the complete gate passed after that formatting fix.
 No core runtime, dependency lock or existing classifier relation changed.
+
+The corrected first-layer job subsequently failed during proving, after model-root
+enrollment. A 33,554,432-byte allocation failed under its 103,079,215,104-byte
+address-space cap; the prover exited with signal 6. Proving ran for 363.917 seconds,
+and peak child RSS was 96,638,864 KiB. The provider reports 481.051 total running
+seconds; the conservative compute bound is $0.15, not an invoice. All eight output
+files (8,442 bytes) are downloaded and hashed in
+`runs/preflight/layer0-exact-job/result.json`; no real-layer proof was produced.
+This closes the witness-precision investigation with a passing root build, while
+proof feasibility remains open. The next experiment increases the resource
+envelope with identical arithmetic, binary, input archive and pre-enrolled roots.
