@@ -1,0 +1,277 @@
+{
+  "schema_id": "hallmark.sash-response-composition/1",
+  "recorded_at": "2026-10-23",
+  "issue": 19,
+  "decision": "docs/decisions/0068-prove-the-output-head-final-norm.md",
+  "original_job": {
+    "id": "6adb376a925af0e27d4fd725",
+    "status": "ERROR",
+    "running_seconds": 641.922,
+    "compute_bound_usd": 0.34,
+    "invoice": false,
+    "all_outputs_retained": true,
+    "bucket_deleted": true
+  },
+  "original_result": {
+    "individual_proofs_accepted": 23,
+    "residual_links_passed": 21,
+    "residual_links_required": 22,
+    "complete_response_accepted": false,
+    "prompt_positions": 25,
+    "generated_positions": 7,
+    "token_mismatches": [],
+    "peak_prover_rss_bytes": 113440124928,
+    "sum_prove_seconds": 317.125438778,
+    "proof_serialized_bytes": 772536303,
+    "cause": "Head extraction included the ordinary residual family; the loader chose it before the final norm. The final layer-to-head commitment link rejects."
+  },
+  "evidence_sha256": {
+    "retention.json": "7f96180a4bf759e2ed097d7d88356148155445c15ac8d2bc08634ece3bfc7520",
+    "enrolled-model-roots.json": "d91fd0124da65b2e62c312a29bd92e4bb160afc656e1287206222f3b730a339f",
+    "retained-final/commands.json": "dbd3482984392607a0f00b7567ea10f20013778125fe666382d73b7ad4435919",
+    "retained-final/verify-all.stdout": "15b4bd5f8d27a36c6369f52887950ef274e61e93554df4b045265f67418d2b11"
+  },
+  "candidate": {
+    "model_id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "model_revision": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+    "model_licence": "Apache-2.0",
+    "sash_commit": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+    "quantized_profile": "y-attnout-w12",
+    "witness_patch_sha256": "fee63bfa895089e063fab5b7a03f98e3d443def158fa9b9ab4131450295da97e",
+    "rust_patch": null,
+    "binary_sha256": "af6ac34dea395a09d307a829f73f7a4d5bc81b3499c504b742faa4939eacdeb5",
+    "calibration_sha256": "000b9347aac7889340f952b15457f6a7357001ce432add95e0ba920f6d3e04fc",
+    "prompt": "Name the capital of France in one short sentence.",
+    "response": "The capital of France is Paris.",
+    "prompt_positions": 25,
+    "generated_input_positions": 7,
+    "answer_ids": [
+      1576,
+      7483,
+      310,
+      3444,
+      338,
+      3681,
+      29889,
+      2
+    ],
+    "head_norm": true,
+    "transformer_proofs_reused_byte_for_byte": 22,
+    "new_head_proof": true,
+    "complete_response_verified": true,
+    "fresh_proof_only_verification": true
+  },
+  "corrected_result": {
+    "job_id": "6adb3ba8c191903149a7dfc3",
+    "status": "COMPLETED",
+    "running_seconds": 386.781,
+    "compute_bound_usd": 0.01,
+    "invoice": false,
+    "all_outputs_retained": true,
+    "bucket_deleted": true,
+    "proofs_accepted": 23,
+    "residual_links_passed": 22,
+    "residual_links_required": 22,
+    "shape_roots_matched": 23,
+    "token_mismatches": [],
+    "unbacked_tokens": [],
+    "new_head_prove_seconds": 21.903074397996534,
+    "full_grid_verify_seconds": 92.09663886099588,
+    "peak_verifier_rss_bytes": 14341046272,
+    "proof_serialized_bytes": 737858641,
+    "proof_fixed_claims_bytes": 761015496,
+    "verifier_host": "HF CPU Upgrade, 8 vCPU / 32 GB, four Rayon threads"
+  },
+  "enrollment": {
+    "before_proving": true,
+    "new_head_root_manifest_sha256": "d57f6daa72722987d7f480f5575b842819f62a812fbfe69499626fe0e4fbf637",
+    "expected_sha256": "0fde763d481aeacc9003a5059339b8174e6b01e3558221845e12c9334ad67214",
+    "model_roots_supplied_by_caller": true,
+    "shape_digests_checked_against_caller_calibration": true,
+    "tokenizer_checked_locally_offline": true
+  },
+  "limits": [
+    "One authored engineering prompt, reused during debugging; not a held-out quality evaluation.",
+    "Quantized arithmetic, not a proof of Transformers floating-point equivalence.",
+    "No trace blinding, hardware attestation or independent security qualification.",
+    "No one-command LLM reproduction yet; make e2e remains the classifier demo."
+  ],
+  "corrected_evidence_sha256": {
+    "retention.json": "4fffb799b3edc24446e504c04d828c5b6382760b2cb7743cebf2702be4d39a3b",
+    "protocol.json": "165715779a10d0be8e0655629f973f021d2569704e37fe6a471649d577c8c1ba",
+    "retained-final/commands.json": "078b8a57decd54fd65043a40a1f4cbb051186ef6a2e0f9c9b2534208863df44c",
+    "retained-final/verify-all.stdout": "fde6b4797a68fd5b73839cd16d7ad69da9df7a64e22909808859444a7195840d"
+  },
+  "local_evidence": "runs/preflight/{chain-proof-job,head-norm-job,chain-verify-job-v2} within the isolated research checkout; raw artifacts are ignored",
+  "proof_only_verification": {
+    "job_id": "6adb3e0f925af0e27d4fda46",
+    "status": "COMPLETED",
+    "running_seconds": 421.055,
+    "compute_bound_usd": 0.01,
+    "invoice": false,
+    "all_outputs_retained": true,
+    "bucket_deleted": true,
+    "passed": true,
+    "honest_accepts": 2,
+    "caller_rejections": 11,
+    "cryptographic_rejections": 3,
+    "weights_present": false,
+    "witness_present": false,
+    "independent_implementation": false,
+    "security_review": false,
+    "original_proof_hashes_unchanged": true,
+    "peak_child_rss_bytes": 14347567104,
+    "cases": [
+      {
+        "name": "honest-0",
+        "accepted": true,
+        "stage": "real verifier",
+        "seconds": 83.98570561397355,
+        "failures": []
+      },
+      {
+        "name": "honest-1",
+        "accepted": true,
+        "stage": "real verifier",
+        "seconds": 79.16224950889591,
+        "failures": []
+      },
+      {
+        "name": "changed-prompt",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong input tokens",
+        "seconds": 0.0014022670220583677
+      },
+      {
+        "name": "changed-answer",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong input tokens",
+        "seconds": 0.0013496950268745422
+      },
+      {
+        "name": "changed-model",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong model_root",
+        "seconds": 0.0014875290216878057
+      },
+      {
+        "name": "changed-calibration",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "unenrolled parameters",
+        "seconds": 0.0013305339962244034
+      },
+      {
+        "name": "missing-layer",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "missing or extra proof files",
+        "seconds": 0.00017811497673392296
+      },
+      {
+        "name": "wrong-layer-coordinate",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong layer",
+        "seconds": 0.0023209400242194533
+      },
+      {
+        "name": "changed-final-output",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong output tokens",
+        "seconds": 0.026020018034614623
+      },
+      {
+        "name": "token-alias",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "invalid token IDs",
+        "seconds": 0.0012709030415862799
+      },
+      {
+        "name": "boolean-token",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "invalid token IDs",
+        "seconds": 0.0012588719837367535
+      },
+      {
+        "name": "open-scale-profile",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "open-scale matmul profile",
+        "seconds": 0.001141929067671299
+      },
+      {
+        "name": "weaker-security",
+        "accepted": false,
+        "stage": "caller statement checks",
+        "reason": "wrong security parameters",
+        "seconds": 0.0011520900297909975
+      },
+      {
+        "name": "altered-proof",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 65.55938930495176,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: sum-check invalid in layer 1: sum does not match the claim in round 0 (sum (195505714 + 2110612255i) + (1235022576 + 1574705970i)u, claim (1248543304 + 33220148i) + (477864488 + 1892554444i)u)\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ]
+      },
+      {
+        "name": "altered-residual-boundary",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 84.01443604903761,
+        "failures": [
+          "B0L10: the chunk proof does not verify: {\"derived\":\"1d8d4104f1a331433c64fe39096a083ad8adbf482b8dde726d94636a856bb009\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ]
+      },
+      {
+        "name": "altered-output-claim",
+        "accepted": false,
+        "stage": "real verifier",
+        "seconds": 83.95930117997341,
+        "failures": [
+          "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ]
+      }
+    ]
+  },
+  "proof_only_evidence_sha256": {
+    "protocol.json": "d1d4f69a3f0c9f0ad3886308bbb3dd05e4699afd751fff5c7c411cf9e6a00b94",
+    "expected.json": "0fde763d481aeacc9003a5059339b8174e6b01e3558221845e12c9334ad67214",
+    "worker.py": "9010664e583bf5d86ff73c67173d4a57971d77959e507de2c6c23ebe6e9254a9",
+    "check_statement.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+    "proof-inventory.json": "4dd634b97fe218e5e8f2eba2d7aa6f5d32f66160314d9d682099dfc4198c6e9c",
+    "package-result.json": "b39559e2f065e18606c74ceebea145b3968ab76bb17f5c8885b9c27bd1009928",
+    "public-statement-selfcheck.json": "05064a50191f2a4ced1eac4226575ad92f2dd2ba11df7647776d7d93c37c46be",
+    "retention.json": "277fa97f97cd87268aff7615ec18cd69b3a67efb2a90c69a7c894b8749f37a25",
+    "retained-final/result.json": "2a671a28ca2bec983c8a5eade41405d862089f3d0be22feee165a30524147fc9",
+    "retained-final/commands.json": "a758fb64fea089a90a4954bdf1aa3ce3f36f2ded79eb6ee9a3d9a00811f3b0ac",
+    "retained-final/honest-0.stdout": "88ac5711596a0fd39908aa89fd07a32c8b3d6e08584c049b953b5605034eeb38",
+    "retained-final/honest-1.stdout": "08585bbf742c78e7c78e43ff719b45f110d36ec908e1433be067a3e04d0208bc",
+    "retained-final/altered-proof.stdout": "b49b65bd4987380e4e698047e3241e563b23e0c94a46a607adc61c61edd2ad9f",
+    "retained-final/altered-residual-boundary.stdout": "7bd40eb367adbcf484c1f41eb8c2bb0505adc92bbd7d373f90390ac095d10c4e",
+    "retained-final/altered-output-claim.stdout": "b7c2427fcc776da3d61f26d83f2588c6b7da0f6d396f26dd5ed41b64dc9b8184"
+  },
+  "validation": {
+    "make_check": {
+      "passed": true,
+      "tests_passed": 2247,
+      "tests_skipped": 121,
+      "new_caller_guard_tests": 18,
+      "software_conformance_matched": 156,
+      "software_conformance_unavailable": 32
+    },
+    "make_check_log_sha256": "60a1a4495339c479b44ef36c8a6e103e34c12ebecc0f05654e0b582152bafa88",
+    "make_package_check": {
+      "passed": true,
+      "optional_training_executed": false
+    }
+  }
+}

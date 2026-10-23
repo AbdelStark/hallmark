@@ -1,6 +1,8 @@
 # A short response from a real pretrained LLM
 
-2026-10-23. Source review and implementation gate, not a reproduced LLM proof.
+2026-10-23. Source review and implementation record. The [complete TinyLlama
+response](../docs/LLM-PROOF.md) now verifies; the source review below retains the
+alternatives and qualification boundaries.
 The owner chose a short generated response, minutes to a few hours of proving,
 fast verification, and an explicitly pinned and disclosed quantized model.
 Witness privacy is optional. This proposal does not alter the classifier protocol.
@@ -13,8 +15,11 @@ omits. A broad `binding.unbound: []` summary does not cover that missing relatio
 [Decision 0067](../docs/decisions/0067-bind-the-value-activation-scale.md) switches to
 `y-attnout-w12`, which rounds the value projection before requantization and uses
 the implemented chain-scale equality. Fresh native generation returns the same
-eight-token answer. Every witness and model root must be regenerated; proof
-acceptance and complete coverage remain unestablished for this candidate.
+eight-token answer. Fresh roots and proofs now pass the complete 23-segment grid.
+[Decision 0068](../docs/decisions/0068-prove-the-output-head-final-norm.md) records the
+head-family correction and retained first composition failure. A fresh proof-only
+worker accepts two honest runs and rejects 14 changed claims. Packaging a
+reproducible LLM command is the next implementation gate.
 
 ## Recommendation
 
@@ -29,8 +34,8 @@ and ordinary Llama attention/RMSNorm/SiLU operations. Its 22 layers, width 2,048
 32 query heads, four KV heads and 32,000-token vocabulary are a better initial
 match to SASH's implemented relation than Gemma's additional operations. This is
 an architectural fit now supported by native inference and complete witness
-extraction on one prompt. Actual proof compatibility and caller-side verification
-remain open. This does not establish language-model quality.
+extraction and a complete composed proof on one prompt. Independent security
+qualification remains open. This does not establish language-model quality.
 
 Model revision: [`fe8a4ea1ffedaf415f4da2f062534de366a451e6`](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0/tree/fe8a4ea1ffedaf415f4da2f062534de366a451e6).
 The two smaller candidates are
@@ -130,11 +135,15 @@ quantized response. The Linux CPU build reproduced the upstream aligned syntheti
 proof digest and passed its three selected integration suites. The corrected real
 witness covers all 22 layers plus the output head: 25 prompt positions and seven
 generated input positions, whose last eight head outputs include the answer EOS.
-A 23-segment proof and changed-claim rejection are still required. [Decision 0064](../docs/decisions/0064-real-llm-build.md)
+At that preflight stage, a 23-segment proof and changed-claim rejection were still
+required. [Decision 0064](../docs/decisions/0064-real-llm-build.md)
 records the implementation sequence and resource envelope. The alternatives note
 retains its separate interrupted Git LFS download.
 
-## Current reproduction boundary
+## Recorded preparation and failures
+
+The following history precedes the [complete composition](../docs/LLM-PROOF.md).
+Failed runs remain unchanged; their next steps describe the gates at that time.
 
 The engineering prompt is “Name the capital of France in one short sentence.”
 Its pinned chat template produces 25 tokens. Both the reference and quantized

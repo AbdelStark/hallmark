@@ -4001,3 +4001,76 @@ Repository checks pass: `make check` reports 2,229 passed and 121 platform/optio
 skips, with all 156 software conformance cases passing and 32 unavailable.
 `make check-spec` and `make package-check` pass after the documentation and probe
 additions. The core package check does not execute the train or guard extras.
+
+## 2026-10-23 — Complete TinyLlama response composition
+
+[Decision 0068](../docs/decisions/0068-prove-the-output-head-final-norm.md) corrects
+the output-head extraction. The first non-delayed run verified all 23 individual
+proofs and every token but failed the last residual link. Both `--head` and
+`--residual-stream` had been supplied; the Rust loader selected the ordinary layer
+family before the head's final norm. The head's commitment roots exactly repeated
+layer 21's roots. The failed grid and all outputs remain retained; that job's
+compute bound was $0.34, not an invoice.
+
+Fresh head extraction omits `--residual-stream`. Every retained numeric array
+matches the earlier extraction; `xin_head.u16` equals layer 21's output. A new
+head root was locally enrolled before proving. The unchanged 22 transformer
+proofs and newly generated head now pass all 23 cryptographic verifications,
+23 enrolled shape roots, 22 residual links, 25 prompt positions and seven
+generated input positions. The caller also checks all eight output tokens,
+including the final EOS. The detailed open-binding fields are closed.
+
+The new head's prove stage took 21.903 seconds. Full-grid verification took
+92.097 seconds with peak child RSS 14,341,046,272 bytes on HF CPU Upgrade,
+four Rayon threads. The original 22 transformer prove stages total 307.004
+seconds on the larger CPU worker; these separate timings are not one end-to-end
+wall-time benchmark. The new complete set has 737,858,641 serialized proof bytes,
+761,015,496 bytes including statements and claims. All outputs are retained and
+hashed; the corrected-head bucket is deleted. Its compute bound was $0.01.
+
+Exact local commands, relative to the isolated research checkout:
+
+```sh
+runs/preflight/witness-env/bin/python runs/preflight/extract_head_norm.py
+runs/preflight/witness-env/bin/python runs/preflight/head-norm-job/package.py
+runs/preflight/witness-env/bin/python runs/preflight/head-norm-job/prepare.py
+runs/preflight/witness-env/bin/python runs/preflight/head-norm-job/launch.py
+runs/preflight/witness-env/bin/python runs/preflight/head-norm-job/enroll.py
+runs/preflight/witness-env/bin/python runs/preflight/head-norm-job/retain.py
+```
+
+These retained run scripts are not shipped CLI commands. Their protocols,
+inventories, commands and raw outcomes are hashed in
+[the composition evidence](evidence/llm-response-composition-2026-10-23.json).
+The public caller guard checks exact statements against enrolled parameter
+digests and rejects the old head family. The fresh proof-only worker below closes
+this verification gate; user-facing LLM reproduction is the next task.
+
+
+The fresh `chain-verify-job-v2` worker received only the 69 proof/statement/claims
+files, frozen caller expectations, checker and original binary. It accepted two
+honest processes in 83.986 and 79.162 seconds. All 11 caller mutations rejected;
+the three cryptographic mutations rejected with concrete sum-check/STARK failures.
+The mutated cases cover prompt, answer, model, calibration, coverage, coordinates,
+final output, token alias/type, open-scale profile, security parameters, proof
+commitment, residual boundary and output claim. Rehashing the control bundle
+confirmed that negative-copy mutations did not change its bytes.
+
+The worker ran 421.055 seconds, with 14,347,567,104 bytes peak child RSS and a
+conservative $0.01 compute bound. The cumulative campaign bound is $0.62, including
+retained failures and builds, not a provider invoice. All outputs are retained and
+hashed; the temporary bucket is deleted. Exact commands use the same interpreter
+and `chain-verify-job-v2/{package,prepare,launch,retain}.py`; that directory retains
+`protocol.json`, `expected.json`, `proof-inventory.json`, `retention.json` and raw
+native verifier output. The public checker hash equals the frozen worker input.
+This is separate-process verification with the same implementation, not an
+independent security review.
+
+`make check` passes: 2,247 tests passed, 121 optional/platform skips; 156 software
+conformance matches and 32 unavailable full-evidence obligations. The 18 new tests
+cover caller validation, missing coverage, JSON ambiguity and optimized-Python
+rejection. No core dependency, classifier relation or admitted backend changed.
+
+`make package-check` also passes. Its core environment omits optional training;
+the train-extra CI jobs remain required. Raw checkpoints, proofs and credentials
+remain outside Git.

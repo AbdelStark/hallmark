@@ -1,9 +1,14 @@
 # Results and limitations
 
-As of 2026-10-22, Hallmark has a working **synthetic classifier research pipeline**:
+As of 2026-10-23, Hallmark has a working **synthetic classifier research pipeline**:
 training → integer export → dedicated-circuit proofs → separate verification →
 all-pass composition. It has no accepted hardware attestation or operational
 hybrid verifier. [Reproduce the demo](DEMO.md) or read [what is proved](PROOFS.md).
+
+A separate [TinyLlama experiment](LLM-PROOF.md) verifies a complete eight-token
+response with 23 SASH proof segments and 22 residual links. Its quantization,
+measurements, failure history and remaining reproduction work are documented
+separately from the classifier results below.
 
 ## Models and task
 

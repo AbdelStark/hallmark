@@ -57,3 +57,22 @@ The delayed-value profile also leaves an activation-scale equality unchecked;
 see [decision 0067](../../../docs/decisions/0067-bind-the-value-activation-scale.md).
 This constructor patch does not repair that relation. The full-response candidate
 uses the existing non-delayed profile and the original Rust binary instead.
+
+## Complete-response caller checks
+
+`check_response.py` is the caller guard used by the TinyLlama proof-only experiment.
+It requires the caller's expected prompt/answer IDs and 23 enrolled model,
+preprocessed and shape roots. Its parameter digest reproduces the pinned upstream
+shape-key encoding, including calibration float bit patterns. It rejects incomplete
+file coverage, changed parameters, invalid token IDs, the open-scale Fold profile
+and an output head that omits final normalization. These checks remain active
+under `python -O`.
+
+The guard is an importable research module, **not a cryptographic verifier or an
+admitted Hallmark backend**. After `bundle(proof_directory, caller_expectations)`
+succeeds, the real `zk-prover boundary-grid --verify` must check all 23 proofs,
+22 layer links, exact prompt and enrolled model/preprocessed/calibration roots.
+The fresh-worker protocol and [response evidence](../../evidence/llm-response-composition-2026-10-23.json)
+record the complete sequence. Tokenization remains the caller's responsibility.
+See [the LLM proof explanation](../../../docs/LLM-PROOF.md) for the statement and
+measured limits. Unit tests exercise this guard; they do not generate STARK proofs.

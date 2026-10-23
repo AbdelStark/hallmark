@@ -1,5 +1,8 @@
 # What Hallmark proves
 
+For the pretrained TinyLlama response, see [the LLM proof statement](LLM-PROOF.md).
+This page explains the classifier proofs exercised by `make e2e`.
+
 **For a fixed integer classifier and a particular prompt, the proof checks that
 running that classifier on those bytes gives the stated pass/block verdict.**
 
