@@ -18,8 +18,10 @@ the implemented chain-scale equality. Fresh native generation returns the same
 eight-token answer. Fresh roots and proofs now pass the complete 23-segment grid.
 [Decision 0068](../docs/decisions/0068-prove-the-output-head-final-norm.md) records the
 head-family correction and retained first composition failure. A fresh proof-only
-worker accepts two honest runs and rejects 14 changed claims. Packaging a
-reproducible LLM command is the next implementation gate.
+worker accepts two honest runs and rejects 14 changed claims. `make e2e-llm`
+reproduces that complete workflow. The optional [native verifier](../docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac)
+uses compiled shape enrollment for this fixed case; general and security
+qualification remain open.
 
 ## Recommendation
 
@@ -120,7 +122,8 @@ The pinned [upstream build](https://github.com/sg-ai-safety-hub/zk-inference-pro
 type-checks on macOS but does not link there; Linux currently requires CUDA 12.9
 even for the CPU backend. Use the Mac for source, data and quality preparation;
 make a bounded Linux job on an already approved provider the first build/proof
-path. A native Mac port is optional follow-up work. No GCP dependency follows.
+path. A fixed-case native verifier now uses compiled shape enrollment; it is not a
+general port of the prover or runtime shape builder. No GCP dependency follows.
 GPU model, memory fit, actual available balance and a cost-capped job manifest
 must be measured/verified before launch; no cloud price or spend is asserted here.
 

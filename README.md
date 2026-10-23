@@ -113,6 +113,12 @@ inference. It builds, proves and verifies on three sequential CPU jobs with a
 The recorded fresh run took **31 minutes 15 seconds**, with a **$0.31 compute
 bound**; two full verifications took about **80 seconds** each.
 
+Already have a completed run? Verify its proofs locally with
+`make verify-llm LLM_RUN=runs/llm-e2e-...`. This optional native verifier needs no
+weights or HF credentials. Recorded honest checks take **3.22–3.87 seconds**
+after compilation. It uses compiled parameters for the fixed case;
+see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
+
 ### Quick software smoke test
 
 For a smaller check on Linux or macOS, from the checkout:

@@ -75,6 +75,42 @@ This command supports the pinned prompt and model. Another prompt, response
 length, model or arithmetic profile needs a new case and caller enrollment;
 editing expected tokens alone does not establish a new proved response.
 
+## Verify retained proofs on your Mac
+
+After a successful `make e2e-llm` run, use its printed directory:
+
+```sh
+# One-time prerequisite, using an existing Rust installation:
+rustup toolchain install nightly-2025-07-14 --profile minimal
+make verify-llm LLM_RUN=runs/llm-e2e-...
+```
+
+This builds a native Apple Silicon verifier and checks all 23 proofs twice, then
+runs the 14 original mutation checks and two direct native enrollment checks.
+It needs 8 GiB free storage, the pinned Rust toolchain and the same Python setup.
+Building can download locked Rust dependencies. Verification is sandboxed and
+offline; it uses no model weights, witness, HF token or paid compute. Results and
+failures go to a fresh `runs/llm-verify-*` directory.
+
+The native verifier is specialized to this public case. It compiles the caller's
+23 shape roots and exact parameter/calibration digests into the executable;
+unknown shapes reject. It checks the same STARK/GKR proofs and layer/token links,
+but does **not** reconstruct the preprocessed shape trees. Its source is explicitly
+marked modified. The [design and trust boundary](decisions/0070-native-enrolled-llm-verifier.md)
+and [measurements](../research/evidence/native-llm-verification-2026-10-23.json)
+are separate from the Linux verifier, which still derives those roots at runtime.
+This is research enrollment, not authenticated operational enrollment or an
+independently reviewed verifier.
+
+Two fresh native workflows completed in **128.75 and 128.19 seconds**, including
+rebuilding the verifier and running the full suite. Their four honest checks took
+**3.87, 3.28, 3.41 and 3.22 seconds**. Each run rejected all 16 mutations. Peak
+sampled process-group RSS was **2.51 GB while building** and **0.49 GB for the
+verification suite**. The confirmation explicitly passed the sandbox fork,
+network-denial and outside-file-denial controls. No cloud job was started.
+These fixed-case observations use different preprocessing and hardware from the
+Linux measurements below; they are not a matched speedup benchmark.
+
 ## The statement
 
 For the enrolled quantized model and exact input token sequence, the answer tokens

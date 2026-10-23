@@ -4144,3 +4144,45 @@ expectations, evaluator/source hashes and acceptance thresholds. After that
 refresh, `make check-train` executes and passes all 76 selected tests. This changes
 no LLM workflow source file or statistical design; the real proof-run hashes
 remain unchanged.
+
+
+## 2026-10-23 — Native verification with compiled shape enrollment (#19)
+
+Hypothesis: a verifier specialized to the frozen TinyLlama parameters can check
+existing STARK/GKR proofs on the Mac without rebuilding shape trees or linking
+CUDA. The Linux runtime-derivation verifier remains the baseline. Candidate scope,
+preprocessing authority and exclusions are in [decision 0070](../docs/decisions/0070-native-enrolled-llm-verifier.md).
+
+Command: `make verify-llm LLM_RUN=runs/llm-e2e-e8yegx2i`, with uv 0.9.18 and Rust
+nightly-2025-07-14. [Raw numeric evidence and hashes](evidence/native-llm-verification-2026-10-23.json)
+precede these conclusions. Fresh directories `runs/llm-verify-wckqj1l9` and
+`runs/llm-verify-zh784135` finish in 128.750655 and 128.186243 seconds. Each accepts
+23 proofs and 22 links in two processes, rejects the original 14 mutations, and
+explicitly rejects unknown shape/calibration in Rust in two additional controls
+with caller checks bypassed. Honest verification takes 3.866991/3.275166 and
+3.405621/3.215978 seconds. Peak sampled process-group RSS is at most 2,508,308,480
+bytes for compilation and 493,993,984 bytes for the complete suite. Cloud cost is
+zero; no new model download or proving job occurs.
+
+Both runs use the same native patch, caller/worker code, compiled shape table and
+proof archive. The confirmation adds a controller-side sandbox fixture and passes
+fork, network-denial and outside-file-denial checks. Binary hashes differ and are
+recorded separately; compiler bit reproducibility is not claimed. All original
+proof files remain unchanged. The verifier's modified-source flag and compiled
+root authority are explicit.
+
+Failures retained: two direct Mac linker candidates, a sandbox fork denial before
+cryptographic checking, and the first packaged native unknown-shape control,
+which reached upstream constraint code before enrollment validation. The final
+candidate checks the compiled enrollment first and returns a rejection report.
+The compiled table is a caller trust input, not proof-supplied data. This does not
+qualify operational enrollment, independent security/hiding review or hardware
+provenance. #19 remains open.
+
+Local `make check` passes 2,274 tests with 121 optional/platform skips, 156
+matched software conformance cases and 32 unavailable full-evidence obligations.
+`make package-check` passes. Its first attempt omitted new files that were not yet
+staged in the reviewed-path snapshot and failed the documentation link check;
+staging those files fixes it without a runtime change. Both attempts and the gate
+logs are retained. Optional training runs in the required train-extra CI job.
+Native linkage inspection reports no CUDA library or undefined CUDA symbol.

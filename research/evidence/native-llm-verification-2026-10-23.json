@@ -1,0 +1,712 @@
+{
+  "authenticated_operational_enrollment": false,
+  "authority": "research/AUTHORITY.json autonomous_execution",
+  "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+  "cloud_cost_usd": 0,
+  "cloud_jobs_started": 0,
+  "command": "make verify-llm LLM_RUN=runs/llm-e2e-e8yegx2i",
+  "confirmation_changes": [
+    "scripts/verify_llm.py"
+  ],
+  "confirmation_note": "The only controller change adds an explicit sandbox fork/file/network control. Native patch, worker, caller checks, enrolled shapes and proof archive are identical. Binary hashes differ; bit-reproducible compiler output is not claimed.",
+  "cuda_linked": false,
+  "decision": "docs/decisions/0070-native-enrolled-llm-verifier.md",
+  "failure_history": [
+    {
+      "candidate": {
+        "after": {
+          "nitroo/crates/stwo/src/stwo_cuda/bindings.rs": "49d306916f05237b56af2eff4de38a8d7fcec54e147c2200c02977e5950dc935",
+          "nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs": "fdab92dd5a251bbe4ca59d642c3da01b4b785aa34d623a9576fd6d733f35dc1a",
+          "prover/src/main.rs": "7b1271f4796981925ca2bc1bc031540e0b9d5949b73a4d909d36d5958d8b4be7"
+        },
+        "before": {
+          "nitroo/crates/stwo/src/stwo_cuda/bindings.rs": "5b1c9c84fe638837129e6e9a092a8420c43579338812dbc58f7b04f427527e49",
+          "nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs": "be87e2bef63ebbfbdeee238388b780af0f5e1863a83e297f7cc98975f110cd77",
+          "prover/src/main.rs": "8a007648c87cb60abad5f27c17165afc4f0ebf4f0eb2c4f2aa0345b7d9f8b6c4"
+        },
+        "cargo_lock_sha256": "4440e390523689dd1d60541cd2e13242eaf152f733d6be7fe17f7f872eb9e45d",
+        "expected_sha256": "57bdd9f2feeb32a05dcc48bcca8ee10650409a3fb192d38254bbbe9333254008",
+        "patch_sha256": "82712b62719085d26132385ccd24837d22ed19e34c62ea038181ab4cbde7be58",
+        "proof_inventory_sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+        "rustc": "rustc 1.90.0-nightly (e9182f195 2025-07-13)",
+        "source_dir": "retained in the run directory"
+      },
+      "raw": {
+        "build-command.json": "29a913e5d87f9a79411b9334a8be6c40666daad019e9a43cb7fc7ebac350a276",
+        "build-result.json": "f7fca0f77580c4767e9a7432f59bcf2f73af05a721d38daa014f1981d80062fd",
+        "build.log": "501a104c7fc4e7516f1d3829c6d25c30b81877add9ddcdc69c95632b838f6642",
+        "candidate.json": "535eead28f27ac9450b8e4a30d9ddffc1e6425f544f50182e671dc574d1a687a",
+        "native-verifier.patch": "82712b62719085d26132385ccd24837d22ed19e34c62ea038181ab4cbde7be58",
+        "protocol.json": "665ade758d32b8d11ce4c5bb675f09e9101b9a0de72a8d34e966b9f3f830d7ba"
+      },
+      "result": {
+        "exit_code": 101,
+        "kill_reason": null,
+        "sampled_process_group_peak_rss_bytes": 2458058752,
+        "seconds": 110.13672662503086
+      },
+      "run_directory": "runs/mac-verifier-2026-10-23",
+      "stage": "native link"
+    },
+    {
+      "candidate": {
+        "after": {
+          "nitroo/crates/stwo/src/stwo_cuda/bindings.rs": "49d306916f05237b56af2eff4de38a8d7fcec54e147c2200c02977e5950dc935",
+          "nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs": "fdab92dd5a251bbe4ca59d642c3da01b4b785aa34d623a9576fd6d733f35dc1a",
+          "prover/src/main.rs": "7b1271f4796981925ca2bc1bc031540e0b9d5949b73a4d909d36d5958d8b4be7",
+          "prover/src/util.rs": "bc20ca96b885e2519a7b26f037342d8b539212f00483eae1f108f825c216a3c0"
+        },
+        "before": {
+          "nitroo/crates/stwo/src/stwo_cuda/bindings.rs": "5b1c9c84fe638837129e6e9a092a8420c43579338812dbc58f7b04f427527e49",
+          "nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs": "be87e2bef63ebbfbdeee238388b780af0f5e1863a83e297f7cc98975f110cd77",
+          "prover/src/main.rs": "8a007648c87cb60abad5f27c17165afc4f0ebf4f0eb2c4f2aa0345b7d9f8b6c4",
+          "prover/src/util.rs": "3fb5b4e6d96d5533016c5e9f0484e2a67fb447795e011ff5df88dce3d8d2c3f1"
+        },
+        "cargo_lock_sha256": "4440e390523689dd1d60541cd2e13242eaf152f733d6be7fe17f7f872eb9e45d",
+        "expected_sha256": "57bdd9f2feeb32a05dcc48bcca8ee10650409a3fb192d38254bbbe9333254008",
+        "patch_sha256": "8517e0f0bb6aae5a0f4f47940f40a92566e15c19deb19e5c764bec25c7c32217",
+        "proof_inventory_sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+        "rustc": "rustc 1.90.0-nightly (e9182f195 2025-07-13)",
+        "source_dir": "retained in the run directory"
+      },
+      "raw": {
+        "build-command.json": "c965db547b27705775752de65a7e01bd6cfaa9e99408b7bce7bab2329e486c38",
+        "build-result.json": "bf0bf213254820fa8f95afa515521c868cdd235f032d7b2d50accfea7ff5b2a6",
+        "build.log": "bb0aaba630ad00277bda0ec93bef55b9dd4aa7050d09223f704d4e92e6180212",
+        "candidate.json": "af15d2f6b5414b01c31284556cc287b040d7f82a85b795714f6072031b147daf",
+        "native-verifier.patch": "8517e0f0bb6aae5a0f4f47940f40a92566e15c19deb19e5c764bec25c7c32217",
+        "protocol.json": "894d222f95cebd5cdd74f74c5a0d4608af871d117e9f9f00dec0a68440feb48e"
+      },
+      "result": {
+        "exit_code": 101,
+        "kill_reason": null,
+        "sampled_process_group_peak_rss_bytes": 2409709568,
+        "seconds": 104.82870054082014
+      },
+      "run_directory": "runs/mac-verifier-modes-2026-10-23",
+      "stage": "native link"
+    },
+    {
+      "reason": "PermissionError before cryptographic verification; corrected profile explicitly permits process-fork.",
+      "result": {
+        "exit_code": 1,
+        "kill_reason": null,
+        "sampled_process_group_peak_rss_bytes": 25460736,
+        "sandbox_network_denied": true,
+        "seconds": 2.205305124865845
+      },
+      "run_directory": "runs/mac-enrolled-verifier-2026-10-23/verify",
+      "stage": "sandbox child creation"
+    },
+    {
+      "reason": "Upstream constraint code panicked before enrollment validation; corrected candidate checks the compiled enrollment first.",
+      "result": {
+        "exit_code": 1,
+        "failure": "ValueError",
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 464109568,
+        "seconds": 20.706400249851868
+      },
+      "run_directory": "runs/llm-verify-_ly78ahl",
+      "stage": "direct unknown-shape control",
+      "stderr_sha256": "2b62d6bf14ecb91ee1d68da9a83ad05f2f22c25b19c64458a1185c6c5a01713e"
+    }
+  ],
+  "hardware_claim": "not-accepted",
+  "hiding_claim": false,
+  "host": {
+    "cpu": "Apple M4 Max",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "rustc": "rustc 1.90.0-nightly (e9182f195 2025-07-13)"
+  },
+  "independent_security_review": false,
+  "issue": 19,
+  "limits": "Sampled RSS is not an OS quota. Four-thread fixed-case timings are not a cross-hardware speedup measurement.",
+  "linked_libraries": [
+    "\t/usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)",
+    "\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+  ],
+  "native_patch_sha256": "2861fc619ef7f2c520bf7f5cb6a83b087ce76fb2e516656c03abfb49531aaeae",
+  "passed": true,
+  "proofs_regenerated": false,
+  "qualified_backend": false,
+  "recorded_at": "2026-10-23",
+  "runs": [
+    {
+      "binary_bytes": 2156256,
+      "build": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 2508308480,
+        "seconds": 101.56149795791134
+      },
+      "cases": [
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-0",
+          "seconds": 3.8669905830174685,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-1",
+          "seconds": 3.275165625149384,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "name": "changed-prompt",
+          "seconds": 0.000969582935795188,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-answer",
+          "seconds": 0.000841124914586544,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-model",
+          "seconds": 0.0008368340786546469,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-calibration",
+          "seconds": 0.0009643752127885818,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "missing-layer",
+          "seconds": 0.0001324170734733343,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "wrong-layer-coordinate",
+          "seconds": 0.0013229171745479107,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-final-output",
+          "seconds": 0.014303958974778652,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "token-alias",
+          "seconds": 0.0007605841383337975,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "boolean-token",
+          "seconds": 0.0007693751249462366,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "open-scale-profile",
+          "seconds": 0.0006774580106139183,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "weaker-security",
+          "seconds": 0.0007767081260681152,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-proof",
+          "seconds": 3.215302625205368,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-residual-boundary",
+          "seconds": 3.2200845000334084,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-output-claim",
+          "seconds": 3.1150184168946,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-unknown-shape",
+          "seconds": 3.116449207998812,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-changed-calibration",
+          "seconds": 3.1427975001279265,
+          "stage": "real verifier"
+        }
+      ],
+      "enrolled_shapes_sha256": "ddfbe6fa1eddc95f14ff5d0f5921c3e22587055dc20bec7d42361d3eb9b9119c",
+      "native_commands": [
+        {
+          "exit_code": 0,
+          "name": "honest-0",
+          "peak_child_rss_bytes": 293814272,
+          "seconds": 3.8669905830174685
+        },
+        {
+          "exit_code": 0,
+          "name": "honest-1",
+          "peak_child_rss_bytes": 293814272,
+          "seconds": 3.275165625149384
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-proof",
+          "peak_child_rss_bytes": 295141376,
+          "seconds": 3.215302625205368
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-residual-boundary",
+          "peak_child_rss_bytes": 303382528,
+          "seconds": 3.2200845000334084
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-output-claim",
+          "peak_child_rss_bytes": 303382528,
+          "seconds": 3.1150184168946
+        },
+        {
+          "exit_code": 1,
+          "name": "native-unknown-shape",
+          "peak_child_rss_bytes": 303382528,
+          "seconds": 3.116449207998812
+        },
+        {
+          "exit_code": 1,
+          "name": "native-changed-calibration",
+          "peak_child_rss_bytes": 303382528,
+          "seconds": 3.1427975001279265
+        }
+      ],
+      "proof_archive_sha256": "9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb",
+      "raw": {
+        "build/cost.json": {
+          "bytes": 188,
+          "sha256": "2d6013904a85e5deaef4563fe1eba3ea8f0a883648a7fb3a63e12fecb9550d19"
+        },
+        "build/output.log": {
+          "bytes": 14516,
+          "sha256": "22c803de424e4e282e745e31fa4d549d66846ed15f83ea2175e14be64a547821"
+        },
+        "protocol.json": {
+          "bytes": 1202,
+          "sha256": "a300b2a95b428d639ca2c94886b1d496ea1a9567ac86d2b14a88864e5ac9d940"
+        },
+        "result.json": {
+          "bytes": 469,
+          "sha256": "811bbfdd2e64ef507c1a47fdd8284be48f569bfee0e1ba745233ab5e4cd8da07"
+        },
+        "verification/expected.json": {
+          "bytes": 25422,
+          "sha256": "66e5875fdb14b72504ae0c69fdf7aab9567ecb062e6f11287e05718579cb558c"
+        },
+        "verification/output/commands.json": {
+          "bytes": 9468,
+          "sha256": "251ee4cb6b5df2649635fd2020df0d4f0f84fd78bac5051794e33496d433148e"
+        },
+        "verification/output/honest-0.stdout": {
+          "bytes": 51653,
+          "sha256": "9ed280943808d3ff1649a8722c8ae3a7dddd1fc1f3c5dbe9d1444b14666f8e7f"
+        },
+        "verification/output/honest-1.stdout": {
+          "bytes": 51648,
+          "sha256": "3424dfc79bbaeb8868744480dce9136fb759a2bbb1056a8d09946aecfe08f528"
+        },
+        "verification/output/native-changed-calibration.stdout": {
+          "bytes": 52779,
+          "sha256": "7ef28e04f73952f9406af647158a4e9d018b1863354b71d7ca26150c1e02e026"
+        },
+        "verification/output/native-unknown-shape.stdout": {
+          "bytes": 52714,
+          "sha256": "49629269435ecedf7c02c78b901d6aa86dd571a769cef57a7611102734910e80"
+        },
+        "verification/output/result.json": {
+          "bytes": 5852,
+          "sha256": "ae144d66a0519380c442f15d233bf9bc6f629c5c5a83c4237b3ee7adc5b90edf"
+        },
+        "verification/proof-inventory.json": {
+          "bytes": 9470,
+          "sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2"
+        },
+        "verification/protocol.json": {
+          "bytes": 875,
+          "sha256": "26bac1d9761acfc06483d0b82bb3437ba52fcfeb9d9df21bacd8d69ae338e423"
+        },
+        "verify/cost.json": {
+          "bytes": 187,
+          "sha256": "90c4329f9a3d783f8194fd2a5152995e02ce919b2969806e9b695233b2dcef2c"
+        }
+      },
+      "result": {
+        "baseline_mutations_rejected": 14,
+        "cloud_cost_usd": 0,
+        "fresh_verifications": 2,
+        "native_enrollment_mutations_rejected": 2,
+        "passed": true,
+        "proofs": 23,
+        "qualified_backend": false,
+        "residual_links": 22,
+        "response": "The capital of France is Paris.",
+        "seconds": 128.75065516587347,
+        "security_review": false,
+        "shape_root_source": "compiled-enrollment",
+        "verifier_sha256": "5ff05fe381cf6cc3bafe94e77799225d6d78af30a723d45ddb0f23ec8b617046"
+      },
+      "run_directory": "runs/llm-verify-wckqj1l9",
+      "source_files": {
+        "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+        "research/probes/sash/native-verifier.patch": "2861fc619ef7f2c520bf7f5cb6a83b087ce76fb2e516656c03abfb49531aaeae",
+        "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+        "research/probes/sash/verify_response.py": "a9f2d31cf1012d69e65749ba8f38729bada54346f63acc879765d05361bbb85d",
+        "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+        "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+        "scripts/verify_llm.py": "0133b5fc2f57a092c0c31b23159dc3f4f30d3fa4439e6ab93c75f203f1b68928",
+        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+      },
+      "verification": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 493993984,
+        "seconds": 26.359609459061176
+      }
+    },
+    {
+      "binary_bytes": 2156256,
+      "build": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 2420457472,
+        "seconds": 100.4624044590164
+      },
+      "cases": [
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-0",
+          "seconds": 3.4056210829876363,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-1",
+          "seconds": 3.2159784589894116,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "name": "changed-prompt",
+          "seconds": 0.0008750830311328173,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-answer",
+          "seconds": 0.0007898330222815275,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-model",
+          "seconds": 0.0006522499024868011,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-calibration",
+          "seconds": 0.0007189169991761446,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "missing-layer",
+          "seconds": 0.00011520902626216412,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "wrong-layer-coordinate",
+          "seconds": 0.0011869999580085278,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-final-output",
+          "seconds": 0.013907624874264002,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "token-alias",
+          "seconds": 0.000731209060177207,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "boolean-token",
+          "seconds": 0.000680374912917614,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "open-scale-profile",
+          "seconds": 0.0006580839399248362,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "weaker-security",
+          "seconds": 0.0006010420620441437,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-proof",
+          "seconds": 3.156364249996841,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-residual-boundary",
+          "seconds": 3.2577574169263244,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-output-claim",
+          "seconds": 3.111153124831617,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-unknown-shape",
+          "seconds": 3.1356550420168787,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-changed-calibration",
+          "seconds": 3.1377582917921245,
+          "stage": "real verifier"
+        }
+      ],
+      "enrolled_shapes_sha256": "ddfbe6fa1eddc95f14ff5d0f5921c3e22587055dc20bec7d42361d3eb9b9119c",
+      "native_commands": [
+        {
+          "exit_code": 0,
+          "name": "honest-0",
+          "peak_child_rss_bytes": 289783808,
+          "seconds": 3.4056210829876363
+        },
+        {
+          "exit_code": 0,
+          "name": "honest-1",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.2159784589894116
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-proof",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.156364249996841
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-residual-boundary",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.2577574169263244
+        },
+        {
+          "exit_code": 1,
+          "name": "altered-output-claim",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.111153124831617
+        },
+        {
+          "exit_code": 1,
+          "name": "native-unknown-shape",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.1356550420168787
+        },
+        {
+          "exit_code": 1,
+          "name": "native-changed-calibration",
+          "peak_child_rss_bytes": 302923776,
+          "seconds": 3.1377582917921245
+        }
+      ],
+      "proof_archive_sha256": "9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb",
+      "raw": {
+        "build/cost.json": {
+          "bytes": 187,
+          "sha256": "42490120a6fb3205e9d7025f232716247136cfbff8423303b378736ebd49c920"
+        },
+        "build/output.log": {
+          "bytes": 14516,
+          "sha256": "5727371827291945668a5fe94c8a60adbdeab322c5081a8f730f2af30ae84dbd"
+        },
+        "protocol.json": {
+          "bytes": 1202,
+          "sha256": "a7fbe3ee0e3406d5b6c839f4a08e48a8f7f9955c21903dfec714acf03373f5fb"
+        },
+        "result.json": {
+          "bytes": 469,
+          "sha256": "4c1b4f9fe05ab3cbdc5c24ae0f47bbe789aa341c7c9fde1d477643887a9bb693"
+        },
+        "sandbox-control/cost.json": {
+          "bytes": 186,
+          "sha256": "5bd27f382fabaeeb0123e5cf1e871600664dd36ffec988591fb154dd0284b07d"
+        },
+        "sandbox-control/output.log": {
+          "bytes": 68,
+          "sha256": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a"
+        },
+        "verification/expected.json": {
+          "bytes": 25422,
+          "sha256": "e6c4a39098e93fb8c05b3a3b06af0fc86dd8a94ac78c996cf5f093efb324f35a"
+        },
+        "verification/output/commands.json": {
+          "bytes": 9472,
+          "sha256": "9770ca796474c08773735befd4f9859eaf821d7f8be69b22b44982b75216d67e"
+        },
+        "verification/output/honest-0.stdout": {
+          "bytes": 51649,
+          "sha256": "e9bbed6e6079e60e13507f5bc9c9edd8833010626e2dbc71aa2f4b08db93dfa6"
+        },
+        "verification/output/honest-1.stdout": {
+          "bytes": 51649,
+          "sha256": "1a9f66a2fbb467740ae0b10846cedd5c95003ce38f60241062c7bd22f560942c"
+        },
+        "verification/output/native-changed-calibration.stdout": {
+          "bytes": 52786,
+          "sha256": "8aaad571beaa3f43213f1e07df3886f1624df083a1fe19d309db7cba84b5854c"
+        },
+        "verification/output/native-unknown-shape.stdout": {
+          "bytes": 52706,
+          "sha256": "0f99b3e777990e27b891eb89c9d365e9fa94fae882331e9c1f2a41ce6a3ede8c"
+        },
+        "verification/output/result.json": {
+          "bytes": 5857,
+          "sha256": "95e45bf8e8cce7655cab46a5851a0e63d8b80241b474ba97eb783381e77a5780"
+        },
+        "verification/proof-inventory.json": {
+          "bytes": 9470,
+          "sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2"
+        },
+        "verification/protocol.json": {
+          "bytes": 875,
+          "sha256": "e544766e4b088298ed04e8f0ca3b63da1e624aa229f1de655221f296c0b80094"
+        },
+        "verify/cost.json": {
+          "bytes": 187,
+          "sha256": "9fd354c8b73750d297d46f280f8dcc789556ed56cbf946655e0ac1e3e048c07a"
+        }
+      },
+      "result": {
+        "baseline_mutations_rejected": 14,
+        "cloud_cost_usd": 0,
+        "fresh_verifications": 2,
+        "native_enrollment_mutations_rejected": 2,
+        "passed": true,
+        "proofs": 23,
+        "qualified_backend": false,
+        "residual_links": 22,
+        "response": "The capital of France is Paris.",
+        "seconds": 128.18624341720715,
+        "security_review": false,
+        "shape_root_source": "compiled-enrollment",
+        "verifier_sha256": "40e50f345ef13910bef110cefa44d54205ddb57706648bb84cb232150da48ae2"
+      },
+      "run_directory": "runs/llm-verify-zh784135",
+      "sandbox_controls": {
+        "fork": true,
+        "network_denied": true,
+        "outside_file_denied": true
+      },
+      "source_files": {
+        "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+        "research/probes/sash/native-verifier.patch": "2861fc619ef7f2c520bf7f5cb6a83b087ce76fb2e516656c03abfb49531aaeae",
+        "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+        "research/probes/sash/verify_response.py": "a9f2d31cf1012d69e65749ba8f38729bada54346f63acc879765d05361bbb85d",
+        "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+        "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+        "scripts/verify_llm.py": "4f6cb2f6990cff7c27c566524a14e296221f12ec9d5c23c7ff2e1e42d2c30436",
+        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+      },
+      "verification": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 467615744,
+        "seconds": 25.878824417013675
+      }
+    }
+  ],
+  "schema_id": "hallmark.native-llm-verification-evidence/1",
+  "scope": "Fixed public TinyLlama case; actual STARK/GKR verification with compiled shape enrollment",
+  "source_licence": "Apache-2.0; upstream LICENSE and NOTICE retained in extracted source; no binary redistributed",
+  "source_revision": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+  "validation": {
+    "commands": [
+      "make check",
+      "make package-check"
+    ],
+    "full_evidence_obligations_unavailable": 32,
+    "independent_security_review": false,
+    "logs": {
+      "runs/native-verifier-delivery/check.log": "1fbf30b2420420b4fdc9ce79dee956814c6a2eafae46f11fce3e8ff13c1b26ae",
+      "runs/native-verifier-delivery/package-check-staged.log": "0b808969ead1e406503be47933ce43bc53b66176e38f243b9ecee7a95ad83147",
+      "runs/native-verifier-delivery/package-check.log": "7443c655bfdd9e999298743480bca10a6ed28b923b68fc2758abd516ae9b9d66"
+    },
+    "native_library_inspection": "otool -L and nm -u report no CUDA dependency or undefined CUDA symbols",
+    "package_check": "passed after staging the reviewed new files",
+    "retained_package_failure": {
+      "path": "dist/package-check-asdg7w8g",
+      "reason": "The package gate snapshots Git-reviewed paths. The first attempt omitted unstaged new documentation and failed its link check; no runtime change was needed."
+    },
+    "retained_package_success": "dist/package-check-j55n1ru7",
+    "skip_scope": "Optional dependencies and platform-specific checks; train-extra checks remain required in CI.",
+    "software_conformance_matched": 156,
+    "status": "passed",
+    "tests_passed": 2274,
+    "tests_skipped": 121,
+    "uv_version": "0.9.18"
+  }
+}

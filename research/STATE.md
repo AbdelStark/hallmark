@@ -31,6 +31,16 @@ local patching failure remains recorded in [decision 0069](../docs/decisions/006
 enrollment and independent security/hiding qualification; hardware provenance is
 a separate extension, not part of this LLM demo.
 
+An optional native Mac verifier now specializes the same proof relation to the
+frozen public case using compiled caller-enrolled shape roots. `make verify-llm
+LLM_RUN=runs/llm-e2e-...` rebuilds that verifier and checks retained proofs without
+weights, witnesses or paid jobs. The [native experiment](evidence/native-llm-verification-2026-10-23.json)
+requires two honest checks, all 14 original mutations and two direct native
+unknown-shape/calibration rejections. [Decision 0070](../docs/decisions/0070-native-enrolled-llm-verifier.md)
+explains the preprocessing change and retained linker/sandbox failures. This
+variant does not rederive shape trees or qualify authenticated enrollment;
+`make e2e-llm` retains the original Linux verifier's runtime derivation.
+
 Earlier failures are documented in decisions [0065](../docs/decisions/0065-exact-llm-witness-accumulators.md),
 [0066](../docs/decisions/0066-llm-shape-reconstruction.md) and
 [0067](../docs/decisions/0067-bind-the-value-activation-scale.md).

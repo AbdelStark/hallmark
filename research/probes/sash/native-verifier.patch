@@ -1,0 +1,133 @@
+--- a/nitroo/crates/stwo/src/stwo_cuda/bindings.rs
++++ b/nitroo/crates/stwo/src/stwo_cuda/bindings.rs
+@@ -79,7 +79,7 @@
+     }
+ }
+ 
+-#[link(name = "stwo_cuda")]
++#[cfg_attr(not(target_os = "macos"), link(name = "stwo_cuda"))]
+ extern "C" {
+     pub fn copy_uint32_t_vec_from_device_to_host(
+         device_ptr: *const u32,
+--- a/nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs
++++ b/nitroo/crates/stwo/src/stwo_cuda/bindings_airs.rs
+@@ -5,7 +5,7 @@
+     fields::{m31::BaseField, qm31::SecureField},
+ };
+ 
+-#[link(name = "stwo_cuda")]
++#[cfg_attr(not(target_os = "macos"), link(name = "stwo_cuda"))]
+ extern "C" {
+ 
+     pub fn verify_bitwise_xor_4_mults_init(
+--- a/prover/src/main.rs
++++ b/prover/src/main.rs
+@@ -1,3 +1,13 @@
+ fn main() {
+-    zk_prover::cli::main()
++    let args: Vec<String> = std::env::args().skip(1).collect();
++    if args.first().map(String::as_str) != Some("boundary-grid")
++        || !args.iter().any(|arg| arg == "--verify")
++    {
++        eprintln!("native verifier requires boundary-grid --verify");
++        std::process::exit(2);
++    }
++    zk_prover::spans::install();
++    zk_prover::device::install_mem_hook();
++    zk_prover::shaperoot::configure(&args);
++    zk_prover::boundary::grid_cmd(&args);
+ }
+--- a/prover/src/compose.rs
++++ b/prover/src/compose.rs
+@@ -7137,35 +7137,16 @@
+ 
+ // ---------------------------------------------------------------- verifying ----
+ 
+-/// Issue #95: the shape tree's root, from the statement's own parameters and
+-/// the per-layer calibration the model manifest publishes -- the two things
+-/// the tree is a function of, and the two things a verifier holds.
+-///
+-/// It is `zk-prover expect-root --shape-only --calibration` as a function.
+-/// `Layer::from_params` (#112) builds the segment those two determine, with no
+-/// dump and no weight anywhere in reach, and the **prover's own builder**
+-/// commits tree 0 and stops: there is no second implementation of the shape
+-/// tree for this root to be derived by, which is what makes comparing it with
+-/// the statement's `pre_root` a check and not a second declaration.
+-///
+-/// The cost is the preprocessed build the issue names, and it is paid once per
+-/// key in a process -- a grid's segments at one `(layer, shape)` share one
+-/// derivation between them.  Returns the root, whether this call paid for it,
+-/// and what it paid.
+-pub fn shape_root_from_params(params: &Params, calib: &crate::shaperoot::Calibration)
++/// Fixed-model verification: the caller enrolls the exact parameter/calibration
++/// digest and its preprocessed root before compilation. Unknown shapes reject.
++/// This does not reconstruct the shape tree or authenticate its enrollment.
++pub fn enrolled_shape_root(params: &Params, calib: &crate::shaperoot::Calibration)
+                               -> (String, bool, f64) {
+-    let t0 = std::time::Instant::now();
+-    let (root, paid) = crate::shaperoot::derived_root(params, calib, || {
+-        // the run's own noted key and its cache are left as the run wrote them
+-        let _deriving = crate::shaperoot::deriving();
+-        let layer = crate::layer::Layer::from_params(params, calib);
+-        let g = generate(&layer, params, &ProverTamper::default(), None);
+-        match prove_gen_to(&layer, params, g, true) {
+-            Proved::ShapeRoot(r) => r,
+-            Proved::Composed(_) => unreachable!("the derivation ran past the shape tree"),
+-        }
+-    });
+-    (root, paid, if paid { t0.elapsed().as_secs_f64() } else { 0.0 })
++    let key = crate::shaperoot::key(&crate::shaperoot::inputs(params, calib));
++    let roots: std::collections::BTreeMap<String, String> =
++        serde_json::from_str(include_str!("enrolled_shapes.json")).expect("compiled enrollment");
++    let root = roots.get(&key).unwrap_or_else(|| panic!("unenrolled shape {key}"));
++    (root.clone(), false, 0.0)
+ }
+ 
+ /// Issue #95: the shape root this statement should have, and the comparison.
+@@ -7190,7 +7171,7 @@
+                           Some(format!("the shape root was not derived: {e}"))),
+     };
+     let derived = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+-        shape_root_from_params(&fixed.params, &calib)
++        enrolled_shape_root(&fixed.params, &calib)
+     }));
+     let (root, _paid, secs) = match derived {
+         Ok(v) => v,
+@@ -7202,7 +7183,7 @@
+                 .or_else(|| e.downcast_ref::<&str>().map(|s| s.to_string()))
+                 .unwrap_or_else(|| "the derivation failed".to_string());
+             return (None, Some(false), 0.0,
+-                    Some(format!("the shape root was not derived from the statement and \
++                    Some(format!("the shape root was not enrolled for the statement and \
+                                   {f}: {why}")));
+         }
+     };
+@@ -7403,6 +7384,10 @@
+     let Ok(fixed) = serde_json::from_slice::<Fixed>(fixed_bytes) else {
+         return Verdict::rejected("unparseable fixed statement");
+     };
++    let (shape_root, shape_root_ok, shape_secs, shape_why) = shape_root_check(&fixed);
++    if shape_root_ok != Some(true) {
++        return Verdict::rejected(shape_why.as_deref().unwrap_or("shape enrollment is required"));
++    }
+     let Ok(claims) = serde_json::from_slice::<Claims>(claims_bytes) else {
+         return Verdict::rejected("unparseable claims");
+     };
+@@ -7935,7 +7920,6 @@
+     // publisher's commitment to weights this verifier does not hold, and what
+     // pins it is `boundary-grid --expect-model-roots` against the same
+     // manifest.
+-    let (shape_root, shape_root_ok, shape_secs, shape_why) = shape_root_check(&fixed);
+     let error = match (shape_why, error) {
+         (Some(w), Some(e)) => Some(format!("{w}; and stwo's verify: {e}")),
+         (Some(w), None) => Some(w),
+--- a/prover/src/util.rs
++++ b/prover/src/util.rs
+@@ -610,6 +610,7 @@
+     let (_, driver, cuda) = nvidia_smi();
+     json!({
+         "commit": env!("ZK_SOURCE_COMMIT"),
++        "shape_root_source": "compiled-enrollment",
+         "dirty": match env!("ZK_SOURCE_DIRTY") {
+             "true" => json!(true),
+             "false" => json!(false),

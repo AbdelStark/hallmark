@@ -12,6 +12,15 @@ results below. `make e2e-llm` now [reproduces that result](../research/evidence/
 from fresh preparation, build and proofs in 31 minutes 15 seconds, with two fresh
 verifications and all 14 changed-claim rejections.
 
+The optional [native proof-only command](LLM-PROOF.md#verify-retained-proofs-on-your-mac)
+checks that fixed LLM case in **3.22–3.87 seconds per honest verification** across
+four recorded processes. Two fresh workflows, including compilation and all 16
+mutation checks, each finished in about 128 seconds. This variant compiles the
+caller-enrolled shape parameters; it does not repeat their derivation or establish
+operational enrollment. [Its evidence](../research/evidence/native-llm-verification-2026-10-23.json)
+retains both linker failures and the sandbox/unknown-shape failures. No matched
+cross-hardware speedup or independent security review is claimed.
+
 ## Models and task
 
 The current combined demo uses three fixed architectures. Model weights are
