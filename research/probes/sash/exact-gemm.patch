@@ -1,0 +1,10 @@
+diff --git a/harness/witness/quant.py b/harness/witness/quant.py
+index c1cf45a..331e31c 100644
+--- a/harness/witness/quant.py
++++ b/harness/witness/quant.py
+@@ -156,4 +156,4 @@ def int_gemm_exact(qa, qb, bound):
+     B5's numerator matmul reaches 255 * 127 * C, not 127^2 * C.
+     """
+     dt = torch.float32 if bound < (1 << 24) else torch.float64
+-    return (qa.to(dt) @ qb.to(dt)).float()
++    return qa.to(dt) @ qb.to(dt)

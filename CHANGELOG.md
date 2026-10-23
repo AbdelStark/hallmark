@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Record the real LLM response-proof plan, pinned SASH/TinyLlama inputs, retained
+Mac build failures, Linux synthetic proof reproduction and corrected full witness.
+Complete response proofs and caller-side rejection remain an implementation gate.
+
 Consolidate four proof controllers' worker setup and artifact checks. Pass reviewed
 read-only paths per invocation instead of replacing a global sandbox function.
 Preserve resource limits, input hashes, output inventories and failure evidence.

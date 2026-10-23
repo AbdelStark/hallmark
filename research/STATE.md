@@ -1,8 +1,27 @@
 # Research state
 
-Updated: 2026-10-22. Phase: MIT-licensed research software in a public repository, with bounded classifier proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-23. Phase: MIT-licensed research software in a public repository, with bounded classifier proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
 ## Next bounded task
+
+The current target is the owner's **complete short pretrained LLM response proof**,
+with disclosed quantization and public witnesses permitted. [Decision 0064](../docs/decisions/0064-real-llm-build.md)
+freezes the first gates; [the source review](real-llm-proof-plan.md) selects SASH
+for assessment, not adoption. The initial [execution evidence](evidence/llm-preflight-2026-10-23.json)
+retains two failed Mac linking attempts and a verified TinyLlama checkpoint.
+On one authored prompt the float implementation agrees with Transformers at every
+prompt position; the quantized model emits the same eight-token answer through EOS.
+The 16-step run deliberately continues beyond EOS and records that suffix.
+The Linux CPU build reproduced the aligned synthetic proof digest and passed
+three upstream integration suites. The corrected complete witness passes array,
+residual-link and eight-output-token checks; the first extraction misapplied
+embedding to later layers and remains retained. The first real layer-0 attempt
+then failed: the upstream witness helper
+rounded an exact integer through float32. [Decision 0065](../docs/decisions/0065-exact-llm-witness-accumulators.md)
+records a one-line Python fix, a failing/passing regression and fresh generation.
+The new witness checks all 23,552 attention rows and passes the Rust root builder.
+Its roots are locally enrolled; the bounded proof attempt is running. Complete LLM proofs and caller-side rejection remain open. Do not
+replace that target with the existing synthetic classifiers or a one-layer proof.
 
 The owner-requested code cleanup consolidates four proof controllers onto one
 checked worker runner and replaces global sandbox overrides with per-call read

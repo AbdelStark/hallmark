@@ -22,6 +22,11 @@ at most **96 UTF-8 bytes**. A valid proof establishes the admitted integer
 computation; it does not establish that a classifier is a good safety policy.
 The broader hardware-attested inference system remains unfinished.
 
+[Real LLM response proofs](research/real-llm-proof-plan.md) are the current research
+target: a short response from a pinned, quantized TinyLlama model using SASH.
+A disclosed witness-precision fix passes native generation and extraction.
+The complete response proof is still in progress.
+
 ## What exactly is proved?
 
 For a fixed integer classifier and a particular prompt, Hallmark proves that the

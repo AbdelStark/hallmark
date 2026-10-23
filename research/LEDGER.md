@@ -3795,3 +3795,122 @@ controller/export/entrypoint regressions pass 96. No new dependency or cloud spe
 [evidence record](evidence/worker-cleanup-2026-10-22.json) pins changed source,
 commands, counts and retained failures. Production code shrinks by 99 lines.
 No full training/proving campaign or cryptographic audit was repeated.
+
+## 2026-10-23 — Real LLM build and inference preflight (#19, in progress)
+
+[Decision 0064](../docs/decisions/0064-real-llm-build.md) and the
+[raw numeric evidence](evidence/llm-preflight-2026-10-23.json) preserve the expanded
+owner target: a complete short pretrained response, explicitly quantized, with a
+fresh verifier and changed-input/output/model rejection. No old classifier result
+is reused as LLM evidence.
+
+Pinned SASH `eb95bfa` fails to link on the Mac because `stwo_cuda` is unavailable.
+A separate two-attribute linker candidate also fails on reachable CUDA symbols;
+it is retained and not adopted. Both use the pinned nightly and locked crates.
+The public Apache-2.0 TinyLlama-1.1B-Chat checkpoint matches its exact SHA-256.
+A fresh locked witness environment runs on the Mac. The first wrapper failed on
+the chat-template API return type before model loading; explicit tensor extraction
+fixes that without changing the frozen prompt, eight calibration texts or gates.
+
+For the one authored prompt, maximum float-logit difference is 0.00009918212890625,
+and argmax agreement is 1.0 across all 25 prompt positions. The quantized variant
+`y-delay-vw12` emits "The capital of France is Paris." then EOS at step eight,
+matching the reference's eight token IDs. The 16-step fixed run retains its
+post-EOS whitespace. It is a compatibility screen, not a quality benchmark.
+
+The authorized Linux build uses a digest-pinned CUDA image on HF CPU Upgrade,
+with the exact source-archive hash, 3,600-second timeout, no automatic retry,
+public inputs only and $0.10 total build-attempt ceiling. Live credit and active-job
+checks are retained privately. The build completed in 482.898 running seconds. Its aligned synthetic proof
+reproduces `db6d17a700c25457` with no unbound layer edge or unsound skip: proving
+9.464 seconds, verification 0.147 seconds, serialized proof 23,594,585 bytes,
+peak process RSS 5,361,160,192 bytes. All three selected upstream integration
+suites pass (six test functions). Ten output files totaling 86,269,880 bytes are
+retained and rehashed. The conservative compute bound is $0.005, not an invoice.
+This synthetic proof does not establish a real LLM proof.
+
+Local commands/logs and their hashes are under the isolated worktree's
+`runs/preflight/`: `build-command.json`, `mac-link-protocol.json`,
+`generation-protocol-v2.json`, `prepare_model_v2.py`, `hf-job-plan.json` and
+`hf_build.sh`. No changes to Hallmark's classifier arithmetic, models or verifier.
+
+The first complete 22-layer extraction passed numeric bounds but misapplied
+`--embed` to every layer. Source/manifest review caught this before cloud proving;
+it is retained as unusable for a full proof plan. The correction re-extracts
+layers 1–21 without that flag and retains the same layer-0/head arrays. Model,
+source, calibration, arithmetic, prompt and expected answer are unchanged. The
+corrected layer pass takes 8.95 seconds, with 10,832,773,120-byte process peak RSS.
+
+The independent byte-level inventory checks 1,856 arrays (1,352,364,544 bytes),
+22 residual links, all 32 input IDs and the eight head outputs at positions 24–31.
+This includes the final EOS output, which has no following input for a continuity
+check. All checks pass. The plan contains 22 layers plus one head, with fixed
+21–26-bit table widths; the tightest no-wrap margin is one bit. These are witness
+checks, not cryptographic verification. The initial metadata-copy path mistake
+and missing `_L` shape-reader prefix are retained as preparation failures.
+
+Exact extraction commands (from the isolated worktree, using the upstream locked
+Python environment and the pinned local model/calibration):
+
+```sh
+python -m harness.witness.extract --tokens 32 --chunk 32 --layers 0 --blocks all \
+  --spec y-delay-vw12 --ids INPUT_IDS --attn-ranges ATTENTION_RANGES \
+  --residual-stream --embed --diagonal-block --slim --slim-num --out WITNESS
+python -m harness.witness.extract --tokens 32 --chunk 32 --layers 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 --blocks all \
+  --spec y-delay-vw12 --ids INPUT_IDS --attn-ranges ATTENTION_RANGES \
+  --residual-stream --diagonal-block --slim --slim-num --out WITNESS
+python -m harness.witness.extract --tokens 32 --chunk 32 --layer 21 --blocks all \
+  --spec y-delay-vw12 --ids INPUT_IDS --attn-ranges ATTENTION_RANGES \
+  --residual-stream --head --diagonal-block --slim --slim-num --out HEAD
+```
+
+The corrected run is `runs/preflight/full-witness-v2`; `validation.json` records
+full file hashes and `plan.txt` records all 23 segments. The first real-layer
+job uses CPU XL (16 vCPU, 124 GB), a 96 GiB address-space limit, one-hour provider
+timeout and $1.10 total ceiling. Its model roots must be retained locally before
+a caller marker allows proving. The whole-response proof and mutation suite
+remain the acceptance gate; no whole-graph qualification is claimed.
+
+The first real-layer job terminated before proving: the root builder rejected
+one denominator among 1,024 rows. Its 23.332 running seconds have a conservative
+$0.025 compute bound; failed outputs and commands are retained. Local reproduction
+identifies head 1, token 16. The exact integer and float64 dot product are
+17,866,521; `int_gemm_exact` returns 17,866,520 after its unconditional float32
+cast, exactly matching the recorded maximum. The resulting shift is -1. The
+Rust loader rejects it; no mask, denominator or range check was disabled.
+
+[Decision 0065](../docs/decisions/0065-exact-llm-witness-accumulators.md) freezes a
+new candidate that removes only that final cast. All four helper callers were
+inspected. `research/probes/sash/check_exact_gemm.py` fails on the original helper
+and passes four int64-oracle cases after applying `exact-gemm.patch`. The exact
+real-row regression also reproduces twice. The first diagnostic translation
+omitted the Rust table's out-of-range behavior and did not reproduce the failure;
+its failed assertion is retained separately.
+
+The fresh candidate run reproduces the same calibration hash and all 16 generated
+IDs, including the eight-token answer through EOS. Generation takes 10.91 process
+wall seconds; the measured inference/calibration section is 8.766 seconds. Every
+layer and head was regenerated, with numerator arrays retained for upstream
+cross-checking. The new inventory validates 1,902 arrays (1,355,379,200 bytes),
+22 residual links, all eight output tokens and all 23,552 exact attention rows.
+The output-head extraction repeats layer 21's attention, so that row count is
+23 segments × 32 heads × 32 positions, not 23 distinct transformer layers.
+
+A separately frozen corrected first-layer job is running under the same one-hour
+and $1.10 ceiling. The failed attempt is terminal, retained and charged separately.
+The binary is unchanged; the witness patch hash is explicit in the new manifest.
+Its root result must be locally enrolled before proof execution. Whole-response
+proofs and changed-claim rejection remain outstanding.
+
+The corrected root builder passes in 15.148 seconds with 15,951,828 KiB peak child
+RSS. Its manifest is retained locally with SHA-256
+`b08d0a7afb4d0485f46cc77283010c6ab36332806b84804edb36a471dae8c638`
+before the caller marker releases the proof stage. This is enrollment by a
+separate controller using the same implementation, not independent security review.
+
+Repository validation: `make check` passes 2,229 tests with 121 platform/optional
+skips, all 156 software conformance cases, lint, formatting, typing, specification
+and admission checks. `make package-check` passes; its source archive includes the
+new optional probe, patch and upstream licence/notice. The checker initially
+failed import grouping, then the complete gate passed after that formatting fix.
+No core runtime, dependency lock or existing classifier relation changed.
