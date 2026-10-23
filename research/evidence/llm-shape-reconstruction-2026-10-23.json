@@ -1,0 +1,310 @@
+{
+  "schema_id": "hallmark.llm-shape-reconstruction-evidence/1",
+  "recorded_at": "2026-10-23",
+  "issue": 19,
+  "baseline_commit": "d065d8af1efca193ed3be75a4131c08a54f3a470",
+  "source_commit": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+  "source_licence": "Apache-2.0",
+  "larger_memory_attempt": {
+    "job_id": "6adb2e1fc191903149a7d7b5",
+    "status": "ERROR",
+    "running_seconds": 119.436,
+    "compute_bound_usd": 0.07,
+    "invoice": false,
+    "proof_produced": true,
+    "proof_verified": false,
+    "cause": "Verifier shape reconstruction used a placeholder fold token divisor 2^7 with alpha 9 and panicked. Proof acceptance remained false.",
+    "prove_seconds": 82.493284039,
+    "proof_bytes": 32039654,
+    "proof_sha256": "ee4437d027c2e93f43bf5d0a183c99cbe393d2312ca7facbf954e154babb0849",
+    "peak_rss_bytes": 111457673216,
+    "partial_stark_check": true,
+    "shape_root_check": false,
+    "overall_accepts": false,
+    "enrolled_model_root": "af0ea72feebb0d604b1b71151edc5214f2d33a7ebb602b2b71022b224495ac10",
+    "enrolled_shape_root": "9bb7c476639b3a7cf0d4ae4e26fb541e12442e4c5d08de1943a2ac10c44d703a",
+    "fold_alpha": 9,
+    "fold_rem_bits": 11,
+    "output_inventory": {
+      "commands.json": {
+        "bytes": 1297,
+        "sha256": "bea6830bd71e93f0ea3cf62b2305999144dab4545204eb10ba9e4d40e0bca185"
+      },
+      "failure.json": {
+        "bytes": 81,
+        "sha256": "57c92a5b2d0cbf73197f8af9b31f2435a24a8e1d57635f917ddbdd0c8bb471e5"
+      },
+      "model-roots.json": {
+        "bytes": 985,
+        "sha256": "b08d0a7afb4d0485f46cc77283010c6ab36332806b84804edb36a471dae8c638"
+      },
+      "proof.stderr": {
+        "bytes": 27115,
+        "sha256": "f145c2bfa67117810cb0c30930f392f1f71899153005cae58d136b63a29af02b"
+      },
+      "proof.stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "proof/B0L0.claims.json": {
+        "bytes": 946620,
+        "sha256": "c218752ec66ae449b2de2854b758280cea2902e3eeda070ad39809d5cdeb6e4a"
+      },
+      "proof/B0L0.fixed.json": {
+        "bytes": 57025,
+        "sha256": "7676259d5f025480d9ba069d5b1824f88a06435bde2c6e3afb4e325d6b8327c4"
+      },
+      "proof/B0L0.proof.json": {
+        "bytes": 32039654,
+        "sha256": "ee4437d027c2e93f43bf5d0a183c99cbe393d2312ca7facbf954e154babb0849"
+      },
+      "roots-ready.json": {
+        "bytes": 107,
+        "sha256": "959708764b2537fe42b8e1f147daddbe669822ca90ce9a911eeac3ba3f16146f"
+      },
+      "roots.stderr": {
+        "bytes": 79,
+        "sha256": "b01afa891c7f72044371113074cf6bba60a93d2a9b8c375549271389efc6f674"
+      },
+      "roots.stdout": {
+        "bytes": 5610,
+        "sha256": "0fd7ae20ebf5ecc0e2e167cd512607318830ba984231103a0495bd7cd1161bb9"
+      }
+    },
+    "open_scale_bindings": [
+      "qkv/v"
+    ],
+    "full_inference_qualified": false
+  },
+  "retention": {
+    "old_bucket_deleted": true,
+    "hash_checked_output_files": 33,
+    "retained_output_bytes": 119358589
+  },
+  "candidate": {
+    "decision": "docs/decisions/0066-llm-shape-reconstruction.md",
+    "patch": "research/probes/sash/shape-reconstruction.patch",
+    "patch_sha256": "1a46f77c76a5c113d63ae8086487ddcc124caed407633eac495ec73393e59efb",
+    "regression": "research/probes/sash/fold_shape.rs",
+    "regression_sha256": "599e26d7066e02241c2e49cb40bd9fa1b57fdc0dbaaa98770ee70d68432dd2bb",
+    "status": "diagnostic passed; profile remains ineligible",
+    "proof_regeneration": false,
+    "weights_or_witness_in_worker": false,
+    "full_inference_qualified": false,
+    "qualification_limit": "A constructor repair does not close the delayed-value activation-scale binding; this quantized profile is not eligible for the full-response integrity demo.",
+    "job_id": "6adb3299925af0e27d4fd4de",
+    "running_seconds": 959.318,
+    "compute_bound_usd": 0.01,
+    "invoice": false,
+    "binary_sha256": "5b773dbfd9b47ececc3ac409b4349caaad5098a3f3c2c03301492becdb41e961",
+    "saved_proof_verified": true,
+    "verify_process_seconds": 21.405751532991417,
+    "verify_peak_rss_bytes": 14332235776,
+    "original_rejections": 2,
+    "constructor_regression": "fails before patch; passes after patch",
+    "upstream_suites": [
+      "synthetic_digest",
+      "verify_shape_root",
+      "model_tree_control"
+    ],
+    "mutations": [
+      {
+        "name": "changed-prompt",
+        "rejected": true,
+        "failures": [
+          "the id at position 0 is not the one that reaches it: {\"block\":0,\"got\":529,\"kind\":\"prompt\",\"pos\":0,\"t\":0,\"tag\":\"B0L0\",\"want\":530}"
+        ]
+      },
+      {
+        "name": "changed-model",
+        "rejected": true,
+        "failures": [
+          "B0L0: the statement declares model_root af0ea72feebb0d604b1b71151edc5214f2d33a7ebb602b2b71022b224495ac10 for layer 0, and the manifest says 0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      {
+        "name": "changed-calibration",
+        "rejected": true,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"3f608622b871804f17ac562ada81ca5de955c43ff69a43728685f64ca4bdb774\",\"embed\":true,\"embed_tok\":true,\"error\":\"the shape tree the statement's parameters and the calibration give has root 3f608622b871804f17ac562ada81ca5de955c43ff69a43728685f64ca4bdb774, and the statement declares pre_root 9bb7c476639b3a7cf0d4ae4e26fb541e12442e4c5d08de1943a2ac10c44d703a -- this proof is about some other shape\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":false,\"stark\":true,\"sums\":true}"
+        ]
+      },
+      {
+        "name": "changed-statement",
+        "rejected": true,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"9bb7c476639b3a7cf0d4ae4e26fb541e12442e4c5d08de1943a2ac10c44d703a\",\"embed\":true,\"embed_tok\":true,\"error\":\"the shape tree the statement's parameters and the calibration give has root 9bb7c476639b3a7cf0d4ae4e26fb541e12442e4c5d08de1943a2ac10c44d703a, and the statement declares pre_root 0000000000000000000000000000000000000000000000000000000000000000 -- this proof is about some other shape\",\"head_binding\":true,\"head_tok\":true,\"root\":false,\"shape_root\":false,\"stark\":true,\"sums\":true}",
+          "B0L0: the statement declares pre_root 0000000000000000000000000000000000000000000000000000000000000000 for (layer 0, c 0), and the table says \"9bb7c476639b3a7cf0d4ae4e26fb541e12442e4c5d08de1943a2ac10c44d703a\""
+        ]
+      },
+      {
+        "name": "changed-proof",
+        "rejected": true,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: sum-check invalid in layer 1: sum does not match the claim in round 0 (sum (445920041 + 544527908i) + (324642790 + 756755268i)u, claim (1831290006 + 1809935795i) + (741304160 + 866886439i)u)\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ]
+      }
+    ],
+    "output_inventory": {
+      "apply.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "apply.stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "baseline-0.stderr": {
+        "bytes": 713,
+        "sha256": "39a335af99257c150eff2949de4b08f9f4253b6618a10d3d0b880c11a5a9d1d6"
+      },
+      "baseline-0.stdout": {
+        "bytes": 6396,
+        "sha256": "1929b8c6ca5ba9b58dfb92dfb4f9f72fb9038426b27bd4be176f84e68092a330"
+      },
+      "baseline-1.stderr": {
+        "bytes": 713,
+        "sha256": "ba54f791235a077759a1f2b46fe2d92edb95697bfcb37a8f4049ed8f47c42d44"
+      },
+      "baseline-1.stdout": {
+        "bytes": 6396,
+        "sha256": "d0d3a85171dd6e303fc8649eb98152ccd1d2b4cd26f807e398553c675245695b"
+      },
+      "changed-calibration.stderr": {
+        "bytes": 753,
+        "sha256": "ca5276857e2a198d1d4c64946743e35574e1d6eac98b94f108970ca142c18870"
+      },
+      "changed-calibration.stdout": {
+        "bytes": 7010,
+        "sha256": "2769c4286c79113a36dc15ce8e28d31e0a017bb70eebe745c542e0763e04decf"
+      },
+      "changed-model.stderr": {
+        "bytes": 424,
+        "sha256": "d2ace6b2577ca5da8448defeb47cd01086e6cedf6b6ef8c14731ad1110ce6218"
+      },
+      "changed-model.stdout": {
+        "bytes": 6081,
+        "sha256": "aa5a180bd28d3aa28d447ac6f3d9b714f502fe002b147e7c5f68fdba634d3c1c"
+      },
+      "changed-prompt.stderr": {
+        "bytes": 348,
+        "sha256": "1d13c6bcd6f572725615f75087f7e7557a946268672a54140679332c4e1430f7"
+      },
+      "changed-prompt.stdout": {
+        "bytes": 6218,
+        "sha256": "2d9dd482dab9c8620fc98d316f1aaada3ee57e73ac2d83ede151e62e278718bd"
+      },
+      "changed-proof.stderr": {
+        "bytes": 630,
+        "sha256": "ee5a078bd12fb378abe262f4da646eb2814703bead48f49ab548135cbb01c1df"
+      },
+      "changed-proof.stdout": {
+        "bytes": 6683,
+        "sha256": "bfe7826cc2b6e377640c17c0f845045e78f0e218705d247f72b1e318744e048c"
+      },
+      "changed-statement.stderr": {
+        "bytes": 974,
+        "sha256": "9ab490d9a09c9478376357b6cc69c5d050f4c9e3fdefb025ebf7f2029d6f0ee7"
+      },
+      "changed-statement.stdout": {
+        "bytes": 7213,
+        "sha256": "7d3a21ac12207b1c51f4365f54405d9940ff0d0da708f0e8749befcee981d01e"
+      },
+      "commands.json": {
+        "bytes": 6160,
+        "sha256": "5398c26d723f83d9118d28a98db1abd5b3b494208219c1830ea5b6e0d20c76a9"
+      },
+      "input-hashes.txt": {
+        "bytes": 163,
+        "sha256": "059f3989a44480393031ebe9d23c49f2963369d2ad675d6614549b3474e5cec3"
+      },
+      "os-packages.txt": {
+        "bytes": 8297,
+        "sha256": "c4031ed50b7702c3475afb3e5470bc2b2dcf5485290b9ce1a515395f4a0dc329"
+      },
+      "patch.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "patch.stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "regression-after.stderr": {
+        "bytes": 10276,
+        "sha256": "21bcb6e149e07c2266a8c9f78facfc28d478227e830a3e9b064555dffdfcc9c7"
+      },
+      "regression-after.stdout": {
+        "bytes": 168,
+        "sha256": "e255e607ab4fd213db44b0ee2648b6f2f7f8e22713932cd9046b3ebd42dc2a43"
+      },
+      "regression-before.stderr": {
+        "bytes": 17219,
+        "sha256": "87c262d01ee0ece50a95a413a24caba4686447b383a063d361a8962b39276799"
+      },
+      "regression-before.stdout": {
+        "bytes": 524,
+        "sha256": "110f5d42eec9e14c2f53084f47332cdc5f5e857162b50c1630d1a2051f103e65"
+      },
+      "result.json": {
+        "bytes": 2979,
+        "sha256": "69453dbaf81a11403a71b9e1ff2c5153ac853d7bce076d7710cd40e0daa4c164"
+      },
+      "setup.stderr": {
+        "bytes": 636,
+        "sha256": "1ea93366de23ef6fb522d4e5037dab46815b24927d28ab3961a1b0127c1c7929"
+      },
+      "setup.stdout": {
+        "bytes": 14119,
+        "sha256": "67f3b052ab2224a1ba00dba1fb3f628e6d5c6c6bba3a08ee89d0ad444ee980c1"
+      },
+      "upstream-tests.stderr": {
+        "bytes": 10484,
+        "sha256": "2ad13a2296165f8fc8072aaa270bf58384a4b0e4bb589644adb699b7d896ab4a"
+      },
+      "upstream-tests.stdout": {
+        "bytes": 800,
+        "sha256": "9c49bac8d5d34476f7f17934f3f6a2ae96ab7bec434626eb0f9d95062b597847"
+      },
+      "verify-original.stderr": {
+        "bytes": 198,
+        "sha256": "d191793c9f6e3f69a0afbf2a6d09a526b559afee3e4a59c3db432efe2979a86d"
+      },
+      "verify-original.stdout": {
+        "bytes": 5770,
+        "sha256": "9b6011c6738ed71ec0b5aa350dcee11834a0c9a7c2eaec1b7c4dcbcd9cfe2e40"
+      },
+      "zk-prover-shape": {
+        "bytes": 62508696,
+        "sha256": "5b773dbfd9b47ececc3ac409b4349caaad5098a3f3c2c03301492becdb41e961"
+      }
+    },
+    "temporary_bucket_deleted": true
+  },
+  "full_response_proof": false,
+  "next_candidate": {
+    "decision": "docs/decisions/0067-bind-the-value-activation-scale.md",
+    "spec": "y-attnout-w12",
+    "delayed_value": false,
+    "status": "native generation and full witness checks passed; proof pending",
+    "previous_proofs_reused": false
+  },
+  "repository_validation": {
+    "make_check": {
+      "passed": true,
+      "tests_passed": 2229,
+      "tests_skipped": 121,
+      "software_conformance_passed": 156,
+      "unavailable_conformance": 32
+    },
+    "make_check_spec": {
+      "passed": true
+    },
+    "make_package_check": {
+      "passed": true,
+      "source_id": "648add53c616734356d6f573fdac9938144eabebd94ed9da77353d7df72ed5e0",
+      "train_extra_checked": false,
+      "guard_extra_checked": false
+    }
+  }
+}

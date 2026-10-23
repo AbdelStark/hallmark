@@ -27,3 +27,33 @@ and [current evidence](../../evidence/llm-preflight-2026-10-23.json).
 
 The patch derives from Apache-2.0 SASH source; its [licence](LICENSE.upstream) and
 [notice](NOTICE.upstream) are retained here. The checker is Hallmark code under MIT.
+
+## Shape reconstruction regression
+
+The larger first-layer run serialized a proof but rejected it during verification:
+the parameter-only constructor supplied placeholder scales outside the statement's
+fold divisor bounds. `fold_shape.rs` exercises that constructor at alpha 9 and
+three boundary/control values. `shape-reconstruction.patch` changes its dummy
+scales; it leaves the proof constraints and acceptance checks intact. This is a
+separate Rust candidate, described in [decision 0066](../../../docs/decisions/0066-llm-shape-reconstruction.md).
+
+With the pinned upstream build environment, from the Hallmark checkout:
+
+```sh
+cp research/probes/sash/fold_shape.rs "$SASH_SOURCE/prover/tests/fold_shape.rs"
+cargo test --manifest-path "$SASH_SOURCE/Cargo.toml" --release --locked --test fold_shape
+# The original constructor fails the alpha-9 case.
+git -C "$SASH_SOURCE" apply "$PWD/research/probes/sash/shape-reconstruction.patch"
+cargo test --manifest-path "$SASH_SOURCE/Cargo.toml" --release --locked --test fold_shape
+```
+
+The regression alone does not establish proof validity. The
+[execution record](../../evidence/llm-shape-reconstruction-2026-10-23.json) must
+also show the saved proof verifying against its previously enrolled roots and
+changed claims rejecting. The patch retains the upstream Apache-2.0 notices;
+the new regression is Hallmark code under MIT.
+
+The delayed-value profile also leaves an activation-scale equality unchecked;
+see [decision 0067](../../../docs/decisions/0067-bind-the-value-activation-scale.md).
+This constructor patch does not repair that relation. The full-response candidate
+uses the existing non-delayed profile and the original Rust binary instead.

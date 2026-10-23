@@ -3925,3 +3925,79 @@ files (8,442 bytes) are downloaded and hashed in
 This closes the witness-precision investigation with a passing root build, while
 proof feasibility remains open. The next experiment increases the resource
 envelope with identical arithmetic, binary, input archive and pre-enrolled roots.
+
+## 2026-10-23 — Verifier shape reconstruction
+
+The larger CPU run used the same binary and witness, reproduced the enrolled
+roots, and serialized a 32,039,654-byte proof in 82.493 seconds. Peak RSS was
+111,457,673,216 bytes. Overall acceptance remained false: parameter-only shape
+reconstruction panicked with `v: fold token divisor 2^7 below alpha 9`. The
+reported STARK subcheck passed, but that does not establish accepted inference.
+The job ran for 119.436 seconds, with a conservative $0.07 compute bound, not an
+invoice. All 11 outputs are locally retained and hashed. After checking all 33
+outputs from the build and three layer attempts, the old temporary bucket was
+deleted; no compute job remained live.
+
+[Decision 0066](../docs/decisions/0066-llm-shape-reconstruction.md) freezes the
+next candidate. The suspected cause is the parameter-only constructor's token
+and channel scale placeholders, which must respect the statement's fold split
+and remainder window. The small constructor regression starts with alpha 9;
+the actual saved proof must reproduce the original rejection twice before the
+patch is applied. Source pins, original proof/statement/claims, enrolled roots
+and all verification checks stay frozen. The new binary must disclose the patch.
+
+The new CPU Upgrade job uses four threads, a 28 GiB address-space cap, one-hour
+provider timeout, $0.10 total ceiling and no automatic retry. It receives only
+the saved public proof, caller expectations, source patch and regression. Its
+protocol and exact commands are retained under `runs/shape-repair-2026-10-23/`.
+The complete 23-segment response proof and caller-side output binding remain open.
+
+The shape diagnostic completed: the unmodified verifier reproduced the rejection
+in 1.57 and 1.52 seconds. The constructor regression failed before the patch and
+passed afterward; all six tests in the three upstream suites passed. With the
+patch, the saved proof verified against the same enrolled roots in 21.406 process
+seconds, with 14,332,235,776 bytes peak child RSS. Changed prompt, model root,
+calibration, statement root and proof commitment all rejected. The job ran for
+959.318 seconds, with a conservative $0.01 compute bound. Every output is retained
+and hashed in `runs/shape-repair-2026-10-23/retention.json`; its bucket is deleted.
+
+This is a constructor result, not complete inference integrity. Review of the
+original detailed verdict found `rq_scale_open: ["qkv/v"]`. Pinned
+`prover/src/compose.rs` explicitly skips the equality between the requantizer's
+scale and the delayed-value fold component's scale. The broad binding table still
+reports all edges bound. No forged proof is demonstrated; the omitted equality
+is sufficient to reject that profile for this task.
+
+## 2026-10-23 — Non-delayed value projection
+
+[Decision 0067](../docs/decisions/0067-bind-the-value-activation-scale.md) selects
+the existing `y-attnout-w12` profile with value rounding restored and the chain
+scale equality implemented. The checkpoint, authored prompt, calibration texts,
+Python exact-GEMM fix and Rust binary remain pinned. No delayed-profile proof
+or root is reused. [Native evidence](evidence/llm-nondelayed-preflight-2026-10-23.json)
+records the same eight-token answer through EOS and the disclosed fixed-length
+suffix. This is one engineering prompt, not a language-model quality evaluation.
+
+The first runner misinterpreted the extractor's output prefix and stopped after
+successful layer-0 extraction; the directory and its failure are retained. A new
+run extracts all 22 layers and the output head in three separate processes. Its
+first checker wrongly required the head's declared power-of-two dequantization
+to be chain; the corrected checker requires the exact declared variant for each
+matmul. It validates 1,902 arrays, 1,355,379,200 bytes, 22 residual links, 23,552
+exact attention rows and all eight output tokens. No matmul uses the delayed fold.
+
+The upstream field reader derives actual key bounds before enrollment. Those
+bounds yield 21–26-bit tables, avoiding the conservative 30-bit table in the
+initial plan without changing arithmetic. Both plans and archives remain retained.
+The portable archive verifies all 1,930 entries and changes only three provenance
+labels, preserving every numeric array byte. Its hash is recorded before upload.
+The next CPU Performance job has a one-hour provider timeout, 210 GiB address-space
+cap, 16 threads and $2 total ceiling. It must stop on any failed proof or detailed
+open binding; the guard rejects the original open-scale verdict and six targeted
+mutations. The complete response, separate proof-only verification and changed-claim
+suite remain required.
+
+Repository checks pass: `make check` reports 2,229 passed and 121 platform/optional
+skips, with all 156 software conformance cases passing and 32 unavailable.
+`make check-spec` and `make package-check` pass after the documentation and probe
+additions. The core package check does not execute the train or guard extras.

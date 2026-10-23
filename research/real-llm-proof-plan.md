@@ -5,6 +5,17 @@ The owner chose a short generated response, minutes to a few hours of proving,
 fast verification, and an explicitly pinned and disclosed quantized model.
 Witness privacy is optional. This proposal does not alter the classifier protocol.
 
+## Current candidate
+
+The delayed-value profile is ineligible: its detailed verdict reports
+`rq_scale_open: ["qkv/v"]`, an input-scale equality the pinned source explicitly
+omits. A broad `binding.unbound: []` summary does not cover that missing relation.
+[Decision 0067](../docs/decisions/0067-bind-the-value-activation-scale.md) switches to
+`y-attnout-w12`, which rounds the value projection before requantization and uses
+the implemented chain-scale equality. Fresh native generation returns the same
+eight-token answer. Every witness and model root must be regenerated; proof
+acceptance and complete coverage remain unestablished for this candidate.
+
 ## Recommendation
 
 Use **SASH as the first integration candidate**, with **TinyLlama-1.1B-Chat-v1.0**
