@@ -1,0 +1,943 @@
+{
+  "baseline": {
+    "accepted_redundant_config_mutations": 3,
+    "accepted_unknown_field_mutations": 2,
+    "artifacts": {
+      "runs/boundary-baseline/controller.py": "be0480ec22828ad82dc9d58d9ff57b60899a353acf51d8c995329e5d3f4d8af8",
+      "runs/boundary-baseline/execution/cost.json": "5091f160b2ceaf171db234bea6316b7c4f998afc37faa9cb2716f74f7246eb39",
+      "runs/boundary-baseline/protocol.json": "35dedc6424140726918ca439e4f050897c06660408d555ed0241de3029e264fb",
+      "runs/boundary-baseline/results.json": "b4bf09ca69a1c3612a2b0fcec5e9e0e74032063aa71f6a2b9b72a258fc02a6c1",
+      "runs/boundary-baseline/summary.json": "e859545b608e6af15339758b21f9da67caf6b21d8ca4c2bc20c2bc82abaecbb3",
+      "runs/boundary-baseline/worker.py": "3dd3433d1928c5fae809c6c4974d84c985324f49ab68e80882e0043c8695d682"
+    },
+    "binary_sha256": "40e50f345ef13910bef110cefa44d54205ddb57706648bb84cb232150da48ae2",
+    "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "cost": {
+      "exit_code": 0,
+      "failure": null,
+      "memory_stop_bytes": 4294967296,
+      "sample_seconds": 0.25,
+      "sampled_process_group_peak_rss_bytes": 1018494976,
+      "seconds": 75.52293920796365
+    },
+    "directory": "runs/boundary-baseline",
+    "honest_controls_passed": 2,
+    "native_output_alias_accepted": true,
+    "original_proof_bytes_unchanged": true,
+    "outcomes": [
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "honest-before",
+        "outcome": "accepted",
+        "seconds": 3.608194541884586
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "claim-head-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.1183950409758836
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "claim-embedding-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.2481402079574764
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "sample-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.2902523749507964
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "query-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.286698875017464
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "column-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.2968780829105526
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "fri-polynomial-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.2999110829550773
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 101,
+        "name": "empty-commitments",
+        "outcome": "unstructured-failure",
+        "seconds": 0.859248667024076
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "empty-samples",
+        "outcome": "explicit-rejection",
+        "seconds": 3.288287041010335
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 101,
+        "name": "empty-decommitments",
+        "outcome": "unstructured-failure",
+        "seconds": 0.8848307922016829
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 101,
+        "name": "empty-queries",
+        "outcome": "unstructured-failure",
+        "seconds": 0.8361012500245124
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "empty-fri-layers",
+        "outcome": "explicit-rejection",
+        "seconds": 3.3380411248654127
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "empty-fri-witness",
+        "outcome": "explicit-rejection",
+        "seconds": 3.3449196668807417
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "config-queries",
+        "outcome": "accepted",
+        "seconds": 3.3571887500584126
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "config-blowup",
+        "outcome": "accepted",
+        "seconds": 3.345796207897365
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "config-pow",
+        "outcome": "accepted",
+        "seconds": 3.3864021671470255
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "unknown-proof-field",
+        "outcome": "accepted",
+        "seconds": 3.345615375088528
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "unknown-claims-field",
+        "outcome": "accepted",
+        "seconds": 3.3355232500471175
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "empty-gkr",
+        "outcome": "explicit-rejection",
+        "seconds": 3.2990895421244204
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "input-token-field-alias",
+        "outcome": "explicit-rejection",
+        "seconds": 3.34055466693826
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "output-token-field-alias",
+        "outcome": "accepted",
+        "seconds": 3.351353415986523
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 1,
+        "name": "empty-fixed-sizes",
+        "outcome": "explicit-rejection",
+        "seconds": 3.283737374935299
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "exit_code": 101,
+        "name": "empty-fixed-column-sizes",
+        "outcome": "unstructured-failure",
+        "seconds": 0.9197376670781523
+      },
+      {
+        "accepted": true,
+        "caller_checks": false,
+        "exit_code": 0,
+        "name": "honest-after",
+        "outcome": "accepted",
+        "seconds": 3.37784095807001
+      }
+    ],
+    "process_failures": 4,
+    "structured_rejections": 12
+  },
+  "baseline_commit": "65e26db7251868bb830ff608ce125191d18370ad",
+  "candidate_runs": [
+    {
+      "artifacts": {
+        "runs/llm-verify-3m4i8_d2/build/cost.json": "6fb4ffd8862f90ef2321006cd95432760c59873e4aa306a32df1b9dfb0b8dc08",
+        "runs/llm-verify-3m4i8_d2/protocol.json": "6ee0bb7b0262d45220384a8d6d0acfb70be36646925dcbd2254f0330f28e2f2d",
+        "runs/llm-verify-3m4i8_d2/result.json": "b2d54ed152149028a2c7a392827c2bd2777a5333f0da58ee06108567fc96eac1",
+        "runs/llm-verify-3m4i8_d2/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+        "runs/llm-verify-3m4i8_d2/verification/output/commands.json": "e26d985f3cbf0839c82a3a38c4a4af3edb0cd9549c78ce20f834b30c0eae6fe0",
+        "runs/llm-verify-3m4i8_d2/verification/output/result.json": "eefa93f25fc68e6309d2366536ace14fcfadc3d7129d72adcdc08e9a44601746",
+        "runs/llm-verify-3m4i8_d2/verify/cost.json": "2746a26c81ee88e721fc0a46dfed01067edd3cdf26b27c1a5f4c8f58f03db4eb"
+      },
+      "build_cost": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 2474819584,
+        "seconds": 110.23664433392696
+      },
+      "cases": [
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-0",
+          "seconds": 3.9965487089939415,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-1",
+          "seconds": 3.5697998329997063,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "name": "changed-prompt",
+          "reason": "wrong input tokens",
+          "seconds": 0.0008802500087767839,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-answer",
+          "reason": "wrong input tokens",
+          "seconds": 0.0008935828227549791,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-model",
+          "reason": "wrong model_root",
+          "seconds": 0.0008216251153498888,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-calibration",
+          "reason": "unenrolled parameters",
+          "seconds": 0.0009695000480860472,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "missing-layer",
+          "reason": "missing or extra proof files",
+          "seconds": 0.00013299984857439995,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "wrong-layer-coordinate",
+          "reason": "wrong layer",
+          "seconds": 0.0013341661542654037,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-final-output",
+          "reason": "wrong output tokens",
+          "seconds": 0.014251792104914784,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "token-alias",
+          "reason": "invalid token IDs",
+          "seconds": 0.0007519579958170652,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "boolean-token",
+          "reason": "invalid token IDs",
+          "seconds": 0.0007159160450100899,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "open-scale-profile",
+          "reason": "open-scale matmul profile",
+          "seconds": 0.0007075420580804348,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "weaker-security",
+          "reason": "wrong security parameters",
+          "seconds": 0.0006964169442653656,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-proof",
+          "seconds": 3.3316358330193907,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-residual-boundary",
+          "seconds": 3.381928665796295,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-output-claim",
+          "seconds": 3.233872458105907,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-unknown-shape",
+          "seconds": 3.3038940830156207,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-changed-calibration",
+          "seconds": 3.270774665987119,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "claim-head-alias",
+          "seconds": 3.225118499947712,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "claim-embedding-alias",
+          "seconds": 3.3377058340702206,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "sample-alias",
+          "seconds": 3.6966791248414665,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "query-alias",
+          "seconds": 4.159015292068943,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "column-alias",
+          "seconds": 4.056632083142176,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "fri-polynomial-alias",
+          "seconds": 3.758334542158991,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-commitments",
+          "seconds": 3.3406417910009623,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-samples",
+          "seconds": 3.3183577079325914,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-decommitments",
+          "seconds": 3.3127760000061244,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-queries",
+          "seconds": 3.3289034999907017,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fri-layers",
+          "seconds": 3.3184028330724686,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fri-witness",
+          "seconds": 3.3874669999349862,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-queries",
+          "seconds": 3.3443818751256913,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-blowup",
+          "seconds": 3.3268849160522223,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-pow",
+          "seconds": 3.338509500026703,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-gkr",
+          "seconds": 3.603715416043997,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "input-token-field-alias",
+          "seconds": 3.312576666008681,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "output-token-field-alias",
+          "seconds": 3.1928189578466117,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fixed-sizes",
+          "seconds": 3.3239957080222666,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fixed-column-sizes",
+          "seconds": 3.3633499168790877,
+          "stage": "real verifier"
+        }
+      ],
+      "directory": "runs/llm-verify-3m4i8_d2",
+      "honest_seconds": [
+        3.9965487089939415,
+        3.5697998329997063
+      ],
+      "original_proof_bytes_unchanged": true,
+      "result": {
+        "baseline_mutations_rejected": 14,
+        "cloud_cost_usd": 0,
+        "fresh_verifications": 2,
+        "native_boundary_mutations_rejected": 20,
+        "native_enrollment_mutations_rejected": 2,
+        "passed": true,
+        "proofs": 23,
+        "qualified_backend": false,
+        "residual_links": 22,
+        "response": "The capital of France is Paris.",
+        "seconds": 214.44736399990506,
+        "security_review": false,
+        "shape_root_source": "compiled-enrollment",
+        "verifier_sha256": "251012334aec330569cc51842ffaddd4a793cb7c4c7750acf3e27b1d869552eb"
+      },
+      "sandbox_controls": {
+        "fork": true,
+        "network_denied": true,
+        "outside_file_denied": true
+      },
+      "source_files": {
+        "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+        "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+        "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+        "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+        "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+        "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+        "scripts/verify_llm.py": "0967fde40fe0311a2417da79213cb61e904b4d8dc7473d9194814c4668e009e7",
+        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+      },
+      "verification_cost": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 1173159936,
+        "seconds": 101.94627012498677
+      }
+    },
+    {
+      "artifacts": {
+        "runs/llm-verify-80_jq63n/build/cost.json": "628a8a1cca1f0dba44c5f354d0aa05bcf7510609af62db5629540589c5ffafa4",
+        "runs/llm-verify-80_jq63n/protocol.json": "6ee0bb7b0262d45220384a8d6d0acfb70be36646925dcbd2254f0330f28e2f2d",
+        "runs/llm-verify-80_jq63n/result.json": "a418486af67a79fdfb572cb46b675bd2dafde69d7456f0d8fb6d551c54b91346",
+        "runs/llm-verify-80_jq63n/sandbox-control/output.log": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a",
+        "runs/llm-verify-80_jq63n/verification/output/commands.json": "1f843e111302b0536992143e7773f55aaaf0fd81fe99a7b712dc2f17841d5681",
+        "runs/llm-verify-80_jq63n/verification/output/result.json": "b0bc823822941254e269efdc2e295b24252df33d0452d54eac9e8c9f4c45de77",
+        "runs/llm-verify-80_jq63n/verify/cost.json": "b85cd3520272d58f542a13e8f84a98acb7ca6937fd55f4f7b5f819f706e18424"
+      },
+      "build_cost": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 2454192128,
+        "seconds": 104.87666404084302
+      },
+      "cases": [
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-0",
+          "seconds": 3.5032885000109673,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": true,
+          "caller_checks": true,
+          "name": "honest-1",
+          "seconds": 3.328226584009826,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "name": "changed-prompt",
+          "reason": "wrong input tokens",
+          "seconds": 0.0008514998480677605,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-answer",
+          "reason": "wrong input tokens",
+          "seconds": 0.0007653329521417618,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-model",
+          "reason": "wrong model_root",
+          "seconds": 0.0006967498920857906,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-calibration",
+          "reason": "unenrolled parameters",
+          "seconds": 0.0008472918998450041,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "missing-layer",
+          "reason": "missing or extra proof files",
+          "seconds": 0.00012158392928540707,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "wrong-layer-coordinate",
+          "reason": "wrong layer",
+          "seconds": 0.0013563339598476887,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "changed-final-output",
+          "reason": "wrong output tokens",
+          "seconds": 0.013689874904230237,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "token-alias",
+          "reason": "invalid token IDs",
+          "seconds": 0.0006875840481370687,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "boolean-token",
+          "reason": "invalid token IDs",
+          "seconds": 0.0007393751293420792,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "open-scale-profile",
+          "reason": "open-scale matmul profile",
+          "seconds": 0.0006598751060664654,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "name": "weaker-security",
+          "reason": "wrong security parameters",
+          "seconds": 0.0006708749569952488,
+          "stage": "caller statement checks"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-proof",
+          "seconds": 3.5799688750412315,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-residual-boundary",
+          "seconds": 3.32801212486811,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": true,
+          "name": "altered-output-claim",
+          "seconds": 3.2736124170478433,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-unknown-shape",
+          "seconds": 3.2660455000586808,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "native-changed-calibration",
+          "seconds": 3.226846917066723,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "claim-head-alias",
+          "seconds": 3.1533310001250356,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "claim-embedding-alias",
+          "seconds": 3.287013625027612,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "sample-alias",
+          "seconds": 3.3006671250332147,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "query-alias",
+          "seconds": 3.312354958150536,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "column-alias",
+          "seconds": 3.3719229160342366,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "fri-polynomial-alias",
+          "seconds": 3.348530082963407,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-commitments",
+          "seconds": 3.3074492912273854,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-samples",
+          "seconds": 3.269947624998167,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-decommitments",
+          "seconds": 3.2901689170394093,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-queries",
+          "seconds": 3.2670205829199404,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fri-layers",
+          "seconds": 3.3516456249635667,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fri-witness",
+          "seconds": 3.3669056249782443,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-queries",
+          "seconds": 3.3235629580449313,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-blowup",
+          "seconds": 3.263739624992013,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "config-pow",
+          "seconds": 3.2617350830696523,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-gkr",
+          "seconds": 3.3095614169724286,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "input-token-field-alias",
+          "seconds": 3.3297132910229266,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "output-token-field-alias",
+          "seconds": 3.147744041867554,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fixed-sizes",
+          "seconds": 3.3016737080179155,
+          "stage": "real verifier"
+        },
+        {
+          "accepted": false,
+          "caller_checks": false,
+          "name": "empty-fixed-column-sizes",
+          "seconds": 3.2690654590260237,
+          "stage": "real verifier"
+        }
+      ],
+      "directory": "runs/llm-verify-80_jq63n",
+      "honest_seconds": [
+        3.5032885000109673,
+        3.328226584009826
+      ],
+      "original_proof_bytes_unchanged": true,
+      "result": {
+        "baseline_mutations_rejected": 14,
+        "cloud_cost_usd": 0,
+        "fresh_verifications": 2,
+        "native_boundary_mutations_rejected": 20,
+        "native_enrollment_mutations_rejected": 2,
+        "passed": true,
+        "proofs": 23,
+        "qualified_backend": false,
+        "residual_links": 22,
+        "response": "The capital of France is Paris.",
+        "seconds": 203.98140604118817,
+        "security_review": false,
+        "shape_root_source": "compiled-enrollment",
+        "verifier_sha256": "d166795ee169a159df3ade97af94abbfcfbc53e6b2199032d62cea48d9f0e08c"
+      },
+      "sandbox_controls": {
+        "fork": true,
+        "network_denied": true,
+        "outside_file_denied": true
+      },
+      "source_files": {
+        "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+        "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+        "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+        "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+        "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
+        "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+        "scripts/verify_llm.py": "0967fde40fe0311a2417da79213cb61e904b4d8dc7473d9194814c4668e009e7",
+        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+      },
+      "verification_cost": {
+        "exit_code": 0,
+        "failure": null,
+        "memory_stop_bytes": 4294967296,
+        "sample_seconds": 0.25,
+        "sampled_process_group_peak_rss_bytes": 1191772160,
+        "seconds": 97.33829129114747
+      }
+    }
+  ],
+  "claim_limits": {
+    "all_malformed_inputs_proved_safe": false,
+    "authenticated_operational_enrollment": false,
+    "complete_caller_accepted_output_alias": false,
+    "forged_valid_vocabulary_response_demonstrated": false,
+    "hiding_claim": false,
+    "independent_security_review": false,
+    "linux_runtime_derivation_verifier_modified": false,
+    "qualified_backend": false,
+    "unknown_json_fields_have_proved_meaning": false
+  },
+  "cloud_cost_usd": 0,
+  "cloud_jobs_started": 0,
+  "decision": "docs/decisions/0071-native-proof-input-boundaries.md",
+  "hypothesis": "The native verifier explicitly rejects token field aliases and malformed tree/column shapes before unsafe indexing; the complete caller continues to reject out-of-vocabulary IDs.",
+  "issue": 19,
+  "recorded_at": "2026-10-23",
+  "schema_id": "hallmark.native-boundary-evidence/1",
+  "source_revision": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+  "validation": {
+    "commands": [
+      "make check",
+      "make package-check"
+    ],
+    "core_tests_passed": 2279,
+    "core_tests_skipped": 122,
+    "focused_tests": {
+      "passed": 50,
+      "skip_reason": "Optional Hugging Face SDK is absent in this core-only environment.",
+      "skipped": 1
+    },
+    "full_evidence_obligations_unavailable": 32,
+    "independent_security_review": false,
+    "inspection_logs": {
+      "runs/boundary-delivery/llm-verify-3m4i8_d2-libraries.txt": "ba5691c95278202fdbc7778a06b0defbfba8e155afae053eee1e196f9ca2aec7",
+      "runs/boundary-delivery/llm-verify-3m4i8_d2-symbols.txt": "cc73a6036f265769af6cd8c9d389daf39019ac0815cfeec3ed161c6b8a475a24",
+      "runs/boundary-delivery/llm-verify-80_jq63n-libraries.txt": "e35d210434142933b34e6359830760fb1839376c5008cc44a66f85c067d1987a",
+      "runs/boundary-delivery/llm-verify-80_jq63n-symbols.txt": "cc73a6036f265769af6cd8c9d389daf39019ac0815cfeec3ed161c6b8a475a24"
+    },
+    "logs": {
+      "runs/boundary-delivery/check.log": "cefb0b1668a7ed0a8ffd8f7e130de2355c36e3705e5fea167bb666580f390869",
+      "runs/boundary-delivery/package-check.log": "0a40186dd5ee3d4d1762b3e173ddd5e96fac4fefc447562306a6442e6358962b"
+    },
+    "native_library_inspection": "Neither candidate binary links CUDA or has an undefined CUDA symbol.",
+    "package_check": "passed",
+    "runtime_source_pins_match_both_candidate_runs": true,
+    "skip_scope": "Optional dependencies and platform-specific checks; required train/guard/LLM jobs run in CI.",
+    "software_conformance_matched": 156,
+    "software_conformance_mismatched": 0,
+    "status": "passed",
+    "uv_version": "0.9.18"
+  }
+}

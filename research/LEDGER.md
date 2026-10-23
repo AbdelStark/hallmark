@@ -4186,3 +4186,57 @@ staged in the reviewed-path snapshot and failed the documentation link check;
 staging those files fixes it without a runtime change. Both attempts and the gate
 logs are retained. Optional training runs in the required train-extra CI job.
 Native linkage inspection reports no CUDA library or undefined CUDA symbol.
+
+## 2026-10-23 — Native token and proof-shape boundaries (#19)
+
+Hypothesis: the optional native verifier should reject field aliases and malformed
+proof dimensions explicitly, while retaining the frozen TinyLlama proof relation.
+Baseline: PR #101's native executable, public caller enrollment and original
+23-proof bundle. Mutable inputs are fresh per-case copies only. Limits are four
+threads, 600 seconds, 4 GiB sampled process-group RSS and zero cloud spend.
+[Decision 0071](../docs/decisions/0071-native-proof-input-boundaries.md) freezes the
+acceptance criterion; [numeric results and raw hashes](evidence/native-proof-boundaries-2026-10-23.json)
+precede these conclusions.
+
+The 24-case baseline probe takes 75.522939 seconds and peaks at 1,018,494,976
+sampled process-group RSS bytes. Both honest controls pass. Adding the M31 modulus
+to the final output token ID is accepted with the caller bypassed; the existing
+caller rejects the out-of-vocabulary value. Empty commitment/decommitment/query
+lists and an empty preprocessed column-size vector crash the native process.
+Six aliases in claims/proof fields reject cryptographically. Three altered
+redundant configuration records and two unknown JSON fields are accepted; the
+verifier's effective security configuration remains caller-pinned. No forged
+valid-vocabulary response through the complete workflow is demonstrated.
+
+The native patch now checks token vocabulary ranges, exact tree/column dimensions,
+preprocessed sizes against the trusted plan, and redundant proof configuration.
+It returns before Stwo when derived trace sizes disagree. The suite adds 20
+native boundary cases and requires their explicit rejection reasons; crashes fail
+it. Unknown JSON fields retain no proved meaning and are not a canonical encoding
+claim. The Linux runtime-derivation verifier and proof generation stay unchanged.
+
+Command, with uv 0.9.18 and Rust nightly-2025-07-14:
+
+```sh
+make verify-llm LLM_RUN=<retained make e2e-llm run>
+```
+
+Fresh directories `runs/llm-verify-3m4i8_d2` and `runs/llm-verify-80_jq63n` pass
+all 38 cases: two honest processes and 36 explicit rejections each. Total workflow
+times are 214.447364 and 203.981406 seconds. Honest verification takes
+3.996549/3.569800 and 3.503289/3.328227 seconds. Peak sampled process-group RSS is
+2,474,819,584 bytes for compilation and 1,191,772,160 bytes for the expanded suite.
+Both runs pass sandbox fork/network/outside-file controls, preserve all original
+proof files and use identical runtime source hashes. Binary hashes differ and are
+retained; bit-reproducible compilation is not claimed. No cloud job starts.
+
+This closes the tested native-boundary regression gate. It does not establish
+all malformed inputs harmless, authenticated operational enrollment, hiding or
+independent security qualification. Issue #19 remains open.
+
+Local validation: 50 focused tests pass with one optional SDK skip. `make check`
+passes 2,279 tests with 122 optional/platform skips, 156 matched software
+conformance cases and 32 unavailable full-evidence obligations. `make package-check`
+passes. Neither candidate binary links CUDA or has an undefined CUDA symbol.
+Logs and hashes are retained under `runs/boundary-delivery`. Required optional
+runtime jobs remain separate hosted CI obligations.

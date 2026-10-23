@@ -96,6 +96,13 @@ def test_head_covers_final_output_and_calibration():
         response.statement(fixed, row, 22, prompt, answer)
 
 
+def test_caller_rejects_the_native_output_token_field_alias():
+    fixed, row, prompt, answer = inputs(22)
+    fixed["tok_out"][-1] += 2**31 - 1
+    with pytest.raises(ValueError, match="invalid token IDs"):
+        response.statement(fixed, row, 22, prompt, answer)
+
+
 @pytest.mark.parametrize("raw", ['{"a":1,"a":2}', "[NaN]", "[Infinity]", ""])
 def test_json_rejects_ambiguous_input(tmp_path, raw):
     path = tmp_path / "input.json"

@@ -115,7 +115,7 @@ bound**; two full verifications took about **80 seconds** each.
 
 Already have a completed run? Verify its proofs locally with
 `make verify-llm LLM_RUN=runs/llm-e2e-...`. This optional native verifier needs no
-weights or HF credentials. Recorded honest checks take **3.22–3.87 seconds**
+weights or HF credentials. Recorded honest checks take **3.33–4.00 seconds**
 after compilation. It uses compiled parameters for the fixed case;
 see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
 
