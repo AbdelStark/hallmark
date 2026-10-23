@@ -46,6 +46,8 @@ describes its supported proof encoding and pairing checks.
 
 ## Inspect the research record
 
+- [Real LLM proof plan](../research/real-llm-proof-plan.md): pretrained response
+  target, SASH source review, measured preparation and remaining proof gates.
 - [STATE](../research/STATE.md): current capability and next qualification gates.
   Older entries below the opening summary are historical.
 - [Ledger](../research/LEDGER.md): chronological commands, failures and results.
