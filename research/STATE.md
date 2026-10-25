@@ -13,7 +13,21 @@ Both reject all 36 LLM mutations and eleven composition mutations and match all
 and [numeric evidence](evidence/composed-request-2026-10-25.json) define the join.
 The unchanged synthetic CNN blocks the ordinary France prompt. This establishes
 faithful computation; it admits no policy-quality or operational hybrid claim.
-The complete fresh-preparation mode was not rerun for this integration study.
+The complete fresh default command now passes in **4,010.05 seconds** (66 min 50 s),
+with fresh LLM witnesses/proofs, classifier training/exports, nine control proofs
+and three new proofs over the LLM request. Both verifier suites, all 18 control
+substitutions, eleven composition mutations and 405/399 arithmetic outcomes pass.
+[Decision 0074](../docs/decisions/0074-fresh-composed-reproduction.md) and
+[raw evidence](evidence/fresh-composed-2026-10-25.json) preserve three failed full
+runs and one deliberate interruption. The fixes bound inherited worker descriptors
+and normalize Go assembly paths/build identity without changing model or proof
+semantics. The successful command has a $0.31 compute bound; the study totals $1.55,
+not invoices. All fifteen jobs completed and all buckets are confirmed absent.
+
+This closes the fresh-command acceptance gate. Continue #19's operational
+parameter/setup custody and independent security/hiding qualification; genuine
+hardware provenance remains a separate extension. No further proving campaign is
+needed to establish this fixed-case, non-attested research demo.
 
 The owner's complete short pretrained LLM response now has a passing composed
 proof: **23 segments, 22 residual links and eight answer tokens through EOS**.

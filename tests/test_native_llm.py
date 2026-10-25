@@ -104,6 +104,80 @@ def test_bounded_command_retains_success_and_timeout(tmp_path):
     assert result["exit_code"] != 0 and result["failure"] == "ValueError"
 
 
+@pytest.mark.skipif(sys.platform != "darwin", reason="macOS sandbox regression")
+def test_sandbox_nested_spawn_with_large_inherited_descriptor_limit(tmp_path):
+    import fcntl
+    import resource
+
+    work = tmp_path / "worker"
+    work.mkdir()
+    python = Path(sys.executable).resolve()
+    profile = native.sandbox_profile(python, work)
+    profile += "\n(allow process-fork)\n(allow file-read* file-map-executable (subpath "
+    profile += json.dumps(sys.base_prefix) + "))\n"
+    (work / "sandbox.sb").write_text(profile)
+    canary = tmp_path / "outside.txt"
+    canary.write_text("denied")
+    control = """
+import errno, json, os, pathlib, resource, socket, subprocess, sys
+p = subprocess.run([sys.executable, "-I", "-c", "print('nested-ok')"], capture_output=True)
+assert p.returncode == 0 and p.stdout == b"nested-ok\\n"
+try:
+    os.fstat(int(sys.argv[2]))
+except OSError as error:
+    assert error.errno == errno.EBADF
+else:
+    raise AssertionError("inherited descriptor leaked")
+try:
+    pathlib.Path(sys.argv[1]).read_bytes()
+except PermissionError:
+    pass
+else:
+    raise AssertionError("outside file allowed")
+try:
+    with socket.socket() as sock:
+        sock.connect(("127.0.0.1", 9))
+except PermissionError:
+    pass
+else:
+    raise AssertionError("network allowed")
+print(json.dumps(dict(limit=resource.getrlimit(resource.RLIMIT_NOFILE)[0])))
+"""
+    previous = resource.getrlimit(resource.RLIMIT_NOFILE)
+    if previous[1] != resource.RLIM_INFINITY and previous[1] < 1_000_000:
+        pytest.skip("host hard descriptor limit is already bounded")
+    try:
+        resource.setrlimit(resource.RLIMIT_NOFILE, (previous[1], previous[1]))
+        with canary.open("rb") as source:
+            high_fd = fcntl.fcntl(source.fileno(), fcntl.F_DUPFD, 5000)
+            try:
+                os.set_inheritable(high_fd, True)
+                native.bounded(
+                    [
+                        "/usr/bin/sandbox-exec",
+                        "-f",
+                        work / "sandbox.sb",
+                        python,
+                        "-I",
+                        "-c",
+                        control,
+                        canary,
+                        high_fd,
+                    ],
+                    tmp_path / "attempt",
+                    {"PATH": "/usr/bin:/bin"},
+                    5,
+                    cwd=work,
+                )
+            finally:
+                os.close(high_fd)
+        assert resource.getrlimit(resource.RLIMIT_NOFILE) == (previous[1], previous[1])
+    finally:
+        resource.setrlimit(resource.RLIMIT_NOFILE, previous)
+    report = json.loads((tmp_path / "attempt/output.log").read_text())
+    assert report["limit"] <= 4096
+
+
 def test_memory_monitor_failure_stops_the_command(tmp_path, monkeypatch):
     def fail(_):
         raise OSError("monitor unavailable")

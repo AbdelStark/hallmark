@@ -17,6 +17,23 @@ class Policy:
         return b"p" * 32
 
 
+@pytest.mark.parametrize("payload", [b"legacy build fixture", b"canonical build fixture"])
+def test_classifier_binary_admission_preserves_the_actual_pin(tmp_path, monkeypatch, payload):
+    binary = tmp_path / "probe"
+    admitted = set()
+    for content in (b"legacy build fixture", b"canonical build fixture"):
+        binary.write_bytes(content)
+        admitted.add(driver.run_e2e.sha(binary))
+    monkeypatch.setattr(driver, "CLASSIFIER_BINARIES", admitted)
+    monkeypatch.setattr(driver.run_e2e, "check_training", lambda _: None)
+    binary.write_bytes(payload)
+    inputs = driver.classifier_inputs(tmp_path)
+    assert inputs[:2] == (binary, driver.run_e2e.sha(binary))
+    binary.write_bytes(payload + b"changed")
+    with pytest.raises(ValueError, match="binary pin mismatch"):
+        driver.classifier_inputs(tmp_path)
+
+
 def test_fixed_case_request_and_random_interaction():
     expected, opening = composed.request(Policy())
     assert (

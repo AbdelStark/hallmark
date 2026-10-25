@@ -4382,3 +4382,69 @@ The first repository gate caught an overlong fixed-hash test assertion; Ruff
 formatted only that test, and the complete gate then passed. The failed log is
 retained. All 206 measured runtime source hashes still match. Validation metadata
 is appended after local packaging; hosted exact-commit checks validate publication.
+
+## 2026-10-25: fresh composed workflow and build/resource boundaries
+
+Issue #106, [decision 0074](../docs/decisions/0074-fresh-composed-reproduction.md).
+[Numeric evidence](evidence/fresh-composed-2026-10-25.json) records the prospective
+protocols, 207 runtime source pins, package versions, model/checkpoint/case
+identities, raw outcomes, costs and retained failures before this interpretation.
+Baseline: `68010b345849486359a19ac36ab54f0365d23994`; model, datasets/splits,
+seeds, thresholds, evaluator and proof relations stay frozen. Candidate changes
+are worker descriptor bounds and reproducible classifier build/admission.
+
+The actual `make --no-print-directory e2e-composed` command with neither retained
+argument passes in 4,010.05 seconds. Its environment has no HF token or retained
+argument values; the controller reads the ignored local credential. Fresh LLM
+preparation/build/proving/original verification takes 1,963.89 seconds; the native
+38-case suite including build takes 222.25 seconds. Fresh classifier preparation
+and control take 1,148.42 seconds, followed by 672.15 seconds for the LLM-request
+classifier campaign. The original verifier accepts two honest checks and rejects
+14 mutations; native verification accepts two and rejects all 36. Nine control
+proofs, 18 cross-request rejections and 405 arithmetic outcomes pass. Three new
+composed proofs, eleven binding rejections and 399 arithmetic outcomes pass.
+The opened request reconstructs the exact jobs checked by the separate pairing
+implementation. The frozen synthetic verdict remains `[1, 1, 0]`, release false.
+
+All 69 LLM files reproduce across five fresh LLM campaigns and match the accepted
+archive `9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb`.
+Selected model exports and circuit identities match; the new setup keys differ
+from previously recorded campaigns. The successful command adds 13,222,207,488
+allocated bytes and peaks at 14,519,255,040 summed local descendant RSS bytes,
+sampled every second. Cloud compute bounds are $0.31 for this command and $1.55
+for the study; neither is an invoice. All fifteen jobs completed; a separate
+provider audit confirms every temporary bucket absent and zero active jobs.
+
+Failures are preserved: two native controls time out after `hf_xet` raises the
+inherited descriptor limit; a 120-second allowance fails and is rejected. A
+minimized sandbox regression and captured close-fds stack identify the cause.
+Child-only 4,096-descriptor limits preserve stricter limits, parent state, file/
+network denial and closing inherited descriptors above the cap. The original
+20-second control allowance is restored. Campaign 03 passes the fresh classifier
+control but rejects an unnormalized build hash. Campaign 04 is deliberately
+interrupted after another early binary mismatch exposes included-assembly paths
+in a fresh module cache. A Go tool wrapper extends path mapping and identifies
+itself in assembler cache keys. Independent module-cache builds and the actual
+fresh builder match the final admitted binary; real installation proofs pass.
+Unknown binaries still reject; the original historical binary remains admitted.
+
+The resource amendments remain bounded under standing owner storage/foreground
+research approval. Original money ceiling: $4.20. Latest agent-selected storage
+ceilings: 64 GiB study, 384 GiB checkout, with a 32 GiB free-space floor and 14 GiB
+new allocation stop for the final campaign. All old attempts remain retained.
+No recharge, private input, scheduler, collaborator or hardware procurement occurs.
+Caches remain populated and ephemeral OS-package resolution is not fully hermetic.
+This establishes a fixed-case non-attested research workflow, not classifier
+quality, hiding, independent security review, accepted setup custody or a v1
+operational backend. Local final repository/training checks pass 2,402/77 tests;
+50 optional/platform skips and 32 unavailable full-evidence obligations remain.
+Distribution and documentation checks are recorded in the evidence validation block.
+
+Final distribution checks pass for core and installed training, with identical
+repeated wheel/sdist hashes under snapshot identity
+`a105da8a2a8f3330d308bc46362694e8d46a3fd010e4846ac1a131530ac18287`. The first package attempt
+correctly rejected links to the not-yet-staged new evidence; staging that reviewed
+file resolved the omission. Its failed snapshot/log remains retained. Final
+validation metadata is appended after this local package snapshot; hosted checks
+validate the complete publication commit. All 207 measured runtime files still
+match their frozen hashes. Local Markdown links and anchors pass.

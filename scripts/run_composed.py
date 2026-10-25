@@ -18,7 +18,10 @@ from hallmark.openings import TranscriptOpening
 from hallmark.policy import RequestExpectation
 
 ROOT = Path(__file__).resolve().parents[1]
-CLASSIFIER_BINARY = "376c9aea1c28e5656099b8248d449323268670d77a67196f501301ab8d80a377"
+CLASSIFIER_BINARIES = {
+    "376c9aea1c28e5656099b8248d449323268670d77a67196f501301ab8d80a377",
+    "ad40c57319d370d16e9f75b19f98291ae748d661b7c509375e7f7997a597e43a",
+}
 BINDINGS = [
     "prompt",
     "response",
@@ -38,11 +41,12 @@ def classifier_inputs(directory):
     """Retained preparation is caller-owned; no saved proof verdict is consumed."""
     run_e2e.check_training(directory)
     binary = directory / "probe"
-    if run_e2e.sha(binary) != CLASSIFIER_BINARY:
+    binary_pin = run_e2e.sha(binary)
+    if binary_pin not in CLASSIFIER_BINARIES:
         raise ValueError("composed classifier binary pin mismatch")
     return (
         binary,
-        CLASSIFIER_BINARY,
+        binary_pin,
         directory / "verifier-env/bin/python",
         directory / "mlp-training/seed-17/quantization.json",
         directory / "cnn-training/17/quantization.json",

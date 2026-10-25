@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import platform
+import shlex
 import shutil
 import signal
 import subprocess
@@ -218,7 +219,17 @@ def run():
             ("verify-modules", ["mod", "verify"]),
             (
                 "build-circuits",
-                ["build", "-trimpath", "-buildvcs=false", "-mod=readonly", "-o", probe, "."],
+                [
+                    "build",
+                    "-trimpath",
+                    "-buildvcs=false",
+                    "-ldflags=-buildid=",
+                    "-toolexec=" + shlex.join([sys.executable, str(ROOT / "scripts/go_tool.py")]),
+                    "-mod=readonly",
+                    "-o",
+                    probe,
+                    ".",
+                ],
             ),
         ):
             step(name, [go, *args], ROOT / "research/probes/gnark")

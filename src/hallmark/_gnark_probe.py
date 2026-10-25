@@ -20,6 +20,7 @@ from typing import Any, NoReturn
 MODULUS = 52435875175126190479447740508185965837690552500527637822603658699938581184513
 MAX_FILE = 16 * 1024 * 1024
 MAX_BINARY = 128 * 1024 * 1024
+MAX_OPEN_FILES = 4096
 CASE_SECONDS = 45
 
 
@@ -198,7 +199,18 @@ def sandbox_profile(binary: Path, work: Path) -> str:
 """
 
 
+def limit_open_files() -> None:
+    # Native download clients can raise this to an impractical close-fds scan range.
+    cap = min(
+        value
+        for value in (MAX_OPEN_FILES, *resource.getrlimit(resource.RLIMIT_NOFILE))
+        if value != resource.RLIM_INFINITY
+    )
+    resource.setrlimit(resource.RLIMIT_NOFILE, (cap, cap))
+
+
 def limits(max_file: int = MAX_FILE, cpu_seconds: int = 40) -> None:
+    limit_open_files()
     resource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))
     resource.setrlimit(resource.RLIMIT_FSIZE, (max_file, max_file))
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
@@ -287,6 +299,7 @@ def invoke(
             "wall_limit_seconds": seconds,
             "cpu_limit_seconds": cpu_seconds,
             "per_file_limit_bytes": max_file,
+            "max_open_files": MAX_OPEN_FILES,
             "max_rss_bytes": max_rss,
             "memory_cutoff_bytes": cutoff,
             "rss_sample_interval_seconds": 0.01,
