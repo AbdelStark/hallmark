@@ -1,12 +1,14 @@
 """Compose frozen trained classifier proofs on one opened request; no hardware acceptance."""
 
 import argparse
+import copy
 import json
 import platform
 import subprocess
 import time
 from pathlib import Path
 
+import composed_input
 import run_contextual_proof as cnn
 import run_trained_mlp as mlp
 import trained_common_input as common
@@ -34,7 +36,9 @@ def encoded(value):
     return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode()
 
 
-def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization, output):
+def run(
+    binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization, output, *, llm=False
+):
     exports = {}
     for kind, path, pin in (
         ("mlp", mlp_quantization, MLP_QUANTIZATION),
@@ -48,18 +52,23 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
             if kind == "mlp"
             else cnn.export(json.loads(raw))
         )
-    data = common.ROOT / "fixtures/contextual-scope-v2.jsonl"
-    if digest(read_regular(data, 1024**2)) != cnn.DATASET:
-        raise ValueError("case source changed")
-    test = sorted((r for r in load_records(data) if r.split == "test"), key=lambda r: r.record_id)
-    benign, positive = test[:2]
-    if benign.group_id != positive.group_id or (benign.label, positive.label) != (0, 1):
-        raise ValueError("invalid fixed pair")
-    cases = {
-        "allow": benign.prompt,
-        "cnn-block": positive.prompt,
-        "rule-block": "BAD; " + benign.prompt,
-    }
+    if llm:
+        cases = {"llm-response": composed_input.case()["prompt"]}
+    else:
+        data = common.ROOT / "fixtures/contextual-scope-v2.jsonl"
+        if digest(read_regular(data, 1024**2)) != cnn.DATASET:
+            raise ValueError("case source changed")
+        test = sorted(
+            (r for r in load_records(data) if r.split == "test"), key=lambda r: r.record_id
+        )
+        benign, positive = test[:2]
+        if benign.group_id != positive.group_id or (benign.label, positive.label) != (0, 1):
+            raise ValueError("invalid fixed pair")
+        cases = {
+            "allow": benign.prompt,
+            "cnn-block": positive.prompt,
+            "rule-block": "BAD; " + benign.prompt,
+        }
     circuits = {}
 
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
@@ -81,6 +90,7 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
     sources = [
         Path(__file__),
         common.ROOT / "scripts/trained_common_input.py",
+        common.ROOT / "scripts/composed_input.py",
         common.ROOT / "scripts/common_input.py",
         Path(mlp.__file__),
         Path(cnn.__file__),
@@ -95,6 +105,7 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
             quantizations={"mlp": MLP_QUANTIZATION, "encoder": cnn.QUANTIZATION},
             dataset_sha256=cnn.DATASET,
             cases=cases,
+            llm_case_sha256=composed_input.CASE_SHA256 if llm else None,
             capacity=common.CAPACITY,
             binary_sha256=binary_pin,
             verifier_python=str(verifier_python),
@@ -171,10 +182,13 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
                 response="Synthetic response; no inference claim.",
                 salt=bytes([index + 20]) * 32,
             )
+            if llm:
+                expected, opening = composed_input.request(policy)
+                composed_input.check_request(opening, expected)
             expectations[name], openings[name] = expected, opening
             rows = common.evaluate(records, policy, opening, expected)
             verdicts = [row["public"][99] for row in rows]
-            if (
+            if not llm and (
                 (name == "allow" and verdicts != [1, 1, 1])
                 or (name == "cnn-block" and verdicts[2] != 0)
                 or (name == "rule-block" and verdicts[0] != 0)
@@ -258,6 +272,56 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
                         rejected.append([target, source, family])
                     else:
                         raise AssertionError("cross-request proof accepted")
+        binding_rejections = []
+        if llm:
+            name = "llm-response"
+            for field, replacement in (
+                ("prompt", openings[name].prompt + "!"),
+                ("response", openings[name].response + "!"),
+                ("system_ref", b"s" * 32),
+                ("model", b"m" * 32),
+                ("nonce", b"n" * 32),
+                ("interaction_id", b"i" * 32),
+                ("policy", b"p" * 32),
+                ("salt", b"t" * 32),
+            ):
+                opening, expected = openings[name], expectations[name]
+                if field in ("prompt", "response", "system_ref", "salt"):
+                    opening = opening.model_copy(update={field: replacement})
+                else:
+                    expected = expected.model_copy(update={field: replacement})
+                try:
+                    composed_input.check_request(opening, expected)
+                    common.check_bundle(
+                        enrollment_raw,
+                        enrollment_pin,
+                        exports,
+                        circuits,
+                        opening,
+                        expected,
+                        encoded(bundles[name]),
+                    )
+                except ValueError:
+                    binding_rejections.append(field)
+                else:
+                    raise AssertionError("changed composed request accepted: " + field)
+            for family in range(3):
+                changed = copy.deepcopy(bundles[name])
+                changed["proofs"][family]["artifact_cbor_hex"] = "00"
+                try:
+                    common.check_bundle(
+                        enrollment_raw,
+                        enrollment_pin,
+                        exports,
+                        circuits,
+                        openings[name],
+                        expectations[name],
+                        encoded(changed),
+                    )
+                except ValueError:
+                    binding_rejections.append("classifier-" + str(family))
+                else:
+                    raise AssertionError("changed classifier evidence accepted")
         negative_reports = {}
         for kind, fixture in grouped.items():
             raw = encoded(fixture)
@@ -281,6 +345,7 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
             )
             negative_reports[kind] = len(report["cases"])
         result = dict(
+            schema_id="hallmark.trained-common-result/1",
             status="passed",
             qualified_backend=False,
             hardware_claim="not-accepted",
@@ -289,6 +354,7 @@ def run(binary, binary_pin, verifier_python, mlp_quantization, cnn_quantization,
             model_sha256={k: digest(encoded(v["model"])) for k, v in exports.items()},
             cases=results,
             cross_request_rejections=rejected,
+            composed_binding_rejections=binding_rejections,
             arithmetic_cases=negative_reports,
             elapsed_seconds=time.monotonic() - started,
             retained_bytes=budget.inspect(),
@@ -317,6 +383,7 @@ if __name__ == "__main__":
     parser.add_argument("--mlp-quantization", type=Path, required=True)
     parser.add_argument("--cnn-quantization", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--llm", action="store_true", help="bind the fixed proved LLM response")
     args = parser.parse_args()
     print(
         json.dumps(
@@ -327,6 +394,7 @@ if __name__ == "__main__":
                 args.mlp_quantization.absolute(),
                 args.cnn_quantization.absolute(),
                 args.output,
+                llm=args.llm,
             )
         )
     )

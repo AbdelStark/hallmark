@@ -1,8 +1,19 @@
 # Research state
 
-Updated: 2026-10-23. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-25. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
 ## Next bounded task
+
+The [composed demo](../docs/COMPOSED-DEMO.md), `make e2e-composed`, connects the
+proved TinyLlama response and three classifier proofs over one opened request.
+Two fresh local campaigns pass in 856.00 and 850.12 seconds, with retained LLM
+preparation, fresh verification and three new classifier setups/proofs each.
+Both reject all 36 LLM mutations and eleven composition mutations and match all
+399 classifier arithmetic outcomes. [Decision 0073](../docs/decisions/0073-compose-proved-llm-and-classifier-request.md)
+and [numeric evidence](evidence/composed-request-2026-10-25.json) define the join.
+The unchanged synthetic CNN blocks the ordinary France prompt. This establishes
+faithful computation; it admits no policy-quality or operational hybrid claim.
+The complete fresh-preparation mode was not rerun for this integration study.
 
 The owner's complete short pretrained LLM response now has a passing composed
 proof: **23 segments, 22 residual links and eight answer tokens through EOS**.

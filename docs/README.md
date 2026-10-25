@@ -8,6 +8,7 @@ and trust boundary; for evidence, read [results](RESULTS.md).
 
 | Document | Purpose |
 |---|---|
+| [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |
 | [What is proved](PROOFS.md) | Classifier claim, public inputs, caller checks and exclusions |
 | [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |

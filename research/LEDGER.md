@@ -4310,3 +4310,75 @@ source files, 156 matched software conformance cases and 32 unavailable genuine
 evidence obligations. `make package-check` passes. Focused tests pass 72 cases
 with one optional SDK skip. Final logs are retained under `runs/enrollment-delivery`;
 all 55 final source hashes still match both signed proof runs.
+
+
+## 2026-10-25: compose a proved LLM response and trained classifier decisions
+
+Issue #104; [decision 0073](../docs/decisions/0073-compose-proved-llm-and-classifier-request.md).
+Hypothesis: the existing proof relations can bind quantized TinyLlama generation
+and three classifier decisions to one exact opened request, without hardware.
+Baseline: `07d29fef9bf3f636dc09cecea93623d720333550`; the two demos were separate
+and the classifier response was authored. Mutable paths: composition helpers,
+trained-proof controller, Make entrypoint, tests, documentation, research authority
+and evidence. Model exports, data/splits, thresholds, circuits, LLM case and
+cryptographic verifier implementations stay frozen.
+
+Before execution, `runs/study/protocol-before-implementation.json` froze the
+hypothesis, inputs, two-campaign criterion and resource envelope. The native
+fixture reported `[1,1,0]` on the 49-byte France prompt. Its CNN block remains;
+we did not retune a threshold or model after observing it. The initial focused
+suite passed 57 checks. Canonical case/model binding, changed text/context and
+saved-report failure behavior have explicit fixtures. The new model descriptor
+has a fixed hash vector and is not operational v1 model enrollment.
+
+The retained preparation comes from the pinned TinyLlama e2e run and classifier
+e2e reproduction. The source archive, proof archive/inventory, classifier binary
+and quantizations are hashed before each campaign. No previous `passed` result
+substitutes for fresh verification. Exact commands and inputs are retained under
+`runs/study/`; the local outer commands were:
+
+```sh
+.venv/bin/python runs/study/execute.py 01
+.venv/bin/python runs/study/execute-make.py 02
+```
+
+The first invokes `scripts/run_composed.py` with both retained paths. The second
+invokes the actual `make e2e-composed LLM_RUN=... CLASSIFIER_RUN=...` recipe with
+uv 0.9.18. Both freshly verify all 23 LLM proofs twice and reject 36 mutations,
+then generate three new classifier setups/proofs and verify them with separate
+pairing arithmetic. Eleven composition mutations reject and all 399 classifier
+arithmetic outcomes match. Both model/circuit inventories reproduce; every
+classifier verification key differs between campaigns.
+
+Raw numeric files precede this summary; [the evidence record](evidence/composed-request-2026-10-25.json)
+retains their hashes. Full workflows take 855.9973 and 850.1163 seconds. Native
+LLM build/check suites take 206.4629 and 205.1028 seconds; classifier suites take
+649.3552 and 644.6196 seconds. Peak classifier worker RSS is 2,226,601,984 and
+2,261,680,128 bytes; each classifier campaign retains about 1.29 GB. These are
+diagnostic observations with uncontrolled host activity, not isolated benchmarks.
+Final opening/context reconstruction exactly matches the public-input jobs
+actually supplied to the separate pairing verifier in both runs.
+
+The study adds zero cloud jobs and zero cloud spend. LLM proof bytes are retained
+and freshly checked; classifier proofs/keys are new. Both campaigns report proof
+integrity accepted and `policy_release: false`, with prompt-only synthetic
+classifiers. No response-safety, freshness, hiding, protected-release, operational
+enrollment or independent security qualification follows. The complete default
+fresh-preparation mode was not rerun here; its component reproductions remain
+separate evidence. The initial retained-run storage exceeded an older agent-set
+ceiling, so decision 0073 records a 300 GiB ceiling and 16 GiB new-study allowance
+under standing owner approval, preserving old runs and budgets.
+
+Repository, required-training and distribution checks follow this proof gate;
+the evidence validation block records their exact terminal results.
+
+
+Final local gates pass: `make check` reports 2,389 passed / 50 optional or platform
+skips, 47 typed source files and 156 software conformance matches; 32 full-evidence
+obligations remain unavailable. `make check-train` executes all 77 selected tests
+without skips. Both core and training installed-package checks pass under source
+identity `adc915657a08fdc522226bfd7ec934f136ebe615c79e1b2a0665c0a37e3962f2`.
+The first repository gate caught an overlong fixed-hash test assertion; Ruff
+formatted only that test, and the complete gate then passed. The failed log is
+retained. All 206 measured runtime source hashes still match. Validation metadata
+is appended after local packaging; hosted exact-commit checks validate publication.
