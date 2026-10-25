@@ -4489,3 +4489,35 @@ sdist hashes under source snapshot `a86cb140ca0c8de5437b4a878d22b14fe9181e55539a
 Local Markdown paths/anchors pass. Final validation metadata is appended after
 that local package snapshot; hosted checks validate the complete publication
 commit. All 207 measured runtime hashes still match.
+
+## 2026-10-25: owner-scoped LLM integrity MVP completion audit
+
+Issue #110; [decision 0076](../docs/decisions/0076-integrity-mvp-scope.md). The
+owner explicitly selected “Finish the LLM integrity MVP without hardware or
+hiding requirements.” Original private-v1 requirements, failures and evidence
+remain intact; its 29 open issues are deferred, not closed as implemented.
+
+[The numeric audit](evidence/integrity-mvp-completion-2026-10-25.json) precedes
+this interpretation. It rehashes the real checkpoint and all eight model files,
+all 69 proof/statement/claim files, 207 current runtime files, 55 native verifier
+files and all 20 files enrolled by the fresh LLM proving pipeline. It checks
+retained actual verifier outcomes, all five historical signed authorizations,
+the exact opened request/public-input join, public MIT metadata and all 16
+exact-source baseline hosted jobs. The scope is one pinned quantized TinyLlama
+answer through EOS, with specialized integrity proofs and the existing synthetic
+classifier pipeline. Current-source signed composition and proof-only handoff
+already pass; no arithmetic, model, evaluator or proof source changes here.
+
+An initial audit assumed a file named LICENSE; the actual licence is LICENSE.md.
+That harness failure is retained and the corrected audit passes without changing
+licence bytes or runtime source. Final documentation/distribution validation and
+publication receipts follow. No cloud job, new spend, private upload, contact,
+operational key provisioning or security/hardware/hiding qualification occurs.
+
+Final local validation passes: 2,418 tests, 50 optional/platform skips, 77 required
+training tests, 47 typed source files, 156 software conformance matches, valid
+Markdown links and reproducible core/installed-training package gates. Their
+shared package snapshot is `aef678bcbfcdfd84114e44f756fe131459321b60ec07c0c5dc2820fd90f9bebb`.
+Final metadata follows that package snapshot; publication CI is recorded on the
+linked PR. The live audit confirms all 29 original issues remain open with
+unchanged bodies and additive post-mvp labels. Runtime sources are unchanged.

@@ -1,6 +1,10 @@
 # Hallmark v1 specification
 
-Proposed private POC, 2026-10-20. Hallmark binds hardware-attested model provenance and real classifier proofs to one exact interaction. A classifier pass is a policy result, never a safety guarantee. The existing 0.1.0 package implements only offline research fixtures and replay.
+Original proposed private POC, 2026-10-20. Hallmark binds hardware-attested model provenance and real classifier proofs to one exact interaction. A classifier pass is a policy result, never a safety guarantee. At that date, the 0.1.0 package implemented offline research fixtures and replay.
+
+The owner selected the [LLM integrity MVP](docs/MVP.md) for current completion
+on 2026-10-25. This original private-v1 contract and its unmet requirements stay
+preserved as future work; see [decision 0076](docs/decisions/0076-integrity-mvp-scope.md).
 
 ## Read order and authority
 

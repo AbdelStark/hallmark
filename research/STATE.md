@@ -2,7 +2,26 @@
 
 Updated: 2026-10-25. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
-## Next bounded task
+## Current MVP — complete
+
+The owner explicitly selected completion of the **LLM integrity MVP without
+hardware or hiding requirements** on 2026-10-25. [Decision 0076](../docs/decisions/0076-integrity-mvp-scope.md)
+records that scope; [acceptance and limits](../docs/MVP.md) map it to evidence.
+The [completion audit](evidence/integrity-mvp-completion-2026-10-25.json) rehashes
+all 207 current runtime files, 55 native verifier files, 20 fresh-proving pipeline
+files, all eight model files and all 69 proof/statement/claim files. The complete
+short TinyLlama response, caller expectations, current signed composition and
+proof-only verification pass. No runtime or historical evidence is changed.
+
+No further implementation gate is required for this selected research MVP.
+The original private/hardware v1 roadmap stays open as `post-mvp` work; its
+requirements have not been implemented or adopted by this completion decision.
+Operational custody/revocation, independent security/hiding qualification,
+general prompts/models and hardware provenance remain limitations/future work.
+The code retains `qualified_backend: false`, `hiding_claim: false` and
+`hardware_claim: "not-accepted"`. The repository remains public and MIT licensed.
+
+## Supporting proof and workflow evidence
 
 The [composed demo](../docs/COMPOSED-DEMO.md), `make e2e-composed`, connects the
 proved TinyLlama response and three classifier proofs over one opened request.
@@ -34,9 +53,9 @@ the final join. [Decision 0075](../docs/decisions/0075-signed-composed-enrollmen
 defines the boundary: the signature covers LLM parameters/verifier, while
 classifier policy and setup admission remain separate. No cloud job/spend occurs.
 
-This closes the fresh-command and signed-composition research gates. Continue #19's operational
-parameter/setup custody and independent security/hiding qualification; genuine
-hardware provenance remains a separate extension. No further proving campaign is
+This closes the fresh-command and signed-composition research gates. Issue #19's
+operational parameter/setup custody and independent security/hiding qualification
+are deferred v1 work; genuine hardware provenance remains outside this MVP. No further proving campaign is
 needed to establish this fixed-case, non-attested research demo.
 
 The owner's complete short pretrained LLM response now has a passing composed
@@ -156,7 +175,7 @@ The [second synthetic screen](evidence/w16-contextual-screen-v2-2026-10-22.json)
 and [failed first screen](evidence/w16-contextual-screen-v1-2026-10-22.json) retain
 their original evidence boundaries; the reused test pair is an engineering case.
 
-The remaining qualification gates are explicit: authenticated compiler/program
+For the broader v1 roadmap, the remaining qualification gates are explicit: authenticated compiler/program
 and key enrollment, setup custody, independent security/hiding review and an
 admitted B1 verifier adapter. B2 and the full hybrid path additionally need genuine
 hardware provenance and protected inference/output evidence. Issues #19/#29
@@ -731,7 +750,7 @@ decision, and confirmatory requests remain inconclusive. The initial package
 check rejected global uv 0.13.4; an isolated required uv 0.9.18 made both gates
 pass without changing the global tool. See [decision 0034](../docs/decisions/0034-frozen-group-reports.md).
 
-## Not implemented or established
+## Broader v1 work not implemented or established
 
 TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, separate verifier for complete hybrid bundles, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 

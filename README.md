@@ -1,42 +1,51 @@
 # Hallmark
 
-**Train a classifier. Prove its exact computation. Verify the verdict.**
+**Prove a complete LLM response. Verify exact classifier decisions.**
 
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-[Composed demo](docs/COMPOSED-DEMO.md) · [LLM response proof](docs/LLM-PROOF.md) · [Classifier demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
+[LLM proof](docs/LLM-PROOF.md) · [MVP scope and acceptance](docs/MVP.md) · [Composed demo](docs/COMPOSED-DEMO.md) · [Classifier proofs](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
 
-Hallmark is an MIT-licensed research toolkit for verifiable text classification. It connects
-synthetic training, exact integer inference and specialized cryptographic circuits
-so a separate verifier can check classifier verdicts against a caller's expected
-input, model and policy.
+Hallmark is MIT-licensed research software for verifiable LLM inference and text
+classification. Its **fixed-case LLM integrity MVP is complete**: a pinned,
+disclosed quantized TinyLlama-1.1B generates “The capital of France is Paris.”,
+and all 23 proof segments verify through the final EOS token.
 
-**The classifier demo works end to end, without hardware attestation.** It trains
-an MLP and a contextual byte CNN, combines them with a literal rule, and verifies
-real Groth16 proofs for all three over the same request. The circuits use gnark
-and BLS12-381; verification uses a separate py-ecc implementation. There is no
-general-purpose zkVM in this path.
+The LLM path uses SASH's specialized Circle STARK prover. It requires neither a
+general-purpose zkVM nor hardware attestation, and makes no witness-hiding claim.
+[The proof explanation](docs/LLM-PROOF.md) gives the prompt, model, arithmetic,
+public expectations and exact verifier checks. Run `make e2e-llm` to reproduce it
+with local preparation and bounded HF CPU jobs.
 
-This is research software. The demo uses authored synthetic data and prompts of
-at most **96 UTF-8 bytes**. A valid proof establishes the admitted integer
-computation; it does not establish that a classifier is a good safety policy.
-The broader hardware-attested inference system remains unfinished.
+The classifier path trains an MLP and a contextual byte CNN, combines them with a
+literal rule, and checks real Groth16 proofs with separate py-ecc arithmetic.
+These are custom gnark circuits on BLS12-381. `make e2e` runs that workflow entirely
+on your Mac; `make e2e-composed` binds three classifier proofs to the proved LLM
+prompt and response.
 
-**A complete TinyLlama response also verifies.** The [LLM proof explanation](docs/LLM-PROOF.md)
-shows the actual prompt and answer, the quantized model, all 23 proof segments and
-what the verifier checks. Run `make e2e-llm` to reproduce it with local preparation
-and bounded HF CPU jobs. `make e2e` runs the classifier demo entirely on your Mac.
+The [MVP acceptance record](docs/MVP.md) separates this working integrity demo
+from the future private, hardware-attested v1 system. The classifier data is
+synthetic and its input limit is 96 UTF-8 bytes. A valid proof establishes the
+stated computation, not that a classifier is a useful safety policy. Arbitrary
+prompts/models and production qualification remain outside this fixed case.
 
 ## What exactly is proved?
+
+For the LLM, the enrolled quantized model computes the displayed complete greedy
+answer from the expected prompt tokens. The proof covers embedding, every
+transformer layer, final normalization and output argmax, including EOS. The
+caller supplies the expected model/shape/calibration roots and exact token case.
+Tokenization and detokenization are pinned caller checks outside the circuit.
+See the [LLM statement](docs/LLM-PROOF.md#the-statement) for the exact boundaries.
 
 For a fixed integer classifier and a particular prompt, Hallmark proves that the
 classifier computes the stated pass/block verdict on the complete prompt bytes.
 A **valid proof can prove a block**: proof validity and classifier approval are
 separate outcomes.
 
-The proof covers input hashing and integer inference, including the final threshold
-comparison. Training supplies the weights; its history is not proved. The caller
-checks request/model/key binding, and host code combines three verified verdicts
+The classifier proofs cover input hashing and integer inference, including the final
+threshold comparison. Classifier training supplies the weights; its history is not
+proved. The caller checks request/model/key binding, and host code combines three verified verdicts
 with `all-pass`. The standalone classifier demo uses an authored response. The
 [composed demo](docs/COMPOSED-DEMO.md) instead binds these classifier relations
 to the proved TinyLlama prompt and response.
@@ -76,31 +85,11 @@ release a real model response. Results retain `qualified_backend: false` and
 
 ## Start here
 
-### Train, prove and verify classifiers
-
-On an **Apple Silicon Mac**, with Git, Make, curl and **uv 0.9.18** on `PATH`:
-
-```sh
-git clone https://github.com/AbdelStark/hallmark.git
-cd hallmark
-make e2e
-```
-
-One command prepares pinned Python/Go environments, trains both models, builds the
-circuits, generates **nine real proofs** and checks them with the separate verifier.
-It checks **18 cross-request substitutions** and **405 arithmetic cases**, then
-prints the three decisions and the path to its result. Every run gets a fresh
-local evidence directory; failures return nonzero and retain their logs.
-
-Allow **12 GiB free storage** and roughly **20 minutes plus dependency/build time**
-on the recorded M4 Max. No GPU, API token, cloud account, downloaded model weights
-or private data is needed. See the [demo guide](docs/DEMO.md) for prerequisites,
-progress, expected output, resource bounds and troubleshooting.
-
 ### Prove a pretrained LLM response
 
-On the same Mac, with **16 GiB free storage**, 32 GB RAM and an HF account with
-Jobs access and prepaid credits, set `HF_TOKEN` in the environment or ignored
+On an **Apple Silicon Mac**, with Git, Make, **uv 0.9.18**, **16 GiB free storage**,
+32 GB RAM and an HF account with Jobs access and prepaid credits, set `HF_TOKEN`
+in the environment or ignored
 `.env` file, then run:
 
 ```sh
@@ -122,6 +111,27 @@ after compilation. It uses compiled parameters for the fixed case;
 see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
 For signer-authorized parameters, [verify a signed enrollment](docs/LLM-PROOF.md#verify-a-signed-parameter-enrollment)
 with a public key obtained through your own authenticated channel.
+
+### Train, prove and verify classifiers
+
+On an **Apple Silicon Mac**, with Git, Make, curl and **uv 0.9.18** on `PATH`:
+
+```sh
+git clone https://github.com/AbdelStark/hallmark.git
+cd hallmark
+make e2e
+```
+
+One command prepares pinned Python/Go environments, trains both models, builds the
+circuits, generates **nine real proofs** and checks them with the separate verifier.
+It checks **18 cross-request substitutions** and **405 arithmetic cases**, then
+prints the three decisions and the path to its result. Every run gets a fresh
+local evidence directory; failures return nonzero and retain their logs.
+
+Allow **12 GiB free storage** and roughly **20 minutes plus dependency/build time**
+on the recorded M4 Max. No GPU, API token, cloud account, downloaded model weights
+or private data is needed. See the [demo guide](docs/DEMO.md) for prerequisites,
+progress, expected output, resource bounds and troubleshooting.
 
 ### Check LLM generation and classifiers together
 
@@ -230,8 +240,9 @@ local run directories.
 ## Security and licence
 
 See [SECURITY](SECURITY.md) for trust assumptions and private reporting. Setup
-custody, authenticated program/key enrollment, independent security/hiding review
-and operational verifier integration remain open gates.
+custody, authenticated operational enrollment, independent security/hiding review
+and operational verifier integration remain future qualification gates. They do
+not block the owner-selected [integrity MVP](docs/MVP.md).
 
 Hallmark is released under the **[MIT licence](LICENSE.md)**. Third-party software,
 referenced datasets and model weights retain their own terms; see the
