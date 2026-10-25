@@ -55,6 +55,42 @@ def verifier_identity(inventory):
     return H("program", dict(schema_id="hallmark/llm-verifier-source/1", files=inventory))
 
 
+def read_enrollment(enrollment, trusted_key):
+    require(
+        (enrollment is None) == (trusted_key is None), "Supply enrollment and trusted key together"
+    )
+    if enrollment is None:
+        return None, None
+    require(
+        isinstance(trusted_key, str) and re.fullmatch(r"[0-9a-f]{64}", trusted_key),
+        "Trusted Ed25519 key must be 64 lowercase hex characters",
+    )
+    return read_regular(enrollment, 16384), bytes.fromhex(trusted_key)
+
+
+def parameter_authority(signed, key, *, case_sha256, verifier, stage):
+    if signed is None:
+        return dict(kind="checkout-case")
+    checked_at = int(time.time())
+    body = verify_llm_enrollment(
+        signed,
+        trusted_key=key,
+        expected_case=case_sha256,
+        expected_verifier=verifier,
+        now=checked_at,
+    )
+    return dict(
+        schema_id="hallmark.llm-parameter-authority/1",
+        kind="ed25519",
+        enrollment_sha256=hashlib.sha256(signed).hexdigest(),
+        trusted_key_sha256=hashlib.sha256(key).hexdigest(),
+        not_before=body.not_before,
+        expires_at=body.expires_at,
+        checked_at=checked_at,
+        stage=stage,
+    )
+
+
 def process_group_rss(group):
     rows = subprocess.check_output(["/bin/ps", "-axo", "pgid=,rss="], text=True, timeout=5)
     total = 0
@@ -165,42 +201,18 @@ def run(previous, *, enrollment=None, trusted_key=None):
     environment = {k: os.environ[k] for k in ("PATH", "HOME", "TMPDIR") if k in os.environ}
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     try:
-        require(
-            (enrollment is None) == (trusted_key is None),
-            "Supply enrollment and trusted key together",
-        )
-        signed = None
-        key = None
-        if enrollment is not None:
-            require(
-                isinstance(trusted_key, str) and re.fullmatch(r"[0-9a-f]{64}", trusted_key),
-                "Trusted Ed25519 key must be 64 lowercase hex characters",
-            )
-            key = bytes.fromhex(trusted_key)
-            signed = read_regular(enrollment, 16384)
+        signed, key = read_enrollment(enrollment, trusted_key)
 
         def check_enrollment(stage):
-            if signed is None:
-                return dict(kind="checkout-case")
-            checked_at = int(time.time())
-            body = verify_llm_enrollment(
+            metadata = parameter_authority(
                 signed,
-                trusted_key=key,
-                expected_case=hashlib.sha256(case_raw).digest(),
-                expected_verifier=verifier,
-                now=checked_at,
-            )
-            metadata = dict(
-                schema_id="hallmark.llm-parameter-authority/1",
-                kind="ed25519",
-                enrollment_sha256=hashlib.sha256(signed).hexdigest(),
-                trusted_key_sha256=hashlib.sha256(key).hexdigest(),
-                not_before=body.not_before,
-                expires_at=body.expires_at,
-                checked_at=checked_at,
+                key,
+                case_sha256=hashlib.sha256(case_raw).digest(),
+                verifier=verifier,
                 stage=stage,
             )
-            write_json(output / ("enrollment-" + stage + ".json"), metadata)
+            if signed is not None:
+                write_json(output / ("enrollment-" + stage + ".json"), metadata)
             return metadata
 
         check_enrollment("before-build")

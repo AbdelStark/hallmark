@@ -24,7 +24,17 @@ and normalize Go assembly paths/build identity without changing model or proof
 semantics. The successful command has a $0.31 compute bound; the study totals $1.55,
 not invoices. All fifteen jobs completed and all buckets are confirmed absent.
 
-This closes the fresh-command acceptance gate. Continue #19's operational
+The composed command now also preserves caller-supplied signed LLM parameter
+authorization. Its [recorded signed workflow](evidence/signed-composed-2026-10-25.json)
+passes in 866.49 seconds with retained preparation, fresh native verification and
+three new classifier proofs. Ten actual CLI preflight rejections precede any
+preparation; all 36 native mutations, eleven binding rejections and 399 arithmetic
+outcomes pass. All five authorization checks bind the same record/key through
+the final join. [Decision 0075](../docs/decisions/0075-signed-composed-enrollment.md)
+defines the boundary: the signature covers LLM parameters/verifier, while
+classifier policy and setup admission remain separate. No cloud job/spend occurs.
+
+This closes the fresh-command and signed-composition research gates. Continue #19's operational
 parameter/setup custody and independent security/hiding qualification; genuine
 hardware provenance remains a separate extension. No further proving campaign is
 needed to establish this fixed-case, non-attested research demo.
@@ -723,7 +733,7 @@ pass without changing the global tool. See [decision 0034](../docs/decisions/003
 
 ## Not implemented or established
 
-TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, separate verifier for complete hybrid bundles, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, public release licence, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
+TEE evidence, operational registry enrollment/authoring/rotation, proofs for enrolled operational Hallmark classifiers, full bundle assembly and combined verification, separate verifier for complete hybrid bundles, real safety-policy dataset/evaluation, encoder/teacher/student training, full proof/compiler qualification, production service, deployment, partner approval or any safety guarantee. CI definitions alone are not hosted green checks. CODEOWNERS and agent rules are not enforced sandboxing or branch protection.
 
 ## Implementation history
 

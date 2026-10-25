@@ -134,6 +134,8 @@ to the exact same opened request. It uses the prerequisites of both demos and
 32 GiB free storage. Supply `LLM_RUN` and `CLASSIFIER_RUN` to reuse caller-owned
 preparation without new cloud jobs; proofs are freshly verified and classifier
 keys/proofs are always new. See the [composed workflow and exact join](docs/COMPOSED-DEMO.md).
+To require an external signer's authorization of the LLM case and verifier,
+use [signed LLM parameters](docs/COMPOSED-DEMO.md#signed-llm-parameters).
 The complete fresh workflow has been reproduced in **66 minutes 50 seconds**, with
 **$0.31 bounded cloud compute** rather than an invoice. It includes fresh LLM
 witnesses/proofs, classifier training, twelve classifier proofs and the negative
