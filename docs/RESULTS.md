@@ -1,6 +1,11 @@
 # Results and limitations
 
-As of 2026-10-23, Hallmark has a working **synthetic classifier research pipeline**:
+As of 2026-10-25, the [owner-selected LLM integrity MVP](MVP.md) is complete.
+The fixed TinyLlama response has a complete specialized proof, including EOS;
+`make e2e-llm` reproduces it. The original private/hardware v1 roadmap remains
+future work, with no hiding or operational qualification claimed.
+
+Hallmark also has a working **synthetic classifier research pipeline**:
 training → integer export → dedicated-circuit proofs → separate verification →
 all-pass composition. It has no accepted hardware attestation or operational
 hybrid verifier. [Reproduce the demo](DEMO.md) or read [what is proved](PROOFS.md).

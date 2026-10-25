@@ -4,6 +4,13 @@ Generated from the specification corpus in [PR #1](https://github.com/AbdelStark
 
 The [machine-readable work map](work-items.json) contains exact scopes, tests, labels, milestones, dependencies and live URLs. The [source requirement disposition](../spec/11-requirements.md#source-requirement-disposition) maps original intent to this scope. Later extensions are explicitly excluded; genuine hardware, three classifier kinds and independent verification remain mandatory.
 
+The owner-selected [LLM integrity MVP](../MVP.md) is complete. This tracker
+preserves the broader private-v1 roadmap. Its remaining issues stay open and
+are marked `post-mvp`; their original acceptance criteria are unchanged.
+[Decision 0076](../decisions/0076-integrity-mvp-scope.md) records the scope.
+The hardware and private-witness requirements below apply to that future v1,
+not to the completed integrity MVP.
+
 ## Status and authority
 
 `blocked` labels identify prerequisite work or an unresolved owner gate. W13 can prepare its proposal now, but data/policy/resource admission awaits approval. W36 is merged; public hosted CI now executes successfully. The initial billing block is historical. Filing issues supplies no compute, data, sharing or release authority. Reviewer issues do not add collaborators or contact anyone.

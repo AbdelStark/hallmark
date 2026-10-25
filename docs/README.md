@@ -1,13 +1,15 @@
 # Hallmark documentation
 
-Start with the [project overview](../README.md). For a runnable path, go directly
-to the [classifier demo](DEMO.md). Read [what is proved](PROOFS.md) for the claim
-and trust boundary; for evidence, read [results](RESULTS.md).
+Start with the [LLM integrity MVP and acceptance record](MVP.md), then run the
+[TinyLlama workflow](LLM-PROOF.md). Read the exact proof statement before relying
+on a result. The [composed demo](COMPOSED-DEMO.md) adds classifier proofs over the
+same opened request; [results](RESULTS.md) preserve measurements and limitations.
 
 ## Use and reproduce
 
 | Document | Purpose |
 |---|---|
+| [MVP scope and acceptance](MVP.md) | Completed fixed-case integrity scope, evidence matrix and deferred v1 roadmap |
 | [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |
 | [What is proved](PROOFS.md) | Classifier claim, public inputs, caller checks and exclusions |
 | [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
@@ -20,8 +22,8 @@ and trust boundary; for evidence, read [results](RESULTS.md).
 
 ## Understand the design
 
-The [canonical specification](../SPEC.md) is the entry point to the proposed v1
-system. A specified interface is not necessarily an implemented one. Check the
+The [canonical specification](../SPEC.md) is the entry point to the future private
+v1 system, beyond the owner-selected integrity MVP. A specified interface is not necessarily an implemented one. Check the
 [supported API table](spec/02-public-api.md) and [current state](../research/STATE.md)
 before using a command or relying on a capability.
 
@@ -50,7 +52,7 @@ describes its supported proof encoding and pairing checks.
 
 - [Real LLM proof plan](../research/real-llm-proof-plan.md): pretrained response
   target, SASH source review, measured preparation and remaining proof gates.
-- [STATE](../research/STATE.md): current capability and next qualification gates.
+- [STATE](../research/STATE.md): completed MVP and future qualification gates.
   Older entries below the opening summary are historical.
 - [Ledger](../research/LEDGER.md): chronological commands, failures and results.
 - [Program](../research/PROGRAM.md): hypotheses, controls and stopping rules.
