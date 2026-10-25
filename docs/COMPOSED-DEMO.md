@@ -118,6 +118,56 @@ state the component assumptions. Backend/setup custody, independent security
 review, operational enrollment, policy quality and genuine hardware evidence
 remain separate gates.
 
+## Recorded fresh preparation
+
+On 2026-10-25, the actual `make e2e-composed` command passed with neither
+`LLM_RUN` nor `CLASSIFIER_RUN`. It generated new LLM witnesses/proofs, trained and
+exported the classifiers, ran the control campaign and produced three new proofs
+for the LLM request.
+
+| Stage | Measured wall time |
+|---|---:|
+| Complete Make command | 4,010.05 s (66 min 50 s) |
+| LLM preparation, build, proving and original verification | 1,963.89 s |
+| Native build and 38-case verification suite | 222.25 s |
+| Fresh classifier preparation and nine-proof control | 1,148.42 s |
+| Three composed classifier proofs and checks | 672.15 s |
+
+The original verifier accepted both honest checks and rejected all 14 mutations.
+The native verifier accepted two honest checks and rejected all 36 mutations.
+The classifier control verified nine proofs, rejected all 18 cross-request
+substitutions and matched all 405 arithmetic outcomes. The composed campaign
+verified three proofs, rejected eleven binding mutations and matched all 399
+arithmetic outcomes. Verdicts were `[1, 1, 0]`; integrity passed and the synthetic
+policy blocked. The final opening reconstructs exactly the public-input jobs
+given to the separate pairing verifier.
+
+All 69 LLM proof/statement/claim files match the earlier accepted bundle and all
+five fresh LLM campaigns byte for byte. Both selected model exports and all three
+circuit identities match the baseline. The new classifier setup keys differ from
+the previously recorded campaigns.
+
+The successful command added 12.31 GiB of allocated storage and peaked at
+13.52 GiB summed local descendant RSS, sampled once per second. Its cloud compute
+bound was $0.31. The full study's bound was $1.55, including earlier attempts;
+these are conservative compute bounds, not invoices. All fifteen cloud jobs are
+completed and every temporary bucket is independently confirmed absent.
+
+Three failed full commands and one deliberate interruption preceded the complete
+success. Checkpoint downloading raised the inherited file-descriptor limit, which
+stalled nested sandbox execution. Go build IDs and included-assembly paths then
+made the classifier binary depend on its build location. Worker child limits and
+cache-correct assembler path normalization resolve those observed integration
+failures while preserving explicit binary admission. The
+[decision and failure history](decisions/0074-fresh-composed-reproduction.md) and
+[raw numeric evidence](../research/evidence/fresh-composed-2026-10-25.json)
+retain every attempt, source/input identity and resource amendment.
+
+Dependency/download caches were not cleared. Disposable worker OS-package
+inventories are retained; their package resolution is not fully hermetic. These
+are diagnostic observations on an Apple M4 Max, with other host activity
+uncontrolled, not latency distributions or independent security qualification.
+
 ## Recorded reproduction
 
 Two fresh local campaigns with retained preparation passed on an Apple M4 Max:
@@ -133,7 +183,7 @@ differ between campaigns; both model and circuit inventories match. Each rejecte
 arithmetic outcomes. The final openings reconstruct the exact public-input jobs
 given to the separate pairing verifier. New cloud jobs and spend were zero.
 
-These are diagnostic observations, with other host activity uncontrolled. The
-full fresh-preparation mode was not repeated for this study; its existing stages
-have their own reproduction evidence. [Raw results, source/input hashes and limits](../research/evidence/composed-request-2026-10-25.json)
+These earlier campaigns measure retained preparation; the fresh default command
+is recorded above. They are diagnostic observations with other host activity
+uncontrolled. [Raw results, source/input hashes and limits](../research/evidence/composed-request-2026-10-25.json)
 distinguish retained LLM proof bytes from freshly generated classifier proofs.

@@ -24,6 +24,22 @@ mac = pytest.mark.skipif(
 )
 
 
+@pytest.mark.parametrize(
+    "inherited,expected",
+    [
+        ((4096, 2**63 - 1), 4096),
+        ((512, 1024), 512),
+        ((probe.resource.RLIM_INFINITY, probe.resource.RLIM_INFINITY), 4096),
+    ],
+)
+def test_descriptor_limit_preserves_stricter_limits(monkeypatch, inherited, expected):
+    calls = []
+    monkeypatch.setattr(probe.resource, "getrlimit", lambda kind: inherited)
+    monkeypatch.setattr(probe.resource, "setrlimit", lambda *args: calls.append(args))
+    probe.limit_open_files()
+    assert calls == [(probe.resource.RLIMIT_NOFILE, (expected, expected))]
+
+
 @pytest.mark.parametrize("kind", ["link", "directory", "fifo", "oversize"])
 def test_regular_file_boundary(tmp_path, kind):
     target = tmp_path / "input"

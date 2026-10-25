@@ -19,7 +19,13 @@ from pathlib import Path
 from run_e2e import sha, write_json
 from run_llm_e2e import fetch, require
 
-from hallmark._gnark_probe import read_regular, sandbox_profile, stream_regular
+from hallmark._gnark_probe import (
+    MAX_OPEN_FILES,
+    limit_open_files,
+    read_regular,
+    sandbox_profile,
+    stream_regular,
+)
 from hallmark.integrity import parse_json
 from hallmark.llm_enrollment import verify_llm_enrollment
 from hallmark.wire import H
@@ -64,7 +70,10 @@ def process_group_rss(group):
 def bounded(args, folder, environment, seconds, *, cwd=None):
     """Bound compiler/worker descendants together; retain every failed attempt."""
     folder.mkdir()
-    write_json(folder / "command.json", dict(argv=list(map(str, args)), seconds=seconds))
+    write_json(
+        folder / "command.json",
+        dict(argv=list(map(str, args)), seconds=seconds, max_open_files=MAX_OPEN_FILES),
+    )
     start = time.monotonic()
     peak = 0
     failure = None
@@ -76,6 +85,7 @@ def bounded(args, folder, environment, seconds, *, cwd=None):
             stdout=log,
             stderr=subprocess.STDOUT,
             start_new_session=True,
+            preexec_fn=limit_open_files,
         )
         try:
             while process.poll() is None:
@@ -144,6 +154,7 @@ def run(previous, *, enrollment=None, trusted_key=None):
             source_dirty=True,
             memory_stop_bytes=MEMORY_STOP,
             build_seconds=1800,
+            max_open_files=MAX_OPEN_FILES,
             verification_seconds=600,
             threads=4,
             cloud_cost_usd=0,
