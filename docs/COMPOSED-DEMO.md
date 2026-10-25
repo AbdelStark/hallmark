@@ -62,6 +62,51 @@ honest controls, changed public fields, keys, encodings and malformed proofs.
 Eleven additional composition checks change the opened text/context or classifier
 evidence. Failures return nonzero and preserve their logs.
 
+## Signed LLM parameters
+
+To require signed LLM parameter authorization, obtain the signer's public key
+through your own authenticated channel and provide both inputs:
+
+```sh
+LLM_ENROLLMENT=/path/to/enrollment.cbor \
+LLM_TRUST_KEY="$SIGNER_PUBLIC_KEY_HEX" \
+make e2e-composed \
+  LLM_RUN=/path/to/llm-e2e-run \
+  CLASSIFIER_RUN=/path/to/classifier-e2e-run
+```
+
+The [native enrollment guide](LLM-PROOF.md#verify-a-signed-parameter-enrollment)
+defines the signed record, source inventory and signing API. Its public key is
+64 lowercase hex characters, supplied separately from the record and proofs.
+Omit the retained-run arguments to prepare both components afresh.
+
+Before any fresh preparation, the controller checks the signature, exact LLM
+case/verifier identity and validity interval. It snapshots the signed record,
+passes that copy to fresh native verification, checks the reported authority and
+rechecks validity after classifier proving. Invalid or incomplete authorization
+fails; expiry during the classifier stage cannot publish a composed success.
+Choose an interval covering the whole workflow. Any bound source change needs
+a new authorization.
+
+The result's `parameter_authority` reports `ed25519`, the signed-record and public-key
+SHA-256 fingerprints, validity interval and final check time. With neither input,
+it explicitly reports `{"kind":"checkout-case"}`. Script callers can use the
+equivalent `--enrollment FILE --trusted-key HEX` arguments.
+
+This authorization covers the LLM case and verifier sources. Classifier policy
+and setup enrollment remain separate; no persistent revocation/rollback service,
+operational signer custody or independent security qualification is supplied.
+See [decision 0075](decisions/0075-signed-composed-enrollment.md).
+
+The recorded signed Make campaign took **866.49 seconds** (14 min 26 s) with
+retained preparation, fresh native verification and three fresh classifier proofs.
+All 36 LLM mutations, eleven binding rejections and 399 arithmetic outcomes pass.
+All five authorization checks refer to the same record/key, including the final
+join. Ten actual CLI invalid-input checks reject before preparation. The issuer
+is a disposable research key; this is integration evidence, not operational
+custody. [Numeric results and retained harness failure](../research/evidence/signed-composed-2026-10-25.json)
+preserve the source identities and limitations. New cloud jobs and spend are zero.
+
 ## Read the outcome
 
 The command prints a fresh `runs/composed-*` directory. Its successful
@@ -75,6 +120,7 @@ The command prints a fresh `runs/composed-*` directory. Its successful
   "classifier_verdicts": [1, 1, 0],
   "policy_release": false,
   "classifier_scope": "prompt",
+  "parameter_authority": {"kind": "checkout-case"},
   "safety_quality_claim": false,
   "qualified_backend": false,
   "hardware_claim": "not-accepted",

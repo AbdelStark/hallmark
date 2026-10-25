@@ -1,6 +1,7 @@
 """Prove classifier decisions over the exact opened, proved TinyLlama request."""
 
 import argparse
+import os
 import shutil
 import tempfile
 import time
@@ -78,7 +79,7 @@ def check_classifiers(output):
     return report, opening, expected
 
 
-def run(*, llm_run=None, classifier_run=None):
+def run(*, llm_run=None, classifier_run=None, enrollment=None, trusted_key=None):
     case = composed_input.case()
     if shutil.disk_usage(ROOT).free < 32 * 1024**3:
         raise ValueError("composed workflow requires at least 32 GiB free storage")
@@ -103,9 +104,30 @@ def run(*, llm_run=None, classifier_run=None):
         ),
     )
     try:
+        signed, key = verify_llm.read_enrollment(enrollment, trusted_key)
+        verifier = verify_llm.verifier_identity(verify_llm.source_inventory())
+
+        def check_authority(stage):
+            metadata = verify_llm.parameter_authority(
+                signed,
+                key,
+                case_sha256=bytes.fromhex(composed_input.CASE_SHA256),
+                verifier=verifier,
+                stage=stage,
+            )
+            run_e2e.write_json(output / ("enrollment-" + stage + ".json"), metadata)
+            return metadata
+
+        authority = check_authority("before-preparation")
+        frozen_enrollment = None
+        if signed is not None:
+            frozen_enrollment = output / "enrollment.cbor"
+            frozen_enrollment.write_bytes(signed)
         if llm_run is None:
             llm_run = run_llm_e2e.run("2.10")
-        verified = verify_llm.run(llm_run.resolve())
+        verified = verify_llm.run(
+            llm_run.resolve(), enrollment=frozen_enrollment, trusted_key=trusted_key
+        )
         llm = parse_json(read_regular(verified / "result.json", 1024**2).decode())
         if (
             llm["passed"] is not True
@@ -115,6 +137,11 @@ def run(*, llm_run=None, classifier_run=None):
             or llm["response"] != case["response"]
         ):
             raise ValueError("incomplete fresh LLM verification")
+        observed = llm["parameter_authority"]
+        if {k: v for k, v in observed.items() if k not in ("stage", "checked_at")} != {
+            k: v for k, v in authority.items() if k not in ("stage", "checked_at")
+        }:
+            raise ValueError("LLM parameter authority mismatch")
         if inputs is None:
             classifier_run = run_e2e.run()
             inputs = classifier_inputs(classifier_run)
@@ -122,6 +149,7 @@ def run(*, llm_run=None, classifier_run=None):
         classifiers, opening, expected = check_classifiers(output / "classifiers")
         if run_e2e.source_pins() != pins:
             raise ValueError("composed pipeline source changed")
+        authority = check_authority("after-composition")
         run_e2e.write_json(
             output / "result.json",
             dict(
@@ -134,6 +162,7 @@ def run(*, llm_run=None, classifier_run=None):
                 llm_case_sha256=composed_input.CASE_SHA256,
                 llm_verification=str(verified),
                 llm_result_sha256=run_e2e.sha(verified / "result.json"),
+                parameter_authority=authority,
                 classifier_result_sha256=run_e2e.sha(output / "classifiers/result.json"),
                 llm_proofs_verified=23,
                 classifier_proofs_verified=3,
@@ -171,5 +200,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--llm-run", type=Path, help="retained proof archive; freshly reverified")
     parser.add_argument("--classifier-run", type=Path, help="caller-owned make e2e preparation")
+    parser.add_argument("--enrollment", type=Path, default=os.environ.get("LLM_ENROLLMENT"))
+    parser.add_argument("--trusted-key", default=os.environ.get("LLM_TRUST_KEY"))
     args = parser.parse_args()
-    run(llm_run=args.llm_run, classifier_run=args.classifier_run)
+    run(
+        llm_run=args.llm_run,
+        classifier_run=args.classifier_run,
+        enrollment=args.enrollment,
+        trusted_key=args.trusted_key,
+    )

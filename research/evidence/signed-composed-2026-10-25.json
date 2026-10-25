@@ -1,0 +1,2060 @@
+{
+  "all_69_original_llm_files_match": true,
+  "all_keys_differ_from_previous_fresh_campaign": true,
+  "all_models_and_circuits_match": true,
+  "authority_checks": {
+    "runs/composed-dc4zthhk/enrollment-after-composition.json": {
+      "checked_at": 1792944235,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "after-composition",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "runs/composed-dc4zthhk/enrollment-before-preparation.json": {
+      "checked_at": 1792943370,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "before-preparation",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "runs/llm-verify-p70uvxp1/enrollment-after-verification.json": {
+      "checked_at": 1792943581,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "after-verification",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "runs/llm-verify-p70uvxp1/enrollment-before-build.json": {
+      "checked_at": 1792943370,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "before-build",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "runs/llm-verify-p70uvxp1/enrollment-before-worker.json": {
+      "checked_at": 1792943479,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "before-worker",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    }
+  },
+  "base_commit": "baeee45f9564f67cfcb03ed35217684e2255c3a9",
+  "baseline_evidence_sha256": "46b8a2d823e1b5a1aa489864a20dbe6ef3ee2fd52e15a27440e1c9eaf450ceef",
+  "changed_runtime_paths": [
+    "scripts/run_composed.py",
+    "scripts/verify_llm.py"
+  ],
+  "checkpoints_in_git": false,
+  "classifier_costs": {
+    "arithmetic-negatives-encoder/cost.json": {
+      "elapsed_seconds": 105.32394737470895,
+      "exit_code": 0,
+      "files": {
+        "fixture.json": {
+          "bytes": 12098,
+          "sha256": "74985b365facc605976c48bfd897932e57f7d26c38adc551e88b3e01c16e5456"
+        },
+        "plan.json": {
+          "bytes": 1338,
+          "sha256": "d97718aec8bc4d58f9dcf4a44cbff88c072f722bb6d62066e38bae6cf032591e"
+        },
+        "sandbox.sb": {
+          "bytes": 937,
+          "sha256": "58d43d1628d401b6877a5a567ccf4007a1063bdbbe368b14e9cef3417aca5358"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 21123,
+          "sha256": "43413b4cb6f8710dba3b02bb2c27f6dfd85f0bfe58f55ac71316afa65586648b"
+        }
+      },
+      "max_rss_bytes": 50511872,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 50511872,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 4.259371,
+      "timed_out": false,
+      "user_seconds": 99.095326
+    },
+    "arithmetic-negatives-mlp/cost.json": {
+      "elapsed_seconds": 110.49637858290225,
+      "exit_code": 0,
+      "files": {
+        "fixture.json": {
+          "bytes": 12100,
+          "sha256": "3bed0f561d52b9f2893291eb70d4c0ef02ec95a323490ea174170fef3a8872e1"
+        },
+        "plan.json": {
+          "bytes": 1330,
+          "sha256": "d2621b486550c985e17a36e295af68d92993c426fb4d16b3a43e45c317b12c33"
+        },
+        "sandbox.sb": {
+          "bytes": 933,
+          "sha256": "2978db88a330ffd1240d4583be48863382fafb42b15d62da42c379710256054d"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 21115,
+          "sha256": "c131ee96cc7c44bddbb47dc27492f1cd6c58a9b70c6ae7dd7a507e9fa18d3986"
+        }
+      },
+      "max_rss_bytes": 49758208,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 49709056,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 4.281614,
+      "timed_out": false,
+      "user_seconds": 99.095034
+    },
+    "arithmetic-negatives-rule/cost.json": {
+      "elapsed_seconds": 101.10363591602072,
+      "exit_code": 0,
+      "files": {
+        "fixture.json": {
+          "bytes": 12095,
+          "sha256": "1ae145c1d918be9d67439c65e81c2b7d8dcba75a4caf9c2cdf8d7765dfb627fd"
+        },
+        "plan.json": {
+          "bytes": 1332,
+          "sha256": "1dcb8f3ad022654e65e2d300e020369442c4f8766405e082f20ea2b3a644829d"
+        },
+        "sandbox.sb": {
+          "bytes": 934,
+          "sha256": "d6426dae8ee07f4b64277d8b28c28a780957a14c41692cce00f0f7e8dcb24d0f"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 21137,
+          "sha256": "5a81f93b0caec4760e6e2512599fcb1bde11f70cac1882df45a046109dda94f4"
+        }
+      },
+      "max_rss_bytes": 49364992,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 49315840,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 3.697275,
+      "timed_out": false,
+      "user_seconds": 97.044772
+    },
+    "llm-response-encoder/cost.json": {
+      "elapsed_seconds": 61.65939133381471,
+      "exit_code": 0,
+      "files": {
+        "assignment.txt": {
+          "bytes": 103957,
+          "sha256": "7191111931b55cfa00e8f1398f9d56c2291ffeaf63b99cda2eda33a865b59db8"
+        },
+        "circuit.r1cs": {
+          "bytes": 54098539,
+          "sha256": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb"
+        },
+        "model.json": {
+          "bytes": 14910,
+          "sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        },
+        "pk.bin": {
+          "bytes": 296183989,
+          "sha256": "b18be953b80606a3ac21eb2422d42bcf8785e4ef923742b7daa2ca631b31699e"
+        },
+        "plan.json": {
+          "bytes": 989,
+          "sha256": "91252029edcb3f1298d23e7d8cb7da63552fed3f043830fb1fcf67d70e49fb1a"
+        },
+        "proof.bin": {
+          "bytes": 292,
+          "sha256": "788783e0897e5d5e900e5b56205ff0ed64b85200ec88b2c1e1bb093294118d64"
+        },
+        "sandbox.sb": {
+          "bytes": 612,
+          "sha256": "616db8a6711cb7859429f98ff5cf48f69c817bb2677c102bb291b097f08c9431"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 116,
+          "sha256": "013189444817aacb0913efb5a0f30b2afc3dbae7d2bf9bfed761ba4f6822e842"
+        }
+      },
+      "max_rss_bytes": 1545846784,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 1545814016,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.9056529999999999,
+      "timed_out": false,
+      "user_seconds": 236.948736
+    },
+    "llm-response-mlp/cost.json": {
+      "elapsed_seconds": 26.279012291692197,
+      "exit_code": 0,
+      "files": {
+        "assignment.txt": {
+          "bytes": 2362,
+          "sha256": "9a524267995aeaa4b37e9d6a5892a8421199ca8490b4a704fb5d4c3043718d3d"
+        },
+        "circuit.r1cs": {
+          "bytes": 24660971,
+          "sha256": "abcd0e292275670ec449610890295da1042ca86af531fac76b52f508da0d8fe9"
+        },
+        "model.json": {
+          "bytes": 3137,
+          "sha256": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+        },
+        "pk.bin": {
+          "bytes": 122438113,
+          "sha256": "f6c30afba2b12fb811f78589f484615e4f5d40178edc3838919f557444d2d15b"
+        },
+        "plan.json": {
+          "bytes": 982,
+          "sha256": "7c9fdf61eff96333525c17a0ed98bcc35b79ebeb02a67f9436b7c42a95dbbcfc"
+        },
+        "proof.bin": {
+          "bytes": 292,
+          "sha256": "cd81eddde738c816bf1673798a56d4f21d9a1443237261135f0d5bf7954e375c"
+        },
+        "sandbox.sb": {
+          "bytes": 608,
+          "sha256": "1b7d8d5fc57f7c61fc7eea2d59e9857a3419c07532f30792945aeb687ea429d5"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 116,
+          "sha256": "ac1cc65ac2cdba305766afa3e1d6a76e8d9a4382e131dd8587ec3af4b120eef4"
+        }
+      },
+      "max_rss_bytes": 1028685824,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 1028669440,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.305459,
+      "timed_out": false,
+      "user_seconds": 100.329088
+    },
+    "llm-response-rule/cost.json": {
+      "elapsed_seconds": 26.024937292095274,
+      "exit_code": 0,
+      "files": {
+        "assignment.txt": {
+          "bytes": 2201,
+          "sha256": "d65e6a19cdc8bd401c6418e8767368fa5977de5799cc0e454b5dff90a914864d"
+        },
+        "circuit.r1cs": {
+          "bytes": 24577799,
+          "sha256": "f8bd6db87c2fe0264a96bc97f6686d60c978fd62c3f61b98500192a6f9b02898"
+        },
+        "pk.bin": {
+          "bytes": 121484003,
+          "sha256": "70fa1fa57b6a4f12dd428fdab4212795a9c8cffa48a17179f265cf8fb0c82929"
+        },
+        "plan.json": {
+          "bytes": 984,
+          "sha256": "5e0082a65b4fc939029a69091328ed8e4e50915a11a46efe66d3e47cdfd9bfbe"
+        },
+        "proof.bin": {
+          "bytes": 292,
+          "sha256": "9eee7f7820ed1c4a479b018cfce9141e7a6f18f5c126b1a7be8ac45a5f74699b"
+        },
+        "sandbox.sb": {
+          "bytes": 609,
+          "sha256": "fb3240725dfce1b827fe96ba6eb9efcd77d671f07e4096d797c317f2d66cd7a9"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 116,
+          "sha256": "c9e3ca4ae477ec6315292346fd5a5642286935fd222ce086e59275d3cf588791"
+        }
+      },
+      "max_rss_bytes": 1018888192,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 1018789888,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.471842,
+      "timed_out": false,
+      "user_seconds": 100.410406
+    },
+    "llm-response-separate-verifier/cost.json": {
+      "elapsed_seconds": 3.1512135001830757,
+      "exit_code": 0,
+      "files": {
+        "jobs.json": {
+          "bytes": 36454,
+          "sha256": "93511cc637358a9739832be124563a7e50b5e8a5aa93b21aed347228ecab15b0"
+        },
+        "plan.json": {
+          "bytes": 1244,
+          "sha256": "2539f7c884b03bf611ea6bedd8bdc463956f32a7be8347b7f9a803022c8d48cd"
+        },
+        "sandbox.sb": {
+          "bytes": 939,
+          "sha256": "ca4a04b0f375bfd0d5c03311183424222769c010de8a72ef407e24686918577f"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 71,
+          "sha256": "113f038b5172b6c06f07978da25ef849ee18db321450da88d44cd34a4c237166"
+        }
+      },
+      "max_rss_bytes": 48349184,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 48316416,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.13987,
+      "timed_out": false,
+      "user_seconds": 2.848264
+    },
+    "setup-encoder/cost.json": {
+      "elapsed_seconds": 111.48661749996245,
+      "exit_code": 0,
+      "files": {
+        "circuit.r1cs": {
+          "bytes": 54098539,
+          "sha256": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb"
+        },
+        "model.json": {
+          "bytes": 14910,
+          "sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        },
+        "pk.bin": {
+          "bytes": 296183989,
+          "sha256": "b18be953b80606a3ac21eb2422d42bcf8785e4ef923742b7daa2ca631b31699e"
+        },
+        "plan.json": {
+          "bytes": 975,
+          "sha256": "b9dd12d6675f6fa85ef68b2be2b68823c89ce83ea400ed50f6eaf5242a79ee09"
+        },
+        "sandbox.sb": {
+          "bytes": 605,
+          "sha256": "2bba97aa40cdc8fb57dc2b741e5c03a9bff8652f45ba0d493f3f6b831f911350"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 117,
+          "sha256": "27ca8a2a741ba3eb7bf9af312b874024905f4efc9e915c51d9739c472255e144"
+        },
+        "vk.bin": {
+          "bytes": 5536,
+          "sha256": "b158de36b771aa691aed5af2ac7ffdd5acb030e8ddd32104ff740609db77e5d6"
+        }
+      },
+      "max_rss_bytes": 2169176064,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 2169159680,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 1.45343,
+      "timed_out": false,
+      "user_seconds": 388.471989
+    },
+    "setup-mlp/cost.json": {
+      "elapsed_seconds": 53.57975841732696,
+      "exit_code": 0,
+      "files": {
+        "circuit.r1cs": {
+          "bytes": 24660971,
+          "sha256": "abcd0e292275670ec449610890295da1042ca86af531fac76b52f508da0d8fe9"
+        },
+        "model.json": {
+          "bytes": 3137,
+          "sha256": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+        },
+        "pk.bin": {
+          "bytes": 122438113,
+          "sha256": "f6c30afba2b12fb811f78589f484615e4f5d40178edc3838919f557444d2d15b"
+        },
+        "plan.json": {
+          "bytes": 968,
+          "sha256": "299990bdd2349a5701df673850cd082dbfa8f2dc0411d19dd0f17f662dd4a380"
+        },
+        "sandbox.sb": {
+          "bytes": 601,
+          "sha256": "cfb89f89a85d56dcd4e45876b853e648697406eca4f28863833c4c33ac8df6f8"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 116,
+          "sha256": "da29ba177f8647481f470594402ef95bc0b3b4183134bd42e52381073b03391f"
+        },
+        "vk.bin": {
+          "bytes": 5536,
+          "sha256": "3d38ce0487c71bf1c7ef13a1522a2cee0a46a54baa3bbced8bdf552f29349e74"
+        }
+      },
+      "max_rss_bytes": 966262784,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": true,
+      "sampled_peak_rss_bytes": 966246400,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.71753,
+      "timed_out": false,
+      "user_seconds": 155.758296
+    },
+    "setup-rule/cost.json": {
+      "elapsed_seconds": 49.70209062518552,
+      "exit_code": 0,
+      "files": {
+        "circuit.r1cs": {
+          "bytes": 24577799,
+          "sha256": "f8bd6db87c2fe0264a96bc97f6686d60c978fd62c3f61b98500192a6f9b02898"
+        },
+        "pk.bin": {
+          "bytes": 121484003,
+          "sha256": "70fa1fa57b6a4f12dd428fdab4212795a9c8cffa48a17179f265cf8fb0c82929"
+        },
+        "plan.json": {
+          "bytes": 970,
+          "sha256": "59e04c100ef7a9ae4ffdae36904e43b18f308266816893424e01454773257c27"
+        },
+        "sandbox.sb": {
+          "bytes": 602,
+          "sha256": "e68576b55d3223777c36dd2ea52be82113335de05948f90e9a42658f3a8a1cab"
+        },
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout.txt": {
+          "bytes": 116,
+          "sha256": "e5f6fa7fd0c568d41461aed042257a7ed716a92fcced6676524c89f4ab4cfd1d"
+        },
+        "vk.bin": {
+          "bytes": 5536,
+          "sha256": "60d70835d1369d31695ffd9b65445e9c5daee00e8131e1e659b7f44982473e18"
+        }
+      },
+      "max_rss_bytes": 986955776,
+      "memory_limit_exceeded": false,
+      "memory_monitor_failed": false,
+      "memory_sample_process_missing": false,
+      "sampled_peak_rss_bytes": 986873856,
+      "schema_id": "hallmark.gnark-probe-cost/1",
+      "system_seconds": 0.463594,
+      "timed_out": false,
+      "user_seconds": 152.549958
+    }
+  },
+  "classifier_result": {
+    "arithmetic_cases": {
+      "encoder": 133,
+      "mlp": 133,
+      "rule": 133
+    },
+    "cases": [
+      {
+        "name": "llm-response",
+        "proofs_verified": 3,
+        "release": false,
+        "verdicts": [
+          1,
+          1,
+          0
+        ]
+      }
+    ],
+    "circuits": {
+      "encoder": "a02c49db1a0b8d6a0ed49536d710418eca9c03eb1ada32715e105572c51678bb",
+      "mlp": "abcd0e292275670ec449610890295da1042ca86af531fac76b52f508da0d8fe9",
+      "rule": "f8bd6db87c2fe0264a96bc97f6686d60c978fd62c3f61b98500192a6f9b02898"
+    },
+    "composed_binding_rejections": [
+      "prompt",
+      "response",
+      "system_ref",
+      "model",
+      "nonce",
+      "interaction_id",
+      "policy",
+      "salt",
+      "classifier-0",
+      "classifier-1",
+      "classifier-2"
+    ],
+    "cross_request_rejections": [],
+    "elapsed_seconds": 653.429136000108,
+    "enrollment_sha256": "044a4c0c6dc218c0fcfd9062b4b4153d25fbb37e4b7f535e520b26a621e59705",
+    "hardware_claim": "not-accepted",
+    "model_sha256": {
+      "encoder": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9",
+      "mlp": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+    },
+    "peak_worker_rss_bytes": 2169176064,
+    "qualified_backend": false,
+    "retained_bytes": 1287412624,
+    "schema_id": "hallmark.trained-common-result/1",
+    "status": "passed"
+  },
+  "cloud_cost_usd": 0,
+  "cloud_jobs": 0,
+  "composed_result": {
+    "arithmetic_cases": 399,
+    "binding_rejections": [
+      "prompt",
+      "response",
+      "system_ref",
+      "model",
+      "nonce",
+      "interaction_id",
+      "policy",
+      "salt",
+      "classifier-0",
+      "classifier-1",
+      "classifier-2"
+    ],
+    "classifier_proofs_verified": 3,
+    "classifier_result_sha256": "dac57a0aca9eb33ea2239d38b666f31d73a8307831868837914eb7e4aa0e6efd",
+    "classifier_scope": "prompt",
+    "classifier_verdicts": [
+      1,
+      1,
+      0
+    ],
+    "context": "36220aea2fc1fa71ffe7fa63677abb6408ca7cbd70162799c93910d2106411d5",
+    "elapsed_seconds": 865.6107994997874,
+    "hardware_claim": "not-accepted",
+    "hiding_claim": false,
+    "llm_case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "llm_proofs_verified": 23,
+    "llm_result_sha256": "38165ba7006410ff9d96c0a217a06bd5b837bc5e6766333f0684565f9bcd23b8",
+    "llm_verification": "./runs/llm-verify-p70uvxp1",
+    "model": "6e4bbf5af998722143be658312ab4abbc7ad05745436ebedaaa0174f30cffc2f",
+    "parameter_authority": {
+      "checked_at": 1792944235,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "after-composition",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "policy_release": false,
+    "prompt": "Name the capital of France in one short sentence.",
+    "qualified_backend": false,
+    "response": "The capital of France is Paris.",
+    "safety_quality_claim": false,
+    "schema_id": "hallmark.composed-request-result/1",
+    "status": "passed"
+  },
+  "date": "2026-10-25",
+  "enrollment_cbor_hex": "a364626f6479a5687665726966696572582034b2c2c1d19c0cbb48d449762eb62d927c71969a6ffa0556a5e53125879387c469736368656d615f6964781968616c6c6d61726b2f6c6c6d2d656e726f6c6c6d656e742f316a657870697265735f61741a6ade5d476a6e6f745f6265666f72651a6ade24cb6b636173655f73686132353658202ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb7007569736368656d615f6964782068616c6c6d61726b2f7369676e65642d6c6c6d2d656e726f6c6c6d656e742f31697369676e6174757265584085da3e0e1397c8ae44d6a20652bb025c49e4f36717571705909e786c8c7e5ab9c9a5d60135c5df4f09aef44468b42f82dfac19b132db2437950202392066d406",
+  "execution": {
+    "allocated_growth_bytes": 3345911808,
+    "cloud_cost_usd": 0,
+    "cloud_jobs": 0,
+    "exit_code": 0,
+    "failure_type": null,
+    "peak_sampled_descendant_rss_bytes": 2490826752,
+    "sample_seconds": 1,
+    "schema_id": "hallmark.signed-composed-execution/1",
+    "seconds": 866.493797916919,
+    "status": "passed"
+  },
+  "final_join_audit": {
+    "context": "36220aea2fc1fa71ffe7fa63677abb6408ca7cbd70162799c93910d2106411d5",
+    "final_opening_matches_verified_public_inputs": true,
+    "proofs": 3,
+    "verified_jobs_sha256": "93511cc637358a9739832be124563a7e50b5e8a5aa93b21aed347228ecab15b0"
+  },
+  "fresh_setup_keys_sha256": {
+    "encoder": "b158de36b771aa691aed5af2ac7ffdd5acb030e8ddd32104ff740609db77e5d6",
+    "mlp": "3d38ce0487c71bf1c7ef13a1522a2cee0a46a54baa3bbced8bdf552f29349e74",
+    "rule": "60d70835d1369d31695ffd9b65445e9c5daee00e8131e1e659b7f44982473e18"
+  },
+  "hardware_claim": "not-accepted",
+  "hiding_claim": false,
+  "independent_security_review": false,
+  "initial_harness_failure": {
+    "cause": "Harness expected WireError for altered signature; actual CLI correctly rejected with HallmarkError SIGNATURE_INVALID",
+    "cloud_jobs": 0,
+    "executor_sha256": "84d721ef30abdbce510491c3fa40bffe82d4d432762defe040de9fab8ba7c6bb",
+    "full_campaign_started": false,
+    "log_sha256": "d34a879fbd8e20cfb09c5b7b2b636452809d55ff32ad4ecbbf1881a89a9e4cb5",
+    "root": "runs/study/preflight-attempt-01"
+  },
+  "issue": 108,
+  "llm_proof_inventory": {
+    "proof/B0L0.claims.json": {
+      "bytes": 955483,
+      "sha256": "939deb71061d827112606c139e9e9f413692b4879907133867780d6610b9e4cf"
+    },
+    "proof/B0L0.fixed.json": {
+      "bytes": 57796,
+      "sha256": "c03e8652c8033af9f71fbbfc0690a87035e4c7e3057ba50fb84a3112beae14e8"
+    },
+    "proof/B0L0.proof.json": {
+      "bytes": 33816971,
+      "sha256": "56c5a52b042d98fbb7838a08c3e81333e4ab256d3a36bf19a6ce3f3950371490"
+    },
+    "proof/B0L1.claims.json": {
+      "bytes": 955317,
+      "sha256": "45d54bfc8bfcfbfbc58bb10d0cd8474e2aeae0d88663d3514f37dc17cd35ab01"
+    },
+    "proof/B0L1.fixed.json": {
+      "bytes": 54736,
+      "sha256": "07d299856655c18683a14a628bad968cf02d3e74d9c20ee8ba9fad6f0b03595d"
+    },
+    "proof/B0L1.proof.json": {
+      "bytes": 30104541,
+      "sha256": "5dc6a62389e143d700041e67e7af8b3ceda7b3ba49d378ffe036d0f0e4be0afa"
+    },
+    "proof/B0L10.claims.json": {
+      "bytes": 955223,
+      "sha256": "9b6aa8764903e336ecd6537df8cf027fb2a632845d394900e8e1c5a1099c2a01"
+    },
+    "proof/B0L10.fixed.json": {
+      "bytes": 54736,
+      "sha256": "fa81937c933c38a91726b26260873a7e8edcbdc7cac92d908fd2ea2ee19faf47"
+    },
+    "proof/B0L10.proof.json": {
+      "bytes": 29389111,
+      "sha256": "4e6bf965a7009d9736bf21ba1de46009d2711ccdda6fb4e81955de0bbc8eaa1a"
+    },
+    "proof/B0L11.claims.json": {
+      "bytes": 954719,
+      "sha256": "b5dce02ffbda6c7e1243da39168ffbdd2e8a04cbaccf0715f8e5ac53aa9a0a63"
+    },
+    "proof/B0L11.fixed.json": {
+      "bytes": 54736,
+      "sha256": "9f56ef9e0518676620dd9e69facc590558640bbdf282819ac9cd98f5ca0d21b6"
+    },
+    "proof/B0L11.proof.json": {
+      "bytes": 29585775,
+      "sha256": "0796c9b850150d379829e017cf1a8f2ddabaa20abe9c0bd13e4c7b2c2998e8cc"
+    },
+    "proof/B0L12.claims.json": {
+      "bytes": 955297,
+      "sha256": "2cd50d8666c8c7e4d5a002fd1d42a70fbcc4507184f01d7a55a80aad47e1a8f5"
+    },
+    "proof/B0L12.fixed.json": {
+      "bytes": 54736,
+      "sha256": "2bc3bd5e7f3958b4077a63c40a7e33249313814132595530e52caaf9ee79c1c5"
+    },
+    "proof/B0L12.proof.json": {
+      "bytes": 28955530,
+      "sha256": "020d98f93277cf9d19fb790b21744dacbc79653070c468ff9029df6c2871d29a"
+    },
+    "proof/B0L13.claims.json": {
+      "bytes": 955585,
+      "sha256": "203e668395e489c5ac5cae61b9af8351215f9179db445a6934a71f7a3e50e3e4"
+    },
+    "proof/B0L13.fixed.json": {
+      "bytes": 54736,
+      "sha256": "19f77eb4191068452ffd05b234510b8a7a43c917885111d2c0ec295b30fd2c31"
+    },
+    "proof/B0L13.proof.json": {
+      "bytes": 29215061,
+      "sha256": "213f5b7147b039f11dac484ea58c42dde05ccc267a5249507d671334f941b49a"
+    },
+    "proof/B0L14.claims.json": {
+      "bytes": 955218,
+      "sha256": "039e4b1aec855e7b1dc2b29d93c4e163097bf7b978d6993439ca2e0a8a8ae25b"
+    },
+    "proof/B0L14.fixed.json": {
+      "bytes": 54736,
+      "sha256": "7cf7facfc54a0ce94f5d56165c8eb9dfd7312e33dc947221282b9c98e7d5ab14"
+    },
+    "proof/B0L14.proof.json": {
+      "bytes": 29582562,
+      "sha256": "7d8c6d2e1c187b9ee1e28c676c5d0eff688d5a4df8bd676047ba05db8f952deb"
+    },
+    "proof/B0L15.claims.json": {
+      "bytes": 954631,
+      "sha256": "98f70ad572030c5c1a39a5de33500e069e37f999ea4bd0e330c695e491e11898"
+    },
+    "proof/B0L15.fixed.json": {
+      "bytes": 54736,
+      "sha256": "1ad4425225c4a95916e1a4851173dc9c9814d0f65e773de583fbd499be2eb881"
+    },
+    "proof/B0L15.proof.json": {
+      "bytes": 29138524,
+      "sha256": "e65658bb97884e965b1eba9d80d0c4bce76654ce7d17faca6c07b1ca73661293"
+    },
+    "proof/B0L16.claims.json": {
+      "bytes": 955305,
+      "sha256": "f9a614da8df8a8d1f6c40d14e893e59a978b7963963cb8760a5b34108fe02494"
+    },
+    "proof/B0L16.fixed.json": {
+      "bytes": 54736,
+      "sha256": "cb179604f90f3d01c2da4212be9530df80d051ae713550c3cb5406670361f8bf"
+    },
+    "proof/B0L16.proof.json": {
+      "bytes": 29610026,
+      "sha256": "9b9b022830d317946ccf3933f16a24096530bcce50bf8006c8b96575e1ef4c54"
+    },
+    "proof/B0L17.claims.json": {
+      "bytes": 955459,
+      "sha256": "c4a61598fac8b75b2226aca03d0cbc02d7df8d41622f9c30e524d06506ea4818"
+    },
+    "proof/B0L17.fixed.json": {
+      "bytes": 54736,
+      "sha256": "2185e87121de0a23c4a61e05daeed826ee55db7df9d42a7c680bb840819140f6"
+    },
+    "proof/B0L17.proof.json": {
+      "bytes": 29062840,
+      "sha256": "dd169282b0c99cf8ad8aa804c69d41f4fb05c23a8d9a11e7b4363243a8dd962d"
+    },
+    "proof/B0L18.claims.json": {
+      "bytes": 955374,
+      "sha256": "26adbf2dddc0bfdd6a22b47a8e6f28b0d99033dd4d979a50f439ed8021ee7f96"
+    },
+    "proof/B0L18.fixed.json": {
+      "bytes": 54736,
+      "sha256": "5b96ff21bcc36d2d02c260f918bf6b25db1bb14205bc605752a99430d10fe683"
+    },
+    "proof/B0L18.proof.json": {
+      "bytes": 29064116,
+      "sha256": "d5e1a10c7157a226dd2cc336ae1816c19d56690c10d1867e9f7e9cc58c4b757b"
+    },
+    "proof/B0L19.claims.json": {
+      "bytes": 955960,
+      "sha256": "669b264b46c71cdf13ee9aab78cb93ee63c0382e90575e2ef6629666de8725fd"
+    },
+    "proof/B0L19.fixed.json": {
+      "bytes": 54736,
+      "sha256": "3625873e9c905bc8df7db0f6f307f13c6fb414df5695bc377bf1c59f650df4ae"
+    },
+    "proof/B0L19.proof.json": {
+      "bytes": 29612776,
+      "sha256": "6762e4ef1eebffaddf30fd562bf2b908aea86af7f95f3e54c226c5b908114035"
+    },
+    "proof/B0L2.claims.json": {
+      "bytes": 955524,
+      "sha256": "a21d8def18d63dafee376478291160fe7b3117ad3a3cef2fa8cf7fcc84be0162"
+    },
+    "proof/B0L2.fixed.json": {
+      "bytes": 54736,
+      "sha256": "05f30c01c04a824d5052d82e764298ef67aa8bf000a709b668939f57c041e530"
+    },
+    "proof/B0L2.proof.json": {
+      "bytes": 30144530,
+      "sha256": "35d3e33a01ee5040013b8a866a27081783d4f8fe8c412f9d26e77e7a82b9cc90"
+    },
+    "proof/B0L20.claims.json": {
+      "bytes": 955072,
+      "sha256": "8846830044eb935a8c28aed3934bcf83c909c7fc792316a89fe2c960fe4c0138"
+    },
+    "proof/B0L20.fixed.json": {
+      "bytes": 54736,
+      "sha256": "de77b0417d18f0ef86b0c0de6ce1ee67621997ea9f8ee889a8b4a2d0f45f1d64"
+    },
+    "proof/B0L20.proof.json": {
+      "bytes": 29726452,
+      "sha256": "825cd49bdb0f5ba2d726167bec0913635d0abb78ac0146e7161303692bb05685"
+    },
+    "proof/B0L21.claims.json": {
+      "bytes": 955388,
+      "sha256": "7a8c80decc083b0ecdcb363dbb700ef51c96085c2e689b10bbfd57f28252c0cc"
+    },
+    "proof/B0L21.fixed.json": {
+      "bytes": 54735,
+      "sha256": "a97d641a6a8d45368b946b76c4c690ad09e3d99a459901ea3e3ee77cbb612664"
+    },
+    "proof/B0L21.proof.json": {
+      "bytes": 29824503,
+      "sha256": "637e72b89ec99fe3e6ce691a5e7b0b416379b8e96371e23564dbe17886d44cfc"
+    },
+    "proof/B0L3.claims.json": {
+      "bytes": 954706,
+      "sha256": "4ee7989fce3c7605c5e3234b03c701e8a18cab70af3d2c407b3cd2be63c5e548"
+    },
+    "proof/B0L3.fixed.json": {
+      "bytes": 54735,
+      "sha256": "be512048a4ddcea2d086386aac7dc5a82f796f0804f84708aa0cf17c4125ef92"
+    },
+    "proof/B0L3.proof.json": {
+      "bytes": 29705730,
+      "sha256": "3477503134080856079720bf9111c43dd45ba684a3442711cf6b70cab2d237cd"
+    },
+    "proof/B0L4.claims.json": {
+      "bytes": 954973,
+      "sha256": "900d4ea69b69d6669fc038be0c77b04fd5420fb9e484152a4e190edbda0d551f"
+    },
+    "proof/B0L4.fixed.json": {
+      "bytes": 54717,
+      "sha256": "c3f6002dd487ed7da94f3b8d3f3e925a3ff43fd11df0b5e1c6a2889628010c44"
+    },
+    "proof/B0L4.proof.json": {
+      "bytes": 29585130,
+      "sha256": "1d2cf1ed234117b30c44843e779a255316c2309d92b6b4996706a8d1c5913363"
+    },
+    "proof/B0L5.claims.json": {
+      "bytes": 955548,
+      "sha256": "a53abbf34864e44840fc86ef6dedd7401ed6d5d49423e9f34c1bc8c9b37b6757"
+    },
+    "proof/B0L5.fixed.json": {
+      "bytes": 54735,
+      "sha256": "25d43995c50a461d5a194cbab4d1632bc624405d4f80ccc0e319d8990baf3542"
+    },
+    "proof/B0L5.proof.json": {
+      "bytes": 28969311,
+      "sha256": "d3e23d4b516943736b8b82dbb419f1c6fe8770368da841c56a0e31bedf847e51"
+    },
+    "proof/B0L6.claims.json": {
+      "bytes": 955262,
+      "sha256": "34819b4863bd9d5062360ba7aeed0b4635d47efb64112f5740654cd59730e856"
+    },
+    "proof/B0L6.fixed.json": {
+      "bytes": 54717,
+      "sha256": "b077f49c31a8a6652e0b68a845125bb08f6df0bf4959441b0f8c1159460b0773"
+    },
+    "proof/B0L6.proof.json": {
+      "bytes": 29146409,
+      "sha256": "3ead398204240b0e973f9fc4c8b2a9ae145d91f65ad628d58f2c785a18464567"
+    },
+    "proof/B0L7.claims.json": {
+      "bytes": 955067,
+      "sha256": "390d78f2cf42ab5cfe207f13b9ff04f0d51d5684e468cf330702b5357ad1f7b2"
+    },
+    "proof/B0L7.fixed.json": {
+      "bytes": 54735,
+      "sha256": "dff314be92731abd2f4fb4a3bdaf6cf3bbe18842f191bc1d4b44336249723f1f"
+    },
+    "proof/B0L7.proof.json": {
+      "bytes": 29833943,
+      "sha256": "4517ca94873fd9d70668175917eae6db139a6273a993ed8c1b71689b55bcc479"
+    },
+    "proof/B0L8.claims.json": {
+      "bytes": 955647,
+      "sha256": "01688ab3601dc78a71215096724ff0107b3df628c056118a94b6b50ccc52d96e"
+    },
+    "proof/B0L8.fixed.json": {
+      "bytes": 54735,
+      "sha256": "f324f9e772d09f924daa6bfbda83f29d2e5b8d04377025329e361a5f6665196d"
+    },
+    "proof/B0L8.proof.json": {
+      "bytes": 29637793,
+      "sha256": "4193d62d92ffe90738c81a5719d21124ba2ea950ba92a2c89e3922c6add64b6a"
+    },
+    "proof/B0L9.claims.json": {
+      "bytes": 955260,
+      "sha256": "411d722d6bf0c3202428e3e564a713dff51fd6a455b30d04d5f91ef352925541"
+    },
+    "proof/B0L9.fixed.json": {
+      "bytes": 54735,
+      "sha256": "2db2ed2d128312b0330a926d776ae519814e93d631d3812348b0bd08da808f7c"
+    },
+    "proof/B0L9.proof.json": {
+      "bytes": 29533329,
+      "sha256": "d8d1ae89a01b55cdb1eb423aff66fcbd56f28feb21dc1ead8e35d49b2b44e384"
+    },
+    "proof/head.claims.json": {
+      "bytes": 783646,
+      "sha256": "94d7a1abf67591dd4260f48b97de456e483d7c95eacdcdf2d3c9337d3f864a32"
+    },
+    "proof/head.fixed.json": {
+      "bytes": 149983,
+      "sha256": "f557e0aba444030809e3e03b122316dd9cea479c9325ca7ae8fcb176a1eeda37"
+    },
+    "proof/head.proof.json": {
+      "bytes": 84613678,
+      "sha256": "429aebcee195a19ec84b728beb46bb93635d9fa0e9d31d12019ca531c215f9e3"
+    }
+  },
+  "logs": {
+    "runs/study/campaign.log": "35df703c8ad0f61f6c19fcbdced9628013c7b8d71d6efd1865ad53d40dabe0c6",
+    "runs/study/focused-final.log": "e8c09c5b568d87c8b073e3f97786df9995554a74372a9ce87f32db8f93a095a6",
+    "runs/study/regression-red.log": "ec0c550cc175d49c9b23d81daa2384669141fc227d5b9437f6a312c2d28d9a30",
+    "runs/study/repository-checks.log": "130cac31864ce8e555c39401e1e0a04f45e4af524c28c7effa976162222debf1",
+    "runs/study/supervisor.log": "7ae1aa990c95ae138df549923b8a7e89a9bac64a2be259214ec48fcc66389ec7"
+  },
+  "native_costs": {
+    "build": {
+      "exit_code": 0,
+      "failure": null,
+      "memory_stop_bytes": 4294967296,
+      "sample_seconds": 0.25,
+      "sampled_process_group_peak_rss_bytes": 2485960704,
+      "seconds": 107.22545958403498
+    },
+    "patch": {
+      "exit_code": 0,
+      "failure": null,
+      "memory_stop_bytes": 4294967296,
+      "sample_seconds": 0.25,
+      "sampled_process_group_peak_rss_bytes": 9175040,
+      "seconds": 0.30642129201442003
+    },
+    "sandbox-control": {
+      "exit_code": 0,
+      "failure": null,
+      "memory_stop_bytes": 4294967296,
+      "sample_seconds": 0.25,
+      "sampled_process_group_peak_rss_bytes": 18694144,
+      "seconds": 0.9147449578158557
+    },
+    "verify": {
+      "exit_code": 0,
+      "failure": null,
+      "memory_stop_bytes": 4294967296,
+      "sample_seconds": 0.25,
+      "sampled_process_group_peak_rss_bytes": 665223168,
+      "seconds": 102.49097220832482
+    }
+  },
+  "native_result": {
+    "baseline_mutations_rejected": 14,
+    "cloud_cost_usd": 0,
+    "fresh_verifications": 2,
+    "native_boundary_mutations_rejected": 20,
+    "native_enrollment_mutations_rejected": 2,
+    "parameter_authority": {
+      "checked_at": 1792943581,
+      "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+      "expires_at": 1792957767,
+      "kind": "ed25519",
+      "not_before": 1792943307,
+      "schema_id": "hallmark.llm-parameter-authority/1",
+      "stage": "after-verification",
+      "trusted_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237"
+    },
+    "passed": true,
+    "proofs": 23,
+    "qualified_backend": false,
+    "residual_links": 22,
+    "response": "The capital of France is Paris.",
+    "schema_id": "hallmark.native-llm-result/1",
+    "seconds": 211.64037029119208,
+    "security_review": false,
+    "shape_root_source": "compiled-enrollment",
+    "verifier_sha256": "40df809257d3b17bac94a0f3db02b72805c042b1e5358f207489c117697b8f02"
+  },
+  "native_suite": {
+    "cases": [
+      {
+        "accepted": true,
+        "caller_checks": true,
+        "failures": [],
+        "name": "honest-0",
+        "seconds": 3.543803417123854,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": true,
+        "caller_checks": true,
+        "failures": [],
+        "name": "honest-1",
+        "seconds": 3.54284012503922,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "name": "changed-prompt",
+        "reason": "wrong input tokens",
+        "seconds": 0.0009091249667108059,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "changed-answer",
+        "reason": "wrong input tokens",
+        "seconds": 0.0008465410210192204,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "changed-model",
+        "reason": "wrong model_root",
+        "seconds": 0.0007996251806616783,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "changed-calibration",
+        "reason": "unenrolled parameters",
+        "seconds": 0.0008941669948399067,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "missing-layer",
+        "reason": "missing or extra proof files",
+        "seconds": 0.00015687523409724236,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "wrong-layer-coordinate",
+        "reason": "wrong layer",
+        "seconds": 0.0014129579067230225,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "changed-final-output",
+        "reason": "wrong output tokens",
+        "seconds": 0.015190667007118464,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "token-alias",
+        "reason": "invalid token IDs",
+        "seconds": 0.0007962910458445549,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "boolean-token",
+        "reason": "invalid token IDs",
+        "seconds": 0.0007892088033258915,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "open-scale-profile",
+        "reason": "open-scale matmul profile",
+        "seconds": 0.0006657079793512821,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "name": "weaker-security",
+        "reason": "wrong security parameters",
+        "seconds": 0.0006850422360002995,
+        "stage": "caller statement checks"
+      },
+      {
+        "accepted": false,
+        "caller_checks": true,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: sum-check invalid in layer 1: sum does not match the claim in round 0 (sum (195505714 + 2110612255i) + (1235022576 + 1574705970i)u, claim (1248543304 + 33220148i) + (477864488 + 1892554444i)u)\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "altered-proof",
+        "seconds": 3.7759487498551607,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": true,
+        "failures": [
+          "B0L10: the chunk proof does not verify: {\"derived\":\"1d8d4104f1a331433c64fe39096a083ad8adbf482b8dde726d94636a856bb009\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "altered-residual-boundary",
+        "seconds": 3.5028850422240794,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": true,
+        "failures": [
+          "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "altered-output-claim",
+        "seconds": 3.39653812488541,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the shape root was not enrolled for the statement and ./runs/llm-verify-p70uvxp1/verification/output/native-unknown-shape-roots.json: unenrolled shape f5210675cf68a28b5338c4ef856343f11ec37e2993b71e1cdf6718c8da1f61ac\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "native-unknown-shape",
+        "seconds": 3.5034871669486165,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the shape root was not enrolled for the statement and ./runs/llm-verify-p70uvxp1/verification/output/native-changed-calibration-roots.json: unenrolled shape a5fabfd84cc0531c24a3693c02f784af640115bdcc146a9735d5ec0b2e574f00\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "native-changed-calibration",
+        "seconds": 3.3678817502222955,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "claim-head-alias",
+        "seconds": 3.287140666041523,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":false,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "claim-embedding-alias",
+        "seconds": 3.3631489579565823,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(TooFewQueriedValues)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "sample-alias",
+        "seconds": 3.340658208820969,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(RootMismatch)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "query-alias",
+        "seconds": 3.313328292220831,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(RootMismatch)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "column-alias",
+        "seconds": 3.383326125331223,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(TooFewQueriedValues)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "fri-polynomial-alias",
+        "seconds": 3.9975334159098566,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-commitments",
+        "seconds": 4.006551166065037,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-samples",
+        "seconds": 3.3568265419453382,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-decommitments",
+        "seconds": 4.0303097916767,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-queries",
+        "seconds": 3.5485364170745015,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Fri(InvalidNumFriLayers)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "empty-fri-layers",
+        "seconds": 3.376383875031024,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Fri(FirstLayerEvaluationsInvalid)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+        ],
+        "name": "empty-fri-witness",
+        "seconds": 3.4118155422620475,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "config-queries",
+        "seconds": 3.3221559170633554,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "config-blowup",
+        "seconds": 3.3324300833046436,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "config-pow",
+        "seconds": 3.3318984997458756,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: unparseable GKR proof: EOF while parsing a value at line 1 column 0\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-gkr",
+        "seconds": 3.3221679581329226,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"token ID outside enrolled vocabulary\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}",
+          "the id at position 0 is not the one that reaches it: {\"block\":0,\"got\":2147484176,\"kind\":\"prompt\",\"pos\":0,\"t\":0,\"tag\":\"B0L0\",\"want\":529}"
+        ],
+        "name": "input-token-field-alias",
+        "seconds": 3.3584460830315948,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "head: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"token ID outside enrolled vocabulary\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "output-token-field-alias",
+        "seconds": 3.2117776251398027,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"claims shape mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-fixed-sizes",
+        "seconds": 3.338912416715175,
+        "stage": "real verifier"
+      },
+      {
+        "accepted": false,
+        "caller_checks": false,
+        "failures": [
+          "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof column shape mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+        ],
+        "name": "empty-fixed-column-sizes",
+        "seconds": 3.3202055413275957,
+        "stage": "real verifier"
+      }
+    ],
+    "passed": true,
+    "seconds": 102.23578491574153,
+    "security_review": false,
+    "shape_root_source": "compiled-enrollment",
+    "source_dirty": true,
+    "weights_present": false,
+    "witness_present": false,
+    "worker": "fresh proof-only Darwin CPU process; same pinned upstream verifier implementation"
+  },
+  "native_verification_root": "runs/llm-verify-p70uvxp1",
+  "persistent_revocation_or_rollback": false,
+  "preflight": {
+    "cases": [
+      {
+        "error_class": "ValueError",
+        "exit_code": 1,
+        "log_sha256": "a511c08ef5f270d0774416f6b11293373e8a4fe46931a594fde1ad105d679585",
+        "name": "missing-key",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.1394722918048501
+      },
+      {
+        "error_class": "ValueError",
+        "exit_code": 1,
+        "log_sha256": "47679e08073ae791ad09d06edd8a060b3446a6a54ca32176fe1e6f79fbb908a2",
+        "name": "missing-enrollment",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.15118004195392132
+      },
+      {
+        "error_class": "ValueError",
+        "exit_code": 1,
+        "log_sha256": "ac2c77c39dd840df2e78555c9fafdab3b8190f5f380fd20b7c8be6378af54caf",
+        "name": "bad-key-encoding",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.1576652079820633
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "1a52f220100c4c8481869e09912538ee23c601d9ef43fb0e20941cdddf01f684",
+        "name": "wrong-key",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.17015895899385214
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "9636d76606240596f9dc706dee419b1419c8f2b61067ea2b2c35521bd8f1e1e4",
+        "name": "expired",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.15247679222375154
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "85dbd22c2fcb614c4fca7a34fb37962fc74fa8fecd668a3d7320898e6dac621d",
+        "name": "future",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.15910599986091256
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "422190e05d11638c3d5fabbfa4dc24670de915147fc471a648fe7a288a90bec1",
+        "name": "case",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.1694750003516674
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "7251f02b04ed981e7cb7e6dc8272236fdaf3238d6a0fc4e65186d0798f9618ec",
+        "name": "source",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.1635972918011248
+      },
+      {
+        "error_class": "WireError",
+        "exit_code": 1,
+        "log_sha256": "5e11a409fae08323591db6ecf9f560f10b760ef0e40eaca2710a1af5fdd570ca",
+        "name": "malformed",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.1694335420615971
+      },
+      {
+        "error_class": "HallmarkError",
+        "exit_code": 1,
+        "log_sha256": "0b973bf088827ff60f3ceaf8c33df48e4b60fd9532ccc1e3a19f2f1564656b98",
+        "name": "tampered",
+        "no_llm_or_classifier_preparation_directory": true,
+        "seconds": 0.15749933291226625
+      }
+    ],
+    "cloud_jobs": 0,
+    "passed": true,
+    "schema_id": "hallmark.signed-composed-preflight/1"
+  },
+  "private_key_in_git": false,
+  "protocol": {
+    "allocated_bytes_before": 325144576,
+    "argv": [
+      "make",
+      "--no-print-directory",
+      "e2e-composed",
+      "LLM_RUN=./runs/fresh-composed-2026-10-25/runs/llm-e2e-m3cdj3fk",
+      "CLASSIFIER_RUN=./runs/fresh-composed-2026-10-25/runs/e2e-f1ty9i2v"
+    ],
+    "authority": "standing bounded local research/storage approval",
+    "base_commit": "baeee45f9564f67cfcb03ed35217684e2255c3a9",
+    "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "classifier_binary_sha256": "ad40c57319d370d16e9f75b19f98291ae748d661b7c509375e7f7997a597e43a",
+    "classifier_control_sha256": "47e5d2cd76f3ea08404cdf6c9b8ebbc311d7329a20eafb4cea2eb1e448f88bcc",
+    "cloud_cost_usd": 0,
+    "cloud_jobs": 0,
+    "dependency_caches": "not cleared",
+    "enrollment_sha256": "2badeac1aa6168acd5a54c941ebf5e4f345d993318285e7aeea5640cb68237ca",
+    "environment_keys": [
+      "HOME",
+      "LANG",
+      "LC_ALL",
+      "LLM_ENROLLMENT",
+      "LLM_TRUST_KEY",
+      "MKL_NUM_THREADS",
+      "OMP_NUM_THREADS",
+      "OPENBLAS_NUM_THREADS",
+      "PATH",
+      "PYTHONHASHSEED",
+      "PYTHONUNBUFFERED",
+      "TMPDIR",
+      "VECLIB_MAXIMUM_THREADS"
+    ],
+    "executor_sha256": "d0b9260f6adde453f61ddf0316d7b51369ecd85b47e49ed454ce6bfdfb6c8b13",
+    "expires_at": 1792957767,
+    "free_bytes_before": 120110882816,
+    "free_space_floor_bytes": 34359738368,
+    "issue": 108,
+    "new_allocated_stop_bytes": 12884901888,
+    "not_before": 1792943307,
+    "other_host_activity": "repository gates may run concurrently; not a latency benchmark",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "cbor2": "5.9.0",
+      "cffi": "2.1.1",
+      "click": "8.5.0",
+      "cloudpickle": "3.1.2",
+      "coverage": "7.16.2",
+      "cryptography": "50.0.2",
+      "filelock": "4.2.4",
+      "fsspec": "2026.9.0",
+      "h11": "0.16.0",
+      "hallmark-research": "0.1.0",
+      "hf-xet": "1.7.0",
+      "httpcore2": "2.15.1",
+      "httpx2": "2.15.1",
+      "huggingface_hub": "2.2.0",
+      "idna": "3.20",
+      "iniconfig": "2.3.1",
+      "joblib": "1.6.0",
+      "librt": "0.16.0",
+      "mypy": "1.20.2",
+      "mypy_extensions": "1.1.0",
+      "narwhals": "2.27.1",
+      "numpy": "2.5.4",
+      "packaging": "26.3",
+      "pathspec": "1.1.1",
+      "pluggy": "1.7.0",
+      "pycparser": "3.11",
+      "pydantic": "2.14.1",
+      "pydantic_core": "2.50.1",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.1.0",
+      "ruff": "0.17.1",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "threadpoolctl": "3.7.0",
+      "tqdm": "4.70.1",
+      "truststore": "0.10.5",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0"
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "preflight_sha256": "d07d4b82a5201919f71d74f994f34def7b7f2e5310ab5bab1b420dcc7a27b516",
+    "public_key_sha256": "03cf4b4611e109122180ebe0dd0403edfb1fd62682bfc268b30e955a11e5b237",
+    "python": "3.12.12 (main, Dec  9 2025, 19:05:33) [Clang 21.1.4 ]",
+    "python_sha256": "6a37ff35c2edec046bd7e5504f4603b93fdbd33166252a324d15b6e41cdd5483",
+    "retained_llm_archive_sha256": "9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb",
+    "retained_llm_inventory_sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+    "rss_stop_bytes": 8589934592,
+    "schema_id": "hallmark.signed-composed-experiment/1",
+    "seconds": 7200,
+    "signer": "disposable integration issuer; private key remains only in issuer process",
+    "source_files": {
+      ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "Makefile": "86968c0a53a9e2140ca9c48971511a8d1baa3afbf972b27ec478dd61eb2b3ce5",
+      "configs/fixture.json": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+      "fixtures/comparison-run.schema.json": "81e283935f32e41e1d315934b8a42e6707a5d6d49a57591601556258b09e05a0",
+      "fixtures/contextual-protocol-v2.json": "3c47c07a5a3413f00814b957ae8752bcb3f786b0c6484becd6cab5290beb5394",
+      "fixtures/contextual-protocol.json": "8513332805a4dd75c5d4eb0aaad92373543445e7a35942f686f71f449032c3a0",
+      "fixtures/contextual-scope-v2.jsonl": "c28358a88348f954449203d72eb723a8a7b8c2e1faed3d390cce345706c11e67",
+      "fixtures/contextual-scope.jsonl": "04efb798e913cd5fcb4c25e6d9d6abb711162aa85274749bc5db89c1ae76e517",
+      "fixtures/contextual-source-v2.json": "1ac67271c56f2373979e5e8cabddb8cfbc52b434452536c680e5a7d710bdb749",
+      "fixtures/contextual-source.json": "99ea9f4133e62686bde0f42fb1740a53b5fe66e89ec86b816864a90f6a2dc7ca",
+      "fixtures/grouped-selection.json": "d45d405ec29768dec01a8b02ebf4ea597159b8e57e7c20a5313279789f1a32fe",
+      "fixtures/grouped-selection.sha256": "eb7e098eca49c4d24f694d4daec7851113ba204cbf6eda013b5de66bad9db070",
+      "fixtures/guard-spec.schema.json": "896835ae65baff08215dde466a86645cb2ef9bc0b6dac4869118be32098cad12",
+      "fixtures/mlp-training.json": "14c63793ffa051dd3155d14de65a83fcb96d65487657470d990695510f7149e2",
+      "fixtures/mlp-training.sha256": "eb5a7da4d306a0845d19b62cdf50d53905e8c05d8011238e0a69278c56712aee",
+      "fixtures/recipe.json": "a88b73f9356daaea13f67abf0c7f62b68f6b819dbc611938e2fb771d86ccb5ec",
+      "fixtures/smoke.jsonl": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7",
+      "fixtures/wire/admission-v1.json": "8b3d88d9a6151c10a309ecc7a86818763e81044b6db75b861cf7d9e3e544abea",
+      "fixtures/wire/backend-v1.json": "0a63303b67d892623bb7dc644c167f2cd0a66e3b33f9ce6f01a845f9104a145b",
+      "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
+      "fixtures/wire/classifier-v1.json": "c16d336edad03872070bcdfccebf0a7d0a40fbcab176d056faa616795f58b6ee",
+      "fixtures/wire/data-import-v1.json": "f84709cd5daf494935aa59a13cb3900b26e593d15bc87b772bca36810f057777",
+      "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
+      "fixtures/wire/integer-encoder-v1.json": "8d0551ac2e9c9e2527004bc4a33392844963ffcb17b9589139448db3f068ee7d",
+      "fixtures/wire/integer-encoder-v1.sha256": "4731b1b10b4e2532d86ed3e9ee1f76bc4b21330dbdc2c0149363d7816f77937f",
+      "fixtures/wire/integer-mlp-v1.json": "df9b9c9a8a0e74868b6bbd4f68c64b12098e60bb611b9f9d96994efbab3fba0a",
+      "fixtures/wire/llm-enrollment-v1.json": "e80a4c0e66d1381213b2b905042f45d0d856260cb63f59684ed87aa1d9f4f60e",
+      "fixtures/wire/model-manifest-v1.json": "b1b4627a9e6245ce967993c2faf76c787e5ba93299facfb7e6c7d77df4f5815a",
+      "fixtures/wire/openings-v1.json": "3f7a3a657bbfb6c41eacaa7020f0ec75b3bb61120cbdb439a0ea8a7a2bdeb5ea",
+      "fixtures/wire/policy-request-v1.json": "6b68aca588a6b14c2c6a35f7f758e92a3a638da3904402a63c39f8fa7160132b",
+      "fixtures/wire/qualification-protocol-v1.json": "f8237609f6f5c84537ea09121d331ed59d72ada5c75d492f88aac27808d660b0",
+      "fixtures/wire/receipts-v1.json": "4ec38d1a2758f7dfa2e8f26d4e1725d96aff0e5a7b8a5da8119f87a75e95c354",
+      "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
+      "fixtures/wire/rule-v1.json": "bb249d4615ef6c0a73309c7fc8107835d9d42be2311f336c80ba86e317b2fe5c",
+      "pyproject.toml": "a533a1b87b22791cc1b4d42639b0124f8dba7768343518de53e8a57b6e93908d",
+      "research/probes/gnark/README.md": "8a78cef55b05255b3efd9fa18c090a9d2bcd7d9df6aedf95733d639426b214d2",
+      "research/probes/gnark/artifacts_test.go": "2f6a8cafa742ada9af0f7b8c9e806cee127a78bf074ae86907affe976eb2e85f",
+      "research/probes/gnark/block-fixture.json": "4526e21b5fe001d81611c5ccd5bb23f7347cdcc79c5ed75a56776944f581c7bb",
+      "research/probes/gnark/block.go": "65f3b4c34c2d33ed17ced6d4ad93d49ddf971dc48f8a8e6ce1305e7dc1313da9",
+      "research/probes/gnark/cache_test.go": "b48f10647f9a22afa47a45bb391212af81e576d1f8e138a5fe630fd1ab018ccc",
+      "research/probes/gnark/contextual_cnn.go": "71911a66e3c32752e868046bfb261a9cea8067828899dcd2acd55b059b9e1721",
+      "research/probes/gnark/contextual_cnn_test.go": "f59f6cc5e394db4f514097c205ed53f6cf6c0e4ec58f75470bf508fc4752680d",
+      "research/probes/gnark/encoder-classes-fixture.json": "e7990fbd38768c9de6151a02a1391b2696a27be01f9633e010989745c726429f",
+      "research/probes/gnark/encoder-fixture.json": "14cec4e70126684e7698d74b01dd279bf637be53d18cec343e02b3d7e05f5c60",
+      "research/probes/gnark/encoder-graph.json": "1cf452df3baf10177542ef4689dc3438322a9d83025541c31718613bf6b47c22",
+      "research/probes/gnark/encoder-maximum-fixture.json": "a5a7dcc541edb5e75fc634b1b0d90326c891c3247ab49da7cae61368990188d3",
+      "research/probes/gnark/encoder.go": "4cfe79fa8ce3d60407cd4fb53c8a2fa82189b559bfec53c8e46c62ae494f39ea",
+      "research/probes/gnark/encoder_test.go": "56aef28d24c4d80fb65e1b484bc556478aee725d556d6e7175f23fa783061e89",
+      "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+      "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+      "research/probes/gnark/graph.go": "8092032e5531eb319fd45b7adce5a6c1c05a07da498c7c29755e8ad545beb7d8",
+      "research/probes/gnark/input.go": "c2074fc7313153b1fcd657d6a9dcc5bee58a646669e81a15e2a8048b0480b156",
+      "research/probes/gnark/input_scale.go": "5414d3094e57085f8e8863dc0f8322d47c7b75d686ea020bc395bb60a8df7c99",
+      "research/probes/gnark/input_scale_test.go": "67bdc35821449ee8fc98f40c8ffaa05c4d9a582a32bf13290230331ac22a1d9a",
+      "research/probes/gnark/main.go": "8d6b8b1e1e5ae3e51e880565ae9e002fea4accf61297b3a60637d3bc1270cecf",
+      "research/probes/gnark/mlp-fixture.json": "db1e5792c87d8e66617ba39a9ecb588dcb637e885211d5f241bdaf632b51f1fd",
+      "research/probes/gnark/mlp.go": "b0032cb02f6912b1041eebd42de5b97edece0a06f71c60a645563ffded46a477",
+      "research/probes/gnark/normalization-fixture.json": "c2eea1685a324e5ef1d84caa2cd9fb5ae7ca5414112ebc638fe1b9ae10194092",
+      "research/probes/gnark/normalization.go": "212853337d11ccd8a4da99ddd8af45662f04ad3b8bfb1c805583281ee5b0fc9b",
+      "research/probes/gnark/normalization_test.go": "874332cb3e8571b667baf8b7b09f1c0302095f519c132f3d5f255386769df2d5",
+      "research/probes/gnark/patches/GNARK-LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "research/probes/gnark/patches/README.md": "fc560525536144a69acc6c53bb453ff6b150db94ddbe4cf6246a033bb713feb2",
+      "research/probes/gnark/patches/boolean-wire-cache.patch": "5f70f965f4e4443ef32a01b5a2dc0163ae213d5dc86064fecc1f04fdcd52cb8c",
+      "research/probes/gnark/patches/bounded-g1-batch.patch": "652609cafa8cc3bae8e88c00bbd5374ca3a6fdff4deb669fafab76b2786234dc",
+      "research/probes/gnark/patches/g1_alloc_test.go": "3bf148b82ccdbdddaff47e98cacce78949a8e0529b4fc7615706e568cf6bf318",
+      "research/probes/gnark/patches/g1_batch_test.go": "825a2f84b3383eeedf335e366944ba2c900936e25dcb40b7e91a81dd0a59aae1",
+      "research/probes/gnark/program_test.go": "be9fbbe2a9278bdc349623aecd49fe268348d2013cf7ab7b30786118311575bb",
+      "research/probes/gnark/rule-fixture.json": "681cc89e3059e54ab387d41770ce9a44380755af3cfe23f11171359d4512db6f",
+      "research/probes/gnark/rule.go": "285f3d4a25335438ac5cfa427c309ed28956a010eceaa639cbecea8c45e82ab6",
+      "research/probes/gnark/scaled_rule.go": "8d79b96372bdae42253fed0699ab88e3a3090dfa291e23b97a15cc59de2c8d60",
+      "research/probes/gnark/scaled_rule_test.go": "9f167700a5a5f61ce38e33890c3f69e40ae7e81bd987a87522bbf2f95ab1d714",
+      "research/probes/gnark/trained_mlp.go": "de60560ef7ab084ec369bb173d66d0300bfc4a57b5e409dace6ecc82526137da",
+      "research/probes/gnark/trained_mlp_test.go": "d78143f04e8a1f5fd5a58ce49151cead80c00421476394959e5f9c35ad2a4971",
+      "research/probes/py_ecc/README.md": "b01b029049927d85b4896323de86633dfe0d5996dff9bb0ca469cdb30a333938",
+      "research/probes/py_ecc/check.py": "ef8736a68baa25929e6c50e48a5b7285ab1b1b52ea84e60ab1829a7a5ca6cdc3",
+      "research/probes/py_ecc/generate_fixture.py": "efeed41b6bff704a055ed188681aad49b6380599475cf5ef683858f4817cc738",
+      "research/probes/py_ecc/requirements.txt": "5dd2b5ababbc9d3f47a70bb51dc5840862c77e437174d374492887bafcd1df7b",
+      "research/probes/py_ecc/verify.py": "1ba84b98163f24c0c18e020c2afc15c2996045992c4dfc4b79489c812fff69d6",
+      "research/probes/py_ecc/verify_set.py": "cb42efdde192f3a2b232607d936aa4096eae325cb72d2d627b08c4cbc6efc7e5",
+      "research/probes/sash/LICENSE.upstream": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "research/probes/sash/NOTICE.upstream": "6e3ba54a8b82cd8dc8e2109d31bebc34cb8631ac450b3b62548e117618c84de3",
+      "research/probes/sash/README.md": "6e880fbaa5f3e925d2072aa3afb893383321bd140571b4cd449998d9a54c2d73",
+      "research/probes/sash/build_prover.sh": "81791a7a261d3e53e9aa3e18ba1509487e636195d82c16acb1f672789fb99a11",
+      "research/probes/sash/check_exact_gemm.py": "36c350dd6c128254d68656c61b1fb22ee06f4474682993747f88b7eeda92189a",
+      "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+      "research/probes/sash/exact-gemm.patch": "fee63bfa895089e063fab5b7a03f98e3d443def158fa9b9ab4131450295da97e",
+      "research/probes/sash/fold_shape.rs": "599e26d7066e02241c2e49cb40bd9fa1b57fdc0dbaaa98770ee70d68432dd2bb",
+      "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+      "research/probes/sash/prepare_native.py": "821b88fea80efa0cdd9fd9459273c6a37f0835804693212e2b062b70f8a965f2",
+      "research/probes/sash/prove_response.py": "c1639a52c57563a09860872f1bc0327402b2b874dc59f141542243190d84d5e6",
+      "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+      "research/probes/sash/response-plan.txt": "8898508ec4f300b7c7bfae18bc1abf6bf12b4c2863d12e601367f5931705a1d6",
+      "research/probes/sash/shape-reconstruction.patch": "1a46f77c76a5c113d63ae8086487ddcc124caed407633eac495ec73393e59efb",
+      "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+      "scripts/build_admission_fixture.py": "d6173400f1beb2cad75306325e54435cdefaa429abeca5f73a8aff2371ae4aa6",
+      "scripts/build_backend_fixture.py": "0372fd396d4d9b4b891c6dd7fb87dfac8cae305da9c48603a752e2cce315a397",
+      "scripts/build_conformance.py": "27646e25fc85573b27c5ddaa956fb04ecb9e2d5af2835e5bd1f8ba6858fe0615",
+      "scripts/build_data_fixture.py": "29d4fdd718290efd1e87f0cdc87463c2b9346c52b8cf5b6d41f8e774114fed87",
+      "scripts/build_encoder_classes_fixture.py": "ef15d88997f139b7a2a09b573904aa700874caccaea8bf20cd0e57f799894f3d",
+      "scripts/build_encoder_fixture.py": "165b60650bed5594f60211d41ca9de20ed32500454a09c3097e2a4923d2420e3",
+      "scripts/build_gnark_block_fixture.py": "9c25062e83281035ab847e5eb53fb28a8133768558c38dcbde4627cd2980b3ea",
+      "scripts/build_gnark_encoder_fixture.py": "00e35f192fe2e75ca8e66ee309ad215bab5d58543c03f3e046bf1ddd7c56865d",
+      "scripts/build_gnark_encoder_maximum_fixture.py": "ff3b7a2cf2a4a6257e64a2670769a843aab84bc33c16b9053ca476db0f1aecc2",
+      "scripts/build_gnark_mlp_fixture.py": "cd95720949f2b6261e497399704468663b0b25473800df8f8082cfa8df48555e",
+      "scripts/build_gnark_normalization_fixture.py": "c5f57d02da4734b86fe631648a8d06b80d3ffb7fe750090cc33fe83eb8c604c0",
+      "scripts/build_gnark_rule_fixture.py": "94a4cfe5c34b04447f82d8b89358a06bba089f636cb0edf6e852748240ed6b5d",
+      "scripts/build_mlp_fixture.py": "df52764ffe2334d2ceede6c114069d0f99f1830b96586c76be55d62d0cd515e4",
+      "scripts/build_mlp_training_fixture.py": "3a382c5240de1bd676a87963abc16ad3bf4423f8656ecd6f87585b41b0db641f",
+      "scripts/build_qualification_fixture.py": "877962f8d229f6de145c275b553f86151a639b3e42a415b6383ca82cca223639",
+      "scripts/build_rule_fixture.py": "e310d7006053f10ec790ddd6893eba5f64fb58230f852f641285eaa60ee8498c",
+      "scripts/build_selection_fixture.py": "4832091a9202239d27b844e15786129065cf4a1eae45a984d2c284415f38e795",
+      "scripts/check_admission.py": "0aac9ce36e32f58e155424f13ce8eb5f7e4f9998e78f2e96732868d7bba01d88",
+      "scripts/check_backend_fixture.py": "6035cd1d3a132f6aad62a2603800d94578f9aa1f5f46db3e5ca391d7293c6df4",
+      "scripts/check_comparison_run.py": "fa65c82a03f8cee000fc076257cfbf1161ba2090aff24d1f8eb843b9f48e6c5a",
+      "scripts/check_conformance.py": "7edaf42ac11e04e5cc3cd6aa6ebec288733c39fedae91621c963f7dd74f30f6a",
+      "scripts/check_data_import.py": "9308d401de2b7ac6c7e091bec7d8e2d1792a3a5628ee436db6e7da06542b1f3d",
+      "scripts/check_docs.py": "eec8fad5cbfbdf0ce947445542aa12905c60e8e53122c21781277f08b219bc63",
+      "scripts/check_encoder_vectors.py": "d98278a9f0e2cab6bea5dbe844805778adf059e5ac157bec6bd29cf493b09c27",
+      "scripts/check_event_storage.py": "3472cdf6194382f9a346e60eeecbc107053c996efd45a631d6eee17faafd16d5",
+      "scripts/check_gnark_block_probe.py": "bf2d87d0fe82aaf1c554a4e5f865fbb3404642ae66c79366ec3a5cb77885d89a",
+      "scripts/check_gnark_encoder.py": "23d5fd8946ed1b39a310e81a70a4c45ea1acd2927089def9c14ecfb8d89ea1ed",
+      "scripts/check_gnark_input_scale.py": "437a7ba47e842dda34e47f3052866ef27c5a9e1b32df6ef3ae7ced75ed4d920e",
+      "scripts/check_gnark_normalization.py": "2528c174e6532221175fe59a5283589115bb2c230a82f60a403a4fe8912a22db",
+      "scripts/check_gnark_probe.py": "bf654dda3381733840e038683126a781b98412653c06f76cb52f528f3e0cdeea",
+      "scripts/check_gnark_rule_probe.py": "9fbf588e8e5ed9cc830df25848c230e3574a2352fad95879164a70bd65842717",
+      "scripts/check_group_evaluation.py": "4531e6dd774a39e81859d76e4377e5961a2047dbe34025f51defcadb8b8d931b",
+      "scripts/check_guard.py": "c2ae5e2e7209b957fb551702855cd08a6c277da673a18cae22438aea396e9ee0",
+      "scripts/check_installed_train.py": "ccbf1ccfbd3afa099643692d2f97f13b240667dde7c951e3d6a59ff9bb3ed332",
+      "scripts/check_mlp_training.py": "f767da55fef69260be33817aede4f393228fc0dff7e547997b97818bcce0de4f",
+      "scripts/check_mlp_vectors.py": "0a094dad8a72217dfe2ddb2933f68614664ddc2502681f1db8993cea5ef7b117",
+      "scripts/check_opening_vectors.mjs": "0df03784e87f5a79d8d9c73119d368b2369db3f3ce622fc518179da47a166408",
+      "scripts/check_package.py": "398afeedd6672e3b7a2baf4fab0e169f00b69879e8d18dab5b4b11c493dd846a",
+      "scripts/check_qualification_fixture.py": "1d792970f20e2a215db3ba04da97366edace8ad9df6aa199f587df86b6b63eef",
+      "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
+      "scripts/check_rule_vectors.py": "268e4c823c8f06faefbd510215e786e56e884d403055d7c6516d59f13b1cf12f",
+      "scripts/check_selection.py": "e2467596665728cab9588e5ad57ae1dec6c40bd5b2d563222e96183287e38518",
+      "scripts/check_spec.py": "78f41fd98b9b7a4a2b3b80a16a26b8b8455298a68a88ed2a5b7b04afbfe4cd44",
+      "scripts/common_input.py": "492c207a32e0847e91c6e7ef24b4079852f62ebf16949e236f281f234a361f25",
+      "scripts/composed_input.py": "172b9a532fe1aacc43935a9a0d916905657690e6a6e2f4e55aa3fb0d21b48adb",
+      "scripts/contextual_cnn.py": "b7daf1d9bef15e217612327ab5eee93c04f0016fad039395dafd79801a22a094",
+      "scripts/gnark_hf_bootstrap.py": "b852c4e5b22abff07dad7c8411b37f9ceb1aadcdeb756d9e6ed8a71babda6856",
+      "scripts/go_tool.py": "ec102cb958f3ab6a9b8c30825b4f49ccc63461c6dc9f69505fec00b2817fa0e1",
+      "scripts/package_inventory.py": "b0b4c1d80fa676e16427e52237712ed554b6aa6bccd2966f281d1c9be0ddffb0",
+      "scripts/plan_admission_power.py": "4709f9a788c39944fe5ba21fb64cb3b407563671638f1d93fb02b2a721df8866",
+      "scripts/report_groups.py": "034e03bfa70a6281e57706ac45a678c657385f224d49bd8b3f7d08c7728015cb",
+      "scripts/reproduce_package.py": "39bf7acef9312341d88d9c9b3c2ddcb3078116d1e9d4c623a0451b26a0fac40b",
+      "scripts/run_common_input.py": "ffacd4ea6ff3fd9dddae7aab68d37b8d4f67fbcbd77531f16e16cfde4613d5df",
+      "scripts/run_comparisons.py": "37fbd3d2e3c9e3badb330324712e1d9dea70d813057f7183fdf5944b677b3405",
+      "scripts/run_composed.py": "e2d56d20ac2a7cbfe9ca33687e47d85d4d6503636c6355b997143e4ec7be6e3a",
+      "scripts/run_contextual_cnn.py": "a036c82aab829dca839c6fe223792046aa4518af2203bbcae0c5e248ff649001",
+      "scripts/run_contextual_proof.py": "c3af5023d2640a867b593c06e14b386b7b84df874ea2542810f9a71c4b26d74e",
+      "scripts/run_e2e.py": "1fd9e7bd7fe26e5285c66ccd31dcae3a3db378ac08507a5e5ca25393e91d2643",
+      "scripts/run_guard.py": "5543ce4ba16cb7e3d89debe68078157c61ea7346999b9440c638a80c7a6d82d3",
+      "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+      "scripts/run_trained_common.py": "ba2ffa662347f34703544f5e0b57013641cef13c7c05316c1c527f974db5c57a",
+      "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
+      "scripts/trained_common_input.py": "c2f0b66914d49769a0d970cf729645bee2037f5d6e2aae1ff1677ab7edc5036d",
+      "scripts/verify_llm.py": "fa7b69ba1cc1e6496ea20dcaa834f856904024ed3e228d4db7730116d66d6dea",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "9673a34a6d5af593b3f67b7ecf1196f5bf368f5f5a5d61ac7122661a29daecce",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+      "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+    },
+    "verifier_identity": "34b2c2c1d19c0cbb48d449762eb62d927c71969a6ffa0556a5e53125879387c4",
+    "verifier_source_files": {
+      "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+      "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+      "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+      "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+      "scripts/run_e2e.py": "1fd9e7bd7fe26e5285c66ccd31dcae3a3db378ac08507a5e5ca25393e91d2643",
+      "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+      "scripts/verify_llm.py": "fa7b69ba1cc1e6496ea20dcaa834f856904024ed3e228d4db7730116d66d6dea",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "9673a34a6d5af593b3f67b7ecf1196f5bf368f5f5a5d61ac7122661a29daecce",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+      "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+    }
+  },
+  "protocol_sha256": "cba9d64856ad409a9f93f931040330f6c1c27b96b4290326b5d1ef168ad3c610",
+  "public_key_hex": "9bb2a8fa5594bba42def04d05ccf8a9690e6ff4d56399b537eec9c18cee0452b",
+  "public_metadata_sanitized_absolute_checkout_paths": true,
+  "qualified_backend": false,
+  "retained_llm_archive_sha256": "9d17d5f339a10ecf29ef58220fa66d4196b017143e920232949a9287c0fc71eb",
+  "run_root": "runs/composed-dc4zthhk",
+  "safety_quality_claim": false,
+  "schema_id": "hallmark.signed-composed-evidence/1",
+  "signer": "Disposable research key, not operational owner custody; private key never written or uploaded",
+  "source_files": {
+    ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+    "Makefile": "86968c0a53a9e2140ca9c48971511a8d1baa3afbf972b27ec478dd61eb2b3ce5",
+    "configs/fixture.json": "317abba15f7270c8a8bbf9b28dfb56a3a1185ba0dfb4e8569a173adb545fbb1d",
+    "fixtures/comparison-run.schema.json": "81e283935f32e41e1d315934b8a42e6707a5d6d49a57591601556258b09e05a0",
+    "fixtures/contextual-protocol-v2.json": "3c47c07a5a3413f00814b957ae8752bcb3f786b0c6484becd6cab5290beb5394",
+    "fixtures/contextual-protocol.json": "8513332805a4dd75c5d4eb0aaad92373543445e7a35942f686f71f449032c3a0",
+    "fixtures/contextual-scope-v2.jsonl": "c28358a88348f954449203d72eb723a8a7b8c2e1faed3d390cce345706c11e67",
+    "fixtures/contextual-scope.jsonl": "04efb798e913cd5fcb4c25e6d9d6abb711162aa85274749bc5db89c1ae76e517",
+    "fixtures/contextual-source-v2.json": "1ac67271c56f2373979e5e8cabddb8cfbc52b434452536c680e5a7d710bdb749",
+    "fixtures/contextual-source.json": "99ea9f4133e62686bde0f42fb1740a53b5fe66e89ec86b816864a90f6a2dc7ca",
+    "fixtures/grouped-selection.json": "d45d405ec29768dec01a8b02ebf4ea597159b8e57e7c20a5313279789f1a32fe",
+    "fixtures/grouped-selection.sha256": "eb7e098eca49c4d24f694d4daec7851113ba204cbf6eda013b5de66bad9db070",
+    "fixtures/guard-spec.schema.json": "896835ae65baff08215dde466a86645cb2ef9bc0b6dac4869118be32098cad12",
+    "fixtures/mlp-training.json": "14c63793ffa051dd3155d14de65a83fcb96d65487657470d990695510f7149e2",
+    "fixtures/mlp-training.sha256": "eb5a7da4d306a0845d19b62cdf50d53905e8c05d8011238e0a69278c56712aee",
+    "fixtures/recipe.json": "a88b73f9356daaea13f67abf0c7f62b68f6b819dbc611938e2fb771d86ccb5ec",
+    "fixtures/smoke.jsonl": "a7b2c3f3b978623273b72fa3853344b4059725a5b147540c5a1e906a11977ae7",
+    "fixtures/wire/admission-v1.json": "8b3d88d9a6151c10a309ecc7a86818763e81044b6db75b861cf7d9e3e544abea",
+    "fixtures/wire/backend-v1.json": "0a63303b67d892623bb7dc644c167f2cd0a66e3b33f9ce6f01a845f9104a145b",
+    "fixtures/wire/bundles-v1.json": "ceed0ed83d6be34588a8f56f171ac051357ab22be49b12837c1b7894eaa58e93",
+    "fixtures/wire/classifier-v1.json": "c16d336edad03872070bcdfccebf0a7d0a40fbcab176d056faa616795f58b6ee",
+    "fixtures/wire/data-import-v1.json": "f84709cd5daf494935aa59a13cb3900b26e593d15bc87b772bca36810f057777",
+    "fixtures/wire/enrollment-v1.json": "4b630bc1790878133e3d50becee5910d867c2eedb0675d8391f12de4488e04bb",
+    "fixtures/wire/integer-encoder-v1.json": "8d0551ac2e9c9e2527004bc4a33392844963ffcb17b9589139448db3f068ee7d",
+    "fixtures/wire/integer-encoder-v1.sha256": "4731b1b10b4e2532d86ed3e9ee1f76bc4b21330dbdc2c0149363d7816f77937f",
+    "fixtures/wire/integer-mlp-v1.json": "df9b9c9a8a0e74868b6bbd4f68c64b12098e60bb611b9f9d96994efbab3fba0a",
+    "fixtures/wire/llm-enrollment-v1.json": "e80a4c0e66d1381213b2b905042f45d0d856260cb63f59684ed87aa1d9f4f60e",
+    "fixtures/wire/model-manifest-v1.json": "b1b4627a9e6245ce967993c2faf76c787e5ba93299facfb7e6c7d77df4f5815a",
+    "fixtures/wire/openings-v1.json": "3f7a3a657bbfb6c41eacaa7020f0ec75b3bb61120cbdb439a0ea8a7a2bdeb5ea",
+    "fixtures/wire/policy-request-v1.json": "6b68aca588a6b14c2c6a35f7f758e92a3a638da3904402a63c39f8fa7160132b",
+    "fixtures/wire/qualification-protocol-v1.json": "f8237609f6f5c84537ea09121d331ed59d72ada5c75d492f88aac27808d660b0",
+    "fixtures/wire/receipts-v1.json": "4ec38d1a2758f7dfa2e8f26d4e1725d96aff0e5a7b8a5da8119f87a75e95c354",
+    "fixtures/wire/registry-rotation-v1.json": "eac74fa68be4a1340c4dede4706fbbeab35d8fc39d53030164c02080236ce916",
+    "fixtures/wire/rule-v1.json": "bb249d4615ef6c0a73309c7fc8107835d9d42be2311f336c80ba86e317b2fe5c",
+    "pyproject.toml": "a533a1b87b22791cc1b4d42639b0124f8dba7768343518de53e8a57b6e93908d",
+    "research/probes/gnark/README.md": "8a78cef55b05255b3efd9fa18c090a9d2bcd7d9df6aedf95733d639426b214d2",
+    "research/probes/gnark/artifacts_test.go": "2f6a8cafa742ada9af0f7b8c9e806cee127a78bf074ae86907affe976eb2e85f",
+    "research/probes/gnark/block-fixture.json": "4526e21b5fe001d81611c5ccd5bb23f7347cdcc79c5ed75a56776944f581c7bb",
+    "research/probes/gnark/block.go": "65f3b4c34c2d33ed17ced6d4ad93d49ddf971dc48f8a8e6ce1305e7dc1313da9",
+    "research/probes/gnark/cache_test.go": "b48f10647f9a22afa47a45bb391212af81e576d1f8e138a5fe630fd1ab018ccc",
+    "research/probes/gnark/contextual_cnn.go": "71911a66e3c32752e868046bfb261a9cea8067828899dcd2acd55b059b9e1721",
+    "research/probes/gnark/contextual_cnn_test.go": "f59f6cc5e394db4f514097c205ed53f6cf6c0e4ec58f75470bf508fc4752680d",
+    "research/probes/gnark/encoder-classes-fixture.json": "e7990fbd38768c9de6151a02a1391b2696a27be01f9633e010989745c726429f",
+    "research/probes/gnark/encoder-fixture.json": "14cec4e70126684e7698d74b01dd279bf637be53d18cec343e02b3d7e05f5c60",
+    "research/probes/gnark/encoder-graph.json": "1cf452df3baf10177542ef4689dc3438322a9d83025541c31718613bf6b47c22",
+    "research/probes/gnark/encoder-maximum-fixture.json": "a5a7dcc541edb5e75fc634b1b0d90326c891c3247ab49da7cae61368990188d3",
+    "research/probes/gnark/encoder.go": "4cfe79fa8ce3d60407cd4fb53c8a2fa82189b559bfec53c8e46c62ae494f39ea",
+    "research/probes/gnark/encoder_test.go": "56aef28d24c4d80fb65e1b484bc556478aee725d556d6e7175f23fa783061e89",
+    "research/probes/gnark/go.mod": "5ae7b1cf66baae07f699196e9c53584981b6ffdab5d295f959ff68be1ea77d80",
+    "research/probes/gnark/go.sum": "5ab595dd494d97481334a0f363ebe29591a827610ae971dd18e8084dd01eb426",
+    "research/probes/gnark/graph.go": "8092032e5531eb319fd45b7adce5a6c1c05a07da498c7c29755e8ad545beb7d8",
+    "research/probes/gnark/input.go": "c2074fc7313153b1fcd657d6a9dcc5bee58a646669e81a15e2a8048b0480b156",
+    "research/probes/gnark/input_scale.go": "5414d3094e57085f8e8863dc0f8322d47c7b75d686ea020bc395bb60a8df7c99",
+    "research/probes/gnark/input_scale_test.go": "67bdc35821449ee8fc98f40c8ffaa05c4d9a582a32bf13290230331ac22a1d9a",
+    "research/probes/gnark/main.go": "8d6b8b1e1e5ae3e51e880565ae9e002fea4accf61297b3a60637d3bc1270cecf",
+    "research/probes/gnark/mlp-fixture.json": "db1e5792c87d8e66617ba39a9ecb588dcb637e885211d5f241bdaf632b51f1fd",
+    "research/probes/gnark/mlp.go": "b0032cb02f6912b1041eebd42de5b97edece0a06f71c60a645563ffded46a477",
+    "research/probes/gnark/normalization-fixture.json": "c2eea1685a324e5ef1d84caa2cd9fb5ae7ca5414112ebc638fe1b9ae10194092",
+    "research/probes/gnark/normalization.go": "212853337d11ccd8a4da99ddd8af45662f04ad3b8bfb1c805583281ee5b0fc9b",
+    "research/probes/gnark/normalization_test.go": "874332cb3e8571b667baf8b7b09f1c0302095f519c132f3d5f255386769df2d5",
+    "research/probes/gnark/patches/GNARK-LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "research/probes/gnark/patches/README.md": "fc560525536144a69acc6c53bb453ff6b150db94ddbe4cf6246a033bb713feb2",
+    "research/probes/gnark/patches/boolean-wire-cache.patch": "5f70f965f4e4443ef32a01b5a2dc0163ae213d5dc86064fecc1f04fdcd52cb8c",
+    "research/probes/gnark/patches/bounded-g1-batch.patch": "652609cafa8cc3bae8e88c00bbd5374ca3a6fdff4deb669fafab76b2786234dc",
+    "research/probes/gnark/patches/g1_alloc_test.go": "3bf148b82ccdbdddaff47e98cacce78949a8e0529b4fc7615706e568cf6bf318",
+    "research/probes/gnark/patches/g1_batch_test.go": "825a2f84b3383eeedf335e366944ba2c900936e25dcb40b7e91a81dd0a59aae1",
+    "research/probes/gnark/program_test.go": "be9fbbe2a9278bdc349623aecd49fe268348d2013cf7ab7b30786118311575bb",
+    "research/probes/gnark/rule-fixture.json": "681cc89e3059e54ab387d41770ce9a44380755af3cfe23f11171359d4512db6f",
+    "research/probes/gnark/rule.go": "285f3d4a25335438ac5cfa427c309ed28956a010eceaa639cbecea8c45e82ab6",
+    "research/probes/gnark/scaled_rule.go": "8d79b96372bdae42253fed0699ab88e3a3090dfa291e23b97a15cc59de2c8d60",
+    "research/probes/gnark/scaled_rule_test.go": "9f167700a5a5f61ce38e33890c3f69e40ae7e81bd987a87522bbf2f95ab1d714",
+    "research/probes/gnark/trained_mlp.go": "de60560ef7ab084ec369bb173d66d0300bfc4a57b5e409dace6ecc82526137da",
+    "research/probes/gnark/trained_mlp_test.go": "d78143f04e8a1f5fd5a58ce49151cead80c00421476394959e5f9c35ad2a4971",
+    "research/probes/py_ecc/README.md": "b01b029049927d85b4896323de86633dfe0d5996dff9bb0ca469cdb30a333938",
+    "research/probes/py_ecc/check.py": "ef8736a68baa25929e6c50e48a5b7285ab1b1b52ea84e60ab1829a7a5ca6cdc3",
+    "research/probes/py_ecc/generate_fixture.py": "efeed41b6bff704a055ed188681aad49b6380599475cf5ef683858f4817cc738",
+    "research/probes/py_ecc/requirements.txt": "5dd2b5ababbc9d3f47a70bb51dc5840862c77e437174d374492887bafcd1df7b",
+    "research/probes/py_ecc/verify.py": "1ba84b98163f24c0c18e020c2afc15c2996045992c4dfc4b79489c812fff69d6",
+    "research/probes/py_ecc/verify_set.py": "cb42efdde192f3a2b232607d936aa4096eae325cb72d2d627b08c4cbc6efc7e5",
+    "research/probes/sash/LICENSE.upstream": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "research/probes/sash/NOTICE.upstream": "6e3ba54a8b82cd8dc8e2109d31bebc34cb8631ac450b3b62548e117618c84de3",
+    "research/probes/sash/README.md": "6e880fbaa5f3e925d2072aa3afb893383321bd140571b4cd449998d9a54c2d73",
+    "research/probes/sash/build_prover.sh": "81791a7a261d3e53e9aa3e18ba1509487e636195d82c16acb1f672789fb99a11",
+    "research/probes/sash/check_exact_gemm.py": "36c350dd6c128254d68656c61b1fb22ee06f4474682993747f88b7eeda92189a",
+    "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+    "research/probes/sash/exact-gemm.patch": "fee63bfa895089e063fab5b7a03f98e3d443def158fa9b9ab4131450295da97e",
+    "research/probes/sash/fold_shape.rs": "599e26d7066e02241c2e49cb40bd9fa1b57fdc0dbaaa98770ee70d68432dd2bb",
+    "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+    "research/probes/sash/prepare_native.py": "821b88fea80efa0cdd9fd9459273c6a37f0835804693212e2b062b70f8a965f2",
+    "research/probes/sash/prove_response.py": "c1639a52c57563a09860872f1bc0327402b2b874dc59f141542243190d84d5e6",
+    "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "research/probes/sash/response-plan.txt": "8898508ec4f300b7c7bfae18bc1abf6bf12b4c2863d12e601367f5931705a1d6",
+    "research/probes/sash/shape-reconstruction.patch": "1a46f77c76a5c113d63ae8086487ddcc124caed407633eac495ec73393e59efb",
+    "research/probes/sash/verify_response.py": "f55f13a51bbbaaf5a0b9348214d7fb6f0f23b84d1437275c25f4460992eded27",
+    "scripts/build_admission_fixture.py": "d6173400f1beb2cad75306325e54435cdefaa429abeca5f73a8aff2371ae4aa6",
+    "scripts/build_backend_fixture.py": "0372fd396d4d9b4b891c6dd7fb87dfac8cae305da9c48603a752e2cce315a397",
+    "scripts/build_conformance.py": "27646e25fc85573b27c5ddaa956fb04ecb9e2d5af2835e5bd1f8ba6858fe0615",
+    "scripts/build_data_fixture.py": "29d4fdd718290efd1e87f0cdc87463c2b9346c52b8cf5b6d41f8e774114fed87",
+    "scripts/build_encoder_classes_fixture.py": "ef15d88997f139b7a2a09b573904aa700874caccaea8bf20cd0e57f799894f3d",
+    "scripts/build_encoder_fixture.py": "165b60650bed5594f60211d41ca9de20ed32500454a09c3097e2a4923d2420e3",
+    "scripts/build_gnark_block_fixture.py": "9c25062e83281035ab847e5eb53fb28a8133768558c38dcbde4627cd2980b3ea",
+    "scripts/build_gnark_encoder_fixture.py": "00e35f192fe2e75ca8e66ee309ad215bab5d58543c03f3e046bf1ddd7c56865d",
+    "scripts/build_gnark_encoder_maximum_fixture.py": "ff3b7a2cf2a4a6257e64a2670769a843aab84bc33c16b9053ca476db0f1aecc2",
+    "scripts/build_gnark_mlp_fixture.py": "cd95720949f2b6261e497399704468663b0b25473800df8f8082cfa8df48555e",
+    "scripts/build_gnark_normalization_fixture.py": "c5f57d02da4734b86fe631648a8d06b80d3ffb7fe750090cc33fe83eb8c604c0",
+    "scripts/build_gnark_rule_fixture.py": "94a4cfe5c34b04447f82d8b89358a06bba089f636cb0edf6e852748240ed6b5d",
+    "scripts/build_mlp_fixture.py": "df52764ffe2334d2ceede6c114069d0f99f1830b96586c76be55d62d0cd515e4",
+    "scripts/build_mlp_training_fixture.py": "3a382c5240de1bd676a87963abc16ad3bf4423f8656ecd6f87585b41b0db641f",
+    "scripts/build_qualification_fixture.py": "877962f8d229f6de145c275b553f86151a639b3e42a415b6383ca82cca223639",
+    "scripts/build_rule_fixture.py": "e310d7006053f10ec790ddd6893eba5f64fb58230f852f641285eaa60ee8498c",
+    "scripts/build_selection_fixture.py": "4832091a9202239d27b844e15786129065cf4a1eae45a984d2c284415f38e795",
+    "scripts/check_admission.py": "0aac9ce36e32f58e155424f13ce8eb5f7e4f9998e78f2e96732868d7bba01d88",
+    "scripts/check_backend_fixture.py": "6035cd1d3a132f6aad62a2603800d94578f9aa1f5f46db3e5ca391d7293c6df4",
+    "scripts/check_comparison_run.py": "fa65c82a03f8cee000fc076257cfbf1161ba2090aff24d1f8eb843b9f48e6c5a",
+    "scripts/check_conformance.py": "7edaf42ac11e04e5cc3cd6aa6ebec288733c39fedae91621c963f7dd74f30f6a",
+    "scripts/check_data_import.py": "9308d401de2b7ac6c7e091bec7d8e2d1792a3a5628ee436db6e7da06542b1f3d",
+    "scripts/check_docs.py": "eec8fad5cbfbdf0ce947445542aa12905c60e8e53122c21781277f08b219bc63",
+    "scripts/check_encoder_vectors.py": "d98278a9f0e2cab6bea5dbe844805778adf059e5ac157bec6bd29cf493b09c27",
+    "scripts/check_event_storage.py": "3472cdf6194382f9a346e60eeecbc107053c996efd45a631d6eee17faafd16d5",
+    "scripts/check_gnark_block_probe.py": "bf2d87d0fe82aaf1c554a4e5f865fbb3404642ae66c79366ec3a5cb77885d89a",
+    "scripts/check_gnark_encoder.py": "23d5fd8946ed1b39a310e81a70a4c45ea1acd2927089def9c14ecfb8d89ea1ed",
+    "scripts/check_gnark_input_scale.py": "437a7ba47e842dda34e47f3052866ef27c5a9e1b32df6ef3ae7ced75ed4d920e",
+    "scripts/check_gnark_normalization.py": "2528c174e6532221175fe59a5283589115bb2c230a82f60a403a4fe8912a22db",
+    "scripts/check_gnark_probe.py": "bf654dda3381733840e038683126a781b98412653c06f76cb52f528f3e0cdeea",
+    "scripts/check_gnark_rule_probe.py": "9fbf588e8e5ed9cc830df25848c230e3574a2352fad95879164a70bd65842717",
+    "scripts/check_group_evaluation.py": "4531e6dd774a39e81859d76e4377e5961a2047dbe34025f51defcadb8b8d931b",
+    "scripts/check_guard.py": "c2ae5e2e7209b957fb551702855cd08a6c277da673a18cae22438aea396e9ee0",
+    "scripts/check_installed_train.py": "ccbf1ccfbd3afa099643692d2f97f13b240667dde7c951e3d6a59ff9bb3ed332",
+    "scripts/check_mlp_training.py": "f767da55fef69260be33817aede4f393228fc0dff7e547997b97818bcce0de4f",
+    "scripts/check_mlp_vectors.py": "0a094dad8a72217dfe2ddb2933f68614664ddc2502681f1db8993cea5ef7b117",
+    "scripts/check_opening_vectors.mjs": "0df03784e87f5a79d8d9c73119d368b2369db3f3ce622fc518179da47a166408",
+    "scripts/check_package.py": "398afeedd6672e3b7a2baf4fab0e169f00b69879e8d18dab5b4b11c493dd846a",
+    "scripts/check_qualification_fixture.py": "1d792970f20e2a215db3ba04da97366edace8ad9df6aa199f587df86b6b63eef",
+    "scripts/check_registry_vectors.py": "eab12836060e701188f15e37802a670044ee2714e2e44698435f11a718cd6ff9",
+    "scripts/check_rule_vectors.py": "268e4c823c8f06faefbd510215e786e56e884d403055d7c6516d59f13b1cf12f",
+    "scripts/check_selection.py": "e2467596665728cab9588e5ad57ae1dec6c40bd5b2d563222e96183287e38518",
+    "scripts/check_spec.py": "78f41fd98b9b7a4a2b3b80a16a26b8b8455298a68a88ed2a5b7b04afbfe4cd44",
+    "scripts/common_input.py": "492c207a32e0847e91c6e7ef24b4079852f62ebf16949e236f281f234a361f25",
+    "scripts/composed_input.py": "172b9a532fe1aacc43935a9a0d916905657690e6a6e2f4e55aa3fb0d21b48adb",
+    "scripts/contextual_cnn.py": "b7daf1d9bef15e217612327ab5eee93c04f0016fad039395dafd79801a22a094",
+    "scripts/gnark_hf_bootstrap.py": "b852c4e5b22abff07dad7c8411b37f9ceb1aadcdeb756d9e6ed8a71babda6856",
+    "scripts/go_tool.py": "ec102cb958f3ab6a9b8c30825b4f49ccc63461c6dc9f69505fec00b2817fa0e1",
+    "scripts/package_inventory.py": "b0b4c1d80fa676e16427e52237712ed554b6aa6bccd2966f281d1c9be0ddffb0",
+    "scripts/plan_admission_power.py": "4709f9a788c39944fe5ba21fb64cb3b407563671638f1d93fb02b2a721df8866",
+    "scripts/report_groups.py": "034e03bfa70a6281e57706ac45a678c657385f224d49bd8b3f7d08c7728015cb",
+    "scripts/reproduce_package.py": "39bf7acef9312341d88d9c9b3c2ddcb3078116d1e9d4c623a0451b26a0fac40b",
+    "scripts/run_common_input.py": "ffacd4ea6ff3fd9dddae7aab68d37b8d4f67fbcbd77531f16e16cfde4613d5df",
+    "scripts/run_comparisons.py": "37fbd3d2e3c9e3badb330324712e1d9dea70d813057f7183fdf5944b677b3405",
+    "scripts/run_composed.py": "e2d56d20ac2a7cbfe9ca33687e47d85d4d6503636c6355b997143e4ec7be6e3a",
+    "scripts/run_contextual_cnn.py": "a036c82aab829dca839c6fe223792046aa4518af2203bbcae0c5e248ff649001",
+    "scripts/run_contextual_proof.py": "c3af5023d2640a867b593c06e14b386b7b84df874ea2542810f9a71c4b26d74e",
+    "scripts/run_e2e.py": "1fd9e7bd7fe26e5285c66ccd31dcae3a3db378ac08507a5e5ca25393e91d2643",
+    "scripts/run_guard.py": "5543ce4ba16cb7e3d89debe68078157c61ea7346999b9440c638a80c7a6d82d3",
+    "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
+    "scripts/run_trained_common.py": "ba2ffa662347f34703544f5e0b57013641cef13c7c05316c1c527f974db5c57a",
+    "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
+    "scripts/trained_common_input.py": "c2f0b66914d49769a0d970cf729645bee2037f5d6e2aae1ff1677ab7edc5036d",
+    "scripts/verify_llm.py": "fa7b69ba1cc1e6496ea20dcaa834f856904024ed3e228d4db7730116d66d6dea",
+    "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+    "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+    "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+    "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+    "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+    "src/hallmark/_gnark_probe.py": "9673a34a6d5af593b3f67b7ecf1196f5bf368f5f5a5d61ac7122661a29daecce",
+    "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+    "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+    "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+    "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+    "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+    "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+    "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+    "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+    "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+    "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+    "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+    "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+    "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+    "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+    "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+    "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+    "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+    "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+    "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+    "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+    "src/hallmark/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+    "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+    "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+    "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+    "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+    "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+    "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+    "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+  },
+  "status": "passed",
+  "validation": {
+    "actual_cli_preflight_rejections": 10,
+    "commands": [
+      "make check",
+      "make check-train",
+      "make package-check",
+      "make package-check-train",
+      "python scripts/check_docs.py",
+      "git diff --check"
+    ],
+    "final_evidence_metadata_written_after_local_packages": true,
+    "focused_seconds": 1.37,
+    "focused_tests_passed": 73,
+    "full_evidence_obligations_unavailable": 32,
+    "independent_security_review": false,
+    "logs": {
+      "runs/study/docs-check-final.log": "ad7d0fdf97558801e93c685e739d3d7717519fb605cef3110dd3c8e7efc227fc",
+      "runs/study/focused-final.log": "e8c09c5b568d87c8b073e3f97786df9995554a74372a9ce87f32db8f93a095a6",
+      "runs/study/package-checks.log": "354dcb0b7e7fa95c77d54750563d54c75bbc096525f383bf29a4fad544338729",
+      "runs/study/regression-red.log": "ec0c550cc175d49c9b23d81daa2384669141fc227d5b9437f6a312c2d28d9a30",
+      "runs/study/repository-checks.log": "130cac31864ce8e555c39401e1e0a04f45e4af524c28c7effa976162222debf1"
+    },
+    "measured_source_files_match_current": 207,
+    "mypy_source_files": 47,
+    "package_snapshot_boundary": "Local hashes cover the reviewed snapshot before final validation metadata and ledger receipt. Hosted CI checks the complete published commit.",
+    "packages": {
+      "package-check": {
+        "distributions": {
+          "hallmark_research-0.1.0-py3-none-any.whl": "4aa68e305cf057835583dfa36c320e431ad5ba8cb6f454ea2d6d54c7576f8850",
+          "hallmark_research-0.1.0.tar.gz": "1a47c36d3838d029fa8bc52eec41d83082e9e9d489ec806ef1f540119e8ebb97"
+        },
+        "installed_guard_checked": false,
+        "installed_train_checked": false,
+        "source_id": "a86cb140ca0c8de5437b4a878d22b14fe9181e55539ad868e0e52020a459529a"
+      },
+      "package-check-train": {
+        "distributions": {
+          "hallmark_research-0.1.0-py3-none-any.whl": "4aa68e305cf057835583dfa36c320e431ad5ba8cb6f454ea2d6d54c7576f8850",
+          "hallmark_research-0.1.0.tar.gz": "1a47c36d3838d029fa8bc52eec41d83082e9e9d489ec806ef1f540119e8ebb97"
+        },
+        "installed_guard_checked": false,
+        "installed_train_checked": true,
+        "source_id": "a86cb140ca0c8de5437b4a878d22b14fe9181e55539ad868e0e52020a459529a"
+      }
+    },
+    "required_train_passed": 77,
+    "required_train_seconds": 27.81,
+    "required_train_skipped": 0,
+    "software_conformance_matched": 156,
+    "status": "passed",
+    "test_seconds": 107.56,
+    "tests_passed": 2418,
+    "tests_skipped": 50
+  }
+}

@@ -4448,3 +4448,44 @@ file resolved the omission. Its failed snapshot/log remains retained. Final
 validation metadata is appended after this local package snapshot; hosted checks
 validate the complete publication commit. All 207 measured runtime files still
 match their frozen hashes. Local Markdown links and anchors pass.
+
+## 2026-10-25: preserve signed LLM authority through composition
+
+Issue #108; [decision 0075](../docs/decisions/0075-signed-composed-enrollment.md).
+Baseline `baeee45f9564f67cfcb03ed35217684e2255c3a9`. Mutable runtime paths are
+`run_composed.py` and shared authorization helpers in `verify_llm.py`; model, data,
+thresholds, native relations and separate verifiers stay frozen.
+[Numeric evidence](evidence/signed-composed-2026-10-25.json) retains the prospective
+protocol, all 207 runtime pins, 55 signed verifier pins and raw numeric outcomes
+before this interpretation. The initial fixture reproduces the missing enrollment
+argument. All 73 focused tests then pass, including partial/invalid authorization,
+changed native authority, caller-file replacement, final-join expiry and unsigned
+compatibility. Ten actual CLI failures reject before preparation. A harness-only
+error initially expected the wrong exception for tampered signatures; the CLI
+correctly returned SIGNATURE_INVALID. That attempt remains retained separately.
+
+The real signed Make workflow passes in 866.493797916919 seconds. Native build and
+38-case proof suite take 211.64037029119208 seconds. The fresh three-classifier
+setup/proof/check campaign takes 653.429136000108 seconds. Both honest LLM checks,
+all 36 mutations, three separately verified classifier proofs, eleven composition
+rejections and 399 arithmetic outcomes pass. Verdicts remain `[1,1,0]`, release
+false. Five authorizations bind the same record/key through the final join. The
+final opening reconstructs the exact public-input jobs checked with separate
+pairing arithmetic. All 69 LLM files, selected models and circuits match baseline;
+all three setup keys differ from the prior campaign.
+
+New allocation: 3,345,911,808 bytes. Peak sampled descendant RSS: 2,490,826,752
+bytes at one-second sampling. No cloud job or spend, private input, external
+contact, host package install or signer private-key serialization occurs. The
+signer is disposable research material. This supplies no operational setup/key
+custody, revocation/rollback, classifier-policy quality, independent security or
+hiding qualification. Local repository checks pass 2,418 tests with 50 legitimate
+skips, 47 typed source files and 156 software conformance matches; 32 full-evidence
+obligations remain unavailable. Required training executes all 77 selected tests.
+Documentation/distribution gates and final metadata follow in the numeric record.
+
+Core and installed-training package gates pass with identical repeated wheel/
+sdist hashes under source snapshot `a86cb140ca0c8de5437b4a878d22b14fe9181e55539ad868e0e52020a459529a`.
+Local Markdown paths/anchors pass. Final validation metadata is appended after
+that local package snapshot; hosted checks validate the complete publication
+commit. All 207 measured runtime hashes still match.
