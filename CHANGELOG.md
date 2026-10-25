@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+Add `make e2e-composed` to verify the proved TinyLlama response and three fresh
+classifier proofs over one opened request. Reuse caller-owned preparation with
+`LLM_RUN` and `CLASSIFIER_RUN`, while requiring fresh verification and classifier
+setup/proving. Preserve the synthetic CNN's block verdict and distinguish proof
+integrity from policy approval. No proof relation or model threshold changes.
+
 Record a complete quantized TinyLlama response proof: 23 SASH segments, all 22
 residual links and eight output tokens through EOS. Preserve the failed head
 composition and its extraction fix. Add caller statement guards and an LLM proof

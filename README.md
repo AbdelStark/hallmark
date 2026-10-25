@@ -4,7 +4,7 @@
 
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-[LLM response proof](docs/LLM-PROOF.md) · [Classifier demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
+[Composed demo](docs/COMPOSED-DEMO.md) · [LLM response proof](docs/LLM-PROOF.md) · [Classifier demo](docs/DEMO.md) · [What is proved?](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
 
 Hallmark is an MIT-licensed research toolkit for verifiable text classification. It connects
 synthetic training, exact integer inference and specialized cryptographic circuits
@@ -37,7 +37,9 @@ separate outcomes.
 The proof covers input hashing and integer inference, including the final threshold
 comparison. Training supplies the weights; its history is not proved. The caller
 checks request/model/key binding, and host code combines three verified verdicts
-with `all-pass`. No LLM generates a response in this demo.
+with `all-pass`. The standalone classifier demo uses an authored response. The
+[composed demo](docs/COMPOSED-DEMO.md) instead binds these classifier relations
+to the proved TinyLlama prompt and response.
 
 Read [the proof statement, public inputs and trust boundary](docs/PROOFS.md) for a
 concrete example and the exact division between circuit checks and caller checks.
@@ -57,8 +59,8 @@ controller pins each compiled circuit and verification key before proving.
 | Trained CNN | Byte embeddings → width-24 convolution → ReLU → masked max pooling → score | Distinguishes an active action from the same action inside a quotation |
 
 Each classifier sees the complete prompt admitted by this demo. Oversized inputs
-are rejected, never silently truncated. The response is authored fixture text;
-no LLM generates it and no proof claims otherwise.
+are rejected, never silently truncated. In the standalone classifier demo the
+response is authored fixture text; its proofs make no LLM generation claim.
 
 The fixed three-case run produces:
 
@@ -120,6 +122,20 @@ after compilation. It uses compiled parameters for the fixed case;
 see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
 For signer-authorized parameters, [verify a signed enrollment](docs/LLM-PROOF.md#verify-a-signed-parameter-enrollment)
 with a public key obtained through your own authenticated channel.
+
+### Check LLM generation and classifiers together
+
+```sh
+make e2e-composed
+```
+
+This joins the proved TinyLlama response with three new classifier proofs bound
+to the exact same opened request. It uses the prerequisites of both demos and
+32 GiB free storage. Supply `LLM_RUN` and `CLASSIFIER_RUN` to reuse caller-owned
+preparation without new cloud jobs; proofs are freshly verified and classifier
+keys/proofs are always new. See the [composed workflow and exact join](docs/COMPOSED-DEMO.md).
+The frozen synthetic CNN blocks this ordinary prompt: valid proofs establish its
+computation, not a sensible safety policy.
 
 ### Quick software smoke test
 

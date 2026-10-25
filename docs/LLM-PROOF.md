@@ -1,5 +1,8 @@
 # A proved TinyLlama response
 
+To check this response together with three classifier proofs over the exact same
+opened request, use [the composed demo](COMPOSED-DEMO.md): `make e2e-composed`.
+
 Hallmark has verified a complete short response from a **pretrained, quantized
 TinyLlama-1.1B-Chat-v1.0** using SASH's specialized Circle STARK prover. It uses
 neither a general-purpose zkVM nor hardware attestation.

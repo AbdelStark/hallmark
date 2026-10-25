@@ -276,6 +276,22 @@
       "ongoing_schedulers": false,
       "repeat_micro_budget_approval_required": false,
       "historical_protocols_and_budgets_preserved": true
+    },
+    "composed_request_followup": {
+      "recorded_at": "2026-10-25",
+      "approval_ref": "docs/decisions/0073-compose-proved-llm-and-classifier-request.md",
+      "authority_basis": "Standing owner storage and bounded foreground research approval; new limits are agent-selected.",
+      "max_retained_checkout_bytes": 322122547200,
+      "max_additional_study_bytes": 17179869184,
+      "min_free_disk_bytes": 34359738368,
+      "campaigns": 2,
+      "max_campaign_seconds": 7200,
+      "threads": 4,
+      "concurrent_jobs": 1,
+      "max_worker_rss_bytes": 8589934592,
+      "new_cloud_jobs": 0,
+      "new_cloud_cost_minor": 0,
+      "prior_runs_and_budgets_preserved": true
     }
   }
 }

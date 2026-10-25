@@ -1,5 +1,10 @@
 # Run and resume guide
 
+For both proof relations over one opened request, use the
+[composed LLM/classifier workflow](COMPOSED-DEMO.md): `make e2e-composed`.
+Supplying caller-owned `LLM_RUN` and `CLASSIFIER_RUN` preparation avoids new cloud
+jobs while retaining fresh LLM verification, classifier setups and proofs.
+
 For the complete current training/proof path, start with the [demo walkthrough](DEMO.md).
 This guide retains focused commands and historical experiments; their capacities
 and evidence boundaries differ. See [results](RESULTS.md) for the current comparison.

@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import composed_input
 import contextual_cnn as cnn
 import run_contextual_proof as cnn_proof
 import run_trained_mlp as mlp
@@ -23,6 +24,27 @@ from hallmark.policy import RequestExpectation
 from hallmark.receipts import ProofArtifact
 
 pytestmark = pytest.mark.train
+
+
+def test_proved_llm_request_binds_classifier_evidence(fixture):
+    raw, pin, exports, circuits, records, policy, _, _, _ = fixture
+    expected, opening = composed_input.request(policy)
+    composed_input.check_request(opening, expected)
+    rows = common.evaluate(records, policy, opening, expected)
+    value = common.bundle(records, policy, opening, expected, rows, [b"p" * 292] * 3)
+    jobs = common.check_bundle(raw, pin, exports, circuits, opening, expected, encoded(value))
+    assert len(jobs) == 3 and all(j["public"][:32] == rows[0]["public"][:32] for j in jobs)
+    for field, replacement in (("nonce", b"n" * 32), ("interaction_id", b"i" * 32)):
+        with pytest.raises(ValueError, match="binding mismatch"):
+            common.check_bundle(
+                raw,
+                pin,
+                exports,
+                circuits,
+                opening,
+                expected.model_copy(update={field: replacement}),
+                encoded(value),
+            )
 
 
 @pytest.fixture(scope="module")
