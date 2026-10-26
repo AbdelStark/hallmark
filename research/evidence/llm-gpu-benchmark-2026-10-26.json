@@ -2003,5 +2003,7 @@
     "fresh verifier processes share SASH cryptographic implementation",
     "reused preparation; not a matched full-fresh workflow speedup",
     "no hiding, hardware attestation or backend qualification claim"
-  ]
+  ],
+  "measurement_source_commit": "a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d",
+  "post_measurement_controller_change": "Mac architecture and Rust prerequisites now reject before SDK initialization or paid work; prover, worker, evaluator, inputs and numeric records unchanged."
 }

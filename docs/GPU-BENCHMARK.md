@@ -15,6 +15,10 @@ build/resource follow-up in [decision 0078](decisions/0078-native-gpu-build-and-
 
 One CPU-then-CUDA pair on an HF H200, four Rayon threads, 2026-10-26:
 
+Measured source: [`a81c10a`](https://github.com/AbdelStark/hallmark/commit/a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d).
+The later controller prerequisite check rejects unsupported hosts or missing Rust
+before paid work; it changes no prover, evaluator, input or recorded measurement.
+
 | Measurement | SIMD | CUDA, host generation |
 |---|---:|---:|
 | Summed proving stages, 23 segments | 537.20 s | 583.87 s |

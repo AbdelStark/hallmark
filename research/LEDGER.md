@@ -4695,3 +4695,21 @@ tests and `make check` passes 2,441 tests (50 skipped), type/lint/spec/conforman
 and admission gates. Distribution and exact-head publication checks belong to
 the delivery PR. No backend adoption, hiding, hardware or full-GPU-offload claim
 is made.
+
+
+### Publication admission checks
+
+Review adds controller-only preflight for Apple Silicon and Rust before SDK
+initialization or paid work. Four rejection cases pass, bringing focused
+checks to 42. The full local gate now passes 2,445 tests (50 skipped), lint,
+types, specification, conformance and admission checks. All 26 measured source
+hashes were checked against published commit
+`a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d`; this source identity is retained in
+public evidence. Prover/worker, evaluator, inputs and numeric records are
+unchanged by the preflight addition, so no additional paid campaign is required.
+
+A distribution check caught a published evaluation-heading anchor removed by
+the documentation edit. The original anchor is preserved; offline links and
+the corrected distribution check pass. Its failure remains in local retained
+diagnostics. After the preflight change, rerun `make package-check` on the
+staged final source; exact distribution/hosted receipts are recorded in PR #121.

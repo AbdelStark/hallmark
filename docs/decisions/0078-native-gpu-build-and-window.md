@@ -36,3 +36,10 @@ remain on the host, with no generated-kernel install. Acceptance still requires
 all 23 segments, full grid/token verification, byte-identical CPU/CUDA artifacts,
 fresh CPU proof-only mutations and the existing native Mac verifier. No partial
 proof or failed job counts as a passing full measurement.
+
+After the passing measurement, controller preflight moves Apple Silicon/Rust
+prerequisites before SDK initialization and paid work. Four rejection tests
+cover unsupported architectures and missing Rust. The measured source remains
+commit `a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d`, matching all 26 frozen source
+hashes. The prover/worker, evaluator, inputs and numeric records are unchanged;
+this admission fix requires no additional paid proof campaign.

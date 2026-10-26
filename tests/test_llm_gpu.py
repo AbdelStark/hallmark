@@ -19,6 +19,24 @@ import run_llm_gpu as gpu
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.parametrize(
+    "system,machine", [("Linux", "x86_64"), ("Darwin", "x86_64"), ("Windows", "AMD64")]
+)
+def test_unsupported_controller_rejects_before_sdk_or_paid_work(monkeypatch, system, machine):
+    monkeypatch.setattr(gpu.platform, "system", lambda: system)
+    monkeypatch.setattr(gpu.platform, "machine", lambda: machine)
+    with pytest.raises(ValueError, match="Apple Silicon Mac"):
+        gpu.run(Path("missing-inputs"), "0", "0")
+
+
+def test_missing_rust_rejects_before_sdk_or_paid_work(monkeypatch):
+    monkeypatch.setattr(gpu.platform, "system", lambda: "Darwin")
+    monkeypatch.setattr(gpu.platform, "machine", lambda: "arm64")
+    monkeypatch.setattr(gpu.shutil, "which", lambda _: None)
+    with pytest.raises(ValueError, match="Rust before starting paid jobs"):
+        gpu.run(Path("missing-inputs"), "0", "0")
+
+
 @pytest.fixture
 def worker(monkeypatch):
     probe = ROOT / "research/probes/sash"

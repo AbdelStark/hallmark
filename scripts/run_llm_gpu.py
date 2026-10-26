@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import platform
 import re
 import shutil
 import tempfile
@@ -78,6 +79,12 @@ def admit_build(previous):
 
 
 def run(previous, balance, maximum, build_run=None):
+    e2e.require(
+        (platform.system(), platform.machine()) == ("Darwin", "arm64"),
+        "GPU benchmark controller requires an Apple Silicon Mac for native verification",
+    )
+    e2e.require(shutil.which("cargo") is not None, "Install Rust before starting paid jobs")
+
     from huggingface_hub import HfApi
 
     previous = previous.resolve()

@@ -25,8 +25,11 @@ The full retained-preparation benchmark takes 3,372.34 seconds. Running-compute
 estimates are $2.52 for the successful run and $5.37 across all attempts, not
 invoices. All six jobs are terminal, outputs retained and buckets deleted.
 Earlier source-freeze, fixture-enrollment and incomplete-head failures remain
-failed records. All 38 focused tests and 2,441 local tests pass; publication
-and distribution gates are recorded on the PR. This is separate from the Circle
+failed records. The measured snapshot passes 38 focused tests and 2,441 local
+tests. Four additional controller tests reject unsupported hosts or missing Rust
+before paid work. The current local gate passes 2,445 tests (50 skipped), with
+42 focused tests; publication/distribution gates are recorded on the PR.
+This is separate from the Circle
 STARK classifier implementation below; [issue #120](https://github.com/AbdelStark/hallmark/issues/120)
 tracks the GPU measurement delivery.
 
