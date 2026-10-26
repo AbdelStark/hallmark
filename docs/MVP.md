@@ -7,6 +7,11 @@ proofs without requiring hardware attestation or witness hiding.
 [the numeric acceptance audit](../research/evidence/integrity-mvp-completion-2026-10-25.json)
 links the inspected sources, artifacts, results and future issues.
 
+For command selection, end-to-end diagrams and the division between circuit
+checks and caller checks, read [architecture and proof flows](ARCHITECTURE.md).
+It also explains the pinned SASH integration and why classifiers currently use
+Groth16 while LLM inference uses Circle STARK.
+
 ```text
 Model:    TinyLlama-1.1B-Chat-v1.0, pinned y-attnout-w12 quantization
 Prompt:   Name the capital of France in one short sentence.

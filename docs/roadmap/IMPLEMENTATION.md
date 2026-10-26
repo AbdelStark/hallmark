@@ -11,6 +11,20 @@ are marked `post-mvp`; their original acceptance criteria are unchanged.
 The hardware and private-witness requirements below apply to that future v1,
 not to the completed integrity MVP.
 
+## New integrity research: Circle STARK classifiers
+
+The separately scoped [epic #112](https://github.com/AbdelStark/hallmark/issues/112)
+tracks Circle STARK proofs for the current rule/MLP/CNN and a matched comparison
+against gnark and native execution. Its five tasks are
+[#113](https://github.com/AbdelStark/hallmark/issues/113) (freeze/replay contract),
+[#114](https://github.com/AbdelStark/hallmark/issues/114) (rule),
+[#115](https://github.com/AbdelStark/hallmark/issues/115) (MLP),
+[#116](https://github.com/AbdelStark/hallmark/issues/116) (CNN) and
+[#117](https://github.com/AbdelStark/hallmark/issues/117) (common workflow and benchmarks).
+These are planned integrity-only work, not completed proof support or replacements
+for the private-v1 obligations below. The [current architecture](../ARCHITECTURE.md)
+distinguishes the two working backends from this proposed classifier backend.
+
 ## Status and authority
 
 `blocked` labels identify prerequisite work or an unresolved owner gate. W13 can prepare its proposal now, but data/policy/resource admission awaits approval. W36 is merged; public hosted CI now executes successfully. The initial billing block is historical. Filing issues supplies no compute, data, sharing or release authority. Reviewer issues do not add collaborators or contact anyone.

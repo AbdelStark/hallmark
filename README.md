@@ -4,7 +4,7 @@
 
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 
-[LLM proof](docs/LLM-PROOF.md) · [MVP scope and acceptance](docs/MVP.md) · [Composed demo](docs/COMPOSED-DEMO.md) · [Classifier proofs](docs/PROOFS.md) · [Results](docs/RESULTS.md) · [Documentation](docs/README.md) · [Contribute](CONTRIBUTING.md)
+[Architecture and proof flows](docs/ARCHITECTURE.md) · [LLM proof](docs/LLM-PROOF.md) · [MVP scope](docs/MVP.md) · [Composed demo](docs/COMPOSED-DEMO.md) · [Classifier proofs](docs/PROOFS.md) · [Documentation](docs/README.md)
 
 Hallmark is MIT-licensed research software for verifiable LLM inference and text
 classification. Its **fixed-case LLM integrity MVP is complete**: a pinned,
@@ -28,6 +28,28 @@ from the future private, hardware-attested v1 system. The classifier data is
 synthetic and its input limit is 96 UTF-8 bytes. A valid proof establishes the
 stated computation, not that a classifier is a useful safety policy. Arbitrary
 prompts/models and production qualification remain outside this fixed case.
+
+## Which command proves what?
+
+| Command | Workload | Actual proof system |
+|---|---|---|
+| `make e2e` | Three synthetic requests × rule, MLP and CNN; authored response, **no LLM inference** | 9 dedicated **gnark/Groth16** proofs, separate py-ecc verification; entirely local |
+| `make e2e-llm` | Complete fixed quantized TinyLlama response through EOS | 23 **SASH Circle STARK** segments; Mac preparation and bounded HF CPU jobs |
+| `make verify-llm LLM_RUN=…` | Fresh local verification of retained LLM proofs | Adapted native SASH verifier; no weights or paid jobs |
+| `make e2e-composed` | Both workflows, bound to the same request | 23 SASH segments + 9 classifier control proofs + 3 new classifier proofs; host composition |
+
+**[Read the architecture guide](docs/ARCHITECTURE.md)** for the end-to-end diagrams,
+exact statements, caller/prover boundaries and SASH integration. SASH is fetched
+as hash-pinned upstream source and invoked through CLI adapters. The Linux Rust
+prover is unchanged; witness preparation and the optional Mac verifier have
+explicit patches. These are real inference proofs of the disclosed quantized
+relation, not proofs of equivalence to the original floating-point model.
+
+Classifiers currently use Groth16 because those complete circuits were built
+first. No matched benchmark establishes that it beats Circle STARK. The new
+**[Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)**
+tracks complete rule/MLP/CNN proofs and a fair comparison against gnark and native
+execution. That backend is planned; it is not part of today's working demo.
 
 ## What exactly is proved?
 
@@ -53,7 +75,7 @@ to the proved TinyLlama prompt and response.
 Read [the proof statement, public inputs and trust boundary](docs/PROOFS.md) for a
 concrete example and the exact division between circuit checks and caller checks.
 
-## What the demo does
+## What the classifier demo does
 
 ![Synthetic training, integer export and dedicated proofs feed a separate verifier, bound to the caller request and enrolled keys, then an all-pass classifier gate.](docs/assets/classifier-pipeline.svg)
 
@@ -205,7 +227,8 @@ there is no production `verify-b` endpoint to deploy.
 
 | I want to… | Read |
 |---|---|
-| Understand exactly what a proof establishes | [Proof statement and trust boundary](docs/PROOFS.md) |
+| Understand the Make targets, architecture and backend choices | [Proof flows, SASH integration and caller boundaries](docs/ARCHITECTURE.md) |
+| Understand exactly what a classifier proof establishes | [Classifier statement and trust boundary](docs/PROOFS.md) |
 | Run the whole classifier demo | [Demo walkthrough](docs/DEMO.md) |
 | Prove a complete pretrained LLM response | [TinyLlama workflow and proof statement](docs/LLM-PROOF.md) |
 | Assess the models, data and measured results | [Results and limitations](docs/RESULTS.md) |
@@ -214,6 +237,7 @@ there is no production `verify-b` endpoint to deploy.
 | Reproduce or resume a research experiment | [Operations guide](docs/OPERATIONS.md) |
 | Understand split, calibration and test rules | [Evaluation contract](docs/EVALUATION.md) |
 | See what remains unfinished | [Current state](research/STATE.md) |
+| Implement and compare Circle STARK classifier proofs | [Epic #112 and its five implementation tasks](https://github.com/AbdelStark/hallmark/issues/112) |
 
 ## Development
 

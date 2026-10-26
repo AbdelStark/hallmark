@@ -1,6 +1,19 @@
 # Research state
 
-Updated: 2026-10-25. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-26. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## New work — classifier backend comparison
+
+The owner requested clearer proof architecture documentation and a Circle STARK
+classifier implementation/benchmark tracker. The [architecture guide](../docs/ARCHITECTURE.md)
+maps each Make target, the three flows, exact statements and SASH source/patch
+ownership. [Epic #112](https://github.com/AbdelStark/hallmark/issues/112) tracks five
+ordered tasks (#113–#117): freeze/replay, rule, MLP, CNN and matched gnark/native
+benchmarks. No Circle STARK classifier adapter or matched benchmark exists yet.
+This is new integrity research, not a remaining gate for the completed MVP or a
+substitute for original private/hardware v1 qualification. Runtime, model,
+evaluation and historical evidence remain unchanged; no proving/cloud run is
+needed for this documentation/tracker change.
 
 ## Current MVP — complete
 

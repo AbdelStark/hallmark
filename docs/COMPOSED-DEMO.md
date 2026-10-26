@@ -10,6 +10,14 @@ The composed demo checks two computations over the same opened request:
 It uses the existing specialized SASH and Groth16 relations. There is no
 general-purpose zkVM or hardware attestation.
 
+The [architecture guide](ARCHITECTURE.md) explains both underlying proof flows,
+SASH source/patch ownership and caller trust boundaries. A fresh default run
+makes **23 SASH segments and 12 Groth16 proofs**: nine classifier controls plus
+three proofs for this LLM request. With both retained preparation paths supplied,
+it freshly verifies the 23 segments and makes only the three new classifier
+proofs/setups. Classifiers inspect the **prompt**; the response is bound into the
+context, not classified. Composition is a host check, not a recursive proof.
+
 ```mermaid
 flowchart LR
     L[23 TinyLlama proofs] --> V[Fresh native verification]

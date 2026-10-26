@@ -7,6 +7,14 @@ Hallmark has verified a complete short response from a **pretrained, quantized
 TinyLlama-1.1B-Chat-v1.0** using SASH's specialized Circle STARK prover. It uses
 neither a general-purpose zkVM nor hardware attestation.
 
+For the complete flow, read [the LLM architecture diagram](ARCHITECTURE.md#llm-make-e2e-llm)
+and [how SASH is integrated](ARCHITECTURE.md#how-sash-is-integrated). Hallmark
+downloads pinned upstream source and invokes its real Rust prover/verifier
+through CLI adapters. The accepted Linux Rust binary is built without source
+changes; local witness preparation and the optional native Mac verifier have
+separate, explicit patches. A fresh SASH process is not an independently
+implemented verifier.
+
 ```text
 Prompt:   Name the capital of France in one short sentence.
 Response: The capital of France is Paris.

@@ -1,6 +1,7 @@
 # Hallmark documentation
 
-Start with the [LLM integrity MVP and acceptance record](MVP.md), then run the
+Start with the [architecture, commands and proof flows](ARCHITECTURE.md) and the
+[LLM integrity MVP and acceptance record](MVP.md), then run the
 [TinyLlama workflow](LLM-PROOF.md). Read the exact proof statement before relying
 on a result. The [composed demo](COMPOSED-DEMO.md) adds classifier proofs over the
 same opened request; [results](RESULTS.md) preserve measurements and limitations.
@@ -9,6 +10,7 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 
 | Document | Purpose |
 |---|---|
+| [Architecture and proof flows](ARCHITECTURE.md) | Make target matrix, classifier/LLM/composition diagrams, exact proof boundaries, SASH source/patch ownership and backend trade-offs |
 | [MVP scope and acceptance](MVP.md) | Completed fixed-case integrity scope, evidence matrix and deferred v1 roadmap |
 | [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |
 | [What is proved](PROOFS.md) | Classifier claim, public inputs, caller checks and exclusions |
@@ -33,6 +35,7 @@ before using a command or relying on a capability.
 | [ML plan](ML-PLAN.md) | Classifier candidates, training and export strategy |
 | [Evaluation](EVALUATION.md) | Data lineage, split isolation, calibration, metrics and claim boundaries |
 | [Implementation tracker](roadmap/IMPLEMENTATION.md) | Work-item dependencies and links to live issues |
+| [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112) | New rule/MLP/CNN proof path and matched gnark/native benchmarks; not yet implemented |
 | [Specification checks](SPEC-CHECK.md) | Local links, requirement coverage and explicit live tracker audit |
 | [Dependency notices](DEPENDENCIES.md) | Reviewed software versions, licences and redistribution limits |
 

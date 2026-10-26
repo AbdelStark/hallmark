@@ -3,6 +3,12 @@
 For the pretrained TinyLlama response, see [the LLM proof statement](LLM-PROOF.md).
 This page explains the classifier proofs exercised by `make e2e`.
 
+See [architecture and proof flows](ARCHITECTURE.md#classifiers-make-e2e) for the
+training → fixed circuit → setup → proof → separate verification diagram.
+These proofs use **gnark/Groth16 on BLS12-381**, not SASH. The
+[backend explanation and Circle STARK roadmap](ARCHITECTURE.md#why-two-backends-what-changes-next)
+distinguish today's implementation from the planned comparison.
+
 **For a fixed integer classifier and a particular prompt, the proof checks that
 running that classifier on those bytes gives the stated pass/block verdict.**
 
