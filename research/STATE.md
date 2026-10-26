@@ -2,6 +2,33 @@
 
 Updated: 2026-10-26. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Generated CUDA constraint kernels — complete fixed-case trial
+
+The owner-requested [generated-constraint pipeline](../docs/GPU-BENCHMARK.md#generated-constraint-result)
+passes its complete gate under [decision 0079](../docs/decisions/0079-generated-cuda-constraints.md).
+The [numeric evidence](evidence/llm-gpu-generated-constraints-2026-10-26.json)
+pins the measured source, admitted generated build, 77 kernel shapes across
+16 families, all source/binary/input hashes and the retained failed attempt.
+
+One matched H200 pair takes **547.75 s SIMD / 53.94 s CUDA** summed proving
+(10.15×), and 679.49 / 155.89 s complete segment commands (4.36×). CUDA executes
+1,710 device constraint evaluations, with **zero CPU fallback**, in 0.47 seconds
+total constraint evaluation. Both backends prove all 23 segments and pass full
+grid/token checks. All 69 files match each other and the historical CPU case.
+Fresh CPU verification accepts two honest checks and rejects all 14 mutations;
+Mac verification accepts two and rejects all 36. Witness/interaction generation
+remains on the CPU; hiding, hardware and backend qualification remain unclaimed.
+
+The passing cached-build command takes 2,086.78 seconds. Its running-compute
+estimate is $1.76; the complete kernel campaign totals $3.37 including the build
+and telemetry-failure attempt, not invoices. All four jobs are terminal, outputs
+retained and buckets deleted. The earlier failed run's 23 valid individual
+proofs stay a failed pipeline record; the complete CSV-framing regression fix
+precedes the clean rerun. All 51 focused tests and 2,454 local tests pass (50
+skipped). Distribution and hosted receipts are recorded on the delivery PR for
+[issue #122](https://github.com/AbdelStark/hallmark/issues/122). The historical
+fallback baseline below remains unchanged. One pair establishes no distribution.
+
 ## GPU prover measurements — complete fixed-case trial
 
 The [GPU pipeline](../docs/GPU-BENCHMARK.md) passes its complete research gate:
@@ -27,7 +54,7 @@ invoices. All six jobs are terminal, outputs retained and buckets deleted.
 Earlier source-freeze, fixture-enrollment and incomplete-head failures remain
 failed records. The measured snapshot passes 38 focused tests and 2,441 local
 tests. Four additional controller tests reject unsupported hosts or missing Rust
-before paid work. The current local gate passes 2,445 tests (50 skipped), with
+before paid work. At that baseline's delivery, the local gate passes 2,445 tests (50 skipped), with
 42 focused tests; publication/distribution gates are recorded on the PR.
 This is separate from the Circle
 STARK classifier implementation below; [issue #120](https://github.com/AbdelStark/hallmark/issues/120)

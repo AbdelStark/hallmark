@@ -1,6 +1,7 @@
 """Offline money/input/backend failures; these tests are not GPU proof evidence."""
 
 import copy
+import hashlib
 import importlib.util
 import io
 import json
@@ -56,28 +57,28 @@ def test_gpu_budget_is_bounded_and_does_not_change_cpu_defaults():
         name: SimpleNamespace(unit_label="minute", unit_cost_micro_usd=rate)
         for name, rate in (("cpu-upgrade", 500), ("h200", 83333), ("cpu-performance", 31667))
     }
-    assert e2e.planned_cost(hardware, "5", gpu.PHASES) == 3_800_000
-    assert gpu.planned_cost(hardware, "5") == 4_640_000
+    assert e2e.planned_cost(hardware, "5", gpu.PHASES) == 3_810_000
+    assert gpu.planned_cost(hardware, "5") == 4_660_000
     assert (
         gpu.planned_cost(hardware, "5", {k: v for k, v in gpu.PHASES.items() if k != "build"})
         == 4_620_000
     )
     assert e2e.planned_cost(hardware, "2.10") == 1_960_000
     with pytest.raises(ValueError, match="cost ceiling"):
-        e2e.planned_cost(hardware, "3.79", gpu.PHASES)
+        e2e.planned_cost(hardware, "3.80", gpu.PHASES)
     with pytest.raises(ValueError, match="cost ceiling"):
-        gpu.planned_cost(hardware, "4.63")
+        gpu.planned_cost(hardware, "4.65")
     assert gpu.PHASES["prove"] == ("h200", 2700, 4, 210)
 
 
-@pytest.mark.parametrize("value", ["NaN", "Infinity", "-1", "0", "4.63", ""])
+@pytest.mark.parametrize("value", ["NaN", "Infinity", "-1", "0", "4.65", ""])
 def test_unverified_or_insufficient_credits_reject(value):
     with pytest.raises(ValueError, match="credit"):
-        gpu.credit_guard(value, 4_640_000)
+        gpu.credit_guard(value, 4_660_000)
 
 
 def test_sufficient_checked_credits():
-    gpu.credit_guard("4.64", 4_640_000)
+    gpu.credit_guard("4.66", 4_660_000)
 
 
 def input_case(tmp_path, monkeypatch):
@@ -123,7 +124,7 @@ def test_preparation_symlink_rejects(tmp_path, monkeypatch):
 
 def test_cached_build_binds_case_source_binary_and_retention(tmp_path, monkeypatch):
     previous, _ = input_case(tmp_path, monkeypatch)
-    for name in ("build_gpu.sh", "build_prover.sh"):
+    for name in ("build_gpu.sh", "build_prover.sh", "generate_kernels.py", "kernel-guard.patch"):
         (gpu.PROBE / name).write_text("public build fixture")
 
     def write(path, obj):
@@ -135,19 +136,28 @@ def test_cached_build_binds_case_source_binary_and_retention(tmp_path, monkeypat
             case_sha256=e2e.sha(gpu.PROBE / "response-case.json"),
             source_files={
                 "research/probes/sash/" + n: e2e.sha(gpu.PROBE / n)
-                for n in ("build_gpu.sh", "build_prover.sh", "response-case.json")
+                for n in (
+                    "build_gpu.sh",
+                    "build_prover.sh",
+                    "generate_kernels.py",
+                    "kernel-guard.patch",
+                    "response-case.json",
+                )
             },
         ),
     )
     built = previous / "build/retained"
     built.mkdir(parents=True)
-    for name in ("zk-prover-simd", "zk-prover-cuda"):
+    for name in ("zk-prover-simd", "zk-prover-cuda", "kernel-build.json"):
         (built / name).write_bytes(b"public binary fixture")
     receipt = dict(
         stage="COMPLETED",
         all_outputs_retained=True,
         bucket_deleted=True,
-        outputs={n: dict(sha256=e2e.sha(built / n)) for n in ("zk-prover-simd", "zk-prover-cuda")},
+        outputs={
+            n: dict(sha256=e2e.sha(built / n))
+            for n in ("zk-prover-simd", "zk-prover-cuda", "kernel-build.json")
+        },
     )
     write(previous / "build/retention.json", receipt)
     assert gpu.admit_build(previous) == built
@@ -170,7 +180,7 @@ def test_wrong_backend_source_and_modes_reject(worker):
     case = {"source": {"revision": "expected"}}
     valid = {
         "provenance": dict(
-            backend="cuda", commit="expected", dirty=False, unsound_skips=[], gpu="NVIDIA H200"
+            backend="cuda", commit="expected", dirty=True, unsound_skips=[], gpu="NVIDIA H200"
         ),
         "modes": {name: dict(value=0) for name in worker.HOST_MODES},
         "result": {},
@@ -178,7 +188,7 @@ def test_wrong_backend_source_and_modes_reject(worker):
     worker.check_provenance(valid, case, "cuda")
     for field, value in (
         ("backend", "simd"),
-        ("dirty", True),
+        ("dirty", False),
         ("commit", "other"),
         ("unsound_skips", ["argmax"]),
         ("gpu", None),
@@ -216,6 +226,71 @@ def test_synthetic_fixture_does_not_relax_llm_shape_enrollment(worker):
         worker.smoke_checked(report, case, "simd")
 
 
+@pytest.mark.parametrize(
+    "key", ["constraint_eval_cpu_fallback", "constraint_eval_cpu_autofallback"]
+)
+def test_cuda_constraint_fallback_is_never_accepted(worker, key):
+    detail = {
+        k: dict(calls=0, secs=0)
+        for k in ("constraint_eval_cpu_fallback", "constraint_eval_cpu_autofallback")
+    }
+    detail["constraint_eval_gpu"] = dict(calls=1, secs=0.1)
+    report = dict(result=dict(point=dict(phases=dict(detail=detail))))
+    worker.kernel_checked(report, "cuda")
+    detail[key]["calls"] = 1
+    with pytest.raises(ValueError, match="CPU constraint fallback"):
+        worker.kernel_checked(report, "cuda")
+    detail[key]["calls"] = 0
+    detail[key]["secs"] = 0.1
+    with pytest.raises(ValueError, match="CPU constraint fallback"):
+        worker.kernel_checked(report, "cuda")
+
+
+def test_cuda_requires_actual_constraint_execution(worker):
+    detail = {
+        k: dict(calls=0, secs=0)
+        for k in (
+            "constraint_eval_cpu_fallback",
+            "constraint_eval_cpu_autofallback",
+            "constraint_eval_gpu",
+        )
+    }
+    with pytest.raises(ValueError, match="no generated constraint execution"):
+        worker.kernel_checked(dict(result=dict(point=dict(phases=dict(detail=detail)))), "cuda")
+
+
+@pytest.mark.parametrize("mutation", [None, "statement", "missing", "duplicate", "inventory"])
+def test_kernel_parameters_bind_to_enrolled_statements(tmp_path, monkeypatch, mutation):
+    previous, _ = input_case(tmp_path, monkeypatch)
+    pins = {
+        f"proof/B0L{i}.fixed.json": dict(bytes=2, sha256=hashlib.sha256(b"{}").hexdigest())
+        for i in range(23)
+    }
+    target = gpu.ROOT / "research/evidence/llm-gpu-benchmark-2026-10-26.json"
+    target.write_text(json.dumps(dict(proof_inventory=pins)))
+    (previous / "proof-inventory.json").write_text(
+        json.dumps(pins if mutation != "inventory" else {})
+    )
+    names = list(pins)
+    if mutation == "missing":
+        names.pop()
+    if mutation == "duplicate":
+        names.append(names[0])
+    with tarfile.open(previous / "proofs.tar.gz", "w:gz") as tar:
+        for i, name in enumerate(names):
+            info = tarfile.TarInfo(name)
+            info.size = 2
+            tar.addfile(info, io.BytesIO(b"[]" if mutation == "statement" and i == 0 else b"{}"))
+    output = tmp_path / "output"
+    output.mkdir()
+    if mutation is None:
+        gpu.kernel_parameters(previous, output)
+        assert len(json.loads((output / "kernel-params-inventory.json").read_text())) == 23
+    else:
+        with pytest.raises(ValueError):
+            gpu.kernel_parameters(previous, output)
+
+
 @pytest.mark.parametrize("name,link", [("../escape", False), ("/escape", False), ("safe", True)])
 def test_worker_archive_rejects_paths_and_links(worker, tmp_path, name, link):
     (tmp_path / "inventory.json").write_text(json.dumps({name: dict(bytes=1, sha256="0" * 64)}))
@@ -239,6 +314,19 @@ def test_gpu_telemetry_parses_actual_units(worker, tmp_path):
     path.write_text("unexpected\n")
     with pytest.raises(ValueError, match="telemetry"):
         worker.gpu_samples(path, 0)
+
+
+def test_gpu_telemetry_frames_concurrent_partial_records(worker, tmp_path):
+    path = tmp_path / "gpu.csv"
+    prefix = b"2026/10/26 12:00:00, 2048,"
+    path.write_bytes(prefix + b" 75\n2026/10/26 12:00:01, 4096, 80\n2026/10/26 12:00:02, 819")
+    assert worker.gpu_samples(path, len(prefix)) == [
+        dict(timestamp="2026/10/26 12:00:01", memory_mib=4096, utilization=80)
+    ]
+    assert len(worker.gpu_samples(path, 0)) == 2
+    path.write_bytes(b"2026/10/26 12:00:00, 2048")
+    assert worker.gpu_samples(path, 0) == []
+    assert worker.gpu_samples(path, path.stat().st_size) == []
 
 
 @pytest.mark.parametrize("status,expected", [("State: Z\n", 0), ("VmHWM: 2048 kB\n", 2097152)])

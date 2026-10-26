@@ -20,7 +20,8 @@ These are counts for the current fixed cases, not arbitrary-model support.
 See [classifier prerequisites](DEMO.md), [LLM prerequisites and cost ceiling](LLM-PROOF.md#run-it)
 and [composition options](COMPOSED-DEMO.md#run-the-workflow) before running them.
 The [GPU measurement guide](GPU-BENCHMARK.md) gives its separate cost bounds,
-CPU generation paths, device sampling and cache policy.
+host witness-generation paths, generated CUDA constraints, strict zero-fallback
+checks, device sampling and cache policy.
 
 ## Classifiers: `make e2e`
 

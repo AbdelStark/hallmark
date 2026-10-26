@@ -4713,3 +4713,116 @@ the documentation edit. The original anchor is preserved; offline links and
 the corrected distribution check pass. Its failure remains in local retained
 diagnostics. After the preflight change, rerun `make package-check` on the
 staged final source; exact distribution/hosted receipts are recorded in PR #121.
+
+
+## 2026-10-26: generated CUDA constraints, strict no-fallback candidate
+
+Owner request: finish the generated constraint path and rerun the fixed model
+benchmark. Hypothesis: installing the full generated shape union removes the
+scalar fallback bottleneck without changing the proof relation or bytes.
+Baseline: `bdbf37d8c3e491d2eae2ccc1a39da65d3f3b12bd`; previous paired proving
+537.197419234 / 583.868902786 seconds, with 1,710 CUDA CPU fallback calls taking
+532.745969551 seconds. Preserve all earlier inputs/results/failures unchanged.
+
+Mutable paths: kernel generation/install helper, reviewed no-fallback/resource
+patch, CUDA build wrapper, GPU controller/worker, rejection tests and docs.
+Frozen: model/quantization, public witness archive and its inventory, all 23
+caller-enrolled statements/roots, proof parameters, original closed/bundle/grid
+checks and native verifier. Extracted statements are admitted against the
+existing 69-file inventory; no new model/data selection or private upload occurs.
+
+Decision 0079 and issue #122 define acceptance: first a real synthetic CUDA
+proof, then complete matched 23-segment runs, zero CPU constraint fallback,
+positive device constraint execution, all 69 files identical, and fresh CPU/Mac
+mutation suites. CUDA's installed sources truthfully report dirty provenance;
+exact generated/modified-source and binary inventories are retained. SIMD stays
+pristine. The patch only forbids fallback and caps nvcc compile jobs at two.
+
+Initial offline checks: 50 focused tests pass, actual enrolled-statement
+extraction passes and the guard/resource patch applies to the original hash-pinned
+source archive. These are preparation checks, not device performance evidence.
+The selected resource plan is CPU build 3,600s, H200 2,700s, CPU verify 1,800s,
+plus 600s startup/cancellation per phase, four Rayon threads, a 200-GiB sampled
+RSS stop and a $5 per-run ceiling ($4.66 inspected timeout/startup/storage bound).
+Live prepaid balance/rates must be checked before launch. No retries, top-ups,
+private uploads or schedulers. Real-kernel and publication results remain pending.
+
+
+### Generated build succeeds; telemetry-framing failure retained
+
+Frozen source `74bc2db33df5cf4d1e5a5b101b30fecba122960f` builds successfully
+in HF job `6adf6c9041e90535df7573fe`: 1,815.943 seconds, $0.02 running-compute
+estimate. It generates 77 kernels across 16 families, 206,910 IR instructions
+and 247,496 CUDA lines. All 39 modified-source files are inventoried. Local
+application of the pinned patch reproduces the retained guard/resource source
+hashes. CUDA binary size is 90,971,384 bytes and native sm_90 is present. All
+outputs were retained and hashed, and the build bucket deleted.
+
+H200 job `6adf73cb3fb22a235dd1ebc0` fails after 1,111.887 seconds, with a $1.59
+running-compute estimate. All 23 CUDA segment reports individually accept with
+zero reference mismatches and zero explicit/automatic constraint fallback; their
+summed proving timers are 51.788302807 seconds. All 69 raw CUDA files match the
+completed SIMD inventory. However, telemetry parsing fails during the head's
+command accounting before the final CUDA grid and fresh CPU/Mac verification,
+so this remains a failed/incomplete pipeline run. Preserve all raw artifacts.
+The completed telemetry file contains 2,153 well-formed records; the parser read
+it concurrently at a partial record boundary. Outputs were fully retained and
+the failed job's bucket deleted. These cost figures are not invoices.
+
+The revised sampler admits only complete newline-terminated records within the
+sample window, drops leading/trailing partial fragments, and still rejects
+malformed complete records. Regression tests cover both partial boundaries and
+incomplete-only windows. All 51 focused tests pass. No prover, generated binary,
+model, witness, proof parameter or cryptographic evaluator changes. A new frozen
+run reuses the admitted generated build under the same $5 ceiling, with a $4.62
+remaining timeout/startup/storage bound and no automatic retry. Recheck live
+credits/rates before launch. The complete measurement remains pending.
+
+
+### Accepted generated-constraint measurement
+
+The corrected frozen source `ef09216eabee044c24209f555df39e277ee6dfaa` passes
+in `llm-gpu-oluavcvs`, reusing the admitted generated build from the preserved
+first attempt. Numeric evidence was saved before this interpretation in
+[evidence/llm-gpu-generated-constraints-2026-10-26.json](evidence/llm-gpu-generated-constraints-2026-10-26.json).
+All 29 runtime hashes match the frozen protocol. The generated-source commit
+is `74bc2db33df5cf4d1e5a5b101b30fecba122960f`; its 77 kernel shapes across
+16 families, 39 modified-source files, patch, native architecture and binaries
+are inventoried. Witness and interaction generation remain on the CPU.
+
+The matched SIMD/CUDA summed proving times are 547.748838166 / 53.941293719
+seconds: 10.1545 times faster in this pair. Complete segment commands take
+679.487932103 / 155.888844427 seconds: 4.3588 times faster. The same-host SIMD
+grid checks take 85.347811110 / 84.317210196 seconds. All 23 segments pass,
+including the output head; both grids check 22 residual links and seven generated
+input equalities. All 69 file entries match each other and the historical CPU
+case. Each set has 737,858,641 serialized proof bytes. Peak sampled host RSS is
+103,747,272,704 / 8,074,182,656 bytes. CUDA peaks at 69,293 MiB VRAM and 100%
+sampled utilization. Raw profiler counters show 1,710 GPU constraint evaluations,
+zero explicit/automatic CPU fallback, and 0.473164465 seconds total CUDA
+constraint evaluation versus 24.294546484 seconds SIMD. Timer categories can
+nest; do not sum them to reconstruct wall time.
+
+H200 job `6adf7a4141e90535df75798e` completes in 1,230.949 seconds. Fresh CPU
+job `6adf7f6941e90535df757b86` completes in 392.362 seconds: two honest checks
+pass in 77.607382583 / 77.395283685 seconds and all 14 mutations reject, with
+14,343,761,920 bytes maximum child RSS and no weights/full witness. Native Mac
+verification accepts two in 3.531456250 / 3.401666375 seconds and rejects all
+36 mutations. Native compilation takes 215.142094666 seconds and its complete
+verification worker 96.980634709 seconds. This is fresh-process verification
+using the same SASH cryptographic implementation; Mac shape roots are compiled
+enrollments rather than Linux runtime derivation.
+
+The complete passing command takes 2,086.775471416 seconds with preparation and
+build reused. Its running-compute estimate is $1.76; including the first build
+and failed telemetry attempt, the generated-kernel campaign totals $3.37, not
+invoices. All four campaign jobs are terminal, outputs retained/hashed and
+buckets deleted. Both source identities and the failed attempt remain retained.
+The telemetry correction changes measurement I/O only; no proof/evaluator/input
+is weakened. There is one clean paired observation with shared OS caches and a
+fixture-warmed driver, not a latency distribution or measured full-fresh workflow.
+
+Current gates pass 51 focused tests and `make check`: 2,454 passed, 50 skipped,
+lint/type/spec/conformance/admission checks. Documentation links pass. The final
+staged `make package-check` and exact-head hosted checks are recorded on the
+delivery PR. No hiding, hardware, general-model or qualified-backend claim follows.

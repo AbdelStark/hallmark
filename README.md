@@ -36,7 +36,7 @@ prompts/models and production qualification remain outside this fixed case.
 | Measurement | Recorded result | What it includes |
 |---|---:|---|
 | LLM proof generation | **5 min 28 s** | Sum of proving stages across all 23 SASH segments; excludes preparation, build, transfers and verification |
-| Matched H200 proving trial | **537.20 s SIMD / 583.87 s CUDA** | Same host, inputs and 23 segments; CUDA profile uses CPU constraint evaluation; [measurements](docs/GPU-BENCHMARK.md#recorded-same-host-result) |
+| Matched H200 proving trial | **547.75 s SIMD / 53.94 s CUDA · 10.15×** | Same host, inputs and 23 segments; generated CUDA constraints, zero CPU fallback; [measurements](docs/GPU-BENCHMARK.md#generated-constraint-result) |
 | LLM verification, original Linux verifier | **78–80 s** | One honest proof-only check on an 8-vCPU / 32-GB CPU worker |
 | LLM verification, native Mac verifier | **3.33–4.00 s** | One honest check after compilation on an M4 Max; uses compiled, caller-enrolled shape roots |
 | LLM serialized proofs | **738 MB** | All 23 proof files; decimal MB, excluding statements, claims, weights and build artifacts |
@@ -166,14 +166,16 @@ with a public key obtained through your own authenticated channel.
 To measure the LLM prover's CUDA backend instead, use the separate
 [GPU measurement pipeline](docs/GPU-BENCHMARK.md). It compares SIMD and CUDA
 on the same H200 and verifies the GPU proofs on separate CPU/Mac paths. Its
-initial profile keeps witness/constraint generation on the CPU; it is not a
-claim of full GPU offloading or a matched speedup over the numbers above.
+current profile installs generated CUDA constraint kernels and rejects CPU
+constraint fallback. Witness/interaction generation remains on the CPU.
 
-The complete trial passes both proof bundles and separate verification, with all
-69 files byte-identical. CUDA is 8.7% slower in summed proving in this first
-profile; peak host RSS falls from 104.69 GB to 11.78 GB, using 67.08 GiB VRAM.
-The profiler identifies CPU constraint fallback as the main cost. See the
-[command, raw measurements and limits](docs/GPU-BENCHMARK.md).
+The complete trial passes all 23 segments and both verifier suites, with all
+69 files byte-identical. CUDA observes **10.15× faster summed proving** and
+**4.36× faster complete segment commands** in this pair. Peak host RSS is
+103.75 GB SIMD / 8.07 GB CUDA, with 67.67 GiB VRAM. One pair with shared OS caches
+is not a latency distribution. The earlier slower fallback profile is retained
+as a [historical baseline](docs/GPU-BENCHMARK.md#recorded-same-host-result).
+See the [command, numeric evidence and limits](docs/GPU-BENCHMARK.md).
 
 ### Train, prove and verify classifiers
 
