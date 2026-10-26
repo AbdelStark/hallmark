@@ -85,7 +85,14 @@ Enroll the manifest hash outside the bundle. `audit-run` checks the enrolled has
 
 `source.json` embeds code/diffs and local environment metadata. It is private evidence, not an automatically safe upload. Data text is excluded from prediction reports, but the input dataset and trained weights may still be sensitive. No hosted tracker or artifact uploader is configured.
 
-## Cost and proof evaluation, not implemented
+<a id="cost-and-proof-evaluation-not-implemented"></a>
+
+## Cost and proof evaluation
+
+The general comparative program below remains planned. Implemented fixed-case
+measurements are documented separately in the [LLM guide](LLM-PROOF.md#measured-results)
+and [matched SIMD/CUDA pipeline](GPU-BENCHMARK.md); their scope and cache/resource
+limits do not establish the full comparative program.
 
 Measure the whole path on a named host: preprocessing, inference, quantization/export, setup, witness generation, proving, verification, serialization and attestation checks. Record CPU/GPU/RAM/VRAM, versions, thread count, cold/warm mode, batch size, sequence/chunk count, repetitions, p50/p95, peak memory, proof bytes and failures. Setup cost is not free; amortization states its denominator. Compare candidates on identical inputs and actual approved proof backends. Host inference speed and parameter count do not establish proving performance.
 

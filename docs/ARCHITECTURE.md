@@ -12,12 +12,15 @@ verified results in host code; it does not recursively aggregate their proofs.
 | `make e2e` | Train/export an MLP and CNN; evaluate them plus a fixed rule on three synthetic prompts | **9 Groth16 proofs**, checked by separate py-ecc arithmetic | Mac; no LLM, credentials or paid jobs |
 | `make e2e-llm` | Generate the fixed eight-token TinyLlama answer, including EOS | **23 SASH proof segments**, linked and verified by SASH | Mac preparation; three sequential paid HF **CPU** jobs |
 | `make verify-llm LLM_RUN=…` | Check retained LLM proofs; no new inference or proving | Same 23 segments, using an adapted native verifier | Mac; no weights, full witness or HF credentials |
+| `make benchmark-llm-gpu …` | Reuse frozen public witnesses; compare complete SIMD and CUDA proving | Same 23 SASH segments per backend, byte equality and fresh CPU/Mac verification | HF CPU build, one H200 measurement job, separate CPU verification, Mac verification |
 | `make e2e-composed` | Fresh LLM workflow, fresh classifier preparation, then classify the LLM prompt | **23 SASH segments + 12 Groth16 proofs**: 9 controls and 3 for the LLM request | Both workflows plus fresh native LLM verification |
 | `make e2e-composed LLM_RUN=… CLASSIFIER_RUN=…` | Reuse caller-owned preparation; freshly verify LLM proofs and prove classifiers for that request | Retained **23 SASH segments + 3 new Groth16 proofs/setups** | Mac; no paid jobs or checkpoint download |
 
 These are counts for the current fixed cases, not arbitrary-model support.
 See [classifier prerequisites](DEMO.md), [LLM prerequisites and cost ceiling](LLM-PROOF.md#run-it)
 and [composition options](COMPOSED-DEMO.md#run-the-workflow) before running them.
+The [GPU measurement guide](GPU-BENCHMARK.md) gives its separate cost bounds,
+CPU generation paths, device sampling and cache policy.
 
 ## Classifiers: `make e2e`
 

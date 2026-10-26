@@ -395,6 +395,33 @@
         "authority_basis": "Agent-selected storage extension under standing owner storage approval; preserve all failures",
         "automatic_job_retries": 0
       }
+    },
+    "gpu_prover_measurement": {
+      "recorded_at": "2026-10-26",
+      "approval_ref": "docs/decisions/0078-native-gpu-build-and-window.md",
+      "authority_basis": "Owner requests GPU prover measurements using existing provider credits; standing approval delegates bounded foreground run limits to the research agent.",
+      "limits_set_by": "research-agent; not owner-quoted numeric approval",
+      "profile": "cuda-native-sm90-host-generation",
+      "currency": "USD-cent",
+      "single_run_ceiling_minor": 500,
+      "prior_400_minor_run_records_preserved": true,
+      "concurrent_jobs": 1,
+      "max_jobs_per_run": 3,
+      "flavors": [
+        "cpu-upgrade",
+        "h200"
+      ],
+      "build_seconds": 1800,
+      "gpu_seconds": 2700,
+      "verify_seconds": 1800,
+      "additional_creation_seconds_per_phase": 600,
+      "sampled_rss_stop_bytes": 214748364800,
+      "live_balance_and_price_check_required": true,
+      "public_hash_enrolled_inputs_only": true,
+      "automatic_retries": 0,
+      "top_up_authorized": false,
+      "private_uploads": false,
+      "ongoing_schedulers": false
     }
   }
 }

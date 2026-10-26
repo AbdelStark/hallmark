@@ -2,6 +2,37 @@
 
 Updated: 2026-10-26. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## GPU prover measurements — complete fixed-case trial
+
+The [GPU pipeline](../docs/GPU-BENCHMARK.md) passes its complete research gate:
+same TinyLlama relation, reviewed witness archive, 23 SIMD and 23 CUDA segments
+on one H200, identical 69-file inventories and fresh CPU/Mac verification.
+[Decisions 0077](../docs/decisions/0077-gpu-prover-measurement.md) and
+[0078](../docs/decisions/0078-native-gpu-build-and-window.md) freeze the profile.
+The [numeric evidence](evidence/llm-gpu-benchmark-2026-10-26.json) retains all
+four attempts, source/input/binary hashes, profiler counters and mutation results.
+
+One CPU-then-CUDA pair takes 537.20/583.87 seconds summed proving and
+669.25/687.34 seconds complete segment commands. CUDA is slower in this initial
+host-generation profile; its 1,710 CPU constraint fallback calls take 532.75
+seconds. Peak host RSS is 104.69/11.78 GB, with CUDA using 67.08 GiB VRAM.
+Both grids pass; the separate CPU suite accepts two honest checks and rejects
+14 mutations, and the native Mac suite accepts two and rejects 36. No hiding,
+hardware provenance or backend qualification is claimed. The next optimization
+candidate is generated CUDA constraint kernels, not an implemented result.
+
+The full retained-preparation benchmark takes 3,372.34 seconds. Running-compute
+estimates are $2.52 for the successful run and $5.37 across all attempts, not
+invoices. All six jobs are terminal, outputs retained and buckets deleted.
+Earlier source-freeze, fixture-enrollment and incomplete-head failures remain
+failed records. The measured snapshot passes 38 focused tests and 2,441 local
+tests. Four additional controller tests reject unsupported hosts or missing Rust
+before paid work. The current local gate passes 2,445 tests (50 skipped), with
+42 focused tests; publication/distribution gates are recorded on the PR.
+This is separate from the Circle
+STARK classifier implementation below; [issue #120](https://github.com/AbdelStark/hallmark/issues/120)
+tracks the GPU measurement delivery.
+
 ## New work — classifier backend comparison
 
 The owner requested clearer proof architecture documentation and a Circle STARK
@@ -26,7 +57,7 @@ The owner explicitly selected completion of the **LLM integrity MVP without
 hardware or hiding requirements** on 2026-10-25. [Decision 0076](../docs/decisions/0076-integrity-mvp-scope.md)
 records that scope; [acceptance and limits](../docs/MVP.md) map it to evidence.
 The [completion audit](evidence/integrity-mvp-completion-2026-10-25.json) rehashes
-all 207 current runtime files, 55 native verifier files, 20 fresh-proving pipeline
+all 207 runtime files at that recorded source, 55 native verifier files, 20 fresh-proving pipeline
 files, all eight model files and all 69 proof/statement/claim files. The complete
 short TinyLlama response, caller expectations, current signed composition and
 proof-only verification pass. No runtime or historical evidence is changed.

@@ -1,4 +1,4 @@
-.PHONY: e2e e2e-llm e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
+.PHONY: e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
 
 check:
 	uv lock --check
@@ -15,6 +15,9 @@ e2e:
 
 e2e-llm:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10
+
+benchmark-llm-gpu:
+	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_gpu.py --llm-run "$(LLM_RUN)" --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 5.00 $(if $(GPU_BUILD_RUN),--build-run "$(GPU_BUILD_RUN)")
 
 e2e-composed:
 	uv run --locked --python 3.12.12 --extra train --extra llm python scripts/run_composed.py $(if $(LLM_RUN),--llm-run "$(LLM_RUN)") $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")

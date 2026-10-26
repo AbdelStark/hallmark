@@ -300,6 +300,10 @@ token, open-scale profile and weaker security parameters. The cryptographic
 verifier rejected altered proof commitments, a residual boundary and an output
 claim. The original proof files were rehashed afterward and remained unchanged.
 
+For the separately frozen SIMD/CUDA experiment on one H200, see the
+[GPU measurement pipeline](GPU-BENCHMARK.md). It reuses this response's reviewed
+witnesses and keeps the same inference relation and verifier checks.
+
 ## Failures that changed the implementation
 
 1. An exact integer witness accumulator was rounded through float32. A

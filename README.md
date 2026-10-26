@@ -36,6 +36,7 @@ prompts/models and production qualification remain outside this fixed case.
 | Measurement | Recorded result | What it includes |
 |---|---:|---|
 | LLM proof generation | **5 min 28 s** | Sum of proving stages across all 23 SASH segments; excludes preparation, build, transfers and verification |
+| Matched H200 proving trial | **537.20 s SIMD / 583.87 s CUDA** | Same host, inputs and 23 segments; CUDA profile uses CPU constraint evaluation; [measurements](docs/GPU-BENCHMARK.md#recorded-same-host-result) |
 | LLM verification, original Linux verifier | **78–80 s** | One honest proof-only check on an 8-vCPU / 32-GB CPU worker |
 | LLM verification, native Mac verifier | **3.33–4.00 s** | One honest check after compilation on an M4 Max; uses compiled, caller-enrolled shape roots |
 | LLM serialized proofs | **738 MB** | All 23 proof files; decimal MB, excluding statements, claims, weights and build artifacts |
@@ -44,8 +45,9 @@ prompts/models and production qualification remain outside this fixed case.
 | Fresh composed workflow | **66 min 50 s** | Full LLM workflow, classifier training, 9 control proofs and 3 proofs for the LLM request |
 
 These are fixed-case observations, not a latency distribution or a matched
-Groth16/Circle STARK benchmark. LLM proving used a **32-vCPU / 256-GB CPU worker**,
-with **116 GB peak prover RSS**; no GPU was used. The Mac verifier pre-enrolls
+Groth16/Circle STARK benchmark. The historical CPU LLM run used a **32-vCPU / 256-GB CPU worker**,
+with **116 GB peak prover RSS**. The 5 min 28 s result used no GPU; the H200 trial
+is a separate matched pair. The Mac verifier pre-enrolls
 shape roots that the Linux verifier derives at runtime, so their timings are
 not a like-for-like speedup. Classifiers are a much smaller, separate workload.
 See [LLM measurements and raw evidence](docs/LLM-PROOF.md#measured-results),
@@ -60,6 +62,7 @@ See [LLM measurements and raw evidence](docs/LLM-PROOF.md#measured-results),
 | `make e2e` | Three synthetic requests × rule, MLP and CNN; authored response, **no LLM inference** | 9 dedicated **gnark/Groth16** proofs, separate py-ecc verification; entirely local |
 | `make e2e-llm` | Complete fixed quantized TinyLlama response through EOS | 23 **SASH Circle STARK** segments; Mac preparation and bounded HF CPU jobs |
 | `make verify-llm LLM_RUN=…` | Fresh local verification of retained LLM proofs | Adapted native SASH verifier; no weights or paid jobs |
+| `make benchmark-llm-gpu …` | Experimental matched SIMD/CUDA measurements on one H200; reused public preparation | Same SASH relation; CPU generation paths are disclosed; [GPU guide](docs/GPU-BENCHMARK.md) |
 | `make e2e-composed` | Both workflows, bound to the same request | 23 SASH segments + 9 classifier control proofs + 3 new classifier proofs; host composition |
 
 **[Read the architecture guide](docs/ARCHITECTURE.md)** for the end-to-end diagrams,
@@ -157,6 +160,20 @@ after compilation. It uses compiled parameters for the fixed case;
 see [local verification and its trust boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac).
 For signer-authorized parameters, [verify a signed enrollment](docs/LLM-PROOF.md#verify-a-signed-parameter-enrollment)
 with a public key obtained through your own authenticated channel.
+
+### Measure the LLM prover on GPU
+
+To measure the LLM prover's CUDA backend instead, use the separate
+[GPU measurement pipeline](docs/GPU-BENCHMARK.md). It compares SIMD and CUDA
+on the same H200 and verifies the GPU proofs on separate CPU/Mac paths. Its
+initial profile keeps witness/constraint generation on the CPU; it is not a
+claim of full GPU offloading or a matched speedup over the numbers above.
+
+The complete trial passes both proof bundles and separate verification, with all
+69 files byte-identical. CUDA is 8.7% slower in summed proving in this first
+profile; peak host RSS falls from 104.69 GB to 11.78 GB, using 67.08 GiB VRAM.
+The profiler identifies CPU constraint fallback as the main cost. See the
+[command, raw measurements and limits](docs/GPU-BENCHMARK.md).
 
 ### Train, prove and verify classifiers
 
