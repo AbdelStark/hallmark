@@ -52,14 +52,14 @@ def token():
     raise ValueError("Set HF_TOKEN in the environment or ignored .env file")
 
 
-def planned_cost(hardware, maximum):
+def planned_cost(hardware, maximum, phases=None):
     try:
         cap = Decimal(maximum)
     except InvalidOperation:
         raise ValueError("invalid cost ceiling") from None
     require(cap.is_finite() and cap > 0, "invalid cost ceiling")
     micros = 10_000  # Reserve one cent for short-lived bucket storage.
-    for flavor, seconds, _, _ in PHASES.values():
+    for flavor, seconds, _, _ in (PHASES if phases is None else phases).values():
         item = hardware[flavor]
         require(
             item.unit_label == "minute"
@@ -187,14 +187,14 @@ def retain(api, bucket, inputs, destination):
     return inventory
 
 
-def cloud_job(api, namespace, phase, inputs, case, hardware, output, env=None):
+def cloud_job(api, namespace, phase, inputs, case, hardware, output, env=None, *, phases=None):
     from huggingface_hub import Volume
 
     frozen = json.loads((output / "protocol.json").read_text())["source_files"]
     require(all(sha(ROOT / name) == pin for name, pin in frozen.items()), "workflow source changed")
     folder = output / phase
     folder.mkdir()
-    flavor, seconds, threads, gib = PHASES[phase]
+    flavor, seconds, threads, gib = (PHASES if phases is None else phases)[phase]
     rate = hardware[flavor].unit_cost_micro_usd
     bucket = f"{namespace}/hallmark-llm-{phase}-{time.time_ns()}"
     hashes = {name: sha(path) for name, path in inputs.items()}

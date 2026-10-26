@@ -4575,3 +4575,123 @@ Validation commands: `make check` and `make package-check`; exact results and
 hosted checks are recorded on the publication PR. No new end-to-end research
 proof campaign or paid model job is required. Standard CI retains its fresh
 synthetic proof fixture. This changes presentation, not measured results.
+
+## 2026-10-26: bounded matched GPU prover pipeline
+
+Hypothesis: the pinned SASH CUDA proof backend can prove the same complete
+TinyLlama relation and produce the same serialized artifacts as SIMD on one
+host. Baseline: `f4e92789cdea9cd1a093143d89e21b8ba486ae43` and the frozen
+`y-attnout-w12` case. The admitted public witness archive is
+`85556911bdf8a492d2d8d31181ec0114ccd8541502ba332753510e59145ee559`, with
+inventory `f8941cf4e3b1c7bec4b35da8b306adca1a9bca2765324295fb8931bf95c80443`:
+1,917 files totaling 1,355,103,851 bytes. No model, input, quantization,
+calibration, root or proof-parameter change is admitted.
+
+Mutable scope: the new benchmark controller/worker/build wrapper, an optional
+phase-resource argument in the existing HF transport, Make task, rejection
+tests and documentation. Frozen evaluator: existing caller bundle checks,
+closed segment verdicts, original SIMD grid verifier and native verifier patch.
+[Decision 0077](../docs/decisions/0077-gpu-prover-measurement.md) defines the
+host-generation CUDA profile, resources, metric boundaries and acceptance.
+[Issue #120](https://github.com/AbdelStark/hallmark/issues/120) tracks completion.
+
+The first CPU build job `6adf3532046eb82b1eceddde` completed in 696.692 seconds,
+producing both binaries from the unchanged pinned upstream source. Its retained
+receipt bounds running compute at $0.01, not an invoice, and confirms bucket
+cleanup. Before GPU launch, review corrected an exited-process sampler edge
+and added startup/cancellation reserves to pricing. The original controller's
+source-freeze check then rejected the changed workflow before creating any GPU
+job; its protocol, failure and successful build outputs remain immutable.
+
+A new run admits that caller-owned build by case/source/binary/retention hashes.
+At inspected rates its remaining creation/worker/storage ceiling is $3.78;
+including the first build's full $0.02 allowance bounds the study at $3.80,
+under the selected $4 ceiling. The live prepaid balance and rates were checked
+before execution; credentials and account billing details stay local. No retries,
+top-ups, private uploads, other-provider rentals or schedulers are authorized by
+this entry. All 37 focused offline tests pass. Full measurement, proof-only
+verification and publication results remain pending until their actual gates pass.
+
+
+### Retained failures and native CUDA follow-up
+
+The first H200 attempt (`6adf3861046eb82b1ecedf3b`) rejected the synthetic
+fixture's absent shape enrollment after 42.709 seconds. The fixture's actual
+STARK proof passed; it has no model shape root. The dedicated fixture check
+now retains that distinction, while complete LLM proofs still require enrolled
+shape roots. Its running-compute estimate is $0.09, with outputs retained and
+bucket deleted. This is a failed attempt, not GPU acceptance evidence.
+
+The next H200 attempt (`6adf3a34046eb82b1ecedfe6`) ran 1,964.586 seconds and
+failed its 1,950-second worker deadline during the output head. The complete
+SIMD case passed: 551.268891376 seconds summed proving, 684.794974848 seconds
+segment commands, 90.600314894 seconds grid verification and 102,277,988,352
+bytes peak sampled process RSS. It produced 737,858,641 serialized proof bytes.
+Both synthetic digests matched; their command times were 9.761196 seconds SIMD
+and 218.7453799 seconds CUDA. All 22 CUDA layers passed strict segment checks,
+but no head proof was produced. Preserve the incomplete result and 66 partial
+CUDA artifacts. Its running-compute estimate is $2.75, not an invoice; all
+outputs were retained and its bucket deleted. These first attempts total $2.85
+in running-compute estimates, excluding invoice reconciliation.
+
+[Decision 0078](../docs/decisions/0078-native-gpu-build-and-window.md) freezes a
+separate follow-up: isolated CUDA target directory, checked native sm_90 code,
+level-one archive compression and a 2,550-second worker/2,700-second provider
+window. Inputs, evaluator, proof parameters and full-case acceptance remain
+unchanged. Live credits/rates were rechecked. The new single-run ceiling is
+$5, with an inspected full timeout/startup/storage bound of $4.64. Build job
+`6adf44a3046eb82b1ecee427` is running; no full GPU result is accepted yet.
+The current focused offline gate has 38 passing tests.
+
+
+### Accepted native sm_90 paired measurement
+
+The separately frozen follow-up `llm-gpu-0x9rgmmh` passes. Numeric records were
+saved before this interpretation in
+[evidence/llm-gpu-benchmark-2026-10-26.json](evidence/llm-gpu-benchmark-2026-10-26.json).
+Build `6adf44a3046eb82b1ecee427` completes in 847.475 seconds and its ELF
+inventory confirms native sm_90 code. H200 job `6adf480e046eb82b1ecee5d1`
+completes in 1,761.889 seconds, and separate CPU job
+`6adf4f17046eb82b1ecee83a` completes in 466.229 seconds. All three output
+inventories were retained and hashed before bucket deletion. The successful
+command takes 3,372.335784208 seconds with reused public preparation and fresh
+SIMD/CUDA builds, both complete proving runs and CPU/Mac verification.
+
+SIMD/CUDA summed proving is 537.197419234 / 583.868902786 seconds; complete
+segment commands are 669.247454638 / 687.337647136 seconds. Grid verification
+on the same H200 host takes 88.586419848 / 85.067699138 seconds. All 23 segments,
+22 residual links and seven generated-input equalities pass for both backends.
+All 69 proof/statement/claim files match byte for byte; each proof set has
+737,858,641 serialized proof bytes. Host peak sampled RSS is
+104,694,411,264 / 11,783,995,392 bytes. CUDA peaks at 68,685 MiB VRAM and 89%
+sampled utilization. Its synthetic fixture takes 8.009098912 seconds and matches
+the SIMD digest. The device report identifies an H200 and driver 580.178.04.
+
+This profile is slower by 8.69% in summed proving and 2.70% in complete commands.
+CUDA records 1,710 CPU constraint-evaluation fallback calls totaling
+532.745969551 seconds, versus 23.986044830 seconds total SIMD constraint
+evaluation. CUDA's reported Merkle/FRI stages are much faster, but the full
+hybrid path is slower. Generated constraint kernels are a future candidate,
+requiring a new source inventory and unchanged equivalence gates. Timers may
+nest; the phase counters must not be added to derive wall time. One paired
+observation with shared OS caches establishes no latency distribution.
+
+The weight/witness-free CPU worker accepts two honest checks in
+81.016620873 / 80.940695357 seconds and rejects all 14 mutations. Its maximum
+child RSS is 14,346,207,232 bytes. The native Mac verifier accepts two checks in
+3.531152291 / 3.385023584 seconds and rejects all 36 mutations. Native compilation
+takes 105.123901292 seconds; its complete verification worker takes
+98.530292708 seconds. Mac compiled shape roots and Linux runtime derivation
+remain different preprocessing policies, with the same SASH cryptographic
+implementation. Native error paths are redacted only in the public aggregate;
+raw local records remain unchanged and hash-pinned.
+
+Running-compute estimates total $2.52 for the passing run and $5.37 across all
+four attempts; these exclude invoice reconciliation and retain startup reserves
+separately in the frozen $4.64 plan bound under the selected $5 run ceiling.
+All six study jobs are terminal and all temporary buckets deleted. No retries,
+top-ups, private uploads or schedulers ran. Current runtime checks pass 38 focused
+tests and `make check` passes 2,441 tests (50 skipped), type/lint/spec/conformance
+and admission gates. Distribution and exact-head publication checks belong to
+the delivery PR. No backend adoption, hiding, hardware or full-GPU-offload claim
+is made.
