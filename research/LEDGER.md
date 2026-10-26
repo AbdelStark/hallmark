@@ -4777,3 +4777,52 @@ model, witness, proof parameter or cryptographic evaluator changes. A new frozen
 run reuses the admitted generated build under the same $5 ceiling, with a $4.62
 remaining timeout/startup/storage bound and no automatic retry. Recheck live
 credits/rates before launch. The complete measurement remains pending.
+
+
+### Accepted generated-constraint measurement
+
+The corrected frozen source `ef09216eabee044c24209f555df39e277ee6dfaa` passes
+in `llm-gpu-oluavcvs`, reusing the admitted generated build from the preserved
+first attempt. Numeric evidence was saved before this interpretation in
+[evidence/llm-gpu-generated-constraints-2026-10-26.json](evidence/llm-gpu-generated-constraints-2026-10-26.json).
+All 29 runtime hashes match the frozen protocol. The generated-source commit
+is `74bc2db33df5cf4d1e5a5b101b30fecba122960f`; its 77 kernel shapes across
+16 families, 39 modified-source files, patch, native architecture and binaries
+are inventoried. Witness and interaction generation remain on the CPU.
+
+The matched SIMD/CUDA summed proving times are 547.748838166 / 53.941293719
+seconds: 10.1545 times faster in this pair. Complete segment commands take
+679.487932103 / 155.888844427 seconds: 4.3588 times faster. The same-host SIMD
+grid checks take 85.347811110 / 84.317210196 seconds. All 23 segments pass,
+including the output head; both grids check 22 residual links and seven generated
+input equalities. All 69 file entries match each other and the historical CPU
+case. Each set has 737,858,641 serialized proof bytes. Peak sampled host RSS is
+103,747,272,704 / 8,074,182,656 bytes. CUDA peaks at 69,293 MiB VRAM and 100%
+sampled utilization. Raw profiler counters show 1,710 GPU constraint evaluations,
+zero explicit/automatic CPU fallback, and 0.473164465 seconds total CUDA
+constraint evaluation versus 24.294546484 seconds SIMD. Timer categories can
+nest; do not sum them to reconstruct wall time.
+
+H200 job `6adf7a4141e90535df75798e` completes in 1,230.949 seconds. Fresh CPU
+job `6adf7f6941e90535df757b86` completes in 392.362 seconds: two honest checks
+pass in 77.607382583 / 77.395283685 seconds and all 14 mutations reject, with
+14,343,761,920 bytes maximum child RSS and no weights/full witness. Native Mac
+verification accepts two in 3.531456250 / 3.401666375 seconds and rejects all
+36 mutations. Native compilation takes 215.142094666 seconds and its complete
+verification worker 96.980634709 seconds. This is fresh-process verification
+using the same SASH cryptographic implementation; Mac shape roots are compiled
+enrollments rather than Linux runtime derivation.
+
+The complete passing command takes 2,086.775471416 seconds with preparation and
+build reused. Its running-compute estimate is $1.76; including the first build
+and failed telemetry attempt, the generated-kernel campaign totals $3.37, not
+invoices. All four campaign jobs are terminal, outputs retained/hashed and
+buckets deleted. Both source identities and the failed attempt remain retained.
+The telemetry correction changes measurement I/O only; no proof/evaluator/input
+is weakened. There is one clean paired observation with shared OS caches and a
+fixture-warmed driver, not a latency distribution or measured full-fresh workflow.
+
+Current gates pass 51 focused tests and `make check`: 2,454 passed, 50 skipped,
+lint/type/spec/conformance/admission checks. Documentation links pass. The final
+staged `make package-check` and exact-head hosted checks are recorded on the
+delivery PR. No hiding, hardware, general-model or qualified-backend claim follows.
