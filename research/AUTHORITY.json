@@ -422,6 +422,35 @@
       "top_up_authorized": false,
       "private_uploads": false,
       "ongoing_schedulers": false
+    },
+    "gpu_generated_constraints": {
+      "recorded_at": "2026-10-26",
+      "approval_ref": "docs/decisions/0079-generated-cuda-constraints.md",
+      "authority_basis": "Owner explicitly requests enabling generated CUDA constraint kernels and rerunning the frozen benchmark under standing provider/credit approval.",
+      "limits_set_by": "research-agent; not owner-quoted numeric approval",
+      "profile": "cuda-native-sm90-generated-constraints",
+      "currency": "USD-cent",
+      "single_run_ceiling_minor": 500,
+      "concurrent_jobs": 1,
+      "max_jobs_per_run": 3,
+      "build_seconds": 3600,
+      "gpu_seconds": 2700,
+      "verify_seconds": 1800,
+      "additional_creation_seconds_per_phase": 600,
+      "cuda_compile_jobs": 2,
+      "sampled_rss_stop_bytes": 214748364800,
+      "live_balance_and_price_check_required": true,
+      "public_hash_enrolled_inputs_only": true,
+      "cpu_constraint_fallback_permitted": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false,
+      "private_uploads": false,
+      "ongoing_schedulers": false,
+      "prior_runs_and_budgets_preserved": true,
+      "flavors": [
+        "cpu-upgrade",
+        "h200"
+      ]
     }
   }
 }

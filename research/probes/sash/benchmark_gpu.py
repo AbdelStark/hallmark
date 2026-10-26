@@ -17,7 +17,7 @@ from pathlib import Path
 from check_response import TAGS, bundle, read_json, require
 from relation import closed
 
-# CUDA still executes the proof backend; these modes keep generation on the host.
+# Witness generation stays on the host; generated AIR constraints execute on CUDA.
 HOST_MODES = (
     "DEVICE_WITNESS_GEN_DEQUANT",
     "DEVICE_WITNESS_GEN_ATTENTION_FREIVALDS",
@@ -45,21 +45,40 @@ def sha(path):
 def check_provenance(report, case, backend):
     p = report["provenance"]
     require(p["backend"] == backend, "wrong execution backend")
-    require(p["commit"] == case["source"]["revision"] and p["dirty"] is False, "source changed")
+    expected_dirty = backend == "cuda"
+    require(
+        p["commit"] == case["source"]["revision"] and p["dirty"] is expected_dirty, "source changed"
+    )
     require(p["unsound_skips"] == [], "unsound execution mode")
     require(all(report["modes"][k]["value"] == 0 for k in HOST_MODES), "changed path modes")
     if backend == "cuda":
         require(isinstance(p["gpu"], str) and p["gpu"], "no GPU reported")
 
 
+def kernel_checked(report, backend):
+    if backend == "cuda":
+        detail = report["result"]["point"]["phases"]["detail"]
+        for key in ("constraint_eval_cpu_fallback", "constraint_eval_cpu_autofallback"):
+            require(
+                detail[key]["calls"] == 0 and detail[key]["secs"] == 0, "CPU constraint fallback"
+            )
+        require(
+            detail["constraint_eval_gpu"]["calls"] > 0
+            and detail["constraint_eval_gpu"]["secs"] > 0,
+            "no generated constraint execution",
+        )
+
+
 def checked(report, case, backend):
     check_provenance(report, case, backend)
+    kernel_checked(report, backend)
     closed(report["result"]["point"])
     require(report["result"]["point"]["ref_mismatch"] == 0, "reference arithmetic differs")
 
 
 def smoke_checked(report, case, backend):
     check_provenance(report, case, backend)
+    kernel_checked(report, backend)
     point = report["result"]["point"]
     require(
         point["accepts"] is True
@@ -138,7 +157,11 @@ def main(root, work):
     monitor = None
     monitor_stream = None
     resource.setrlimit(resource.RLIMIT_FSIZE, (job["max_single_file_bytes"],) * 2)
-    env = {k: v for k, v in os.environ.items() if not k.startswith("ZK_")}
+    env = {
+        k: v
+        for k, v in os.environ.items()
+        if not k.startswith("ZK_") and k not in {"CUDA_CPU_FALLBACK", "CUDA_ONLY", "CUDA_EXCEPT"}
+    }
     env.update({"ZK_" + name: "0" for name in HOST_MODES})
     env["RAYON_NUM_THREADS"] = str(job["threads"])
     telemetry = out / "gpu.csv"
@@ -206,6 +229,21 @@ def main(root, work):
         )
         for name, pin in job["inputs"].items():
             require(sha(root / name) == pin, "changed job input")
+        kernels = read_json(root / "kernel-build.json")
+        require(
+            kernels["generated_constraint_kernels"] is True
+            and kernels["source_dirty"] is True
+            and kernels["source_commit"] == case["source"]["revision"]
+            and kernels["kernel_count"] > 0,
+            "missing generated constraint build",
+        )
+        require(
+            all(
+                kernels["binaries"][name] == sha(root / name)
+                for name in ("zk-prover-simd", "zk-prover-cuda")
+            ),
+            "kernel build binary mismatch",
+        )
         work.mkdir(exist_ok=False)
         unpack(root, work)
         for name in ("zk-prover-simd", "zk-prover-cuda"):
@@ -379,8 +417,11 @@ def main(root, work):
             json.dumps(
                 dict(
                     passed=True,
-                    profile="cuda-native-sm90-host-generation",
-                    generated_kernels=False,
+                    profile="cuda-native-sm90-generated-constraints",
+                    generated_kernels=True,
+                    generated_witness_kernels=False,
+                    kernel_build_sha256=sha(root / "kernel-build.json"),
+                    cpu_constraint_fallback_allowed=False,
                     repetitions=config["repetitions"],
                     results=results,
                     same_host=True,

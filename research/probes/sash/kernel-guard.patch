@@ -1,0 +1,29 @@
+--- a/nitroo/crates/stwo/build.rs
++++ b/nitroo/crates/stwo/build.rs
+@@ -4,7 +4,7 @@
+     std::process::exit(0);
+     let dst = cmake::Config::new("src/stwo_cuda/cuda")
+         .profile("Release")
+-        .build_arg("--jobs=16")
++        .build_arg("--jobs=2")
+         .build();
+     println!("cargo:rustc-link-search=native={}", dst.display());
+     println!("cargo:rustc-link-lib=static=stwo_cuda");
+--- a/nitroo/crates/constraint-framework/src/prover/component_prover.rs
++++ b/nitroo/crates/constraint-framework/src/prover/component_prover.rs
+@@ -422,6 +422,7 @@
+                 },
+             },
+         };
++        assert!(!use_cpu, "Hallmark: CPU constraint fallback is forbidden");
+         if use_cpu {
+             let _span = span!(Level::INFO, "CPU fallback evaluation").entered();
+             tracing::info!(
+@@ -561,6 +562,7 @@
+         };
+         span.exit();
+ 
++        assert!(cuda_handled, "Hallmark: missing CUDA constraint kernel for {}", self.eval.cuda_eval_name());
+         if !cuda_handled {
+             // CUDA dispatch doesn't have a kernel for this component yet.
+             // Fall back to CPU evaluation automatically.

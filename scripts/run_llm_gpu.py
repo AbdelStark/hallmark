@@ -5,6 +5,7 @@ import json
 import platform
 import re
 import shutil
+import tarfile
 import tempfile
 import time
 from decimal import Decimal, InvalidOperation
@@ -17,7 +18,7 @@ from run_e2e import sha, write_json
 ROOT = Path(__file__).resolve().parents[1]
 PROBE = ROOT / "research/probes/sash"
 PHASES = {
-    "build": ("cpu-upgrade", 1800, 4, 28),
+    "build": ("cpu-upgrade", 3600, 4, 28),
     "prove": ("h200", 2700, 4, 210),
     "verify": ("cpu-upgrade", 1800, 4, 28),
 }
@@ -57,7 +58,13 @@ def admit_build(previous):
     case_pin = sha(PROBE / "response-case.json")
     parent = json.loads((previous / "protocol.json").read_text())
     e2e.require(parent["case_sha256"] == case_pin, "cached build case changed")
-    for name in ("build_gpu.sh", "build_prover.sh", "response-case.json"):
+    for name in (
+        "build_gpu.sh",
+        "build_prover.sh",
+        "generate_kernels.py",
+        "kernel-guard.patch",
+        "response-case.json",
+    ):
         key = "research/probes/sash/" + name
         e2e.require(parent["source_files"][key] == sha(PROBE / name), "cached build source changed")
     receipt = json.loads((previous / "build/retention.json").read_text())
@@ -68,7 +75,7 @@ def admit_build(previous):
         "cached build incomplete",
     )
     folder = previous / "build/retained"
-    for name in ("zk-prover-simd", "zk-prover-cuda"):
+    for name in ("zk-prover-simd", "zk-prover-cuda", "kernel-build.json"):
         path = folder / name
         e2e.require(
             path.is_file() and not path.is_symlink() and 0 < path.stat().st_size < 128 * 1024**2,
@@ -76,6 +83,49 @@ def admit_build(previous):
         )
         e2e.require(sha(path) == receipt["outputs"][name]["sha256"], "cached binary changed")
     return folder
+
+
+def kernel_parameters(previous, output):
+    baseline = json.loads(
+        (ROOT / "research/evidence/llm-gpu-benchmark-2026-10-26.json").read_text()
+    )["proof_inventory"]
+    for name in ("proofs.tar.gz", "proof-inventory.json"):
+        e2e.require(
+            (previous / name).is_file() and not (previous / name).is_symlink(),
+            "missing enrolled proof statements",
+        )
+    e2e.require(
+        json.loads((previous / "proof-inventory.json").read_text()) == baseline,
+        "proof inventory differs from enrolled case",
+    )
+    params = output / "kernel-parameters"
+    params.mkdir()
+    files = {}
+    seen = set()
+    with tarfile.open(previous / "proofs.tar.gz", "r|gz") as tar:
+        for member in tar:
+            e2e.require(
+                member.isfile() and member.name in baseline and member.name not in seen,
+                "invalid proof archive member",
+            )
+            e2e.require(member.size == baseline[member.name]["bytes"], "invalid proof member size")
+            seen.add(member.name)
+            if not member.name.endswith(".fixed.json"):
+                continue
+            name = Path(member.name).name
+            path = params / name
+            pin = baseline[member.name]
+            e2e.require(
+                member.size == pin["bytes"] and member.size < 1024**2, "invalid statement size"
+            )
+            with tar.extractfile(member) as src, path.open("xb") as dst:
+                shutil.copyfileobj(src, dst)
+            e2e.require(sha(path) == pin["sha256"], "statement differs from enrolled case")
+            files["params/" + name] = path
+    e2e.require(len(files) == 23, "incomplete kernel parameter roster")
+    e2e.require(seen == baseline.keys(), "incomplete proof archive")
+    pins = e2e.archive(files, output / "kernel-params.tar.gz")
+    write_json(output / "kernel-params-inventory.json", pins)
 
 
 def run(previous, balance, maximum, build_run=None):
@@ -119,13 +169,14 @@ def run(previous, balance, maximum, build_run=None):
         ROOT / "uv.lock",
         ROOT / "research/AUTHORITY.json",
         ROOT / "research/evidence/llm-e2e-reproduction-2026-10-23.json",
+        ROOT / "research/evidence/llm-gpu-benchmark-2026-10-26.json",
         *sorted(PROBE.glob("*")),
     ]
     write_json(
         output / "protocol.json",
         dict(
             schema_id="hallmark.llm-gpu-benchmark/1",
-            profile="cuda-native-sm90-host-generation",
+            profile="cuda-native-sm90-generated-constraints",
             case_sha256=sha(PROBE / "response-case.json"),
             inputs=inputs,
             phases={
@@ -142,7 +193,8 @@ def run(previous, balance, maximum, build_run=None):
             preparation_reused=True,
             build_reused=built is not None,
             repetitions=1,
-            generated_kernels=False,
+            generated_kernels=True,
+            generated_witness_kernels=False,
             adoption=False,
             qualified_backend=False,
             hiding_claim=False,
@@ -160,6 +212,7 @@ def run(previous, balance, maximum, build_run=None):
             shutil.copyfile(previous / name, output / name)
             e2e.require(sha(output / name) == inputs[name], "input changed while copying")
         if built is None:
+            kernel_parameters(previous, output)
             built = e2e.cloud_job(
                 api,
                 namespace,
@@ -167,6 +220,10 @@ def run(previous, balance, maximum, build_run=None):
                 {
                     "build_prover.sh": PROBE / "build_gpu.sh",
                     "build_cpu.sh": PROBE / "build_prover.sh",
+                    "generate_kernels.py": PROBE / "generate_kernels.py",
+                    "kernel-guard.patch": PROBE / "kernel-guard.patch",
+                    "kernel-params.tar.gz": output / "kernel-params.tar.gz",
+                    "kernel-params-inventory.json": output / "kernel-params-inventory.json",
                 },
                 case,
                 hardware,
@@ -191,6 +248,21 @@ def run(previous, balance, maximum, build_run=None):
                 ),
             )
         cpu, cuda = built / "zk-prover-simd", built / "zk-prover-cuda"
+        kernels = json.loads((built / "kernel-build.json").read_text())
+        e2e.require(
+            kernels["source_commit"] == case["source"]["revision"]
+            and kernels["source_dirty"] is True
+            and kernels["generated_constraint_kernels"] is True
+            and kernels["kernel_count"] > 0,
+            "missing generated constraint build",
+        )
+        e2e.require(
+            all(
+                kernels["binaries"][name] == sha(built / name)
+                for name in ("zk-prover-simd", "zk-prover-cuda")
+            ),
+            "kernel build binaries changed",
+        )
         for binary, pin in ((cpu, "binary.sha256"), (cuda, "cuda.sha256")):
             e2e.require(
                 binary.is_file() and binary.stat().st_size < 128 * 1024**2, "missing prover binary"
@@ -228,6 +300,7 @@ def run(previous, balance, maximum, build_run=None):
                 "response-case.json": PROBE / "response-case.json",
                 "expected-roots.json": output / "expected-roots.json",
                 "benchmark.json": output / "benchmark.json",
+                "kernel-build.json": built / "kernel-build.json",
             },
             case,
             hardware,

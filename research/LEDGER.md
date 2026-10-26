@@ -4713,3 +4713,36 @@ the documentation edit. The original anchor is preserved; offline links and
 the corrected distribution check pass. Its failure remains in local retained
 diagnostics. After the preflight change, rerun `make package-check` on the
 staged final source; exact distribution/hosted receipts are recorded in PR #121.
+
+
+## 2026-10-26: generated CUDA constraints, strict no-fallback candidate
+
+Owner request: finish the generated constraint path and rerun the fixed model
+benchmark. Hypothesis: installing the full generated shape union removes the
+scalar fallback bottleneck without changing the proof relation or bytes.
+Baseline: `bdbf37d8c3e491d2eae2ccc1a39da65d3f3b12bd`; previous paired proving
+537.197419234 / 583.868902786 seconds, with 1,710 CUDA CPU fallback calls taking
+532.745969551 seconds. Preserve all earlier inputs/results/failures unchanged.
+
+Mutable paths: kernel generation/install helper, reviewed no-fallback/resource
+patch, CUDA build wrapper, GPU controller/worker, rejection tests and docs.
+Frozen: model/quantization, public witness archive and its inventory, all 23
+caller-enrolled statements/roots, proof parameters, original closed/bundle/grid
+checks and native verifier. Extracted statements are admitted against the
+existing 69-file inventory; no new model/data selection or private upload occurs.
+
+Decision 0079 and issue #122 define acceptance: first a real synthetic CUDA
+proof, then complete matched 23-segment runs, zero CPU constraint fallback,
+positive device constraint execution, all 69 files identical, and fresh CPU/Mac
+mutation suites. CUDA's installed sources truthfully report dirty provenance;
+exact generated/modified-source and binary inventories are retained. SIMD stays
+pristine. The patch only forbids fallback and caps nvcc compile jobs at two.
+
+Initial offline checks: 50 focused tests pass, actual enrolled-statement
+extraction passes and the guard/resource patch applies to the original hash-pinned
+source archive. These are preparation checks, not device performance evidence.
+The selected resource plan is CPU build 3,600s, H200 2,700s, CPU verify 1,800s,
+plus 600s startup/cancellation per phase, four Rayon threads, a 200-GiB sampled
+RSS stop and a $5 per-run ceiling ($4.66 inspected timeout/startup/storage bound).
+Live prepaid balance/rates must be checked before launch. No retries, top-ups,
+private uploads or schedulers. Real-kernel and publication results remain pending.

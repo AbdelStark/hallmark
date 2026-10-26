@@ -2,6 +2,18 @@
 
 Updated: 2026-10-26. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## In progress — generated CUDA constraint kernels
+
+The owner requests removing the initial GPU profile's scalar constraint fallback.
+[Decision 0079](../docs/decisions/0079-generated-cuda-constraints.md) freezes the
+candidate: generate/install the union of all 23 enrolled statement shapes and
+the small fixture, compile a strict no-fallback CUDA binary, then rerun the same
+paired benchmark and CPU/Mac verification. Witness generation stays on the host.
+The previous baseline below stays unchanged. Fifty focused offline tests pass;
+real generated-kernel execution and performance remain unvalidated until the
+full gates pass. [Issue #122](https://github.com/AbdelStark/hallmark/issues/122)
+tracks completion.
+
 ## GPU prover measurements — complete fixed-case trial
 
 The [GPU pipeline](../docs/GPU-BENCHMARK.md) passes its complete research gate:
