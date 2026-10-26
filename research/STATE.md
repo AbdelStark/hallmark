@@ -15,6 +15,11 @@ substitute for original private/hardware v1 qualification. Runtime, model,
 evaluation and historical evidence remain unchanged; no proving/cloud run is
 needed for this documentation/tracker change.
 
+The README now surfaces [recorded headline results](../README.md#recorded-results-at-a-glance):
+model/response size, proving and verification times, serialized proof size and
+fresh workflow costs. These summarize existing evidence, with hardware and
+preprocessing caveats; they introduce no new benchmark or backend comparison.
+
 ## Current MVP — complete
 
 The owner explicitly selected completion of the **LLM integrity MVP without

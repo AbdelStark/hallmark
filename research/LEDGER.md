@@ -4552,3 +4552,26 @@ required training tests. Logs are retained in ignored
 `runs/proof-architecture-check.log` and `runs/proof-architecture-train.log`.
 Distribution and exact-head hosted results belong to the publication PR.
 No paid jobs, new proofs, private uploads or qualification claims occur.
+
+## 2026-10-26: surface recorded headline results in the README
+
+Hypothesis: a compact table near the top lets readers assess the demo's scale,
+latency and storage without searching detailed experiment reports. Baseline:
+`1032eb621cb5b4c5f4e8c9c69c0c0ae2d19dc491`. Mutable paths are README, STATE and
+this ledger. Pass criterion: every headline traces to existing numeric evidence,
+units and timing boundaries are explicit, and documentation/distribution checks
+pass. No evaluator, runtime or historical evidence changes.
+
+The existing LLM reproduction records 328.4588 seconds summed proving,
+1,875.1993 seconds for the full command, 80.1096/78.4465 seconds for the two
+honest Linux checks and 737,858,641 serialized proof bytes. Its peak prover RSS
+is 116,204,756,992 bytes and its compute bound is $0.31, not an invoice.
+The README rounds these with decimal storage units, links native verification
+and classifier measurements, and includes the 4,010.05-second fresh composed
+workflow. Compiled shape-root enrollment and different hardware prevent a
+matched Linux/Mac speedup claim; the smaller classifier workload is separate.
+
+Validation commands: `make check` and `make package-check`; exact results and
+hosted checks are recorded on the publication PR. No new end-to-end research
+proof campaign or paid model job is required. Standard CI retains its fresh
+synthetic proof fixture. This changes presentation, not measured results.
