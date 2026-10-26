@@ -4521,3 +4521,34 @@ shared package snapshot is `aef678bcbfcdfd84114e44f756fe131459321b60ec07c0c5dc28
 Final metadata follows that package snapshot; publication CI is recorded on the
 linked PR. The live audit confirms all 29 original issues remain open with
 unchanged bodies and additive post-mvp labels. Runtime sources are unchanged.
+
+## 2026-10-26: explain proof flows and track Circle STARK classifiers
+
+Hypothesis: one command matrix and three explicit flow diagrams resolve the
+ambiguity between classifier-only `make e2e`, SASH LLM proving and host composition.
+Baseline: `ef8ac66ec4ae132449cac184d8dae1b70370f35d`, with working Groth16
+classifier circuits and a complete fixed-case SASH LLM proof bundle, but no
+Circle STARK classifier adapter or matched classifier backend benchmark.
+Mutable scope is README, current user/architecture/roadmap documentation, STATE
+and this ledger. Runtime, models, evaluator and historical evidence are unchanged.
+
+The [architecture guide](../docs/ARCHITECTURE.md) records exact public statements,
+proof counts, caller/native-rerun checks and upstream versus patched SASH
+components. The controller, Go proof calls, SASH case/adapters, native patch and
+existing numeric records were inspected; no new scientific measurement is made.
+[Epic #112](https://github.com/AbdelStark/hallmark/issues/112) has five open native
+sub-issues (#113–#117), with verified parent links and a four-edge dependency
+chain. Each has runnable acceptance requirements, failure cases and evidence
+obligations. The first freezes the comparison protocol; the last requires matched
+gnark/Circle STARK/native measurements and a complete composed demo. Filing the
+epic is not implementation evidence or adoption of a new backend.
+
+Pass criterion: published docs agree with current code/proof boundaries, local
+links and distribution gates pass, and the live epic retains actionable open
+implementation tasks. Local `make check` passes: 2,418 tests, 50 optional/platform
+skips, 47 typed source files, 156 matched software conformance cases and 32
+unavailable future full-evidence obligations. `make check-train` passes all 77
+required training tests. Logs are retained in ignored
+`runs/proof-architecture-check.log` and `runs/proof-architecture-train.log`.
+Distribution and exact-head hosted results belong to the publication PR.
+No paid jobs, new proofs, private uploads or qualification claims occur.

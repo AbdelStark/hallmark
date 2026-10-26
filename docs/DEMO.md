@@ -1,4 +1,4 @@
-# Run the end-to-end demo
+# Run the classifier end-to-end demo
 
 From the repository root:
 
@@ -11,6 +11,12 @@ specialized circuits, and generates and separately verifies rule/MLP/CNN proofs
 for three fixed requests. It also checks substituted proofs and an arithmetic
 mutation corpus. **No hardware attestation, GPU, API token, cloud account or
 model download is needed.** All training data is authored and synthetic.
+
+`make e2e` runs **classifiers only**, using dedicated gnark/Groth16 circuits and
+separate py-ecc verification. For actual LLM generation/proving use
+[`make e2e-llm`](LLM-PROOF.md); to join both use
+[`make e2e-composed`](COMPOSED-DEMO.md). The [architecture guide](ARCHITECTURE.md)
+maps every command to its proof system and shows the complete data flows.
 
 Read [what the proofs mean](PROOFS.md) before interpreting the result. A proved
 classifier verdict is a claim about exact computation, not a guarantee that the
