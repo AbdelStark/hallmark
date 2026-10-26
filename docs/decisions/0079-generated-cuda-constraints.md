@@ -42,3 +42,13 @@ no private uploads and no scheduler. The Mac coordinates and verifies locally.
 
 [Issue #122](https://github.com/AbdelStark/hallmark/issues/122) tracks delivery.
 This does not adopt a qualified backend, hiding or hardware provenance.
+
+The first device run produced all 23 individually accepted CUDA proofs with zero
+fallback and 69 files identical to SIMD, but failed while parsing a telemetry
+record written concurrently at the head command. No complete run is accepted
+from that attempt. Preserve its raw results and failed status. The parser now
+frames complete newline-terminated CSV records, discarding only first/last
+partial records; malformed complete records still reject. A regression covers
+both partial boundaries. This changes measurement I/O only. Start a new frozen
+run with the same admitted generated binaries, inputs, evaluator and limits;
+its remaining timeout/startup/storage bound is $4.62 under the $5 run ceiling.

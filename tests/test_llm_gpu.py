@@ -316,6 +316,19 @@ def test_gpu_telemetry_parses_actual_units(worker, tmp_path):
         worker.gpu_samples(path, 0)
 
 
+def test_gpu_telemetry_frames_concurrent_partial_records(worker, tmp_path):
+    path = tmp_path / "gpu.csv"
+    prefix = b"2026/10/26 12:00:00, 2048,"
+    path.write_bytes(prefix + b" 75\n2026/10/26 12:00:01, 4096, 80\n2026/10/26 12:00:02, 819")
+    assert worker.gpu_samples(path, len(prefix)) == [
+        dict(timestamp="2026/10/26 12:00:01", memory_mib=4096, utilization=80)
+    ]
+    assert len(worker.gpu_samples(path, 0)) == 2
+    path.write_bytes(b"2026/10/26 12:00:00, 2048")
+    assert worker.gpu_samples(path, 0) == []
+    assert worker.gpu_samples(path, path.stat().st_size) == []
+
+
 @pytest.mark.parametrize("status,expected", [("State: Z\n", 0), ("VmHWM: 2048 kB\n", 2097152)])
 def test_memory_sampler_handles_exited_child(worker, monkeypatch, status, expected):
     monkeypatch.setattr(worker, "Path", lambda _: SimpleNamespace(read_text=lambda: status))

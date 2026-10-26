@@ -4746,3 +4746,34 @@ plus 600s startup/cancellation per phase, four Rayon threads, a 200-GiB sampled
 RSS stop and a $5 per-run ceiling ($4.66 inspected timeout/startup/storage bound).
 Live prepaid balance/rates must be checked before launch. No retries, top-ups,
 private uploads or schedulers. Real-kernel and publication results remain pending.
+
+
+### Generated build succeeds; telemetry-framing failure retained
+
+Frozen source `74bc2db33df5cf4d1e5a5b101b30fecba122960f` builds successfully
+in HF job `6adf6c9041e90535df7573fe`: 1,815.943 seconds, $0.02 running-compute
+estimate. It generates 77 kernels across 16 families, 206,910 IR instructions
+and 247,496 CUDA lines. All 39 modified-source files are inventoried. Local
+application of the pinned patch reproduces the retained guard/resource source
+hashes. CUDA binary size is 90,971,384 bytes and native sm_90 is present. All
+outputs were retained and hashed, and the build bucket deleted.
+
+H200 job `6adf73cb3fb22a235dd1ebc0` fails after 1,111.887 seconds, with a $1.59
+running-compute estimate. All 23 CUDA segment reports individually accept with
+zero reference mismatches and zero explicit/automatic constraint fallback; their
+summed proving timers are 51.788302807 seconds. All 69 raw CUDA files match the
+completed SIMD inventory. However, telemetry parsing fails during the head's
+command accounting before the final CUDA grid and fresh CPU/Mac verification,
+so this remains a failed/incomplete pipeline run. Preserve all raw artifacts.
+The completed telemetry file contains 2,153 well-formed records; the parser read
+it concurrently at a partial record boundary. Outputs were fully retained and
+the failed job's bucket deleted. These cost figures are not invoices.
+
+The revised sampler admits only complete newline-terminated records within the
+sample window, drops leading/trailing partial fragments, and still rejects
+malformed complete records. Regression tests cover both partial boundaries and
+incomplete-only windows. All 51 focused tests pass. No prover, generated binary,
+model, witness, proof parameter or cryptographic evaluator changes. A new frozen
+run reuses the admitted generated build under the same $5 ceiling, with a $4.62
+remaining timeout/startup/storage bound and no automatic retry. Recheck live
+credits/rates before launch. The complete measurement remains pending.

@@ -127,9 +127,16 @@ def unpack(root, work):
 
 def gpu_samples(path, offset):
     with path.open("rb") as stream:
+        previous = b"\n"
+        if offset:
+            stream.seek(offset - 1)
+            previous = stream.read(1)
         stream.seek(offset)
-        text = stream.read().decode()
-    rows = list(csv.reader(text.splitlines()))
+        data = stream.read()
+    # nvidia-smi appends concurrently; only complete records belong to this window.
+    if previous != b"\n":
+        data = data.partition(b"\n")[2]
+    rows = list(csv.reader(data.rpartition(b"\n")[0].decode().splitlines()))
     require(all(len(row) == 3 for row in rows), "malformed GPU telemetry")
     return [dict(timestamp=r[0], memory_mib=int(r[1]), utilization=int(r[2])) for r in rows]
 

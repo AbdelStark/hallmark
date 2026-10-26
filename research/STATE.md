@@ -14,6 +14,14 @@ real generated-kernel execution and performance remain unvalidated until the
 full gates pass. [Issue #122](https://github.com/AbdelStark/hallmark/issues/122)
 tracks completion.
 
+The generated build passes its pristine SIMD tests and native sm_90 check:
+77 kernels across 16 families, with recorded source/binary inventories. The first
+H200 attempt produces 23 individually valid CUDA proofs with zero fallback and
+69 files identical to SIMD, but its telemetry parser fails on a concurrent
+partial CSV record before final grid/CPU/Mac verification. That run stays failed.
+The parser framing fix passes 51 focused tests; a new frozen run reuses the
+admitted build. No complete generated-kernel measurement is accepted yet.
+
 ## GPU prover measurements — complete fixed-case trial
 
 The [GPU pipeline](../docs/GPU-BENCHMARK.md) passes its complete research gate:
