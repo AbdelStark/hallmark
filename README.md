@@ -29,6 +29,30 @@ synthetic and its input limit is 96 UTF-8 bytes. A valid proof establishes the
 stated computation, not that a classifier is a useful safety policy. Arbitrary
 prompts/models and production qualification remain outside this fixed case.
 
+## Recorded results at a glance
+
+**1.1B parameters · 8 answer tokens through EOS · 23 verified LLM proof segments.**
+
+| Measurement | Recorded result | What it includes |
+|---|---:|---|
+| LLM proof generation | **5 min 28 s** | Sum of proving stages across all 23 SASH segments; excludes preparation, build, transfers and verification |
+| LLM verification, original Linux verifier | **78–80 s** | One honest proof-only check on an 8-vCPU / 32-GB CPU worker |
+| LLM verification, native Mac verifier | **3.33–4.00 s** | One honest check after compilation on an M4 Max; uses compiled, caller-enrolled shape roots |
+| LLM serialized proofs | **738 MB** | All 23 proof files; decimal MB, excluding statements, claims, weights and build artifacts |
+| Fresh LLM workflow | **31 min 15 s** | Downloads, local preparation, fresh build/proofs, transfers and verification; **$0.31 compute bound**, not an invoice |
+| Classifier workflow | **9 proofs · 292 bytes/proof** | Rule, MLP and CNN on three requests; proof bytes exclude keys, enrollment and other evidence |
+| Fresh composed workflow | **66 min 50 s** | Full LLM workflow, classifier training, 9 control proofs and 3 proofs for the LLM request |
+
+These are fixed-case observations, not a latency distribution or a matched
+Groth16/Circle STARK benchmark. LLM proving used a **32-vCPU / 256-GB CPU worker**,
+with **116 GB peak prover RSS**; no GPU was used. The Mac verifier pre-enrolls
+shape roots that the Linux verifier derives at runtime, so their timings are
+not a like-for-like speedup. Classifiers are a much smaller, separate workload.
+See [LLM measurements and raw evidence](docs/LLM-PROOF.md#measured-results),
+[native verification measurements](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac),
+[classifier results](docs/RESULTS.md#real-proof-composition) and
+[the fresh composed run](docs/COMPOSED-DEMO.md#recorded-fresh-preparation).
+
 ## Which command proves what?
 
 | Command | Workload | Actual proof system |
