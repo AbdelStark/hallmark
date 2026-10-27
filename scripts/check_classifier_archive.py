@@ -121,6 +121,10 @@ def run(args):
                     require(
                         stage["kind"] == kind
                         and stage["setup"]["files"]["circuit.r1cs"]["sha256"] == circuits[kind]
+                        and audit["artifact_inventory"][
+                            PREFIX + prep + "/setup-" + kind + "/circuit.r1cs"
+                        ]["sha256"]
+                        == circuits[kind]
                         and stage["setup"]["files"]["vk.bin"]["sha256"]
                         == comparison.sha(keys[kind]),
                         "pre-proof setup record differs from admitted circuit/key",
