@@ -1,0 +1,176 @@
+{
+  "inference_lock_unchanged": true,
+  "lock_sha256": "ec00b2623d7a04c348647a1e4a8320569a2632b162a8a674abe659d878cabe27",
+  "packages": [
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "4e36adc9b46f837e10ce801b7a478f9146fefdfb287292b7668fc64b1474e41d",
+      "name": "click",
+      "notice_files": {
+        "click-8.5.0.dist-info/licenses/LICENSE.txt": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d"
+      },
+      "source": "https://pypi.org/pypi/click/8.5.0/json",
+      "version": "8.5.0"
+    },
+    {
+      "legacy_license_label": "MIT Licence",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": null,
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "43be1f736157c052bbbd448b591a388523333a96bd9040a84e17376a2a71bc8a",
+      "name": "deepmerge",
+      "notice_files": {
+        "deepmerge-4.0.0.dist-info/licenses/LICENSE": "e4f539ab54f8ef4f43307e56ada328612c58e6f9efdd70bf336288508470272e"
+      },
+      "source": "https://pypi.org/pypi/deepmerge/4.0.0/json",
+      "version": "4.0.0"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_expression": null,
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "1bc757d7065f3e67d3a49e72ebc731d0774055575732592eede9820c136329cc",
+      "name": "jinja2",
+      "notice_files": {
+        "jinja2-3.1.6.dist-info/licenses/LICENSE.txt": "3b49dcee4105eb37bac10faf1be260408fe85d252b8e9df2e0979fc1e094437b"
+      },
+      "source": "https://pypi.org/pypi/jinja2/3.1.6/json",
+      "version": "3.1.6"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "d69a1a94c0c047f9d037ce3a4012db19b3a43730e13faabbb036b787e8ea38fe",
+      "name": "markdown",
+      "notice_files": {
+        "markdown-3.11.2.dist-info/licenses/LICENSE.md": "7ba4eb6d10b32b2d11dce13821340351cdbbb30ba8ccc67841db2ffd86e79aca"
+      },
+      "source": "https://pypi.org/pypi/markdown/3.11.2/json",
+      "version": "3.11.2"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "locked_artifact_hashes_checked": 71,
+      "metadata_sha256": "85cd5bce3f85e67ab0b921be9c9ba144a7cc01a2d02b85ad65b1f8dabeac4c57",
+      "name": "markupsafe",
+      "notice_files": {
+        "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt": "489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea"
+      },
+      "source": "https://pypi.org/pypi/markupsafe/3.0.4/json",
+      "version": "3.0.4"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+      ],
+      "license_expression": null,
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "24f66829a7f40485bdccfcf32294218b0f4260b289ee4806ab644feb6c194766",
+      "name": "pathspec",
+      "notice_files": {
+        "pathspec-1.1.1.dist-info/licenses/LICENSE": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85"
+      },
+      "source": "https://pypi.org/pypi/pathspec/1.1.1/json",
+      "version": "1.1.1"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [],
+      "license_expression": "BSD-2-Clause",
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "330104a10adc8a587e3f98f4e207557125ca0c1d489e129334da5acb2b813a03",
+      "name": "pygments",
+      "notice_files": {
+        "pygments-2.21.0.dist-info/licenses/AUTHORS": "71a83872ad82f57be692cf827e048e2cd51d45169cfa1ea3f28706d97a872c0f",
+        "pygments-2.21.0.dist-info/licenses/LICENSE": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+      },
+      "source": "https://pypi.org/pypi/pygments/2.21.0/json",
+      "version": "2.21.0"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": "MIT",
+      "locked_artifact_hashes_checked": 2,
+      "metadata_sha256": "3389b082fa90807a47f9f5df19297366b528cdf8bd04f777048d89ff82dbf54f",
+      "name": "pymdown-extensions",
+      "notice_files": {
+        "pymdown_extensions-12.3.dist-info/licenses/LICENSE.md": "e6645f914fbae5bc557419fcafbeab9e375897e8274c54e2b177953e9354f93e"
+      },
+      "source": "https://pypi.org/pypi/pymdown-extensions/12.3/json",
+      "version": "12.3"
+    },
+    {
+      "legacy_license_label": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": null,
+      "locked_artifact_hashes_checked": 39,
+      "metadata_sha256": "c3f35597bc2f08cc990c2a5fe57bef6687b3a3d7c61d8b0ba4cc067777eb1def",
+      "name": "pyyaml",
+      "notice_files": {
+        "pyyaml-6.0.3.dist-info/licenses/LICENSE": "8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+      },
+      "source": "https://pypi.org/pypi/pyyaml/6.0.3/json",
+      "version": "6.0.3"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "locked_artifact_hashes_checked": 38,
+      "metadata_sha256": "db3dcc9ba38b7c7fe8021b68b66112b8df90840ca826acfa55b3698f76992eb1",
+      "name": "tomli",
+      "notice_files": {
+        "tomli-2.5.0.dist-info/licenses/LICENSE": "b80816b0d530b8accb4c2211783790984a6e3b61922c2b5ee92f3372ab2742fe"
+      },
+      "source": "https://pypi.org/pypi/tomli/2.5.0/json",
+      "version": "2.5.0"
+    },
+    {
+      "legacy_license_label": null,
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": null,
+      "locked_artifact_hashes_checked": 9,
+      "metadata_sha256": "687deab683dee46200d26109456f00dde9e4c9bf6c3fdba453d13ef7dd334899",
+      "name": "zensical",
+      "notice_files": {
+        "zensical-0.0.73.dist-info/licenses/LICENSE.md": "ac044e6db7ba08069f635afc1759b0ae11a7d47f79144a4ccdd16fc94ba47d1e",
+        "zensical/templates/.icons/fontawesome/LICENSE.txt": "20c6f40715a567c97b80f6944beb8bb325835cab47ea7dcab89ee3b8e077eced",
+        "zensical/templates/.icons/fontawesome/regular/drivers-license.svg": "12337b3ba16dddb62901c116b2c2a2efec38868b1264c4210a1354c52d3334c8",
+        "zensical/templates/.icons/fontawesome/solid/drivers-license.svg": "6e1a11f15cc3960ed7e740ab891a5302282090cbafc621223848d96dd3b2354f",
+        "zensical/templates/.icons/lucide/LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+        "zensical/templates/.icons/material/LICENSE": "f3bc8715bad84b26396bb42d2abd11f919cf58163be158eab79ecbaabf84cdf2",
+        "zensical/templates/.icons/material/license.svg": "596532cf9c5e7bd94c4a87e21cbbe0477f6749e809eda008f490df7f78e11129",
+        "zensical/templates/.icons/octicons/LICENSE": "da259c8bd0de62713ccdcf88910aebca810644f98c2c912bad814fc79ea778df",
+        "zensical/templates/.icons/simple/LICENSE.md": "9046848b63a5c92bff14e4accca80bd987e0623b74adf9226ce5198d312b79d5",
+        "zensical/templates/.icons/simple/unlicense.svg": "116351e370f8a688a6d537dbd7b4c9cc52afc8fbda7a40cd301fdcb522eb8f30",
+        "zensical/templates/assets/javascripts/LICENSE": "96e02c0a35f47e9bd44133a881d8db8c6713d6bf2e165dad33ed4bf598700fa4"
+      },
+      "source": "https://pypi.org/pypi/zensical/0.0.73/json",
+      "version": "0.0.73"
+    }
+  ],
+  "recorded_at": "2026-10-27",
+  "schema_id": "hallmark.docs-dependency-review/1",
+  "scope": "isolated optional documentation project; metadata/notices review, not security qualification",
+  "site_assets": "website/assets/vendor/sources.json"
+}

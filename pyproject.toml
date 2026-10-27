@@ -27,7 +27,7 @@ dev = ["mypy>=1.15,<2", "pytest>=8.3,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
 packages = ["src/hallmark"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "fixtures", "configs", "docs", "research", "scripts", ".agents", ".github", "AGENTS.md", "CLAUDE.md", "README.md", "SPEC.md", "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md", "CHANGELOG.md", "Makefile", "pyproject.toml", "uv.lock", ".python-version"]
+include = ["src", "tests", "fixtures", "configs", "docs", "research", "scripts", "website", ".agents", ".github", "AGENTS.md", "CLAUDE.md", "README.md", "index.md", "mkdocs.yml", "SPEC.md", "CONTRIBUTING.md", "SECURITY.md", "LICENSE.md", "CHANGELOG.md", "Makefile", "pyproject.toml", "uv.lock", ".python-version"]
 
 [tool.ruff]
 target-version = "py312"

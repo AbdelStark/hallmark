@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block extrahead %}
+  {{ super() }}
+  <link rel="preload" href="{{ 'assets/fonts/public-sans.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ 'assets/fonts/newsreader.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+  <meta name="theme-color" content="#203c35">
+  <meta property="og:title" content="{% if page %}{{ page.title }}{% else %}{{ config.site_name }}{% endif %} · Hallmark">
+  <meta property="og:description" content="{% if page and page.meta and page.meta.description %}{{ page.meta.description }}{% else %}{{ config.site_description }}{% endif %}">
+  <meta property="og:type" content="website">
+  {% if page %}<meta property="og:url" content="{{ page.canonical_url }}">{% endif %}
+{% endblock %}

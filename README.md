@@ -2,10 +2,14 @@
 
 **Cryptographic proofs of LLM inference and exact classifier decisions.**
 
-[![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-203c35?style=for-the-badge&logo=readthedocs&logoColor=white)](https://abdelstark.github.io/hallmark/)
+[![Research checks](https://img.shields.io/github/actions/workflow/status/AbdelStark/hallmark/check.yml?branch=main&style=for-the-badge&label=checks&logo=githubactions&logoColor=white)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-566b55?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE.md)
 
-[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [Models on Hugging Face](#published-models) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation](docs/README.md)
+[![Hugging Face: Byte MLP](https://img.shields.io/badge/Hugging%20Face-Byte%20MLP-ffd21e?style=for-the-badge&logo=huggingface&logoColor=203c35)](https://huggingface.co/abdelstark/hallmark-byte-mlp)
+[![Hugging Face: Contextual CNN](https://img.shields.io/badge/Hugging%20Face-Contextual%20CNN-ffd21e?style=for-the-badge&logo=huggingface&logoColor=203c35)](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn)
+
+[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [Models on Hugging Face](#published-models) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation site](https://abdelstark.github.io/hallmark/)
 
 Hallmark proves a complete short response from a pinned, quantized
 **TinyLlama-1.1B** using **SASH Circle STARKs**, and proves rule, MLP and CNN
@@ -283,6 +287,10 @@ measured backend winner for that workload.
 | See completed work and open research gates | [Current state](research/STATE.md) |
 
 ## Development and contributions
+
+Build the [documentation site](https://abdelstark.github.io/hallmark/) with
+`make docs`, or preview it with `make docs-serve`. Its toolchain is independently
+locked; see [site maintenance](docs/DOCUMENTATION.md).
 
 ```sh
 uv sync --locked --python 3.12

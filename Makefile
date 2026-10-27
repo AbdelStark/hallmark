@@ -1,4 +1,4 @@
-.PHONY: e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke
+.PHONY: e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
 
 check:
 	uv lock --check
@@ -9,6 +9,12 @@ check:
 	$(MAKE) check-spec
 	$(MAKE) check-conformance
 	$(MAKE) check-admission
+
+docs:
+	uv run --locked --project website python scripts/build_docs.py
+
+docs-serve:
+	uv run --locked --project website python scripts/build_docs.py --serve
 
 e2e:
 	uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py

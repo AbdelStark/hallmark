@@ -4909,3 +4909,58 @@ publication receipt. Final checks use new logs and a complete source snapshot.
 README links, card-source mirrors and the release guide add immutable download
 commands and separate the releases from upstream TinyLlama. Local/distribution
 and exact-head hosted receipts are recorded on the delivery PR.
+
+
+## 2026-10-27 — Public documentation site and model header badges
+
+Owner request: `for-the-badge` styling, both published model badges in the header,
+and a beautiful research/educational site deployed through GitHub Pages. Baseline
+main is `2e5676cf6b11634c78846b75cdc95345142252b7`. Acceptance: accurate existing
+claims, safe tracked-file staging, functional navigation/search/educational
+components, responsive visual review, strict/link/package/core checks, and a
+verified hosted Pages deployment. Mutable paths are documentation, site assets,
+new build/link helpers and tests, optional docs project, Make/Pages workflow,
+sdist roots and these records; no model, evaluator or proof relation changes.
+
+Zensical 0.0.73 is separately locked under `website/`. An early draft put it in
+the inference lock; inspection identified that lock as part of native verifier
+enrollment, so the draft was replaced before publication. Root `uv.lock` is
+byte-identical to baseline. All 55 native verifier input pins match, yielding
+unchanged identity `8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.
+All 11 isolated docs distributions and their locked artifact hashes match exact
+PyPI metadata, with licence/notice hashes in `website/dependencies.json`. Font
+and KaTeX release archives pass registry SHA-512 integrity; local notices and
+SHA-256 inventories accompany the self-hosted assets.
+
+The source build selects tracked Markdown, public evidence JSON, documentation
+images and explicit assets. Tests prove untracked notes/runs, non-asset keys,
+symlinks and unowned staging directories cannot enter/replace output. Canonical
+Markdown is not rewritten; staged copies map root README/source links and the
+GitHub/site repeated-heading-separator difference. The generated site includes
+a source/hash build manifest. Ten focused tests pass. Initial template and one
+historical anchor failures were corrected before strict builds passed; logs are
+retained locally. The GPU guide now presents the generated-constraint result
+before the retained fallback baseline, preserving numbers and the old anchor.
+
+Browser review covers 1280-pixel desktop and 390x844 mobile layouts, with no
+horizontal overflow, plus mobile article tables/navigation, five rendered KaTeX
+expressions, a rendered Mermaid flowchart, GPU search results, light/dark styling
+and LLM/classifier proof-selector states. Visual testing found literal Markdown
+in nested proof panels; it was fixed and checked as rich rendered content.
+The browser connection reset during the final clipboard check, which remains
+unclaimed in the QA record. Direct Shields SVG auditing returned HTTP 403; five
+standard styled URLs and their destinations are checked, with rendered/hosted
+receipts on the delivery PR. No external URL success is inferred from local
+link checks. The QA record is `research/evidence/documentation-site-2026-10-27.json`.
+
+GitHub Pages was absent and is now enabled as workflow deployment with HTTPS
+at `https://abdelstark.github.io/hallmark/`. Only main can deploy; PRs build and
+validate. Actions are pinned to verified commit SHAs and use ephemeral standard
+Pages/OIDC permissions. No personal deploy token, analytics, custom domain,
+research scheduler, paid compute or model download is added. Local core/site/
+distribution checks and exact-head CI/deployment identities are recorded on PR.
+
+The existing `test_make_keeps_validation_as_default` caught an initial target-order
+regression in the draft Makefile. Moving docs targets after `check` preserves
+plain `make`; the focused demo/staging suite passes before the final core rerun.
+This failure and rerun use separate logs.

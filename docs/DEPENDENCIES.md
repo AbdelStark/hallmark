@@ -11,6 +11,20 @@ licence labels in frozen records describe their original admission; see
 
 ## Reviewed upstream metadata
 
+The documentation site has a separate [locked project](../website/pyproject.toml)
+and [dependency review](../website/dependencies.json). It pins **Zensical 0.0.73**
+without changing the inference lockfile or native verifier identity. All locked
+docs artifacts match exact-version PyPI metadata; licence metadata and installed
+notice-file hashes are retained. This is an engineering review, not a security
+qualification.
+
+Self-hosted **Newsreader 5.3.0** and **Public Sans 5.3.0** font distributions use
+OFL-1.1; their notices are bundled. **KaTeX 0.19.1** is distributed under MIT with
+its notice. [Asset provenance](../website/assets/vendor/sources.json) records
+source release URLs, archive SHA-256/SHA-512 integrity and per-file hashes.
+These optional site dependencies are separate from the historical inference
+reviews below. See [documentation maintenance](DOCUMENTATION.md).
+
 On 2026-10-20, the [guard metadata review](../research/evidence/w15-guard-dependencies-2026-10-20.json)
 matches all **684 locked distribution hashes** for **52 packages** against each
 exact version's PyPI JSON response. It extends the preserved
