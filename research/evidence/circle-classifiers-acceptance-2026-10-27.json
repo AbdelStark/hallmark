@@ -283,6 +283,25 @@
     "scripts/circle_classifiers.py": "81be4d26da10cbd48270a46c5f28581103cb07c6848c67032afa43414b2a703f",
     "scripts/circle_integer.py": "66bff087f0d6f1f69d53aafcf9b33e4bdc0ea9b83dbd94b1d5a5412e82942f01"
   },
+  "final_small_api_fixture": {
+    "classifier_support": false,
+    "elapsed_seconds": 1.1706139161251485,
+    "fresh_honest_verifications": 1,
+    "mutations_rejected": [
+      "changed-public",
+      "truncated-proof",
+      "changed-oods",
+      "noncanonical-m31",
+      "weaker-parameters",
+      "changed-enrollment"
+    ],
+    "proof_sha256": "ef8cf1f3335390b54dc75cf75209182bbe78a909e829e103445a52af810f06da",
+    "qualified_backend": false,
+    "raw_result_sha256": "9bb59aec1503bb6acb53c1077644adf9aa26cf2f1c337a452723ef219c10726b",
+    "schema_id": "hallmark.circle-api-fixture/1",
+    "serialized_proof_bytes": 165306,
+    "status": "passed"
+  },
   "fresh_proof_only_verifications": 9,
   "fresh_proofs": 9,
   "hf_fixture_failures": [
@@ -329,6 +348,36 @@
       "stage": "ERROR"
     }
   ],
+  "hf_measurement_fixture": {
+    "all_outputs_retained": true,
+    "backends": [
+      {
+        "backend": "gnark",
+        "proof_sha256": "648aecd098a5daa9079b59ef655291d348d475124bcac87f8cb7c7accd7094ba",
+        "prover_command_seconds": 127.5726543899982,
+        "verifier_command_seconds": 4.675822960001824
+      },
+      {
+        "backend": "circle",
+        "proof_sha256": "a1902b364d35d2e36973df6d087f133a71199539bf58452a011a68be82f11bf0",
+        "prover_command_seconds": 48.137834741002735,
+        "verifier_command_seconds": 0.46490803599954234
+      }
+    ],
+    "benchmark_sample": false,
+    "bucket_deleted": true,
+    "invoice": false,
+    "job_id": "6ae0fade41e90535df76762e",
+    "output_archive": {
+      "bytes": 140084136,
+      "sha256": "0f0886af0874365d31f2d79245e3c11955c10f42cc3825e9b6c9985668457bca"
+    },
+    "result_sha256": "28b607104b4aacd2044d83f5aa46352cab3de21bcd3a5088d69a562277f480a4",
+    "running_seconds": 737.432,
+    "source_commit": "53b091f42c1131fe327ac3c5908fb507004875a3",
+    "stage": "COMPLETED",
+    "status": "fixture-passed"
+  },
   "intermediate_parity": true,
   "proofs": [
     {

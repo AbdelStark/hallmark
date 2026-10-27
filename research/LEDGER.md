@@ -5198,3 +5198,13 @@ fixture passes; the complete real composition still awaits new classifier proofs
 Successful Circle/native-LLM compiler caches are cleaned only after preserving
 hash-checked executable copies; source, registries, models, keys, proofs and
 failed runs remain intact (`runs/circle-cache-retention-v1/receipt.json`).
+
+HF measurement fixture `6ae0fade41e90535df76762e` passes both isolated backends,
+including the unchanged rule R1CS identity and real serialized proofs/fresh
+proof-only verification. Provider stage is COMPLETED; all outputs retained and
+the temporary bucket deleted. Its running time is 737.432 s,
+not an invoice. It is excluded from benchmark samples. The numeric/source/archive
+receipt is in the classifier acceptance evidence before the full campaign.
+The final small gate-AIR run (`runs/circle-api-final-v1`) freshly verifies one
+165,306-byte proof and rejects all six API mutations, including noncanonical M31.
+This adds no classifier-support claim to that small fixture.
