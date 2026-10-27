@@ -330,10 +330,13 @@ class RunManager:
                     )
                 run.update(
                     pid=process.pid,
-                    process_created=psutil.Process(process.pid).create_time(),
                     status="running",
                 )
                 self.processes[key] = process
+                try:
+                    run["process_created"] = psutil.Process(process.pid).create_time()
+                except psutil.Error:
+                    pass  # Keep the owned child handle; sampling retries identity capture.
                 self._stage(run, workflow.stages[0].id)
                 self._save(run)
                 self._monitor_thread(key)
@@ -380,7 +383,7 @@ class RunManager:
         if not clean:
             return
         match = OUTPUT.fullmatch(clean)
-        if match and run["output"] is None:
+        if match:
             path = Path(match[1])
             if (
                 path.is_absolute()
@@ -388,7 +391,13 @@ class RunManager:
                 and not path.is_symlink()
                 and path.resolve().is_relative_to((self.root / "runs").resolve())
             ):
-                run["output"] = str(path.resolve())
+                output = str(path.resolve())
+                if run["output"] is None:
+                    run["output"] = output
+                elif output != run["output"]:
+                    children = run.setdefault("child_outputs", [])
+                    if output not in children and len(children) < 8:
+                        children.append(output)
         stage_log = re.fullmatch(r"Running ([\w-]+); log: (.+)", clean)
         if stage_log:
             path = Path(stage_log[2])
@@ -482,6 +491,8 @@ class RunManager:
 
     def _sample(self, run):
         processes = [psutil.Process(run["pid"])]
+        if run["process_created"] is None and run["id"] in self.processes:
+            run["process_created"] = processes[0].create_time()
         processes += processes[0].children(recursive=True)
         rss, cpu_delta = 0, 0.0
         observations = self.cpu_observations.setdefault(run["id"], {})
@@ -547,8 +558,13 @@ class RunManager:
         run["artifacts"] = artifacts
         jobs = []
         cleanup_required = False
-        for phase in ("build", "prove", "benchmark", "verify"):
-            folder = root / phase
+        folders = [root, *(Path(p) for p in run.get("child_outputs", []))]
+        for parent, phase in (
+            (parent, phase)
+            for parent in folders
+            for phase in ("build", "prove", "benchmark", "verify")
+        ):
+            folder = parent / phase
             try:
                 job = read_json(folder / "job.json")
             except (ValueError, OSError, json.JSONDecodeError):
@@ -652,7 +668,9 @@ class RunManager:
                 run = self.runs[key]
                 process = self.processes.get(key)
                 code = process.poll() if process is not None else None
-                live = code is None and alive(run["pid"], run["process_created"]) is not False
+                live = code is None and (
+                    process is not None or alive(run["pid"], run["process_created"]) is not False
+                )
                 try:
                     self._tail(run)
                     self._tail_stage_logs(run)
@@ -682,7 +700,11 @@ class RunManager:
             time.sleep(0.5)
 
     def _signal_stop(self, run):
-        if run.get("cancel_signalled") or alive(run["pid"], run["process_created"]) is not True:
+        process = self.processes.get(run["id"])
+        owned_child = process is not None and process.poll() is None
+        if run.get("cancel_signalled") or (
+            not owned_child and alive(run["pid"], run["process_created"]) is not True
+        ):
             return
         try:
             os.killpg(run["pid"], signal.SIGINT)

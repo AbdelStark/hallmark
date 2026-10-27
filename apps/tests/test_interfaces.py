@@ -72,6 +72,25 @@ def test_terminal_keyboard_runs_workflow_and_reads_same_api(interface_server):
                 "no cryptographic proof" in str(app.query_one("#result-summary").render()).lower()
             )
             assert Client(interface_server.origin).get("/api/runs")[0]["id"] == app.selected
+            view = dict(
+                app.run_snapshot,
+                paid=True,
+                cost_ceiling="2.50",
+                jobs=[
+                    dict(
+                        phase="prove",
+                        status="RUNNING",
+                        cleanup_complete=False,
+                        url="https://example.com/fixture-job",
+                    )
+                ],
+            )
+            app.render_run(view)
+            assert "fixture-job" in str(app.query_one("#jobs").render())
+            assert "$2.50" in str(app.query_one("#jobs").render())
+            view["summary"] = dict(view["summary"], response="Fixture answer")
+            app.render_run(view)
+            assert "Fixture answer" in str(app.query_one("#result-summary").render())
             await app.action_export()
             assert list((interface_server.manager.directory / app.selected).glob("receipt-*.json"))
             await pilot.press("n")

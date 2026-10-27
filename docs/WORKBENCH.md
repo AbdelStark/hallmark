@@ -1,12 +1,19 @@
 # Terminal and web workbench
 
-**Implementation status:** in development. The interfaces and controller run;
-full proof/UI/distribution acceptance is tracked in
-[decision 0082](decisions/0082-demo-workbench.md) and [STATE](../research/STATE.md).
+Both interfaces have passed real proof-workflow acceptance. The
+[QA record](../research/evidence/demo-workbench-2026-10-27.json) pins the inputs,
+result hashes and checks; [decision 0082](decisions/0082-demo-workbench.md)
+records the implementation boundary.
 
 The workbench launches the same drivers as `make e2e`, `make e2e-llm` and the
 other documented workflows. It adds a shared run history, observed stage
 progress, local resource charts, logs, results and artifact downloads.
+
+![Browser result view from the fresh TinyLlama run: twenty-three proof segments, two honest verification checks, fourteen rejected mutations and three completed jobs with deleted buckets.](assets/workbench-web.png)
+
+The terminal reads the same controller. Here it shows the classifier campaign:
+
+![Terminal result view for a real classifier campaign, with workflow selection, retained history, result tabs and keyboard controls.](assets/workbench-tui.svg)
 
 ## Start an interface
 
@@ -107,6 +114,12 @@ policy consistency must pass its adapter before the app shows verification
 success. Unconfirmed cloud cleanup is shown as **needs attention**, with the
 retained job/bucket records available for inspection.
 
+Temporary sampling/read failures keep observing the same process. They do not
+cancel or retry paid work. If you update the app source, restart its controller
+after the active run finishes; new launches require one consistent app revision.
+The storage marker in `runs/workbench/` identifies app-owned metadata. An
+unrecognized nonempty directory is refused rather than overwritten.
+
 ## Architecture and extension
 
 ```mermaid
@@ -125,6 +138,7 @@ flowchart LR
 | `apps/hallmark_demo/catalog.py` | Workflow statements, prerequisites, stage markers and command arrays |
 | `apps/hallmark_demo/engine.py` | One-run lifecycle, persistence, process observation, cancellation, redaction and admitted artifacts |
 | `apps/hallmark_demo/results.py` | Per-driver completion contracts and the result view used by both clients |
+| `apps/hallmark_demo/execute.py` | Startup-inclusive paid-job admission, followed by the unchanged proof driver |
 | `apps/hallmark_demo/server.py` | Loopback transport, Host/Origin/session-token checks and static assets |
 | `apps/hallmark_demo/tui.py` | Terminal layout, keyboard actions and rendering |
 | `apps/hallmark_demo/web/` | Browser layout, rendering and local interaction |
@@ -135,11 +149,31 @@ allowed fields. Add its argument-array adapter and result contract. Both clients
 consume that shared definition and result view; do not copy proving code into
 either interface or accept arbitrary shell commands from a client.
 
+The controller validates a driver's completion report; cryptographic checks
+remain in the original verifier drivers. A green UI result is not another
+independently implemented verifier.
+
 Changing an inference relation or evaluator still requires the research decision
 and conformance process. App wiring cannot qualify a new proof backend, hardware
 attestation or witness privacy.
 
 ## Development checks
+
+The 2026-10-27 acceptance used the frozen published drivers:
+
+| Interface and workflow | Observed result |
+|---|---|
+| TUI: fresh classifier campaign | 9 proofs verified; 18 substitutions rejected; 405 arithmetic checks |
+| Web: retained LLM verification | 23 proofs; 2 honest checks; 36 mutations rejected |
+| Web: fresh TinyLlama proving | 23 proofs; 22 residual links; 2 honest checks; 14 mutations rejected |
+
+The fresh LLM workflow took 35 min 32 s including preparation, builds, transfers,
+proving, verification and cleanup. Its recorded running-compute estimate is
+$0.31, not an invoice; admission reserved a $2.50 ceiling. All three HF jobs
+completed and their buckets were deleted. These are app acceptance observations,
+not a new performance benchmark. GPU and composed adapters have regression
+coverage and retained-result checks; those complete workflows were not rerun for
+this app acceptance. The composed driver still requires 32 GiB free storage.
 
 ```sh
 make check-demo

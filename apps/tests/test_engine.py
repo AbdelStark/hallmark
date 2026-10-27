@@ -265,3 +265,46 @@ def test_access_denied_is_unknown_not_process_death(monkeypatch):
 
     monkeypatch.setattr(engine.psutil, "Process", denied)
     assert engine.alive(123, 456) is None
+
+
+def test_nested_driver_jobs_are_monitored_without_replacing_primary_output(runner):
+    manager, script = runner
+    script.write_text(
+        script.read_text().replace(
+            "print('Running prove',flush=True)",
+            "nested=Path.cwd()/'runs/nested'\n(nested/'build').mkdir(parents=True)\n"
+            "(nested/'build/job.json').write_text(json.dumps(dict(id='test-job',url='https://example.com/job')))\n"
+            "(nested/'build/bucket.json').write_text('{}')\n"
+            "print(f'Evidence: {nested}',flush=True)\n"
+            "print('build: COMPLETED (test-job)',flush=True)\n"
+            "print('Running prove',flush=True)",
+        )
+    )
+    done = wait(manager, manager.start("fixture", {})["id"])
+    assert done["status"] == "needs_attention"
+    assert Path(done["output"]).name == "output"
+    assert done["jobs"][0]["id"] == "test-job"
+    assert done["jobs"][0]["status"] == "COMPLETED"
+    assert done["cleanup_required"]
+
+
+def test_initial_identity_read_failure_keeps_the_owned_child(runner, monkeypatch):
+    from hallmark_demo import engine
+
+    manager, script = runner
+    script.write_text(script.read_text().replace("time.sleep(.2)", "time.sleep(.7)"))
+    original = engine.psutil.Process.create_time
+    calls = []
+
+    def initially_denied(process):
+        if not calls:
+            calls.append(process.pid)
+            raise engine.psutil.AccessDenied(process.pid)
+        return original(process)
+
+    monkeypatch.setattr(engine.psutil.Process, "create_time", initially_denied)
+    run = manager.start("fixture", {})
+    done = wait(manager, run["id"])
+    assert done["status"] == "succeeded" and not done["cancel_requested"]
+    assert done["process_created"] is not None
+    assert calls == [done["pid"]] and len(manager.list()) == 1

@@ -1,6 +1,6 @@
 # 0082: Shared controller for terminal and web demos
 
-Date: 2026-10-27. Status: implementation in progress.
+Date: 2026-10-27. Status: implemented; local acceptance passed.
 
 ## Objective and acceptance
 
@@ -68,3 +68,15 @@ price plan, records it in the monitoring directory, then calls the unchanged
 original driver. It does not change model inputs, proof parameters, phase
 resource limits or automatic-retry policy. The app still reports estimates,
 not invoices; no automatic recharge is enabled or authorized.
+
+## Acceptance evidence
+
+The [QA record](../../research/evidence/demo-workbench-2026-10-27.json) records
+three successful real proof workflows: fresh classifier proving from the TUI,
+native retained-LLM verification from the web app, and a fresh complete paid LLM
+run from the web app. The last produces all 23 segments, accepts two honest
+checks, rejects 14 mutations, and confirms all three jobs terminal with buckets
+deleted. Recorded running compute is $0.31, not an invoice. Final app tests,
+rendered/keyboard review and distribution/docs checks pass; hosted and merge
+identities are recorded on PR #129. GPU/composed complete campaigns were not
+rerun. Proof/model/evaluator inputs and the 55-file native identity are unchanged.

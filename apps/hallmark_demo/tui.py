@@ -13,6 +13,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
+from textual.theme import Theme
 from textual.widgets import (
     Button,
     Collapsible,
@@ -77,7 +78,7 @@ class Workbench(App):
     .section-label { color: #5c6b5a; text-style: bold; height: 2; margin-top: 1; }
     OptionList { background: #f6f4ed; color: #203c35; border: none; padding: 0;
                  height: auto; max-height: 13; }
-    OptionList > .option-list--highlighted { background: #203c35; color: #f6f4ed; }
+    OptionList > .option-list--option-highlighted { background: #203c35; color: #f6f4ed; }
     #history { height: 1fr; max-height: 100%; }
     #content { width: 1fr; padding: 1 2; }
     #heading { text-style: bold; height: auto; margin-bottom: 1; }
@@ -96,6 +97,7 @@ class Workbench(App):
     DataTable > .datatable--header { background: #e1e7d8; color: #203c35; text-style: bold; }
     #resources { height: 2; color: #5c6b5a; }
     #memory { height: 3; color: #32633f; background: #eeeee3; margin-bottom: 1; }
+    #jobs { height: auto; }
     #details { height: 1fr; min-height: 9; }
     TabPane { padding: 1 0; }
     ContentSwitcher { height: 1fr; }
@@ -124,7 +126,24 @@ class Workbench(App):
         self.polling = False
         self.starting = False
         self.history_keys = []
-        self.theme = "textual-light"
+        self.register_theme(
+            Theme(
+                name="hallmark-paper",
+                primary="#203c35",
+                secondary="#32633f",
+                accent="#a0442c",
+                foreground="#203c35",
+                background="#f6f4ed",
+                surface="#eeeee3",
+                panel="#e1e7d8",
+                dark=False,
+                variables={
+                    "footer-key-foreground": "#f6f4ed",
+                    "footer-description-foreground": "#f6f4ed",
+                },
+            )
+        )
+        self.theme = "hallmark-paper"
 
     def compose(self) -> ComposeResult:
         yield Label("H  HALLMARK   /   PROOF WORKBENCH", id="masthead")
@@ -155,6 +174,7 @@ class Workbench(App):
                                 yield DataTable(id="stages", cursor_type="none")
                                 yield Static("", id="resources", markup=False)
                                 yield Sparkline([], id="memory", summary_function=max)
+                                yield Static("", id="jobs", markup=False)
                         with TabPane("Activity", id="activity-tab"):
                             yield RichLog(
                                 id="activity",
@@ -324,7 +344,9 @@ class Workbench(App):
                 history = self.query_one("#history", OptionList)
                 history.clear_options()
                 history.add_options(
-                    Option(f"{r['title']}\n{r['status'].replace('_', ' ')} · {r['id']}", id=r["id"])
+                    Option(
+                        f"{r['title']}\n{status_label(r['status']).lower()} · {r['id']}", id=r["id"]
+                    )
                     for r in self.runs
                 )
                 self.history_keys = keys
@@ -356,6 +378,18 @@ class Workbench(App):
         for stage in run["stages"]:
             stages.add_row(stage["title"], stage["status"])
         samples = run["samples"]
+        jobs = []
+        if run["paid"]:
+            jobs.append(
+                f"Paid execution · ${run['cost_ceiling']} ceiling · estimates, not invoices"
+            )
+        if run.get("resource_plan"):
+            bound = run["resource_plan"]["conservative_bound_micro_usd"] / 1e6
+            jobs.append(f"Admitted startup-inclusive resource bound: ${bound:.2f}")
+        for job in run["jobs"]:
+            cleanup = "bucket deleted" if job["cleanup_complete"] else "cleanup unconfirmed"
+            jobs.append(f"{job['phase'].upper()} · {job['status']} · {cleanup}\n{job['url']}")
+        self.query_one("#jobs", Static).update("\n\n".join(jobs))
         if samples:
             last = samples[-1]
             cpu = f"{last['cpu_percent']:.0f}%" if last["cpu_percent"] is not None else "—"
@@ -380,6 +414,8 @@ class Workbench(App):
                 )
                 facts.append(metric["label"] + ": " + value)
             headline = summary["title"].upper() + "\n" + summary["note"]
+            if summary.get("response"):
+                headline += "\n\nGenerated response:\n" + summary["response"]
             self.query_one("#result-summary", Static).update(headline + "\n\n" + "\n".join(facts))
             table = Table(box=None, expand=True)
             if summary["cases"]:

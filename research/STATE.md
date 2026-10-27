@@ -2,23 +2,32 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
-## Terminal and web workbench — in progress
+## Terminal and web workbench — complete
 
-The owner requested complete TUI and web demo apps with shared execution,
-monitoring and extensible proving workflows. [Decision 0082](../docs/decisions/0082-demo-workbench.md)
-records the full acceptance gate. The implementation is in an isolated `apps/`
-project: one workflow catalog/controller, a loopback HTTP API, a Textual client
-and a responsive browser client. Existing proof drivers and the inference lock
-are frozen. Current app validation is software/integration evidence, not a new
-proof-backend qualification.
+`make demo-tui` and `make demo-web` launch shared local-first demo apps. One
+catalog, persistent controller and result adapter expose six existing workflows,
+observed stages, logs, local process-tree samples, HF jobs, retained artifacts
+and receipts. The [guide](../docs/WORKBENCH.md) includes actual rendered results;
+[decision 0082](../docs/decisions/0082-demo-workbench.md) records the boundary.
 
-Initial controller and client tests pass, including real subprocess lifecycle,
-CSRF/Host checks, redaction, artifact admission, mobile layout, history and
-keyboard launch. A real browser conformance run passes. A fresh classifier
-campaign launched from the TUI is running; a controlled controller restart
-reattached to the same live process. Native LLM verification, remaining workflow
-adapters, final UI review, distribution/CI and publication remain acceptance
-work. [Workbench guide](../docs/WORKBENCH.md).
+The [acceptance record](evidence/demo-workbench-2026-10-27.json) pins the inputs,
+source and result hashes. The real TUI-launched classifier run verifies 9 proofs,
+rejects 18 substitutions and checks 405 arithmetic cases. Browser-launched native
+LLM verification checks 23 proofs and rejects 36 mutations. A fresh complete
+browser-launched TinyLlama run produces 23 proofs, checks 22 residual links,
+accepts two honest verifications and rejects all 14 mutations. All three HF jobs
+are completed, outputs retained and buckets deleted. The $0.31 running-compute
+estimate is not an invoice; the startup-inclusive admission ceiling was $2.50.
+
+There are 52 passing app tests, including both interfaces, cancellation,
+request/artifact boundaries and recovery without duplicate work. Desktop/mobile
+and 120×42/80×24 terminal views were inspected. Core validation passes 2,398
+tests with 123 optional skips. Distribution, app build and strict docs checks
+pass; exact-head hosted/deployment receipts are recorded on
+[PR #129](https://github.com/AbdelStark/hallmark/pull/129). All 55 native verifier
+source pins, its identity and the inference lock remain unchanged. No fresh GPU
+benchmark or composed campaign is claimed for this app work. Monitoring and
+completion-report checks add no backend qualification, privacy or hardware claim.
 
 ## Public documentation site and badges
 
