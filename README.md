@@ -89,6 +89,7 @@ Response: The capital of France is Paris.
 |---|---|---|
 | **LLM — SASH Circle STARK** | The enrolled quantized model computes the complete greedy answer through EOS: embedding, every transformer layer, final normalization and output argmax, with all segment/token links checked | Enroll expected model, shape and calibration roots and the exact token case; check pinned tokenization/detokenization outside the circuit |
 | **Classifiers — gnark/Groth16 on BLS12-381** | A fixed integer rule, MLP or CNN computes its stated verdict on the complete admitted prompt bytes, including input hashing, arithmetic and threshold comparison | Reconstruct public inputs from the expected request; check circuit/key/model/context binding |
+| **Classifiers — experimental STWO Circle STARK** | The same rule, MLP and CNN arithmetic, complete 96-byte input and exact salted SHA-256 commitment; nine real proofs pass fresh verification | Enroll fixed circuit/preprocessing and backend-specific identities before proving; reconstruct expected public inputs and complete roster; [details](docs/CIRCLE-CLASSIFIERS.md) |
 | **Composition — host verification** | Both verified relations refer to the same opened request | Check the common prompt/response context and combine verified classifier verdicts with `all-pass` |
 
 A valid proof can establish a **block** verdict. Proof validity is separate from
@@ -286,8 +287,10 @@ The [MVP acceptance matrix](docs/MVP.md) distinguishes completed integrity work
 from the original private/hardware v1 roadmap. The
 [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
 tracks rule/MLP/CNN proofs and matched gnark/native benchmarks. Classifiers use
-Groth16 because those complete circuits were implemented first; there is no
-measured backend winner for that workload.
+Groth16 by default because those complete circuits were implemented first.
+The [experimental Circle STARK path](docs/CIRCLE-CLASSIFIERS.md) now passes
+the nine-proof acceptance workflow. Its matched benchmark and LLM composition
+remain open; there is no measured backend winner for that workload.
 
 ## Documentation
 
@@ -297,6 +300,7 @@ measured backend winner for that workload.
 | Inspect the exact LLM relation and reproduction | [LLM proof guide](docs/LLM-PROOF.md) |
 | Reproduce GPU timings or audit their boundaries | [GPU benchmark](docs/GPU-BENCHMARK.md) |
 | Inspect classifier circuits, public inputs and caller checks | [Classifier proofs](docs/PROOFS.md) |
+| Inspect the experimental STWO rule/MLP/CNN path | [Circle STARK classifiers](docs/CIRCLE-CLASSIFIERS.md) |
 | Download trained weights and reproduce native inference | [Published models, cards and pinned revisions](docs/MODELS.md) |
 | Assess model/data quality, counts and failed screens | [Results and limitations](docs/RESULTS.md) |
 | Run the joined workflow | [Composed demo](docs/COMPOSED-DEMO.md) |

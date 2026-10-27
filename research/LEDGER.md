@@ -5062,3 +5062,102 @@ All 55 native verifier source files, program identity and inference lock are
 unchanged. No fresh GPU or composed campaign is claimed for this app acceptance;
 the composed driver retains its 32 GiB free-storage prerequisite. No new backend
 qualification, hardware attestation, hiding or model-quality claim is made.
+
+## 2026-10-27 — Circle classifier implementation: first complete acceptance
+
+Selected epic #112 and its ordered #113–#117 gates. Baseline is
+`0b7fcf256e2b1da7f89578014bcc86e6737fc3f5`; hypothesis, mutable paths, exact
+relation and frozen repetition/resource protocol are in decision 0083 and
+`configs/circle-classifiers/`. No arithmetic, model, threshold, evaluator,
+dataset or historical result is replaced. Gnark remains the default.
+
+The contract replay `runs/classifier-contract-ztfhsaok` freshly checks nine
+retained gnark proofs using py-ecc, 10 input boundaries, 20 scalar cases,
+18 cross-request and three roster rejections. It generates no new proofs and
+is not a benchmark sample. Its first attempt retained a wrapper failure after
+an honest verification: the wrapper tried to write an already-created cost
+file. Removing that duplicate write precedes the separate passing run.
+
+The backend uses direct STWO 2.2.0, release revision
+`289c20de80b7c7f508de9c46151fb81dae404154`, Apache-2.0, with
+`nightly-2025-07-14`. Registry engine/framework source files match the pinned
+release archive. The lock/review test caught five prover-only dependencies
+missing from the initial verifier-feature licence inventory. The amended review
+now covers all 109 third-party locked packages, including their selected licence
+alternatives/checksums; that amendment is retained in `dependencies.json`.
+No root Python dependency or native LLM verifier source was changed.
+
+Failed engine hypotheses remain in `runs/circle-api-fixture-v1` through `v3`
+and the diagnosis directories. A trace smaller than the FRI last layer failed;
+the cubic selector/batched-lookup version then exposed a decommitment-domain
+mismatch and an OODS constraint mismatch. The accepted AIR adds an explicit
+product column and one LogUp entry per interaction column, making every
+constraint quadratic. The wiring/constants/fanout are preprocessing, not
+prover-controlled multiplicities. No failed version is reported as an accepted
+proof. The invalid Mac `RLIMIT_DATA` diagnostic also remains a failed attempt.
+
+The exact SHA-256 circuit matches hashlib across block boundaries. Its 32-bit
+words use limbs; variable-length classifier inputs use constrained canonical
+CBOR, masks, zero padding and SHA length padding. The rule AIR maximum-input
+fixture passes fresh proof verification, with placeholder context/classifier
+values explicitly excluded from a composition claim.
+
+The [acceptance evidence](evidence/circle-classifiers-acceptance-2026-10-27.json)
+then records two complete caller-bound runs:
+
+- `runs/circle-classifier-acceptance-v1`: nine real proofs and nine fresh
+  proof-only verifications; 63 direct public-input mutations, 18 cross-request
+  substitutions and three invalid rosters reject. All MLP intermediates and CNN
+  node outputs match native execution. Complete acceptance wall time is 97.88 s.
+- `runs/circle-classifier-acceptance-v2`: the same gate passes after adding
+  stage timing records and explicit free-space checks, and sizing twiddles to the
+  common commitment domain. Complete acceptance wall time is 96.34 s. Twelve
+  preprocessing/proving workers emit component timing records.
+
+Both runs retain their raw numbers, source/binary/program/proof hashes, caller
+pins written before proving, witnesses, proof files, logs and failed controls.
+Their matching source/binary snapshots are retained separately. They are
+acceptance trials, not the three-fresh/five-warm matched benchmark. Backend
+identities differ when their source enrollment changes; native model identities,
+weights and thresholds remain unchanged. The caller still runs native inference.
+
+The first focused Python gate passes 72 tests; the Rust gate passes three tests,
+including an actual arithmetic proof roundtrip and trace constraint assertions.
+The new lock/licence admission gate passes seven tests after the inventory
+amendment. These counts precede final core/distribution/hosted checks.
+
+Storage preparation leaves the busy uv cache unchanged. Thirty-six byte-identical
+circuit/key copies in the owned acceptance/preparation directories are replaced
+with verified APFS clones, preserving regular independent inodes, complete bytes,
+paths and timestamps. The retained local receipt records every source/target
+hash; observed free space increases by 3,140,980,736 bytes. No model, proof,
+failed run, Cargo registry or source is deleted. No paid compute is used.
+
+Remaining acceptance work is the explicit invalid-witness/maximum-length gate,
+full matched repeated measurements, same-request LLM composition and final
+local/distribution/hosted delivery. The epic and all child issues remain open
+until their complete criteria have evidence; no hardware, hiding, safety quality
+or backend qualification is claimed.
+
+
+### Circle adversarial gate and bounded CPU fallback
+
+`runs/circle-constraint-conformance-v1/result.json` records 210.246452 s,
+three new full-96-byte proofs, three fresh verifications, 21 invalid witnesses
+rejected by real STWO constraints and one omitted dense edge rejected by the
+independent program pin. Ten byte/CBOR/chunk/UTF-8 boundary cases retain exact
+native parity or reject overflow. This resolves the invalid-witness gate above;
+it is excluded from matched timing samples. Public hashes and counts are in the
+classifier acceptance evidence.
+
+The Mac measurement fixture stops before compilation because free storage is
+below the frozen 8 GiB boundary. APFS cloning preserves hashes and independent
+regular inodes; two local storage receipts record the operations. A tool-native
+uv cache cleanup and restart of our idle demo server preserve all five completed
+app runs. No source, model, proof or failed experiment is deleted.
+
+Decision 0084 freezes a separate HF CPU experiment and startup-inclusive $0.30
+ceiling (observed-price estimate $0.27). The Linux profile preserves cases,
+models, arithmetic, three fresh/five warm repetitions and independent Mac
+program-enrollment roots. Local HF boundary/report tests pass 16 cases without
+launching compute. No paid job had started when this entry was written.

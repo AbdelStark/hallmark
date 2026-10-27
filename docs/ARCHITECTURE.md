@@ -182,15 +182,16 @@ capture, training history, operational authorization or real-world safety.
 The split reflects implementation history, **not a matched performance result**.
 Dedicated gnark classifier circuits were implemented first, including complete
 SHA-256/input handling and the exact integer operators. SASH was integrated later
-for its supported Llama inference relation. There is currently no Circle STARK
-adapter for Hallmark's exact rule/MLP/CNN relations; switching requires a real
-relation port and verifier/enrollment integration, not a command-line flag.
+for its supported Llama inference relation. The experimental
+[STWO classifier adapter](CIRCLE-CLASSIFIERS.md) now proves all three exact
+relations with separate caller enrollment and fresh proof-only verification.
+The default workflow still uses gnark; the matched comparison remains open.
 
 | Current path | Useful property | Remaining trade-off |
 |---|---|---|
 | gnark/Groth16 classifiers | Complete existing circuits and separate py-ecc verification; 292-byte serialized proofs in this profile | Circuit-specific trusted setup; local setup has not undergone an independent ceremony |
 | SASH Circle STARK LLM | Working specialized quantized transformer proofs; no general-purpose VM | Large fixed-case bundle, public parameter enrollment and shared prover/verifier implementation |
-| Circle STARK classifiers | **Planned**, not implemented | Must prove the same complete relation before a meaningful comparison |
+| Experimental STWO Circle STARK classifiers | Nine serialized rule/MLP/CNN proofs accepted by fresh verifier processes; exact input hashing and integer operators | Repeated matched comparison and composed LLM workflow remain open; no backend qualification |
 
 There is **no matched classifier benchmark** establishing which proof backend is
 better. Comparing the tiny classifier proofs with the 1.1B LLM's proof size or
@@ -205,8 +206,11 @@ tracks the implementation and comparison:
 4. [#116](https://github.com/AbdelStark/hallmark/issues/116): complete contextual byte CNN proof.
 5. [#117](https://github.com/AbdelStark/hallmark/issues/117): common workflow, composed request and repeated matched benchmarks against gnark and native execution.
 
-The first implementation evaluates reuse of SASH's Circle STARK engine separately
-from its Llama application; no engine choice or speed advantage is presumed.
+The classifier implementation uses direct STWO 2.2.0 as a dependency, separately
+from SASH's pinned Llama application/fork. It adapts the upstream gate-AIR/LogUp
+patterns and adds Hallmark's own SHA-256/integer/classifier circuits. The
+[source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership) explains ownership.
+No speed advantage or backend adoption is presumed.
 Benchmarks must separate setup/preprocessing, witness preparation, proving,
 serialization, proof-only verification, caller binding/native rerun, total time,
 memory and artifact sizes, with explicit security parameters and resource caps.

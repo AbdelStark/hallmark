@@ -3,6 +3,43 @@ on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
+  circle-fixture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      RAYON_NUM_THREADS: '4'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install nightly-2025-07-14 --profile minimal
+      - run: cargo +nightly-2025-07-14 test --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --lib -j 2
+      - run: cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --bin circle-prove -j 2
+      - run: cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 2
+      - name: Verify a serialized gate proof in a separate verifier process
+        env:
+          PYTHONPATH: src:scripts
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, subprocess, tempfile
+          from pathlib import Path
+          from check_circle_engine import fixture, encode
+          binaries = Path("research/probes/circle/target/release").resolve()
+          prover, verifier = binaries / "circle-prove", binaries / "circle-verify"
+          output = Path(tempfile.mkdtemp(prefix="circle-ci-"))
+          program, public, witness = fixture()
+          for name, value in (("program", program), ("public", public), ("witness", witness)):
+              (output / (name + ".json")).write_bytes(encode(value))
+          subprocess.run([prover, "enroll", "program.json", "enrollment.json"], cwd=output, check=True)
+          pin = hashlib.sha256((output / "enrollment.json").read_bytes()).hexdigest()
+          subprocess.run([prover, "prove", "program.json", "enrollment.json", "public.json", "witness.json", "proof.json"], cwd=output, check=True)
+          args = [verifier, "enrollment.json", pin, "public.json", "proof.json"]
+          subprocess.run(args, cwd=output, check=True)
+          public[4] += 1
+          (output / "public.json").write_bytes(encode(public))
+          assert subprocess.run(args, cwd=output).returncode != 0
+          print(json.dumps({"fresh_separate_verifier": "passed", "changed_public": "rejected", "qualified_backend": False}))
+          PY
   llm-fixture:
     runs-on: ubuntu-24.04
     timeout-minutes: 10

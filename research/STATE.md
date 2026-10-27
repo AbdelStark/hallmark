@@ -2,6 +2,31 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Circle classifier comparison — implementation in progress
+
+Epic [#112](https://github.com/AbdelStark/hallmark/issues/112) and its five
+dependent gates remain open. The first gate freezes the existing rule, MLP,
+CNN, complete 96-byte semantics and a three-fresh/five-warm matched protocol.
+[Decision 0083](../docs/decisions/0083-circle-classifier-comparison.md) records
+the hypothesis, unchanged baseline, mutable paths and acceptance criteria.
+
+The contract replay freshly verifies nine retained gnark proofs and rejects
+18 cross-request and three roster substitutions; it is not a new benchmark.
+The direct STWO 2.2.0 candidate passes the complete nine-proof classifier
+acceptance workflow after replacing the failed cubic/domain variant with
+quadratic constraints. Fresh proof-only processes accept all nine proofs and
+reject 63 public-input mutations; caller checks reject 18 cross-request and
+three roster substitutions. All MLP intermediates and CNN node outputs match
+native execution. The [evidence](evidence/circle-classifiers-acceptance-2026-10-27.json)
+pins source/binary/program/proof identities. A second complete run confirms the result. Full-length conformance produces
+three further proofs and rejects 21 invalid witnesses in STWO constraints;
+an omitted dense edge fails the independent program pin. These are acceptance
+runs, not a
+matched performance campaign or backend qualification. The repeated benchmark,
+composed LLM workflow and final delivery gates remain open. Failed attempts
+remain retained locally; gnark stays the default. All 55 LLM-native verifier
+source pins and their identity remain unchanged.
+
 ## Terminal and web workbench — complete
 
 `make demo-tui` and `make demo-web` launch shared local-first demo apps. One
@@ -153,7 +178,8 @@ classifier implementation/benchmark tracker. The [architecture guide](../docs/AR
 maps each Make target, the three flows, exact statements and SASH source/patch
 ownership. [Epic #112](https://github.com/AbdelStark/hallmark/issues/112) tracks five
 ordered tasks (#113–#117): freeze/replay, rule, MLP, CNN and matched gnark/native
-benchmarks. No Circle STARK classifier adapter or matched benchmark exists yet.
+benchmarks. At that tracker-creation baseline no Circle STARK classifier adapter
+or matched benchmark existed; the implementation update is at the top of this file.
 This is new integrity research, not a remaining gate for the completed MVP or a
 substitute for original private/hardware v1 qualification. Runtime, model,
 evaluation and historical evidence remain unchanged; no proving/cloud run is
