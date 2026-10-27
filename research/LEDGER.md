@@ -5278,3 +5278,25 @@ layout. Its strict build passes 162 pages and 12,425 links/assets
 (`runs/circle-docs-v9.log`). Rechecking the 55 native LLM source pins yields the
 unchanged identity
 `8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.
+
+While the campaign remains live, local free storage fell to about 4.9 GiB.
+A second targeted cleanup preserves each executable by hash and removes only
+12 completed native-verifier target caches through Cargo. Completed result and
+worker-binary hashes match before/after; open-file checks pass. The retained
+receipt is `runs/completed-native-cache-cleanup-v2/receipt.json`: free bytes
+5,245,190,144 → 9,975,779,328. Failed builds, source, proofs, models and registries
+are retained. This changes local retention headroom, not the running Linux
+benchmark or any timing sample.
+
+Six focused gate-equation fixtures check thresholds 0 and −3733 at score
+offsets −1/0/+1. Equality blocks; mutations of either public threshold limb
+or the verdict reject. All 56 integer tests pass in 0.06 s
+(`runs/circle-threshold-tests-v1.log`). These are arithmetic conformance checks,
+not new proofs or reachable-score claims for the frozen models. The strict
+verdict implementation, backend identity and running campaign source are
+unchanged.
+The subsequent locked `make check` passes 2,580 tests with 51 optional skips
+in 106.44 s, plus spec/software-conformance/admission checks
+(`runs/circle-make-check-v5.log`). Strict docs pass 162 pages and 12,425 local
+links/assets (`runs/circle-docs-v10.log`). Optional train/guard coverage remains
+a hosted gate; this adds no proof timing or backend qualification.

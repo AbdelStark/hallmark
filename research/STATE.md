@@ -40,6 +40,8 @@ passing counts. The architecture guide maps the default and Circle classifier
 flows and distinguishes their dependencies from SASH. Exact-head CI receipts
 are recorded on PR #130; they do not
 replace the pending matched campaign and composed-proof gates.
+Six arithmetic fixtures additionally check both strict thresholds at scores
+below/equal/above the boundary and reject changed public limbs/verdicts.
 
 ## Terminal and web workbench — complete
 

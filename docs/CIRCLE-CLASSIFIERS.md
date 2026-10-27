@@ -93,6 +93,11 @@ their logs and partial outputs; parser rejection cannot substitute for the
 required invalid-witness constraint failures. These are conformance checks,
 separate from the repeated measurements below.
 
+Separate arithmetic fixtures exercise scores one below, equal to and one above
+both frozen thresholds. Equality blocks; changed public threshold limbs and
+verdicts fail the gate equations. These fixtures test the arithmetic boundary,
+not whether the trained models can attain each score.
+
 ## What the proof establishes
 
 Each circuit covers the complete input up to 96 UTF-8 bytes. Oversized inputs

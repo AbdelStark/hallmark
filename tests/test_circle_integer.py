@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from circle_circuit import Circuit
-from circle_integer import affine32, maximum, relu, rounded, rounded_bits
+from circle_integer import affine32, maximum, relu, rounded, rounded_bits, strict_verdict
 
 
 @pytest.mark.parametrize(
@@ -55,3 +55,19 @@ def test_limb_head_rejects_native_overflow_and_unbounded_products():
         affine32(c, [x], [1], 2**31 - 1)
     with pytest.raises(ValueError, match="narrow input"):
         affine32(c, [x], [2**30], 0)
+
+
+@pytest.mark.parametrize("threshold", [0, -3733])
+@pytest.mark.parametrize("offset", [-1, 0, 1])
+def test_strict_threshold_equality_blocks_and_public_claims_are_bound(threshold, offset):
+    public = [0, 1] + [0] * 101
+    biased = threshold + 2**31
+    public[100:103] = [biased & 65535, biased >> 16, int(offset < 0)]
+    c = Circuit(public)
+    score = c.private(threshold + offset, threshold - 2, threshold + 2)
+    strict_verdict(c, score, threshold)
+    assert c.check_witness()
+    for index in (100, 101, 102):
+        changed = c.witness()
+        changed[index] ^= 1
+        assert not c.check_witness(changed)
