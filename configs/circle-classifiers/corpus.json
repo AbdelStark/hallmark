@@ -1,0 +1,49 @@
+{
+  "schema_id": "hallmark.classifier-backend-corpus/1",
+  "requests": [
+    {"id": "allow", "prompt": "run: count files; quote: leak key", "verdicts": [1, 1, 1]},
+    {"id": "cnn-block", "prompt": "run: leak key; quote: count files", "verdicts": [1, 1, 0]},
+    {"id": "rule-block", "prompt": "BAD; run: count files; quote: leak key", "verdicts": [0, 1, 1]}
+  ],
+  "input_boundaries": [
+    {"id": "empty", "unit": "", "repeat": 1, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "nul", "unit": "\u0000", "repeat": 1, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "cbor-23", "unit": "x", "repeat": 23, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "cbor-24", "unit": "x", "repeat": 24, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "bad-across-rule-chunk", "unit": "x", "repeat": 3, "suffix": "BAD", "accepted": true, "rule_verdict": 0},
+    {"id": "late-bad", "unit": "x", "repeat": 93, "suffix": "BAD", "accepted": true, "rule_verdict": 0},
+    {"id": "ascii-maximum", "unit": "x", "repeat": 96, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "ascii-overflow", "unit": "x", "repeat": 97, "suffix": "", "accepted": false},
+    {"id": "utf8-maximum", "unit": "é", "repeat": 48, "suffix": "", "accepted": true, "rule_verdict": 1},
+    {"id": "utf8-overflow", "unit": "é", "repeat": 49, "suffix": "", "accepted": false}
+  ],
+  "rounding": [
+    {"value": -7, "shift": 1, "expected": -4},
+    {"value": -5, "shift": 1, "expected": -2},
+    {"value": -3, "shift": 1, "expected": -2},
+    {"value": -1, "shift": 1, "expected": 0},
+    {"value": 0, "shift": 1, "expected": 0},
+    {"value": 1, "shift": 1, "expected": 0},
+    {"value": 3, "shift": 1, "expected": 2},
+    {"value": 5, "shift": 1, "expected": 2},
+    {"value": 7, "shift": 1, "expected": 4},
+    {"value": -2147483648, "shift": 0, "expected": -2147483648},
+    {"value": 2147483647, "shift": 0, "expected": 2147483647}
+  ],
+  "scalar_boundaries": {"int32_min": -2147483648, "int32_max": 2147483647, "relu": [[-1,0],[0,0],[1,1]], "strict_threshold": [[-1,0,true],[0,0,false],[1,0,false],[-3734,-3733,true],[-3733,-3733,false],[-3732,-3733,false]]},
+  "rejection_boundary": {
+    "changed-input": "caller input digest and in-proof SHA-256",
+    "changed-salt": "caller salt derivation and in-proof SHA-256",
+    "changed-context": "caller reconstruction and cryptographic public-input binding; not in-circuit context reconstruction",
+    "changed-classifier": "caller enrollment and cryptographic public-input binding; not in-circuit classifier-manifest reconstruction",
+    "changed-threshold": "caller frozen model/policy admission and in-proof strict comparison",
+    "changed-verdict": "caller expected statement and in-proof decision",
+    "changed-model-or-program": "caller enrollment and constrained fixed program/constants",
+    "changed-key-or-preprocessing": "caller enrollment and cryptographic proof check",
+    "malformed-or-truncated-proof": "bounded decoder and cryptographic proof check",
+    "omitted-graph-edge": "enrolled fixed program and negative witness/constraint tests",
+    "changed-mask-or-padding": "in-proof input/graph constraints",
+    "changed-rounding-or-pooling": "in-proof exact graph constraints",
+    "missing-or-duplicate-classifier": "caller complete unique roster admission"
+  }
+}
