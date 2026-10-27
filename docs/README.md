@@ -15,7 +15,7 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 | [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |
 | [What is proved](PROOFS.md) | Classifier claim, public inputs, caller checks and exclusions |
 | [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
-| [GPU prover measurements](GPU-BENCHMARK.md) | Experimental same-host SIMD/CUDA comparison, fixed public inputs, bounded jobs and CPU/Mac verification |
+| [GPU prover measurements](GPU-BENCHMARK.md#generated-constraint-result) | H200 matched pair: 53.94 s CUDA proving, 10.15× over SIMD; generated constraints, zero CPU fallback, cost/timing boundaries and reproduction |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |
 | [Results and limitations](RESULTS.md) | Model/data notes, measured results, failed experiments and evidence links |
 | [Operations](OPERATIONS.md) | Focused experiment recipes, enrollment, retained artifacts and recovery |

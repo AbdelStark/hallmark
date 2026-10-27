@@ -10,10 +10,15 @@ neither a general-purpose zkVM nor hardware attestation.
 For the complete flow, read [the LLM architecture diagram](ARCHITECTURE.md#llm-make-e2e-llm)
 and [how SASH is integrated](ARCHITECTURE.md#how-sash-is-integrated). Hallmark
 downloads pinned upstream source and invokes its real Rust prover/verifier
-through CLI adapters. The accepted Linux Rust binary is built without source
+through CLI adapters. The Linux CPU Rust binary is built without source
 changes; local witness preparation and the optional native Mac verifier have
 separate, explicit patches. A fresh SASH process is not an independently
 implemented verifier.
+
+The separate [GPU benchmark](GPU-BENCHMARK.md#generated-constraint-result) adds
+generated CUDA constraint kernels and a strict fallback guard. Its matched
+H200 pair measures **547.75 s SIMD / 53.94 s CUDA** summed proving (10.15×);
+this is a different host and timing boundary from the fresh CPU workflow below.
 
 ```text
 Prompt:   Name the capital of France in one short sentence.

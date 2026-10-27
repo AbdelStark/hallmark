@@ -4826,3 +4826,36 @@ Current gates pass 51 focused tests and `make check`: 2,454 passed, 50 skipped,
 lint/type/spec/conformance/admission checks. Documentation links pass. The final
 staged `make package-check` and exact-head hosted checks are recorded on the
 delivery PR. No hiding, hardware, general-model or qualified-backend claim follows.
+
+
+## 2026-10-27 — README GPU headlines and proof onboarding
+
+Documentation gate from STATE: make the completed fixed-case GPU result legible
+at the repository entry point. Hypothesis: adjacent timing boundaries and a
+matched CPU/CUDA table prevent the historical CPU-only latency from obscuring
+the generated-kernel result. Baseline: main `3fd97ee5191374a439db3cbbfd033322ee298569`.
+Mutable paths are README, the architecture/LLM/docs entry points, STATE and this
+ledger. Acceptance: audited figures, working local links/anchors and Make target
+resolution, local/distribution checks; no runtime, protocol or evidence changes.
+
+The README now leads with 53.94 s CUDA proving and 10.15x matched speedup. Its
+table separates 155.89 s complete commands (4.36x), host/device memory, serialized
+proof size, verifier preprocessing, cached workflow time and compute estimates.
+One pair, CPU witness generation, failed attempts, public-witness scope and the
+separate historical CPU workflow remain explicit. Exact proof/caller boundaries,
+a composition diagram, prerequisites/costs/results for each quickstart and a
+source map replace repeated descriptions. CUDA source changes are distinguished
+from the unchanged upstream CPU binary in the architecture and LLM guides.
+
+A local arithmetic check recomputes both ratios, rounded times, host GB and GPU
+GiB from `research/evidence/llm-gpu-generated-constraints-2026-10-26.json`, verifies
+identical serialized sizes and the passing/equality flags. All five Make targets
+resolve with `make -n`; no workflow or paid compute is launched.
+`python3 scripts/check_docs.py` passes paths/anchors; external URLs are not
+checked by that command. `git diff --check` passes. Final local/distribution and
+exact-head hosted receipts follow on the delivery PR. Numeric evidence, model,
+witnesses, evaluation and runtime files are unchanged; no new benchmark is run.
+
+Local `make check` completes successfully in the locked core environment; its
+pytest totals and final package source identity are recorded on the delivery PR.
+Optional training execution is left to the required train-extra CI matrix.
