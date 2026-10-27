@@ -155,6 +155,40 @@ product column and unbatched wire lookups keep all constraints quadratic.
 Every wire reference is checked against the enrolled producer through LogUp.
 This executes a fixed circuit; there is no instruction set or general-purpose VM.
 
+## How the gate proof binds the graph
+
+Every fixed gate row carries three wire values `a`, `b`, `c` and a product
+column `t`. Its enrolled selectors enforce:
+
+```text
+t = a * b
+q_m * t + q_a * a + q_b * b + q_k = q_out * c
+(active - write) * c = 0
+```
+
+Arithmetic rows write `c`; assertion rows require their expression and output
+to be zero. Private-input rows deliberately leave `c` free until the classifier,
+SHA and range constraints consume it. Padding rows require zero wire values.
+The product column keeps the selector equation quadratic; multiplying a varying
+selector directly by `a*b` would make it cubic.
+
+A gate equation alone cannot require two rows to use the same value for a shared
+wire. The fixed preprocessing therefore also commits each wire ID and its exact
+consumer count. After the base trace is committed, transcript challenges define
+a tuple combiner `L(id, value)`. Three unbatched LogUp columns enforce the balance:
+
+```text
+sum_rows(active / L(id_a,a) + active / L(id_b,b) - fanout_c / L(id_c,c))
+    = sum_public(public_multiplicity / L(public_id, caller_value))
+```
+
+The verifier computes the right-hand side from caller values and the enrolled
+multiplicities. It accepts no free prover-chosen boundary sum. The independently
+enrolled preprocessing root binds wiring, constants, selectors and fanout before
+proving. This checks a fixed arithmetic graph; there is no instruction set,
+program counter or general-purpose VM execution trace. The concrete parameters
+and unqualified security boundary are below.
+
 ## Parameters and limits
 
 The fixed profile uses M31, QM31 lookup challenges, Blake2s commitments/transcript,
