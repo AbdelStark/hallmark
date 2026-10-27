@@ -1,0 +1,72 @@
+{
+  "badges": {
+    "count": 5,
+    "direct_svg_fetch": "403 from audit client; normal rendered verification recorded on delivery PR",
+    "published_hugging_face_models": 2,
+    "style": "for-the-badge"
+  },
+  "browser": {
+    "clipboard": "not completed: browser connection reset during final check",
+    "desktop": {
+      "horizontal_overflow": false,
+      "visual_review": true,
+      "width": 1280
+    },
+    "diagrams": "rendered flowchart visually checked in viewport",
+    "math": {
+      "arithmatex_nodes": 5,
+      "rendered_katex_nodes": 5
+    },
+    "mobile": {
+      "height": 844,
+      "homepage_and_article_review": true,
+      "horizontal_overflow": false,
+      "navigation_drawer_opened": true,
+      "width": 390
+    },
+    "proof_explorer": {
+      "rich_markdown_rendered": true,
+      "tested_states": [
+        "llm",
+        "classifier"
+      ]
+    },
+    "search": {
+      "query": "GPU",
+      "results_returned": true
+    },
+    "theme": {
+      "dark_toggle_verified": true,
+      "dark_visual_review": true,
+      "light_visual_review": true
+    }
+  },
+  "inference_lock_unchanged": true,
+  "limits": [
+    "browser QA is not a formal accessibility audit",
+    "external URLs are not checked by the local site crawler",
+    "no runtime, evaluator, numeric evidence or model changes"
+  ],
+  "native_verifier_identity": "8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a",
+  "native_verifier_source_files_unchanged": 55,
+  "pages": {
+    "build_type": "workflow",
+    "hosted_deployment": "delivery PR records exact commit and run",
+    "https_enforced": true,
+    "site_url": "https://abdelstark.github.io/hallmark/"
+  },
+  "recorded_at": "2026-10-27",
+  "schema_id": "hallmark.documentation-site-qa/1",
+  "scope": "documentation build and browser QA; no scientific benchmark or backend qualification",
+  "source_files": {
+    "mkdocs.yml": "51304f6845674c3f7c5aef5c6e93083bda2f85ab77ad2c1598fa2ab463798d5e",
+    "scripts/build_docs.py": "658c726dbe23fa21431e2ca7dbe542e0d7fddf1790b17b9049853a48fe82ce69",
+    "scripts/check_site.py": "eff06cf71fb3bbb52dfd7355a503a4fe03c5785a09c7c55d526d1ada9a82ee5b",
+    "website/assets/site.js": "ed563b24c1afd8e947e6335f15b772b0131e749100c43d7554e72dfa790215f5",
+    "website/assets/styles.css": "5f37146968a4a7ede89bcdb1a7079ccb78b534cb23da70e525465b2df4a14074",
+    "website/overrides/home.html": "0a0c46e23f43c59c58dd87955f645f088cdc2460078cfdcd5a58ccf4219e8100",
+    "website/overrides/main.html": "10f1bc76a8cfb20b5090cd5a3df021836e57f64402ee1f08e92f9a2fc9042956",
+    "website/uv.lock": "ec00b2623d7a04c348647a1e4a8320569a2632b162a8a674abe659d878cabe27"
+  },
+  "staging_tests_passed": 10
+}

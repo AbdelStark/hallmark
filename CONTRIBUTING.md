@@ -34,6 +34,13 @@ part of this workflow.
 
 ## One work item per PR
 
+For documentation and site changes, use `make docs` for a strict build and
+generated-link checks, and `make docs-serve` for a local preview. Stage new
+documentation/asset paths explicitly before building; the site deliberately
+excludes untracked files and ignored research runs. The optional toolchain has
+its own lockfile, preserving inference/verifier identities. See the
+[site maintenance guide](docs/DOCUMENTATION.md) for source layout and deployment.
+
 Choose an actionable item from the [tracker](docs/roadmap/IMPLEMENTATION.md).
 Check its actual issue and dependencies; a tracker status is a dated observation.
 Link the requirement, RFC and issue in the PR. State the behavior change, exact

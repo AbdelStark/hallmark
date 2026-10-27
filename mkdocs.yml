@@ -1,0 +1,119 @@
+site_name: Hallmark
+site_description: Cryptographic inference proofs. Reproducible experiments. Explicit trust boundaries.
+site_url: https://abdelstark.github.io/hallmark/
+repo_url: https://github.com/AbdelStark/hallmark
+repo_name: AbdelStark/hallmark
+edit_uri: edit/main/
+docs_dir: runs/docs-source
+site_dir: site
+copyright: MIT-licensed research · Fixed-case integrity, explicit assumptions.
+theme:
+  name: material
+  custom_dir: website/overrides
+  language: en
+  font: false
+  logo: assets/mark.svg
+  favicon: assets/mark.svg
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.footer
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark theme
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light theme
+nav:
+  - Overview: index.md
+  - Learn:
+      - A learning path: docs/learn/index.md
+      - From inference to a claim: docs/learn/computation-and-claims.md
+      - Read a proof statement: docs/learn/read-a-proof.md
+      - Two proof systems: docs/learn/proof-systems.md
+      - Verify one request: docs/learn/one-request.md
+  - Guides:
+      - Choose a workflow: docs/START.md
+      - Train and prove classifiers: docs/DEMO.md
+      - Prove a TinyLlama response: docs/LLM-PROOF.md
+      - Measure GPU proving: docs/GPU-BENCHMARK.md
+      - Compose the proofs: docs/COMPOSED-DEMO.md
+      - Resume an experiment: docs/OPERATIONS.md
+  - Models:
+      - Published classifiers: docs/MODELS.md
+      - Byte MLP model card: docs/model-cards/byte-mlp.md
+      - Contextual CNN model card: docs/model-cards/contextual-byte-cnn.md
+  - Research:
+      - Evidence map: docs/research/index.md
+      - Results and limitations: docs/RESULTS.md
+      - Evaluation contract: docs/EVALUATION.md
+      - MVP acceptance: docs/MVP.md
+      - Current state: research/STATE.md
+      - Research ledger: research/LEDGER.md
+  - Reference:
+      - Architecture and proof flows: docs/ARCHITECTURE.md
+      - Classifier proof statement: docs/PROOFS.md
+      - Supported API: docs/spec/02-public-api.md
+      - Original software contract: docs/SPEC.md
+      - Proposed private / hardware v1: SPEC.md
+      - Dependencies and licences: docs/DEPENDENCIES.md
+  - Contribute:
+      - Contributing: CONTRIBUTING.md
+      - Maintain the documentation: docs/DOCUMENTATION.md
+      - Security: SECURITY.md
+      - Licence: LICENSE.md
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+      inline_syntax: [round]
+      block_syntax: [square, dollar]
+extra_css:
+  - assets/styles.css
+  - assets/vendor/katex/katex.min.css
+extra_javascript:
+  - assets/vendor/katex/katex.min.js
+  - assets/site.js
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AbdelStark/hallmark
+    - icon: material/brain
+      link: https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn
+validation:
+  nav:
+    omitted_files: ignore
+  links:
+    not_found: warn
+    anchors: warn

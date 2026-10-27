@@ -2,6 +2,28 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Public documentation site and badges
+
+The owner requested a GitHub Pages documentation site and `for-the-badge` header
+badges, including both published Hugging Face models. The candidate site adds
+an editorial homepage, four educational chapters, a workflow chooser, searchable
+canonical guides, model cards and a research evidence map. Existing Markdown
+and numeric evidence stay canonical; staged link/anchor adaptation produces the
+website without publishing untracked notes or ignored runs.
+
+[Decision 0081](../docs/decisions/0081-public-documentation-site.md) records the
+publication scope. The [QA record](evidence/documentation-site-2026-10-27.json)
+pins source files and observed desktop/mobile, math, diagram, search, theme and
+proof-explorer checks; the final clipboard check was interrupted by a browser
+connection reset. Ten staging/link-boundary tests pass. Strict builds and local
+link/asset checks pass; exact final counts and hosted delivery are recorded on PR.
+
+The docs toolchain is isolated in `website/`, with its own lock and dependency
+review. All 55 native verifier source pins, the inference lockfile and verifier
+identity remain unchanged. No training, proof benchmark, evaluator or numeric
+evidence is modified. Pages is enabled for the standard main-only Actions
+deployment with HTTPS; the repository remains public. [Build and maintenance](../docs/DOCUMENTATION.md).
+
 ## Published classifier models — complete
 
 The owner subsequently requested publication of trained models. The exact

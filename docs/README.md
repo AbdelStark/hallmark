@@ -1,5 +1,9 @@
 # Hallmark documentation
 
+**[Read the documentation site](https://abdelstark.github.io/hallmark/)** ·
+[Learn verifiable inference](learn/index.md) · [Choose a workflow](START.md) ·
+[Inspect the evidence](research/index.md)
+
 Start with the [architecture, commands and proof flows](ARCHITECTURE.md) and the
 [LLM integrity MVP and acceptance record](MVP.md), then run the
 [TinyLlama workflow](LLM-PROOF.md). Read the exact proof statement before relying

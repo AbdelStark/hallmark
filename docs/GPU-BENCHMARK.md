@@ -13,47 +13,6 @@ with CUDA. See its [numeric evidence](../research/evidence/llm-gpu-benchmark-202
 [decision 0077](decisions/0077-gpu-prover-measurement.md) and the native CUDA
 build/resource follow-up in [decision 0078](decisions/0078-native-gpu-build-and-window.md).
 
-## Recorded same-host result
-
-One CPU-then-CUDA pair on an HF H200, four Rayon threads, 2026-10-26:
-
-Measured source: [`a81c10a`](https://github.com/AbdelStark/hallmark/commit/a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d).
-The later controller prerequisite check rejects unsupported hosts or missing Rust
-before paid work; it changes no prover, evaluator, input or recorded measurement.
-
-| Measurement | SIMD | CUDA, host generation |
-|---|---:|---:|
-| Summed proving stages, 23 segments | 537.20 s | 583.87 s |
-| Complete segment commands | 669.25 s | 687.34 s |
-| Separate SIMD grid verification on the H200 host | 88.59 s | 85.07 s |
-| Sampled peak prover host RSS, decimal GB | 104.69 GB | 11.78 GB |
-| Sampled peak device memory | 0 | 68,685 MiB (67.08 GiB) |
-| Maximum sampled GPU utilization | 0% | 89% |
-| Serialized proof bytes | 737,858,641 | 737,858,641 |
-
-All **69 proof/statement/claim files match byte for byte**. Both grids accept all
-23 segments, 22 residual links and seven generated-input links. A fresh CPU-only
-worker accepts two honest checks in 81.02/80.94 seconds and rejects all 14
-mutations, with 14.35 GB peak child RSS. The native Mac verifier accepts two
-honest checks in 3.53/3.39 seconds and rejects all 36 mutations. These verifier
-implementations have different shape-root preprocessing, as explained below.
-
-CUDA is **8.7% slower in summed proving and 2.7% slower in complete commands** in
-this pair. Its profiler records 1,710 CPU constraint-evaluation fallback calls,
-taking 532.75 seconds. SIMD constraint evaluation takes 23.99 seconds. Reported
-Merkle and FRI stages accelerate substantially, but the complete CUDA path remains
-slower. The generated-constraint candidate addresses this measured bottleneck
-with a new source inventory and the same equivalence/verification gates.
-Nested profiler timers overlap; do not add them to reconstruct wall time.
-
-The fresh benchmark command takes **3,372.34 seconds (56 min 12 s)** with reused
-preparation, fresh SIMD/CUDA builds, both full proving runs and CPU/Mac checks.
-Its running-compute estimate is **$2.52**, under the $5 run ceiling; all four
-attempts including failures total **$5.37** by that measure. These are not
-invoices. All six jobs are terminal and all temporary buckets were deleted after
-hash-checked retention. Raw source/input/binary hashes, per-segment metrics,
-profiler counters, mutation outcomes and failed attempts are in the linked JSON.
-
 ## Generated-constraint result
 
 The clean H200 pair and fresh CPU/Mac mutation suites pass. See the
@@ -102,6 +61,49 @@ original build and retained telemetry-failure attempt, this kernel campaign
 totals **$3.37**, not invoices. All four campaign jobs are terminal and all
 temporary buckets were deleted after hash-checked retention. The source, build,
 generated/modified files, profiler counters and failure are pinned in the JSON.
+
+## Historical fallback baseline
+
+<a id="recorded-same-host-result"></a>
+
+One CPU-then-CUDA pair on an HF H200, four Rayon threads, 2026-10-26:
+
+Measured source: [`a81c10a`](https://github.com/AbdelStark/hallmark/commit/a81c10a324fe7e849a40cf1f0caa9338e1a0cc3d).
+The later controller prerequisite check rejects unsupported hosts or missing Rust
+before paid work; it changes no prover, evaluator, input or recorded measurement.
+
+| Measurement | SIMD | CUDA, host generation |
+|---|---:|---:|
+| Summed proving stages, 23 segments | 537.20 s | 583.87 s |
+| Complete segment commands | 669.25 s | 687.34 s |
+| Separate SIMD grid verification on the H200 host | 88.59 s | 85.07 s |
+| Sampled peak prover host RSS, decimal GB | 104.69 GB | 11.78 GB |
+| Sampled peak device memory | 0 | 68,685 MiB (67.08 GiB) |
+| Maximum sampled GPU utilization | 0% | 89% |
+| Serialized proof bytes | 737,858,641 | 737,858,641 |
+
+All **69 proof/statement/claim files match byte for byte**. Both grids accept all
+23 segments, 22 residual links and seven generated-input links. A fresh CPU-only
+worker accepts two honest checks in 81.02/80.94 seconds and rejects all 14
+mutations, with 14.35 GB peak child RSS. The native Mac verifier accepts two
+honest checks in 3.53/3.39 seconds and rejects all 36 mutations. These verifier
+implementations have different shape-root preprocessing, as explained below.
+
+CUDA is **8.7% slower in summed proving and 2.7% slower in complete commands** in
+this pair. Its profiler records 1,710 CPU constraint-evaluation fallback calls,
+taking 532.75 seconds. SIMD constraint evaluation takes 23.99 seconds. Reported
+Merkle and FRI stages accelerate substantially, but the complete CUDA path remains
+slower. The generated-constraint candidate addresses this measured bottleneck
+with a new source inventory and the same equivalence/verification gates.
+Nested profiler timers overlap; do not add them to reconstruct wall time.
+
+The fresh benchmark command takes **3,372.34 seconds (56 min 12 s)** with reused
+preparation, fresh SIMD/CUDA builds, both full proving runs and CPU/Mac checks.
+Its running-compute estimate is **$2.52**, under the $5 run ceiling; all four
+attempts including failures total **$5.37** by that measure. These are not
+invoices. All six jobs are terminal and all temporary buckets were deleted after
+hash-checked retention. Raw source/input/binary hashes, per-segment metrics,
+profiler counters, mutation outcomes and failed attempts are in the linked JSON.
 
 ## Run it
 
