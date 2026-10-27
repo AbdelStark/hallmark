@@ -2,6 +2,21 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Published classifier models — complete
+
+The owner subsequently requested publication of trained models. The exact
+seed-17 [MLP and CNN are public on Hugging Face](../docs/MODELS.md), under
+[decision 0080](../docs/decisions/0080-public-classifier-models.md), with model
+cards, original JSON checkpoints, unchanged quantizations, native exports,
+evaluation and hash manifests. The [publication receipt](evidence/hub-model-publication-2026-10-27.json)
+records immutable Hub revisions and anonymous verification of all 41 released
+files. Full/resumed checkpoints and requantizations match; exported model bytes
+match the proved models; all 100 retained CNN test scores/decisions replay.
+Native examples run from anonymous downloads. This adds a hash-pinned inference
+command, not new training, held-out evaluation or proof qualification. The
+synthetic task and 96-byte demo scope remain explicit. TinyLlama is upstream,
+not a Hallmark-trained release. Local/distribution/hosted receipts follow on PR.
+
 ## README benchmark and onboarding refresh
 
 The README now leads with the recorded generated-kernel result: 53.94 s CUDA
