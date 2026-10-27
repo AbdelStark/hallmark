@@ -5223,3 +5223,12 @@ experiment; it is not a dependency or change to #112's frozen comparison.
 README, guide and local model card disclose the limitation. Original Hub tags
 and artifact bytes remain unchanged; a documentation-only model-card clarification
 will be published separately with new manifest/revision receipts.
+
+Model-card clarification published as Hub revision `15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f`.
+Only README and its manifest file entry change; every other Git blob and all
+weight bytes are unchanged. Anonymous immutable downloads match both new file
+hashes; the original `v1.0.0` tag still resolves to
+`05b2bdef120d3aea9133af042d15ed1a3a621aa9`. The original publication receipt and
+tags remain immutable. New revision/file/authority hashes are in
+`research/evidence/mlp-model-card-clarification-2026-10-27.json`. The running
+HF comparison remains source `bc5bc0d` with its original frozen exports/corpus.

@@ -27,6 +27,13 @@ composed LLM workflow and final delivery gates remain open. Failed attempts
 remain retained locally; gnark stays the default. All 55 LLM-native verifier
 source pins and their identity remain unchanged.
 
+The fixed MLP is always-allow in this 96-byte domain: exact-rational interval
+analysis bounds its score to [−5600,−2338] at threshold 0. This is a model-quality
+limitation, not a missing proof relation. The README, guide and
+[published card clarification](evidence/mlp-model-card-clarification-2026-10-27.json)
+disclose it; weights, original release tags and the running comparison remain
+unchanged. Independent follow-up #131 is outside this epic's frozen scope.
+
 ## Terminal and web workbench — complete
 
 `make demo-tui` and `make demo-web` launch shared local-first demo apps. One

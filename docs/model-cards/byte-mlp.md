@@ -44,7 +44,7 @@ The full arithmetic is still constrained by its inference proofs; it provides
 no discriminative decision inside that domain. The rule and contextual CNN
 supply the combined workflow's block controls. This is an integer-bound
 analysis, not a quality evaluation or a cryptographic proof.
-[Bound and method](https://github.com/AbdelStark/hallmark/blob/main/research/evidence/mlp-domain-bound-2026-10-27.json) ·
+[Bound and method](https://github.com/AbdelStark/hallmark/blob/16586c7716bd675186b9af0f0b833670b3977f38/research/evidence/mlp-domain-bound-2026-10-27.json) ·
 [Separate model-quality follow-up](https://github.com/AbdelStark/hallmark/issues/131).
 
 ## Run the released integer model
