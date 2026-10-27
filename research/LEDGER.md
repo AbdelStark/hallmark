@@ -5170,3 +5170,11 @@ one extra cent is reserved within the unchanged $0.30 cap. No benchmark sample
 is admitted from that failure. Fresh local LLM verification in
 `runs/circle-llm-fresh-v1` independently checks 23 proofs/22 links in 4.221587 s;
 its caller-pinned Mac binary and all 55 source identities are unchanged.
+
+HF fixture `6ae0f89041e90535df7672d0` reaches compilation and fails on omitted
+`go:embed encoder-graph.json`; 43.616 s running time, all output bytes retained,
+bucket deleted. HF v3 includes the complete embedded source inventory and a
+regression check. Admission reserves $0.29 within $0.30; failures stay excluded
+from the formal sample matrix. Core package check passes with retained reviewed
+uv 0.9.18 after the system's uv 0.13.4 version mismatch stops the first attempt.
+Strict docs build passes 162 pages/12,342 local links and assets.

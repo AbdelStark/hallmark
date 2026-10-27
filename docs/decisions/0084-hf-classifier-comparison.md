@@ -69,3 +69,12 @@ The separate composed request is frozen by the caller before upload, including
 its Circle enrollment and all 300 expected public fields. Its three new proofs
 are outside the 144-proof measurement matrix and receive fresh local proof-only
 verification with the retained LLM proof bundle.
+
+The second fixture (`6ae0f89041e90535df7672d0`, source `940f004`) reaches the
+isolated Go compiler and fails because the source-copy inventory omits
+`encoder-graph.json`, a `go:embed` input. Retain its compiler source/cache/logs
+and 43.616 s running-time receipt; its bucket is deleted. Candidate HF v3
+shares one source inventory for capture and copy, including embedded JSON,
+with a regression check for every `go:embed` path. Reserve a second extra cent;
+the new startup-inclusive estimate is $0.29 within the unchanged $0.30 cap.
+No failed fixture or partial timing is a matched sample.

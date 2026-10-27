@@ -1,6 +1,6 @@
 {
   "schema_id": "hallmark.classifier-backend-plan/1",
-  "experiment": "circle-classifiers-matched-hf-v2",
+  "experiment": "circle-classifiers-matched-hf-v3",
   "baseline_commit": "0b7fcf256e2b1da7f89578014bcc86e6737fc3f5",
   "scope": "integrity-only fixed exported rule, seed-17 MLP and seed-17 contextual CNN",
   "capacity_bytes": 96,
@@ -153,5 +153,8 @@
   },
   "prior_trials": "Mac acceptance/conformance and the disk-admission failure are separate records. No Mac timing is mixed with this Linux campaign; no historical matched sample is reused.",
   "worker_environment": "Four prover threads. Existing Linux controller sets Go GOMEMLIMIT to three quarters of the 28 GiB worker cap. Fresh Go builds use -p=1 with GOMAXPROCS=4; Rust builds use -j4, release codegen-units=1. Network access is denied for proof workers; no witness/native trace is passed to proof-only verifiers.",
-  "prior_failed_fixture": "HF fixture job 6ae0f7b441e90535df76716c failed before compilation: missing runs parent. No matched sample. All outputs retained and bucket deleted."
+  "prior_failed_fixtures": [
+    "HF fixture job 6ae0f7b441e90535df76716c failed before compilation: missing runs parent. No matched sample. All outputs retained and bucket deleted.",
+    "HF fixture job 6ae0f89041e90535df7672d0: isolated Go build omitted its go:embed encoder-graph.json asset; all outputs retained and bucket deleted. No matched sample."
+  ]
 }

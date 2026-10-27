@@ -108,3 +108,19 @@ def test_invalid_or_unavailable_measurements_are_not_encoded_as_zero(value):
     with pytest.raises(ValueError):
         spread([value])
     assert spread([])["median"] is None
+
+
+def test_isolated_go_source_inventory_includes_every_embedded_asset():
+    from benchmark_classifiers import gnark_sources
+
+    paths = gnark_sources()
+    names = {p.name for p in paths}
+    embedded = [
+        line.split()[1]
+        for p in paths
+        if p.suffix == ".go"
+        for line in p.read_text().splitlines()
+        if line.startswith("//go:embed ")
+    ]
+    assert embedded == ["encoder-graph.json"]
+    assert set(embedded) <= names

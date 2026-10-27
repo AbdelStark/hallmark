@@ -40,6 +40,14 @@ ROOT = Path(__file__).resolve().parents[1]
 PREFIX = {"rule": "scaled-rule-", "mlp": "trained-mlp-", "encoder": "contextual-"}
 
 
+def gnark_sources():
+    return sorted(
+        p
+        for p in (ROOT / "research/probes/gnark").iterdir()
+        if p.suffix in (".go", ".json") or p.name in ("go.mod", "go.sum")
+    )
+
+
 def sha_file(path):
     with path.open("rb") as f:
         return hashlib.file_digest(f, "sha256").hexdigest()
@@ -282,9 +290,7 @@ class Campaign:
         paths = [
             *sorted((ROOT / "src/hallmark").glob("*.py")),
             *(old_root / n for n in script_names),
-            *sorted((ROOT / "research/probes/gnark").glob("*.go")),
-            ROOT / "research/probes/gnark/go.mod",
-            ROOT / "research/probes/gnark/go.sum",
+            *gnark_sources(),
             ROOT / "research/probes/py_ecc/verify.py",
             ROOT / "research/probes/py_ecc/requirements.txt",
             ROOT / "research/probes/circle/verify_gnark_one.py",
@@ -605,9 +611,8 @@ class Campaign:
         else:
             source = folder / "gnark-source"
             source.mkdir()
-            for path in (ROOT / "research/probes/gnark").iterdir():
-                if path.suffix == ".go" or path.name in ("go.mod", "go.sum"):
-                    shutil.copyfile(path, source / path.name)
+            for path in gnark_sources():
+                shutil.copyfile(path, source / path.name)
             patch = ROOT / self.plan["gnark"]["timing_overlay"]
             if sha_file(patch) != self.plan["gnark"]["timing_overlay_sha256"]:
                 raise ValueError("gnark observational overlay pin mismatch")
