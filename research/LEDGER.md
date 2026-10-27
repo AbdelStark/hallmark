@@ -5271,3 +5271,10 @@ counts. Both CLI help checks pass; the updated strict docs build passes
 No proof relation, model, measurement protocol or running source archive
 changes. The benchmark, local 144-proof postflight and composed request remain
 unvalidated until their actual outputs pass.
+
+The architecture guide additionally maps all three proof paths and the Circle
+classifier flow, including caller enrollment and the 100-to-103 public transport
+layout. Its strict build passes 162 pages and 12,425 links/assets
+(`runs/circle-docs-v9.log`). Rechecking the 55 native LLM source pins yields the
+unchanged identity
+`8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.

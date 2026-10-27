@@ -1,15 +1,18 @@
 # Architecture: what runs, what is proved
 
-Hallmark has two working proof backends: **dedicated gnark/Groth16 circuits for
-classifiers** and **SASH Circle STARK proofs for a quantized TinyLlama response**.
-The composed workflow checks both against one caller-owned request. It joins
-verified results in host code; it does not recursively aggregate their proofs.
+Hallmark has three proof paths: **gnark/Groth16 classifiers** (the default),
+**experimental direct-STWO Circle STARK classifiers**, and **SASH Circle STARK
+proofs for a quantized TinyLlama response**. The default composed workflow joins
+verified gnark and SASH results against one caller-owned request in host code.
+It does not recursively aggregate their proofs. The Circle classifier comparison
+and its separate composed-request check remain experimental.
 
 ## Choose the workflow
 
 | Command | Actual computation | Proofs and verification | Where it runs |
 |---|---|---|---|
 | `make e2e` | Train/export an MLP and CNN; evaluate them plus a fixed rule on three synthetic prompts | **9 Groth16 proofs**, checked by separate py-ecc arithmetic | Mac; no LLM, credentials or paid jobs |
+| `make e2e BACKEND=circle CLASSIFIER_RUN=… CLASSIFIER_ENROLLMENT=…` | Reuse the admitted model preparation; prove the same three classifiers on the same three prompts | **9 STWO Circle STARK proofs**, checked by fresh proof-only processes | Mac; experimental, no LLM or paid jobs |
 | `make e2e-llm` | Generate the fixed eight-token TinyLlama answer, including EOS | **23 SASH proof segments**, linked and verified by SASH | Mac preparation; three sequential paid HF **CPU** jobs |
 | `make verify-llm LLM_RUN=…` | Check retained LLM proofs; no new inference or proving | Same 23 segments, using an adapted native verifier | Mac; no weights, full witness or HF credentials |
 | `make benchmark-llm-gpu …` | Reuse frozen public witnesses; compare complete SIMD and CUDA proving | Same 23 SASH segments per backend, byte equality and fresh CPU/Mac verification | HF CPU build, one H200 measurement job, separate CPU verification, Mac verification |
@@ -77,6 +80,43 @@ Implementation: [controller](../scripts/run_e2e.py),
 [separate verifier](../research/probes/py_ecc/README.md).
 Groth16 uses BLS12-381 and a circuit-specific setup. Fresh local setup is research
 setup, not an independently reviewed ceremony.
+
+## Circle classifiers: `make e2e BACKEND=circle`
+
+```mermaid
+flowchart TD
+    M[Admitted frozen rule, MLP and CNN exports] --> C[Compile fixed gates: exact SHA-256 and integer operators]
+    C --> E[Caller pins program, preprocessing root and parameters before proving]
+    X[Caller-owned bytes, salt and request expectations] --> W[Construct complete classifier witnesses]
+    C --> W
+    E --> P[Direct STWO: nine serialized Circle STARK proofs]
+    W --> P
+    P --> V[Fresh proof-only STWO verifier processes]
+    E --> V
+    X --> H[Host reconstructs public inputs and exact classifier roster]
+    H --> V
+    V --> A[Verified verdicts and separate all-pass policy decision]
+```
+
+The graphs constrain the same complete 96-byte input, salted canonical SHA-256
+commitment and integer decisions as the gnark path. The 100 logical public
+fields use 103 M31 transport values: two threshold limbs replace one 32-bit
+value, and public zero/one wires supply the other two values. Context semantics
+and native expectation reconstruction remain caller checks. Backend-specific
+enrollment changes classifier/context identities; semantic parity does not mean
+byte-identical public statements across backends.
+
+This path uses the pinned **STWO 2.2.0 dependency**, with Hallmark's gate AIR,
+LogUp wiring and SHA/integer/classifier compiler. It does not run SASH's Llama
+application or a general-purpose VM. Caller-enrolled public preprocessing
+replaces Groth16's circuit-specific setup; this supplies no security-equivalence
+or witness-hiding claim. The frozen MLP is always-allow within this input domain;
+the rule and CNN provide the workflow's block controls.
+
+The [Circle guide](CIRCLE-CLASSIFIERS.md) gives source ownership, concrete proof
+parameters, commands, conformance failures and the pending matched comparison.
+Its separate composition checker joins three Circle classifier proofs to the
+retained SASH LLM bundle; actual composed acceptance is still a pending gate.
 
 ## LLM: `make e2e-llm`
 
