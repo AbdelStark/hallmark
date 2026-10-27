@@ -4998,3 +4998,67 @@ Reuse that asset below the README introduction and link it to the detailed LLM
 statement. Mutable paths are README and these records. Acceptance is a working
 image/link on GitHub and in the staged documentation; no asset, proof, model,
 measurement or runtime change. Validation and publication receipts follow on PR.
+
+
+## 2026-10-27 — Shared terminal and browser workbench
+
+Owner goal: full TUI and web demo apps, shared components, extensible proving
+workflows, usable monitoring and a clean interface. Baseline:
+`675c99af66067d129dac30d6acc6612f4e392e68`. Hypothesis: one workflow catalog,
+result adapter and persistent controller can expose the real existing drivers
+without duplicating proof logic or changing enrolled verifier inputs. Mutable
+paths and acceptance criteria are in decision 0082. Proof drivers, model/data/
+evaluator files and the inference lock remain frozen.
+
+Raw observations precede this account in
+[evidence/demo-workbench-2026-10-27.json](evidence/demo-workbench-2026-10-27.json).
+All raw runs and failed validation attempts remain ignored and local under
+`runs/`; no credentials, checkpoints, proving keys or financial account records
+are published. The app environment is independently locked: Textual 8.2.8,
+psutil 7.2.2 and uv 0.9.18; isolated browser QA uses Playwright 1.64.1 and
+installed Chrome. Twenty third-party distributions have a licence/hash review.
+
+Real interface acceptance:
+
+- TUI keyboard launch, `runs/e2e-ml7ggpfp`: 9 classifier proofs verified,
+  18 substitutions rejected and 405 arithmetic cases checked. The controller
+  crashed/recovered during proving and observed the same driver PID/creation
+  time without retraining or relaunching it.
+- Web launch, `runs/llm-verify-q8adsd4t`: fresh native verification of a retained
+  public bundle; 23 proofs, 22 residual links, 2 honest checks, 14 baseline,
+  2 enrollment and 20 boundary mutations rejected.
+- Web launch, `runs/llm-e2e-2d9zyzcr`: fresh TinyLlama preparation and 23 real
+  proofs, 22 residual links, 2 fresh honest CPU checks and 14 rejected mutations.
+  Result SHA-256: `02ec4242460a1e8bef06b57825051be036023e63a6a21f3d5c18c2bdba7cd0d7`.
+  The complete monitored workflow takes 2,132.35 seconds; running-compute estimate
+  is $0.31, not an invoice. Live startup-inclusive admission bound is $2.27 under
+  a $2.50 ceiling. All three jobs were independently observed completed via the
+  provider API; outputs retained and buckets deleted. A controller-only restart
+  kept the same live paid driver/job rather than launching another.
+
+The original $2.10 CLI estimate covers worker timeouts, but not the complete
+provider creation windows. The app adapter reserves another 600 seconds per
+phase before invoking the unchanged driver. No job started under the rejected
+$2.10 startup-inclusive admission. No automatic retry or top-up was introduced.
+
+The final 52 app tests pass: subprocess success/failure, cancellation and local
+escalation, recovery, transient observation/identity errors, nested cloud jobs,
+owned storage, split-write redaction, result contracts, artifact identity/hash
+checks, Host/Origin/session-token checks, terminal keyboard actions, browser
+launch/reload/export/mobile behavior and keyboard tabs. Monitoring errors no
+longer cancel a live driver. Early harness failures are preserved: an eval-based
+browser wait conflicted with CSP; a process-class replacement broke psutil's
+own type checks. Locator assertions and a method-level fault injection fix the
+harnesses without weakening production checks. The early metadata/worktree
+namespace collision was corrected to `runs/workbench/`; the controller now
+refuses unowned nonempty storage rather than overwriting it.
+
+Rendered desktop/mobile and 120×42/80×24 terminal views were inspected, including
+real proof results and policy decisions. `make check` passes 2,398 tests with
+123 optional skips, plus spec/software-conformance/admission checks. Reproducible
+package, app wheel and strict documentation checks pass. Optional train/guard
+coverage and exact-head hosted/merge/deployment receipts are recorded on PR #129.
+All 55 native verifier source files, program identity and inference lock are
+unchanged. No fresh GPU or composed campaign is claimed for this app acceptance;
+the composed driver retains its 32 GiB free-storage prerequisite. No new backend
+qualification, hardware attestation, hiding or model-quality claim is made.

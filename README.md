@@ -129,6 +129,22 @@ optional native Mac verifier have separate explicit patches.
 See [source ownership and patches](docs/ARCHITECTURE.md#how-sash-is-integrated)
 and [the GPU build](docs/GPU-BENCHMARK.md).
 
+## Demo apps
+
+Run the terminal or local web workbench from a checkout:
+
+```sh
+make demo-tui
+make demo-web
+```
+
+Both use the same workflow controller and can view the same active run.
+Follow observed stages, process-tree memory/CPU samples, logs, HF job status,
+verification results and retained artifacts. The catalog covers classifiers,
+the fixed TinyLlama response, retained-proof verification, composition and GPU
+measurements. Paid workflows show their resource and cost bounds before launch.
+[Setup, controls and extension guide](docs/WORKBENCH.md).
+
 ## Quickstart
 
 Clone the source checkout; Python packages are not published:

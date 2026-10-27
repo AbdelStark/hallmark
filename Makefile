@@ -1,4 +1,4 @@
-.PHONY: e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
+.PHONY: demo-web demo-tui check-demo e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
 
 check:
 	uv lock --check
@@ -68,3 +68,14 @@ package-check-guard:
 
 package-check-comparison:
 	uv run --locked python scripts/reproduce_package.py --train --guard
+
+demo-web:
+	uv run --locked --project apps --no-dev hallmark-demo web
+
+demo-tui:
+	uv run --locked --project apps --no-dev hallmark-demo tui
+
+check-demo:
+	uv run --locked --project apps ruff check apps
+	uv run --locked --project apps ruff format --check apps
+	uv run --locked --project apps pytest apps/tests

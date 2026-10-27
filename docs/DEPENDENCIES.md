@@ -114,3 +114,14 @@ downloads the separately pinned SASH source, its locked Python witness environme
 and the Apache-2.0 TinyLlama checkpoint. The [source review](../research/real-llm-proof-plan.md)
 records their revisions and licence scope. These model files, the CUDA build image
 and the resulting prover binary are not part of Hallmark's wheel or source archive.
+
+
+## Optional demo apps
+
+The terminal/browser workbench is separately locked under `apps/`. It uses
+Textual (MIT), psutil (BSD-3-Clause) and the pinned uv tool (MIT/Apache-2.0).
+Development tests use Playwright (Apache-2.0) with an isolated browser; this is
+not a runtime dependency of the core library or proof workers. Exact versions,
+PyPI artifact hashes and installed licence-file hashes are recorded in
+[the app dependency review](../apps/dependencies.json). The web app reuses the
+already reviewed self-hosted fonts and project mark from `website/assets/`.

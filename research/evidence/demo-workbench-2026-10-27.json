@@ -1,0 +1,205 @@
+{
+  "schema_id": "hallmark.demo-workbench-qa/1",
+  "recorded_at": "2026-10-27",
+  "scope": "Application integration acceptance; no benchmark distribution or proof-backend qualification",
+  "baseline": "675c99af66067d129dac30d6acc6612f4e392e68",
+  "app_source_revision": "622511a8c8ff5105c43f522ff4ef24558895253275e35e082714c52341f42ad2",
+  "source_files": {
+    "apps/hallmark_demo/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "apps/hallmark_demo/__main__.py": "1522e43170e9a95a499f3935cdcfca5525027d5b4210c0b43e680573ce2dcced",
+    "apps/hallmark_demo/catalog.py": "ae0f680f63dce6df1bd00bdf15b5a06f643571e770f10725a22c2331b7f0f710",
+    "apps/hallmark_demo/client.py": "dfff367e202fba4e4b8c4b77b42d425781888416df94fe6653c1a3631cece777",
+    "apps/hallmark_demo/engine.py": "107769b05eebd4f67364b603beb66c8294fda50fa39e4fae5f711b4ededdfaff",
+    "apps/hallmark_demo/execute.py": "d2d768ce2827db2cb2f581fcd30a19236d5639a2c6be4298573c0af40e41ae4c",
+    "apps/hallmark_demo/results.py": "69762cf356d74bf87cedf6ea8c2e88cf73a287335ba3984193b91986bbd43fbd",
+    "apps/hallmark_demo/server.py": "b5166978850334df3a95d19e9af980c82883356dedf017acc29acace7b9fd990",
+    "apps/hallmark_demo/tui.py": "c1a175234a19a9dd893366cf98a6f390b9c786849fbc13771320d7c1ddbd2eab",
+    "apps/hallmark_demo/web/app.js": "47da2b90948e0e9e2c910315dbc895f3b09acddbd41057b34d49bbb277b38a4f",
+    "apps/hallmark_demo/web/index.html": "2a83a01a8cb58beb55e021d3c5eeae9343fef73299ded7e8e941aaf747e9c013",
+    "apps/hallmark_demo/web/style.css": "ae608b6d64ef3620db7cc09e3b1986ff43793f62ccde6502d4f0a00163b94808",
+    "apps/uv.lock": "13f2fa8c5c7f563ccc691aa8b9be92b5bddecc8a17c1e618c735740d1c632031",
+    "apps/pyproject.toml": "93e0742ac999936fcd0c0d2b81376978b7b4f3e1a2b9e625a7d7d27deb851e4d",
+    "apps/dependencies.json": "087713f5e2c0ce181ab39b6668e8475432afd67c6f0494deb8f0087c3e53e85d",
+    "docs/assets/workbench-tui.svg": "34a70c8f03dcd9ea816c2c7ea252a463fdf9ba4ce28859db94c8cc7ca20bc33f",
+    "docs/assets/workbench-web.png": "6bfcb7fce056d8409691bd32878c6175f8a1bc1a04c509cf8e387aa73bbd0c99"
+  },
+  "native_verifier_source_files_unchanged": 55,
+  "native_verifier_identity": "8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a",
+  "inference_lock_unchanged": true,
+  "local_checks": {
+    "app_tests_passed": 52,
+    "app_tests_skipped": 0,
+    "core_tests_passed": 2398,
+    "core_tests_skipped": 123,
+    "reproducible_package": "passed",
+    "docs": "passed",
+    "app_wheel": "passed",
+    "javascript_syntax": "passed"
+  },
+  "interface_review": {
+    "web_desktop_width": 1440,
+    "web_mobile_width": 390,
+    "web_horizontal_overflow": false,
+    "browser_page_errors": [],
+    "terminal_sizes": [
+      [
+        120,
+        42
+      ],
+      [
+        80,
+        24
+      ]
+    ],
+    "keyboard_launch": "passed",
+    "tab_keyboard_navigation": "passed",
+    "receipt_download": "passed"
+  },
+  "controller_recovery": {
+    "classifier_same_process": true,
+    "llm_same_process": true,
+    "new_paid_job_on_recovery": false,
+    "method": "Controller-only failure and PID-plus-creation-time adoption"
+  },
+  "cloud_final_observations": [
+    {
+      "id": "6ae0bc1d41e90535df762cd8",
+      "stage": "COMPLETED",
+      "started_at": "2026-10-27 14:59:37.024000+00:00",
+      "finished_at": "2026-10-27 15:11:34.498000+00:00"
+    },
+    {
+      "id": "6ae0bf413fb22a235dd2c990",
+      "stage": "COMPLETED",
+      "started_at": "2026-10-27 15:13:34.441000+00:00",
+      "finished_at": "2026-10-27 15:22:16.929000+00:00"
+    },
+    {
+      "id": "6ae0c20641e90535df76321b",
+      "stage": "COMPLETED",
+      "started_at": "2026-10-27 15:23:55.234000+00:00",
+      "finished_at": "2026-10-27 15:30:32.606000+00:00"
+    }
+  ],
+  "runs": {
+    "classifiers": {
+      "session_id": "7438bdbf5c20",
+      "status": "succeeded",
+      "launch_app_revision": null,
+      "driver_source_commit": "675c99af66067d129dac30d6acc6612f4e392e68",
+      "retained_run": "runs/e2e-ml7ggpfp",
+      "result_sha256": "734bb6701da5c213b6237809914531e18990b0df130cc34e39397fc96c99ac25",
+      "observed_workflow_seconds": 1086.9937992095947,
+      "metrics": {
+        "proofs_verified": 9,
+        "cross_request_rejections": 18,
+        "arithmetic_cases": 405
+      },
+      "jobs": [],
+      "cleanup_required": false
+    },
+    "verify-llm": {
+      "session_id": "23c95a91f246",
+      "status": "succeeded",
+      "launch_app_revision": null,
+      "driver_source_commit": "675c99af66067d129dac30d6acc6612f4e392e68",
+      "retained_run": "runs/llm-verify-q8adsd4t",
+      "result_sha256": "ba5d387ee44b1b88e75f5df5e7cd46b6f755e4646d75585a9915697187ab93f5",
+      "observed_workflow_seconds": 228.29849696159363,
+      "metrics": {
+        "proofs": 23,
+        "residual_links": 22,
+        "fresh_verifications": 2,
+        "baseline_mutations_rejected": 14,
+        "native_enrollment_mutations_rejected": 2,
+        "native_boundary_mutations_rejected": 20
+      },
+      "jobs": [],
+      "cleanup_required": false
+    },
+    "llm": {
+      "session_id": "d70d5bf6a38a",
+      "status": "succeeded",
+      "launch_app_revision": "0e091f099efd1b58247a7806fe0a25990b3d437054c76ff4962c366870be55a9",
+      "driver_source_commit": "675c99af66067d129dac30d6acc6612f4e392e68",
+      "retained_run": "runs/llm-e2e-2d9zyzcr",
+      "result_sha256": "02ec4242460a1e8bef06b57825051be036023e63a6a21f3d5c18c2bdba7cd0d7",
+      "observed_workflow_seconds": 2132.3490109443665,
+      "metrics": {
+        "proofs": 23,
+        "residual_links": 22,
+        "fresh_verifications": 2,
+        "mutations_rejected": 14,
+        "all_buckets_deleted": true,
+        "compute_bound_micro_usd": 310000
+      },
+      "jobs": [
+        {
+          "phase": "build",
+          "id": "6ae0bc1d41e90535df762cd8",
+          "url": "https://huggingface.co/jobs/abdelstark/6ae0bc1d41e90535df762cd8",
+          "status": "COMPLETED",
+          "cleanup_complete": true
+        },
+        {
+          "phase": "prove",
+          "id": "6ae0bf413fb22a235dd2c990",
+          "url": "https://huggingface.co/jobs/abdelstark/6ae0bf413fb22a235dd2c990",
+          "status": "COMPLETED",
+          "cleanup_complete": true
+        },
+        {
+          "phase": "verify",
+          "id": "6ae0c20641e90535df76321b",
+          "url": "https://huggingface.co/jobs/abdelstark/6ae0c20641e90535df76321b",
+          "status": "COMPLETED",
+          "cleanup_complete": true
+        }
+      ],
+      "cleanup_required": false,
+      "resource_plan": {
+        "schema_id": "hallmark.demo-hf-plan/1",
+        "observed_at": "2026-10-27T14:55:05.621380+00:00",
+        "ceiling_usd": "2.50",
+        "conservative_bound_micro_usd": 2270000,
+        "cost_basis": "Worker timeout plus 600-second creation/cancellation window per phase, minute rounding and storage reserve at observed prices",
+        "automatic_retries": 0,
+        "phases": {
+          "build": {
+            "flavor": "cpu-upgrade",
+            "worker_seconds": 1800,
+            "creation_seconds": 600,
+            "threads": 4,
+            "memory_gib": 28,
+            "rate_micro_usd_minute": 500
+          },
+          "prove": {
+            "flavor": "cpu-performance",
+            "worker_seconds": 3600,
+            "creation_seconds": 600,
+            "threads": 16,
+            "memory_gib": 210,
+            "rate_micro_usd_minute": 31667
+          },
+          "verify": {
+            "flavor": "cpu-upgrade",
+            "worker_seconds": 1800,
+            "creation_seconds": 600,
+            "threads": 4,
+            "memory_gib": 28,
+            "rate_micro_usd_minute": 500
+          }
+        },
+        "adapter_sha256": "d2d768ce2827db2cb2f581fcd30a19236d5639a2c6be4298573c0af40e41ae4c"
+      }
+    }
+  },
+  "limits": [
+    "Fixed admitted model, prompt and proof parameters",
+    "Local process-tree samples are not remote GPU telemetry",
+    "No fresh GPU benchmark or fresh composed run for this app acceptance",
+    "Browser QA is not a formal accessibility audit",
+    "Core-only local package check skips optional training and guard checks; hosted jobs cover them",
+    "No hardware attestation, private-witness hiding, independent cryptographic implementation or production qualification"
+  ]
+}

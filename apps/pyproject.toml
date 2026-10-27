@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hallmark-demo"
+version = "0.1.0"
+description = "Local terminal and web workbench for Hallmark proof workflows"
+requires-python = ">=3.12,<3.15"
+license = "MIT"
+dependencies = ["textual==8.2.8", "psutil==7.2.2", "uv==0.9.18"]
+
+[project.scripts]
+hallmark-demo = "hallmark_demo.__main__:main"
+
+[dependency-groups]
+dev = ["pytest==9.1.1", "ruff==0.17.1", "playwright==1.64.1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["hallmark_demo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
