@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#203c35" />
+    <title>Hallmark — Proof workbench</title>
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to workbench</a>
+    <header class="masthead">
+      <a class="brand" href="/" aria-label="Hallmark home"
+        ><span class="mark" aria-hidden="true">H</span>hallmark<span
+          class="edition"
+          >PROOF WORKBENCH</span
+        ></a
+      >
+      <div class="connection">
+        <span id="connection-dot" class="dot"></span
+        ><span id="connection">Connecting</span>
+      </div>
+      <a
+        class="docs"
+        href="https://abdelstark.github.io/hallmark/"
+        target="_blank"
+        rel="noreferrer"
+        >Documentation ↗</a
+      >
+    </header>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Workflows and run history">
+        <div class="section-label">01 / WORKFLOWS</div>
+        <nav id="workflows" aria-label="Choose a workflow"></nav>
+        <div class="history-heading">
+          <span class="section-label">02 / RUN HISTORY</span
+          ><button
+            id="refresh"
+            class="icon-button"
+            type="button"
+            aria-label="Refresh history"
+          >
+            ↻
+          </button>
+        </div>
+        <div id="history"></div>
+        <p class="local-note">
+          Runs stay in this checkout.<br />Closing this tab leaves the local
+          server and active run running.
+        </p>
+      </aside>
+      <main id="main" tabindex="-1">
+        <div id="error" role="alert" hidden></div>
+        <div
+          id="announce"
+          class="sr-only"
+          role="status"
+          aria-live="polite"
+        ></div>
+        <section id="setup">
+          <div class="page-heading">
+            <p class="eyebrow">RUN A COMPLETE WORKFLOW</p>
+            <h1 id="workflow-title">Proof workbench</h1>
+            <p id="workflow-summary" class="deck">
+              Choose a workflow to get started.
+            </p>
+          </div>
+          <div class="setup-grid">
+            <div>
+              <div class="statement">
+                <div class="section-label" id="scheme"></div>
+                <p id="claim"></p>
+              </div>
+              <ol
+                id="planned-stages"
+                class="planned-stages"
+                aria-label="Workflow stages"
+              ></ol>
+              <div class="case" id="case">
+                <div class="section-label" id="case-heading">Fixed case</div>
+                <p class="case-label">PROMPT</p>
+                <p id="case-prompt"></p>
+                <p class="case-label">EXPECTED RESPONSE</p>
+                <p id="case-response"></p>
+                <p class="fine" id="case-note"></p>
+              </div>
+              <p class="fine">
+                Verification establishes the enrolled computation. Classifier
+                quality, witness privacy and hardware provenance require
+                separate evidence.
+              </p>
+            </div>
+            <form id="launch-form" class="launch-panel">
+              <h2>Before you run</h2>
+              <div id="checks" aria-label="Prerequisite checks"></div>
+              <div id="parameters"></div>
+              <div class="run-cost">
+                <span id="cost"></span><span id="duration"></span>
+              </div>
+              <button id="start" class="primary" type="submit" disabled>
+                Start workflow →
+              </button>
+              <p id="launch-note" class="fine"></p>
+              <a
+                id="workflow-docs"
+                class="text-link"
+                target="_blank"
+                rel="noreferrer"
+                >Workflow guide ↗</a
+              >
+            </form>
+          </div>
+        </section>
+        <section id="monitor" hidden>
+          <div class="run-heading">
+            <div>
+              <p class="eyebrow" id="run-scheme"></p>
+              <h1 id="run-title"></h1>
+              <p id="run-identity" class="fine"></p>
+            </div>
+            <div class="run-actions">
+              <button id="new-run" class="secondary" type="button">
+                New run</button
+              ><button id="cancel" class="danger" type="button">
+                Stop run
+              </button>
+            </div>
+          </div>
+          <div class="status-bar">
+            <span id="run-status" class="status-tag"></span
+            ><span id="current-stage"></span><span id="elapsed"></span>
+          </div>
+          <ol
+            id="stages"
+            class="stage-track"
+            aria-label="Observed workflow progress"
+          ></ol>
+          <div class="telemetry">
+            <div class="resource-heading">
+              <h2>Local process tree</h2>
+              <span id="processes" class="fine"></span>
+            </div>
+            <div class="resource-readings">
+              <p>
+                <span id="rss">—</span><small id="rss-label">CURRENT RSS</small>
+              </p>
+              <p><span id="peak">—</span><small>SAMPLED PEAK RSS</small></p>
+              <p>
+                <span id="cpu">—</span
+                ><small id="cpu-label">CPU · 100% = ONE CORE</small>
+              </p>
+            </div>
+            <svg
+              id="resource-chart"
+              viewBox="0 0 800 110"
+              role="img"
+              aria-label="Observed local process-tree memory over time"
+            ></svg>
+            <p class="fine">
+              Sampled local RSS includes driver and child processes; shared
+              pages may be counted more than once. Remote GPU utilization is not
+              measured here.
+            </p>
+          </div>
+          <div id="jobs" class="jobs" hidden></div>
+          <div class="tabs" role="tablist" aria-label="Run details">
+            <button
+              id="activity-tab"
+              role="tab"
+              aria-selected="true"
+              aria-controls="activity-panel"
+              type="button"
+            >
+              Activity</button
+            ><button
+              id="result-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="result-panel"
+              type="button"
+            >
+              Results</button
+            ><button
+              id="artifacts-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="artifacts-panel"
+              type="button"
+            >
+              Artifacts
+            </button>
+          </div>
+          <section
+            id="activity-panel"
+            class="detail-panel"
+            role="tabpanel"
+            aria-labelledby="activity-tab"
+          >
+            <div class="panel-toolbar">
+              <p class="fine">Observed driver output · secrets redacted</p>
+              <label
+                ><input id="follow" type="checkbox" checked /> Follow
+                logs</label
+              >
+            </div>
+            <pre
+              id="logs"
+              tabindex="0"
+              aria-label="Workflow activity log"
+            ></pre>
+          </section>
+          <section
+            id="result-panel"
+            class="detail-panel"
+            role="tabpanel"
+            aria-labelledby="result-tab"
+            hidden
+          >
+            <div id="result-content"></div>
+          </section>
+          <section
+            id="artifacts-panel"
+            class="detail-panel"
+            role="tabpanel"
+            aria-labelledby="artifacts-tab"
+            hidden
+          >
+            <div class="panel-toolbar">
+              <p id="output-path" class="fine"></p>
+              <button id="download" class="secondary" type="button">
+                Export run receipt ↓
+              </button>
+            </div>
+            <div id="artifacts"></div>
+            <p class="fine">
+              This list includes admitted JSON reports. Full proofs, keys and
+              checkpoints remain in the retained run directory.
+            </p>
+          </section>
+        </section>
+      </main>
+    </div>
+    <footer>
+      <span>Local execution. Retained evidence.</span
+      ><span id="checkout"></span>
+    </footer>
+  </body>
+</html>

@@ -47,6 +47,7 @@ nav:
       - Verify one request: docs/learn/one-request.md
   - Guides:
       - Choose a workflow: docs/START.md
+      - Demo workbench: docs/WORKBENCH.md
       - Train and prove classifiers: docs/DEMO.md
       - Prove a TinyLlama response: docs/LLM-PROOF.md
       - Measure GPU proving: docs/GPU-BENCHMARK.md

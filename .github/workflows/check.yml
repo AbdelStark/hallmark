@@ -165,3 +165,22 @@ jobs:
       - run: make check-guard
       - run: make check-comparison
       - run: make package-check-comparison
+
+  demo-apps:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      HALLMARK_REQUIRE_BROWSER: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: '0.9.18'
+      - run: uv sync --locked --project apps --python 3.12.12
+      - run: command -v google-chrome
+      - run: make check-demo
+      - run: node --check apps/hallmark_demo/web/app.js
+      - run: uv build --project apps --out-dir "$RUNNER_TEMP/hallmark-demo-dist"
+      - run: uv run --locked --project apps hallmark-demo --help

@@ -4998,3 +4998,39 @@ Reuse that asset below the README introduction and link it to the detailed LLM
 statement. Mutable paths are README and these records. Acceptance is a working
 image/link on GitHub and in the staged documentation; no asset, proof, model,
 measurement or runtime change. Validation and publication receipts follow on PR.
+
+
+## 2026-10-27 — Shared terminal and browser workbench (in progress)
+
+Owner goal: full end-to-end TUI and web apps, shared components, extensible
+proving workflows, usable monitoring and a clean interface. Baseline is
+`675c99af66067d129dac30d6acc6612f4e392e68`. Hypothesis: a shared catalog, result
+adapter and persistent process controller can expose the existing real drivers
+without duplicating proof logic or changing enrolled verifier inputs. Mutable
+paths and full acceptance criteria are in decision 0082; completion requires
+both rendered/keyboard interfaces and real proof executions, not smoke tests.
+
+The independently locked `apps/` environment uses Textual 8.2.8, psutil 7.2.2
+and uv 0.9.18. Static web assets need no build tool or external CDN. Development
+browser testing uses Playwright 1.64.1 with an isolated installed Chrome process;
+it does not use a personal browser profile. Initial 23 tests pass. They exercise
+real subprocesses, restart observation, cancellation, split-write secret
+redaction, result/host/origin/token checks, artifact hashes, terminal keyboard
+launch and browser launch/history/export/mobile behavior. The first browser
+harness used an eval-based wait rejected by CSP; replacing the wait with a
+locator assertion preserves the production CSP. New result-contract and bounded
+cancellation tests are in progress; final counts follow on the delivery PR.
+
+A real browser-launched software conformance run passes 156 cases. A fresh
+classifier reproduction launched from the terminal is active; its driver,
+inputs and two-hour bound are unchanged. Validation artifacts and source hashes
+are retained locally under `runs/demo-apps-validation-2026-10-27/`. A namespace
+collision discovered during local development was corrected before publication:
+controller metadata belongs in `runs/workbench/`. Controlled controller failure
+and recovery observed the same live classifier PID, without launching another
+campaign. Screenshots show desktop/mobile layouts; no scientific performance
+claim is inferred from UI tests or monitoring.
+
+The classifier result, fresh retained-LLM verification, final UI review,
+optional-runtime/packaging/CI checks and public delivery are still pending.
+No paid cloud job has been launched for this app validation so far.

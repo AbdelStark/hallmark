@@ -2,6 +2,24 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Terminal and web workbench — in progress
+
+The owner requested complete TUI and web demo apps with shared execution,
+monitoring and extensible proving workflows. [Decision 0082](../docs/decisions/0082-demo-workbench.md)
+records the full acceptance gate. The implementation is in an isolated `apps/`
+project: one workflow catalog/controller, a loopback HTTP API, a Textual client
+and a responsive browser client. Existing proof drivers and the inference lock
+are frozen. Current app validation is software/integration evidence, not a new
+proof-backend qualification.
+
+Initial controller and client tests pass, including real subprocess lifecycle,
+CSRF/Host checks, redaction, artifact admission, mobile layout, history and
+keyboard launch. A real browser conformance run passes. A fresh classifier
+campaign launched from the TUI is running; a controlled controller restart
+reattached to the same live process. Native LLM verification, remaining workflow
+adapters, final UI review, distribution/CI and publication remain acceptance
+work. [Workbench guide](../docs/WORKBENCH.md).
+
 ## Public documentation site and badges
 
 The README also reuses the homepage's proof-flow SVG below its introduction,

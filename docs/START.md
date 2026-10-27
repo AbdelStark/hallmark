@@ -13,6 +13,10 @@ the TinyLlama response, or choose another workflow below.
 | Measure SIMD/CUDA proving | `make benchmark-llm-gpu …` | Mac controller; HF CPU/H200 jobs; completed caller-owned LLM run | Matched full runs, 69 identical artifacts, fresh CPU/Mac checks |
 | Bind LLM and classifier proofs | `make e2e-composed` | Both sets of prerequisites; 32 GiB free | Same-request verified relations and classifier verdicts |
 
+Prefer an interactive interface? Run `make demo-tui` or `make demo-web` from a
+checkout. The [workbench](WORKBENCH.md) uses these same drivers and retains their
+results; opening an interface does not start a proof or paid job.
+
 ## Get the checkout
 
 ```sh
