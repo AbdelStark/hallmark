@@ -23,6 +23,8 @@ inference proofs, with no general-purpose zkVM or hardware attestation.
 Witness hiding, arbitrary prompts/models and production qualification are outside
 the current scope. See [acceptance and limits](docs/MVP.md).
 
+[![TinyLlama inference proof flow: caller-enrolled inputs, 23 proof segments, then verification of all proofs and links.](website/assets/proof-path.svg)](docs/LLM-PROOF.md#the-statement)
+
 ## Recorded results at a glance
 
 ### TinyLlama on H200: matched CPU / GPU

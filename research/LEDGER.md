@@ -4987,3 +4987,14 @@ The edited source is reviewed against the skill's `eval.md`: meaning, technical
 detail and document order preserved; generic framing, decorative emphasis and
 repeated contrasts cut. Local validation and exact-head hosted/deployment
 receipts are recorded on the delivery PR. No new research measurement is run.
+
+## 2026-10-27 — README proof-flow diagram
+
+Owner request: include the docsite homepage diagram in the README. Baseline is
+`beb8f96e50b2ad5b03a204193b42d0994f3f1151`. The supplied SVG matches the tracked
+`website/assets/proof-path.svg` byte for byte (SHA-256
+`3c6487c4bbe111e2e44ae52af03a595247ed248cd0fdedd967c8922292e62a88`).
+Reuse that asset below the README introduction and link it to the detailed LLM
+statement. Mutable paths are README and these records. Acceptance is a working
+image/link on GitHub and in the staged documentation; no asset, proof, model,
+measurement or runtime change. Validation and publication receipts follow on PR.
