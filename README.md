@@ -5,7 +5,7 @@
 [![Research checks](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml/badge.svg)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
-[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation](docs/README.md)
+[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [Models on Hugging Face](#published-models) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation](docs/README.md)
 
 Hallmark proves a complete short response from a pinned, quantized
 **TinyLlama-1.1B** using **SASH Circle STARKs**, and proves rule, MLP and CNN
@@ -125,7 +125,7 @@ and [the GPU build](docs/GPU-BENCHMARK.md).
 
 ## Quickstart
 
-Clone the source checkout; packages and model checkpoints are not published:
+Clone the source checkout; Python packages are not published:
 
 ```sh
 git clone https://github.com/AbdelStark/hallmark.git
@@ -223,6 +223,26 @@ Expect a dataset summary, then **156 matched software cases** and **32 unavailab
 full-evidence obligations**. This checks software contracts and generates no proof.
 Core CI also covers CPython 3.13 and 3.14.
 
+## Published models
+
+The exact trained seed-17 classifiers used by the proved demo are available on
+**Hugging Face**, with model cards, original JSON checkpoints, quantized weights,
+native exports, evaluation records and hash manifests:
+
+| Model | Architecture | Model card and weights |
+|---|---|---|
+| Byte MLP | 1,033 parameters; byte counts → 4 ReLU units → score | [abdelstark/hallmark-byte-mlp](https://huggingface.co/abdelstark/hallmark-byte-mlp) |
+| Contextual byte CNN | 4,161 parameters; byte embeddings → causal convolution → masked max → score | [abdelstark/hallmark-contextual-byte-cnn](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn) |
+
+Both are MIT-licensed synthetic research models, trained from scratch. These
+are Hallmark JSON/CBOR exports, not Transformers models. The cards distinguish
+arithmetic checks from held-out synthetic results and real-world quality.
+[Download and run the models](docs/MODELS.md#download-and-run), or inspect the
+[immutable revisions and verification receipt](docs/MODELS.md#immutable-identities).
+Native inference does not generate a proof; `make e2e` trains/reproduces the
+models and generates fresh proofs. TinyLlama is an upstream pretrained model,
+not a Hallmark-trained release.
+
 ## Limits and research status
 
 - **Fixed inference case.** The complete short TinyLlama response is verified;
@@ -255,6 +275,7 @@ measured backend winner for that workload.
 | Inspect the exact LLM relation and reproduction | [LLM proof guide](docs/LLM-PROOF.md) |
 | Reproduce GPU timings or audit their boundaries | [GPU benchmark](docs/GPU-BENCHMARK.md) |
 | Inspect classifier circuits, public inputs and caller checks | [Classifier proofs](docs/PROOFS.md) |
+| Download trained weights and reproduce native inference | [Published models, cards and pinned revisions](docs/MODELS.md) |
 | Assess model/data quality, counts and failed screens | [Results and limitations](docs/RESULTS.md) |
 | Run the joined workflow | [Composed demo](docs/COMPOSED-DEMO.md) |
 | Find a contract, recipe or research record | [Documentation index](docs/README.md) |

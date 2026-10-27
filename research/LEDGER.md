@@ -4859,3 +4859,53 @@ witnesses, evaluation and runtime files are unchanged; no new benchmark is run.
 Local `make check` completes successfully in the locked core environment; its
 pytest totals and final package source identity are recorded on the delivery PR.
 Optional training execution is left to the required train-extra CI matrix.
+
+
+## 2026-10-27 — Publish the frozen trained classifiers on Hugging Face
+
+Owner instruction: publish trained models with model cards and README references.
+Decision 0080 records that explicit authority for original synthetic artifacts.
+Baseline main: `f6b5e07d97ebe62c908bd39d9422356c67bd1bb5`. Gate: the exact
+preselected seed-17 MLP/CNN used in the proof demo are public, with metadata/cards,
+checkpoint/quantization/native exports, provenance/evaluation, immutable revisions
+and fully hash-verified anonymous downloads plus runnable native examples. No
+training, dataset, evaluator, threshold or prior evidence change is admitted.
+Mutable paths: new native inference helper/tests, model cards/release guide,
+README/docs entry points, decision, publication receipt, STATE and this ledger.
+
+The retained completed demo is `runs/readme-demo-2026-10-22/runs/demo-20261022T124608Z`.
+Both original full/resumed checkpoints are byte-identical. MLP checkpoint
+requantization and CNN parameter requantization exactly reproduce existing pins
+`f8090161455ee56cdcd73eaab44437efa3b278a786d7c246491da5f1e1431a9c` and
+`8de31ae0215178f5c74aa43e58dd63511bc3b6a881c2045cc96def9e149b8f0b`. Regenerated
+compact model JSON exactly matches the original proof inputs. All 100 retained
+CNN test scores/decisions replay without fitting or selection. Current licence
+review follows decision 0063: MIT covers original code/models/authored fixtures;
+historical data labels/hashes remain unchanged and a notice accompanies release.
+
+Publication is public under `abdelstark/hallmark-byte-mlp` at commit
+`05b2bdef120d3aea9133af042d15ed1a3a621aa9` and
+`abdelstark/hallmark-contextual-byte-cnn` at
+`51461ea4401188a14997c5003ea2073ffb91e1ed`, both tagged `v1.0.0`. Enumerated
+MLP/CNN bundles contain 17/24 files and 185,096/579,781 bytes. HF model-card
+metadata validation passes. All 41 released files are downloaded without a token
+at pinned revisions and match every manifest SHA-256 and size. Four native
+controls per model match from those downloads, including expected CNN context
+contrast and block of the ordinary LLM prompt; MLP contrast scores are identical.
+The receipt `research/evidence/hub-model-publication-2026-10-27.json` stores file
+pins, metadata, examples and scope. No private paths, tokens, transcripts, setup
+keys, upstream checkpoint or unrelated model is uploaded. No paid compute runs.
+
+Native command `scripts/predict_published_classifier.py` reuses existing integer
+exports/graph arithmetic, admits only the frozen quantization hashes, and rejects
+modified weights, symlinks and inputs above 96 UTF-8 bytes. It labels output
+`native-inference-only`, making no cryptographic proof claim. Seven offline
+admission tests pass. Native MLP runs in core; CNN export requires the train
+extra (NumPy), discovered during fresh core validation and documented before
+publication. Draft validation failures remain local: an overbroad token-name
+scan rejected a public source filename, corrected to token-value matching in a
+new preparation directory; a transient docs gate rejected the not-yet-written
+publication receipt. Final checks use new logs and a complete source snapshot.
+README links, card-source mirrors and the release guide add immutable download
+commands and separate the releases from upstream TinyLlama. Local/distribution
+and exact-head hosted receipts are recorded on the delivery PR.

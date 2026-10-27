@@ -29,6 +29,11 @@ that alias. No matched cross-hardware speedup or independent security review is 
 
 ## Models and task
 
+The exact seed-17 MLP and CNN checkpoints/quantized exports are now
+[published on Hugging Face](MODELS.md), with model cards, pinned revisions,
+file hashes and native inference examples. Publication reuses these frozen
+models; it introduces no new quality evaluation or model selection.
+
 The current combined demo uses three fixed architectures. Model weights are
 public circuit constants; no model-hiding claim is made.
 

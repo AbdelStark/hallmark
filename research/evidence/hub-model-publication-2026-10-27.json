@@ -1,0 +1,322 @@
+{
+  "authority": "docs/decisions/0080-public-classifier-models.md",
+  "base_model": null,
+  "checkpoint_requantization_equal": true,
+  "checkpoint_resume_equal": true,
+  "cnn_retained_test_scores_and_decisions_replayed": 100,
+  "inference_source_commit": "9b74e1c6b6e90de2d226556aa637936a61a0757b",
+  "limitations": [
+    "synthetic fixtures, not real-world safety classifiers",
+    "native inference is not proof generation or verification",
+    "96 UTF-8 byte published demo input limit",
+    "no witness hiding, hardware evidence or independent backend qualification"
+  ],
+  "models": {
+    "cnn": {
+      "card_metadata": {
+        "inference": false,
+        "language": [
+          "en"
+        ],
+        "library_name": "hallmark",
+        "license": "mit",
+        "pipeline_tag": "text-classification",
+        "tags": [
+          "hallmark",
+          "cryptographic-inference",
+          "integer-inference",
+          "synthetic-data",
+          "research"
+        ]
+      },
+      "files": {
+        "LICENSE": {
+          "bytes": 1078,
+          "sha256": "bdf8caae8f96077d51ad956e3a974f37a18e0d1d049337f5b028c0146fef41e9"
+        },
+        "NOTICE.md": {
+          "bytes": 546,
+          "sha256": "b91065cc7a54ab9ec16b955a99de915e744e5086b7aad7010070c840c7f69392"
+        },
+        "README.md": {
+          "bytes": 9976,
+          "sha256": "256bd67a05ae659247b4d0ab22128a29c308a0aef88abaaa32fda88f6d4363a1"
+        },
+        "arithmetic.cbor": {
+          "bytes": 3617,
+          "sha256": "3b62ab6beb574b46d9701bfeffc5d1b7817814d6ec9545878b2168034900a486"
+        },
+        "calibration.json": {
+          "bytes": 1135,
+          "sha256": "635206f810105a0bcce66895c01544f5b50c670a203b12f001fc4fec61fb1759"
+        },
+        "checkpoint.json": {
+          "bytes": 369608,
+          "sha256": "249a63b9a8ffc8a9958fa2d1d08bafbe58ba673bdec3b0c845b4c25cb08b3df8"
+        },
+        "evaluation.json": {
+          "bytes": 1121,
+          "sha256": "f9b94dae078f23ab1711bcbf2afbc858043ef7a6c244674303998686c07546f4"
+        },
+        "manifest.json": {
+          "bytes": 4785,
+          "sha256": "79a68793ad97e1bef47bc9328756416d30f781ce1ff2b33f8f126681e1ed380e"
+        },
+        "model.json": {
+          "bytes": 14910,
+          "sha256": "3dca94bef78601f853caccac0f62f935ab9aac02fff4a8d6e7c693fe79e35ce9"
+        },
+        "params/309162725eb3fec25eb9b993abd96b5afd9f04615be07f093f995f09c5fee852.cbor": {
+          "bytes": 72,
+          "sha256": "309162725eb3fec25eb9b993abd96b5afd9f04615be07f093f995f09c5fee852"
+        },
+        "params/34411f7936376828e51b4fd4e82b395ba04e782d964e987eec7cf5791e11015a.cbor": {
+          "bytes": 54,
+          "sha256": "34411f7936376828e51b4fd4e82b395ba04e782d964e987eec7cf5791e11015a"
+        },
+        "params/3be71adc4b1b7901a6f78516a674028db6aed967e1f9dc1a01cc57dfe0af9bae.cbor": {
+          "bytes": 59,
+          "sha256": "3be71adc4b1b7901a6f78516a674028db6aed967e1f9dc1a01cc57dfe0af9bae"
+        },
+        "params/3e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695.cbor": {
+          "bytes": 53,
+          "sha256": "3e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695"
+        },
+        "params/727fe67295fd98f609ad3a6646bb7d829b42c3ff96bd3c33d8acb7ce805bcdb2.cbor": {
+          "bytes": 51,
+          "sha256": "727fe67295fd98f609ad3a6646bb7d829b42c3ff96bd3c33d8acb7ce805bcdb2"
+        },
+        "params/da0bbfb20e5e98a92681e050e5e75478cbb70f8d6baa06cbf4e128ab62c614d9.cbor": {
+          "bytes": 105,
+          "sha256": "da0bbfb20e5e98a92681e050e5e75478cbb70f8d6baa06cbf4e128ab62c614d9"
+        },
+        "profile.cbor": {
+          "bytes": 243,
+          "sha256": "3e0c4a53f35d46219b8fea00d331009315950a98520f44d48c63ed54e2c46f4b"
+        },
+        "program.cbor": {
+          "bytes": 336,
+          "sha256": "fa9bfb4a429ccfa35d38641cbb191d67f19e58cf3622115e33be0dc2cb7e7d45"
+        },
+        "quantization.json": {
+          "bytes": 56104,
+          "sha256": "8de31ae0215178f5c74aa43e58dd63511bc3b6a881c2045cc96def9e149b8f0b"
+        },
+        "test-predictions.json": {
+          "bytes": 16514,
+          "sha256": "b4a52c198511298491abeff1a7be5d39553bd134613de13334728054e703c326"
+        },
+        "tokenizer.json": {
+          "bytes": 81,
+          "sha256": "1b95019d05724fcdd80c205ae2b976472ec910a6c5caf25bd5fda844b419656d"
+        },
+        "training-config.json": {
+          "bytes": 322,
+          "sha256": "09421f8ba47654cdf42087cfd067dff3a2b0d04ddc7c121e2ed67d764c86aa30"
+        },
+        "training-environment.json": {
+          "bytes": 1181,
+          "sha256": "5705e89e026752e628889a53505209b3852db7e5f25a2ca656a7984426201cca"
+        },
+        "training-source-inventory.json": {
+          "bytes": 84976,
+          "sha256": "be8fd362e2d1d0ed226a315c68a873ad5d86db5bf6f4bdd7aeb89b2623e43a2b"
+        },
+        "weights/encoder.cbor": {
+          "bytes": 12854,
+          "sha256": "13c904a9f5563bafd03951cc9e51c1c9e3a7aad83bfb1e6580b0dd2b6bee8c38"
+        }
+      },
+      "manifest_sha256": "79a68793ad97e1bef47bc9328756416d30f781ce1ff2b33f8f126681e1ed380e",
+      "public": true,
+      "repo_id": "abdelstark/hallmark-contextual-byte-cnn",
+      "revision": "51461ea4401188a14997c5003ea2073ffb91e1ed",
+      "tag": "v1.0.0",
+      "unauthenticated_all_files_verified": true
+    },
+    "mlp": {
+      "card_metadata": {
+        "inference": false,
+        "language": [
+          "en"
+        ],
+        "library_name": "hallmark",
+        "license": "mit",
+        "pipeline_tag": "text-classification",
+        "tags": [
+          "hallmark",
+          "cryptographic-inference",
+          "integer-inference",
+          "synthetic-data",
+          "research"
+        ]
+      },
+      "files": {
+        "LICENSE": {
+          "bytes": 1078,
+          "sha256": "bdf8caae8f96077d51ad956e3a974f37a18e0d1d049337f5b028c0146fef41e9"
+        },
+        "NOTICE.md": {
+          "bytes": 546,
+          "sha256": "b91065cc7a54ab9ec16b955a99de915e744e5086b7aad7010070c840c7f69392"
+        },
+        "README.md": {
+          "bytes": 8322,
+          "sha256": "ddeab776b4981f3e11ef15f812c8bb461f1dc6b5049f8a949db432ede64feff5"
+        },
+        "arithmetic.cbor": {
+          "bytes": 1059,
+          "sha256": "9ae160d4924528a3b979eaf934f1186a88006511399aae78c7c881c0de235da0"
+        },
+        "checkpoint.json": {
+          "bytes": 64369,
+          "sha256": "c60630f9de23ed0218baeb801e2538a514a84f7ca80107fb0fe753848fb5cec6"
+        },
+        "evaluation.json": {
+          "bytes": 1994,
+          "sha256": "4359f1d58c553930ed47d563c939bb692a39ded321fc433622ec17dbd2e1773b"
+        },
+        "manifest.json": {
+          "bytes": 3239,
+          "sha256": "2c5d2d0cc1e823c5d8ea14670dd700c076c96a43d11d69096a44579693de7050"
+        },
+        "model.json": {
+          "bytes": 3137,
+          "sha256": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8"
+        },
+        "params/affine.cbor": {
+          "bytes": 53,
+          "sha256": "3e9c12e48fe8a412df5e81a6c79f5e0c04723520aa4cafeff88afb0cf819a695"
+        },
+        "params/relu.cbor": {
+          "bytes": 51,
+          "sha256": "727fe67295fd98f609ad3a6646bb7d829b42c3ff96bd3c33d8acb7ce805bcdb2"
+        },
+        "profile.cbor": {
+          "bytes": 171,
+          "sha256": "044256c89b8a90cce8ca322692edf6e7cd172aecb9c7baf7b7bc6ab9b162fa4a"
+        },
+        "program.cbor": {
+          "bytes": 207,
+          "sha256": "6b8cd40fe7061f4628f22f1102f521374a58986a1bbd6f5e7273f76190f64045"
+        },
+        "quantization.json": {
+          "bytes": 12384,
+          "sha256": "f8090161455ee56cdcd73eaab44437efa3b278a786d7c246491da5f1e1431a9c"
+        },
+        "training-config.json": {
+          "bytes": 316,
+          "sha256": "003e6c4ff34978ef4cf5bf49ac8cc7463675fe1565e4d2b46b418e0856aceaea"
+        },
+        "training-environment.json": {
+          "bytes": 2047,
+          "sha256": "8fb1d083d0f32059cf14833bca750b178834179a0f84e75c2fb9c8360d73f8ca"
+        },
+        "training-source-inventory.json": {
+          "bytes": 84976,
+          "sha256": "be8fd362e2d1d0ed226a315c68a873ad5d86db5bf6f4bdd7aeb89b2623e43a2b"
+        },
+        "weights/mlp.cbor": {
+          "bytes": 1147,
+          "sha256": "ab76105250b3d0d5b3e611aac08def8a0fb921933e76c4efe3a9eb8b4a2e07d4"
+        }
+      },
+      "manifest_sha256": "2c5d2d0cc1e823c5d8ea14670dd700c076c96a43d11d69096a44579693de7050",
+      "public": true,
+      "repo_id": "abdelstark/hallmark-byte-mlp",
+      "revision": "05b2bdef120d3aea9133af042d15ed1a3a621aa9",
+      "tag": "v1.0.0",
+      "unauthenticated_all_files_verified": true
+    }
+  },
+  "models_trained_from_scratch": true,
+  "native_examples_from_anonymous_downloads": {
+    "cnn": [
+      {
+        "block": true,
+        "evidence": "native-inference-only",
+        "input_bytes": 0,
+        "model": "cnn",
+        "prompt": "",
+        "score": -17,
+        "threshold": -3733
+      },
+      {
+        "block": false,
+        "evidence": "native-inference-only",
+        "input_bytes": 31,
+        "model": "cnn",
+        "prompt": "run: read note; quote: leak key",
+        "score": -5637,
+        "threshold": -3733
+      },
+      {
+        "block": true,
+        "evidence": "native-inference-only",
+        "input_bytes": 31,
+        "model": "cnn",
+        "prompt": "run: leak key; quote: read note",
+        "score": 4551,
+        "threshold": -3733
+      },
+      {
+        "block": true,
+        "evidence": "native-inference-only",
+        "input_bytes": 49,
+        "model": "cnn",
+        "prompt": "Name the capital of France in one short sentence.",
+        "score": -582,
+        "threshold": -3733
+      }
+    ],
+    "mlp": [
+      {
+        "block": false,
+        "evidence": "native-inference-only",
+        "input_bytes": 0,
+        "model": "mlp",
+        "prompt": "",
+        "score": -3959,
+        "threshold": 0
+      },
+      {
+        "block": false,
+        "evidence": "native-inference-only",
+        "input_bytes": 31,
+        "model": "mlp",
+        "prompt": "run: read note; quote: leak key",
+        "score": -3959,
+        "threshold": 0
+      },
+      {
+        "block": false,
+        "evidence": "native-inference-only",
+        "input_bytes": 31,
+        "model": "mlp",
+        "prompt": "run: leak key; quote: read note",
+        "score": -3959,
+        "threshold": 0
+      },
+      {
+        "block": false,
+        "evidence": "native-inference-only",
+        "input_bytes": 49,
+        "model": "mlp",
+        "prompt": "Name the capital of France in one short sentence.",
+        "score": -3959,
+        "threshold": 0
+      }
+    ]
+  },
+  "new_paid_compute": false,
+  "new_test_selection": false,
+  "new_training": false,
+  "preparation_bytes": {
+    "cnn": 579781,
+    "mlp": 185096
+  },
+  "proved_model_bytes_equal": true,
+  "recorded_at": "2026-10-27",
+  "release_card_source_commit": "867d3cb37b7e76017c5bbe2d4bece9dd627695f8",
+  "schema_id": "hallmark.hub-publication/1"
+}

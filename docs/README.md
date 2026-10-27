@@ -17,6 +17,7 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 | [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
 | [GPU prover measurements](GPU-BENCHMARK.md#generated-constraint-result) | H200 matched pair: 53.94 s CUDA proving, 10.15× over SIMD; generated constraints, zero CPU fallback, cost/timing boundaries and reproduction |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |
+| [Published classifier models](MODELS.md) | Hugging Face cards/weights, immutable revisions, hash-checked inference and publication receipt |
 | [Results and limitations](RESULTS.md) | Model/data notes, measured results, failed experiments and evidence links |
 | [Operations](OPERATIONS.md) | Focused experiment recipes, enrollment, retained artifacts and recovery |
 | [Packaging](PACKAGING.md) | Pinned build environment, reproducible archives and installed-package checks |
@@ -64,6 +65,8 @@ describes its supported proof encoding and pairing checks.
 - [Source packet](../research/source/README.md): dated design material, preserved
   separately from later normative decisions.
 
-Raw checkpoints, setup keys, proofs and run directories stay local. Public evidence
-files contain numeric summaries and hashes. A recorded hash is an identity check;
+Raw run directories, setup keys, proofs and unreviewed checkpoints stay local.
+The explicitly approved [model releases](MODELS.md) publish an enumerated set of
+original synthetic checkpoints/exports on Hugging Face. Public evidence files
+contain numeric summaries and hashes. A recorded hash is an identity check;
 it does not make an untrusted source an authenticated enrollment authority.
