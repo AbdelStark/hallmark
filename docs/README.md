@@ -41,7 +41,7 @@ before using a command or relying on a capability.
 | [ML plan](ML-PLAN.md) | Classifier candidates, training and export strategy |
 | [Evaluation](EVALUATION.md) | Data lineage, split isolation, calibration, metrics and claim boundaries |
 | [Implementation tracker](roadmap/IMPLEMENTATION.md) | Work-item dependencies and links to live issues |
-| [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112) | New rule/MLP/CNN proof path and matched gnark/native benchmarks; not yet implemented |
+| [Circle STARK classifiers](CIRCLE-CLASSIFIERS.md) | Experimental rule/MLP/CNN proofs, circuit/caller boundary, STWO source ownership and remaining matched benchmark |
 | [Specification checks](SPEC-CHECK.md) | Local links, requirement coverage and explicit live tracker audit |
 | [Dependency notices](DEPENDENCIES.md) | Reviewed software versions, licences and redistribution limits |
 

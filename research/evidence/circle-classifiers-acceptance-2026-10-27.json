@@ -1,0 +1,555 @@
+{
+  "adversarial_conformance": {
+    "benchmark_sample": false,
+    "boundaries": [
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "empty"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "nul"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "cbor-23"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "cbor-24"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "bad-across-rule-chunk"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "late-bad"
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "ascii-maximum"
+      },
+      {
+        "id": "ascii-overflow",
+        "rejected": true
+      },
+      {
+        "all_three_constraints_and_native_parity": true,
+        "id": "utf8-maximum"
+      },
+      {
+        "id": "utf8-overflow",
+        "rejected": true
+      }
+    ],
+    "elapsed_seconds": 210.24645208381116,
+    "invalid_witnesses": [
+      {
+        "kind": "rule",
+        "mutation": "late-input",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "rule",
+        "mutation": "salt",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "rule",
+        "mutation": "encoded-padding",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "rule",
+        "mutation": "active-mask",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "rule",
+        "mutation": "verdict",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "late-input",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "salt",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "encoded-padding",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "active-mask",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "verdict",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "count",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "rounded_hidden",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "mlp",
+        "mutation": "score",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "late-input",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "salt",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "encoded-padding",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "active-mask",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "verdict",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "late_convolution",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "pooled_maximum",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "head_bit",
+        "rejection": "STWO ConstraintsNotSatisfied"
+      },
+      {
+        "kind": "encoder",
+        "mutation": "omitted-dense-edge",
+        "rejection": "caller-enrolled program pin"
+      }
+    ],
+    "local_run": "runs/circle-constraint-conformance-v1",
+    "maximum_input_fresh_proofs": 3,
+    "maximum_input_fresh_verifications": 3,
+    "qualified_backend": false,
+    "raw_result_sha256": "813b3620720154775b4314d71c560186e479f75abf89d70ba8a209621687e604",
+    "schema_id": "hallmark.circle-constraint-conformance/1",
+    "status": "passed"
+  },
+  "backend": "4e25496d8abf8609b6e85305c2a7d79b03ff8f7bee00f4899ec370e40fd2d768",
+  "benchmark_sample": false,
+  "binaries": {
+    "prover_sha256": "ee61e9c66574f9bda78999084f53eac4b35f2cc9c9131ed9b4248289de036da9",
+    "verifier_sha256": "912b5e344a502f4905d782d4a878a006d12f91c8b477f88dcd8715196396df4e"
+  },
+  "caller_enrollment_sha256": "0eecc6b64e681fbe5e521ff042dbd72f2367f937c020823cc2e8b2a795debb04",
+  "confirmatory": {
+    "backend": "c035913b3196640797273bb0c22c2e69b09dee2a790d128be51287a6351ded7d",
+    "benchmark_sample": false,
+    "binaries": {
+      "prover_sha256": "c81457c2d62a0c47866f0f9de52767b431c07a24e8d48ba773beab9f9cdeb64b",
+      "verifier_sha256": "61a366c8cd5edc70fe5107d667eb914bde4dcb9ab517b5d0ea549c13195eb1c9"
+    },
+    "caller_enrollment_sha256": "56c29c74a4efa0443bff84cc516349b0369360e2feaf347b871b860b06cd635e",
+    "cross_request_rejections": 18,
+    "direct_public_mutations_rejected": 63,
+    "elapsed_seconds": 96.3353267502971,
+    "engine_sources": {
+      "research/probes/circle/Cargo.lock": "d7fbdd1ccf7a612ff412d5df799460ed6a3ed6f226643f94dfb8f03164f6fb2f",
+      "research/probes/circle/Cargo.toml": "1d490746657e3e3096df69def2fb2462117e7208421657c97c8df2478e7234e8",
+      "research/probes/circle/rust-toolchain.toml": "0374927ee4d1266b8d879366569b754350541d39d345df182f59b852199bcdee",
+      "research/probes/circle/src/bin/prove.rs": "2f8f504bb2a68b1599598e4e4586fa61c70e1124ecad03015a23eae397705e29",
+      "research/probes/circle/src/bin/verify.rs": "91780dea069a7154b71cc961f8edbc9ae17822e94bd82e5dc00834f374ecf1b5",
+      "research/probes/circle/src/lib.rs": "de7d9ce431c50f4d40cd07fe1814eabbe92d750923a88a9085eb3c7600d25e87",
+      "research/probes/circle/src/prover.rs": "0e2f6b059e4b3b7251eccc05d926b4e160bc6462c838dab0f20694b612026f32",
+      "scripts/circle_backend.py": "35e5b515f7abd0ece1af5477b01a18bee3de6f62e7a66a189b2bf61e301e32e9",
+      "scripts/circle_circuit.py": "36bcdf89f68b3bd39ced07a3429cdf4910abcaedc0495cfe640cec349bf3d59c",
+      "scripts/circle_classifiers.py": "81be4d26da10cbd48270a46c5f28581103cb07c6848c67032afa43414b2a703f",
+      "scripts/circle_integer.py": "66bff087f0d6f1f69d53aafcf9b33e4bdc0ea9b83dbd94b1d5a5412e82942f01"
+    },
+    "fresh_proof_only_verifications": 9,
+    "fresh_proofs": 9,
+    "protocol_sha256": "a4fb6c4a1e0007b4fa4a6b9e51924b410a8a058510c601fa0514e1cb7f2f71a4",
+    "result_sha256": "460f0e396aad2475e658ce0d585583769701939f48f835296b4406951fcde336",
+    "roster_rejections": 3,
+    "run": "runs/circle-classifier-acceptance-v2",
+    "source_snapshot": "runs/circle-classifier-acceptance-v2-source",
+    "sources": {
+      "configs/circle-classifiers/corpus.json": "cb4fdda5f4886b1fc8981647d2a374c87ce49aecfd9cd684aafe1e2b9b9f35f8",
+      "configs/circle-classifiers/plan.json": "24bb0285753c864456793b08c2bd0e11e5a68dd37b2ffee83e1cb7a51e24abb4",
+      "scripts/check_circle_engine.py": "895e006fe6840911785d88fa78e8346dad54e3ada5580e6923393c92228b2a5d",
+      "scripts/circle_backend.py": "35e5b515f7abd0ece1af5477b01a18bee3de6f62e7a66a189b2bf61e301e32e9",
+      "scripts/circle_circuit.py": "36bcdf89f68b3bd39ced07a3429cdf4910abcaedc0495cfe640cec349bf3d59c",
+      "scripts/circle_classifiers.py": "81be4d26da10cbd48270a46c5f28581103cb07c6848c67032afa43414b2a703f",
+      "scripts/circle_integer.py": "66bff087f0d6f1f69d53aafcf9b33e4bdc0ea9b83dbd94b1d5a5412e82942f01",
+      "scripts/classifier_comparison.py": "c5862430ef00af20eb6fd0a3bf6f7015df89af98043b2729805a3700e5cc9788",
+      "scripts/common_input.py": "492c207a32e0847e91c6e7ef24b4079852f62ebf16949e236f281f234a361f25",
+      "scripts/contextual_cnn.py": "b7daf1d9bef15e217612327ab5eee93c04f0016fad039395dafd79801a22a094",
+      "scripts/run_circle_classifiers.py": "ff4f21b621143676ed701cf5a0424ccd4c91e8cf87bee89e203cac0f50789358",
+      "scripts/run_contextual_proof.py": "c3af5023d2640a867b593c06e14b386b7b84df874ea2542810f9a71c4b26d74e",
+      "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
+      "scripts/trained_common_input.py": "c2f0b66914d49769a0d970cf729645bee2037f5d6e2aae1ff1677ab7edc5036d",
+      "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+      "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+      "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+      "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+      "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+      "src/hallmark/_gnark_probe.py": "9673a34a6d5af593b3f67b7ecf1196f5bf368f5f5a5d61ac7122661a29daecce",
+      "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+      "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+      "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+      "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+      "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+      "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+      "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+      "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+      "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+      "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+      "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+      "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+      "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+      "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+      "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+      "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+      "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+      "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+      "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+      "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+      "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+      "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+      "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+      "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+      "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+      "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+      "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+      "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+      "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+      "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+      "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+      "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+      "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+      "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+      "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+      "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+      "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+      "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+      "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+      "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+      "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586"
+    },
+    "worker_stage_timings_recorded": true
+  },
+  "cross_request_rejections": 18,
+  "direct_public_mutations_rejected": 63,
+  "elapsed_seconds": 97.88326908322051,
+  "engine_sources": {
+    "research/probes/circle/Cargo.lock": "d7fbdd1ccf7a612ff412d5df799460ed6a3ed6f226643f94dfb8f03164f6fb2f",
+    "research/probes/circle/Cargo.toml": "1d490746657e3e3096df69def2fb2462117e7208421657c97c8df2478e7234e8",
+    "research/probes/circle/rust-toolchain.toml": "0374927ee4d1266b8d879366569b754350541d39d345df182f59b852199bcdee",
+    "research/probes/circle/src/bin/prove.rs": "3c1a03987eab0301bb65228e8a8b3d7ac8ba4f91fbadcd054e11c8be17fb2ef3",
+    "research/probes/circle/src/bin/verify.rs": "91780dea069a7154b71cc961f8edbc9ae17822e94bd82e5dc00834f374ecf1b5",
+    "research/probes/circle/src/lib.rs": "98cd3b420154795f3ebac58c98911f60af15529788437828b4ce159287f380c8",
+    "research/probes/circle/src/prover.rs": "2e599dcd3e43740d5d5df5d2ad4ca71fe2ba562c4e5a443a7859b1a883474870",
+    "scripts/circle_backend.py": "5653c62abd76c156c6131887cbccd4f47dba1a08e0f487f5a3ba09011eb09605",
+    "scripts/circle_circuit.py": "36bcdf89f68b3bd39ced07a3429cdf4910abcaedc0495cfe640cec349bf3d59c",
+    "scripts/circle_classifiers.py": "81be4d26da10cbd48270a46c5f28581103cb07c6848c67032afa43414b2a703f",
+    "scripts/circle_integer.py": "66bff087f0d6f1f69d53aafcf9b33e4bdc0ea9b83dbd94b1d5a5412e82942f01"
+  },
+  "final_small_api_fixture": {
+    "classifier_support": false,
+    "elapsed_seconds": 1.1706139161251485,
+    "fresh_honest_verifications": 1,
+    "mutations_rejected": [
+      "changed-public",
+      "truncated-proof",
+      "changed-oods",
+      "noncanonical-m31",
+      "weaker-parameters",
+      "changed-enrollment"
+    ],
+    "proof_sha256": "ef8cf1f3335390b54dc75cf75209182bbe78a909e829e103445a52af810f06da",
+    "qualified_backend": false,
+    "raw_result_sha256": "9bb59aec1503bb6acb53c1077644adf9aa26cf2f1c337a452723ef219c10726b",
+    "schema_id": "hallmark.circle-api-fixture/1",
+    "serialized_proof_bytes": 165306,
+    "status": "passed"
+  },
+  "fresh_proof_only_verifications": 9,
+  "fresh_proofs": 9,
+  "hf_fixture_failures": [
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f7b441e90535df76716c",
+      "output_archive": {
+        "bytes": 3538,
+        "sha256": "76998291728630c5c9f7d5bc8f00ac05a60dea054e8b64f6dd34486823ffc7f0"
+      },
+      "running_seconds": 59.64,
+      "source_commit": "084c69224ff82c4b8f142ee7114e792bd45655a9",
+      "stage": "ERROR"
+    },
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f89041e90535df7672d0",
+      "output_archive": {
+        "bytes": 705075,
+        "sha256": "6ae59f77047769f82639f2ec297c129585886f4ecfaf8f002f1ee072dd1c4a68"
+      },
+      "running_seconds": 43.616,
+      "source_commit": "940f0049d98ac0f0cdb7daaf9e6f4f82b7c705b8",
+      "stage": "ERROR"
+    },
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f91941e90535df767391",
+      "output_archive": {
+        "bytes": 129251673,
+        "sha256": "fca92f5525325a4f290720b1d1a3e24af5a765cd52484ec85fdf2965b1639260"
+      },
+      "running_seconds": 300.002,
+      "source_commit": "d7b6f98ccb3e698be615d373041fa51bf971ba47",
+      "stage": "ERROR"
+    }
+  ],
+  "hf_measurement_fixture": {
+    "all_outputs_retained": true,
+    "backends": [
+      {
+        "backend": "gnark",
+        "proof_sha256": "648aecd098a5daa9079b59ef655291d348d475124bcac87f8cb7c7accd7094ba",
+        "prover_command_seconds": 127.5726543899982,
+        "verifier_command_seconds": 4.675822960001824
+      },
+      {
+        "backend": "circle",
+        "proof_sha256": "a1902b364d35d2e36973df6d087f133a71199539bf58452a011a68be82f11bf0",
+        "prover_command_seconds": 48.137834741002735,
+        "verifier_command_seconds": 0.46490803599954234
+      }
+    ],
+    "benchmark_sample": false,
+    "bucket_deleted": true,
+    "invoice": false,
+    "job_id": "6ae0fade41e90535df76762e",
+    "output_archive": {
+      "bytes": 140084136,
+      "sha256": "0f0886af0874365d31f2d79245e3c11955c10f42cc3825e9b6c9985668457bca"
+    },
+    "result_sha256": "28b607104b4aacd2044d83f5aa46352cab3de21bcd3a5088d69a562277f480a4",
+    "running_seconds": 737.432,
+    "source_commit": "53b091f42c1131fe327ac3c5908fb507004875a3",
+    "stage": "COMPLETED",
+    "status": "fixture-passed"
+  },
+  "intermediate_parity": true,
+  "proofs": [
+    {
+      "case": "allow",
+      "fresh_verify_command_seconds": 0.08931229170411825,
+      "kind": "rule",
+      "program_sha256": "2599fc4d671e9fe88f7c1d7ed2d439eda2b0420d27696d1d4ddf7e853eaba45d",
+      "proof_bytes": 1976362,
+      "proof_sha256": "4e5004e186ddc492f790bab2a1b6eaec5b48cdb2b39f3407ece2bcc4891e5926",
+      "prove_command_seconds": 5.020869082771242,
+      "prove_max_rss_bytes": 7711932416,
+      "verdict": 1
+    },
+    {
+      "case": "allow",
+      "fresh_verify_command_seconds": 0.05035699997097254,
+      "kind": "mlp",
+      "program_sha256": "f82dae7d690aec0ea36c371baccf71ddc803fa384de8e2831dcbbdc02f25ab04",
+      "proof_bytes": 1886354,
+      "proof_sha256": "7d4d70c775066b4ffae468ad051158010c4cc25da765ad4c367ec9b9496c7ebe",
+      "prove_command_seconds": 3.9334060419350863,
+      "prove_max_rss_bytes": 12047810560,
+      "verdict": 1
+    },
+    {
+      "case": "allow",
+      "fresh_verify_command_seconds": 0.051546833012253046,
+      "kind": "encoder",
+      "program_sha256": "b6dad193b6c81c6be5820adab4feecc23534b9486b5ea9d031e8755da0bf1b69",
+      "proof_bytes": 2147675,
+      "proof_sha256": "2bb957a48efe87f8a076f2e6bc3ea7139b5ae440951d0cdc6ae455e02ec3c2c2",
+      "prove_command_seconds": 10.166039499919862,
+      "prove_max_rss_bytes": 11402362880,
+      "verdict": 1
+    },
+    {
+      "case": "cnn-block",
+      "fresh_verify_command_seconds": 0.07473720796406269,
+      "kind": "rule",
+      "program_sha256": "2599fc4d671e9fe88f7c1d7ed2d439eda2b0420d27696d1d4ddf7e853eaba45d",
+      "proof_bytes": 1954851,
+      "proof_sha256": "6b427c511a5f9989914a907adea7a3f3e3ef14a85694064277a3203eef8466cb",
+      "prove_command_seconds": 3.8991966671310365,
+      "prove_max_rss_bytes": 12041830400,
+      "verdict": 1
+    },
+    {
+      "case": "cnn-block",
+      "fresh_verify_command_seconds": 0.05179304117336869,
+      "kind": "mlp",
+      "program_sha256": "f82dae7d690aec0ea36c371baccf71ddc803fa384de8e2831dcbbdc02f25ab04",
+      "proof_bytes": 1962458,
+      "proof_sha256": "57f4abf7d13c63a96209c676955211741c31aa8f06f24838b223d990be83a759",
+      "prove_command_seconds": 3.9454749580472708,
+      "prove_max_rss_bytes": 12051005440,
+      "verdict": 1
+    },
+    {
+      "case": "cnn-block",
+      "fresh_verify_command_seconds": 0.05020695785060525,
+      "kind": "encoder",
+      "program_sha256": "b6dad193b6c81c6be5820adab4feecc23534b9486b5ea9d031e8755da0bf1b69",
+      "proof_bytes": 2121168,
+      "proof_sha256": "0c14093a06808cfea0e3ac3cce5109e341bf27154c4ee61c55d8b9d43be8118f",
+      "prove_command_seconds": 9.658898999914527,
+      "prove_max_rss_bytes": 19585777664,
+      "verdict": 0
+    },
+    {
+      "case": "rule-block",
+      "fresh_verify_command_seconds": 0.05304637458175421,
+      "kind": "rule",
+      "program_sha256": "2599fc4d671e9fe88f7c1d7ed2d439eda2b0420d27696d1d4ddf7e853eaba45d",
+      "proof_bytes": 1960020,
+      "proof_sha256": "837d5592e501e1b510dd297354b1990e0a3e85728a18e7b753551d7eaca90e49",
+      "prove_command_seconds": 3.9057349171489477,
+      "prove_max_rss_bytes": 12051628032,
+      "verdict": 0
+    },
+    {
+      "case": "rule-block",
+      "fresh_verify_command_seconds": 0.050408290699124336,
+      "kind": "mlp",
+      "program_sha256": "f82dae7d690aec0ea36c371baccf71ddc803fa384de8e2831dcbbdc02f25ab04",
+      "proof_bytes": 1948684,
+      "proof_sha256": "02244ac4dafd93fe3be013a7767ee399c67cf6301a6efa6a598f0b8968fdf18a",
+      "prove_command_seconds": 3.925158250145614,
+      "prove_max_rss_bytes": 12049858560,
+      "verdict": 1
+    },
+    {
+      "case": "rule-block",
+      "fresh_verify_command_seconds": 0.052733167074620724,
+      "kind": "encoder",
+      "program_sha256": "b6dad193b6c81c6be5820adab4feecc23534b9486b5ea9d031e8755da0bf1b69",
+      "proof_bytes": 2149160,
+      "proof_sha256": "ed52a136b91a5aef72ca6aa05e7ed76cc4463f1a302e9a5f1ef85f2d1a8ad92d",
+      "prove_command_seconds": 9.772485499735922,
+      "prove_max_rss_bytes": 20141375488,
+      "verdict": 1
+    }
+  ],
+  "protocol_sha256": "624555fc6f28538bc56894c7679a73b990dd1fa8854dfe2684f1f77c6c9aeabc",
+  "qualified_backend": false,
+  "result_sha256": "45605c839a0446c4569664d0cbb926456a4dcec3ee712f30f0516ea71569c6c9",
+  "roster_rejections": 3,
+  "run": "runs/circle-classifier-acceptance-v1",
+  "schema_id": "hallmark.circle-classifiers-acceptance-evidence/1",
+  "scope": "Exact specialized classifier integrity, no witness hiding, hardware or backend qualification",
+  "source_snapshot": "runs/circle-classifier-acceptance-v1-source",
+  "sources": {
+    "configs/circle-classifiers/corpus.json": "cb4fdda5f4886b1fc8981647d2a374c87ce49aecfd9cd684aafe1e2b9b9f35f8",
+    "configs/circle-classifiers/plan.json": "24bb0285753c864456793b08c2bd0e11e5a68dd37b2ffee83e1cb7a51e24abb4",
+    "scripts/check_circle_engine.py": "895e006fe6840911785d88fa78e8346dad54e3ada5580e6923393c92228b2a5d",
+    "scripts/circle_backend.py": "5653c62abd76c156c6131887cbccd4f47dba1a08e0f487f5a3ba09011eb09605",
+    "scripts/circle_circuit.py": "36bcdf89f68b3bd39ced07a3429cdf4910abcaedc0495cfe640cec349bf3d59c",
+    "scripts/circle_classifiers.py": "81be4d26da10cbd48270a46c5f28581103cb07c6848c67032afa43414b2a703f",
+    "scripts/circle_integer.py": "66bff087f0d6f1f69d53aafcf9b33e4bdc0ea9b83dbd94b1d5a5412e82942f01",
+    "scripts/classifier_comparison.py": "6b1926703b161950baa0dd0753a3f135a649c8fb9a18e7207efd3cc9e4b7a522",
+    "scripts/common_input.py": "492c207a32e0847e91c6e7ef24b4079852f62ebf16949e236f281f234a361f25",
+    "scripts/contextual_cnn.py": "b7daf1d9bef15e217612327ab5eee93c04f0016fad039395dafd79801a22a094",
+    "scripts/run_circle_classifiers.py": "442d903c5ebe8dedc11b2a9eba9649937578bb6b1de92e5c9763379984b384ea",
+    "scripts/run_contextual_proof.py": "c3af5023d2640a867b593c06e14b386b7b84df874ea2542810f9a71c4b26d74e",
+    "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
+    "scripts/trained_common_input.py": "c2f0b66914d49769a0d970cf729645bee2037f5d6e2aae1ff1677ab7edc5036d",
+    "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+    "src/hallmark/_gnark_block_probe.py": "07b3a2884399237be2bb607df7c30b909a50ebcf62066cb670944db491f14199",
+    "src/hallmark/_gnark_graph_probe.py": "4040e07c8a5bd1451aedab94d66ddada887b3a772685c7b48734254e46398d2c",
+    "src/hallmark/_gnark_linux_compile.py": "47cca399acce126ce5c0e7ef69b125d0ef9cbedd85cb52f6bd6f696b7dbc0536",
+    "src/hallmark/_gnark_maximum.py": "74bee4b70fab6b15ff3973caa34a5ae6068ffc522d55bb7a428010fda94778e4",
+    "src/hallmark/_gnark_probe.py": "9673a34a6d5af593b3f67b7ecf1196f5bf368f5f5a5d61ac7122661a29daecce",
+    "src/hallmark/admission.py": "d7394ec5fdc1e8ec81307394093cfb84df48a32e713e1f9f6421d53d142dfd60",
+    "src/hallmark/backend.py": "293e35b8e15711be7d66012522f525377f528665045fd9cc339eb9822f07b4c4",
+    "src/hallmark/baselines.py": "a6a2938958c5c3423e87cff940badc3a327361ee15eaff794f0a9a013137fd0b",
+    "src/hallmark/bundles.py": "a2304c238af5021c7773b34be1731a5bec8e75518cf2381698c2c1358b6826b6",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
+    "src/hallmark/comparison.py": "eae5f2619b2c9f83b1712d42bde957a0c8212126dba281bdeddfba729207db79",
+    "src/hallmark/comparison_run.py": "34c841d0e86965ec7ee6724390a5ec5f8d8571ed3890cdb22d51319be78cdd1b",
+    "src/hallmark/conformance.py": "6134e9bb17e4918884646a7f372d54e8c07b8f88281798428bfa45a89c6975fe",
+    "src/hallmark/conformance_checks.py": "9efab6997c9dbd8b2b05a96af3b6a9f3329f611c17b4a7c48154abd5d5187de6",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/data.py": "1d8f3ffd4e893d66173a7858114316724d3562e6e41057baed3a2f0cfe8184df",
+    "src/hallmark/data_admission.py": "042b5070625f29b330783780989e75c8a94504267d6cd972706fcd4b7bcd8848",
+    "src/hallmark/enrollment.py": "b1cbefc5bbeabe257d2150f639cc1fb6d9e2440ec947167aea8bcfa4195dcac9",
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/evaluation.py": "27a30064c9445d1c868f24f247fdc7dcef4d172b37dcd39be886ca5affd7b5a4",
+    "src/hallmark/events.py": "dbb742ffaa827282799429ba896c4acc4a8b7d18d66fba9b021dd6a8ad8cbd45",
+    "src/hallmark/experiment.py": "87882834ecf675799a295bb35121118a438edd6e67c73497ccff0a6cb3a5bca4",
+    "src/hallmark/group_evaluation.py": "4136fb1639485e3f6628626f2118ae9461d0e61a8af36641e1b886613c492841",
+    "src/hallmark/guard.py": "b24138ef6e60e8bdea1396f24a646ddc5a48ca911bb221093efdcbb18c8e4a7d",
+    "src/hallmark/integer_encoder.py": "81ddaae33eee549fc6b4ebcc1908a14d52b8da875fc21d97fe15d2310ebdff63",
+    "src/hallmark/integer_graph.py": "f29bc8331b02115e1a75206a90f96e8989648277f60f36481ac85353e35664a3",
+    "src/hallmark/integer_mlp.py": "f126b5025df32342d96dfab4374190d0368018405b6fa9dee0d84422b7183b3b",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+    "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+    "src/hallmark/mlp_export.py": "6f84ff5d89ff1269cd731824f9ba8ae826f5ad1047d2a0812085a7292e3df544",
+    "src/hallmark/mlp_training.py": "089574e09df39d61c0a38f0876633b04830c50016f044f64f88ed8f7eabe5852",
+    "src/hallmark/openings.py": "93a3f57e5af84cdab01306e735bad8e88d65b7779d3b4ed6ea7c31eb6387ff6a",
+    "src/hallmark/policy.py": "fde6ecd8a13a277ed6dd619e3ccbffe9b5e72a5182abdf06a3294a5bd4c4438c",
+    "src/hallmark/qualification.py": "3e74dc8195458a1afb1e8cf52f230c7950d0d8c56ebf68038f026ab1432811cb",
+    "src/hallmark/receipts.py": "6040990529f3ee4c354c41e7cfadcc2958599de00c688d7df1a54d2823b7c990",
+    "src/hallmark/reference.py": "587f10ae789712b722f52dc73029660f0670c4a87d2963a3f1b89a0ce731a5d1",
+    "src/hallmark/registry.py": "44e492cfe391be3ced5d28e21412e860817724531f6e2bf1300f028239a01dee",
+    "src/hallmark/registry_cli.py": "962bef14b419d2d9e0d43456d13bc0f4800530d5054fa74f71767e0b6c192fcb",
+    "src/hallmark/registry_history.py": "b7e37d36e92cffdb77fe4ff1285dfd7452be7419329cd675800d24748f4bc6bd",
+    "src/hallmark/registry_store.py": "4d5edf4eea914d0e7acf159deae98a1aee2c6deaebfce67f66efe6d3ff968388",
+    "src/hallmark/rule.py": "07d435b6bb12da82b27668819b79db4466fcb5fdea5d97371a97893902c18322",
+    "src/hallmark/selection.py": "55b830c07117ef00e338b981289de11345c210d57e6c9a9a1c72135a65a14fff",
+    "src/hallmark/training.py": "b3f387f2c480ec3411616a41f20cd2bac4a18e2d518e361fae7d6ef7257afb4a",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586"
+  },
+  "status": "passed-experimental"
+}

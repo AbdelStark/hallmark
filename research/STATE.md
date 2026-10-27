@@ -2,6 +2,58 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Circle classifier comparison — verified implementation
+
+Epic [#112](https://github.com/AbdelStark/hallmark/issues/112) has a complete
+experimental direct-STWO path for the unchanged rule, four-unit integer MLP and
+contextual CNN. It preserves complete 0–96-byte inputs, salted canonical SHA-256,
+strict integer decisions and caller-owned context/model/enrollment checks.
+`make e2e BACKEND=circle` exposes the same nine-proof control workflow; gnark
+remains the default. No core inference arithmetic, model, threshold or historical
+result is changed. [Implementation and commands](../docs/CIRCLE-CLASSIFIERS.md).
+The [actual Make reproduction](evidence/circle-make-e2e-2026-10-27.json) freshly
+builds both locked targets and passes all nine proofs and rejection checks;
+driver wall time is 97.81 s excluding compilation.
+
+The [matched HF CPU report](../docs/CLASSIFIER-BENCHMARK.md) records three fresh
+and five warm workflows per backend: 144 generated proofs and fresh Linux checks.
+A separate Mac postflight freshly verifies all 144 against caller expectations.
+The byte audit recomputes every statistic and checks 3,925 artifact hashes;
+112 captured source files and five request/quantization snapshots match the
+owner's pre-upload archives. The [numeric record](evidence/circle-classifiers-benchmark-2026-10-27.json)
+precedes the report and preserves every sample, source/environment pin, resource
+receipt and failed provisioning fixture.
+
+Warm nine-proof workflow medians are 781.25 s gnark / 298.88 s Circle; fresh
+medians are 1,248.51 / 428.41 s. Maximum sampled process-tree RSS is 2.65 / 19.96 GB;
+proofs are 292-byte binary / 1.91–2.16 MB JSON. Gnark parsing dominates its
+stateless command, while its instrumented proving stage is shorter on the
+representative control. Stage boundaries, verifier implementations, encodings
+and security profiles differ. Recommendation: retain both research paths, keep
+gnark default; no equal-security speed or production qualification claim.
+
+Three additional Circle proofs join the retained TinyLlama request. Fresh Mac
+verification checks those, 23 SASH proofs and 22 links, and rejects 16 changed
+bindings/rosters. Host composition takes 11.13 s including hashes and host work.
+Verdicts `[1,1,0]` give valid integrity with policy release false. No new LLM
+proving, recursion, hiding or hardware evidence is claimed. All 55 native LLM
+verifier source pins and their identity remain unchanged.
+
+The [acceptance record](evidence/circle-classifiers-acceptance-2026-10-27.json)
+retains two nine-proof Mac runs, 63 direct public-input rejections, 18 request
+swaps and three roster rejections per run. Full-length conformance adds three
+proofs and 21 real constraint failures plus an omitted-edge program-pin failure.
+Six arithmetic fixtures cover both strict thresholds below/equal/above the
+boundary; local `make check` passes 2,580 tests with 51 optional skips. Final
+packaging, exact-head CI, merge and deployment receipts are tracked on
+[PR #130](https://github.com/AbdelStark/hallmark/pull/130).
+
+The frozen MLP always allows in this 96-byte domain: its exact-rational interval
+score bound is [−5600,−2338] at threshold 0. The README, report and
+[published card clarification](evidence/mlp-model-card-clarification-2026-10-27.json)
+disclose this quality limitation. Weights, original release tags and comparison
+inputs are unchanged. Independent follow-up #131 remains outside this epic.
+
 ## Terminal and web workbench — complete
 
 `make demo-tui` and `make demo-web` launch shared local-first demo apps. One
@@ -153,7 +205,8 @@ classifier implementation/benchmark tracker. The [architecture guide](../docs/AR
 maps each Make target, the three flows, exact statements and SASH source/patch
 ownership. [Epic #112](https://github.com/AbdelStark/hallmark/issues/112) tracks five
 ordered tasks (#113–#117): freeze/replay, rule, MLP, CNN and matched gnark/native
-benchmarks. No Circle STARK classifier adapter or matched benchmark exists yet.
+benchmarks. At that tracker-creation baseline no Circle STARK classifier adapter
+or matched benchmark existed; the implementation update is at the top of this file.
 This is new integrity research, not a remaining gate for the completed MVP or a
 substitute for original private/hardware v1 qualification. Runtime, model,
 evaluation and historical evidence remain unchanged; no proving/cloud run is

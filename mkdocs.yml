@@ -60,6 +60,7 @@ nav:
   - Research:
       - Evidence map: docs/research/index.md
       - Results and limitations: docs/RESULTS.md
+      - Classifier backend benchmark: docs/CLASSIFIER-BENCHMARK.md
       - Evaluation contract: docs/EVALUATION.md
       - MVP acceptance: docs/MVP.md
       - Current state: research/STATE.md
@@ -67,6 +68,7 @@ nav:
   - Reference:
       - Architecture and proof flows: docs/ARCHITECTURE.md
       - Classifier proof statement: docs/PROOFS.md
+      - Circle classifier experiment: docs/CIRCLE-CLASSIFIERS.md
       - Supported API: docs/spec/02-public-api.md
       - Original software contract: docs/SPEC.md
       - Proposed private / hardware v1: SPEC.md

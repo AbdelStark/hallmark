@@ -37,6 +37,16 @@ truncation. The training/native program uses 512-byte chunks and a larger native
 capacity; that does not enlarge the admitted proof-demo limit. Byte counts lose
 order within a chunk. Unicode is encoded as UTF-8 bytes, not semantic tokens.
 
+This particular quantized model **always returns allow within the 96-byte demo
+domain**. A conservative interval relaxation over all 256 byte counts with
+total count at most 96 bounds its score to **[−5600, −2338]**, below threshold 0.
+The full arithmetic is still constrained by its inference proofs; it provides
+no discriminative decision inside that domain. The rule and contextual CNN
+supply the combined workflow's block controls. This is an integer-bound
+analysis, not a quality evaluation or a cryptographic proof.
+[Bound and method](https://github.com/AbdelStark/hallmark/blob/16586c7716bd675186b9af0f0b833670b3977f38/research/evidence/mlp-domain-bound-2026-10-27.json) ·
+[Separate model-quality follow-up](https://github.com/AbdelStark/hallmark/issues/131).
+
 ## Run the released integer model
 
 These are **Hallmark JSON checkpoints and integer exports**, not Transformers

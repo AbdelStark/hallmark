@@ -1,0 +1,6 @@
+STWO 2.2.0, StarkWare Industries Ltd.
+https://github.com/starkware-libs/stwo/tree/289c20de80b7c7f508de9c46151fb81dae404154
+Licensed under Apache-2.0; full text in LICENSE.stwo.
+The gate AIR and LogUp generation adapt patterns from crates/examples/src/plonk/mod.rs.
+Hallmark adds pinned wiring/fanout, public-boundary contributions, independently enrolled preprocessing, an explicit product column and unbatched quadratic LogUp, strict field/proof admission and a separate verifier binary.
+The upstream engine is a locked registry dependency, not vendored here.

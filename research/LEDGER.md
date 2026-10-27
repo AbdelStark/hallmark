@@ -5062,3 +5062,349 @@ All 55 native verifier source files, program identity and inference lock are
 unchanged. No fresh GPU or composed campaign is claimed for this app acceptance;
 the composed driver retains its 32 GiB free-storage prerequisite. No new backend
 qualification, hardware attestation, hiding or model-quality claim is made.
+
+## 2026-10-27 — Circle classifier implementation: first complete acceptance
+
+Selected epic #112 and its ordered #113–#117 gates. Baseline is
+`0b7fcf256e2b1da7f89578014bcc86e6737fc3f5`; hypothesis, mutable paths, exact
+relation and frozen repetition/resource protocol are in decision 0083 and
+`configs/circle-classifiers/`. No arithmetic, model, threshold, evaluator,
+dataset or historical result is replaced. Gnark remains the default.
+
+The contract replay `runs/classifier-contract-ztfhsaok` freshly checks nine
+retained gnark proofs using py-ecc, 10 input boundaries, 20 scalar cases,
+18 cross-request and three roster rejections. It generates no new proofs and
+is not a benchmark sample. Its first attempt retained a wrapper failure after
+an honest verification: the wrapper tried to write an already-created cost
+file. Removing that duplicate write precedes the separate passing run.
+
+The backend uses direct STWO 2.2.0, release revision
+`289c20de80b7c7f508de9c46151fb81dae404154`, Apache-2.0, with
+`nightly-2025-07-14`. Registry engine/framework source files match the pinned
+release archive. The lock/review test caught five prover-only dependencies
+missing from the initial verifier-feature licence inventory. The amended review
+now covers all 109 third-party locked packages, including their selected licence
+alternatives/checksums; that amendment is retained in `dependencies.json`.
+No root Python dependency or native LLM verifier source was changed.
+
+Failed engine hypotheses remain in `runs/circle-api-fixture-v1` through `v3`
+and the diagnosis directories. A trace smaller than the FRI last layer failed;
+the cubic selector/batched-lookup version then exposed a decommitment-domain
+mismatch and an OODS constraint mismatch. The accepted AIR adds an explicit
+product column and one LogUp entry per interaction column, making every
+constraint quadratic. The wiring/constants/fanout are preprocessing, not
+prover-controlled multiplicities. No failed version is reported as an accepted
+proof. The invalid Mac `RLIMIT_DATA` diagnostic also remains a failed attempt.
+
+The exact SHA-256 circuit matches hashlib across block boundaries. Its 32-bit
+words use limbs; variable-length classifier inputs use constrained canonical
+CBOR, masks, zero padding and SHA length padding. The rule AIR maximum-input
+fixture passes fresh proof verification, with placeholder context/classifier
+values explicitly excluded from a composition claim.
+
+The [acceptance evidence](evidence/circle-classifiers-acceptance-2026-10-27.json)
+then records two complete caller-bound runs:
+
+- `runs/circle-classifier-acceptance-v1`: nine real proofs and nine fresh
+  proof-only verifications; 63 direct public-input mutations, 18 cross-request
+  substitutions and three invalid rosters reject. All MLP intermediates and CNN
+  node outputs match native execution. Complete acceptance wall time is 97.88 s.
+- `runs/circle-classifier-acceptance-v2`: the same gate passes after adding
+  stage timing records and explicit free-space checks, and sizing twiddles to the
+  common commitment domain. Complete acceptance wall time is 96.34 s. Twelve
+  preprocessing/proving workers emit component timing records.
+
+Both runs retain their raw numbers, source/binary/program/proof hashes, caller
+pins written before proving, witnesses, proof files, logs and failed controls.
+Their matching source/binary snapshots are retained separately. They are
+acceptance trials, not the three-fresh/five-warm matched benchmark. Backend
+identities differ when their source enrollment changes; native model identities,
+weights and thresholds remain unchanged. The caller still runs native inference.
+
+The first focused Python gate passes 72 tests; the Rust gate passes three tests,
+including an actual arithmetic proof roundtrip and trace constraint assertions.
+The new lock/licence admission gate passes seven tests after the inventory
+amendment. These counts precede final core/distribution/hosted checks.
+
+Storage preparation leaves the busy uv cache unchanged. Thirty-six byte-identical
+circuit/key copies in the owned acceptance/preparation directories are replaced
+with verified APFS clones, preserving regular independent inodes, complete bytes,
+paths and timestamps. The retained local receipt records every source/target
+hash; observed free space increases by 3,140,980,736 bytes. No model, proof,
+failed run, Cargo registry or source is deleted. No paid compute is used.
+
+Remaining acceptance work is the explicit invalid-witness/maximum-length gate,
+full matched repeated measurements, same-request LLM composition and final
+local/distribution/hosted delivery. The epic and all child issues remain open
+until their complete criteria have evidence; no hardware, hiding, safety quality
+or backend qualification is claimed.
+
+
+### Circle adversarial gate and bounded CPU fallback
+
+`runs/circle-constraint-conformance-v1/result.json` records 210.246452 s,
+three new full-96-byte proofs, three fresh verifications, 21 invalid witnesses
+rejected by real STWO constraints and one omitted dense edge rejected by the
+independent program pin. Ten byte/CBOR/chunk/UTF-8 boundary cases retain exact
+native parity or reject overflow. This resolves the invalid-witness gate above;
+it is excluded from matched timing samples. Public hashes and counts are in the
+classifier acceptance evidence.
+
+The Mac measurement fixture stops before compilation because free storage is
+below the frozen 8 GiB boundary. APFS cloning preserves hashes and independent
+regular inodes; two local storage receipts record the operations. A tool-native
+uv cache cleanup and restart of our idle demo server preserve all five completed
+app runs. No source, model, proof or failed experiment is deleted.
+
+Decision 0084 freezes a separate HF CPU experiment and startup-inclusive $0.30
+ceiling (observed-price estimate $0.27). The Linux profile preserves cases,
+models, arithmetic, three fresh/five warm repetitions and independent Mac
+program-enrollment roots. Local HF boundary/report tests pass 16 cases without
+launching compute. No paid job had started when this entry was written.
+
+
+HF fixture `6ae0f7b441e90535df76716c` fails before compilation on absent
+ignored `runs/` parent; all outputs retained and bucket deleted, 59.64 s running
+time (not an invoice). New candidate HF v2 fixes recursive parent creation;
+one extra cent is reserved within the unchanged $0.30 cap. No benchmark sample
+is admitted from that failure. Fresh local LLM verification in
+`runs/circle-llm-fresh-v1` independently checks 23 proofs/22 links in 4.221587 s;
+its caller-pinned Mac binary and all 55 source identities are unchanged.
+
+HF fixture `6ae0f89041e90535df7672d0` reaches compilation and fails on omitted
+`go:embed encoder-graph.json`; 43.616 s running time, all output bytes retained,
+bucket deleted. HF v3 includes the complete embedded source inventory and a
+regression check. Admission reserves $0.29 within $0.30; failures stay excluded
+from the formal sample matrix. Core package check passes with retained reviewed
+uv 0.9.18 after the system's uv 0.13.4 version mismatch stops the first attempt.
+Strict docs build passes 162 pages/12,342 local links and assets.
+
+HF fixture `6ae0f91941e90535df767391` matches frozen rule R1CS and generates
+a real proof; the new isolated verifier entry point fails on an unnecessary
+CBOR import. A stdlib-only JSON import fixes the root cause; a fresh process in
+the existing isolated py-ecc environment verifies that retained proof locally.
+All remote outputs retained; bucket deleted; 300.002 s running time. HF v4
+reserves $0.30 inclusive of prior attempts and enlarges output retention to 3 GiB
+before the full matrix, preserving the 16 GiB raw cap. No prior trial supplies
+a matched sample.
+
+The offline retained-archive audit has four passing synthetic-accounting tests
+(no cryptographic proof claim). It streams bounded archive bytes, recomputes
+frozen statistics, checks exact source/environment/input pins and 144 proof
+identities, and extracts only the composition enrollment/bundle. The real
+composition checker independently checks proof systems in fresh processes and
+rejects 16 changed binding/roster/enrollment/request cases. Its synthetic caller
+fixture passes; the complete real composition still awaits new classifier proofs.
+Successful Circle/native-LLM compiler caches are cleaned only after preserving
+hash-checked executable copies; source, registries, models, keys, proofs and
+failed runs remain intact (`runs/circle-cache-retention-v1/receipt.json`).
+
+HF measurement fixture `6ae0fade41e90535df76762e` passes both isolated backends,
+including the unchanged rule R1CS identity and real serialized proofs/fresh
+proof-only verification. Provider stage is COMPLETED; all outputs retained and
+the temporary bucket deleted. Its running time is 737.432 s,
+not an invoice. It is excluded from benchmark samples. The numeric/source/archive
+receipt is in the classifier acceptance evidence before the full campaign.
+The final small gate-AIR run (`runs/circle-api-final-v1`) freshly verifies one
+165,306-byte proof and rejects all six API mutations, including noncanonical M31.
+This adds no classifier-support claim to that small fixture.
+
+
+The acceptance review finds a model-domain limitation without changing the
+running benchmark: the frozen MLP is always-allow for all inputs up to 96 bytes.
+Store `research/evidence/mlp-domain-bound-2026-10-27.json` before prose. Independent
+interval relaxation with exact rational ties-to-even rounding gives score
+[−5600,−2338] at threshold 0; the larger byte-count relaxation includes every
+valid UTF-8 input. Four analytical tests pass, including exhaustive two-byte
+small-domain combinations. This is not a tight bound, held-out evaluation or
+cryptographic proof. Full MLP arithmetic remains constrained; actual workflow
+block controls come from rule/CNN. Issue #131 tracks a separate useful-model
+experiment; it is not a dependency or change to #112's frozen comparison.
+README, guide and local model card disclose the limitation. Original Hub tags
+and artifact bytes remain unchanged; a documentation-only model-card clarification
+will be published separately with new manifest/revision receipts.
+
+Model-card clarification published as Hub revision `15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f`.
+Only README and its manifest file entry change; every other Git blob and all
+weight bytes are unchanged. Anonymous immutable downloads match both new file
+hashes; the original `v1.0.0` tag still resolves to
+`05b2bdef120d3aea9133af042d15ed1a3a621aa9`. The original publication receipt and
+tags remain immutable. New revision/file/authority hashes are in
+`research/evidence/mlp-model-card-clarification-2026-10-27.json`. The running
+HF comparison remains source `bc5bc0d` with its original frozen exports/corpus.
+
+
+Postflight verification is implemented separately from the frozen primary
+evaluator: the byte audit extracts only public enrollment/verification keys and
+serialized proofs, never witness/checkpoint/model/proving-key files. New local
+checking reconstructs caller expectations and requires the Mac Circle root;
+it will verify all 144 retained proofs with the existing native/pairing
+implementations. Nine synthetic admission/extraction tests pass. No 144-proof
+postflight pass is claimed until the live archive arrives.
+A restricted Mac pairing-environment smoke rechecks one retained proof three
+times; it is not new proof generation or classifier coverage. A fresh
+relative-path native LLM smoke checks all 23 proofs/22 links in 3.395809 s with
+before/after input hashes. The two new checker CLIs now resolve executable/input
+paths before changing worker directories. All primary case/evaluator/source
+bytes in the running HF job remain unchanged.
+
+The MLP card clarification additionally matches an anonymous download of
+`model.json` byte hash `463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8`
+to the exact exported model used in the bound calculation. Current local
+`make check` passes 2,569 tests/51 optional skips; package and strict docs checks
+pass before this postflight-check addition. Updated source needs its own final
+checks.
+
+## 2026-10-27 — Circle comparison validation and reproduction commands
+
+Exact commit `d02e32d4461d35ad1c097cba785d88d36e1d6eaf` passes all 18 hosted
+[research checks](https://github.com/AbdelStark/hallmark/actions/runs/40582832034)
+and [documentation checks](https://github.com/AbdelStark/hallmark/actions/runs/40582832400).
+The strict local docs build passes 162 pages and 12,405 local links/assets.
+[PR #130](https://github.com/AbdelStark/hallmark/pull/130#issuecomment-6453563432)
+records the receipt while the frozen HF campaign is still running.
+
+The guide adds the already-implemented baseline replay and adversarial
+conformance commands, their saved caller-pin requirements and exact passing
+counts. Both CLI help checks pass; the updated strict docs build passes
+162 pages and 12,421 local links/assets (`runs/circle-docs-v8.log`).
+No proof relation, model, measurement protocol or running source archive
+changes. The benchmark, local 144-proof postflight and composed request remain
+unvalidated until their actual outputs pass.
+
+The architecture guide additionally maps all three proof paths and the Circle
+classifier flow, including caller enrollment and the 100-to-103 public transport
+layout. Its strict build passes 162 pages and 12,425 links/assets
+(`runs/circle-docs-v9.log`). Rechecking the 55 native LLM source pins yields the
+unchanged identity
+`8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.
+
+While the campaign remains live, local free storage fell to about 4.9 GiB.
+A second targeted cleanup preserves each executable by hash and removes only
+12 completed native-verifier target caches through Cargo. Completed result and
+worker-binary hashes match before/after; open-file checks pass. The retained
+receipt is `runs/completed-native-cache-cleanup-v2/receipt.json`: free bytes
+5,245,190,144 → 9,975,779,328. Failed builds, source, proofs, models and registries
+are retained. This changes local retention headroom, not the running Linux
+benchmark or any timing sample.
+
+Six focused gate-equation fixtures check thresholds 0 and −3733 at score
+offsets −1/0/+1. Equality blocks; mutations of either public threshold limb
+or the verdict reject. All 56 integer tests pass in 0.06 s
+(`runs/circle-threshold-tests-v1.log`). These are arithmetic conformance checks,
+not new proofs or reachable-score claims for the frozen models. The strict
+verdict implementation, backend identity and running campaign source are
+unchanged.
+The subsequent locked `make check` passes 2,580 tests with 51 optional skips
+in 106.44 s, plus spec/software-conformance/admission checks
+(`runs/circle-make-check-v5.log`). Strict docs pass 162 pages and 12,425 local
+links/assets (`runs/circle-docs-v10.log`). Optional train/guard coverage remains
+a hosted gate; this adds no proof timing or backend qualification.
+
+The final timing-scope check reads the unchanged primary benchmark and engine
+code. Native-only scoring excludes admission/commitments; native-plus-binding
+and caller checks retain recomputation. The stateless Circle CLI recomputes
+twiddles and preprocessing/model commitments for each proof, even warm ones;
+raw engine stages retain those costs. Gnark constraint solving occurs within
+`Prove`, whereas Circle host witness timing includes graph construction/parity
+checks/encoding. The guide now states these boundaries and the three-request
+setup amortization denominator. Full workflow wall time includes separate
+native baseline observations. No primary source, evaluator or timing changes.
+Strict docs after the timing clarification pass 162 pages and 12,425 local
+links/assets (`runs/circle-docs-v11.log`). Exact-head hosted research and docs
+checks also pass at `42d6139e792968f1365c30a5bfb05968f90dc877`
+([research](https://github.com/AbdelStark/hallmark/actions/runs/40593609238),
+[docs](https://github.com/AbdelStark/hallmark/actions/runs/40593609227)).
+
+## 2026-10-27 — Complete matched classifier comparison and retained-LLM join
+
+Formal source `bc5bc0da325f0f9187a1cfc11b35f639cf4e3b81`, experiment
+`circle-classifiers-matched-hf-v4`, completes HF job
+`6ae0fe1741e90535df767b67` at 22:42:04 UTC. All 16 workflows pass: three fresh
+and five warm per backend, three fixed requests and three classifiers each.
+The 144 measured proofs receive 144 fresh Linux checks. Three additional Circle
+proofs for the caller-frozen TinyLlama request are excluded from the statistics.
+No formal sample fails or is discarded. Earlier failed fixtures retain their
+own source/profile identities and outputs.
+
+Raw numeric evidence is written before the report:
+`research/evidence/circle-classifiers-benchmark-2026-10-27.json`, 1,334,935 bytes,
+SHA-256 `543c8e6dfed8e5cefa6e3c8d124f60b84aa84faa34b8a4502f26c33fbc9ea246`.
+The retained gzip archive is 2,084,726,744 bytes, SHA-256
+`5825b1e97da2259e43c499e383c2d5908a00232bdcb75ef78873b40e0ec54a97`.
+Byte audit `runs/circle-postflight-v1/audit/report.json` recomputes all statistics
+and hashes 3,925 artifacts. The independent owner-archive comparison checks 112
+captured source files and five request/quantization snapshots against the
+250-file source and 14-file input archives frozen before upload.
+
+The separate Mac checker `runs/circle-postflight-v1/local/result.json` freshly
+verifies all 144 proofs (72 Circle / 72 gnark) in 119.731513 s across 96 processes.
+Its caller roots and original R1CS pins are independent of the returned proof
+bundles. Groth16 retains the declared owner-controlled pre-proof setup assumption;
+there is no ceremony or hardware-setup claim. These checks are excluded from
+matched Linux timing. The queued postflight runs all three stages successfully.
+
+`runs/circle-postflight-v1/composed/result.json` freshly verifies the three Circle
+proofs plus 23 retained SASH proofs and 22 residual links, rejects all 16 altered
+binding/coverage cases and finishes in 11.133048 s including hashes/host work.
+Verdicts `[1,1,0]` establish integrity with policy release false. Host joining is
+not recursion, and no new LLM proving occurs. All 55 native verifier sources
+retain identity `8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.
+
+Fresh nine-proof workflow medians are 1,248.506082 s gnark / 428.410096 s Circle;
+warm medians are 781.251094 / 298.882651 s. Maximum sampled process-tree RSS is
+2.650698 / 19.964154 decimal GB. Serialized gnark proofs are 292 bytes; Circle
+JSON proofs range 1,913,275–2,156,856 bytes. Circle recomputation yields nine
+distinct proof hashes across 72 measured invocations; all prover/verifier
+commands execute. Gnark yields 72 distinct proof hashes.
+
+Recommendation: retain both research paths, keep gnark default. Circle's full
+workflow is faster in this stateless harness, while its memory and proof-size
+costs are higher. Gnark's instrumented proving stage is shorter on the warm
+allow control; its combined assignment/R1CS/key parsing dominates the command.
+Different internal boundaries, encodings, parameters and Rust/py-ecc verifier
+implementations preclude an equal-security proof-system speed claim. The report
+publishes per-case ranges/IQR, shared setup amortization, every engine stage,
+native-only and native-plus-binding costs. The fixed MLP's always-allow bound and
+the synthetic CNN's France-prompt block remain explicit quality limitations.
+
+The formal job runs 10,901.434 s; measured campaign execution is 10,675.379577 s.
+Running-compute estimate is $0.090845 for the campaign, $0.100351 including all
+four provisioning fixtures, not an invoice. The startup/storage-inclusive
+admission ceiling is $0.30. At 22:54 UTC, direct HF API checks confirm all five
+jobs terminal and all five owned buckets absent (HTTP 404), with outputs retained
+(`runs/circle-postflight-v1/hf-terminal-check.json`). No automatic paid retry,
+top-up or ongoing scheduler is introduced. The final README, architecture,
+learning chapter, workflow chooser and benchmark report reference this evidence;
+final packaging/hosted/merge/deployment receipts follow on PR #130.
+
+Final local checks pass 2,580 tests with 51 optional skips in 119.01 s, plus
+spec/software-conformance/admission checks (`runs/circle-make-check-v6.log`).
+The first expanded site build correctly excludes an untracked report and fails
+its link check; staging the intended report/evidence fixes inclusion. The final
+strict build passes 163 pages and 12,726 links/assets (`runs/circle-docs-v15.log`).
+Core distribution reproduction passes with source ID
+`bd80cd0875421c43a2c97e558f2a36b0ef958f44d4815b28c3f3f4ec437e3b21`,
+sdist SHA `7b8ab58648189a24b75ed2de52e82e4b7c12ad05d02eb2509b43a076f4d242ad`,
+wheel SHA `09f50e82f61dd6d0e6da814c869bf0f9c43a89529683dc2e59c54020db9d4e51`
+(`dist/package-check-84ial8tx`). Both sdists contain the report, numeric evidence,
+proof sources, upstream licence/notice and postflight checker. Core-only local
+installation skips optional train/guard installation; hosted extra jobs remain
+required before merge.
+
+After disk headroom recovers to 13 GiB, the actual `make e2e BACKEND=circle`
+entrypoint runs with the admitted original classifier preparation and saved
+enrollment pin. It builds both locked Rust targets, creates
+`runs/circle-e2e-ui9qpl46` and passes nine generated proofs, nine fresh checks,
+63 direct mutations, 18 request swaps, three roster rejections and full
+intermediate parity. Driver wall time is 97.808485 s excluding compilation;
+maximum worker RSS is 20,231,782,400 bytes. Caller Circle root is again
+`56c29c74a4efa0443bff84cc516349b0369360e2feaf347b871b860b06cd635e`.
+The separate command evidence is
+`research/evidence/circle-make-e2e-2026-10-27.json`, SHA-256
+`6c1a9adbf0540ce066c821c432fc397a12932521575ec7ea6c57dfd3e6b531c0`.
+This confirms the named Make workflow; its timings are not pooled into the
+matched Linux experiment. All 55 native LLM source pins remain unchanged.
+The report additionally displays measured shared-preparation components divided
+by the declared three requests; raw derivation is retained in
+`runs/circle-postflight-v1/amortized-stage-view.json`.

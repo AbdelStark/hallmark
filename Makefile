@@ -16,8 +16,25 @@ docs:
 docs-serve:
 	uv run --locked --project website python scripts/build_docs.py --serve
 
+BACKEND ?= gnark
 e2e:
+ifeq ($(BACKEND),circle)
+	$(MAKE) e2e-circle
+else ifeq ($(BACKEND),gnark)
 	uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py
+else
+	@echo 'BACKEND must be gnark or circle'; exit 2
+endif
+
+.PHONY: circle-build e2e-circle
+circle-build:
+	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --bin circle-prove -j 4
+	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 4
+
+e2e-circle:
+	@test -n "$(CLASSIFIER_RUN)" -a -n "$(CLASSIFIER_ENROLLMENT)" || { echo 'Set CLASSIFIER_RUN and the caller-retained CLASSIFIER_ENROLLMENT hash; see docs/CIRCLE-CLASSIFIERS.md'; exit 2; }
+	$(MAKE) circle-build
+	uv run --locked --python 3.12.12 --extra train python scripts/run_circle_classifiers.py --classifier-run "$(CLASSIFIER_RUN)" --expected-enrollment "$(CLASSIFIER_ENROLLMENT)" --prover research/probes/circle/target/release/circle-prove --expected-prover "$$(shasum -a 256 research/probes/circle/target/release/circle-prove | cut -d ' ' -f 1)" --verifier research/probes/circle/target/release/circle-verify --expected-verifier "$$(shasum -a 256 research/probes/circle/target/release/circle-verify | cut -d ' ' -f 1)"
 
 e2e-llm:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10

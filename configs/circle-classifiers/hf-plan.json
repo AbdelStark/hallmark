@@ -1,0 +1,161 @@
+{
+  "schema_id": "hallmark.classifier-backend-plan/1",
+  "experiment": "circle-classifiers-matched-hf-v4",
+  "baseline_commit": "0b7fcf256e2b1da7f89578014bcc86e6737fc3f5",
+  "scope": "integrity-only fixed exported rule, seed-17 MLP and seed-17 contextual CNN",
+  "capacity_bytes": 96,
+  "case_ids": [
+    "allow",
+    "cnn-block",
+    "rule-block"
+  ],
+  "backends": [
+    "gnark",
+    "circle",
+    "native"
+  ],
+  "repetitions": {
+    "fresh": 3,
+    "warm": 5
+  },
+  "fresh": "New empty per-sample workspace, compilation/preprocessing and setup included; operating-system caches are not flushed. No retraining or model selection.",
+  "warm": "New proof and fresh proof-only verifier process per case; reuse the first admitted program/setup/preprocessing for this backend and case. No reuse of a proof or acceptance flag.",
+  "ordering": "Run every fresh sample first, then every warm sample; alternate gnark/circle order by repetition index. Native-only and native-plus-binding are measured separately for every case and repetition.",
+  "host": "one HF Jobs cpu-upgrade Linux x86-64 worker; both backends in the same job",
+  "threads": 4,
+  "concurrent_jobs": 1,
+  "limits": {
+    "command_seconds": 7200,
+    "campaign_seconds": 21600,
+    "sampled_rss_stop_bytes": 30064771072,
+    "additional_storage_bytes": 17179869184,
+    "min_free_storage_bytes": 8589934592
+  },
+  "failures": "Retain every failure, timeout and sample. Do not omit failed samples from the report or automatically retry. A corrected candidate needs a new experiment identity and source freeze.",
+  "gnark": {
+    "proof_system": "Groth16",
+    "curve": "BLS12-381",
+    "separate_verifier": "py-ecc",
+    "setup": "Fresh local synthetic setup; no reviewed ceremony",
+    "historical_results": "immutable; not reused as matched samples",
+    "timing_overlay": "research/probes/circle/gnark-timing.patch",
+    "timing_overlay_sha256": "3eb665596949bf72b66c0faa924591842df6e1090a48a4c224ca22047fe5b242",
+    "overlay_boundary": "Apply timing-only observations to an isolated copy; canonical circuits and native LLM source inventory remain unchanged. Verify compiled R1CS identity against the frozen baseline."
+  },
+  "circle": {
+    "candidate": "direct-stwo-2.2.0",
+    "source_revision": "289c20de80b7c7f508de9c46151fb81dae404154",
+    "source_sha256": "16b0ed550eac992ccaec06242670e5c07085b4ad829a6f25e9f5cc5037b5dedd",
+    "licence": "Apache-2.0",
+    "toolchain": "nightly-2025-07-14",
+    "commitment_and_transcript": "Blake2s",
+    "input_commitment": "unchanged salted canonical SHA-256 hallmark/v1/input",
+    "field": "M31 with QM31 lookup challenges",
+    "pow_bits": 16,
+    "fri_queries": 80,
+    "log_blowup_factor": 4,
+    "fold_step": 1,
+    "claim": "Concrete parameters, not an equal-security claim against Groth16 or a backend qualification",
+    "fri_last_layer_log_degree": 5,
+    "lifting_domain": "All trees lifted to log_rows + 4; quadratic constraints with an explicit a*b product column and unbatched LogUp entries use degree bound log_rows + 1."
+  },
+  "required_stages": [
+    "compile",
+    "setup_or_preprocess",
+    "model_commitment",
+    "witness",
+    "prove",
+    "serialize",
+    "proof_only_verify",
+    "caller_binding",
+    "native_inference",
+    "native_plus_binding",
+    "full_wall"
+  ],
+  "required_metrics": [
+    "seconds",
+    "sampled_peak_rss_bytes",
+    "artifact_bytes",
+    "source_sha256",
+    "environment_sha256",
+    "input_sha256",
+    "output_sha256",
+    "exit_code",
+    "timed_out"
+  ],
+  "statistics": [
+    "all_raw_samples_including_failures",
+    "successful_sample_count",
+    "median",
+    "minimum",
+    "maximum",
+    "interquartile_range"
+  ],
+  "policy": "Retain gnark default. Publish a measured adopt/retain-both/reject recommendation only after complete coverage, composition and repetitions pass.",
+  "authority": "Standing bounded foreground HF Jobs approval and owner-reported sufficient prepaid balance. No top-up, private upload, human contact or scheduler.",
+  "sample_unit": "One complete three-request workflow (nine proofs per backend); every request/classifier pair therefore has three fresh and five warm samples.",
+  "shared_costs": "Compilation once per fresh backend workflow; setup/preprocessing once per classifier, shared across the three requests. Report totals and amortization denominator explicitly; reuse no earlier fresh workflow artifact.",
+  "spread_definition": "Median and inclusive linear-interpolation 25th/75th percentiles on successful samples; report range, IQR, failures and attempted/successful counts separately.",
+  "sample_ids": "{fresh|warm}-{zero_based_repetition:02d}-{gnark|circle}; each contains allow, cnn-block, rule-block and exactly rule, mlp, encoder proofs per case",
+  "fresh_compilation": "New empty Rust target / Go object cache for each fresh backend workflow. Reuse the pinned installed toolchains and locked downloaded dependency sources; no retraining. Record compile logs, toolchain/binary/source hashes and cache sizes. Remove only successful derived object caches after retaining the binary and records; preserve all failed builds.",
+  "input_storage": "Retain one canonical setup/program per fresh workflow. Install bounded hash-pinned inputs for each worker, then remove only successful duplicate materializations after recording exact canonical references; preserve failed inputs. Record input-copy time, logical bytes, allocated block sum and free space; unique physical bytes may be unavailable.",
+  "raw_result_schema": {
+    "schema_id": "hallmark.classifier-backend-sample/1",
+    "required_workflow_fields": [
+      "sample_id",
+      "backend",
+      "phase",
+      "repetition",
+      "status",
+      "preparation_reference",
+      "source_sha256",
+      "environment_sha256",
+      "shared_stages",
+      "cases",
+      "full_wall_seconds",
+      "storage",
+      "failures"
+    ],
+    "required_case_fields": [
+      "case_id",
+      "opening_sha256",
+      "expected_request_sha256",
+      "context",
+      "native_scores",
+      "verdicts",
+      "native_inference_seconds",
+      "native_plus_binding_seconds",
+      "caller_binding_seconds",
+      "proofs"
+    ],
+    "required_proof_fields": [
+      "kind",
+      "program_identity",
+      "classifier_identity",
+      "public",
+      "input_sha256",
+      "witness_seconds",
+      "materialization_seconds",
+      "prover_cost",
+      "worker_timing",
+      "serialization_seconds",
+      "verifier_cost",
+      "proof_bytes",
+      "proof_sha256",
+      "encoding",
+      "compression"
+    ],
+    "worker_cost_schema": "hallmark.linux-compile-cost/1 reused bounded/seccomp worker mechanics; the schema name does not characterize the proof system",
+    "missing_measurements": "null with a reason; never encode unavailable timing as zero",
+    "shared_stages": "Compiler and per-classifier setup/preprocessing commands, timings, artifact bytes and hashes; totals and amortization denominator three requests explicit",
+    "failures": "Keep partial samples and worker stdout/stderr/cost, exit status, timeouts and memory/storage boundary failures; no automatic rerun or deletion",
+    "native_scope": "Each native-only/native-plus-binding observation covers all three classifiers for one request; the verifier caller recomputation remains included in caller_binding_seconds"
+  },
+  "prior_trials": "Mac acceptance/conformance and the disk-admission failure are separate records. No Mac timing is mixed with this Linux campaign; no historical matched sample is reused.",
+  "worker_environment": "Four prover threads. Existing Linux controller sets Go GOMEMLIMIT to three quarters of the 28 GiB worker cap. Fresh Go builds use -p=1 with GOMAXPROCS=4; Rust builds use -j4, release codegen-units=1. Network access is denied for proof workers; no witness/native trace is passed to proof-only verifiers.",
+  "prior_failed_fixtures": [
+    "HF fixture job 6ae0f7b441e90535df76716c failed before compilation: missing runs parent. No matched sample. All outputs retained and bucket deleted.",
+    "HF fixture job 6ae0f89041e90535df7672d0: isolated Go build omitted its go:embed encoder-graph.json asset; all outputs retained and bucket deleted. No matched sample.",
+    "HF fixture job 6ae0f91941e90535df767391: frozen R1CS matched and proof generated; isolated py-ecc entry point imported missing cbor2. Outputs retained and bucket deleted; no matched sample."
+  ]
+}

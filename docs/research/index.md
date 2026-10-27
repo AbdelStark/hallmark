@@ -21,6 +21,7 @@ provenance, arbitrary-model support or independent security qualification.
 | Earlier CUDA configuration was slower | [Fallback-baseline JSON](../../research/evidence/llm-gpu-benchmark-2026-10-26.json) | Real proofs, but 1,710 CPU constraint fallback calls |
 | Fresh CPU-only LLM workflow reproduces the response | [Reproduction JSON](../../research/evidence/llm-e2e-reproduction-2026-10-23.json), [LLM guide](../LLM-PROOF.md) | Fixed model/quantization/token case, not arbitrary prompts |
 | Dedicated classifier proofs bind one request | [Composition JSON](../../research/evidence/w28-trained-common-proofs-2026-10-22.json), [results](../RESULTS.md#real-proof-composition) | Synthetic task, fresh research setup, caller-enrolled mapping |
+| Exact classifiers work under both proof backends | [Matched CPU report](../CLASSIFIER-BENCHMARK.md), [all raw samples and hashes](../../research/evidence/circle-classifiers-benchmark-2026-10-27.json) | 144 measured proofs, fresh Mac postflight and Circle/LLM join; stateless harness, different security profiles, 96-byte synthetic scope |
 | Released weights match the proved models | [Publication receipt](../../research/evidence/hub-model-publication-2026-10-27.json), [model releases](../MODELS.md) | No new training or quality evaluation; native inference is not proof generation |
 
 ## H200 timing boundaries {#read-the-h200-result-correctly}
@@ -53,8 +54,6 @@ evaluated; the reported scores cover the synthetic task.
 
 ## Open research and qualification
 
-- [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112):
-  implement complete rule/MLP/CNN relations and compare with gnark/native execution.
 - Independent backend/security/hiding qualification and setup/enrollment custody.
 - General prompts/models and a reviewed numerical equivalence boundary.
 - Authentic capture, hardware provenance and the broader proposed hybrid system.

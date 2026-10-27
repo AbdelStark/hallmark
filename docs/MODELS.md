@@ -18,6 +18,14 @@ The literal rule has no trained weights; TinyLlama remains an
 [upstream model](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0), not a
 Hallmark-trained release.
 
+The frozen MLP always allows within the 96-byte proof-demo domain: a
+[conservative integer bound](../research/evidence/mlp-domain-bound-2026-10-27.json)
+places every admitted score in [−5600, −2338], below threshold 0. Its complete
+arithmetic remains a proof-pipeline baseline; it is not a useful filter at this
+length limit. The rule and CNN provide block controls.
+[Follow-up #131](https://github.com/AbdelStark/hallmark/issues/131) tracks a new
+model-quality experiment without changing the frozen comparison or release.
+
 ## Download and run
 
 From the Hallmark checkout, using uv 0.9.18 and Python 3.12:
@@ -74,6 +82,13 @@ not a mutable branch or tag:
 |---|---|---|
 | MLP | `05b2bdef120d3aea9133af042d15ed1a3a621aa9` | `2c5d2d0cc1e823c5d8ea14670dd700c076c96a43d11d69096a44579693de7050` |
 | CNN | `51461ea4401188a14997c5003ea2073ffb91e1ed` | `79a68793ad97e1bef47bc9328756416d30f781ce1ff2b33f8f126681e1ed380e` |
+
+The MLP card has a documentation-only clarification at Hub commit
+[`15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f`](https://huggingface.co/abdelstark/hallmark-byte-mlp/commit/15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f). Only `README.md`
+and its file-hash entry in `manifest.json` changed. All weight artifacts and the
+original `v1.0.0` tag remain unchanged. The
+[clarification receipt](../research/evidence/mlp-model-card-clarification-2026-10-27.json)
+records anonymous file verification and the old/new revision identities.
 
 The [publication receipt](../research/evidence/hub-model-publication-2026-10-27.json)
 lists every released file, byte count and SHA-256. The per-repository

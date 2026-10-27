@@ -1,15 +1,18 @@
 # Architecture: what runs, what is proved
 
-Hallmark has two working proof backends: **dedicated gnark/Groth16 circuits for
-classifiers** and **SASH Circle STARK proofs for a quantized TinyLlama response**.
-The composed workflow checks both against one caller-owned request. It joins
-verified results in host code; it does not recursively aggregate their proofs.
+Hallmark has three proof paths: **gnark/Groth16 classifiers** (the default),
+**experimental direct-STWO Circle STARK classifiers**, and **SASH Circle STARK
+proofs for a quantized TinyLlama response**. The default composed workflow joins
+verified gnark and SASH results against one caller-owned request in host code.
+It does not recursively aggregate their proofs. The [Circle classifier comparison](CLASSIFIER-BENCHMARK.md)
+and separate composed-request check also pass; the backend remains experimental.
 
 ## Choose the workflow
 
 | Command | Actual computation | Proofs and verification | Where it runs |
 |---|---|---|---|
 | `make e2e` | Train/export an MLP and CNN; evaluate them plus a fixed rule on three synthetic prompts | **9 Groth16 proofs**, checked by separate py-ecc arithmetic | Mac; no LLM, credentials or paid jobs |
+| `make e2e BACKEND=circle CLASSIFIER_RUN=… CLASSIFIER_ENROLLMENT=…` | Reuse the admitted model preparation; prove the same three classifiers on the same three prompts | **9 STWO Circle STARK proofs**, checked by fresh proof-only processes | Mac; experimental, no LLM or paid jobs |
 | `make e2e-llm` | Generate the fixed eight-token TinyLlama answer, including EOS | **23 SASH proof segments**, linked and verified by SASH | Mac preparation; three sequential paid HF **CPU** jobs |
 | `make verify-llm LLM_RUN=…` | Check retained LLM proofs; no new inference or proving | Same 23 segments, using an adapted native verifier | Mac; no weights, full witness or HF credentials |
 | `make benchmark-llm-gpu …` | Reuse frozen public witnesses; compare complete SIMD and CUDA proving | Same 23 SASH segments per backend, byte equality and fresh CPU/Mac verification | HF CPU build, one H200 measurement job, separate CPU verification, Mac verification |
@@ -77,6 +80,44 @@ Implementation: [controller](../scripts/run_e2e.py),
 [separate verifier](../research/probes/py_ecc/README.md).
 Groth16 uses BLS12-381 and a circuit-specific setup. Fresh local setup is research
 setup, not an independently reviewed ceremony.
+
+## Circle classifiers: `make e2e BACKEND=circle`
+
+```mermaid
+flowchart TD
+    M[Admitted frozen rule, MLP and CNN exports] --> C[Compile fixed gates: exact SHA-256 and integer operators]
+    C --> E[Caller pins program, preprocessing root and parameters before proving]
+    X[Caller-owned bytes, salt and request expectations] --> W[Construct complete classifier witnesses]
+    C --> W
+    E --> P[Direct STWO: nine serialized Circle STARK proofs]
+    W --> P
+    P --> V[Fresh proof-only STWO verifier processes]
+    E --> V
+    X --> H[Host reconstructs public inputs and exact classifier roster]
+    H --> V
+    V --> A[Verified verdicts and separate all-pass policy decision]
+```
+
+The graphs constrain the same complete 96-byte input, salted canonical SHA-256
+commitment and integer decisions as the gnark path. The 100 logical public
+fields use 103 M31 transport values: two threshold limbs replace one 32-bit
+value, and public zero/one wires supply the other two values. Context semantics
+and native expectation reconstruction remain caller checks. Backend-specific
+enrollment changes classifier/context identities; semantic parity does not mean
+byte-identical public statements across backends.
+
+This path uses the pinned **STWO 2.2.0 dependency**, with Hallmark's gate AIR,
+LogUp wiring and SHA/integer/classifier compiler. It does not run SASH's Llama
+application or a general-purpose VM. Caller-enrolled public preprocessing
+replaces Groth16's circuit-specific setup; this supplies no security-equivalence
+or witness-hiding claim. The frozen MLP is always-allow within this input domain;
+the rule and CNN provide the workflow's block controls.
+
+The [Circle guide](CIRCLE-CLASSIFIERS.md) gives source ownership, concrete proof
+parameters, commands, conformance failures and matched results.
+Its separate composition checker joins three Circle classifier proofs to the
+retained SASH LLM bundle: all 26 proofs and 22 residual links verify freshly,
+with 16 changed-binding rejections. This remains host composition.
 
 ## LLM: `make e2e-llm`
 
@@ -179,24 +220,27 @@ capture, training history, operational authorization or real-world safety.
 
 ## Why two backends? What changes next?
 
-The split reflects implementation history, **not a matched performance result**.
+The default follows implementation history.
 Dedicated gnark classifier circuits were implemented first, including complete
 SHA-256/input handling and the exact integer operators. SASH was integrated later
-for its supported Llama inference relation. There is currently no Circle STARK
-adapter for Hallmark's exact rule/MLP/CNN relations; switching requires a real
-relation port and verifier/enrollment integration, not a command-line flag.
+for its supported Llama inference relation. The experimental
+[STWO classifier adapter](CIRCLE-CLASSIFIERS.md) now proves all three exact
+relations with separate caller enrollment and fresh proof-only verification.
+The [matched CPU comparison](CLASSIFIER-BENCHMARK.md) now measures both complete
+classifier workflows. Its recommendation retains both, with gnark default.
 
 | Current path | Useful property | Remaining trade-off |
 |---|---|---|
 | gnark/Groth16 classifiers | Complete existing circuits and separate py-ecc verification; 292-byte serialized proofs in this profile | Circuit-specific trusted setup; local setup has not undergone an independent ceremony |
 | SASH Circle STARK LLM | Working specialized quantized transformer proofs; no general-purpose VM | Large fixed-case bundle, public parameter enrollment and shared prover/verifier implementation |
-| Circle STARK classifiers | **Planned**, not implemented | Must prove the same complete relation before a meaningful comparison |
+| Experimental STWO Circle STARK classifiers | Complete repeated rule/MLP/CNN workflow and retained-LLM join; exact input hashing and integer operators | Higher memory and much larger JSON proofs; repeated per-proof preprocessing; no backend qualification |
 
-There is **no matched classifier benchmark** establishing which proof backend is
-better. Comparing the tiny classifier proofs with the 1.1B LLM's proof size or
-timings would compare different workloads.
+Circle's full workflow is faster in this stateless harness, where gnark parsing
+dominates its complete command. The security profiles and verifier implementations
+differ; there is no equal-security performance claim. Classifier and 1.1B LLM
+proof sizes/timings remain different workloads.
 
-The new [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
+The [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
 tracks the implementation and comparison:
 
 1. [#113](https://github.com/AbdelStark/hallmark/issues/113): freeze/replay the identical relation, exports, inputs, failures and measurement protocol.
@@ -205,9 +249,11 @@ tracks the implementation and comparison:
 4. [#116](https://github.com/AbdelStark/hallmark/issues/116): complete contextual byte CNN proof.
 5. [#117](https://github.com/AbdelStark/hallmark/issues/117): common workflow, composed request and repeated matched benchmarks against gnark and native execution.
 
-The first implementation evaluates reuse of SASH's Circle STARK engine separately
-from its Llama application; no engine choice or speed advantage is presumed.
-Benchmarks must separate setup/preprocessing, witness preparation, proving,
+The classifier implementation uses direct STWO 2.2.0 as a dependency, separately
+from SASH's pinned Llama application/fork. It adapts the upstream gate-AIR/LogUp
+patterns and adds Hallmark's own SHA-256/integer/classifier circuits. The
+[source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership) explains ownership.
+The report separates setup/preprocessing, witness preparation, proving,
 serialization, proof-only verification, caller binding/native rerun, total time,
 memory and artifact sizes, with explicit security parameters and resource caps.
 The epic is integrity-only. It does not reopen the completed [MVP](MVP.md) or

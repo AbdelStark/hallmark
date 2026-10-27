@@ -1,0 +1,88 @@
+--- a/graph.go
++++ b/graph.go
+@@ -111,6 +111,8 @@
+ 
+ func runRelation(action string, prototype frontend.Circuit, assignment func(bool) (frontend.Circuit, error), artifactLimit int64) (int, error) {
+ 	curve := ecc.BLS12_381
++	measure := newClassifierMeasurement(action)
++	defer measure.emit()
+ 	switch action {
+ 	case "compile", "export", "inspect", "setup", "setup-compiled":
+ 		ccs := groth16.NewCS(curve)
+@@ -123,6 +125,7 @@
+ 		if err != nil {
+ 			return 0, err
+ 		}
++		measure.tick("circuit_compile_or_read")
+ 		if action == "compile" {
+ 			return ccs.GetNbConstraints(), nil
+ 		}
+@@ -153,6 +156,7 @@
+ 		if err != nil {
+ 			return ccs.GetNbConstraints(), err
+ 		}
++		measure.tick("groth16_setup")
+ 		for _, artifact := range []struct {
+ 			name string
+ 			data io.WriterTo
+@@ -164,6 +168,7 @@
+ 				return ccs.GetNbConstraints(), err
+ 			}
+ 		}
++		measure.tick("setup_serialization")
+ 		return ccs.GetNbConstraints(), nil
+ 	case "prove":
+ 		values, err := assignment(true)
+@@ -178,15 +183,20 @@
+ 		if err := readBounded("pk.bin", pk, artifactLimit); err != nil {
+ 			return 0, err
+ 		}
++		measure.tick("parse_assignment_and_keys")
+ 		witness, err := frontend.NewWitness(values, curve.ScalarField())
+ 		if err != nil {
+ 			return 0, err
+ 		}
++		measure.tick("witness")
+ 		proof, err := groth16.Prove(ccs, pk, witness)
+ 		if err != nil {
+ 			return ccs.GetNbConstraints(), err
+ 		}
+-		return ccs.GetNbConstraints(), write("proof.bin", proof)
++		measure.tick("groth16_proving")
++		err = write("proof.bin", proof)
++		measure.tick("proof_serialization")
++		return ccs.GetNbConstraints(), err
+ 	case "verify":
+ 		values, err := assignment(false)
+ 		if err != nil {
+--- /dev/null
++++ b/benchmark_timing.go
+@@ -0,0 +1,28 @@
++package main
++
++import (
++    "encoding/json"
++    "os"
++    "time"
++)
++
++// Timing-only benchmark overlay; the canonical classifier sources are unchanged.
++type classifierMeasurement struct {
++    action string
++    last time.Time
++    stages map[string]float64
++}
++func newClassifierMeasurement(action string) *classifierMeasurement {
++    return &classifierMeasurement{action, time.Now(), make(map[string]float64)}
++}
++func (m *classifierMeasurement) tick(name string) {
++    now := time.Now()
++    m.stages[name] = now.Sub(m.last).Seconds()
++    m.last = now
++}
++func (m *classifierMeasurement) emit() {
++    json.NewEncoder(os.Stderr).Encode(map[string]any{
++        "schema_id": "hallmark.gnark-benchmark-timing/1",
++        "action": m.action, "stages_seconds": m.stages,
++    })
++}

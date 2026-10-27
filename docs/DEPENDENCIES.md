@@ -76,6 +76,25 @@ JSON metadata. The review therefore downloaded its locked universal wheel,
 verified the SHA-256 and recorded the MIT notice's path and hash. No package code
 was executed for this metadata review.
 
+## Experimental classifier STARK backend
+
+The classifier adapter separately locks **STWO 2.2.0** and its matching
+constraint framework in [Cargo.lock](../research/probes/circle/Cargo.lock).
+The [engine review](../research/circle-classifier-engine-review.md) pins the
+release commit/archive and checks the installed engine/framework against it.
+The [dependency inventory](../research/probes/circle/dependencies.json) records
+all 109 third-party Rust packages, exact versions/checksums and reviewed licence
+alternatives, including the five prover-only entries added by its coverage check.
+This does not change the Python inference lock or the SASH LLM dependency tree.
+
+Hallmark's gate AIR adapts upstream PLONK/LogUp API patterns; the retained
+[Apache-2.0 licence](../research/probes/circle/LICENSE.stwo) and
+[notice](../research/probes/circle/NOTICE.upstream) describe the adaptation.
+The prover enables parallel proving features; the separate verifier is built
+without them. Registry code is downloaded under the lock, rather than copied
+into the public source tree. Hallmark's own classifier/SHA/integer circuits remain
+MIT. Licence inventory and fresh-process tests are not a security qualification.
+
 ## Installed-platform inventories
 
 Each package gate records the exact installed name/version, wheel tags, unique
