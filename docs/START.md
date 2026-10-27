@@ -1,12 +1,12 @@
 # Choose a workflow
 
-Start with the question you want to answer. The commands below run different
-computations; `make e2e` alone does not prove an LLM response.
+`make e2e` trains and proves classifiers locally. Use `make e2e-llm` to prove
+the TinyLlama response, or choose another workflow below.
 
 | I want to… | Command | Where / resources | Success signal |
 |---|---|---|---|
 | Check software contracts | `make check-conformance` | Linux/macOS; core environment; no account | 156 matched cases, 32 unavailable full-evidence obligations; no proof |
-| Run a published classifier | `scripts/predict_published_classifier.py` | Linux/macOS; core for MLP, train extra for CNN | Hash-admitted integer score and explicit native-only output |
+| Run a published classifier | `scripts/predict_published_classifier.py` | Linux/macOS; core for MLP, train extra for CNN | Integer score after checking model hashes; native inference only |
 | Train, prove and verify classifiers | `make e2e` | Apple Silicon Mac; 12 GiB free; uv 0.9.18 | Nine proofs, three expected decisions, 18 substitution rejections |
 | Prove a complete TinyLlama response | `make e2e-llm` | Mac preparation; 32 GB RAM, 16 GiB free; HF CPU jobs | 23 new segments, two honest verifications, 14 rejected mutations |
 | Verify retained LLM proofs locally | `make verify-llm LLM_RUN=…` | Mac; native Rust toolchain; 8 GiB free; no HF credentials | Two honest checks, 36 rejected mutations |
@@ -57,8 +57,8 @@ reviewed public witness archive and starts CPU/H200 jobs under a **$5 ceiling**.
 It does not train a new model. Read the run plan and balance-input requirements
 before launching.
 
-## What to read next
+## Related guides {#what-to-read-next}
 
-- [Learn the concepts](learn/index.md) before relying on a proof.
-- [Trace the architecture](ARCHITECTURE.md) to see which checks live in the circuit and which belong to the caller.
-- [Inspect the evidence map](research/index.md) for measurements, failure history and limits.
+- [Learn the concepts](learn/index.md): statements, witnesses and caller enrollment.
+- [Architecture](ARCHITECTURE.md): checks inside the circuits and in caller code.
+- [Research evidence](research/index.md): measurements, failed runs and limits.

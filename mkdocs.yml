@@ -1,12 +1,12 @@
 site_name: Hallmark
-site_description: Cryptographic inference proofs. Reproducible experiments. Explicit trust boundaries.
+site_description: Generate and verify cryptographic proofs for a fixed TinyLlama response and rule, MLP and CNN classifier decisions.
 site_url: https://abdelstark.github.io/hallmark/
 repo_url: https://github.com/AbdelStark/hallmark
 repo_name: AbdelStark/hallmark
 edit_uri: edit/main/
 docs_dir: runs/docs-source
 site_dir: site
-copyright: MIT-licensed research · Fixed-case integrity, explicit assumptions.
+copyright: Hallmark · MIT licence
 theme:
   name: material
   custom_dir: website/overrides

@@ -5,10 +5,8 @@ hide:
 
 # Read a proof statement
 
-Before asking whether a proof is fast, write down what it establishes.
-
-Hallmark has two working proof backends and one host composition. Use the
-selector to keep the computation, public expectations and exclusions together.
+Select the LLM proof, a classifier proof or their composition to see the
+computation, the caller's expected inputs, and the checks performed.
 
 <div data-proof-explorer markdown="1">
 <div class="hm-proof-switch" role="group" aria-label="Choose a proof relation">
@@ -81,9 +79,8 @@ program itself. A valid joined result may contain a classifier block.
 ## Why 23 segments?
 
 TinyLlama has 22 transformer layers in this case. The final normalization and
-output head form the remaining segment. Checking each proof is necessary, but
-not sufficient: the outputs and inputs must connect to the same model and token
-sequence.
+output head form the remaining segment. The verifier checks each proof and
+connects its inputs and outputs to the expected model and token sequence.
 
 ```mermaid
 flowchart LR
@@ -97,19 +94,20 @@ flowchart LR
     H --> V
 ```
 
-This is a linked bundle, not a single recursive proof. The zero expected
-**inter-block** token links for this single-block case do not remove the seven
-**within-block** autoregressive checks.
+The verifier checks a bundle of 23 proofs separately. All tokens fit in one
+block, so there are zero inter-block token links and seven within-block
+autoregressive checks.
 
-## Why caller checks matter
+## Caller checks {#why-caller-checks-matter}
 
-A valid proof for the wrong model or request is not the evidence the caller
-wanted. The caller must compare against its own expected identities and
-reconstruct the public inputs. A prover bundle cannot choose the trust anchor.
+The caller must choose the model and request it expects, then reconstruct the
+public inputs. If it accepts identities supplied only by the prover, a valid
+proof for a different model or request could pass.
 
-The native Mac verifier also uses **compiled enrolled shape roots**, while the
-Linux path derives them at runtime. That changes preprocessing and trust;
-the faster Mac timing is not a like-for-like backend speedup.
+The native Mac verifier uses compiled, caller-enrolled shape roots; the Linux
+path derives them at runtime. Their timings include different preprocessing
+and rely on different enrollment steps, so they cannot establish a backend
+speedup.
 
 ## A verifier's checklist
 

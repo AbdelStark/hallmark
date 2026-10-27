@@ -1,8 +1,8 @@
 # Verify one request
 
-The local classifier workflow is the smallest complete proof demo. It trains
-an MLP and a contextual byte CNN, exports exact integer graphs, and checks three
-classifiers over each of three synthetic requests.
+The local classifier workflow trains an MLP and a contextual byte CNN, exports
+exact integer graphs, and proves the rule, MLP and CNN decisions for each of
+three synthetic requests.
 
 ```sh
 make e2e
@@ -25,10 +25,10 @@ flowchart TD
     V --> G[Host all-pass gate over verified verdicts]
 ```
 
-The caller reconstructs public inputs from its expected request. It checks that
-the proofs use the enrolled classifier/program/circuit/key before interpreting
-the verdicts. A model downloaded from Hugging Face is useful for native
-inference, but does not perform these proof or enrollment checks.
+The caller reconstructs public inputs from its expected request. Before
+interpreting the verdicts, it checks the classifier, program, circuit and key
+against identities chosen outside the proof bundle. Running a downloaded
+Hugging Face model computes a score without these proof or enrollment checks.
 
 ## Three controls, different reasons to block
 
@@ -42,8 +42,8 @@ The contextual pair has the same byte counts. The MLP cannot distinguish it;
 the CNN can use local order. The literal rule detects its fixed marker,
 including across chunk boundaries.
 
-These controls test the artificial grammar and proof plumbing. They do not
-establish a useful real-world safety policy.
+These controls test classification under the artificial grammar and the
+proof workflow. Real-world safety performance has not been evaluated.
 
 ## What to inspect after the command
 
@@ -60,7 +60,7 @@ The retained model exports are also available as
 [public model releases](../MODELS.md). Their pinned revisions and manifests
 let you inspect the weights without rerunning training.
 
-## Now join the LLM
+## Join the LLM and classifier proofs {#now-join-the-llm}
 
 ```sh
 make e2e-composed
@@ -70,12 +70,10 @@ A fresh run also launches the paid LLM workflow; read its
 [prerequisites and cost ceiling](../COMPOSED-DEMO.md#run-the-workflow) first.
 Caller-owned retained inputs can avoid new cloud jobs.
 
-The composition joins the proved TinyLlama request to three new classifier
-proofs. The classifiers inspect its prompt only. The ordinary LLM prompt is
-blocked by the frozen CNN, while its computation proof still verifies.
-
-That result is useful: it makes the difference between **correct computation**
-and **good policy** visible.
+The composition binds three new classifier proofs to the proved TinyLlama
+request. The classifiers inspect its prompt only. The frozen CNN blocks
+“Name the capital of France in one short sentence.” Verification accepts that
+block verdict because it matches the CNN computation.
 
 ## Next steps
 

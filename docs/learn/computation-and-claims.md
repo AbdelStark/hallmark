@@ -4,11 +4,10 @@ Suppose someone returns:
 
 > The capital of France is Paris.
 
-That sentence alone tells you nothing about which model produced it. A model
-name next to it is a declaration. A hash can identify bytes. A native rerun can
-check a computation. A cryptographic execution proof checks an enrolled relation.
-
-These provide different evidence; the useful choice depends on the question.
+The sentence does not identify which model produced it. Adding a model name
+asserts an origin; adding a hash identifies bytes. To check the computation,
+you can rerun it or verify an execution proof against the model and inputs
+you expect.
 
 ## Four questions, four boundaries
 
@@ -37,9 +36,8 @@ The verifier checks a proof against public expectations. It does not infer the
 correct model or input from a prover's file names. In Hallmark, root/key enrollment
 and request binding are explicit parts of the surrounding protocol.
 
-This notation is an explanation, not a new formal specification.
-The actual [LLM](../LLM-PROOF.md#the-statement) and
-[classifier](../PROOFS.md) statements define the implemented checks.
+The [LLM](../LLM-PROOF.md#the-statement) and [classifier](../PROOFS.md)
+statements define Hallmark's implemented relations in detail.
 
 ## Inference becomes an exact arithmetic problem
 
@@ -59,9 +57,8 @@ prompt or witness. Hallmark's current research path focuses on integrity.
 Its published classifier weights and synthetic examples are public, and the
 LLM backend has no witness-hiding claim.
 
-Likewise, an execution proof does not establish hardware provenance or show
-that nothing else ran. Read [MVP scope](../MVP.md) before extending a working
-fixed case into a broader claim.
+An execution proof also leaves hardware provenance and other activity on the
+host unverified. The [MVP scope](../MVP.md) lists these remaining gaps.
 
 ## Check your understanding
 
