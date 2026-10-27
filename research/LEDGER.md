@@ -5254,3 +5254,20 @@ to the exact exported model used in the bound calculation. Current local
 `make check` passes 2,569 tests/51 optional skips; package and strict docs checks
 pass before this postflight-check addition. Updated source needs its own final
 checks.
+
+## 2026-10-27 — Circle comparison validation and reproduction commands
+
+Exact commit `d02e32d4461d35ad1c097cba785d88d36e1d6eaf` passes all 18 hosted
+[research checks](https://github.com/AbdelStark/hallmark/actions/runs/40582832034)
+and [documentation checks](https://github.com/AbdelStark/hallmark/actions/runs/40582832400).
+The strict local docs build passes 162 pages and 12,405 local links/assets.
+[PR #130](https://github.com/AbdelStark/hallmark/pull/130#issuecomment-6453563432)
+records the receipt while the frozen HF campaign is still running.
+
+The guide adds the already-implemented baseline replay and adversarial
+conformance commands, their saved caller-pin requirements and exact passing
+counts. Both CLI help checks pass; the updated strict docs build passes
+162 pages and 12,421 local links/assets (`runs/circle-docs-v8.log`).
+No proof relation, model, measurement protocol or running source archive
+changes. The benchmark, local 144-proof postflight and composed request remain
+unvalidated until their actual outputs pass.

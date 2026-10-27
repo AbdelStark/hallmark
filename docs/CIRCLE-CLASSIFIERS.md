@@ -52,6 +52,47 @@ resource samples and `result.json`. Failures retain `failure.json` and their
 partial outputs. Inspect the named worker's `stderr.txt` first; do not replace
 a failed directory or adopt an enrollment hash supplied only by a prover.
 
+## Replay the baseline and check constraint failures
+
+After the original `make e2e`, replay its frozen native contract and freshly
+verify its nine retained gnark proofs:
+
+```bash
+uv run --locked --python 3.12.12 python scripts/check_classifier_comparison.py \
+  --classifier-run runs/e2e-<your-run> \
+  --expected-enrollment <your-saved-enrollment-sha256>
+```
+
+The command prints a new evidence directory. Passing output records nine fresh
+cryptographic checks, zero newly generated proofs, 10 input boundaries, 20 scalar
+cases, 18 cross-request rejections and three roster rejections. Original proof
+generation belongs to the preceding `make e2e`; this replay is not a benchmark.
+
+After the Circle acceptance workflow, retain its `caller-pin.json` hash while
+the enrollment is under your control. Keep the binaries built by
+`make e2e BACKEND=circle`; the conformance command checks their hashes against
+that run's protocol before using them. Replace the paths and both saved pins:
+
+```bash
+uv run --locked --python 3.12.12 python scripts/check_circle_classifiers.py \
+  --classifier-run runs/e2e-<your-run> \
+  --expected-enrollment <your-saved-enrollment-sha256> \
+  --circle-run runs/circle-e2e-<your-run> \
+  --expected-circle-enrollment <your-saved-circle-enrollment-sha256> \
+  --prover research/probes/circle/target/release/circle-prove \
+  --verifier research/probes/circle/target/release/circle-verify \
+  --output runs/circle-conformance-<new-run>
+```
+
+Success requires three new maximum-length proofs and fresh verifications,
+21 invalid witnesses rejected by STWO's constraint check, and one omitted dense
+edge rejected against the enrolled program. Ten input boundaries include empty,
+96/97-byte and multibyte UTF-8 cases; each admitted case checks all three graphs
+against native arithmetic. The output directory must be new. Failures retain
+their logs and partial outputs; parser rejection cannot substitute for the
+required invalid-witness constraint failures. These are conformance checks,
+separate from the repeated measurements below.
+
 ## What the proof establishes
 
 Each circuit covers the complete input up to 96 UTF-8 bytes. Oversized inputs

@@ -34,6 +34,11 @@ limitation, not a missing proof relation. The README, guide and
 disclose it; weights, original release tags and the running comparison remain
 unchanged. Independent follow-up #131 is outside this epic's frozen scope.
 
+The [guide](../docs/CIRCLE-CLASSIFIERS.md#replay-the-baseline-and-check-constraint-failures)
+includes the baseline replay and adversarial conformance commands with their
+passing counts. Exact-head CI receipts are recorded on PR #130; they do not
+replace the pending matched campaign and composed-proof gates.
+
 ## Terminal and web workbench — complete
 
 `make demo-tui` and `make demo-web` launch shared local-first demo apps. One
