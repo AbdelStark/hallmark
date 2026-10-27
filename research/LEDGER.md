@@ -5178,3 +5178,12 @@ regression check. Admission reserves $0.29 within $0.30; failures stay excluded
 from the formal sample matrix. Core package check passes with retained reviewed
 uv 0.9.18 after the system's uv 0.13.4 version mismatch stops the first attempt.
 Strict docs build passes 162 pages/12,342 local links and assets.
+
+HF fixture `6ae0f91941e90535df767391` matches frozen rule R1CS and generates
+a real proof; the new isolated verifier entry point fails on an unnecessary
+CBOR import. A stdlib-only JSON import fixes the root cause; a fresh process in
+the existing isolated py-ecc environment verifies that retained proof locally.
+All remote outputs retained; bucket deleted; 300.002 s running time. HF v4
+reserves $0.30 inclusive of prior attempts and enlarges output retention to 3 GiB
+before the full matrix, preserving the 16 GiB raw cap. No prior trial supplies
+a matched sample.

@@ -239,7 +239,7 @@ def main():
             for path in sorted(work.glob("*.log")):
                 archive.add(path, arcname="bootstrap/" + path.name, recursive=False)
         if output.stat().st_size > config["max_download_bytes"]:
-            raise ValueError("retained archive exceeds 2 GiB limit")
+            raise ValueError("retained archive exceeds frozen download limit")
         (mounted / "output-receipt.json").write_text(
             json.dumps(dict(bytes=output.stat().st_size, sha256=sha(output))) + "\n"
         )

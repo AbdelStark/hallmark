@@ -73,6 +73,20 @@ def binding_negatives(enrollment, pin, originals, policy, opening, expected, bun
             rejected.append(name)
         else:
             raise ValueError("changed composed roster accepted: " + name)
+    _, enrolled_policy, _ = circle.resolve(enrollment, pin, originals, policy)
+    other_expected, other_opening = composed_input.request(enrolled_policy)
+    try:
+        joined_jobs(enrollment, pin, originals, policy, other_opening, other_expected, bundle)
+    except ValueError:
+        rejected.append("cross-request")
+    else:
+        raise ValueError("cross-request composed evidence accepted")
+    try:
+        joined_jobs(enrollment + b" ", pin, originals, policy, opening, expected, bundle)
+    except ValueError:
+        rejected.append("changed-enrollment")
+    else:
+        raise ValueError("changed caller enrollment accepted")
     return rejected
 
 
@@ -91,6 +105,11 @@ def fresh_llm(binary, binary_pin, proof_directory, output, budget):
         prompt_ids=case["prompt_ids"], answer_ids=case["answer_ids"], roots=case["expected_roots"]
     )
     bundle(proof_directory, expected)
+    proof_hashes = {
+        path.name: comparison.sha(read_regular(path, 128 * 1024**2))
+        for path in sorted(proof_directory.iterdir())
+    }
+    json_new(output / "llm-proof-inputs.json", proof_hashes)
     work = output / "llm-verify"
     work.mkdir()
     write_new(work / "prompt.json", encode(expected["prompt_ids"]))
@@ -148,6 +167,11 @@ def fresh_llm(binary, binary_pin, proof_directory, output, budget):
         raise ValueError("fresh LLM cryptographic verification failed")
     if inventory != verify_llm.source_inventory():
         raise ValueError("native verifier sources changed during verification")
+    if proof_hashes != {
+        path.name: comparison.sha(read_regular(path, 128 * 1024**2))
+        for path in sorted(proof_directory.iterdir())
+    }:
+        raise ValueError("LLM proof bytes changed during verification")
     return dict(
         cost=cost,
         proofs_verified=23,
@@ -155,6 +179,7 @@ def fresh_llm(binary, binary_pin, proof_directory, output, budget):
         source_identity=SOURCE_IDENTITY,
         binary_sha256=binary_pin,
         parameter_authority="checkout-case",
+        proof_input_inventory_sha256=comparison.sha(encode(proof_hashes)),
     )
 
 

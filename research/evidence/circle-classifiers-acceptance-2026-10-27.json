@@ -285,6 +285,50 @@
   },
   "fresh_proof_only_verifications": 9,
   "fresh_proofs": 9,
+  "hf_fixture_failures": [
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f7b441e90535df76716c",
+      "output_archive": {
+        "bytes": 3538,
+        "sha256": "76998291728630c5c9f7d5bc8f00ac05a60dea054e8b64f6dd34486823ffc7f0"
+      },
+      "running_seconds": 59.64,
+      "source_commit": "084c69224ff82c4b8f142ee7114e792bd45655a9",
+      "stage": "ERROR"
+    },
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f89041e90535df7672d0",
+      "output_archive": {
+        "bytes": 705075,
+        "sha256": "6ae59f77047769f82639f2ec297c129585886f4ecfaf8f002f1ee072dd1c4a68"
+      },
+      "running_seconds": 43.616,
+      "source_commit": "940f0049d98ac0f0cdb7daaf9e6f4f82b7c705b8",
+      "stage": "ERROR"
+    },
+    {
+      "all_outputs_retained": true,
+      "benchmark_sample": false,
+      "bucket_deleted": true,
+      "invoice": false,
+      "job_id": "6ae0f91941e90535df767391",
+      "output_archive": {
+        "bytes": 129251673,
+        "sha256": "fca92f5525325a4f290720b1d1a3e24af5a765cd52484ec85fdf2965b1639260"
+      },
+      "running_seconds": 300.002,
+      "source_commit": "d7b6f98ccb3e698be615d373041fa51bf971ba47",
+      "stage": "ERROR"
+    }
+  ],
   "intermediate_parity": true,
   "proofs": [
     {

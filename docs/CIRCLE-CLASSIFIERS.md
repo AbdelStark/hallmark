@@ -10,7 +10,10 @@ The [acceptance record](../research/evidence/circle-classifiers-acceptance-2026-
 contains nine passing proofs: all three classifiers on each of the three frozen
 requests. The verdicts match the native/gnark workflow. All 63 direct public-input
 mutations, 18 cross-request substitutions and three invalid rosters reject.
-This is one acceptance run. The repeated matched benchmark and composed LLM
+A second acceptance run confirms those counts. Full-length conformance adds
+three passing proofs and rejects 21 invalid witnesses in real STWO constraints;
+an omitted dense edge rejects at program-pin admission. These are exploratory
+acceptance results. The repeated matched benchmark and composed LLM
 workflow remain open in [epic #112](https://github.com/AbdelStark/hallmark/issues/112).
 Gnark remains the default for `make e2e`.
 
@@ -30,7 +33,7 @@ hash outside the output directory while the preparation is under your control.
 Then pass that directory and your saved hash (replace both placeholders):
 
 ```bash
-make e2e-circle \
+make e2e BACKEND=circle \
   CLASSIFIER_RUN=runs/e2e-<your-run> \
   CLASSIFIER_ENROLLMENT=<your-saved-enrollment-sha256>
 ```
@@ -166,3 +169,73 @@ backend recommendation.
 See [decision 0083](decisions/0083-circle-classifier-comparison.md) and the
 [engine review](../research/circle-classifier-engine-review.md) for the frozen
 baseline, budgets, provenance and rejected implementation paths.
+
+
+## Matched HF CPU campaign
+
+The separate [HF profile](../configs/circle-classifiers/hf-plan.json) keeps the
+same cases, model exports, arithmetic, repetitions and four proving threads.
+Both backends run inside one `cpu-upgrade` job: Linux x86-64, 8 vCPU, 32 GB RAM,
+a 28 GiB process-tree stop and 8 GiB free-storage stop. It is a different
+experiment from the Mac acceptance runs. Never combine their timings into a
+matched speedup. [Decision 0084](decisions/0084-hf-classifier-comparison.md)
+records the finite budget, pinned user-local tools, input-copy accounting,
+failed fixtures and retention rules. No system packages or provider credentials
+are installed in proof workers.
+
+The source and protocol must be committed before launch. With the separately
+locked `llm` and `train` extras installed, run the fixture first:
+
+```bash
+uv run --locked --extra llm --extra train python scripts/run_classifier_benchmark_hf.py \
+  --stage fixture \
+  --classifier-run runs/e2e-<your-run> \
+  --expected-enrollment <your-original-caller-pin> \
+  --circle-reference runs/<your-admitted-circle-acceptance> \
+  --output runs/<new-hf-fixture>
+```
+
+Use the same arguments with `--stage benchmark`, a new output directory and
+`--fixture-receipt runs/<new-hf-fixture>/fixture/validated-result.json`. The
+controller checks the current quote, admits only the finite configured budget,
+uploads public source/fixtures, and launches one attempt. It retains every
+terminal output before deleting its owned temporary bucket. A failed run does
+not supply a benchmark sample. Fix the candidate and freeze a new experiment
+identity before another paid attempt. No top-up, scheduler or automatic paid
+retry is provided.
+
+The full matrix creates 144 new proofs and 144 fresh verifications: three fresh
+and five warm workflows, each with all nine request/classifier pairs, for both
+backends. Then it creates three additional Circle proofs for a caller-frozen
+TinyLlama request. Those three are excluded from benchmark statistics. The
+caller freezes their enrollment and all expected public fields before upload;
+Linux preprocessing must match the retained Mac roots byte for byte.
+
+## LLM request composition
+
+```mermaid
+flowchart TD
+  A[Caller-frozen prompt, response, model, nonce and Circle policy] --> B[Three new Circle classifier proofs]
+  C[Retained SASH TinyLlama proof bundle] --> D[Fresh native verification: 23 proofs and 22 links]
+  A --> E[Host checks text, model and complete classifier roster]
+  B --> F[Fresh Circle proof-only verification against caller inputs]
+  D --> E
+  F --> E
+  E --> G[Integrity result plus separate all-pass policy verdict]
+```
+
+The [composition checker](../scripts/check_circle_composed.py) takes the
+retained campaign, the owner's pre-upload request and its external hash,
+original classifier preparation/enrollment, and independently pinned Mac
+Circle/LLM verifier executables. It rechecks both proof systems in fresh
+processes, checks all 300 caller public fields and rejects changed text, model,
+nonce, interaction, policy, salt, classifier identities, enrollment, request
+and roster. Its `--help` lists exact arguments. The retained native executable
+must match the existing 55-file verifier identity and compiled shape enrollment;
+no proof acceptance flag from the job is sufficient.
+
+The host join is not recursive aggregation. The retained LLM proof is replayable
+and does not bind the caller's new nonce; the classifier context does. This is
+a fresh verification of an existing inference proof, not fresh LLM proving.
+The synthetic CNN may block the ordinary question even when every proof is
+valid. Proof integrity is separate from classifier usefulness or policy release.

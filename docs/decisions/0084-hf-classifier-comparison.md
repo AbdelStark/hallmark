@@ -78,3 +78,19 @@ shares one source inventory for capture and copy, including embedded JSON,
 with a regression check for every `go:embed` path. Reserve a second extra cent;
 the new startup-inclusive estimate is $0.29 within the unchanged $0.30 cap.
 No failed fixture or partial timing is a matched sample.
+
+The third fixture (`6ae0f91941e90535df767391`, source `d7b6f98`) compiles
+gnark, matches the frozen R1CS and generates a real proof. Its isolated pairing
+entry point then fails to import an unnecessary CBOR dependency. The entry point
+now uses stdlib JSON after checking the caller's exact job hash, like the existing
+three-proof entry point. A fresh isolated local process verifies the retained
+proof before launching HF v4. Retain all failed bytes; its bucket is deleted
+and running time is 300.002 s. Three reserved extra cents bring the bounded
+estimate to $0.30; no automatic retries are enabled.
+
+Before the full matrix, enlarge the retained archive allowance from 2 to 3 GiB.
+Three fresh gnark setups alone retain 1,620,318,315 key bytes; the three retained
+encodings of 72 Circle proofs project another 433,506,168 bytes before sources,
+circuits and witnesses. Do not rely on compression to force this through 2 GiB.
+The raw-output allowance stays 16 GiB and the compute/storage dollar cap is
+unchanged. Local receipt retrieval still requires at least 4 GiB free.

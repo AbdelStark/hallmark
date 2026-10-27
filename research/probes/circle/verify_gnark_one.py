@@ -12,13 +12,12 @@ from verify import verify  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "src"))
 from hallmark._gnark_probe import read_regular  # noqa: E402
-from hallmark.integrity import parse_json  # noqa: E402
 
 
 def check(raw, expected):
     if hashlib.sha256(raw).hexdigest() != expected:
         raise ValueError("caller pairing-job pin mismatch")
-    job = parse_json(raw.decode())
+    job = json.loads(raw)
     if type(job) is not dict or set(job) != {
         "key_hex",
         "expected_key_sha256",

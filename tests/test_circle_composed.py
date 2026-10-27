@@ -51,7 +51,7 @@ def test_circle_composed_exact_statement_and_rejected_bindings(fixture):
     rejected = binding_negatives(
         enrollment, sha(enrollment), originals, old_policy, opening, expected, bundle
     )
-    assert len(rejected) == 14 and len(set(rejected)) == 14
+    assert len(rejected) == 16 and len(set(rejected)) == 16
     other_expected, other_opening = composed_input.request(policy)
     with pytest.raises(ValueError, match="binding mismatch"):
         joined_jobs(
