@@ -13,16 +13,20 @@ mutations, 18 cross-request substitutions and three invalid rosters reject.
 A second acceptance run confirms those counts. Full-length conformance adds
 three passing proofs and rejects 21 invalid witnesses in real STWO constraints;
 an omitted dense edge rejects at program-pin admission. These are exploratory
-acceptance results. The repeated matched benchmark and composed LLM
-workflow remain open in [epic #112](https://github.com/AbdelStark/hallmark/issues/112).
-Gnark remains the default for `make e2e`.
+acceptance results. The subsequent [matched CPU comparison](CLASSIFIER-BENCHMARK.md)
+passes all 144 measured proofs plus the composed LLM request. Its warm nine-proof
+workflow medians are 298.88 s for Circle and 781.25 s for gnark, with substantial
+memory/artifact trade-offs and different security profiles. Both research paths
+are retained; gnark remains the default for `make e2e`.
 
 ## Run the acceptance workflow
 
 Use an Apple Silicon Mac, CPython 3.12.12, uv 0.9.18 and Rust's
 `nightly-2025-07-14` toolchain. The Python training extra supplies the existing
 export adapter; this workflow does not retrain or download a model. Allow
-30 GiB for the sampled worker-memory stop and at least 8 GiB free storage.
+30 GiB for the sampled worker-memory stop. Reserve up to 4 GiB for outputs
+and keep another 8 GiB free: plan for at least 12 GiB before starting, plus
+dependency/build caches. The driver stops if free space falls below 8 GiB.
 The recorded acceptance runs take about two minutes with retained model inputs;
 the first Rust build takes additional time. This is an observed run, not a
 portable performance guarantee.
@@ -51,6 +55,11 @@ pin written before proving, request/bundle files, worker logs, proof files,
 resource samples and `result.json`. Failures retain `failure.json` and their
 partial outputs. Inspect the named worker's `stderr.txt` first; do not replace
 a failed directory or adopt an enrollment hash supplied only by a prover.
+
+The [recorded Make reproduction](../research/evidence/circle-make-e2e-2026-10-27.json)
+executes this exact entrypoint, builds both locked targets and passes all nine
+proofs and rejection checks. Its driver takes 97.81 s excluding compilation;
+this Mac command check is separate from the matched HF measurements.
 
 ## Replay the baseline and check constraint failures
 
@@ -253,7 +262,13 @@ The tests establish arithmetic and integration behavior, not classifier safety
 quality. The original synthetic data, model exports, thresholds and historical
 timings are unchanged.
 
-## Measurements still required
+## Matched comparison and timing scope
+
+The [completed report](CLASSIFIER-BENCHMARK.md) publishes all raw samples,
+median/range/IQR, stage timings, native baselines, keys/parameters, storage,
+failures and the retain-both recommendation. [Numeric evidence](../research/evidence/circle-classifiers-benchmark-2026-10-27.json)
+also records fresh Mac verification of all 144 proofs, owner-archive checks and
+the composed-request result. Mac acceptance timings remain a separate workload.
 
 The [frozen comparison plan](../configs/circle-classifiers/plan.json) specifies
 three fresh and five warm complete workflows per backend. Each workflow contains
@@ -359,6 +374,11 @@ and does not bind the caller's new nonce; the classifier context does. This is
 a fresh verification of an existing inference proof, not fresh LLM proving.
 The synthetic CNN may block the ordinary question even when every proof is
 valid. Proof integrity is separate from classifier usefulness or policy release.
+
+The recorded check verifies three Circle proofs and all 23 retained LLM proofs,
+checks 22 residual links and rejects 16 changed-binding/coverage cases in
+11.13 s including hashes and host work. Verdicts are `[1,1,0]`: integrity passes,
+policy release is false. [Complete evidence and boundaries](CLASSIFIER-BENCHMARK.md#independent-retained-input-checks-and-llm-composition).
 
 
 ## Audit the retained statistics

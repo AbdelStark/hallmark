@@ -27,6 +27,27 @@ retains an output-token alias accepted by the earlier native boundary and four
 malformed-shape crashes; all now reject explicitly. The caller already rejected
 that alias. No matched cross-hardware speedup or independent security review is claimed.
 
+## Matched classifier backend comparison
+
+The [2026-10-27 CPU report](CLASSIFIER-BENCHMARK.md) compares the same frozen
+rule, MLP and CNN over three requests with three fresh and five warm workflows
+per backend. Each observation generates and verifies nine proofs. All 144
+measured proofs pass fresh Linux verification and separate Mac postflight
+checks. Three additional Circle proofs join the retained TinyLlama request,
+with fresh verification of its 23 segments and 22 links.
+
+Warm workflow medians are **781.25 s gnark / 298.88 s Circle**; fresh medians are
+1,248.51 / 428.41 s. Circle reaches **19.96 GB** sampled process-tree RSS versus
+2.65 GB for gnark, and its JSON proofs are 1.91–2.16 MB versus 292-byte gnark
+binary proofs. The report retains ranges/IQR and explains that parsing dominates
+the stateless gnark command; isolated proving-stage rankings differ. These are
+implementation measurements with different security/encoding profiles, not an
+equal-security speed claim. Keep gnark default and retain Circle experimentally.
+The [raw evidence](../research/evidence/circle-classifiers-benchmark-2026-10-27.json)
+preserves all samples, source/resource hashes and failed provisioning fixtures.
+
+The earlier Mac classifier/model observations below remain separate and unchanged.
+
 ## Models and task
 
 The exact seed-17 MLP and CNN checkpoints/quantized exports are now

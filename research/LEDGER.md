@@ -5315,3 +5315,96 @@ links/assets (`runs/circle-docs-v11.log`). Exact-head hosted research and docs
 checks also pass at `42d6139e792968f1365c30a5bfb05968f90dc877`
 ([research](https://github.com/AbdelStark/hallmark/actions/runs/40593609238),
 [docs](https://github.com/AbdelStark/hallmark/actions/runs/40593609227)).
+
+## 2026-10-27 — Complete matched classifier comparison and retained-LLM join
+
+Formal source `bc5bc0da325f0f9187a1cfc11b35f639cf4e3b81`, experiment
+`circle-classifiers-matched-hf-v4`, completes HF job
+`6ae0fe1741e90535df767b67` at 22:42:04 UTC. All 16 workflows pass: three fresh
+and five warm per backend, three fixed requests and three classifiers each.
+The 144 measured proofs receive 144 fresh Linux checks. Three additional Circle
+proofs for the caller-frozen TinyLlama request are excluded from the statistics.
+No formal sample fails or is discarded. Earlier failed fixtures retain their
+own source/profile identities and outputs.
+
+Raw numeric evidence is written before the report:
+`research/evidence/circle-classifiers-benchmark-2026-10-27.json`, 1,334,935 bytes,
+SHA-256 `543c8e6dfed8e5cefa6e3c8d124f60b84aa84faa34b8a4502f26c33fbc9ea246`.
+The retained gzip archive is 2,084,726,744 bytes, SHA-256
+`5825b1e97da2259e43c499e383c2d5908a00232bdcb75ef78873b40e0ec54a97`.
+Byte audit `runs/circle-postflight-v1/audit/report.json` recomputes all statistics
+and hashes 3,925 artifacts. The independent owner-archive comparison checks 112
+captured source files and five request/quantization snapshots against the
+250-file source and 14-file input archives frozen before upload.
+
+The separate Mac checker `runs/circle-postflight-v1/local/result.json` freshly
+verifies all 144 proofs (72 Circle / 72 gnark) in 119.731513 s across 96 processes.
+Its caller roots and original R1CS pins are independent of the returned proof
+bundles. Groth16 retains the declared owner-controlled pre-proof setup assumption;
+there is no ceremony or hardware-setup claim. These checks are excluded from
+matched Linux timing. The queued postflight runs all three stages successfully.
+
+`runs/circle-postflight-v1/composed/result.json` freshly verifies the three Circle
+proofs plus 23 retained SASH proofs and 22 residual links, rejects all 16 altered
+binding/coverage cases and finishes in 11.133048 s including hashes/host work.
+Verdicts `[1,1,0]` establish integrity with policy release false. Host joining is
+not recursion, and no new LLM proving occurs. All 55 native verifier sources
+retain identity `8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a`.
+
+Fresh nine-proof workflow medians are 1,248.506082 s gnark / 428.410096 s Circle;
+warm medians are 781.251094 / 298.882651 s. Maximum sampled process-tree RSS is
+2.650698 / 19.964154 decimal GB. Serialized gnark proofs are 292 bytes; Circle
+JSON proofs range 1,913,275–2,156,856 bytes. Circle recomputation yields nine
+distinct proof hashes across 72 measured invocations; all prover/verifier
+commands execute. Gnark yields 72 distinct proof hashes.
+
+Recommendation: retain both research paths, keep gnark default. Circle's full
+workflow is faster in this stateless harness, while its memory and proof-size
+costs are higher. Gnark's instrumented proving stage is shorter on the warm
+allow control; its combined assignment/R1CS/key parsing dominates the command.
+Different internal boundaries, encodings, parameters and Rust/py-ecc verifier
+implementations preclude an equal-security proof-system speed claim. The report
+publishes per-case ranges/IQR, shared setup amortization, every engine stage,
+native-only and native-plus-binding costs. The fixed MLP's always-allow bound and
+the synthetic CNN's France-prompt block remain explicit quality limitations.
+
+The formal job runs 10,901.434 s; measured campaign execution is 10,675.379577 s.
+Running-compute estimate is $0.090845 for the campaign, $0.100351 including all
+four provisioning fixtures, not an invoice. The startup/storage-inclusive
+admission ceiling is $0.30. At 22:54 UTC, direct HF API checks confirm all five
+jobs terminal and all five owned buckets absent (HTTP 404), with outputs retained
+(`runs/circle-postflight-v1/hf-terminal-check.json`). No automatic paid retry,
+top-up or ongoing scheduler is introduced. The final README, architecture,
+learning chapter, workflow chooser and benchmark report reference this evidence;
+final packaging/hosted/merge/deployment receipts follow on PR #130.
+
+Final local checks pass 2,580 tests with 51 optional skips in 119.01 s, plus
+spec/software-conformance/admission checks (`runs/circle-make-check-v6.log`).
+The first expanded site build correctly excludes an untracked report and fails
+its link check; staging the intended report/evidence fixes inclusion. The final
+strict build passes 163 pages and 12,726 links/assets (`runs/circle-docs-v15.log`).
+Core distribution reproduction passes with source ID
+`bd80cd0875421c43a2c97e558f2a36b0ef958f44d4815b28c3f3f4ec437e3b21`,
+sdist SHA `7b8ab58648189a24b75ed2de52e82e4b7c12ad05d02eb2509b43a076f4d242ad`,
+wheel SHA `09f50e82f61dd6d0e6da814c869bf0f9c43a89529683dc2e59c54020db9d4e51`
+(`dist/package-check-84ial8tx`). Both sdists contain the report, numeric evidence,
+proof sources, upstream licence/notice and postflight checker. Core-only local
+installation skips optional train/guard installation; hosted extra jobs remain
+required before merge.
+
+After disk headroom recovers to 13 GiB, the actual `make e2e BACKEND=circle`
+entrypoint runs with the admitted original classifier preparation and saved
+enrollment pin. It builds both locked Rust targets, creates
+`runs/circle-e2e-ui9qpl46` and passes nine generated proofs, nine fresh checks,
+63 direct mutations, 18 request swaps, three roster rejections and full
+intermediate parity. Driver wall time is 97.808485 s excluding compilation;
+maximum worker RSS is 20,231,782,400 bytes. Caller Circle root is again
+`56c29c74a4efa0443bff84cc516349b0369360e2feaf347b871b860b06cd635e`.
+The separate command evidence is
+`research/evidence/circle-make-e2e-2026-10-27.json`, SHA-256
+`6c1a9adbf0540ce066c821c432fc397a12932521575ec7ea6c57dfd3e6b531c0`.
+This confirms the named Make workflow; its timings are not pooled into the
+matched Linux experiment. All 55 native LLM source pins remain unchanged.
+The report additionally displays measured shared-preparation components divided
+by the declared three requests; raw derivation is retained in
+`runs/circle-postflight-v1/amortized-stage-view.json`.

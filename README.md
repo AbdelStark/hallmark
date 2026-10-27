@@ -13,7 +13,8 @@
 
 Hallmark proves a complete short response from a pinned, quantized
 **TinyLlama-1.1B** using **SASH Circle STARKs**, and proves rule, MLP and CNN
-classifier decisions using dedicated **gnark/Groth16** circuits. A composed demo
+classifier decisions using dedicated **gnark/Groth16** circuits, with an
+experimental **STWO Circle STARK** alternative. A composed demo
 binds both to the same caller-owned request.
 
 **53.94 s GPU proving · 10.15× over matched CPU · 23 verified segments through EOS.**
@@ -73,8 +74,32 @@ The separate [fresh CPU-only LLM workflow](docs/LLM-PROOF.md#measured-results)
 took **31 min 15 s**, including preparation and build, with **5 min 28 s** summed
 proving on a different 32-vCPU / 256-GB host. It is not the reference for the
 GPU speedup. The [fresh composed workflow](docs/COMPOSED-DEMO.md#recorded-fresh-preparation)
-took **66 min 50 s**. Classifiers are a separate, much smaller workload; no matched
-Groth16/Circle STARK classifier benchmark exists yet.
+took **66 min 50 s**. Classifiers are a separate, much smaller workload.
+
+### Classifiers on CPU: matched gnark / Circle STARK
+
+One HF CPU allocation, the same frozen rule/MLP/CNN and three requests, four
+proving threads. Each workflow generates and verifies **nine proofs**:
+
+| Measurement | gnark/Groth16 | STWO Circle STARK |
+|---|---:|---:|
+| Fresh workflow median, 3 repetitions | **20.81 min** | **7.14 min** |
+| Warm workflow median, 5 repetitions | **13.02 min** | **4.98 min** |
+| Maximum sampled process-tree RSS | **2.65 GB** | **19.96 GB** |
+| Serialized proof, across all cases | **292 bytes** | **1.91–2.16 MB** |
+
+The warm workflow ratio is **2.61×** in this stateless harness. Parsing the
+assignment/R1CS/proving key dominates gnark's complete command; its instrumented
+proving stage is shorter on the representative control. Warm reuses admitted
+files, with new prover/verifier processes and repeated Circle preprocessing.
+Proof encodings and security profiles differ; this is not an equal-security
+proof-system speed ranking. GB/MB are decimal; keys and enrollment are separate.
+
+All **144 measured proofs** pass fresh Linux and Mac checks. Three additional
+Circle classifier proofs join **23 retained TinyLlama proofs / 22 links** for one
+request; all **16 changed-binding checks reject**. Recommendation: **retain both,
+keep gnark as default**. [Full ranges, IQR, stages and limits](docs/CLASSIFIER-BENCHMARK.md)
+· [Raw numbers and hashes](research/evidence/circle-classifiers-benchmark-2026-10-27.json)
 
 ## What exactly is proved?
 
@@ -294,8 +319,9 @@ from the original private/hardware v1 roadmap. The
 tracks rule/MLP/CNN proofs and matched gnark/native benchmarks. Classifiers use
 Groth16 by default because those complete circuits were implemented first.
 The [experimental Circle STARK path](docs/CIRCLE-CLASSIFIERS.md) now passes
-the nine-proof acceptance workflow. Its matched benchmark and LLM composition
-remain open; there is no measured backend winner for that workload.
+the complete workflow, [matched CPU comparison](docs/CLASSIFIER-BENCHMARK.md)
+and retained-LLM composition. Its lower workflow time here comes with larger
+proofs, higher memory and different security assumptions; gnark stays default.
 
 ## Documentation
 

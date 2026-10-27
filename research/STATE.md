@@ -2,48 +2,57 @@
 
 Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
-## Circle classifier comparison — implementation in progress
+## Circle classifier comparison — verified implementation
 
-Epic [#112](https://github.com/AbdelStark/hallmark/issues/112) and its five
-dependent gates remain open. The first gate freezes the existing rule, MLP,
-CNN, complete 96-byte semantics and a three-fresh/five-warm matched protocol.
-[Decision 0083](../docs/decisions/0083-circle-classifier-comparison.md) records
-the hypothesis, unchanged baseline, mutable paths and acceptance criteria.
+Epic [#112](https://github.com/AbdelStark/hallmark/issues/112) has a complete
+experimental direct-STWO path for the unchanged rule, four-unit integer MLP and
+contextual CNN. It preserves complete 0–96-byte inputs, salted canonical SHA-256,
+strict integer decisions and caller-owned context/model/enrollment checks.
+`make e2e BACKEND=circle` exposes the same nine-proof control workflow; gnark
+remains the default. No core inference arithmetic, model, threshold or historical
+result is changed. [Implementation and commands](../docs/CIRCLE-CLASSIFIERS.md).
+The [actual Make reproduction](evidence/circle-make-e2e-2026-10-27.json) freshly
+builds both locked targets and passes all nine proofs and rejection checks;
+driver wall time is 97.81 s excluding compilation.
 
-The contract replay freshly verifies nine retained gnark proofs and rejects
-18 cross-request and three roster substitutions; it is not a new benchmark.
-The direct STWO 2.2.0 candidate passes the complete nine-proof classifier
-acceptance workflow after replacing the failed cubic/domain variant with
-quadratic constraints. Fresh proof-only processes accept all nine proofs and
-reject 63 public-input mutations; caller checks reject 18 cross-request and
-three roster substitutions. All MLP intermediates and CNN node outputs match
-native execution. The [evidence](evidence/circle-classifiers-acceptance-2026-10-27.json)
-pins source/binary/program/proof identities. A second complete run confirms the result. Full-length conformance produces
-three further proofs and rejects 21 invalid witnesses in STWO constraints;
-an omitted dense edge fails the independent program pin. These are acceptance
-runs, not a
-matched performance campaign or backend qualification. The repeated benchmark,
-composed LLM workflow and final delivery gates remain open. Failed attempts
-remain retained locally; gnark stays the default. All 55 LLM-native verifier
-source pins and their identity remain unchanged.
+The [matched HF CPU report](../docs/CLASSIFIER-BENCHMARK.md) records three fresh
+and five warm workflows per backend: 144 generated proofs and fresh Linux checks.
+A separate Mac postflight freshly verifies all 144 against caller expectations.
+The byte audit recomputes every statistic and checks 3,925 artifact hashes;
+112 captured source files and five request/quantization snapshots match the
+owner's pre-upload archives. The [numeric record](evidence/circle-classifiers-benchmark-2026-10-27.json)
+precedes the report and preserves every sample, source/environment pin, resource
+receipt and failed provisioning fixture.
 
-The fixed MLP is always-allow in this 96-byte domain: exact-rational interval
-analysis bounds its score to [−5600,−2338] at threshold 0. This is a model-quality
-limitation, not a missing proof relation. The README, guide and
+Warm nine-proof workflow medians are 781.25 s gnark / 298.88 s Circle; fresh
+medians are 1,248.51 / 428.41 s. Maximum sampled process-tree RSS is 2.65 / 19.96 GB;
+proofs are 292-byte binary / 1.91–2.16 MB JSON. Gnark parsing dominates its
+stateless command, while its instrumented proving stage is shorter on the
+representative control. Stage boundaries, verifier implementations, encodings
+and security profiles differ. Recommendation: retain both research paths, keep
+gnark default; no equal-security speed or production qualification claim.
+
+Three additional Circle proofs join the retained TinyLlama request. Fresh Mac
+verification checks those, 23 SASH proofs and 22 links, and rejects 16 changed
+bindings/rosters. Host composition takes 11.13 s including hashes and host work.
+Verdicts `[1,1,0]` give valid integrity with policy release false. No new LLM
+proving, recursion, hiding or hardware evidence is claimed. All 55 native LLM
+verifier source pins and their identity remain unchanged.
+
+The [acceptance record](evidence/circle-classifiers-acceptance-2026-10-27.json)
+retains two nine-proof Mac runs, 63 direct public-input rejections, 18 request
+swaps and three roster rejections per run. Full-length conformance adds three
+proofs and 21 real constraint failures plus an omitted-edge program-pin failure.
+Six arithmetic fixtures cover both strict thresholds below/equal/above the
+boundary; local `make check` passes 2,580 tests with 51 optional skips. Final
+packaging, exact-head CI, merge and deployment receipts are tracked on
+[PR #130](https://github.com/AbdelStark/hallmark/pull/130).
+
+The frozen MLP always allows in this 96-byte domain: its exact-rational interval
+score bound is [−5600,−2338] at threshold 0. The README, report and
 [published card clarification](evidence/mlp-model-card-clarification-2026-10-27.json)
-disclose it; weights, original release tags and the running comparison remain
-unchanged. Independent follow-up #131 is outside this epic's frozen scope.
-
-The [guide](../docs/CIRCLE-CLASSIFIERS.md#replay-the-baseline-and-check-constraint-failures)
-includes the baseline replay and adversarial conformance commands with their
-passing counts. The architecture guide maps the default and Circle classifier
-flows and distinguishes their dependencies from SASH. Exact-head CI receipts
-are recorded on PR #130; they do not
-replace the pending matched campaign and composed-proof gates.
-Six arithmetic fixtures additionally check both strict thresholds at scores
-below/equal/above the boundary and reject changed public limbs/verdicts.
-The guide explains repeated Circle preprocessing, differing witness/proving
-stage boundaries and the full workflow's native baseline observations.
+disclose this quality limitation. Weights, original release tags and comparison
+inputs are unchanged. Independent follow-up #131 remains outside this epic.
 
 ## Terminal and web workbench — complete
 

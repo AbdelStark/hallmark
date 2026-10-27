@@ -1,23 +1,25 @@
 # Why two proof systems?
 
-Hallmark uses a specialized Circle STARK path for the quantized LLM and dedicated
-Groth16 circuits for the classifiers. These were built separately; Hallmark has
-not benchmarked both systems on the same classifier computation.
+Hallmark uses two proof-system families through three implementations: SASH
+Circle STARKs for the quantized LLM, default gnark/Groth16 classifiers and an
+experimental direct-STWO Circle STARK classifier path. The classifier paths now
+have a [matched CPU comparison](../CLASSIFIER-BENCHMARK.md) of the same computation.
 
 ## The current division
 
-| | LLM path | Classifier path |
-|---|---|---|
-| Backend | SASH Circle STARK | gnark Groth16 / BLS12-381 |
-| Workload | Complete fixed quantized TinyLlama response | Rule, trained MLP and contextual byte CNN |
-| Proof structure | 23 linked segments | One dedicated proof per classifier/request |
-| Verification | SASH cryptographic implementation; Linux and adapted Mac variants | Separate py-ecc decoder and pairing arithmetic |
-| Setup/enrollment | Expected model, shape and calibration roots; caller admission required | Circuit-specific research setup plus caller-enrolled circuit/key/model mapping |
-| Recorded artifact size | 738 MB across all 23 proof files | 292 bytes per proof in this research encoding |
-| Matched classifier comparison | Not implemented | Existing baseline for the planned comparison |
+| | LLM path | Default classifier path | Experimental classifier path |
+|---|---|---|---|
+| Backend | SASH Circle STARK | gnark Groth16 / BLS12-381 | Direct STWO 2.2.0 Circle STARK |
+| Workload | Complete fixed quantized TinyLlama response | Rule, trained MLP and contextual byte CNN | Same complete classifiers and 96-byte semantics |
+| Proof structure | 23 linked segments | One dedicated proof per classifier/request | One fixed-gate proof per classifier/request |
+| Verification | SASH; Linux and adapted Mac variants | Separate py-ecc decoder and pairing arithmetic | Fresh native STWO processes; shared engine/AIR implementation |
+| Setup/enrollment | Expected model, shape and calibration roots | Research setup plus circuit/key/model mapping | Public preprocessing, program/model mapping and concrete parameters |
+| Recorded proof files | 738 MB across 23 proofs | 292 bytes per proof | 1.91–2.16 MB canonical JSON per proof |
+| Matched classifier comparison | Separate workload | Three fresh/five warm workflows | Same cases, host and thread budget |
 
-The artifact sizes cover different computations and encodings, so their ratio
-says little about the relative cost of the two proof systems.
+LLM/classifier artifact sizes cover different computations. The classifier
+comparison fixes the computation, but encodings, soundness parameters and
+implementation costs still differ. A proof-size ratio alone is insufficient.
 
 ## Circle STARKs: a small-field route
 
@@ -63,9 +65,13 @@ Before comparing prover backends, freeze:
 - hardware, threads, preprocessing and timing boundaries;
 - proof, key, enrollment and transfer sizes.
 
-[Classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112) tracks
-the planned Circle STARK classifier implementation and matched comparison with
-gnark and native execution. That backend is not yet implemented.
+The [completed classifier report](../CLASSIFIER-BENCHMARK.md) follows this plan
+and retains every sample and failed provisioning fixture. Circle's complete
+workflow is faster in that stateless harness, while using more memory and much
+larger proofs. Gnark's combined parsing stage dominates its command; its
+instrumented proving stage is shorter on the representative control. The report
+keeps the internal timing boundaries and security assumptions explicit, and
+recommends retaining both with gnark default.
 
 ## The same-host GPU comparison {#what-the-gpu-result-does-show}
 

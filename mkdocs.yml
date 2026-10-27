@@ -60,6 +60,7 @@ nav:
   - Research:
       - Evidence map: docs/research/index.md
       - Results and limitations: docs/RESULTS.md
+      - Classifier backend benchmark: docs/CLASSIFIER-BENCHMARK.md
       - Evaluation contract: docs/EVALUATION.md
       - MVP acceptance: docs/MVP.md
       - Current state: research/STATE.md

@@ -10,6 +10,12 @@ The composed demo checks two computations over the same opened request:
 It uses the existing specialized SASH and Groth16 relations. There is no
 general-purpose zkVM or hardware attestation.
 
+An experimental [Circle classifier composition](CIRCLE-CLASSIFIERS.md#llm-request-composition)
+also passes: three new STWO classifier proofs join the retained 23-proof SASH
+bundle, with fresh verification and 16 binding/coverage rejections. The
+[benchmark report](CLASSIFIER-BENCHMARK.md) records that separate command and
+its limits. `make e2e-composed` below keeps its existing Groth16 path.
+
 The [architecture guide](ARCHITECTURE.md) explains both underlying proof flows,
 SASH source/patch ownership and caller trust boundaries. A fresh default run
 makes **23 SASH segments and 12 Groth16 proofs**: nine classifier controls plus

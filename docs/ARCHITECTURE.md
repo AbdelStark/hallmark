@@ -4,8 +4,8 @@ Hallmark has three proof paths: **gnark/Groth16 classifiers** (the default),
 **experimental direct-STWO Circle STARK classifiers**, and **SASH Circle STARK
 proofs for a quantized TinyLlama response**. The default composed workflow joins
 verified gnark and SASH results against one caller-owned request in host code.
-It does not recursively aggregate their proofs. The Circle classifier comparison
-and its separate composed-request check remain experimental.
+It does not recursively aggregate their proofs. The [Circle classifier comparison](CLASSIFIER-BENCHMARK.md)
+and separate composed-request check also pass; the backend remains experimental.
 
 ## Choose the workflow
 
@@ -114,9 +114,10 @@ or witness-hiding claim. The frozen MLP is always-allow within this input domain
 the rule and CNN provide the workflow's block controls.
 
 The [Circle guide](CIRCLE-CLASSIFIERS.md) gives source ownership, concrete proof
-parameters, commands, conformance failures and the pending matched comparison.
+parameters, commands, conformance failures and matched results.
 Its separate composition checker joins three Circle classifier proofs to the
-retained SASH LLM bundle; actual composed acceptance is still a pending gate.
+retained SASH LLM bundle: all 26 proofs and 22 residual links verify freshly,
+with 16 changed-binding rejections. This remains host composition.
 
 ## LLM: `make e2e-llm`
 
@@ -219,25 +220,27 @@ capture, training history, operational authorization or real-world safety.
 
 ## Why two backends? What changes next?
 
-The split reflects implementation history, **not a matched performance result**.
+The default follows implementation history.
 Dedicated gnark classifier circuits were implemented first, including complete
 SHA-256/input handling and the exact integer operators. SASH was integrated later
 for its supported Llama inference relation. The experimental
 [STWO classifier adapter](CIRCLE-CLASSIFIERS.md) now proves all three exact
 relations with separate caller enrollment and fresh proof-only verification.
-The default workflow still uses gnark; the matched comparison remains open.
+The [matched CPU comparison](CLASSIFIER-BENCHMARK.md) now measures both complete
+classifier workflows. Its recommendation retains both, with gnark default.
 
 | Current path | Useful property | Remaining trade-off |
 |---|---|---|
 | gnark/Groth16 classifiers | Complete existing circuits and separate py-ecc verification; 292-byte serialized proofs in this profile | Circuit-specific trusted setup; local setup has not undergone an independent ceremony |
 | SASH Circle STARK LLM | Working specialized quantized transformer proofs; no general-purpose VM | Large fixed-case bundle, public parameter enrollment and shared prover/verifier implementation |
-| Experimental STWO Circle STARK classifiers | Nine serialized rule/MLP/CNN proofs accepted by fresh verifier processes; exact input hashing and integer operators | Repeated matched comparison and composed LLM workflow remain open; no backend qualification |
+| Experimental STWO Circle STARK classifiers | Complete repeated rule/MLP/CNN workflow and retained-LLM join; exact input hashing and integer operators | Higher memory and much larger JSON proofs; repeated per-proof preprocessing; no backend qualification |
 
-There is **no matched classifier benchmark** establishing which proof backend is
-better. Comparing the tiny classifier proofs with the 1.1B LLM's proof size or
-timings would compare different workloads.
+Circle's full workflow is faster in this stateless harness, where gnark parsing
+dominates its complete command. The security profiles and verifier implementations
+differ; there is no equal-security performance claim. Classifier and 1.1B LLM
+proof sizes/timings remain different workloads.
 
-The new [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
+The [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
 tracks the implementation and comparison:
 
 1. [#113](https://github.com/AbdelStark/hallmark/issues/113): freeze/replay the identical relation, exports, inputs, failures and measurement protocol.
@@ -250,8 +253,7 @@ The classifier implementation uses direct STWO 2.2.0 as a dependency, separately
 from SASH's pinned Llama application/fork. It adapts the upstream gate-AIR/LogUp
 patterns and adds Hallmark's own SHA-256/integer/classifier circuits. The
 [source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership) explains ownership.
-No speed advantage or backend adoption is presumed.
-Benchmarks must separate setup/preprocessing, witness preparation, proving,
+The report separates setup/preprocessing, witness preparation, proving,
 serialization, proof-only verification, caller binding/native rerun, total time,
 memory and artifact sizes, with explicit security parameters and resource caps.
 The epic is integrity-only. It does not reopen the completed [MVP](MVP.md) or

@@ -1,7 +1,7 @@
 # 0083: Exact classifier relations and a matched Circle STARK comparison
 
-Date: 2026-10-27. Status: formal matched protocol frozen; implementation/delivery
-in progress for epic #112 and #113–#117.
+Date: 2026-10-27. Status: frozen protocol executed; retain both research paths with gnark default.
+Implementation/evidence for epic #112 and #113–#117 are recorded below.
 
 ## Gate and frozen baseline
 
@@ -55,7 +55,8 @@ interpretations. A field equality alone does not establish an integer equality.
 The [engine review](../../research/circle-classifier-engine-review.md) selects
 pinned direct STWO 2.2.0, separately from SASH's Llama application. The experimental
 candidate passes complete rule/MLP/CNN acceptance; it is not an adopted backend
-and has no repeated matched result yet. Reuse the Circle
+and is not production-qualified. The [completed comparison](../CLASSIFIER-BENCHMARK.md)
+records repeated matched results and the retain-both recommendation. Reuse the Circle
 FFT/FRI/Merkle/constraint framework, with specialized classifier and exact SHA-256
 constraints. There is no general-purpose VM.
 
@@ -124,3 +125,14 @@ commitments, datasets or evaluation change, start a new identity and obtain owne
 review before reusing previous results under that changed protocol. The owner's
 request authorizes implementation of the full epic; it does not make an untested
 candidate pass, silently adopt a backend or waive any acceptance criterion.
+
+## Measured outcome
+
+The [HF campaign and raw evidence](../CLASSIFIER-BENCHMARK.md) pass all 144
+measured proofs, fresh Mac postflight and the retained-LLM join. Keep gnark
+default and retain Circle experimentally. Lower complete-workflow time in this
+stateless harness trades against higher memory and larger proof files; gnark's
+instrumented proving stage is shorter on the representative control, while its
+combined assignment/R1CS/key parsing dominates its command. Concrete security
+profiles remain unequal/unqualified. No original classifier arithmetic, weights,
+thresholds or historical measurements are changed.
