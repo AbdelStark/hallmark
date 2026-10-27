@@ -284,6 +284,31 @@ range and IQR from the 16 raw samples. It also extracts the small Circle enrollm
 and composition bundle needed by the fresh local checker. It is a byte/statistics
 audit, not another cryptographic verification or a security review.
 
+Before composing, check every retained benchmark proof locally:
+
+```bash
+uv run --locked --extra train python scripts/check_classifier_archive.py \
+  --audit-run runs/<new-byte-audit> \
+  --expected-commit <your-admitted-source-commit> \
+  --classifier-run runs/e2e-<your-run> \
+  --expected-enrollment <your-original-caller-pin> \
+  --expected-circle-enrollment <your-pre-upload-circle-enrollment-pin> \
+  --circle-verifier <your-admitted-Mac-circle-verify> \
+  --expected-verifier <your-retained-circle-binary-sha256> \
+  --output runs/<new-local-proof-check>
+```
+
+The byte audit extracts the public proof-only subset, excluding witnesses,
+checkpoints, model exports and proving keys. The local checker reconstructs all
+caller public inputs, requires the independent Mac Circle enrollment, checks
+gnark's captured pre-proof circuit/key records, and verifies 72 Circle and 72
+Groth16 proofs. Groth16 still trusts the owner's recorded setup; this adds no
+ceremony or setup-attestation claim. Circle uses one fresh process per proof;
+local py-ecc checks three classifier proofs per fresh process, as in the
+original separate-arithmetic checker. The primary Linux measurements retain one
+fresh verifier per proof. These additional Mac checks are excluded from the
+matched timing statistics and do not reuse the provider's pass flag.
+
 Then freshly check the retained composition, supplying the caller's request file
 from before upload and independently retained executable hashes:
 

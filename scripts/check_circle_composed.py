@@ -91,6 +91,7 @@ def binding_negatives(enrollment, pin, originals, policy, opening, expected, bun
 
 
 def fresh_llm(binary, binary_pin, proof_directory, output, budget):
+    binary, proof_directory = binary.resolve(), proof_directory.resolve()
     inventory = verify_llm.source_inventory()
     if verify_llm.verifier_identity(inventory).hex() != SOURCE_IDENTITY:
         raise ValueError("native verifier source identity changed")
@@ -214,10 +215,8 @@ def run(args):
     )
     if [p["public"] for p in bundle["proofs"]] != request["public"]:
         raise ValueError("remote public inputs differ from caller freeze")
-    if (
-        comparison.sha(read_regular(args.circle_verifier, 128 * 1024**2))
-        != args.expected_circle_verifier
-    ):
+    circle_binary = args.circle_verifier.resolve()
+    if comparison.sha(read_regular(circle_binary, 128 * 1024**2)) != args.expected_circle_verifier:
         raise ValueError("caller Circle executable pin mismatch")
     json_new(
         output / "protocol.json",
@@ -243,7 +242,7 @@ def run(args):
         }.items():
             write_new(work / name, raw)
         cost = invoke(
-            args.circle_verifier,
+            circle_binary,
             work,
             ["enrollment.json", job["enrollment_pin"], "public.json", "proof.json"],
             budget=budget,

@@ -19,6 +19,13 @@
     }
   },
   "license": "MIT",
+  "model_semantics_check": {
+    "anonymous_download": true,
+    "canonical_export_semantics_equal": true,
+    "model_json_sha256": "463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8",
+    "quantization_sha256": "f8090161455ee56cdcd73eaab44437efa3b278a786d7c246491da5f1e1431a9c",
+    "source_model_revision": "15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f"
+  },
   "new_revision": "15c8c4a1a5c86bf14cfef23e57c72c47e1de8a2f",
   "old_revision": "05b2bdef120d3aea9133af042d15ed1a3a621aa9",
   "original_release_tag_unchanged": true,

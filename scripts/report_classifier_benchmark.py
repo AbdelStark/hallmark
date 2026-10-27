@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 import tarfile
 from pathlib import Path, PurePosixPath
 
@@ -11,6 +12,18 @@ from classifier_comparison import encoded, sha
 from run_llm_e2e import require
 
 PREFIX = "runs/campaign/"
+
+
+def proof_only_file(name):
+    return (
+        re.fullmatch(
+            r"runs/campaign/(?:fresh|warm)-[0-9]{2}-(?:circle|gnark)/"
+            r"(?:(?:allow|cnn-block|rule-block)-prove-(?:rule|mlp|encoder)/proof\.(?:json|bin)"
+            r"|caller-enrollment\.json|setup-(?:rule|mlp|encoder)/vk\.bin)",
+            name,
+        )
+        is not None
+    )
 
 
 def audit(archive, expected_archive, expected_commit, output):
@@ -40,7 +53,7 @@ def audit(archive, expected_archive, expected_commit, output):
                 PREFIX + "protocol.json",
                 PREFIX + "result.json",
             ) or member.name.endswith("/sample.json")
-            retained = member.name in (
+            retained = proof_only_file(member.name) or member.name in (
                 PREFIX + "fresh-00-circle/caller-enrollment.json",
                 PREFIX + "composition-00-circle/llm-response-bundle.json",
             )

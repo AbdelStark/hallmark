@@ -95,3 +95,14 @@ def test_byte_audit_rejects_changed_proof_or_caller_freeze(tmp_path, change):
             "b" * 40 if change == "source-commit" else "a" * 40,
             tmp_path / "audit",
         )
+
+
+def test_extraction_keeps_proof_inputs_and_excludes_private_or_execution_material():
+    from report_classifier_benchmark import proof_only_file
+
+    assert proof_only_file(PREFIX + "warm-04-circle/allow-prove-encoder/proof.json")
+    assert proof_only_file(PREFIX + "fresh-00-gnark/setup-rule/vk.bin")
+    assert proof_only_file(PREFIX + "fresh-00-gnark/caller-enrollment.json")
+    for name in ("pk.bin", "witness.json", "model.json", "program.json", "assignment.txt"):
+        assert not proof_only_file(PREFIX + "fresh-00-gnark/setup-rule/" + name)
+    assert not proof_only_file(PREFIX + "../fresh-00-gnark/setup-rule/vk.bin")

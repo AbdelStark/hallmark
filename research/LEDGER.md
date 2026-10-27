@@ -5232,3 +5232,25 @@ hashes; the original `v1.0.0` tag still resolves to
 tags remain immutable. New revision/file/authority hashes are in
 `research/evidence/mlp-model-card-clarification-2026-10-27.json`. The running
 HF comparison remains source `bc5bc0d` with its original frozen exports/corpus.
+
+
+Postflight verification is implemented separately from the frozen primary
+evaluator: the byte audit extracts only public enrollment/verification keys and
+serialized proofs, never witness/checkpoint/model/proving-key files. New local
+checking reconstructs caller expectations and requires the Mac Circle root;
+it will verify all 144 retained proofs with the existing native/pairing
+implementations. Nine synthetic admission/extraction tests pass. No 144-proof
+postflight pass is claimed until the live archive arrives.
+A restricted Mac pairing-environment smoke rechecks one retained proof three
+times; it is not new proof generation or classifier coverage. A fresh
+relative-path native LLM smoke checks all 23 proofs/22 links in 3.395809 s with
+before/after input hashes. The two new checker CLIs now resolve executable/input
+paths before changing worker directories. All primary case/evaluator/source
+bytes in the running HF job remain unchanged.
+
+The MLP card clarification additionally matches an anonymous download of
+`model.json` byte hash `463860eeaed927cba398a8b05fd3059e9f8a4bbda103a331180e0bf755ed91b8`
+to the exact exported model used in the bound calculation. Current local
+`make check` passes 2,569 tests/51 optional skips; package and strict docs checks
+pass before this postflight-check addition. Updated source needs its own final
+checks.
