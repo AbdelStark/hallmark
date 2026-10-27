@@ -5300,3 +5300,18 @@ in 106.44 s, plus spec/software-conformance/admission checks
 (`runs/circle-make-check-v5.log`). Strict docs pass 162 pages and 12,425 local
 links/assets (`runs/circle-docs-v10.log`). Optional train/guard coverage remains
 a hosted gate; this adds no proof timing or backend qualification.
+
+The final timing-scope check reads the unchanged primary benchmark and engine
+code. Native-only scoring excludes admission/commitments; native-plus-binding
+and caller checks retain recomputation. The stateless Circle CLI recomputes
+twiddles and preprocessing/model commitments for each proof, even warm ones;
+raw engine stages retain those costs. Gnark constraint solving occurs within
+`Prove`, whereas Circle host witness timing includes graph construction/parity
+checks/encoding. The guide now states these boundaries and the three-request
+setup amortization denominator. Full workflow wall time includes separate
+native baseline observations. No primary source, evaluator or timing changes.
+Strict docs after the timing clarification pass 162 pages and 12,425 local
+links/assets (`runs/circle-docs-v11.log`). Exact-head hosted research and docs
+checks also pass at `42d6139e792968f1365c30a5bfb05968f90dc877`
+([research](https://github.com/AbdelStark/hallmark/actions/runs/40593609238),
+[docs](https://github.com/AbdelStark/hallmark/actions/runs/40593609227)).

@@ -42,6 +42,8 @@ are recorded on PR #130; they do not
 replace the pending matched campaign and composed-proof gates.
 Six arithmetic fixtures additionally check both strict thresholds at scores
 below/equal/above the boundary and reject changed public limbs/verdicts.
+The guide explains repeated Circle preprocessing, differing witness/proving
+stage boundaries and the full workflow's native baseline observations.
 
 ## Terminal and web workbench — complete
 

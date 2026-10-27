@@ -262,6 +262,23 @@ Fresh includes compilation and per-classifier setup/preprocessing; warm makes
 new proofs and launches fresh verifiers using admitted preparation. OS caches
 are not flushed. Report shared costs and their amortization denominator.
 
+Warm reuses admitted program/enrollment files and Groth16 setup keys. The
+stateless Circle CLI still reconstructs twiddles and preprocessing commitments
+for every new proof; its raw `preprocessing_and_model_commitment` stage records
+that repeated cost. Warm does not mean those computations are free or cached
+in memory. Fixed weights share the graph/preprocessing commitment; a separate
+weight-commitment time is `null` with an explicit reason, rather than zero.
+
+Stage boundaries also differ: gnark's constraint solving runs inside
+`groth16.Prove`, while Circle's host witness timing includes rebuilding the gate
+graph, checking native parity and encoding the witness. Compare complete prover
+commands together with host witness work, and complete workflow wall time.
+Compilation is shared across nine proofs in a fresh workflow; each classifier's
+setup is shared across its three requests. Native-only timing excludes request
+admission and commitments. Native-plus-binding and caller checks include the
+current native recomputation. The full workflow also includes the separate
+native baseline observations; it is not a minimal serving-latency measurement.
+
 Report native inference and native plus binding; program construction, setup,
 commitments, witness generation, proving, serialization, proof-only verification
 and total wall time; proof/key/parameter bytes; sampled process-tree RSS; failures
