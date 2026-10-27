@@ -5161,3 +5161,12 @@ ceiling (observed-price estimate $0.27). The Linux profile preserves cases,
 models, arithmetic, three fresh/five warm repetitions and independent Mac
 program-enrollment roots. Local HF boundary/report tests pass 16 cases without
 launching compute. No paid job had started when this entry was written.
+
+
+HF fixture `6ae0f7b441e90535df76716c` fails before compilation on absent
+ignored `runs/` parent; all outputs retained and bucket deleted, 59.64 s running
+time (not an invoice). New candidate HF v2 fixes recursive parent creation;
+one extra cent is reserved within the unchanged $0.30 cap. No benchmark sample
+is admitted from that failure. Fresh local LLM verification in
+`runs/circle-llm-fresh-v1` independently checks 23 proofs/22 links in 4.221587 s;
+its caller-pinned Mac binary and all 55 source identities are unchanged.

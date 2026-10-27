@@ -16,8 +16,15 @@ docs:
 docs-serve:
 	uv run --locked --project website python scripts/build_docs.py --serve
 
+BACKEND ?= gnark
 e2e:
+ifeq ($(BACKEND),circle)
+	$(MAKE) e2e-circle
+else ifeq ($(BACKEND),gnark)
 	uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py
+else
+	@echo 'BACKEND must be gnark or circle'; exit 2
+endif
 
 .PHONY: circle-build e2e-circle
 circle-build:

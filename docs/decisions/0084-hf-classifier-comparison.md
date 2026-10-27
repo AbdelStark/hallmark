@@ -56,3 +56,16 @@ This changes the experiment host/resource envelope, not the classifier relation.
 Prior acceptance trials remain under their original identities and are not
 reused as matched timings. Independent security review, witness hiding, hardware
 provenance, setup ceremony and default-backend adoption remain outside this work.
+
+The first fixture (job `6ae0f7b441e90535df76716c`, source `084c692`) fails
+before compiler/prover startup: the extracted source has no ignored `runs/`
+parent. Its 59.64 s running time, output archive and logs are retained; the
+terminal bucket is deleted. Correct directory creation and freeze candidate
+`circle-classifiers-matched-hf-v2` before the next manual attempt. This is a
+new candidate identity, not an automatic retry or an omitted benchmark sample.
+Reserve one additional cent for the failed attempt: the new campaign estimate
+is $0.28, still under $0.30. The successful fixture must precede the matrix.
+The separate composed request is frozen by the caller before upload, including
+its Circle enrollment and all 300 expected public fields. Its three new proofs
+are outside the 144-proof measurement matrix and receive fresh local proof-only
+verification with the retained LLM proof bundle.

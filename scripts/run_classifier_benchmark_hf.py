@@ -9,7 +9,10 @@ import tarfile
 import time
 from pathlib import Path, PurePosixPath
 
+import circle_backend as circle
 import classifier_comparison as comparison
+import composed_input
+import trained_common_input as common
 from run_e2e import sha, write_json
 from run_llm_e2e import TERMINAL, archive, require, retain, token
 
@@ -26,7 +29,9 @@ def admission(config, hardware, active):
         "hardware or price differs from frozen budget",
     )
     require(not active, "another HF job is active; do not overlap this campaign")
-    estimate = config["storage_reserve_micro_usd"]
+    estimate = config["storage_reserve_micro_usd"] + config.get(
+        "prior_attempt_reserve_micro_usd", 0
+    )
     for seconds in config["provider_seconds"].values():
         minutes = math.ceil((seconds + config["startup_reserve_seconds_per_job"]) / 60)
         estimate += math.ceil(minutes * item.unit_cost_micro_usd / 10000) * 10000
@@ -35,7 +40,7 @@ def admission(config, hardware, active):
 
 
 def public_archives(prepared, reference, enrollment_pin, output):
-    comparison.admitted(prepared, enrollment_pin)
+    _, originals, old_policy, _, _ = comparison.admitted(prepared, enrollment_pin)
     names = (
         subprocess.check_output(
             [
@@ -76,6 +81,23 @@ def public_archives(prepared, reference, enrollment_pin, output):
         inputs["prepared/circle-reference/" + kind + ".json"] = (
             reference / ("enroll-" + kind) / "enrollment.json"
         )
+    engines = {
+        kind: inputs["prepared/circle-reference/" + kind + ".json"].read_bytes()
+        for kind in circle.KINDS
+    }
+    enrollment = circle.enroll(engines, originals)
+    records, policy, _ = circle.resolve(
+        enrollment, comparison.sha(enrollment), originals, old_policy
+    )
+    expected, opening = composed_input.request(policy)
+    request = dict(
+        opening_cbor_hex=opening.encode().hex(),
+        expected_cbor_hex=expected.encode().hex(),
+        circle_enrollment_sha256=comparison.sha(enrollment),
+        public=[row["public"] for row in common.evaluate(records, policy, opening, expected)],
+    )
+    write_json(output / "composed-request.json", request)
+    inputs["prepared/composed-request.json"] = output / "composed-request.json"
     require(
         sum(p.stat().st_size for p in inputs.values()) <= 4 * 1024**2, "public input size limit"
     )

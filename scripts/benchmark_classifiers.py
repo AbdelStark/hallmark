@@ -18,6 +18,7 @@ from pathlib import Path
 
 import circle_backend as circle
 import classifier_comparison as comparison
+import composed_input
 import trained_common_input as common
 from check_circle_engine import encode
 from check_gnark_encoder import assignment
@@ -211,7 +212,7 @@ class Campaign:
             raise ValueError(
                 "keep benchmark keys and raw artifacts under the ignored runs directory"
             )
-        self.output.mkdir(mode=0o700)
+        self.output.mkdir(mode=0o700, parents=True)
         input_root = self.output / "inputs"
         input_root.mkdir()
         self.requests = {}
@@ -783,7 +784,7 @@ class Campaign:
             circuits=pins,
         )
 
-    def sample(self, backend, phase, repetition):
+    def sample(self, backend, phase, repetition, *, composed=False):
         name = f"{phase}-{repetition:02d}-{backend}"
         self.sample_id = name
         folder = self.output / name
@@ -810,7 +811,8 @@ class Campaign:
             cases=[],
             failures=[],
         )
-        self.samples.append(sample)
+        if not composed:
+            self.samples.append(sample)
         scorer = comparison.native_scorer(self.exported)
         verifier_python = self.prepared / "verifier-env/bin/python"
         python_prefix = Path(
@@ -820,9 +822,23 @@ class Campaign:
                 timeout=10,
             ).strip()
         )
-        for case in self.corpus["requests"]:
+        cases = self.corpus["requests"]
+        if composed:
+            opening, expected = comparison.request(self.prepared, "composed")
+            composed_input.check_request(opening, expected)
+            frozen = json.loads(read_regular(self.prepared / "composed-request.json", 65536))
+            if frozen["circle_enrollment_sha256"] != prep["pin"]:
+                raise ValueError("composed owner enrollment differs from campaign enrollment")
+            composed_rows = common.evaluate(prep["records"], prep["policy"], opening, expected)
+            if [r["public"] for r in composed_rows] != frozen["public"]:
+                raise ValueError("composed public inputs differ from caller freeze")
+            cases = [dict(id="llm-response", verdicts=[r["public"][99] for r in composed_rows])]
+        for case in cases:
             case_name = case["id"]
-            opening, old_expected = self.requests[case_name]
+            if composed:
+                opening, old_expected = comparison.request(self.prepared, "composed")
+            else:
+                opening, old_expected = self.requests[case_name]
             expected = circle.expected_request(old_expected, prep["policy"])
             start = time.perf_counter()
             scores = scorer(opening.prompt)
@@ -1002,16 +1018,19 @@ class Campaign:
             print(name + ": verified " + case_name + " (three proofs)", flush=True)
         sample |= dict(
             status="passed",
+            benchmark_sample=not composed,
             full_wall_seconds=time.monotonic() - started,
             sampled_process_tree_peak_rss_bytes=self.peaks.get(name, 0),
             storage=storage(folder),
         )
         json_new(folder / "sample.json", sample)
-        with (self.output / "samples.jsonl").open("a") as stream:
-            stream.write(json.dumps(sample, separators=(",", ":")) + "\n")
-            stream.flush()
-            os.fsync(stream.fileno())
+        if not composed:
+            with (self.output / "samples.jsonl").open("a") as stream:
+                stream.write(json.dumps(sample, separators=(",", ":")) + "\n")
+                stream.flush()
+                os.fsync(stream.fileno())
         print(name + ": complete", flush=True)
+        return sample
 
     def fixture(self):
         """Compile both tools, check one frozen R1CS and freshly verify one proof per tool."""
@@ -1157,6 +1176,9 @@ class Campaign:
                         ("gnark", "circle") if repetition % 2 == 0 else ("circle", "gnark")
                     ):
                         self.sample(backend, phase, repetition)
+            composition = (
+                self.sample("circle", "composition", 0, composed=True) if self.linux else None
+            )
             if self.sources != {name: sha_file(ROOT / name) for name in self.sources}:
                 raise ValueError("campaign source changed")
             self.boundary()
@@ -1167,6 +1189,7 @@ class Campaign:
                 samples=len(self.samples),
                 fresh_proofs=144,
                 fresh_verifications=144,
+                composition=composition,
                 summary=report,
                 elapsed_seconds=time.monotonic() - self.started,
                 campaign_sampled_process_tree_peak_rss_bytes=max(self.peaks.values(), default=0),

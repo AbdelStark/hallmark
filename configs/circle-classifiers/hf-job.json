@@ -30,5 +30,6 @@
     "url": "https://go.dev/dl/go1.26.8.linux-amd64.tar.gz",
     "bytes": 66897291,
     "sha256": "d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b"
-  }
+  },
+  "prior_attempt_reserve_micro_usd": 10000
 }

@@ -20,7 +20,7 @@ from run_classifier_benchmark_hf import admission, validate_retention  # noqa: E
 def test_finite_startup_inclusive_budget_and_changed_quote():
     config = json.loads((ROOT / "configs/circle-classifiers/hf-job.json").read_bytes())
     item = SimpleNamespace(cpu="8 vCPU", ram="32 GB", unit_label="minute", unit_cost_micro_usd=500)
-    assert admission(config, {"cpu-upgrade": item}, []) == 270000
+    assert admission(config, {"cpu-upgrade": item}, []) == 280000
     with pytest.raises(ValueError, match="overlap"):
         admission(config, {"cpu-upgrade": item}, ["other-job"])
     item.unit_cost_micro_usd = 501
