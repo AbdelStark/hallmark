@@ -5187,3 +5187,14 @@ All remote outputs retained; bucket deleted; 300.002 s running time. HF v4
 reserves $0.30 inclusive of prior attempts and enlarges output retention to 3 GiB
 before the full matrix, preserving the 16 GiB raw cap. No prior trial supplies
 a matched sample.
+
+The offline retained-archive audit has four passing synthetic-accounting tests
+(no cryptographic proof claim). It streams bounded archive bytes, recomputes
+frozen statistics, checks exact source/environment/input pins and 144 proof
+identities, and extracts only the composition enrollment/bundle. The real
+composition checker independently checks proof systems in fresh processes and
+rejects 16 changed binding/roster/enrollment/request cases. Its synthetic caller
+fixture passes; the complete real composition still awaits new classifier proofs.
+Successful Circle/native-LLM compiler caches are cleaned only after preserving
+hash-checked executable copies; source, registries, models, keys, proofs and
+failed runs remain intact (`runs/circle-cache-retention-v1/receipt.json`).

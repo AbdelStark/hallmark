@@ -239,3 +239,47 @@ and does not bind the caller's new nonce; the classifier context does. This is
 a fresh verification of an existing inference proof, not fresh LLM proving.
 The synthetic CNN may block the ordinary question even when every proof is
 valid. Proof integrity is separate from classifier usefulness or policy release.
+
+
+## Audit the retained statistics
+
+The controller's local admission record pins the source commit. Its retention
+record and output receipt pin the complete archive. After a successful campaign,
+recompute the report without proving again:
+
+```bash
+uv run --locked --extra train python scripts/report_classifier_benchmark.py \
+  --archive runs/<hf-campaign>/benchmark/retained/outputs.tar.gz \
+  --expected-archive <your-retained-archive-sha256> \
+  --expected-commit <your-admitted-source-commit> \
+  --output runs/<new-byte-audit>
+```
+
+This streams and hashes the inventory, checks captured source/environment/input
+pins and all 144 serialized proof hashes, and recomputes every reported median,
+range and IQR from the 16 raw samples. It also extracts the small Circle enrollment
+and composition bundle needed by the fresh local checker. It is a byte/statistics
+audit, not another cryptographic verification or a security review.
+
+Then freshly check the retained composition, supplying the caller's request file
+from before upload and independently retained executable hashes:
+
+```bash
+uv run --locked --extra train python scripts/check_circle_composed.py \
+  --classifier-run runs/e2e-<your-run> \
+  --expected-enrollment <your-original-caller-pin> \
+  --owner-request runs/<hf-campaign>/composed-request.json \
+  --expected-request <your-pre-upload-request-sha256> \
+  --campaign runs/<new-byte-audit>/campaign \
+  --circle-verifier <your-admitted-Mac-circle-verify> \
+  --expected-circle-verifier <your-retained-circle-binary-sha256> \
+  --llm-verifier <your-admitted-Mac-zk-prover> \
+  --expected-llm-verifier <your-retained-native-binary-sha256> \
+  --llm-proof-directory <your-retained-69-file-LLM-proof-directory> \
+  --output runs/<new-composition-check>
+```
+
+Use your own retained pins; copying a digest from the untrusted proof bundle does
+not independently enroll it. The native executable must be the existing compiled
+shape/root verifier for this case. This check reuses its admitted build, not its
+old pass flag. It never supplies a checkpoint or witness to either proof verifier.
