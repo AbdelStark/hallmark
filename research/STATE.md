@@ -1,6 +1,18 @@
 # Research state
 
-Updated: 2026-10-26. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## README benchmark and onboarding refresh
+
+The README now leads with the recorded generated-kernel result: 53.94 s CUDA
+proving, 10.15× over same-host SIMD, and 155.89 s complete commands (4.36×).
+Timing boundaries, memory, proof size, fresh verification checks and raw evidence
+are adjacent to the headline. Quickstarts distinguish local classifiers, paid
+CPU inference proofs, paid GPU measurements and retained proof verification.
+The proof statement/diagram and source-ownership guides distinguish unchanged
+CPU Rust from generated/patched CUDA. This is documentation of the existing
+fixed-case evidence; runtime, protocol and numeric records remain unchanged.
+Local/distribution and delivery receipts are recorded in the ledger and PR.
 
 ## Generated CUDA constraint kernels — complete fixed-case trial
 
@@ -45,8 +57,9 @@ host-generation profile; its 1,710 CPU constraint fallback calls take 532.75
 seconds. Peak host RSS is 104.69/11.78 GB, with CUDA using 67.08 GiB VRAM.
 Both grids pass; the separate CPU suite accepts two honest checks and rejects
 14 mutations, and the native Mac suite accepts two and rejects 36. No hiding,
-hardware provenance or backend qualification is claimed. The next optimization
-candidate is generated CUDA constraint kernels, not an implemented result.
+hardware provenance or backend qualification is claimed. At this baseline,
+generated CUDA constraint kernels were an unimplemented optimization candidate;
+the later completed trial is recorded above.
 
 The full retained-preparation benchmark takes 3,372.34 seconds. Running-compute
 estimates are $2.52 for the successful run and $5.37 across all attempts, not
