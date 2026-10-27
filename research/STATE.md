@@ -4,6 +4,9 @@ Updated: 2026-10-27. Phase: MIT-licensed research software in a public repositor
 
 ## Public documentation site and badges
 
+The README also reuses the homepage's proof-flow SVG below its introduction,
+linked to the detailed LLM statement. No duplicate asset is added.
+
 The [site](https://abdelstark.github.io/hallmark/) is deployed. A copy-edit pass
 under the owner's `no-ai-slop` request replaces homepage slogans and repetitive
 learning-page framing with specific computations, commands and checks. Existing
