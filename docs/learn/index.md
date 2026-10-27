@@ -1,11 +1,8 @@
 # Learn verifiable inference
 
-You do not need to start with a proof-system paper. Start with a computation
-whose result another person wants to check.
-
-Hallmark gives you two concrete examples: a short pretrained LLM response and
-a classifier decision. This path builds the vocabulary needed to read their
-proof statements, run them, and understand what their evidence leaves open.
+These four chapters explain the proofs for Hallmark's short TinyLlama response
+and classifier decisions: what they establish, how to run them, and which
+questions they leave unanswered. No cryptography background is assumed.
 
 | Step | Question | What you will be able to do |
 |---|---|---|
@@ -14,7 +11,7 @@ proof statements, run them, and understand what their evidence leaves open.
 | **3. [Two proof systems](proof-systems.md)** | Why Circle STARKs here and Groth16 there? | Compare their roles without confusing unlike workloads |
 | **4. [Verify one request](one-request.md)** | How do the pieces meet? | Follow the three classifier cases and the composed LLM request |
 
-## The smallest useful vocabulary
+## Vocabulary {#the-smallest-useful-vocabulary}
 
 **Statement**
 : The precise claim being checked, including the expected model, input and output.
@@ -42,9 +39,10 @@ proof statements, run them, and understand what their evidence leaves open.
     [Choose a workflow](../START.md). The software smoke test needs no GPU or account.
     The local classifier workflow produces real proofs; the smoke test does not.
 
-## A reading habit worth keeping
+## Reading a benchmark {#a-reading-habit-worth-keeping}
 
-For every result, ask: **Which computation? Which expected inputs? Which
-verifier? Which measurement boundary?** Keep the answer with the number.
+For each timing, check which computation and inputs were used, which verifier
+ran, and which stages the measurement includes. Hallmark's 53.94 s GPU figure
+covers summed proving stages; preparation and verification take additional time.
 
 Continue with [from inference to a claim](computation-and-claims.md).

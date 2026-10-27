@@ -4,24 +4,24 @@
   <p class="hm-eyebrow">Hallmark / Open research in verifiable inference</p>
   <div class="hm-hero-grid">
     <div class="hm-hero-copy">
-      <h1 id="hm-title">Inference,<br><em>with evidence.</em></h1>
-      <p class="hm-deck">A complete LLM response. Exact classifier decisions. Cryptographic proofs you can reproduce and inspect.</p>
+      <h1 id="hm-title">Prove<br><em>LLM inference.</em></h1>
+      <p class="hm-deck">Generate and verify proofs for a fixed TinyLlama-1.1B response and rule, MLP and CNN classifier decisions.</p>
       <div class="hm-actions">
         <a class="hm-button" href="{{ 'docs/START/' | url }}">Run a workflow <span aria-hidden="true">↗</span></a>
         <a class="hm-text-link" href="{{ 'docs/learn/' | url }}">Understand the proof <span aria-hidden="true">→</span></a>
       </div>
-      <p class="hm-scope">Specialized inference proofs · Public-witness integrity<br>Fixed-case research MVP · MIT licensed</p>
+      <p class="hm-scope">Fixed model and prompt · Public witnesses<br>Research software · MIT licensed</p>
     </div>
     <figure class="hm-proof-figure">
       <img src="{{ 'assets/proof-path.svg' | url }}" width="520" height="430" alt="The caller pins the model and token case; 22 transformer layers and the output head produce 23 proof segments; the verifier checks every proof and their links.">
-      <figcaption>One response. Every layer. Through the final EOS token.</figcaption>
+      <figcaption>23 linked proof segments cover the response through EOS.</figcaption>
     </figure>
   </div>
 </section>
 <aside class="hm-observation" aria-label="Recorded GPU result">
   <span class="hm-eyebrow">Recorded on H200</span>
   <p><strong>53.94 s</strong> summed CUDA proving.<br><span>10.15× over same-host SIMD, across all 23 segments.</span></p>
-  <a href="{{ 'docs/GPU-BENCHMARK/#generated-constraint-result' | url }}">Read the measurement & its limits <span aria-hidden="true">→</span></a>
+  <a href="{{ 'docs/GPU-BENCHMARK/#generated-constraint-result' | url }}">Benchmark methods and results <span aria-hidden="true">→</span></a>
 </aside>
 {{ page.content }}
 {% endblock %}

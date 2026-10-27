@@ -4964,3 +4964,26 @@ The existing `test_make_keeps_validation_as_default` caught an initial target-or
 regression in the draft Makefile. Moving docs targets after `check` preserves
 plain `make`; the focused demo/staging suite passes before the final core rerun.
 This failure and rerun use separate logs.
+
+## 2026-10-27 — Documentation copy edit
+
+Owner request: apply `no-ai-slop` to the docsite. Baseline main is
+`22ccea29c9ee8448c01322f05154071b213da988`. Hypothesis: replacing slogans,
+metacommentary and compressed protocol jargon with named computations and
+checks will make the entry pages easier to read without changing their claims.
+Mutable paths: homepage Markdown/template, site metadata, workflow chooser,
+learning chapters, research evidence map, the homepage presence assertion and
+these records. Proof code, model/data/evaluator files, dependency locks, numeric
+evidence and dated research decisions are frozen.
+
+The pass removes stacked fragments from the hero/caption, names the fixed
+TinyLlama case and classifier workflows, explains caller enrollment in ordinary
+language, and cuts passages that repeat their own lesson. Benchmark stage
+boundaries and privacy/provenance limits remain explicit. Renamed sections keep
+their original anchor IDs. The homepage checker now checks its heading element
+rather than a slogan. No new copy-specific tests or runtime features are added.
+
+The edited source is reviewed against the skill's `eval.md`: meaning, technical
+detail and document order preserved; generic framing, decorative emphasis and
+repeated contrasts cut. Local validation and exact-head hosted/deployment
+receipts are recorded on the delivery PR. No new research measurement is run.

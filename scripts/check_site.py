@@ -64,7 +64,7 @@ def main():
     if errors:
         raise SystemExit("\n".join(errors[:80]))
     home = (root / "index.html").read_text()
-    assert "Inference," in home and "53.94" in home
+    assert 'id="hm-title"' in home and "53.94" in home
     assert "huggingface.co/abdelstark/hallmark-byte-mlp" in home
     assert "huggingface.co/abdelstark/hallmark-contextual-byte-cnn" in home
     assert (root / "assets/build.json").is_file()

@@ -4,6 +4,12 @@ Updated: 2026-10-27. Phase: MIT-licensed research software in a public repositor
 
 ## Public documentation site and badges
 
+The [site](https://abdelstark.github.io/hallmark/) is deployed. A copy-edit pass
+under the owner's `no-ai-slop` request replaces homepage slogans and repetitive
+learning-page framing with specific computations, commands and checks. Existing
+section anchors remain available. Proof relations, measurements, model files and
+historical evidence are unchanged; validation and delivery receipts follow on PR.
+
 The owner requested a GitHub Pages documentation site and `for-the-badge` header
 badges, including both published Hugging Face models. The candidate site adds
 an editorial homepage, four educational chapters, a workflow chooser, searchable
