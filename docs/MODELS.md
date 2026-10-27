@@ -18,6 +18,14 @@ The literal rule has no trained weights; TinyLlama remains an
 [upstream model](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0), not a
 Hallmark-trained release.
 
+The frozen MLP always allows within the 96-byte proof-demo domain: a
+[conservative integer bound](../research/evidence/mlp-domain-bound-2026-10-27.json)
+places every admitted score in [−5600, −2338], below threshold 0. Its complete
+arithmetic remains a proof-pipeline baseline; it is not a useful filter at this
+length limit. The rule and CNN provide block controls.
+[Follow-up #131](https://github.com/AbdelStark/hallmark/issues/131) tracks a new
+model-quality experiment without changing the frozen comparison or release.
+
 ## Download and run
 
 From the Hallmark checkout, using uv 0.9.18 and Python 3.12:

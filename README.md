@@ -98,6 +98,11 @@ is bound into their context, not classified. Training history is not proved.
 The classifier caller currently reruns native inference to derive expected
 verdicts, so this demo does not establish a verification saving over native rerun.
 
+The frozen MLP always allows within the 96-byte demo limit; its
+[integer score bound](research/evidence/mlp-domain-bound-2026-10-27.json) is
+[−5600, −2338] against threshold 0. It exercises full MLP arithmetic, while the
+rule and CNN supply block controls. [Model limits](docs/MODELS.md).
+
 The LLM uses disclosed mixed quantization, `y-attnout-w12`; it is not a proof
 of equivalence to the original floating-point model. The 23 segments form a linked
 bundle, not a single recursive proof. Composition also joins proofs in host code.

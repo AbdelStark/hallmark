@@ -78,6 +78,29 @@ counts, biased signed threshold and verdict. Its M31 transport splits the
 32-bit threshold into two 16-bit limbs and adds public zero/one wires. It does
 not reduce 32-bit transport values modulo M31.
 
+## MLP decision limitation
+
+The frozen seed-17 MLP always returns allow in the admitted 96-byte domain.
+Its quantization is unchanged. An independent interval relaxation over all
+nonnegative byte-count vectors with sum at most 96 gives hidden ReLU ranges
+[0,1], [0,14], [221,320], [0,14], output accumulator [−22399,−9351], and
+ties-to-even score [−5600,−2338]. The score remains strictly below threshold 0.
+This includes all valid UTF-8 inputs, not only the benchmark examples.
+
+The [numeric certificate](../research/evidence/mlp-domain-bound-2026-10-27.json)
+pins the quantization, canonical model, analysis source and native program.
+[The checker](../scripts/check_classifier_bounds.py) reproduces it using exact
+rational rounding; four tests include exhaustive small-domain cases. It is a
+conservative bound, not a tight optimization result, test-set evaluation or
+cryptographic proof. Do not fabricate an MLP block case or retune the frozen
+threshold. The combined workflow has actual allow/block controls through the
+rule and CNN. [Follow-up #131](https://github.com/AbdelStark/hallmark/issues/131)
+keeps new model training separate from this backend comparison.
+
+The STARK still constrains every MLP operation and its input commitment. A
+constant decision over this domain does not imply constant intermediate values
+or establish classifier quality.
+
 ## What the caller checks
 
 The caller admits the frozen exports, creates the expected request, enrolls the

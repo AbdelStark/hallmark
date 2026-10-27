@@ -5208,3 +5208,18 @@ receipt is in the classifier acceptance evidence before the full campaign.
 The final small gate-AIR run (`runs/circle-api-final-v1`) freshly verifies one
 165,306-byte proof and rejects all six API mutations, including noncanonical M31.
 This adds no classifier-support claim to that small fixture.
+
+
+The acceptance review finds a model-domain limitation without changing the
+running benchmark: the frozen MLP is always-allow for all inputs up to 96 bytes.
+Store `research/evidence/mlp-domain-bound-2026-10-27.json` before prose. Independent
+interval relaxation with exact rational ties-to-even rounding gives score
+[−5600,−2338] at threshold 0; the larger byte-count relaxation includes every
+valid UTF-8 input. Four analytical tests pass, including exhaustive two-byte
+small-domain combinations. This is not a tight bound, held-out evaluation or
+cryptographic proof. Full MLP arithmetic remains constrained; actual workflow
+block controls come from rule/CNN. Issue #131 tracks a separate useful-model
+experiment; it is not a dependency or change to #112's frozen comparison.
+README, guide and local model card disclose the limitation. Original Hub tags
+and artifact bytes remain unchanged; a documentation-only model-card clarification
+will be published separately with new manifest/revision receipts.
