@@ -67,6 +67,7 @@
   ],
   "authority": "Owner explicitly requested complete Circle headline numbers and publication of actual reference proofs, logs and machines in a GitHub Discussion.",
   "baseline": "9bea024dc7d4604f17d53c915b64bc4a23c408b5",
+  "baseline_scope": "Repository baseline for the documentation/packaging change, not the measured commit of every historical component.",
   "cache_cleanup": [
     {
       "kept_binary_sha256": {
@@ -114,6 +115,13 @@
       "removed_cache_bytes": 359563264
     }
   ],
+  "component_sources": {
+    "classifier_controller": "9bea024dc7d4604f17d53c915b64bc4a23c408b5 plus exact timing observer snapshot",
+    "composition": "f613c611cefa9037320082b73777f26c9ec45990 plus archived per-file source snapshot",
+    "llm_generated_build_controller": "74bc2db33df5cf4d1e5a5b101b30fecba122960f",
+    "llm_measurement_controller": "ef09216eabee044c24209f555df39e277ee6dfaa",
+    "sash_upstream": "eb95bfa887299d1637550228d42086c27cbb2b3b"
+  },
   "concrete_parameters": {
     "circle": {
       "fri_config": {
@@ -134,7 +142,7 @@
       "pow_bits": 0
     }
   },
-  "discussion_body_sha256": "edbfb4132d4918e491e0805844a024ffbbdb8dfbc314afab32b6e29672245c68",
+  "discussion_body_sha256": "eba968e4459cb6e1ec0f3741c6e5e4745a53c4555e3db98090c80bcb7eaf857b",
   "discussion_url": "https://github.com/AbdelStark/hallmark/discussions/133",
   "duplicate_cleanup": {
     "public_archives_and_original_run_inputs_retained": true,

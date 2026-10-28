@@ -158,7 +158,8 @@ is host composition, with no recursive proof, hiding or hardware claim.
 ## Download and verify
 
 The artifact release is a **research proof collection**, not a qualified
-software release. Its tag identifies the measured prover baseline. Use a checkout
+software release. Its tag identifies the repository baseline before this
+reference-documentation change; it is not every component’s measured commit. Use a checkout
 containing this guide and `scripts/verify_reference.py`; the Discussion pins the
 verification utility’s publication commit. No weights, witnesses, trusted remote
 executable or HF credential are needed. Native verification requires the
@@ -203,6 +204,25 @@ uv run --locked python scripts/reference_report.py \
   --records runs/reference-verify-<your-run>/records \
   --output runs/recomputed-reference-metrics.json
 ```
+
+## Source identities by component
+
+The manifest’s `source_commit` is the **repository baseline for packaging this
+collection**, not a statement that every historical component ran at that commit.
+
+| Component | Captured source |
+|---|---|
+| L1 measurement controller | Hallmark `ef09216eabee044c24209f555df39e277ee6dfaa` |
+| L1 generated-kernel build controller | Hallmark `74bc2db33df5cf4d1e5a5b101b30fecba122960f` |
+| L1 underlying SASH source | `eb95bfa887299d1637550228d42086c27cbb2b3b`; unchanged SIMD, inventoried generated CUDA patch |
+| C1 default controller | Repository baseline `9bea024dc7d4604f17d53c915b64bc4a23c408b5`, with the new timing observer captured byte for byte before execution; `timing/protocol.json` pins every tracked pipeline file |
+| J1 Circle-default composition | Pre-merge baseline `f613c611cefa9037320082b73777f26c9ec45990` plus the archived per-file source snapshot in `composition/protocol.json`; these are the default changes later merged as `9bea024` |
+| Public verification utility | Hallmark `5fe56cdb459366850e83162769f8373451131b7d`; crypto source identities are checked independently of the documentation commit |
+
+Binary hashes, patches, model revisions, graph/preprocessing roots and concrete
+parameters are retained with their own runs. Per-file snapshots identify local
+changes; a bare commit label alone would not reproduce an uncommitted observer
+or pre-merge controller. None of the historical measurement files is rewritten.
 
 ## Concrete proof parameters
 
