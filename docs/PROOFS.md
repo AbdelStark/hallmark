@@ -13,6 +13,8 @@ comparison. Both paths establish the following logical relation.
 **For a fixed integer classifier and a particular prompt, the proof checks that
 running that classifier on those bytes gives the stated pass/block verdict.**
 
+![What one classifier proof states: a witness of prompt bytes, salt and intermediate values; four constrained steps (complete input, SHA-256 commitment, integer classifier, threshold decision); a public statement of 100 fields.](assets/figures/classifier-statement.svg)
+
 That is the claim exercised by [`make e2e`](DEMO.md). The demo makes three proofs
 per request: one for a literal rule, one for a trained MLP and one for a trained
 CNN. A separate verifier checks each proof. The caller then combines their
@@ -37,6 +39,8 @@ If the same model blocks a prompt, that computation can also have a valid proof.
 **Proof validity and classifier approval are separate outcomes.** In the demo,
 `cnn-block` and `rule-block` both have three valid proofs and `release: false`.
 A bad proof causes the run to fail; a correctly proved block is an expected result.
+
+![Nine proofs, nine verdicts: the allow request passes all three classifiers; the CNN blocks the contextual case; the rule blocks the BAD-prefixed case. Every proof verifies.](assets/figures/verdict-matrix.svg)
 
 ## The statement checked by a circuit
 
@@ -128,6 +132,8 @@ See the [matched report](CLASSIFIER-BENCHMARK.md), rather than mixing its
 405-case arithmetic count with Circle’s default rejection counts.
 
 ## What a successful run does not prove
+
+![Three columns: what is proved by the STARK, what the caller checks, and what is not claimed.](assets/figures/trust-boundary.svg)
 
 - **LLM inference provenance.** No LLM is run. The response is authored fixture
   text. Its bytes and a model-identity reference are included in the caller's

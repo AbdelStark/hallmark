@@ -14,6 +14,7 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 
 | Document | Purpose |
 |---|---|
+| [Performance](PERFORMANCE.md) | Every measurement with its run, machine and timer boundary; how the timers nest; what was never measured |
 | [Architecture and proof flows](ARCHITECTURE.md) | Make target matrix, classifier/LLM/composition diagrams, exact proof boundaries, SASH source/patch ownership and backend trade-offs |
 | [MVP scope and acceptance](MVP.md) | Completed fixed-case integrity scope, evidence matrix and deferred v1 roadmap |
 | [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |

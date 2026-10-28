@@ -15,6 +15,8 @@ JSON is not a public download of those proof files.
 
 ## Measurements and boundaries
 
+![Circle classifier proving on one A100: CUDA runs the nine prover commands 4.16× faster, 92.41 s to 22.22 s; per classifier, rule 7.659 to 2.049 s, MLP 7.660 to 2.109 s, CNN 15.567 to 3.205 s.](assets/figures/perf-classifier-gpu.svg)
+
 HF `a100-large`: one NVIDIA A100-SXM4-80GB, driver 580.178.04, native `sm_80`;
 Intel Xeon Platinum 8275CL. Provider allocation is 12 vCPUs / 142 GB RAM. The
 guest exposes 96 logical CPUs, but its CPU quota is 12 CPUs and memory cgroup

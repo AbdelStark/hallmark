@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 462" width="960" height="462" role="img" aria-labelledby="t d">
+<title id="t">The TinyLlama workflow, stage by stage</title>
+<desc id="d">Local preparation on a Mac, then three sequential Hugging Face CPU jobs build the prover, prove 23 segments and verify them in fresh processes; an optional native verifier rechecks the bundle on the Mac.</desc>
+<style>svg{--bg:#f7f4ec;--panel:#fffdf8;--ink:#203c35;--text:#2b3d36;--muted:#5b6860;--faint:#8d988f;--line:#d4d9cc;--grid:#e4e6dc;--soft:#ebede2;--soft2:#dde3d4;--layer:#c9d8cb;--accent:#b5532f;--accent-soft:#f4e0d6;--proved:#2e6b52;--proved-soft:#e2ece3;--caller:#94680f;--caller-soft:#f5ebcf;--out:#8d988f;--out-soft:#efeee7;--s1:#3a6fb0;--s2:#c8602f;--s3:#249c70;--s4:#d9a01c;--cpu:#a3aba4}@media (prefers-color-scheme:dark){svg{--bg:#172822;--panel:#1c3029;--ink:#e6ebdc;--text:#d9e2d4;--muted:#a7b6a9;--faint:#7d8c80;--line:#3a4d41;--grid:#26392f;--soft:#22372d;--soft2:#2b4337;--layer:#33503f;--accent:#f0b398;--accent-soft:#4a2e24;--proved:#86c9a6;--proved-soft:#1f3d2e;--caller:#e2b85c;--caller-soft:#3a3320;--out:#7d8c80;--out-soft:#203029;--s1:#4f86c9;--s2:#d26a3a;--s3:#2aa577;--s4:#b98c18;--cpu:#66756a}}text{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--text);font-size:14px}.e{font-size:11px;font-weight:700;letter-spacing:.13em;fill:var(--muted)}.h{font-size:20px;font-weight:600;fill:var(--ink);letter-spacing:-.01em}.b{font-size:14px}.bs{font-size:13px}.s{font-size:12px;fill:var(--muted)}.bb{font-size:14px;font-weight:650;fill:var(--ink)}.hb{font-size:16px;font-weight:650;fill:var(--ink)}.m{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}.mb{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:700;fill:var(--ink)}.mbig{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:18px;font-weight:600;fill:var(--ink)}.big{font-size:24px;font-weight:600;fill:var(--ink)}.acc{fill:var(--accent)}.ink{fill:var(--ink)}.mut{fill:var(--muted)}.prv{fill:var(--proved)}.cal{fill:var(--caller)}.w{font-weight:650}.onw{fill:#ffffff}.ond{fill:#1d1a10}.f-bg{fill:var(--bg)}.k-bg{stroke:var(--bg)}.f-panel{fill:var(--panel)}.k-panel{stroke:var(--panel)}.f-ink{fill:var(--ink)}.k-ink{stroke:var(--ink)}.f-text{fill:var(--text)}.k-text{stroke:var(--text)}.f-muted{fill:var(--muted)}.k-muted{stroke:var(--muted)}.f-faint{fill:var(--faint)}.k-faint{stroke:var(--faint)}.f-line{fill:var(--line)}.k-line{stroke:var(--line)}.f-grid{fill:var(--grid)}.k-grid{stroke:var(--grid)}.f-soft{fill:var(--soft)}.k-soft{stroke:var(--soft)}.f-soft2{fill:var(--soft2)}.k-soft2{stroke:var(--soft2)}.f-layer{fill:var(--layer)}.k-layer{stroke:var(--layer)}.f-accent{fill:var(--accent)}.k-accent{stroke:var(--accent)}.f-accent_soft{fill:var(--accent-soft)}.k-accent_soft{stroke:var(--accent-soft)}.f-proved{fill:var(--proved)}.k-proved{stroke:var(--proved)}.f-proved_soft{fill:var(--proved-soft)}.k-proved_soft{stroke:var(--proved-soft)}.f-caller{fill:var(--caller)}.k-caller{stroke:var(--caller)}.f-caller_soft{fill:var(--caller-soft)}.k-caller_soft{stroke:var(--caller-soft)}.f-out{fill:var(--out)}.k-out{stroke:var(--out)}.f-out_soft{fill:var(--out-soft)}.k-out_soft{stroke:var(--out-soft)}.f-s1{fill:var(--s1)}.k-s1{stroke:var(--s1)}.f-s2{fill:var(--s2)}.k-s2{stroke:var(--s2)}.f-s3{fill:var(--s3)}.k-s3{stroke:var(--s3)}.f-s4{fill:var(--s4)}.k-s4{stroke:var(--s4)}.f-cpu{fill:var(--cpu)}.k-cpu{stroke:var(--cpu)}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-faint"/></marker><marker id="ai" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect width="960" height="462" rx="10" class="f-bg"/>
+<text x="40" y="44" class="e">MAKE E2E-LLM · STAGE BY STAGE</text>
+<text x="40" y="72" class="h">Prepare locally, build, prove and verify in three cloud jobs</text>
+<rect x="40" y="104" width="160" height="218" class="f-caller_soft k-caller" rx="8" stroke-width="1"/>
+<text x="54" y="126" class="e">YOUR MAC</text>
+<text x="54" y="154" class="hb">Prepare</text>
+<text x="54" y="178" class="bs"><tspan x="54" dy="0">Fetch the pinned</tspan><tspan x="54" dy="17">2.2 GB checkpoint</tspan><tspan x="54" dy="17">Quantize, decode,</tspan><tspan x="54" dy="17">extract witnesses</tspan></text>
+<path d="M54 258L186 258" class="k-line" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="54" y="284" class="mbig">32.22 s</text>
+<text x="54" y="304" class="s">preparation only</text>
+<path d="M202 213L217 213" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<rect x="220" y="104" width="160" height="218" class="f-panel k-line" rx="8" stroke-width="1"/>
+<text x="234" y="126" class="e">HF CPU · 8 vCPU</text>
+<text x="234" y="154" class="hb">Build</text>
+<text x="234" y="178" class="bs"><tspan x="234" dy="0">Pinned SASH prover,</tspan><tspan x="234" dy="17">unchanged source</tspan><tspan x="234" dy="17">6 upstream tests</tspan><tspan x="234" dy="17">Binary feeds 2 and 3</tspan></text>
+<path d="M234 258L366 258" class="k-line" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="234" y="284" class="mbig">560.40 s</text>
+<text x="234" y="304" class="s">job running time</text>
+<path d="M382 213L397 213" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<rect x="400" y="104" width="160" height="218" class="f-panel k-line" rx="8" stroke-width="1"/>
+<text x="414" y="126" class="e">HF CPU · 32 vCPU</text>
+<text x="414" y="154" class="hb">Prove</text>
+<text x="414" y="178" class="bs"><tspan x="414" dy="0">Derive model roots,</tspan><tspan x="414" dy="17">match enrollment</tspan><tspan x="414" dy="17">Prove 23 segments</tspan><tspan x="414" dy="17">and serialize</tspan></text>
+<path d="M414 258L546 258" class="k-line" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="414" y="284" class="mbig">533.64 s</text>
+<text x="414" y="304" class="s">328.46 s proving inside</text>
+<path d="M562 213L577 213" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<rect x="580" y="104" width="160" height="218" class="f-panel k-line" rx="8" stroke-width="1"/>
+<text x="594" y="126" class="e">HF CPU · 8 vCPU</text>
+<text x="594" y="154" class="hb">Verify</text>
+<text x="594" y="178" class="bs"><tspan x="594" dy="0">Two fresh verifier</tspan><tspan x="594" dy="17">processes, whole</tspan><tspan x="594" dy="17">bundle; reject 14</tspan><tspan x="594" dy="17">changed claims</tspan></text>
+<path d="M594 258L726 258" class="k-line" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="594" y="284" class="mbig">80.1 / 78.4 s</text>
+<text x="594" y="304" class="s">per honest check</text>
+<path d="M742 213L757 213" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<rect x="760" y="104" width="160" height="218" class="f-caller_soft k-caller" rx="8" stroke-width="1"/>
+<text x="774" y="126" class="e">MAC · OPTIONAL</text>
+<text x="774" y="154" class="hb">Verify natively</text>
+<text x="774" y="178" class="bs"><tspan x="774" dy="0">Roots compiled in</tspan><tspan x="774" dy="17">2 honest checks</tspan><tspan x="774" dy="17">36 rejections</tspan></text>
+<path d="M774 258L906 258" class="k-line" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="774" y="284" class="mbig">3.40 / 3.53 s</text>
+<text x="774" y="304" class="s">per check, L1 postflight</text>
+<path d="M120 324V344H480V326" class="k-faint" fill="none" stroke-width="1.2" marker-end="url(#a)" stroke-linecap="round"/>
+<text x="300" y="360" class="s" text-anchor="middle">witnesses + public case</text>
+<path d="M480 324V380H660V326M660 380H840V326" class="k-proved" fill="none" stroke-width="1.2" marker-end="url(#a)" stroke-linecap="round"/>
+<text x="660" y="396" class="s" text-anchor="middle">proofs + statements + claims only — no weights, no witness</text>
+<text x="40" y="424" class="s"><tspan x="40" dy="0">Stages 1–4: the fresh one-command reproduction of 2026-10-23, 31 min 15 s end to end, compute bound $0.31 (not an invoice). All 69</tspan><tspan x="40" dy="16">proof, statement and claim files are byte-identical to the accepted bundle. Stage 5 timings are from the L1 postflight.</tspan></text>
+</svg>

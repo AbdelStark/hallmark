@@ -1,11 +1,25 @@
 # Architecture: what runs, what is proved
 
-Hallmark defaults to **Circle STARK**: SASH for quantized TinyLlama inference,
-direct STWO for rule/MLP/CNN classifiers. The composed workflow freshly checks
-both against one caller-owned request in host code; it does not recursively
-aggregate proofs. Gnark/Groth16 remains an explicit comparison backend.
-[Decision 0085](decisions/0085-circle-default.md) changes the operational default,
-not the models, arithmetic, historical measurements or research qualification.
+Hallmark has two provers and one verifier role. **SASH** proves quantized
+TinyLlama inference; **direct STWO** proves the rule, MLP and CNN classifiers.
+Both are Circle STARKs. The caller pins every model, program and parameter
+before proving, and the verifier checks each proof against those pins. The
+composed workflow then checks, in host code, that both proofs refer to the same
+request; it does not aggregate them recursively. Gnark/Groth16 remains an
+explicit comparison backend. [Decision 0085](decisions/0085-circle-default.md)
+changed the default, not the models, arithmetic, historical measurements or
+research status.
+
+![How Hallmark works: the caller pins roots, programs and the request; SASH proves the TinyLlama answer as 23 linked segments and STWO proves three classifier verdicts; the verifier checks every proof and that both name the same request.](assets/figures/overview.svg)
+
+Three roles, kept apart on purpose:
+
+- **Caller.** Owns the expected request and enrolls model roots, programs and
+  proof parameters before any proof exists. Enrollment is the trust anchor.
+- **Prover.** Runs the computation, builds the witness and produces proofs. It
+  is trusted with nothing; a root it supplies by itself proves nothing.
+- **Verifier.** Receives proofs, the caller's enrollment and public inputs.
+  Never weights, witnesses or native traces.
 
 ## Choose the workflow
 
@@ -27,6 +41,14 @@ host witness-generation paths, generated CUDA constraints, strict zero-fallback
 checks, device sampling and cache policy.
 
 ## Classifiers: `make e2e`
+
+![The classifier workflow: train, export, compile and enroll once; then build the witness, prove with STWO, verify in a fresh process and bind the result, nine times.](assets/figures/classifier-pipeline.svg)
+
+Each of the nine proofs states the same thing about one prompt and one classifier:
+
+![What one classifier proof states: a witness of prompt bytes, salt and intermediate values; four constrained steps; a public statement of 100 fields.](assets/figures/classifier-statement.svg)
+
+The detailed data flow, including where caller inputs enter:
 
 ```mermaid
 flowchart TD
@@ -136,6 +158,10 @@ setup, not an independently reviewed ceremony.
 
 ## LLM: `make e2e-llm`
 
+![The TinyLlama workflow: prepare on a Mac, then three Hugging Face CPU jobs build the prover, prove 23 segments and verify them; an optional native verifier rechecks on the Mac.](assets/figures/llm-pipeline.svg)
+
+The detailed data flow:
+
 ```mermaid
 flowchart TD
     M[Pinned TinyLlama checkpoint and tokenizer] --> N[Mac: quantized greedy generation and witness extraction]
@@ -164,6 +190,8 @@ Paris.” and EOS. One 32-position input block contains the prompt plus the firs
 seven generated tokens. Output positions 24–31 produce those eight next-token
 IDs. Verification checks the seven generated-input/previous-argmax equalities,
 closing the autoregressive chain through EOS.
+
+![What the TinyLlama proof covers: a 32-position input block, 23 segment proofs stacked as layers, the output head's argmax at positions 24 to 31, and seven links feeding each output back as the next input.](assets/figures/llm-statement.svg)
 
 The bundle covers all 22 transformer layers plus the final normalization/output
 head: **23 segments and 22 residual links**. Embedding is bound in the first
@@ -209,6 +237,8 @@ witness-hiding claim. The retained fresh run's serialized proof files total
 [Recorded results](LLM-PROOF.md#measured-results) give the measurement context.
 
 ## Composition: one request, two verified relations
+
+![Composition: the opened request feeds a freshly verified 23-segment LLM bundle and three new classifier proofs; a host join checks they share the request and rejects 16 changed bindings.](assets/figures/composition.svg)
 
 ```mermaid
 flowchart LR

@@ -1,41 +1,41 @@
 # A proved TinyLlama response
 
-To check this response together with three classifier proofs over the exact same
-opened request, use [the composed demo](COMPOSED-DEMO.md): `make e2e-composed`.
-
-Hallmark has verified a complete short response from a **pretrained, quantized
-TinyLlama-1.1B-Chat-v1.0** using SASH's specialized Circle STARK prover. It uses
-neither a general-purpose zkVM nor hardware attestation.
-
-For the complete flow, read [the LLM architecture diagram](ARCHITECTURE.md#llm-make-e2e-llm)
-and [how SASH is integrated](ARCHITECTURE.md#how-sash-is-integrated). Hallmark
-downloads pinned upstream source and invokes its real Rust prover/verifier
-through CLI adapters. The Linux CPU Rust binary is built without source
-changes; local witness preparation and the optional native Mac verifier have
-separate, explicit patches. A fresh SASH process is not an independently
-implemented verifier.
-
-The separate [GPU benchmark](GPU-BENCHMARK.md#generated-constraint-result) adds
-generated CUDA constraint kernels and a strict fallback guard. Its matched
-H200 pair measures **547.75 s SIMD / 53.94 s CUDA** summed proving (10.15×);
-this is a different host and timing boundary from the fresh CPU workflow below.
-
 ```text
 Prompt:   Name the capital of France in one short sentence.
 Response: The capital of France is Paris.
 ```
 
-The answer has eight tokens, including EOS. All 23 proof segments and all 22
-connections between layers verify against roots enrolled before proving.
-[Raw results and hashes](../research/evidence/llm-response-composition-2026-10-23.json)
-retain the failed first composition as well as the corrected result.
+Hallmark proves that a **pretrained, quantized TinyLlama-1.1B-Chat-v1.0**
+computes this response, greedily and token by token, through end-of-sequence.
+The proof is a bundle of **23 SASH Circle STARK segments**, one per transformer
+layer plus one for the final norm and output head, joined by **22 residual
+links**. A verifier checks all of them against model, shape and calibration
+roots the caller enrolled before proving. No general-purpose zkVM or hardware
+attestation is involved.
 
-Run `make e2e-llm` to reproduce this fixed response with new witnesses and proofs.
-Preparation runs on your Mac; three bounded Hugging Face CPU jobs build, prove and
-verify. A fresh verifier worker receives no weights or witness. `make e2e` runs
-the separate [synthetic classifier workflow](DEMO.md).
+![What the TinyLlama proof covers: a 32-position input block, 23 segment proofs stacked as layers, the output head's argmax at positions 24 to 31, and seven links feeding each output back as the next input.](assets/figures/llm-statement.svg)
+
+| Read | For |
+|---|---|
+| [The statement](#the-statement) | Exactly what the proof establishes, token by token |
+| [What the caller checks](#what-the-caller-checks) | The bindings outside the circuit |
+| [Run it](#run-it) | `make e2e-llm`: fresh witnesses and proofs, three paid CPU jobs |
+| [Verify on your Mac](#verify-retained-proofs-on-your-mac) | `make verify-llm`: offline, no weights |
+| [Measured results](#measured-results) | Fresh CPU workflow and the earlier composition |
+| [GPU benchmark](GPU-BENCHMARK.md) | 547.75 s SIMD / 53.94 s CUDA proving session on one H200 |
+| [Composed demo](COMPOSED-DEMO.md) | The same request, plus three classifier proofs |
+
+Hallmark downloads pinned upstream SASH source and drives its real Rust prover
+and verifier through CLI adapters. The Linux CPU binary is built without source
+changes; local witness preparation and the optional native Mac verifier carry
+separate, explicit patches ([how SASH is integrated](ARCHITECTURE.md#how-sash-is-integrated)).
+A fresh SASH process is not an independently implemented verifier.
+[Raw results and hashes](../research/evidence/llm-response-composition-2026-10-23.json)
+keep the failed first composition as well as the corrected one.
 
 ## Run it
+
+![The TinyLlama workflow: prepare on a Mac, then three Hugging Face CPU jobs build the prover, prove 23 segments and verify them; an optional native verifier rechecks on the Mac.](assets/figures/llm-pipeline.svg)
 
 You need an **Apple Silicon Mac**, Git, Make, **uv 0.9.18**, at least **16 GiB free
 storage**, and a Hugging Face account with Jobs access and enough prepaid credits.
@@ -252,6 +252,9 @@ developed verifier or security audit. No trace blinding or witness-hiding claim
 is made.
 
 ## Measured results
+
+The [performance guide](PERFORMANCE.md) puts these numbers next to the H200
+measurements and explains each timer boundary.
 
 The [fresh one-command reproduction](../research/evidence/llm-e2e-reproduction-2026-10-23.json)
 completed in **31 minutes 15 seconds**, including downloads, local preparation,

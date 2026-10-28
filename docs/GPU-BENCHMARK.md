@@ -25,6 +25,10 @@ The clean H200 pair and fresh CPU/Mac mutation suites pass. See the
 Measured source is `ef09216eabee044c24209f555df39e277ee6dfaa`; the admitted
 generated build was produced at `74bc2db33df5cf4d1e5a5b101b30fecba122960f`.
 
+![TinyLlama proving on one H200: CUDA cuts the proving session from 547.75 s to 53.94 s (10.15×); complete segment commands go from 679.49 s to 155.89 s (4.36×); trace generation is unchanged.](assets/figures/perf-llm-gpu.svg)
+
+![Dumbbell chart, log scale: proving-session seconds per segment on CPU and GPU. Ratios range from 3.2× to 28.7×; segments L0 to L2 are much slower on CPU.](assets/figures/perf-llm-segments.svg)
+
 | Measurement | SIMD | Generated-constraint CUDA |
 |---|---:|---:|
 | Summed proving stages, 23 segments | 547.75 s | **53.94 s** |

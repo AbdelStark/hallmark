@@ -5589,3 +5589,28 @@ Validation after staging: `make check`, 2,613 passed / 50 optional-platform skip
 focused GPU/controller suite, 46 passed. Final `make check` passes 2,613 tests / 50 skips in 153.61 seconds; core
 packaging and strict docs gates pass (170 pages, 13,442 local links/assets).
 Exact-head hosted receipts are tracked on PR #135. Failed package gates remain local.
+
+## 2026-10-28: generated documentation figures and performance guide
+
+Documentation only; no measurement, proof relation, model, threshold or evidence
+record changes. `scripts/render_figures.py` (stdlib, no network) renders 14 SVGs
+into `docs/assets/figures/` from `circle-reference-2026-10-28.json`,
+`classifier-gpu-benchmark-2026-10-28.json`, `circle-classifiers-benchmark-2026-10-27.json`,
+`llm-e2e-reproduction-2026-10-23.json` and the fixed `response-case.json`.
+`tests/test_figures.py` fails on any stale figure. Chart palettes pass the
+categorical colour validator (lightness band, chroma floor, CVD separation)
+against both the light and dark surfaces.
+
+The new [performance guide](../docs/PERFORMANCE.md) names each run's machine and
+timer boundary and lists unmeasured quantities. Two derived values are labelled
+as such: L1's per-segment remainder (complete command minus trace, session and
+inline verification: 22.28 s SIMD / 35.41 s CUDA) and a sensitivity check
+showing that segments L0–L2 take 278.78 s of the 547.75 s SIMD session total
+(6.39× summed ratio without them, against the 10.15× headline). The record does
+not isolate why those SIMD segments are slower. `docs/learn/one-request.md` no
+longer describes the Groth16 flow as the default. The unused, outdated
+`docs/assets/classifier-pipeline.svg` is removed.
+
+Validation: `make check` passes 2,616 tests with 50 optional skips; strict docs
+build passes 171 pages / 13,804 local links and assets; `make package-check`
+passes with uv 0.9.18 after the system uv 0.13.6 stops the first attempt.

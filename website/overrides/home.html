@@ -5,23 +5,24 @@
   <div class="hm-hero-grid">
     <div class="hm-hero-copy">
       <h1 id="hm-title">Prove<br><em>LLM inference.</em></h1>
-      <p class="hm-deck">Prove a fixed TinyLlama-1.1B response and rule, MLP and CNN decisions with Circle STARKs. One default proof family, specialized circuits for each workload.</p>
+      <p class="hm-deck">A pinned TinyLlama-1.1B answers a question; 23 linked Circle STARK proofs show it computed every token. Three classifier verdicts on the same prompt get proofs of their own.</p>
       <div class="hm-actions">
         <a class="hm-button" href="{{ 'docs/START/' | url }}">Run a workflow <span aria-hidden="true">↗</span></a>
         <a class="hm-text-link" href="{{ 'docs/learn/' | url }}">Understand the proof <span aria-hidden="true">→</span></a>
       </div>
       <p class="hm-scope">Fixed model and prompt · Public witnesses<br>Research software · MIT licensed</p>
     </div>
-    <figure class="hm-proof-figure">
-      <img src="{{ 'assets/proof-path.svg' | url }}" width="520" height="430" alt="The caller pins the model and token case; 22 transformer layers and the output head produce 23 proof segments; the verifier checks every proof and their links.">
-      <figcaption>23 linked proof segments cover the response through EOS.</figcaption>
-    </figure>
+    <dl class="hm-stats" aria-label="Recorded reference measurements">
+      <div><dt>GPU proving session</dt><dd>53.94 s</dd><p>23 TinyLlama segments on one H200; 547.75 s on CPU</p></div>
+      <div><dt>LLM bundle check</dt><dd>3.40 s</dd><p>Native Mac verifier, roots compiled in; 3.40–3.53 s</p></div>
+      <div><dt>Nine classifier proofs</dt><dd>24.06 s</dd><p>Final STWO proving calls on an Apple M4 Max</p></div>
+      <div><dt>Nine verifications</dt><dd>0.807 s</dd><p>Fresh proof-only processes, same Mac</p></div>
+    </dl>
   </div>
+  <figure class="hm-wide-figure">
+    <img src="{{ 'docs/assets/figures/overview.svg' | url }}" width="960" height="452" alt="The caller pins roots, programs and the request; SASH proves the TinyLlama answer as 23 linked segments and STWO proves three classifier verdicts; the verifier checks every proof and that both name the same request.">
+    <figcaption>One request, two proved computations. Each number above has its own run and timer boundary: <a href="{{ 'docs/PERFORMANCE/' | url }}">read them in context</a>.</figcaption>
+  </figure>
 </section>
-<aside class="hm-observation" aria-label="Recorded GPU result">
-  <span class="hm-eyebrow">Circle STARK reference / H200</span>
-  <p><strong>53.94 s</strong> GPU proving-session time.<br><span>23 proofs · 737.86 MB proof JSON · 3.40–3.53 s compiled-root Mac verification.</span></p>
-  <a href="{{ 'docs/REFERENCE-RUN/' | url }}">Actual proofs, timings and machines <span aria-hidden="true">→</span></a>
-</aside>
 {{ page.content }}
 {% endblock %}
