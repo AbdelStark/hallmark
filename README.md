@@ -10,7 +10,7 @@
 [![Hugging Face: Byte MLP](https://img.shields.io/badge/Hugging%20Face-Byte%20MLP-ffd21e?style=for-the-badge&logo=huggingface&logoColor=203c35)](https://huggingface.co/abdelstark/hallmark-byte-mlp)
 [![Hugging Face: Contextual CNN](https://img.shields.io/badge/Hugging%20Face-Contextual%20CNN-ffd21e?style=for-the-badge&logo=huggingface&logoColor=203c35)](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn)
 
-[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [Models on Hugging Face](#published-models) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation site](https://abdelstark.github.io/hallmark/)
+[Quickstart](#quickstart) · [Benchmarks](#recorded-results-at-a-glance) · [Proof downloads](docs/REFERENCE-RUN.md#download-and-verify) · [Models on Hugging Face](#published-models) · [What is proved?](#what-exactly-is-proved) · [Architecture](docs/ARCHITECTURE.md) · [Documentation site](https://abdelstark.github.io/hallmark/)
 
 Hallmark proves a complete short response from a pinned, quantized
 **TinyLlama-1.1B** using **SASH Circle STARKs**, and proves rule, MLP and CNN
@@ -19,7 +19,13 @@ Circle is the default throughout the CLI and workbench; **gnark/Groth16** remain
 an explicit comparison backend. A composed demo
 binds both to the same caller-owned request.
 
-**53.94 s GPU proving · 10.15× over matched CPU · 23 verified segments through EOS.**
+**LLM · 23 Circle proofs · 53.94 s GPU proving session · 3.40–3.53 s compiled-root Mac verification · 737.86 MB proof JSON.**
+
+**Classifiers · 9 Circle proofs · 24.06 s final STWO proving · 0.807 s proof-only verifier processes · 18.06 MB proof JSON.**
+
+[Actual proofs, logs, machines and verification commands](docs/REFERENCE-RUN.md) ·
+[Reference artifacts](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28) ·
+[Reference Discussion](https://github.com/AbdelStark/hallmark/discussions/133)
 
 This is a working, fixed-case **research integrity MVP**. It uses specialized
 inference proofs, with no general-purpose zkVM or hardware attestation.
@@ -30,79 +36,107 @@ the current scope. See [acceptance and limits](docs/MVP.md).
 
 ## Recorded results at a glance
 
-### TinyLlama on H200: matched CPU / GPU
+Numbers below are from named Circle STARK component runs. **L1** is one retained
+H200 SIMD/CUDA pair; **C1** is a fresh Mac classifier controller; **J1** is retained
+LLM composition. They have different timing boundaries and are **not one measured
+fresh end-to-end latency**. MB/GB are decimal; GiB is binary.
+[Full stage tables and raw-file map](docs/REFERENCE-RUN.md).
 
-One CPU-then-CUDA pair on the **same H200 host**, using the same inputs, proof
-parameters and four Rayon threads, recorded on 2026-10-26:
+### L1 — TinyLlama-1.1B, complete eight-token response through EOS
 
-| Measurement | CPU / SIMD | GPU / CUDA | Observed speedup |
-|---|---:|---:|---:|
-| **Summed proving stages**, all 23 segments | 547.75 s | **53.94 s** | **10.15×** |
-| **Complete segment commands** | 679.49 s | **155.89 s** | **4.36×** |
-| Sampled peak host RSS, decimal GB | 103.75 GB | **8.07 GB** | — |
-| Sampled peak GPU memory | — | **67.67 GiB** | — |
+HF Jobs H200 profile: **one NVIDIA H200**, 23 provider vCPUs / 256 GB RAM,
+four Rayon threads, Linux x86_64. Same host, inputs and parameters, CPU then GPU,
+2026-10-26. All 23 proofs and 22 links verify; 69 proof/statement/claim files
+match byte for byte. Preparation and the generated-kernel build are reused.
 
-The CUDA build installs **77 generated constraint-kernel shapes** and records
-**1,710 GPU constraint evaluations with zero CPU fallback**. Witness and
-interaction generation remain on CPU. All **69 proof/statement/claim files
-match byte for byte**, and all segment, residual and generated-token links pass.
-
-| Proof and verification | Recorded result | Measurement boundary |
-|---|---:|---|
-| Proved response | **1.1B parameters · 8 tokens including EOS** | 22 transformer layers plus final normalization/output head; disclosed mixed quantization |
-| Serialized proofs | **738 MB** | 737,858,641 bytes across 23 proof files; excludes statements, claims and weights |
-| Native Mac verification | **3.40–3.53 s** | Per honest check after compilation on M4 Max; compiled caller-enrolled shape roots |
-| Fresh Linux CPU verification | **77.40–77.61 s** | Per honest check on an 8-vCPU / 32-GB worker; derives shape roots at runtime |
-| Complete GPU benchmark workflow | **34 min 47 s** | Reused preparation/build; both backends, grid checks, transfers and CPU/Mac verification |
-| Default classifier proof size | **1.91–2.16 MB/proof** | Circle canonical JSON; excludes enrollment and other evidence |
-
-Fresh CPU verification accepts two honest checks and rejects **14 mutations**;
-native Mac verification accepts two and rejects **36**. These share SASH's
-cryptographic implementation; they are not independently developed verifiers.
-Their preprocessing differs, so the Mac/Linux times are not a matched speedup.
-
-The GPU result is **one fixed-case observation**, with shared OS caches and a
-fixture-warmed driver, not a latency distribution. The 53.94 s figure excludes
-preparation, compilation, transfers and verification. The 155.89 s figure covers
-complete segment commands. The successful cached-build workflow has a **$1.76
-running-compute estimate**, not an invoice; the original build, failed telemetry
-attempt and successful rerun total **$3.37** by that measure.
-
-[Reproduce the GPU benchmark](docs/GPU-BENCHMARK.md#run-it) ·
-[Inspect raw numbers and hashes](research/evidence/llm-gpu-generated-constraints-2026-10-26.json) ·
-[Retained slower fallback baseline](docs/GPU-BENCHMARK.md#recorded-same-host-result)
-
-The separate [fresh CPU-only LLM workflow](docs/LLM-PROOF.md#measured-results)
-took **31 min 15 s**, including preparation and build, with **5 min 28 s** summed
-proving on a different 32-vCPU / 256-GB host. It is not the reference for the
-GPU speedup. The [historical mixed-backend composed workflow](docs/COMPOSED-DEMO.md#historical-gnark-composition-fresh-preparation)
-took **66 min 50 s**. Classifiers are a separate, much smaller workload.
-
-### Circle classifiers on CPU, with a gnark comparison
-
-One HF CPU allocation, the same frozen rule/MLP/CNN and three requests, four
-proving threads. Each workflow generates and verifies **nine proofs**:
-
-| Measurement | **STWO Circle STARK — default** | gnark/Groth16 — comparison |
+| All 23 proof segments | CPU / SIMD | GPU / CUDA |
 |---|---:|---:|
-| Fresh workflow median, 3 repetitions | **7.14 min** | 20.81 min |
-| Warm workflow median, 5 repetitions | **4.98 min** | 13.02 min |
-| Maximum sampled process-tree RSS | **19.96 GB** | 2.65 GB |
-| Serialized proof, across all cases | **1.91–2.16 MB** | 292 bytes |
+| Trace-generation timers | 31.84 s | **32.14 s** |
+| **Proving-session timers** | 547.75 s | **53.94 s** |
+| ↳ Interaction work, **inside** session timer | 60.72 s | 36.95 s |
+| Inline verification timers | 77.62 s | 34.40 s |
+| **Complete prover segment commands** | 679.49 s | **155.89 s** |
+| Separate full-grid **CPU** verifier on H200 host | 85.35 s | **84.32 s** |
+| **Actual proof JSON, all 23 files** | 737,858,641 bytes | **737,858,641 bytes** |
+| Sampled peak host RSS | 103.75 GB | 8.07 GB |
+| Sampled peak GPU memory | — | 67.67 GiB |
 
-The warm workflow ratio is **2.61×** in this stateless harness. Parsing the
-assignment/R1CS/proving key dominates gnark's complete command; its instrumented
-proving stage is shorter on the representative control. Warm reuses admitted
-files, with new prover/verifier processes and repeated Circle preprocessing.
-Proof encodings and security profiles differ; this is not an equal-security
-proof-system speed ranking. GB/MB are decimal; keys and enrollment are separate.
+SASH's session timer starts after trace generation and includes commitments and
+interaction work. **Do not add its nested interaction timer.** Complete commands
+also include loading, inline checks and serialization. The paired ratios are
+10.15× for the session timer and 4.36× for complete commands; one pair does not
+establish a latency distribution. Generated constraints use CUDA with zero CPU
+constraint fallback; witness and interaction generation remain on CPU.
 
-All **144 measured proofs** pass fresh Linux and Mac checks. Three additional
-Circle classifier proofs join **23 retained TinyLlama proofs / 22 links** for one
-request; all **16 changed-binding checks reject**. **Circle is the owner-selected
-default**; the original report’s gnark-default recommendation is historical.
-These measurements use the frozen comparison harness, not the new default controller. [Full ranges, IQR, stages and limits](docs/CLASSIFIER-BENCHMARK.md)
-· [Raw numbers and hashes](research/evidence/circle-classifiers-benchmark-2026-10-27.json)
+| Verification / enclosing stage | L1 measurement | Boundary |
+|---|---:|---|
+| Native Mac full-bundle verification | **3.40 / 3.53 s** | Per honest check on M4 Max **after compilation**, with enrolled shape roots compiled in |
+| Fresh Linux full-bundle verification | **77.40 / 77.61 s** | Per honest check on a separate 8-vCPU / 32-GB worker; runtime shape preprocessing |
+| Original generated-kernel build job | **1,815.94 s** | Earlier CPU build job’s running interval; 77 kernel shapes; not isolated compilation |
+| Model-root command | **113.86 s** | Separate command before the matched segment runs |
+| Complete cached-build benchmark | **2,086.78 s** | Both backends, fixtures, transfers, root/grid checks and Linux/Mac suites |
+| Fresh witness preparation / isolated serialization | **Not separately measured in L1** | Preparation reused; serialization remains charged to complete commands |
+
+Linux and native Mac verifiers share SASH crypto code but use different
+preprocessing; these timings are not a matched speedup. Linux rejects all 14
+mutations; native Mac rejects all 36. The 355,320,899-byte download is gzip
+transport for the **737,858,641-byte proof payload plus statements/claims**.
+
+[Download the actual LLM proofs](https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/llm-proofs.tar.gz) ·
+[Logs, machine/job records and every segment](docs/REFERENCE-RUN.md#l1-complete-tinyllama-response) ·
+[GPU method and limits](docs/GPU-BENCHMARK.md).
+
+### C1 — default Circle classifier workflow
+
+**Apple M4 Max · 16 logical CPUs · 48 GiB RAM · macOS arm64 · four prover threads.**
+One fresh instrumented default controller on 2026-10-28, with populated dependency
+caches and an initially empty Rust target directory. It trains the frozen MLP/CNN
+and proves all three classifiers on all three control requests. No Groth16 setup.
+
+| Stage | C1 measurement | Boundary |
+|---|---:|---|
+| MLP training/export | **1.95 s** | Complete child command |
+| CNN training/export/screen | **172.94 s** | Complete child command |
+| Rust prover / proof-only verifier builds | **24.82 / 9.57 s** | Two complete locked Cargo commands |
+| Host witness construction | **15.613 s** | Nine witnesses; outside prover processes |
+| Preprocessing/model commitment | **7.882 s** | Inside prover commands; repeated per proof |
+| **Final STWO proving calls** | **24.061 s** | Nine final proof-generation calls; excludes preceding trace/commitment work |
+| **Complete prover commands** | **50.028 s** | Parsing, all engine stages and serialization/write |
+| **Fresh proof-only verifier commands** | **0.807 s** | Nine fresh processes; excludes native caller reconstruction |
+| **Actual serialized proofs** | **18,063,779 bytes** | Nine canonical JSON proof files; excludes hex bundles, enrollment and logs |
+| Proof campaign | **93.50 s** | Enrollment, witnesses, proving, checks and host work |
+| **Complete observed controller** | **302.96 s** | Fresh training/build/proofs/checks; uv environment bootstrap is outside this timer |
+| Maximum sampled worker-tree RSS | **23.45 GB** | Maximum across campaign workers, not sum of peaks |
+
+Preprocessing and final proving sit **inside** the complete prover commands;
+do not add both levels. Classifier `stark_proving` and LLM `prove_secs` have
+different boundaries. Caller binding currently reruns native inference; proof-only
+timings do not demonstrate a saving over rerunning these small models.
+All **63 changed-public-input checks**, **18 substitutions** and **three roster
+checks** reject. These are single-run observations, not timing distributions.
+
+[Download actual classifier proofs and raw logs](https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/reference-records.tar.gz) ·
+[Every C1 stage and per-proof time/size](docs/REFERENCE-RUN.md#c1-default-classifier-workflow).
+
+### J1 — 23 LLM proofs and three new Circle classifier proofs, one request
+
+The actual retained-input composed command takes **266.29 s**, including fresh
+native LLM compilation/checks and three new classifier proofs. Native LLM workflow:
+**216.87 s**; classifier controller: **44.12 s**. The three classifier proofs total
+**6,020,695 bytes**. The host join verifies them again and rejects **16 changed
+bindings/rosters**. Integrity passes; verdicts `[1,1,0]` make policy release false.
+It reuses LLM proof bytes and is **not fresh GPU proving**.
+[Exact join, timings and files](docs/REFERENCE-RUN.md#j1-same-request-composition).
+
+### Repeated classifier comparison — separate HF CPU experiment
+
+The original matched study retains three fresh and five warm workflows/backend,
+144 generated proofs and fresh Linux/Mac checks. Warm nine-proof medians are
+**298.88 s Circle / 781.25 s gnark** on HF `cpu-upgrade` (AMD EPYC 7R13; 8 provider
+vCPUs / 32 GB). Its 2.61× workflow ratio is not an equal-security proof-system
+ranking. Different machines and timing scopes prevent pooling those medians
+with C1. Gnark remains an explicit comparison backend.
+[All ranges, IQR, stages, sizes and raw samples](docs/CLASSIFIER-BENCHMARK.md).
 
 ## What exactly is proved?
 
@@ -335,6 +369,7 @@ Gnark remains available for comparisons.
 
 | I want to… | Read |
 |---|---|
+| Download actual proofs and audit every stage/machine | [Reference runs and verification](docs/REFERENCE-RUN.md) |
 | Trace commands, proof flows and source ownership | [Architecture](docs/ARCHITECTURE.md) |
 | Inspect the exact LLM relation and reproduction | [LLM proof guide](docs/LLM-PROOF.md) |
 | Reproduce GPU timings or audit their boundaries | [GPU benchmark](docs/GPU-BENCHMARK.md) |

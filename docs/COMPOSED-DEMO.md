@@ -1,5 +1,8 @@
 # A proved response and three Circle STARK classifier decisions
 
+[Download and verify the actual J1 proof collection](REFERENCE-RUN.md#j1-same-request-composition),
+including the LLM bundle, three classifier proofs, public inputs and job logs.
+
 Circle STARK is the default throughout this workflow: **SASH** proves the fixed
 quantized TinyLlama response; **direct STWO** proves the rule, byte MLP and byte
 CNN decisions on its exact prompt. No Groth16 setup, general-purpose zkVM or

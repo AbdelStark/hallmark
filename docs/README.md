@@ -41,6 +41,7 @@ before using a command or relying on a capability.
 | [ML plan](ML-PLAN.md) | Classifier candidates, training and export strategy |
 | [Evaluation](EVALUATION.md) | Data lineage, split isolation, calibration, metrics and claim boundaries |
 | [Implementation tracker](roadmap/IMPLEMENTATION.md) | Work-item dependencies and links to live issues |
+| [Reference proofs and timings](REFERENCE-RUN.md) | Download actual LLM/classifier proofs, verify them and audit every stage, machine and job |
 | [Circle STARK classifiers](CIRCLE-CLASSIFIERS.md) | Default rule/MLP/CNN proofs, circuit/caller boundary, STWO source ownership and matched benchmark |
 | [Specification checks](SPEC-CHECK.md) | Local links, requirement coverage and explicit live tracker audit |
 | [Dependency notices](DEPENDENCIES.md) | Reviewed software versions, licences and redistribution limits |

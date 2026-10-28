@@ -1,5 +1,10 @@
 # Measure the LLM prover on GPU
 
+[Actual L1 proof files, raw logs, machine/job records and verification commands](REFERENCE-RUN.md#l1-complete-tinyllama-response)
+are now published in the reference collection. The numbers below retain their
+original run identity; no new GPU run is implied.
+
+
 `make benchmark-llm-gpu` measures the existing fixed TinyLlama response with
 SIMD and CUDA on the **same H200 host**. It reuses the reviewed public witness
 archive from a completed LLM run. Model, quantization, tokens, calibration,
@@ -200,7 +205,7 @@ worker verification field describes a later phase that has not run at that point
 
 | Measurement | Meaning |
 |---|---|
-| `prove_seconds` | Sum of internal prove-stage timers for all 23 segments |
+| `prove_seconds` | Sum of SASH proving-session timers for all 23 segments, from session creation through proof generation; includes commitments and interaction work |
 | `commands_seconds` | Complete segment commands, including generation, internal verification and serialization |
 | `verify_seconds` | Separate SIMD grid-verifier process on the same H200 host |
 | `sampled_peak_rss_bytes` | Linux process high-water RSS observed every 250 ms; not total host memory |
