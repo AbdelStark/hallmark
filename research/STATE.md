@@ -2,6 +2,15 @@
 
 Updated: 2026-10-28. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Fresh GPU proving repeat and classifier candidate — in progress
+
+The owner requests fresh GPU proving and explicitly includes a classifier GPU
+implementation while retaining the Mac classifier baseline. Decision
+[0087](../docs/decisions/0087-gpu-proving-repeat.md) freezes an unchanged LLM
+repeat before paid execution; classifier backend compatibility is a separate
+implementation gate. No new GPU result is accepted yet. Historical L1/C1/J1
+measurements remain unchanged.
+
 ## Public Circle reference collection — local acceptance and publication passed
 
 The owner requested complete Circle headline numbers with actual proof/log and
