@@ -42,7 +42,9 @@ Warm workflow medians are **781.25 s gnark / 298.88 s Circle**; fresh medians ar
 binary proofs. The report retains ranges/IQR and explains that parsing dominates
 the stateless gnark command; isolated proving-stage rankings differ. These are
 implementation measurements with different security/encoding profiles, not an
-equal-security speed claim. Keep gnark default and retain Circle experimentally.
+equal-security speed claim. Circle is now the owner-selected default; gnark remains an explicit comparison.
+The original experiment’s recommendation and all measured data are retained in
+the [historical report](CLASSIFIER-BENCHMARK.md).
 The [raw evidence](../research/evidence/circle-classifiers-benchmark-2026-10-27.json)
 preserves all samples, source/resource hashes and failed provisioning fixtures.
 

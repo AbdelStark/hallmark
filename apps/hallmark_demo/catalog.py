@@ -128,10 +128,52 @@ GPU_COST = Parameter(
     required=True,
     default="5.00",
 )
+CIRCLE_STAGES = (
+    Stage("mlp", "Train and export MLP", ("mlp-training",)),
+    Stage("cnn", "Train and export CNN", ("cnn-training",)),
+    Stage(
+        "compile", "Build Circle prover and verifier", ("circle-prove-build", "circle-verify-build")
+    ),
+    Stage("prove", "Prove and check request bindings", ("circle-proofs",)),
+)
+
 WORKFLOWS = (
     Workflow(
+        id="classifiers-circle",
+        title="Circle STARK classifiers",
+        summary="Train an MLP and CNN; prove three classifiers on three requests.",
+        scheme="STWO / Circle STARK",
+        claim="Nine Circle proofs, freshly verified against caller-owned requests.",
+        duration="Minutes + first build",
+        disk_gib=12,
+        paid_ceiling=None,
+        fields=(CLASSIFIER_RUN,),
+        stages=CIRCLE_STAGES,
+        schema="hallmark.circle-e2e-result/1",
+        docs="docs/DEMO.md",
+    ),
+    Workflow(
+        id="composed-circle",
+        title="End-to-end Circle STARK",
+        summary="Verify TinyLlama and bind three fresh Circle classifier proofs to its request.",
+        scheme="SASH + STWO / Circle STARK",
+        claim="23 linked LLM proofs and three classifier proofs joined by the host; no recursion.",
+        duration="Minutes with retained LLM proofs; about 1 hour fresh",
+        disk_gib=32,
+        paid_ceiling="2.50",
+        fields=(LLM_RUN, CLASSIFIER_RUN, replace(LLM_COST, read_only=True)),
+        stages=(
+            Stage("verify", "Fresh LLM verification", ("Building the verifier", "Verifying twice")),
+            *CIRCLE_STAGES,
+        ),
+        schema="hallmark.circle-composed-request-result/1",
+        docs="docs/COMPOSED-DEMO.md",
+        example=LLM_EXAMPLE,
+        local_when="llm_run",
+    ),
+    Workflow(
         id="classifiers",
-        title="Classifier proofs",
+        title="gnark classifier baseline",
         summary="Train an MLP and CNN; prove three classifiers on three requests.",
         scheme="gnark / Groth16",
         claim="Nine execution proofs, verified with separate py-ecc arithmetic.",
@@ -185,7 +227,7 @@ WORKFLOWS = (
     ),
     Workflow(
         id="composed",
-        title="One request, both proof systems",
+        title="Mixed-backend comparison",
         summary="Verify the LLM bundle and bind three fresh classifier proofs to its request.",
         scheme="Circle STARK + Groth16",
         claim="Host composition over a common request; no recursive aggregation.",
@@ -244,6 +286,12 @@ WORKFLOWS = (
         docs="docs/START.md",
         mac_only=False,
     ),
+)
+# Preserve legacy IDs and result schemas for retained workbench history.
+WORKFLOWS = (
+    tuple(w for w in WORKFLOWS if w.id not in {"classifiers", "composed", "conformance"})
+    + tuple(w for w in WORKFLOWS if w.id in {"classifiers", "composed"})
+    + tuple(w for w in WORKFLOWS if w.id == "conformance")
 )
 CATALOG = {item.id: item for item in WORKFLOWS}
 
@@ -307,14 +355,19 @@ def plan(root, workflow, parameters, uv):
         if paid
         else None
     )
-    if workflow.id == "classifiers":
+    if workflow.id == "classifiers-circle":
+        args += ["--extra", "train", "python", "scripts/run_circle_e2e.py"]
+        if classifier:
+            args += ["--classifier-run", str(classifier)]
+    elif workflow.id == "classifiers":
         args += ["--extra", "train", "python", "scripts/run_e2e.py"]
     elif workflow.id == "llm":
         args += ["--extra", "llm", "python", "scripts/run_llm_e2e.py", "--max-cost-usd", maximum]
     elif workflow.id == "verify-llm":
         args += ["python", "scripts/verify_llm.py", "--run", str(llm)]
-    elif workflow.id == "composed":
-        args += ["--extra", "train", "--extra", "llm", "python", "scripts/run_composed.py"]
+    elif workflow.id in {"composed", "composed-circle"}:
+        driver = "run_circle_composed.py" if workflow.id == "composed-circle" else "run_composed.py"
+        args += ["--extra", "train", "--extra", "llm", "python", "scripts/" + driver]
         if llm:
             args += ["--llm-run", str(llm)]
             paid = False
@@ -350,7 +403,7 @@ def plan(root, workflow, parameters, uv):
         ]
     else:
         raise ValueError("Workflow has no command adapter")
-    adapter = workflow.id in {"llm", "gpu", "composed"}
+    adapter = workflow.id in {"llm", "gpu", "composed", "composed-circle"}
     if adapter:
         index = next(i for i, item in enumerate(args) if item.startswith("scripts/"))
         args[index : index + 1] = [
@@ -360,7 +413,7 @@ def plan(root, workflow, parameters, uv):
             "--workflow",
             workflow.id,
         ]
-        if workflow.id == "composed":
+        if workflow.id in {"composed", "composed-circle"}:
             args += ["--max-cost-usd", maximum]
     return dict(
         command=args,
@@ -371,7 +424,7 @@ def plan(root, workflow, parameters, uv):
     )
 
 
-def preflight(root, workflow, uv):
+def preflight(root, workflow, uv, parameters=None):
     checks = []
 
     def add(label, ok, detail):
@@ -383,17 +436,20 @@ def preflight(root, workflow, uv):
         not workflow.mac_only or (platform.system(), platform.machine()) == ("Darwin", "arm64"),
         "Apple Silicon Mac" if workflow.mac_only else "macOS / Linux",
     )
+    required = workflow.disk_gib
+    if workflow.id == "composed-circle" and (parameters or {}).get("llm_run"):
+        required = 12
     free = shutil.disk_usage(root).free / 1024**3
     add(
         "Free storage",
-        free >= workflow.disk_gib,
-        f"{free:.1f} GiB available / {workflow.disk_gib} GiB required",
+        free >= required,
+        f"{free:.1f} GiB available / {required} GiB required",
     )
     try:
         version = subprocess.check_output([str(uv), "--version"], text=True, timeout=5).split()[:2]
     except (OSError, subprocess.SubprocessError):
         version = []
     add("Frozen tool", version == ["uv", "0.9.18"], "uv 0.9.18 supplied by the app environment")
-    if workflow.id == "verify-llm":
+    if workflow.id in {"verify-llm", "classifiers-circle", "composed-circle"}:
         add("Rust", shutil.which("cargo"), "Native verifier needs the documented Rust toolchain")
     return checks

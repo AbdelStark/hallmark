@@ -3,12 +3,12 @@
 For the pretrained TinyLlama response, see [the LLM proof statement](LLM-PROOF.md).
 This page explains the classifier proofs exercised by `make e2e`.
 
-See [architecture and proof flows](ARCHITECTURE.md#classifiers-make-e2e) for the
-training → fixed circuit → setup → proof → separate verification diagram.
-These proofs use **gnark/Groth16 on BLS12-381**, not SASH. The
-[backend explanation](ARCHITECTURE.md#why-two-backends-what-changes-next) and
-[experimental Circle STARK classifier guide](CIRCLE-CLASSIFIERS.md) distinguish
-the default workflow from the new STWO implementation and its pending benchmark.
+The default uses **direct-STWO Circle STARKs**, with Hallmark’s dedicated
+SHA-256/integer/classifier circuits. The LLM uses SASH’s specialized Circle STARK
+application. [Architecture](ARCHITECTURE.md#classifiers-make-e2e) shows the default
+flow; [Circle classifier details](CIRCLE-CLASSIFIERS.md) give concrete parameters
+and ownership. `make e2e BACKEND=gnark` explicitly selects the older Groth16
+comparison. Both paths establish the following logical relation.
 
 **For a fixed integer classifier and a particular prompt, the proof checks that
 running that classifier on those bytes gives the stated pass/block verdict.**
@@ -72,15 +72,17 @@ software checks.
 | Item | Where it comes from | What checks it |
 |---|---|---|
 | Prompt bytes and opening salt | Caller-owned transcript opening | Caller reconstructs the expected input digest; the circuit checks its witness against that digest |
-| Classifier weights and graph | Fixed rule and frozen seed-17 integer exports, compiled into each circuit | Local enrollment pins program, circuit and key; the proof checks the compiled relation |
+| Classifier weights and graph | Fixed rule and frozen seed-17 integer exports, compiled into each circuit | Caller enrollment pins program, public preprocessing and proof parameters; the proof checks the compiled relation |
 | Threshold and verdict | Enrolled classifier and caller's expected computation | Caller pins the threshold; circuit enforces the decision |
 | Request context and classifier identity | Caller-owned request, transcript and enrollment | Caller reconstructs these public fields; proof verification binds them to this proof |
-| Verification key | Fresh local setup, pinned before proving | Caller supplies the expected key; separate verifier checks the proof against it |
+| Circle enrollment | Program, preprocessing roots and concrete parameters, pinned before proving | Fresh proof-only verifier checks against caller-owned enrollment; the optional gnark comparison instead uses a setup verification key |
 | `release` | Three checked verdicts | Host code computes `rule_pass AND mlp_pass AND cnn_pass` |
 
-Each proof has **100 public field elements**: 32 bytes of context digest, 32 bytes
+Each proof has **100 logical public integers**: 32 bytes of context digest, 32 bytes
 of classifier identity, 32 bytes of input digest, then unit count, chunk count,
-encoded signed threshold and verdict. The score itself is not a public field.
+encoded signed threshold and verdict. Circle transports them as 103 M31 values: two limbs replace the 32-bit threshold,
+and zero/one wires provide two further values. No reduction of 32-bit integers
+modulo M31 is accepted. The score itself is not a public field.
 The witness includes input bytes, salt, encoding/mask data and intermediate
 values; model weights are public circuit constants in this demo.
 
@@ -101,26 +103,29 @@ strings for equality.
 
 There are two stages, both required:
 
-1. **Bind the statement.** [`trained_common_input.py`](../scripts/trained_common_input.py)
-   checks the previously pinned enrollment, opens the caller's transcript,
-   reconstructs the public inputs, checks the exact classifier roster and checks
-   the all-pass decision. The current research helper also reruns each native
-   classifier to construct its expected verdict. It returns pairing jobs;
-   that alone is not cryptographic acceptance.
-2. **Check the proofs.** [`verify_set.py`](../research/probes/py_ecc/verify_set.py)
-   decodes the keys and proofs and checks the Groth16 pairing equations with
-   py-ecc. This shares no gnark decoder, pairing implementation or verification
-   code. A failure in either stage prevents a successful demo result.
+1. **Bind the statement.** [circle_backend.py](../scripts/circle_backend.py)
+   checks the caller-pinned program/preprocessing/model mapping, reconstructs
+   public inputs from the caller-owned opening, and checks the exact classifier
+   roster. The helper currently reruns native classifiers for expected verdicts.
+   This produces verification jobs; it is not yet cryptographic acceptance.
+2. **Check the proofs.** A fresh [circle-verify](../research/probes/circle/src/bin/verify.rs)
+   process checks each serialized STWO proof using enrollment and public inputs.
+   It receives no witness, checkpoint or native trace. It shares the STWO/AIR
+   implementation with the prover; it is not an independently developed verifier.
+   Any failure prevents a successful result.
 
-The nine proofs are **three separate proofs for each of three requests**. They
-are not one aggregated proof of training, inference and policy. Gnark builds
-specialized circuits for the three classifiers; this path uses no general-purpose
-zkVM. The separate arithmetic implementation helps catch shared-backend errors;
-it is not an independent human security audit.
+Nine proofs means one per classifier for each of three requests, not an
+aggregate proof of training or policy. The default rejects 63 changed public
+statements, 18 cross-request substitutions and three invalid rosters. Trace
+parity and the separate constraint-failure study supplement those real proofs;
+they do not establish independent security qualification.
 
-This is also not yet a demonstration of cheaper verification than recomputation:
-the caller helper currently recomputes the native verdicts, and the demo includes
-fresh setup and extensive negative checks. See [measured costs](RESULTS.md).
+The explicit gnark comparison instead calls
+[trained_common_input.py](../scripts/trained_common_input.py) for binding, then
+[verify_set.py](../research/probes/py_ecc/verify_set.py) for separate Groth16
+pairing arithmetic. It has different setup, encodings, checks and performance.
+See the [matched report](CLASSIFIER-BENCHMARK.md), rather than mixing its
+405-case arithmetic count with Circle’s default rejection counts.
 
 ## What a successful run does not prove
 
@@ -133,7 +138,7 @@ fresh setup and extensive negative checks. See [measured costs](RESULTS.md).
   faithfully reproduce a mistaken prediction. Training labels, generalization
   and policy suitability need their own evidence.
 - **Private inference.** The caller sees the transcript, and local artifacts
-  contain witnesses. Public model constants and fixed demo salts are not a
+  contain witnesses. Public model constants and locally generated salts are not a
   private deployment. This is an opened-input research path, not a hiding claim.
 - **Production trust.** Compiler/program-to-key enrollment, setup custody, an
   accepted setup ceremony, independent security/hiding review and an operational
@@ -142,7 +147,6 @@ fresh setup and extensive negative checks. See [measured costs](RESULTS.md).
 `release: true` means only that the three proved classifier verdicts pass. The
 run retains `qualified_backend: false` and `hardware_claim: "not-accepted"`.
 
-For the exact circuit implementations, see [rule](../research/probes/gnark/scaled_rule.go),
-[MLP](../research/probes/gnark/trained_mlp.go), [CNN](../research/probes/gnark/contextual_cnn.go)
-and [input binding](../research/probes/gnark/input_scale.go). For reproduction and
-evidence, see the [demo](DEMO.md) and [results](RESULTS.md).
+For exact default circuits, see the [Circle source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership).
+For reproduction and evidence, see the [demo](DEMO.md) and
+[comparison report](CLASSIFIER-BENCHMARK.md).

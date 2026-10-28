@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+Make Circle STARK the default for classifiers, LLM composition, workbench and
+documentation. `make e2e` prepares frozen native models and generates nine STWO
+proofs without a Groth16 bootstrap. `make e2e-composed` joins 23 SASH proofs to
+three new Circle classifier proofs. Preserve explicit `BACKEND=gnark` comparison
+commands, historical benchmark records, old app run IDs and the 55-file LLM
+verifier identity.
+
 Add `make e2e-composed` to verify the proved TinyLlama response and three fresh
 classifier proofs over one opened request. Reuse caller-owned preparation with
 `LLM_RUN` and `CLASSIFIER_RUN`, while requiring fresh verification and classifier

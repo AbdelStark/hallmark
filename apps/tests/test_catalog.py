@@ -49,3 +49,16 @@ def test_retained_composition_has_no_paid_execution(root):
     plan_result = plan(root, CATALOG["composed"], {"llm_run": "runs/llm"}, Path("/tool/uv"))
     assert plan_result["paid"] is False and plan_result["ceiling"] == "0"
     assert "--llm-run" in plan_result["command"]
+
+
+def test_circle_is_first_and_legacy_workflows_keep_their_meaning(root):
+    from hallmark_demo.catalog import WORKFLOWS
+
+    assert [w.id for w in WORKFLOWS[:2]] == ["classifiers-circle", "composed-circle"]
+    assert "Groth16" in CATALOG["classifiers"].scheme
+    new = plan(root, CATALOG["classifiers-circle"], {}, Path("/tool/uv"))
+    assert new["command"][-1] == "scripts/run_circle_e2e.py" and new["paid"] is False
+    (root / "runs/llm").mkdir()
+    composed = plan(root, CATALOG["composed-circle"], {"llm_run": "runs/llm"}, Path("/tool/uv"))
+    assert composed["paid"] is False and composed["ceiling"] == "0"
+    assert "composed-circle" in composed["command"]

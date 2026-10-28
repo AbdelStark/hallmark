@@ -1,5 +1,8 @@
 # 0083: Exact classifier relations and a matched Circle STARK comparison
 
+Operational default superseded by [0085](0085-circle-default.md): Circle is now
+the owner-selected default. This document retains its original protocol and results.
+
 Date: 2026-10-27. Status: frozen protocol executed; retain both research paths with gnark default.
 Implementation/evidence for epic #112 and #113–#117 are recorded below.
 

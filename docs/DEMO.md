@@ -1,140 +1,153 @@
-# Run the classifier end-to-end demo
-
-From the repository root:
+# Run the Circle STARK classifier demo
 
 ```sh
 make e2e
 ```
 
-This trains an MLP and a contextual byte CNN, exports their integer graphs, builds
-specialized circuits, and generates and separately verifies rule/MLP/CNN proofs
-for three fixed requests. It also checks substituted proofs and an arithmetic
-mutation corpus. **No hardware attestation, GPU, API token, cloud account or
-model download is needed.** All training data is authored and synthetic.
+The default trains the MLP and contextual byte CNN on frozen synthetic data,
+exports their exact integer graphs, builds the locked STWO prover and proof-only
+verifier, and proves the rule, MLP and CNN on three fixed requests. **Nine real
+Circle STARK proofs** are freshly verified. No Groth16 setup runs first. No GPU,
+API token, cloud account, pretrained checkpoint or hardware attestation is needed.
 
-`make e2e` runs **classifiers only**, using dedicated gnark/Groth16 circuits and
-separate py-ecc verification. For actual LLM generation/proving use
-[`make e2e-llm`](LLM-PROOF.md); to join both use
-[`make e2e-composed`](COMPOSED-DEMO.md). The [architecture guide](ARCHITECTURE.md)
-maps every command to its proof system and shows the complete data flows.
-
-Read [what the proofs mean](PROOFS.md) before interpreting the result. A proved
-classifier verdict is a claim about exact computation, not a guarantee that the
-classifier's judgment is correct.
+This command proves **classifiers only**. Use [`make e2e-llm`](LLM-PROOF.md) for
+actual TinyLlama inference, or [`make e2e-composed`](COMPOSED-DEMO.md) to bind its
+23 SASH proofs to three new Circle classifier proofs. See the
+[architecture](ARCHITECTURE.md) and [proof statement](PROOFS.md).
 
 ## Prerequisites
 
 | Requirement | Supported path |
 |---|---|
 | Host | Native Apple Silicon Mac (`Darwin`, `arm64`) |
-| Tools on `PATH` | Git, Make, curl and **uv 0.9.18** |
+| Tools | Git, Make, **uv 0.9.18**, Rust **nightly-2025-07-14** |
 | Python | **CPython 3.12.12**, selected/acquired by uv |
-| Network | Initial Python, Go and dependency acquisition; no external data or inference |
-| Storage | At least **12 GiB free** before starting |
-| Time | About **20 minutes plus dependency/build time** on the recorded M4 Max, 48 GiB RAM |
+| Network | Initial locked Python/Rust dependencies; no external data or inference |
+| Storage | **12 GiB free** plus dependency/build caches; stop below 8 GiB during proofs |
+| Memory | Up to **30 GiB sampled worker RSS**; this is a stop condition, not an OS quota |
+| Time | Several minutes plus the first Rust build; the classifier controller is capped at two hours |
 
-For a fresh checkout:
+With an existing Rust installation:
 
 ```sh
+rustup toolchain install nightly-2025-07-14 --profile minimal
 git clone https://github.com/AbdelStark/hallmark.git
 cd hallmark
 make e2e
 ```
 
-The target prepares the locked project `.venv` with the training extra. It checks
-the exact uv/Python versions, downloads and SHA-256-checks Go 1.26.8, builds the
-circuits using pinned Go modules, and installs the separate verifier in its own
-hash-pinned environment. No system package install or credential setup is needed.
-See the [reviewed dependency inventory](../research/evidence/w18-backend-dependencies-2026-10-20.json).
+The Make target prepares the locked Python training extra. The controller trains
+and screens the frozen models, checks both quantization hashes, and builds the
+prover and a verifier with the prover feature disabled. It pins source/binary
+bytes and independently admitted Circle enrollment before proving.
 
-The full controller is Mac-only. Linux CI tests smaller proof artifacts and the
-separate verifier; it does not validate this entire workflow on Linux. For a
-quick software-only check on either platform, run `make check-conformance`.
+The full controller is Mac-only. Linux proof evidence is recorded separately in
+the [matched benchmark](CLASSIFIER-BENCHMARK.md). `make check-conformance` is the
+smaller software-only path on either platform.
 
-## Progress and expected output
+## Flow and output
 
-The command prints a fresh evidence directory, then each stage and its log path:
+```mermaid
+flowchart TD
+    D[Frozen synthetic training data] --> T[Train and export exact integer MLP and CNN]
+    T --> N[Native preparation and fixed model-hash checks]
+    R[Literal byte rule] --> N
+    N --> C[Compile gates and enroll public preprocessing]
+    X[Three caller-owned requests] --> W[Build complete witnesses]
+    C --> W
+    W --> P[Nine STWO Circle STARK proofs]
+    P --> V[Fresh proof-only verifier processes]
+    X --> V
+    V --> A[Check bindings, roster and all-pass verdicts]
+```
+
+Progress prints a fresh `runs/e2e-circle-*` directory and named log files:
 
 ```text
-Evidence: .../runs/e2e-<unique-id>
-Expect about 20 minutes plus dependency/build time.
-Running python-packages; log: ...
-...
+Evidence: .../runs/e2e-circle-<unique-id>
 Running mlp-training; log: ...
 Running cnn-training; log: ...
-Running proofs; log: ...
+Running circle-prove-build; log: ...
+Running circle-verify-build; log: ...
+Running circle-proofs
+allow: generated rule proof
+...
+PASS: 9 Circle proofs freshly verified. Results: .../result.json
 ```
 
-The proof stage includes fresh setup and negative checks, so it is the longest
-stage. It can be quiet for several minutes. To see completed case records while
-it runs, use the printed directory in a second terminal:
+| Request | Rule / MLP / CNN verdicts | All-pass policy |
+|---|---|---|
+| `allow` | `[1, 1, 1]` | Release true |
+| `cnn-block` | `[1, 1, 0]` | Release false |
+| `rule-block` | `[0, 1, 1]` | Release false |
+
+`1` means pass; `0` means block. A blocking verdict can have a valid proof.
+The workflow rejects **63 changed public statements**, **18 cross-request proof
+substitutions** and **three invalid rosters**, and checks native/circuit trace
+parity. The frozen MLP always allows in this domain; the rule and CNN supply
+block controls. These synthetic models do not establish a useful safety policy.
+
+## Retained inputs and explicit baseline
+
+Reuse only the exact hash-pinned quantizations from a caller-owned run:
 
 ```sh
-tail -f runs/e2e-<unique-id>/proofs.log
+make e2e CLASSIFIER_RUN=runs/e2e-circle-<your-run>
 ```
 
-A successful run exits zero and ends with:
+This still creates new requests, enrollment, proofs and fresh verifications.
+It accepts no saved pass flag, proving key or executable from that run.
 
-```text
-PASS: 9 proofs verified; 18 cross-request substitutions rejected; 405 arithmetic cases matched.
-  allow: [1, 1, 1] release=true
-  cnn-block: [1, 1, 0] release=false
-  rule-block: [0, 1, 1] release=false
-Results: .../runs/e2e-<unique-id>/result.json
-Proof meaning: docs/PROOFS.md
+For the separate gnark/Groth16 comparison:
+
+```sh
+make e2e BACKEND=gnark
 ```
 
-`1` means classifier pass; `0` means block. **All nine proofs must verify**, including
-proofs of blocked decisions. `release` is the host's all-pass classifier gate,
-not authorization to release a real model response. The 405 arithmetic cases
-include valid controls as well as rejected cases.
+That legacy controller acquires pinned Go, makes circuit-specific local setups,
+verifies with separate py-ecc arithmetic and runs its 405-case arithmetic corpus.
+It typically needs about 20 minutes plus builds on the recorded M4 Max. Its
+292-byte binary proofs and lower memory are trade-offs against Circle's larger
+JSON proofs and public preprocessing. [Matched measurements](CLASSIFIER-BENCHMARK.md)
+retain their original timing and security boundaries.
 
-The entrypoint returns nonzero if a subprocess fails, the CNN's frozen synthetic
-screen fails, either integer export differs from its expected hash, proof results
-are missing/unexpected, or pipeline source bytes change during the run. A final
-`result.json` with `status: "passed"` is written only after these checks.
+## Evidence, bounds and failures
 
-## Evidence and resource bounds
-
-Every invocation creates a new private `runs/e2e-*` directory. Retries preserve
-previous successes and failures. Outputs stay local and are ignored by git.
-
-| Artifact under the printed directory | Contents |
+| Artifact in the printed directory | Contents |
 |---|---|
-| `result.json` / `failure.json` | Overall success, or failed stage and error type |
-| `*.log` | Output of each preparation, training and proof stage |
-| `source-pins.json`, `environment.json`, `probe.sha256` | Executable source/config/fixture hashes, versions and locally enrolled binary identity |
-| `mlp-training/`, `cnn-training/` | Training checkpoints, exports, calibration, predictions and model results |
-| `proofs/protocol.json` | Frozen inputs, capacities, source/binary pins and proof resource caps |
-| `proofs/enrollment.json`, `enrollment-pin.json`, `circuit-pins.json` | Program/circuit/key roster pinned before proving |
-| `proofs/*-request.json`, `*-bundle.json` | Caller expectations and proof bundles |
-| Worker `plan.json`, `cost.json`, `stdout.txt`, `stderr.txt` | Exact invocation, resources and failures |
-| `proofs/result.json` | Three verified decisions, rejection roster and arithmetic-case counts |
+| `protocol.json` | Source hashes, environment, time budget; `groth16_setup: false` |
+| `result.json` / `failure.json` | Complete success or failed stage and error type |
+| `mlp-training/`, `cnn-training/` | Fresh training records, or admitted frozen quantizations |
+| `native-preparation.json`, `native-preparation-pin.json` | Caller-owned model/request preparation, pinned before proving |
+| `requests/` | Initial caller-owned synthetic controls |
+| `proofs/protocol.json`, `caller-enrollment.json`, `caller-pin.json` | Exact engine/source/binary identities and pre-proof enrollment |
+| `proofs/*-request.json`, `*-bundle.json` | Exact Circle-bound openings/expectations and serialized bundles |
+| `proofs/result.json`, worker directories | Proof/check counts, invocation logs, resource samples and failures |
 
-The driver has a **7,200-second shared deadline** after uv bootstraps the project
-environment. Training uses one BLAS thread. The proof controller caps its work at
-four worker threads, 8 GiB worker RSS and 8 GiB output; RSS is sampled rather than
-an OS quota. There is no hard quota on the entire run directory. The previous
-campaign retained about 2.57 GB of proof artifacts, plus environments and build
-caches. Run one campaign at a time and retain failures for diagnosis. Maintainer
-runs also follow [research authority](../research/AUTHORITY.json).
+Training uses one BLAS thread. Proof workers use four Rayon threads, a shared
+1,800-second proof-campaign deadline, at most 30 GiB sampled RSS and 4 GiB output.
+The classifier controller reserves time for that campaign within its two-hour
+budget. Sampling is not an OS quota; environments and build caches are separate.
+Run one campaign at a time. New attempts use new directories and retain failures.
 
-The driver checks hashes of tracked pipeline files before and after execution;
-documentation edits do not affect this check. These hashes identify local inputs.
-They do not authenticate an arbitrary checkout or a prover-supplied key. Keep the
-enrollment digest outside an untrusted proof bundle.
+Failures return nonzero if a model screen/hash differs, enrollment is unexpected,
+a proof/check fails, a resource boundary is reached, or tracked pipeline sources
+change during execution. Inspect the printed training/build log or
+`proofs/failure.json` and the failing worker's `stderr.txt`. Keep the evidence;
+do not tune on test data or replace expected hashes to force a pass.
 
-## Troubleshooting
+Implementation: [default controller](../scripts/run_circle_e2e.py),
+[native preparation](../scripts/circle_inputs.py),
+[Circle proof/check driver](../scripts/run_circle_classifiers.py),
+[exact circuits and ownership](CIRCLE-CLASSIFIERS.md). Caller enrollment must come
+from trusted inputs; hashes in an arbitrary prover bundle cannot authenticate it.
+No hiding, independent security qualification or hardware provenance is claimed.
 
-| Failure | Next step |
-|---|---|
-| Host or version check | Use native Mac arm64, uv 0.9.18 and the target's pinned Python; do not change export pins to fit another environment |
-| Download/build/install failure | Inspect the named log; fix network/tool availability and rerun `make e2e` |
-| CNN screen or quantization mismatch | Retain the run and compare environment/protocol identities; do not tune on test or replace expected hashes |
-| Proof failure, timeout or resource limit | Inspect `failure.json`, `proofs/failure.json` and the last worker's logs/cost record |
-| Interrupted or missing final result | Treat the run as incomplete; rerun into a fresh directory |
+## Recorded default acceptance
 
-[`scripts/run_e2e.py`](../scripts/run_e2e.py) contains the exact preparation
-commands and pins. It delegates to the existing [MLP fixture](../scripts/check_mlp_training.py),
-[CNN study](../scripts/run_contextual_cnn.py) and [common-request proof controller](../scripts/run_trained_common.py).
-For focused experiments, see [operations](OPERATIONS.md) and the [proof probe guide](../research/probes/gnark/README.md).
+The actual bare `make e2e` command passes with fresh training and no Groth16
+bootstrap: nine proofs, 63 public-input rejections, 18 substitutions and three
+invalid rosters. The complete local controller took **320.68 s** on the recorded
+M4 Max with populated dependency caches. A browser-launched run reusing only the
+model exports took **97.94 s**. These single acceptance observations are not the
+matched performance study. [Commands, hashes and limitations](../research/evidence/circle-default-2026-10-28.json).

@@ -48,7 +48,7 @@ proof workflow. Real-world safety performance has not been evaluated.
 ## What to inspect after the command
 
 The driver prints a fresh local `runs/e2e-…` path. Read its
-[documented output layout](../DEMO.md#evidence-and-resource-bounds):
+[documented output layout](../DEMO.md#evidence-bounds-and-failures):
 
 - training records and original/resumed checkpoints;
 - quantizations and integer model identities;

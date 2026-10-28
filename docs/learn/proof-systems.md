@@ -1,21 +1,20 @@
-# Why two proof systems?
+# Circle STARK by default, gnark for comparison
 
-Hallmark uses two proof-system families through three implementations: SASH
-Circle STARKs for the quantized LLM, default gnark/Groth16 classifiers and an
-experimental direct-STWO Circle STARK classifier path. The classifier paths now
+Hallmark defaults to Circle STARKs: SASH for the quantized LLM and direct STWO
+for classifiers. Gnark/Groth16 remains an explicit comparison backend. The classifier paths now
 have a [matched CPU comparison](../CLASSIFIER-BENCHMARK.md) of the same computation.
 
 ## The current division
 
-| | LLM path | Default classifier path | Experimental classifier path |
+| | LLM path | Default classifier path | Comparison classifier path |
 |---|---|---|---|
-| Backend | SASH Circle STARK | gnark Groth16 / BLS12-381 | Direct STWO 2.2.0 Circle STARK |
-| Workload | Complete fixed quantized TinyLlama response | Rule, trained MLP and contextual byte CNN | Same complete classifiers and 96-byte semantics |
-| Proof structure | 23 linked segments | One dedicated proof per classifier/request | One fixed-gate proof per classifier/request |
-| Verification | SASH; Linux and adapted Mac variants | Separate py-ecc decoder and pairing arithmetic | Fresh native STWO processes; shared engine/AIR implementation |
-| Setup/enrollment | Expected model, shape and calibration roots | Research setup plus circuit/key/model mapping | Public preprocessing, program/model mapping and concrete parameters |
-| Recorded proof files | 738 MB across 23 proofs | 292 bytes per proof | 1.91–2.16 MB canonical JSON per proof |
-| Matched classifier comparison | Separate workload | Three fresh/five warm workflows | Same cases, host and thread budget |
+| Backend | SASH Circle STARK | Direct STWO 2.2.0 Circle STARK | gnark Groth16 / BLS12-381 |
+| Workload | Complete fixed quantized TinyLlama response | Same complete classifiers and 96-byte semantics | Rule, trained MLP and contextual byte CNN |
+| Proof structure | 23 linked segments | One fixed-gate proof per classifier/request | One dedicated proof per classifier/request |
+| Verification | SASH; Linux and adapted Mac variants | Fresh native STWO processes; shared engine/AIR implementation | Separate py-ecc decoder and pairing arithmetic |
+| Setup/enrollment | Expected model, shape and calibration roots | Public preprocessing, program/model mapping and concrete parameters | Research setup plus circuit/key/model mapping |
+| Recorded proof files | 738 MB across 23 proofs | 1.91–2.16 MB canonical JSON per proof | 292 bytes per proof |
+| Matched classifier comparison | Separate workload | Same cases, host and thread budget | Three fresh/five warm workflows |
 
 LLM/classifier artifact sizes cover different computations. The classifier
 comparison fixes the computation, but encodings, soundness parameters and
@@ -71,7 +70,9 @@ workflow is faster in that stateless harness, while using more memory and much
 larger proofs. Gnark's combined parsing stage dominates its command; its
 instrumented proving stage is shorter on the representative control. The report
 keeps the internal timing boundaries and security assumptions explicit, and
-recommends retaining both with gnark default.
+originally recommended retaining both with gnark default. The owner subsequently
+selected Circle for all default workflows in [decision 0085](../decisions/0085-circle-default.md);
+the experiment and its measurements remain unchanged.
 
 ## The same-host GPU comparison {#what-the-gpu-result-does-show}
 

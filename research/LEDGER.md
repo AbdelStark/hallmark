@@ -5408,3 +5408,40 @@ matched Linux experiment. All 55 native LLM source pins remain unchanged.
 The report additionally displays measured shared-preparation components divided
 by the declared three requests; raw derivation is retained in
 `runs/circle-postflight-v1/amortized-stage-view.json`.
+
+
+## 2026-10-28: Circle STARK default without Groth16 bootstrap
+
+Owner request: use Circle as the default and base case for docs, headlines and
+demos. [Decision 0085](../docs/decisions/0085-circle-default.md) freezes baseline
+`f613c611cefa9037320082b73777f26c9ec45990` and limits mutable orchestration/app/docs
+paths. [Numeric evidence](evidence/circle-default-2026-10-28.json) stores source,
+model, enrollment, binary and artifact hashes before this prose. Original model
+weights, arithmetic, thresholds, data, evaluators and benchmark records remain
+unchanged; both backend/compiler and 55-file native LLM identities match baseline.
+
+Actual bare `make e2e` freshly trains/exports and verifies nine Circle proofs,
+rejecting 63 changed public statements, 18 request substitutions and three
+invalid rosters, with native trace parity. Wall time is 320.68 s. Default retained
+`make e2e-composed` freshly verifies 23 SASH proofs and 22 links, passes both honest
+checks and rejects all 36 LLM mutations, creates three new Circle classifier
+proofs and verifies them again at the outer host join. All 16 binding checks
+reject; `[1,1,0]` means integrity passes and the synthetic policy blocks. Wall
+time is 266.29 s including native compilation. A real browser launch of the
+primary Circle workflow reuses only frozen model exports and completes nine new
+proofs/rejection checks in 97.94 s; desktop/mobile results inspected, no page
+errors. These are local acceptance observations, not repeated performance samples.
+
+Both clients select Circle first. Existing gnark IDs/schemas/history and explicit
+`BACKEND=gnark` commands remain intact. Both public HF model cards now describe
+Circle; only README/hash entries changed, all weight files and original release
+tags remain unchanged. New cloud jobs/spend: zero. Public assets are original
+MIT synthetic fixtures/models; no new data source or private material is used.
+
+Local gates: 2,588 core tests pass with 50 optional/platform skips, strict typing,
+lint/format, software/spec/admission checks; all 56 app tests pass; strict docs
+and core wheel/sdist/installed checks pass. Initial scratch harness, app ordering
+and three stale-anchor failures are retained in the acceptance record. Exact-head
+CI, merge and Pages delivery are recorded on the change's PR. Default selection
+adds no independent security qualification, hiding, hardware, recursive proof or
+policy-quality claim; the MLP remains always-allow in this fixed input domain.

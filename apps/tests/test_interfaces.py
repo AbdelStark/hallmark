@@ -55,6 +55,7 @@ def test_terminal_keyboard_runs_workflow_and_reads_same_api(interface_server):
         app = Workbench(Client(interface_server.origin))
         async with app.run_test(size=(120, 42)) as pilot:
             await pilot.pause()
+            assert app.workflow["id"] == "classifiers-circle"
             app.query_one("#workflows").focus()
             await pilot.press("end", "enter")
             await pilot.pause()
@@ -119,6 +120,8 @@ def test_browser_launch_reconnect_results_and_mobile(interface_server):
         page = browser.new_page(viewport={"width": 1440, "height": 1050})
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(interface_server.origin)
+        expect(page.locator("#workflow-title")).to_have_text("Circle STARK classifiers")
+        expect(page.locator("#scheme")).to_have_text("STWO / Circle STARK")
         for workflow in interface_server.manager.workflows:
             page.locator(f'button[data-workflow="{workflow}"]').click()
         page.locator('button[data-workflow="llm"]').click()
