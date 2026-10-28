@@ -141,21 +141,35 @@ def inputs(prepared, pin, destination):
     return inventory
 
 
-def run(prepared, native_pin, source, balance):
+def run(
+    prepared,
+    native_pin,
+    source,
+    balance,
+    *,
+    owner_approved_credit_exception=False,
+    gpu_flavor="h200",
+    build_run=None,
+):
     from huggingface_hub import HfApi
 
     cloud.require(shutil.disk_usage(ROOT).free >= 16 * 1024**3, "16 GiB free storage required")
     api = HfApi(token=cloud.token())
     namespace = api.whoami()["name"]
     hardware = {h.name: h for h in api.list_jobs_hardware()}
+    cloud.require(gpu_flavor in ("h200", "a100-large"), "unadmitted GPU flavor")
+    phases = PHASES | {"prove": (gpu_flavor, 1800, 4, 210 if gpu_flavor == "h200" else 120)}
+    expected = ("23 vCPU", "256 GB") if gpu_flavor == "h200" else ("12 vCPU", "142 GB")
     cloud.require(
-        hardware["h200"].cpu == "23 vCPU"
-        and hardware["h200"].ram == "256 GB"
+        (hardware[gpu_flavor].cpu, hardware[gpu_flavor].ram) == expected
         and hardware["cpu-upgrade"].ram == "32 GB",
         "hardware allocation changed",
     )
-    ceiling = planned_cost(hardware, "5.00", PHASES)
-    credit_guard(balance, ceiling)
+    ceiling = planned_cost(hardware, "5.00", phases)
+    if owner_approved_credit_exception:
+        cloud.require(balance is None, "credit exception cannot claim a checked balance")
+    else:
+        credit_guard(balance, ceiling)
     cloud.require(
         not [j for j in api.list_jobs(namespace=namespace) if j.status.stage not in cloud.TERMINAL],
         "another HF job is active",
@@ -180,8 +194,10 @@ def run(prepared, native_pin, source, balance):
         dict(
             schema_id="hallmark.classifier-cuda-study/1",
             source_files={str(p.relative_to(ROOT)): sha(p) for p in sources if p.is_file()},
-            phases=PHASES,
+            phases=phases,
+            gpu_flavor=gpu_flavor,
             balance_check_usd=balance,
+            owner_approved_credit_check_exception=owner_approved_credit_exception,
             cost_ceiling_micro_usd=ceiling,
             source=source_pins,
             native_preparation_pin=native_pin,
@@ -215,21 +231,47 @@ def run(prepared, native_pin, source, balance):
                 ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
             ).strip()
         }
-        built = cloud.cloud_job(
-            api,
-            namespace,
-            "build",
-            {
-                "build_prover.sh": PROBE / "build.sh",
-                "source.tar.gz": source / "source.tar.gz",
-                "source-inventory.json": source / "source-inventory.json",
-                "reference_files.py": ROOT / "scripts/reference_files.py",
-            },
-            case,
-            hardware,
-            output,
-            phases=PHASES,
-        )
+        if build_run is not None:
+            parent = json.loads((build_run / "protocol.json").read_text())
+            cloud.require(
+                parent["source"]["source_inventory_sha256"]
+                == source_pins["source_inventory_sha256"]
+                and parent.get("gpu_flavor", "h200") == gpu_flavor,
+                "cached build source or native target changed",
+            )
+            retained = json.loads((build_run / "build/retention.json").read_text())
+            cloud.require(retained["stage"] == "COMPLETED", "cached build incomplete")
+            built = build_run / "build/retained"
+            for name in BINARIES | {"binaries.json"}:
+                cloud.require(
+                    sha(built / name) == retained["outputs"][name]["sha256"],
+                    "cached build bytes changed",
+                )
+            write_json(
+                output / "reused-build.json",
+                dict(
+                    path=str(build_run),
+                    protocol_sha256=sha(build_run / "protocol.json"),
+                    retention_sha256=sha(build_run / "build/retention.json"),
+                ),
+            )
+        else:
+            built = cloud.cloud_job(
+                api,
+                namespace,
+                "build",
+                {
+                    "build_prover.sh": PROBE / "build.sh",
+                    "source.tar.gz": source / "source.tar.gz",
+                    "source-inventory.json": source / "source-inventory.json",
+                    "reference_files.py": ROOT / "scripts/reference_files.py",
+                },
+                case,
+                hardware,
+                output,
+                phases=phases,
+                env={"HALLMARK_CUDA_ARCH": "90" if gpu_flavor == "h200" else "80"},
+            )
         binaries = json.loads((built / "binaries.json").read_text())
         cloud.require(set(binaries) == BINARIES, "built binary roster changed")
         for name in BINARIES:
@@ -250,7 +292,8 @@ def run(prepared, native_pin, source, balance):
             case,
             hardware,
             output,
-            phases=PHASES,
+            phases=phases,
+            env={"HALLMARK_EXPECTED_GPU": "H200" if gpu_flavor == "h200" else "A100"},
         )
         result = json.loads((measured / "output/result.json").read_text())
         cloud.require(
@@ -307,6 +350,18 @@ if __name__ == "__main__":
     p.add_argument("--prepared", type=Path, required=True)
     p.add_argument("--native-preparation-pin", required=True)
     p.add_argument("--source", type=Path, required=True)
-    p.add_argument("--credit-balance-usd", required=True)
+    credit = p.add_mutually_exclusive_group(required=True)
+    credit.add_argument("--credit-balance-usd")
+    credit.add_argument("--owner-approved-credit-check-exception", action="store_true")
+    p.add_argument("--gpu-flavor", choices=("h200", "a100-large"), default="h200")
+    p.add_argument("--build-run", type=Path)
     a = p.parse_args()
-    run(a.prepared.resolve(), a.native_preparation_pin, a.source.resolve(), a.credit_balance_usd)
+    run(
+        a.prepared.resolve(),
+        a.native_preparation_pin,
+        a.source.resolve(),
+        a.credit_balance_usd,
+        owner_approved_credit_exception=a.owner_approved_credit_check_exception,
+        gpu_flavor=a.gpu_flavor,
+        build_run=a.build_run.resolve() if a.build_run else None,
+    )

@@ -23,6 +23,10 @@ binds both to the same caller-owned request.
 
 **Classifiers · 9 Circle proofs · 24.06 s final STWO proving · 0.807 s proof-only verifier processes · 18.06 MB proof JSON.**
 
+**Classifier GPU benchmark · A100 · 92.41 s CPU / 22.22 s CUDA complete prover commands
+for nine proofs · 4.16× ratio of medians over three pairs.**
+[Method, all 54 proof checks and resource records](docs/CLASSIFIER-GPU-BENCHMARK.md).
+
 [Actual proofs, logs, machines and verification commands](docs/REFERENCE-RUN.md) ·
 [Reference artifacts](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28) ·
 [Reference Discussion](https://github.com/AbdelStark/hallmark/discussions/133)

@@ -116,3 +116,18 @@ def test_source_admission_rejects_archive_and_overlay_drift(tmp_path, monkeypatc
     (source / "source.tar.gz").write_bytes(b"changed")
     with pytest.raises(ValueError, match="archive"):
         run_classifier_gpu.admit_source(source)
+
+
+def test_bucket_binary_without_execute_mode_is_staged_and_runs(tmp_path):
+    path = Path(__file__).resolve().parents[1] / "research/probes/circle-gpu/benchmark.py"
+    spec = importlib.util.spec_from_file_location("classifier_gpu_staging", path)
+    worker = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(worker)
+    source = tmp_path / "bucket-object"
+    source.write_bytes(b"#!/bin/sh\nprintf 'staged-ok'\n")
+    source.chmod(0o644)
+    staged = worker.executable(source, tmp_path / "worker-binary")
+    result = worker.run([staged], tmp_path / "execution", time.monotonic() + 10)
+    assert result["exit_code"] == 0
+    assert (tmp_path / "execution/stdout.txt").read_text() == "staged-ok"
+    assert source.stat().st_mode & 0o111 == 0

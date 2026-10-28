@@ -1,6 +1,6 @@
 # 0088: unchanged classifier relations with a CUDA prover
 
-Date: 2026-10-28. Status: owner-requested candidate; device results pending.
+Date: 2026-10-28. Status: H200 attempt preserved; accepted A100 experiment in decision 0089.
 
 The owner explicitly requests GPU classifier proving in addition to an LLM GPU
 repeat, retaining the local Mac measurements. Hypothesis: an optional CUDA
@@ -64,3 +64,10 @@ CUDA's large virtual reservations preclude RLIMIT_AS; the generic transport's
 Publication excludes witness inputs and executable binaries; actual proofs,
 public inputs, logs, source/parameter pins and machine records may be published.
 No hiding, hardware provenance or backend qualification is claimed.
+
+Fresh-clone continuation: after being told numeric billing access was unavailable,
+the owner explicitly said "go ahead and finish, you have my approval" on
+2026-10-28. This authorizes proceeding with the existing USD 5 cap without the
+numeric credit check. Record the balance as null and this exception explicitly;
+do not invent a balance or top up. Live prices, no active jobs, all other limits,
+source/input admission and smallest-device-proof gates remain required.

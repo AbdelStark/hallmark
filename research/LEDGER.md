@@ -1,5 +1,33 @@
 # Evidence ledger
 
+## 2026-10-28: PR #135 fresh-clone recovery
+
+Resumed `research/gpu-repeat` at `3d9196c0ca32b0bad1a9f248fb9ce14596893a79`;
+the initial worktree was clean. Retained decisions 0087/0088, models, evaluator,
+classifier/default sources and existing backend identities. Only STATE, this
+ledger and [numeric recovery evidence](evidence/pr135-recovery-2026-10-28.json)
+change. Numeric/source/log hashes were saved before prose.
+
+HF CLI access through ignored `.env` recovers the existing LLM job's timeout
+status; full worker output is missing because its bucket is deleted. No new
+classifier job is present. Public release downloads match the externally
+recorded manifest hash and all 988 member hashes. All nine program/witness pairs
+reconstruct against the original cost-record hashes without retraining. Exact
+source preparation uses `scripts/prepare_classifier_gpu.py`; local admission uses
+`scripts/run_classifier_gpu.py:inputs` and retains 104 files under
+`runs/pr135-recovery/admitted-inputs`. The stock arithmetic fixture freshly proves
+and verifies; this is CPU evidence, not device acceptance.
+
+`uv run --locked pytest -q tests/test_classifier_gpu.py tests/test_llm_gpu.py`:
+45 pass. `make check`: 2,612 pass / 50 skip, 156 software conformance matches.
+`make package-check` initially fails the uv version gate; rerunning the same
+package script via `uv tool run --from uv==0.9.18 uv run --locked python scripts/reproduce_package.py`
+passes. Failures remain in new local directories. No paid run, new GPU proof,
+speedup or completion claim. Current numeric HF credit balance is still needed
+before decision 0088 permits the paid campaign; token access reports prepaid and
+`canPay`, neither of which establishes a balance. No credential values are saved
+in this public evidence.
+
 Entries distinguish local software results, statistical conclusions, literature reports and proposed work. Never replace a failed entry with a favorable rerun.
 
 ## 2026-10-20: bootstrap software checks and negative classifier result
@@ -5520,3 +5548,44 @@ The first local classifier reconstruction lacks optional NumPy and stops before
 any upload; the locked train-extra environment passes. Overlay compiler/lint
 iterations are retained. GPU correctness, performance, distribution and backend
 qualification do not follow from these local checks.
+
+## 2026-10-28: accepted classifier CUDA benchmark on A100
+
+[Decision 0089](../docs/decisions/0089-classifier-a100-capacity-fallback.md) records
+hardware fallback from 0088 after the H200 allocation stayed queued. The owner's
+explicit continuation approval permits a null numeric credit check under the
+unchanged USD 5 combined ceiling. Live prices and no-active-job checks precede
+each attempt. Mutable paths are optional GPU transport/controller, native target,
+worker machine/RSS guard, one regression, reports and evidence. Classifier AIR,
+stock core/verifier, models, thresholds, corpus and proof parameters are frozen.
+
+The [numeric record](evidence/classifier-gpu-benchmark-2026-10-28.json) was saved
+before prose. All 54 actual proofs pass fresh stock Linux and Mac verification;
+all 378 public mutations reject. Both positive/invalid arithmetic fixtures gate
+the run. All 27 CUDA classifier AIR calls execute with zero CPU AIR fallback;
+all proof bytes match the nine published C1 controls. Three same-host pairs on
+A100 give median nine-command sums 92.406 / 22.216 seconds (4.16x), final STWO
+calls 44.310 / 7.550 seconds (5.87x). Stage boundaries and all samples precede
+interpretation in the JSON; the [report](../docs/CLASSIFIER-GPU-BENCHMARK.md)
+labels reused training/preparation, host work, memory and uncertainty.
+
+Commands: `scripts/prepare_classifier_gpu.py --out runs/pr135-a100-source-staging`
+and `scripts/run_classifier_gpu.py --prepared runs/pr135-recovery/reference/classifiers/controls --native-preparation-pin 3eab49c2a4a97a3e7d4daaefbbdc4c68a09ae7ba2d9a0d438c803cc7efcb13cd --source runs/pr135-a100-source-staging --gpu-flavor a100-large --owner-approved-credit-check-exception --build-run runs/classifier-gpu-399bl9ec`,
+each via locked `uv run` with llm/train extras as applicable. Raw run:
+`runs/classifier-gpu-sm11ii3z`. The independent byte/statistics audit
+`uv run --locked --extra llm python runs/pr135-recovery/report-final.py` checks
+all 1,612 retained file hashes / 133,042,187 bytes and writes the public numeric
+record, including its own source hash and all 54 raw measurement rows.
+
+Preserved failures: separate LLM repeat timeout; classifier H200 allocation
+canceled before start; first A100 worker PermissionError on bucket executable.
+Corrected staging copies/checks binary bytes and sets local executable mode.
+Its regression passes; retained-build reuse requires source-content inventory,
+native target, completed build receipt and every binary hash to match. All five
+classifier buckets are deleted. Rounded running-compute bound USD 0.37, not an
+invoice; no new LLM measurement or backend qualification is inferred.
+
+Validation after staging: `make check`, 2,613 passed / 50 optional-platform skips;
+focused GPU/controller suite, 46 passed. Final `make check` passes 2,613 tests / 50 skips in 153.61 seconds; core
+packaging and strict docs gates pass (170 pages, 13,442 local links/assets).
+Exact-head hosted receipts are tracked on PR #135. Failed package gates remain local.

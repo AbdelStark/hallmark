@@ -5,6 +5,7 @@ import json
 import os
 import platform
 import resource
+import shutil
 import signal
 import subprocess
 import time
@@ -44,7 +45,8 @@ def run(args, folder, deadline):
                                 peak = max(peak, int(line.split()[1]) * 1024)
                 except FileNotFoundError:
                     pass
-                if time.monotonic() > min(deadline, started + 300) or peak > 180 * 1024**3:
+                memory_gib = 120 if os.environ.get("HALLMARK_EXPECTED_GPU") == "A100" else 180
+                if time.monotonic() > min(deadline, started + 300) or peak > memory_gib * 1024**3:
                     raise TimeoutError("classifier command resource limit")
                 time.sleep(0.002)
         except BaseException as exc:
@@ -90,6 +92,16 @@ def timings(folder):
     return rows
 
 
+def executable(source, destination):
+    # Object storage does not preserve POSIX executable mode.
+    with source.open("rb") as src, destination.open("xb") as dst:
+        shutil.copyfileobj(src, dst)
+    if sha(source) != sha(destination):
+        raise ValueError("staged binary hash changed")
+    destination.chmod(0o755)
+    return destination
+
+
 def campaign(root):
     # CUDA reserves a large virtual address range; sampled RSS controls host memory.
     resource.setrlimit(resource.RLIMIT_FSIZE, (2 * 1024**3,) * 2)
@@ -116,8 +128,11 @@ def campaign(root):
     if len(roster) != 9 or set(roster) != expected_roster:
         raise ValueError("incomplete classifier roster")
     os.environ.update(RAYON_NUM_THREADS="4", OMP_NUM_THREADS="1", OPENBLAS_NUM_THREADS="1")
-    binaries = {name: root / ("circle-prove-" + name) for name in ("cpu", "cuda")}
-    verifier = root / "circle-verify"
+    binaries = {
+        name: executable(root / ("circle-prove-" + name), work / ("circle-prove-" + name))
+        for name in ("cpu", "cuda")
+    }
+    verifier = executable(root / "circle-verify", work / "circle-verify")
     device = subprocess.check_output(
         [
             "nvidia-smi",
@@ -126,8 +141,13 @@ def campaign(root):
         ],
         text=True,
     ).strip()
-    if len(device.splitlines()) != 1 or "H200" not in device:
-        raise ValueError("expected one H200")
+    expected_gpu = os.environ.get("HALLMARK_EXPECTED_GPU", "H200")
+    if (
+        expected_gpu not in ("H200", "A100")
+        or len(device.splitlines()) != 1
+        or expected_gpu not in device
+    ):
+        raise ValueError("expected one admitted GPU")
     cpu = next(
         line.split(":", 1)[1].strip()
         for line in Path("/proc/cpuinfo").read_text().splitlines()

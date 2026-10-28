@@ -23,7 +23,8 @@ chmod +x /work/rustup-init
 export PATH=/root/.cargo/bin:$PATH
 export RUSTFLAGS='-C target-cpu=x86-64-v3'
 export CARGO_BUILD_JOBS=4 RAYON_NUM_THREADS=4 CUDAHOSTCXX=/usr/bin/g++
-printf 'set(CMAKE_CUDA_ARCHITECTURES "90")\n' > /work/architecture.cmake
+case "${HALLMARK_CUDA_ARCH:-90}" in 80|90) ;; *) exit 2 ;; esac
+printf 'set(CMAKE_CUDA_ARCHITECTURES "%s")\n' "${HALLMARK_CUDA_ARCH:-90}" > /work/architecture.cmake
 export CMAKE_TOOLCHAIN_FILE=/work/architecture.cmake
 rustc --version
 cargo --version
@@ -56,5 +57,7 @@ cuobjdump --list-elf /persist/circle-prove-cuda > /persist/cuda-elf.txt
 python3 - <<'PY'
 from pathlib import Path
 s=Path('/persist/cuda-elf.txt').read_text()
-assert 'sm_90' in s and 'sm_89' not in s
+import os
+arch=os.environ.get('HALLMARK_CUDA_ARCH','90')
+assert ('sm_'+arch) in s and 'sm_89' not in s
 PY

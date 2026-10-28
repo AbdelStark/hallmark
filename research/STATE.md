@@ -2,23 +2,38 @@
 
 Updated: 2026-10-28. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
-## Fresh GPU proving repeat and classifier candidate — in progress
+## Classifier CUDA benchmark — accepted A100 experiment
 
-The owner requests fresh GPU proving and explicitly includes a classifier GPU
-implementation while retaining the Mac classifier baseline. Decision
-[0087](../docs/decisions/0087-gpu-proving-repeat.md) freezes an unchanged LLM
-repeat before paid execution; classifier backend compatibility is a separate
-implementation gate. No new GPU result is accepted yet. Historical L1/C1/J1
-measurements remain unchanged.
+PR #135's optional CUDA classifier prover passes [decision 0089](../docs/decisions/0089-classifier-a100-capacity-fallback.md).
+The [report](../docs/CLASSIFIER-GPU-BENCHMARK.md) and [numeric evidence](evidence/classifier-gpu-benchmark-2026-10-28.json)
+retain all 54 proofs' measurements, 378 rejected public-input mutations, 54
+fresh Linux checks and 54 fresh stock Mac checks against unchanged C1 caller
+inputs. All proof bytes match C1. CUDA executes 27 classifier AIR calls with
+zero CPU AIR fallback. This is fixed-case research, not backend qualification.
 
-Classifier candidate [0088](../docs/decisions/0088-classifier-cuda-measurement.md)
-adds an isolated CUDA overlay on stock STWO 2.2.0 and a specialized gate AIR
-kernel. Rust CUDA-feature checks pass, one CPU control matches C1 proof bytes,
-and all nine native programs/witnesses/public inputs reconstruct exactly.
-Local validation passes 2,611 tests with 50 optional/platform skips. Device
-execution, full proof/mutation acceptance and measured timings remain pending;
-no compile-only result is counted as a GPU measurement. The CPU classifier and
-55-file LLM verifier identities remain unchanged.
+On one A100-SXM4-80GB / Xeon 8275CL host, with four Rayon threads, median
+nine-proof command sums are **92.406 s CPU / 22.216 s CUDA (4.16×)** over three
+pairs. Median summed final STWO calls are 44.310 / 7.550 s (5.87×), inside those
+commands. Peak sampled Rust RSS is 19.456 / 0.624 GB; sampled VRAM peaks at
+18.25 GiB. Per nine-case suite, proof JSON remains 18,063,779 bytes. Host witness
+and interaction generation remain CPU work. Training/preparation and native
+builds are reused; these are not fresh full-workflow or Mac speedup measurements.
+
+The audit rehashes 1,612 retained files / 133,042,187 bytes; five temporary buckets
+are deleted. Rounded running compute totals USD 0.37 under the combined USD 5
+ceiling, not an invoice. Preserve the H200 allocation canceled while queued and
+the first A100 worker's pre-proof executable-permission failure. Corrected local
+binary staging rechecks bytes before execution; the successful A100 native build
+is admitted by source-content/native-target and retained binary hashes.
+
+The owner explicitly approved continuing without the inaccessible numeric credit
+check; balance remains null. Fresh-clone [recovery](evidence/pr135-recovery-2026-10-28.json)
+rechecks the public manifest and reconstructs all nine C1 programs/witnesses.
+Local checks pass 2,613 tests with 50 skips; core packaging and strict docs gates
+pass. Exact-head hosted delivery is tracked on PR #135. The separate LLM repeat build timed out at 3,600 seconds; no fresh LLM
+GPU performance result is claimed. Stock classifier/core/verifier and 55-file
+LLM identities, models, thresholds and proof parameters remain unchanged. No
+hiding, hardware, independent qualification or useful-policy claim is added.
 
 ## Public Circle reference collection — local acceptance and publication passed
 
