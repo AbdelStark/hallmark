@@ -56,6 +56,8 @@ hashes across its 72 invocations.
 
 ## Complete workflow
 
+![Circle versus gnark: every sample of the nine-proof workflow; warm medians 298.88 s versus 781.25 s; Circle proofs are about 2 MB against 292 bytes.](assets/figures/perf-backends.svg)
+
 Seconds below are **median [minimum–maximum]; IQR**. Each observation contains
 nine proofs, their fresh verifications and caller checks. RSS is the maximum
 sampled process-tree sum across the phase, in decimal GB; it is not unique physical

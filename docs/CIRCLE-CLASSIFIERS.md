@@ -1,5 +1,7 @@
 # Circle STARK classifier proofs — the default
 
+![The classifier workflow: train, export, compile and enroll once; then build the witness, prove with STWO, verify in a fresh process and bind the result, nine times.](assets/figures/classifier-pipeline.svg)
+
 The separate [A100 classifier GPU benchmark](CLASSIFIER-GPU-BENCHMARK.md) passes
 54 proofs under the unchanged stock verifier. Median nine-proof command sums
 are 92.41 s CPU / 22.22 s CUDA across three pairs. The optional CUDA candidate
@@ -111,6 +113,8 @@ verdicts fail the gate equations. These fixtures test the arithmetic boundary,
 not whether the trained models can attain each score.
 
 ## What the proof establishes
+
+![What one classifier proof states: a witness of prompt bytes, salt and intermediate values; four constrained steps; a public statement of 100 fields.](assets/figures/classifier-statement.svg)
 
 Each circuit covers the complete input up to 96 UTF-8 bytes. Oversized inputs
 reject. No floating-point inference, truncated prefix, alternative hash or native

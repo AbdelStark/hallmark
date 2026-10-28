@@ -25,13 +25,15 @@ theme:
     - search.highlight
     - search.suggest
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
       primary: custom
       accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to dark theme
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: custom
       accent: custom
       toggle:
@@ -66,6 +68,7 @@ nav:
       - Current state: research/STATE.md
       - Research ledger: research/LEDGER.md
   - Reference:
+      - Performance, read correctly: docs/PERFORMANCE.md
       - Reference proofs and timings: docs/REFERENCE-RUN.md
       - Architecture and proof flows: docs/ARCHITECTURE.md
       - Classifier proof statement: docs/PROOFS.md

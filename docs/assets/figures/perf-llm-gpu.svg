@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 424" width="960" height="424" role="img" aria-labelledby="t d">
+<title id="t">TinyLlama proving on one H200, CPU versus CUDA</title>
+<desc id="d">Paired bars summed over 23 segments. Trace generation: 31.84 s CPU, 32.14 s GPU. Proving session: 547.75 s versus 53.94 s. Complete commands: 679.49 s versus 155.89 s.</desc>
+<style>svg{--bg:#f7f4ec;--panel:#fffdf8;--ink:#203c35;--text:#2b3d36;--muted:#5b6860;--faint:#8d988f;--line:#d4d9cc;--grid:#e4e6dc;--soft:#ebede2;--soft2:#dde3d4;--layer:#c9d8cb;--accent:#b5532f;--accent-soft:#f4e0d6;--proved:#2e6b52;--proved-soft:#e2ece3;--caller:#94680f;--caller-soft:#f5ebcf;--out:#8d988f;--out-soft:#efeee7;--s1:#3a6fb0;--s2:#c8602f;--s3:#249c70;--s4:#d9a01c;--cpu:#a3aba4}@media (prefers-color-scheme:dark){svg{--bg:#172822;--panel:#1c3029;--ink:#e6ebdc;--text:#d9e2d4;--muted:#a7b6a9;--faint:#7d8c80;--line:#3a4d41;--grid:#26392f;--soft:#22372d;--soft2:#2b4337;--layer:#33503f;--accent:#f0b398;--accent-soft:#4a2e24;--proved:#86c9a6;--proved-soft:#1f3d2e;--caller:#e2b85c;--caller-soft:#3a3320;--out:#7d8c80;--out-soft:#203029;--s1:#4f86c9;--s2:#d26a3a;--s3:#2aa577;--s4:#b98c18;--cpu:#66756a}}text{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--text);font-size:14px}.e{font-size:11px;font-weight:700;letter-spacing:.13em;fill:var(--muted)}.h{font-size:20px;font-weight:600;fill:var(--ink);letter-spacing:-.01em}.b{font-size:14px}.bs{font-size:13px}.s{font-size:12px;fill:var(--muted)}.bb{font-size:14px;font-weight:650;fill:var(--ink)}.hb{font-size:16px;font-weight:650;fill:var(--ink)}.m{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}.mb{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:700;fill:var(--ink)}.mbig{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:18px;font-weight:600;fill:var(--ink)}.big{font-size:24px;font-weight:600;fill:var(--ink)}.acc{fill:var(--accent)}.ink{fill:var(--ink)}.mut{fill:var(--muted)}.prv{fill:var(--proved)}.cal{fill:var(--caller)}.w{font-weight:650}.onw{fill:#ffffff}.ond{fill:#1d1a10}.f-bg{fill:var(--bg)}.k-bg{stroke:var(--bg)}.f-panel{fill:var(--panel)}.k-panel{stroke:var(--panel)}.f-ink{fill:var(--ink)}.k-ink{stroke:var(--ink)}.f-text{fill:var(--text)}.k-text{stroke:var(--text)}.f-muted{fill:var(--muted)}.k-muted{stroke:var(--muted)}.f-faint{fill:var(--faint)}.k-faint{stroke:var(--faint)}.f-line{fill:var(--line)}.k-line{stroke:var(--line)}.f-grid{fill:var(--grid)}.k-grid{stroke:var(--grid)}.f-soft{fill:var(--soft)}.k-soft{stroke:var(--soft)}.f-soft2{fill:var(--soft2)}.k-soft2{stroke:var(--soft2)}.f-layer{fill:var(--layer)}.k-layer{stroke:var(--layer)}.f-accent{fill:var(--accent)}.k-accent{stroke:var(--accent)}.f-accent_soft{fill:var(--accent-soft)}.k-accent_soft{stroke:var(--accent-soft)}.f-proved{fill:var(--proved)}.k-proved{stroke:var(--proved)}.f-proved_soft{fill:var(--proved-soft)}.k-proved_soft{stroke:var(--proved-soft)}.f-caller{fill:var(--caller)}.k-caller{stroke:var(--caller)}.f-caller_soft{fill:var(--caller-soft)}.k-caller_soft{stroke:var(--caller-soft)}.f-out{fill:var(--out)}.k-out{stroke:var(--out)}.f-out_soft{fill:var(--out-soft)}.k-out_soft{stroke:var(--out-soft)}.f-s1{fill:var(--s1)}.k-s1{stroke:var(--s1)}.f-s2{fill:var(--s2)}.k-s2{stroke:var(--s2)}.f-s3{fill:var(--s3)}.k-s3{stroke:var(--s3)}.f-s4{fill:var(--s4)}.k-s4{stroke:var(--s4)}.f-cpu{fill:var(--cpu)}.k-cpu{stroke:var(--cpu)}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-faint"/></marker><marker id="ai" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect width="960" height="424" rx="10" class="f-bg"/>
+<text x="40" y="44" class="e">L1 · TINYLLAMA-1.1B ON ONE NVIDIA H200 · SUMS OVER 23 SEGMENTS</text>
+<text x="40" y="72" class="h">CUDA cuts the proving session 10.15×; trace generation stays on the CPU</text>
+<rect x="290" y="98" width="12" height="12" class="f-cpu" rx="2"/>
+<text x="308" y="108" class="bs">CPU · SIMD</text>
+<rect x="400.2" y="98" width="12" height="12" class="f-s2" rx="2"/>
+<text x="418.2" y="108" class="bs">GPU · CUDA</text>
+<path d="M290 126L290 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="290" y="356" class="s" text-anchor="middle">0 s</text>
+<path d="M353.75 126L353.75 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="353.75" y="356" class="s" text-anchor="middle">100</text>
+<path d="M417.5 126L417.5 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="417.5" y="356" class="s" text-anchor="middle">200</text>
+<path d="M481.25 126L481.25 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="481.25" y="356" class="s" text-anchor="middle">300</text>
+<path d="M545 126L545 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="545" y="356" class="s" text-anchor="middle">400</text>
+<path d="M608.75 126L608.75 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="608.75" y="356" class="s" text-anchor="middle">500</text>
+<path d="M672.5 126L672.5 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="672.5" y="356" class="s" text-anchor="middle">600</text>
+<path d="M736.25 126L736.25 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="736.25" y="356" class="s" text-anchor="middle">700</text>
+<path d="M800 126L800 338" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="800" y="356" class="s" text-anchor="middle">800</text>
+<text x="880" y="118" class="s" text-anchor="middle">CPU ÷ GPU</text>
+<text x="40" y="150" class="bb">Trace generation</text>
+<text x="40" y="168" class="s">host witness, before the session</text>
+<path d="M290 134H306.3A4 4 0 0 1 310.3 138V148A4 4 0 0 1 306.3 152H290Z" class="f-cpu"/>
+<text x="318.3" y="148" class="m">31.84 s</text>
+<path d="M290 156H306.49A4 4 0 0 1 310.49 160V170A4 4 0 0 1 306.49 174H290Z" class="f-s2"/>
+<text x="318.49" y="170" class="m">32.14 s</text>
+<text x="880" y="160" class="mb" text-anchor="middle">0.99×</text>
+<text x="40" y="222" class="bb">Proving session</text>
+<text x="40" y="240" class="s">commitments, interaction, FRI</text>
+<path d="M290 206H635.19A4 4 0 0 1 639.19 210V220A4 4 0 0 1 635.19 224H290Z" class="f-cpu"/>
+<text x="647.19" y="220" class="m">547.75 s</text>
+<path d="M290 228H320.39A4 4 0 0 1 324.39 232V242A4 4 0 0 1 320.39 246H290Z" class="f-s2"/>
+<text x="332.39" y="242" class="m">53.94 s</text>
+<text x="880" y="232" class="mb" text-anchor="middle">10.15×</text>
+<text x="40" y="294" class="bb">Complete segment commands</text>
+<text x="40" y="312" class="s">load, prove, verify, write</text>
+<path d="M290 278H719.17A4 4 0 0 1 723.17 282V292A4 4 0 0 1 719.17 296H290Z" class="f-cpu"/>
+<text x="731.17" y="292" class="m">679.49 s</text>
+<path d="M290 300H385.38A4 4 0 0 1 389.38 304V314A4 4 0 0 1 385.38 318H290Z" class="f-s2"/>
+<text x="397.38" y="314" class="m">155.89 s</text>
+<text x="880" y="304" class="mb" text-anchor="middle">4.36×</text>
+<text x="40" y="386" class="s"><tspan x="40" dy="0">One CPU-then-GPU pair on the same host, inputs and parameters, 2026-10-26. Interaction work (60.72 s / 36.95 s) is inside the session</tspan><tspan x="40" dy="16">timer; do not add it. All 69 proof, statement and claim files are byte-identical across backends.</tspan></text>
+</svg>

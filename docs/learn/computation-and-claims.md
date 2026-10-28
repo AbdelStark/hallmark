@@ -18,6 +18,8 @@ you expect.
 | Where did the input or execution come from? | An authenticated capture/provenance mechanism | Not established by these proofs |
 | Is the policy useful? | Task-specific evaluation, suitable data and an adoption decision | Synthetic engineering tasks only |
 
+![Three columns: what is proved by the STARK, what the caller checks, and what is not claimed.](../assets/figures/trust-boundary.svg)
+
 A proof can be valid while the policy is unhelpful. In the composed demo,
 the contextual CNN blocks the ordinary TinyLlama prompt. Its proof establishes
 the CNN computation, not a sensible real-world safety rule.

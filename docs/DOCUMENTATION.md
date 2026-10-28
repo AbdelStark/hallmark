@@ -35,6 +35,7 @@ in the published site.
 | Navigation and extensions | [mkdocs.yml](../mkdocs.yml) |
 | Visual system | [styles.css](../website/assets/styles.css) |
 | Math and proof explorer | [site.js](../website/assets/site.js) |
+| Figures | [render_figures.py](../scripts/render_figures.py) writes `docs/assets/figures/` |
 | Educational path | [Learn](learn/index.md) |
 | Evidence entry point | [Research evidence map](research/index.md) |
 | Staging and validation | [build script](../scripts/build_docs.py), [site checker](../scripts/check_site.py) |
@@ -65,6 +66,25 @@ link rewriting and rejection of unsafe staging inputs.
 Before publishing, review a desktop and narrow viewport, navigation/search,
 code copying, theme switching and the educational proof selector.
 Verify the hosted deployment and live paths after merging.
+
+## Figures
+
+The diagrams and charts in `docs/assets/figures/` are generated, never drawn by
+hand. [render_figures.py](../scripts/render_figures.py) reads the frozen records
+in `research/evidence/` and the fixed LLM case, and writes self-contained SVGs
+that switch to a dark palette with the reader's system theme. Chart colours
+pass a colour-vision-deficiency check against both backgrounds.
+
+```sh
+python scripts/render_figures.py          # regenerate
+python scripts/render_figures.py --check  # fail if a figure is stale
+```
+
+`tests/test_figures.py` fails when a committed figure differs from what the
+evidence produces, so a changed record cannot leave an old chart behind. To
+change a figure, edit the script and regenerate; do not edit the SVG. Every
+figure needs alt text that states its numbers, and a table or prose nearby
+that carries the same values.
 
 ## Asset provenance and claims
 

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" width="960" height="440" role="img" aria-labelledby="t d">
+<title id="t">Two proved computations, one opened request</title>
+<desc id="d">The opened request carries the prompt, response, model and context. The 23-segment LLM bundle is verified freshly; three new classifier proofs are made on the prompt and verified. A host join checks that both refer to the same request and rejects 16 changed bindings. Integrity passes; the CNN blocks, so policy release is false.</desc>
+<style>svg{--bg:#f7f4ec;--panel:#fffdf8;--ink:#203c35;--text:#2b3d36;--muted:#5b6860;--faint:#8d988f;--line:#d4d9cc;--grid:#e4e6dc;--soft:#ebede2;--soft2:#dde3d4;--layer:#c9d8cb;--accent:#b5532f;--accent-soft:#f4e0d6;--proved:#2e6b52;--proved-soft:#e2ece3;--caller:#94680f;--caller-soft:#f5ebcf;--out:#8d988f;--out-soft:#efeee7;--s1:#3a6fb0;--s2:#c8602f;--s3:#249c70;--s4:#d9a01c;--cpu:#a3aba4}@media (prefers-color-scheme:dark){svg{--bg:#172822;--panel:#1c3029;--ink:#e6ebdc;--text:#d9e2d4;--muted:#a7b6a9;--faint:#7d8c80;--line:#3a4d41;--grid:#26392f;--soft:#22372d;--soft2:#2b4337;--layer:#33503f;--accent:#f0b398;--accent-soft:#4a2e24;--proved:#86c9a6;--proved-soft:#1f3d2e;--caller:#e2b85c;--caller-soft:#3a3320;--out:#7d8c80;--out-soft:#203029;--s1:#4f86c9;--s2:#d26a3a;--s3:#2aa577;--s4:#b98c18;--cpu:#66756a}}text{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--text);font-size:14px}.e{font-size:11px;font-weight:700;letter-spacing:.13em;fill:var(--muted)}.h{font-size:20px;font-weight:600;fill:var(--ink);letter-spacing:-.01em}.b{font-size:14px}.bs{font-size:13px}.s{font-size:12px;fill:var(--muted)}.bb{font-size:14px;font-weight:650;fill:var(--ink)}.hb{font-size:16px;font-weight:650;fill:var(--ink)}.m{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}.mb{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:700;fill:var(--ink)}.mbig{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:18px;font-weight:600;fill:var(--ink)}.big{font-size:24px;font-weight:600;fill:var(--ink)}.acc{fill:var(--accent)}.ink{fill:var(--ink)}.mut{fill:var(--muted)}.prv{fill:var(--proved)}.cal{fill:var(--caller)}.w{font-weight:650}.onw{fill:#ffffff}.ond{fill:#1d1a10}.f-bg{fill:var(--bg)}.k-bg{stroke:var(--bg)}.f-panel{fill:var(--panel)}.k-panel{stroke:var(--panel)}.f-ink{fill:var(--ink)}.k-ink{stroke:var(--ink)}.f-text{fill:var(--text)}.k-text{stroke:var(--text)}.f-muted{fill:var(--muted)}.k-muted{stroke:var(--muted)}.f-faint{fill:var(--faint)}.k-faint{stroke:var(--faint)}.f-line{fill:var(--line)}.k-line{stroke:var(--line)}.f-grid{fill:var(--grid)}.k-grid{stroke:var(--grid)}.f-soft{fill:var(--soft)}.k-soft{stroke:var(--soft)}.f-soft2{fill:var(--soft2)}.k-soft2{stroke:var(--soft2)}.f-layer{fill:var(--layer)}.k-layer{stroke:var(--layer)}.f-accent{fill:var(--accent)}.k-accent{stroke:var(--accent)}.f-accent_soft{fill:var(--accent-soft)}.k-accent_soft{stroke:var(--accent-soft)}.f-proved{fill:var(--proved)}.k-proved{stroke:var(--proved)}.f-proved_soft{fill:var(--proved-soft)}.k-proved_soft{stroke:var(--proved-soft)}.f-caller{fill:var(--caller)}.k-caller{stroke:var(--caller)}.f-caller_soft{fill:var(--caller-soft)}.k-caller_soft{stroke:var(--caller-soft)}.f-out{fill:var(--out)}.k-out{stroke:var(--out)}.f-out_soft{fill:var(--out-soft)}.k-out_soft{stroke:var(--out-soft)}.f-s1{fill:var(--s1)}.k-s1{stroke:var(--s1)}.f-s2{fill:var(--s2)}.k-s2{stroke:var(--s2)}.f-s3{fill:var(--s3)}.k-s3{stroke:var(--s3)}.f-s4{fill:var(--s4)}.k-s4{stroke:var(--s4)}.f-cpu{fill:var(--cpu)}.k-cpu{stroke:var(--cpu)}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-faint"/></marker><marker id="ai" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect width="960" height="440" rx="10" class="f-bg"/>
+<text x="40" y="44" class="e">MAKE E2E-COMPOSED</text>
+<text x="40" y="72" class="h">Two proved computations, one opened request</text>
+<rect x="40" y="108" width="250" height="222" class="f-caller_soft k-caller" rx="8" stroke-width="1"/>
+<text x="56" y="132" class="e">OPENED REQUEST</text>
+<text x="56" y="160" class="s">Prompt</text>
+<text x="56" y="180" class="bs"><tspan x="56" dy="0">Name the capital of France</tspan><tspan x="56" dy="17">in one short sentence.</tspan></text>
+<text x="56" y="234" class="s">Response</text>
+<text x="56" y="254" class="bs">The capital of France is Paris.</text>
+<text x="56" y="290" class="s"><tspan x="56" dy="0">Model ID · nonce · context</tspan><tspan x="56" dy="16">salts derive from this request</tspan></text>
+<rect x="330" y="108" width="290" height="100" class="f-panel k-line" rx="8" stroke-width="1"/>
+<text x="346" y="136" class="bb">LLM bundle, verified freshly</text>
+<text x="346" y="160" class="bs">23 SASH proofs · 22 residual links</text>
+<text x="346" y="184" class="s">retained proof bytes, checked again</text>
+<rect x="330" y="230" width="290" height="100" class="f-panel k-line" rx="8" stroke-width="1"/>
+<text x="346" y="258" class="bb">Three new classifier proofs</text>
+<text x="346" y="280" class="bs">rule, MLP and CNN read the prompt</text>
+<rect x="346" y="294" width="80" height="24" class="f-proved_soft k-proved" rx="12" stroke-width="1"/>
+<text x="386" y="311" class="s" text-anchor="middle">rule · pass</text>
+<rect x="434" y="294" width="80" height="24" class="f-proved_soft k-proved" rx="12" stroke-width="1"/>
+<text x="474" y="311" class="s" text-anchor="middle">MLP · pass</text>
+<rect x="522" y="294" width="80" height="24" class="f-accent_soft k-accent" rx="12" stroke-width="1"/>
+<text x="562" y="311" class="s" text-anchor="middle">CNN · block</text>
+<rect x="660" y="108" width="260" height="222" class="f-proved_soft k-proved" rx="8" stroke-width="1"/>
+<text x="676" y="132" class="e">HOST JOIN</text>
+<path d="M676 157l3.5 3.5l6.5-7" class="k-proved" fill="none" stroke-width="2" stroke-linecap="round"/>
+<text x="696" y="162" class="bs">Same prompt, response, model</text>
+<text x="696" y="188" class="bs">and context in both proofs</text>
+<path d="M676 209l3.5 3.5l6.5-7" class="k-proved" fill="none" stroke-width="2" stroke-linecap="round"/>
+<text x="696" y="214" class="bs">Exactly one proof per classifier</text>
+<path d="M676 235l3.5 3.5l6.5-7" class="k-proved" fill="none" stroke-width="2" stroke-linecap="round"/>
+<text x="696" y="240" class="bs">16 changed bindings, all rejected</text>
+<text x="676" y="292" class="s"><tspan x="676" dy="0">No recursion: the join is</tspan><tspan x="676" dy="16">host code over two verified results</tspan></text>
+<path d="M292 219L326 158" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<path d="M622 158L656 219" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<path d="M292 219L326 280" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<path d="M622 280L656 219" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<rect x="660" y="350" width="125" height="40" class="f-ink" rx="6"/>
+<text x="722" y="375" class="bs w" style="fill:var(--bg)" text-anchor="middle">integrity · pass</text>
+<rect x="795" y="350" width="125" height="40" class="f-accent_soft k-accent" rx="6" stroke-width="1"/>
+<text x="857" y="375" class="bs w acc" text-anchor="middle">release · false</text>
+<path d="M790 332L790 346" class="k-faint" fill="none" stroke-width="1.5" marker-end="url(#a)" stroke-linecap="round"/>
+<text x="40" y="420" class="s">Classifiers read the prompt; the response is bound into their context, not classified. Verdicts [1, 1, 0]: every proof is valid and the CNN blocks.</text>
+</svg>

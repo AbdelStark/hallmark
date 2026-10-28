@@ -14,6 +14,8 @@ the TinyLlama response, or choose another workflow below.
 | Measure SIMD/CUDA proving | `make benchmark-llm-gpu …` | Mac controller; HF CPU/H200 jobs; completed caller-owned LLM run | Matched full runs, 69 identical artifacts, fresh CPU/Mac checks |
 | Bind LLM and classifier proofs | `make e2e-composed` | Both sets of prerequisites; 32 GiB free | Same-request verified relations and classifier verdicts |
 
+![How Hallmark works: the caller pins roots, programs and the request; SASH proves the TinyLlama answer as 23 linked segments and STWO proves three classifier verdicts; the verifier checks every proof and that both name the same request.](assets/figures/overview.svg)
+
 Prefer an interactive interface? Run `make demo-tui` or `make demo-web` from a
 checkout. The [workbench](WORKBENCH.md) uses these same drivers and retains their
 results; opening an interface does not start a proof or paid job.

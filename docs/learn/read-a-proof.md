@@ -83,17 +83,7 @@ TinyLlama has 22 transformer layers in this case. The final normalization and
 output head form the remaining segment. The verifier checks each proof and
 connects its inputs and outputs to the expected model and token sequence.
 
-```mermaid
-flowchart LR
-    P[Expected prompt tokens] --> E[Embedding / first segment]
-    E --> L[All 22 transformer layers]
-    L --> H[Final normalization + argmax]
-    H --> O[Answer tokens through EOS]
-    O -. seven generated-input links .-> P
-    C[Caller-enrolled roots and expected case] --> V[Verify 23 proofs + links]
-    L --> V
-    H --> V
-```
+![What the TinyLlama proof covers: a 32-position input block, 23 segment proofs stacked as layers, the output head's argmax at positions 24 to 31, and seven links feeding each output back as the next input.](../assets/figures/llm-statement.svg)
 
 The verifier checks a bundle of 23 proofs separately. All tokens fit in one
 block, so there are zero inter-block token links and seven within-block

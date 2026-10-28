@@ -16,6 +16,8 @@ control first. Classifiers inspect the **prompt**; the response and LLM model
 identity are bound into their shared context. Composition is a host check, not a
 recursive aggregate proof.
 
+![Composition: the opened request feeds a freshly verified 23-segment LLM bundle and three new classifier proofs; a host join checks they share the request and rejects 16 changed bindings. Integrity passes; the CNN blocks, so release is false.](assets/figures/composition.svg)
+
 ```mermaid
 flowchart TD
     E[Caller-owned prompt, response, model and enrollment] --> L[Fresh native checks: 23 SASH proofs and 22 links]

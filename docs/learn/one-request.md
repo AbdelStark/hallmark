@@ -14,23 +14,17 @@ For a small software-only check on Linux/macOS, follow
 
 ## Follow the evidence
 
-```mermaid
-flowchart TD
-    D[Frozen synthetic fixtures] --> T[Train MLP / CNN and export integer models]
-    T --> C[Dedicated circuits + fresh research setup]
-    E[Caller-owned request and expected identities] --> P[Three requests × three classifier proofs]
-    C --> P
-    P --> V[Separate py-ecc verification]
-    E --> V
-    V --> G[Host all-pass gate over verified verdicts]
-```
+![The classifier workflow: train, export, compile and enroll once; then build the witness, prove with STWO, verify in a fresh process and bind the result, nine times.](../assets/figures/classifier-pipeline.svg)
 
-The caller reconstructs public inputs from its expected request. Before
-interpreting the verdicts, it checks the classifier, program, circuit and key
+The caller enrolls each compiled program and its preprocessing root before any
+proof exists, then reconstructs public inputs from its expected request. Before
+interpreting the verdicts, it checks the classifier, program and enrollment
 against identities chosen outside the proof bundle. Running a downloaded
 Hugging Face model computes a score without these proof or enrollment checks.
 
 ## Three controls, different reasons to block
+
+![Nine proofs, nine verdicts: the allow request passes all three classifiers; the CNN blocks the contextual case; the rule blocks the BAD-prefixed case. Every proof verifies.](../assets/figures/verdict-matrix.svg)
 
 | Case | Rule | MLP | CNN | All-pass gate |
 |---|---|---|---|---|
@@ -50,11 +44,11 @@ proof workflow. Real-world safety performance has not been evaluated.
 The driver prints a fresh local `runs/e2e-…` path. Read its
 [documented output layout](../DEMO.md#evidence-bounds-and-failures):
 
-- training records and original/resumed checkpoints;
+- training records and checkpoints;
 - quantizations and integer model identities;
-- fresh circuit/setup keys and proof files;
-- independent arithmetic-verifier results;
-- cross-request substitution and arithmetic checks.
+- the caller's enrollment pin, written before proving, and the nine proof files;
+- fresh proof-only verifier results;
+- the 63 changed-input, 18 cross-request and three roster rejections.
 
 The retained model exports are also available as
 [public model releases](../MODELS.md). Their pinned revisions and manifests
@@ -69,6 +63,8 @@ make e2e-composed
 A fresh run also launches the paid LLM workflow; read its
 [prerequisites and cost ceiling](../COMPOSED-DEMO.md#run-the-workflow) first.
 Caller-owned retained inputs can avoid new cloud jobs.
+
+![Composition: the opened request feeds a freshly verified 23-segment LLM bundle and three new classifier proofs; a host join checks they share the request and rejects 16 changed bindings. Integrity passes; the CNN blocks, so release is false.](../assets/figures/composition.svg)
 
 The composition binds three new classifier proofs to the proved TinyLlama
 request. The classifiers inspect its prompt only. The frozen CNN blocks
