@@ -1,60 +1,45 @@
-# A proved response and three classifier decisions
+# A proved response and three Circle STARK classifier decisions
 
-The composed demo checks two computations over the same opened request:
+Circle STARK is the default throughout this workflow: **SASH** proves the fixed
+quantized TinyLlama response; **direct STWO** proves the rule, byte MLP and byte
+CNN decisions on its exact prompt. No Groth16 setup, general-purpose zkVM or
+hardware attestation is involved.
 
-1. Quantized TinyLlama computes “The capital of France is Paris.” from the pinned
-   prompt “Name the capital of France in one short sentence.”
-2. The literal rule, trained byte MLP and trained byte CNN compute their verdicts
-   on that exact prompt, with the response and model bound into the shared context.
-
-It uses the existing specialized SASH and Groth16 relations. There is no
-general-purpose zkVM or hardware attestation.
-
-An experimental [Circle classifier composition](CIRCLE-CLASSIFIERS.md#llm-request-composition)
-also passes: three new STWO classifier proofs join the retained 23-proof SASH
-bundle, with fresh verification and 16 binding/coverage rejections. The
-[benchmark report](CLASSIFIER-BENCHMARK.md) records that separate command and
-its limits. `make e2e-composed` below keeps its existing Groth16 path.
-
-The [architecture guide](ARCHITECTURE.md) explains both underlying proof flows,
-SASH source/patch ownership and caller trust boundaries. A fresh default run
-makes **23 SASH segments and 12 Groth16 proofs**: nine classifier controls plus
-three proofs for this LLM request. With both retained preparation paths supplied,
-it freshly verifies the 23 segments and makes only the three new classifier
-proofs/setups. Classifiers inspect the **prompt**; the response is bound into the
-context, not classified. Composition is a host check, not a recursive proof.
+The request is fixed: “Name the capital of France in one short sentence.” →
+“The capital of France is Paris.” The complete answer through EOS has **23 LLM
+proof segments and 22 residual links**. The controller produces **three new
+classifier proofs**, one per classifier. It does not run the standalone nine-proof
+control first. Classifiers inspect the **prompt**; the response and LLM model
+identity are bound into their shared context. Composition is a host check, not a
+recursive aggregate proof.
 
 ```mermaid
-flowchart LR
-    L[23 TinyLlama proofs] --> V[Fresh native verification]
-    R[Caller-owned prompt, response and model] --> V
-    R --> C[3 fresh classifier setups and proofs]
-    C --> P[Separate pairing verifier]
-    V --> J[Caller checks both results and shared request]
-    P --> J
+flowchart TD
+    E[Caller-owned prompt, response, model and enrollment] --> L[Fresh native checks: 23 SASH proofs and 22 links]
+    E --> C[Prepare frozen classifier models without Groth16]
+    C --> P[Three new STWO Circle STARK proofs on this prompt]
+    E --> V[Fresh proof-only classifier verification]
+    P --> V
+    L --> J[Host joins exact request and complete classifier roster]
+    V --> J
+    J --> I[Integrity pass; separate all-pass policy result]
 ```
 
 ## Run the workflow
 
-Use the [LLM demo prerequisites](LLM-PROOF.md#run-it), the pinned Rust toolchain
-from [native verification](LLM-PROOF.md#verify-retained-proofs-on-your-mac), and at
-least **32 GiB free storage**. From the checkout:
+Use the [LLM prerequisites](LLM-PROOF.md#run-it), the
+[classifier prerequisites](DEMO.md#prerequisites), and **32 GiB free storage**
+for fresh LLM preparation:
 
 ```sh
 make e2e-composed
 ```
 
-This runs the existing LLM preparation/proving pipeline, freshly verifies its
-proofs locally, prepares the existing trained classifier demo, then makes three
-new classifier setups and proofs for the LLM request. The original classifier
-demo remains a control. Its setup/proving work is additional to the three new
-proofs. Allow the time and memory required by both standalone demos.
+Fresh LLM proving starts the existing bounded paid HF CPU jobs with the CLI's
+**$2.10 timeout-based ceiling**, using prepaid credits and `HF_TOKEN`. Classifier
+preparation and proofs run locally. There is no new payment or account setup.
 
-Fresh LLM proving starts paid HF CPU jobs under the existing **$2.10 maximum
-timeout-based cost ceiling**. It requires existing prepaid credits and `HF_TOKEN`;
-it does not add funds. The classifier stages and native verification run locally.
-
-If you already have completed runs, reuse their preparation:
+For a local run with retained LLM proofs:
 
 ```sh
 make e2e-composed \
@@ -62,19 +47,23 @@ make e2e-composed \
   CLASSIFIER_RUN=/path/to/classifier-e2e-run
 ```
 
-With **both** paths supplied, the workflow starts no cloud job, downloads no
-checkpoint and needs no HF credential. Locked Python/Rust dependencies may need
-installation. The paths are caller-owned preparation, not an untrusted prover's
-executable environment: the classifier binary and quantizations have pinned
-hashes, and its separate Python verifier environment must be trusted. No saved
-`passed` result substitutes for fresh verification.
+Retained LLM composition needs **12 GiB free plus build-cache headroom**. It
+starts no cloud job and downloads no checkpoint. `CLASSIFIER_RUN` is optional:
+it reuses only the two exact frozen model quantizations; omit it to retrain.
+Dependencies may require initial network access. Proofs are verified afresh;
+a saved success flag never substitutes for a cryptographic check.
 
-The LLM's retained 23 proofs are freshly verified twice, including all 36 mutation
-rejections. The three classifier keys and proofs are always new. The separate
-pairing implementation verifies each proof, and its 399-case corpus includes
-honest controls, changed public fields, keys, encodings and malformed proofs.
-Eleven additional composition checks change the opened text/context or classifier
-evidence. Failures return nonzero and preserve their logs.
+The controller validates LLM parameter authority before preparation and after
+composition; the native LLM driver runs two honest verifications and all 36
+mutation checks. The classifier driver enrolls all three fixed programs before
+proving, freshly verifies each proof, rejects 21 changed public statements and
+three invalid rosters, and checks native/circuit trace parity. The outer join
+runs three more proof-only verifications and **16 distinct binding/roster checks**.
+
+The source is [run_circle_composed.py](../scripts/run_circle_composed.py), reusing
+[run_circle_e2e.py](../scripts/run_circle_e2e.py) and the original pinned SASH
+verification driver. The 55-file LLM verifier identity is unchanged. The
+[architecture guide](ARCHITECTURE.md) distinguishes dependencies and patches.
 
 ## Signed LLM parameters
 
@@ -108,77 +97,85 @@ it explicitly reports `{"kind":"checkout-case"}`. Script callers can use the
 equivalent `--enrollment FILE --trusted-key HEX` arguments.
 
 This authorization covers the LLM case and verifier sources. Classifier policy
-and setup enrollment remain separate; no persistent revocation/rollback service,
+and preprocessing enrollment remain separate; no persistent revocation/rollback service,
 operational signer custody or independent security qualification is supplied.
 See [decision 0075](decisions/0075-signed-composed-enrollment.md).
 
-The recorded signed Make campaign took **866.49 seconds** (14 min 26 s) with
-retained preparation, fresh native verification and three fresh classifier proofs.
-All 36 LLM mutations, eleven binding rejections and 399 arithmetic outcomes pass.
-All five authorization checks refer to the same record/key, including the final
-join. Ten actual CLI invalid-input checks reject before preparation. The issuer
-is a disposable research key; this is integration evidence, not operational
-custody. [Numeric results and retained harness failure](../research/evidence/signed-composed-2026-10-25.json)
-preserve the source identities and limitations. New cloud jobs and spend are zero.
-
 ## Read the outcome
 
-The command prints a fresh `runs/composed-*` directory. Its successful
-`result.json` separates proof integrity from the classifier policy:
+A successful `runs/composed-circle-*/result.json` includes:
 
 ```json
 {
+  "schema_id": "hallmark.circle-composed-request-result/1",
   "status": "passed",
+  "backend": "circle",
   "llm_proofs_verified": 23,
+  "residual_links": 22,
   "classifier_proofs_verified": 3,
   "classifier_verdicts": [1, 1, 0],
   "policy_release": false,
   "classifier_scope": "prompt",
+  "host_join": true,
+  "recursion": false,
   "parameter_authority": {"kind": "checkout-case"},
-  "safety_quality_claim": false,
   "qualified_backend": false,
   "hardware_claim": "not-accepted",
   "hiding_claim": false
 }
 ```
 
-**Integrity passes while this synthetic policy blocks.** The CNN was trained on
-a narrow authored action/quotation task. It blocks this ordinary France prompt;
-its weights and threshold remain frozen. A proof faithfully establishes that
-decision, not that it is a useful policy. The classifiers do not classify the
-answer's safety or factuality.
+**Integrity passes while the synthetic policy blocks.** Verdict order is rule,
+MLP, CNN; 1 means pass. The narrow CNN blocks this ordinary France prompt. The
+frozen MLP always allows in the admitted domain. These are faithful computation
+proofs, not evidence of useful policy quality or response safety/factuality.
 
-The verdict order is rule, MLP, CNN; `1` means pass and `0` means block.
-
-The directory retains source pins, fresh classifier enrollment and setup keys,
-the exact CBOR request opening/expectations, classifier proofs, separate-verifier
-results, mutation outcomes and costs. The result points to the fresh native LLM
-verification directory and hashes its result. Keep these local artifacts; the
-command does not publish them.
+The directory retains source/authority records, the fresh native LLM result hash,
+the new classifier result hash, and three fresh proof-only join checks. Its
+classifier directory retains enrollment, exact CBOR requests, proof bundles,
+rejection records and resource samples. Failures preserve `failure.json` and
+partial outputs in new directories. Nothing is published by the command.
 
 ## What connects the proofs?
 
-The caller owns the exact prompt/response strings, frozen LLM case, model identity
-and classifier policy. It checks that the transcript matches the case whose token
-sequence was enrolled and proved. The classifier proofs bind the transcript's
-context, input digest and classifier identities. Changing the response preserves
-the prompt's classifier input but changes its context, so the original classifier
-proofs cannot be accepted for the new request.
+The caller checks the exact opened strings against the enrolled LLM token case
+and model, then reconstructs the classifier public statements under its own
+policy/enrollment. Changing the response preserves the classifier's prompt input
+but changes request context; the old proofs cannot be reused for that request.
+Exact roster checks reject missing, duplicated, reordered or substituted proofs.
 
-The join is performed by the caller; it is not a recursive aggregate proof or a
-hardware receipt. Tokenization and detokenization belong to the separately pinned
-LLM case, not a new tokenizer circuit. The model identity is an explicit research
-descriptor, not operational v1 model enrollment. Fresh request IDs do not show
-when the deterministic LLM computation occurred. Generation precedes classifier
-evaluation in this offline demo; no protected release path is claimed.
+Tokenization/detokenization remain pinned host checks. Initial model/shape
+provisioning and classifier enrollment remain caller trust boundaries. A model
+identity does not prove training history or authentic context capture. There is
+no protected release path, private witness claim, hardware receipt or independent
+security qualification. [Classifier statement](PROOFS.md),
+[LLM statement](LLM-PROOF.md#the-statement), [current default decision](decisions/0085-circle-default.md).
 
-The [classifier proof explanation](PROOFS.md), [LLM proof explanation](LLM-PROOF.md)
-and [composition decision](decisions/0073-compose-proved-llm-and-classifier-request.md)
-state the component assumptions. Backend/setup custody, independent security
-review, operational enrollment, policy quality and genuine hardware evidence
-remain separate gates.
+## Recorded Circle default acceptance
 
-## Recorded fresh preparation
+The actual default retained-input Make command completed in **266.29 s**,
+including a fresh native LLM verifier build and its complete mutation suite.
+All 23 LLM proofs, 22 links, three newly generated classifier proofs and three
+outer-join proof checks pass; all 16 binding checks reject. No paid job starts.
+This is one Mac acceptance observation with populated dependency caches, not a
+latency distribution. [Numeric receipt and source pins](../research/evidence/circle-default-2026-10-28.json).
+
+## Explicit gnark comparison
+
+```sh
+make e2e-composed BACKEND=gnark \
+  LLM_RUN=/path/to/llm-e2e-run \
+  CLASSIFIER_RUN=/path/to/gnark-e2e-run
+```
+
+This preserves the original SASH-plus-Groth16 controller and result schema.
+Its retained classifier preparation must come from `make e2e BACKEND=gnark`;
+it uses fresh circuit-specific local setups and separate py-ecc verification.
+The following recorded campaigns belong to that historical mixed-backend path.
+Their timings, keys, 399/405-case arithmetic checks and eleven binding checks
+are **not** measurements or check counts for today's Circle default.
+
+## Historical gnark composition: fresh preparation
 
 On 2026-10-25, the actual `make e2e-composed` command passed with neither
 `LLM_RUN` nor `CLASSIFIER_RUN`. It generated new LLM witnesses/proofs, trained and
@@ -228,7 +225,7 @@ inventories are retained; their package resolution is not fully hermetic. These
 are diagnostic observations on an Apple M4 Max, with other host activity
 uncontrolled, not latency distributions or independent security qualification.
 
-## Recorded reproduction
+## Historical gnark composition: retained reproduction
 
 Two fresh local campaigns with retained preparation passed on an Apple M4 Max:
 

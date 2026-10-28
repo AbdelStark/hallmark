@@ -16,7 +16,7 @@ docs:
 docs-serve:
 	uv run --locked --project website python scripts/build_docs.py --serve
 
-BACKEND ?= gnark
+BACKEND ?= circle
 e2e:
 ifeq ($(BACKEND),circle)
 	$(MAKE) e2e-circle
@@ -32,9 +32,7 @@ circle-build:
 	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 4
 
 e2e-circle:
-	@test -n "$(CLASSIFIER_RUN)" -a -n "$(CLASSIFIER_ENROLLMENT)" || { echo 'Set CLASSIFIER_RUN and the caller-retained CLASSIFIER_ENROLLMENT hash; see docs/CIRCLE-CLASSIFIERS.md'; exit 2; }
-	$(MAKE) circle-build
-	uv run --locked --python 3.12.12 --extra train python scripts/run_circle_classifiers.py --classifier-run "$(CLASSIFIER_RUN)" --expected-enrollment "$(CLASSIFIER_ENROLLMENT)" --prover research/probes/circle/target/release/circle-prove --expected-prover "$$(shasum -a 256 research/probes/circle/target/release/circle-prove | cut -d ' ' -f 1)" --verifier research/probes/circle/target/release/circle-verify --expected-verifier "$$(shasum -a 256 research/probes/circle/target/release/circle-verify | cut -d ' ' -f 1)"
+	uv run --locked --python 3.12.12 --extra train python scripts/run_circle_e2e.py $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
 
 e2e-llm:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10
@@ -43,7 +41,13 @@ benchmark-llm-gpu:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_gpu.py --llm-run "$(LLM_RUN)" --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 5.00 $(if $(GPU_BUILD_RUN),--build-run "$(GPU_BUILD_RUN)")
 
 e2e-composed:
+ifeq ($(BACKEND),circle)
+	uv run --locked --python 3.12.12 --extra train --extra llm python scripts/run_circle_composed.py $(if $(LLM_RUN),--llm-run "$(LLM_RUN)") $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
+else ifeq ($(BACKEND),gnark)
 	uv run --locked --python 3.12.12 --extra train --extra llm python scripts/run_composed.py $(if $(LLM_RUN),--llm-run "$(LLM_RUN)") $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
+else
+	@echo 'BACKEND must be circle or gnark'; exit 2
+endif
 
 verify-llm:
 	uv run --locked --python 3.12.12 python scripts/verify_llm.py --run "$(LLM_RUN)"

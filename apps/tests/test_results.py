@@ -72,3 +72,56 @@ def test_recorded_gpu_result_uses_real_numeric_evidence():
     changed["measurements"][1]["backend"] = "simd"
     with pytest.raises(ValueError):
         summarize(CATALOG["gpu"], changed)
+
+
+def test_circle_default_requires_complete_cryptographic_checks():
+    report = classifier_result() | dict(
+        schema_id="hallmark.circle-e2e-result/1",
+        backend="circle",
+        direct_public_mutations_rejected=63,
+        roster_rejections=3,
+        intermediate_parity=True,
+        hiding_claim=False,
+    )
+    assert len(summarize(CATALOG["classifiers-circle"], report)["cases"]) == 3
+    for change in (
+        {"backend": "gnark"},
+        {"direct_public_mutations_rejected": 62},
+        {"roster_rejections": 2},
+        {"intermediate_parity": False},
+    ):
+        with pytest.raises(ValueError):
+            summarize(CATALOG["classifiers-circle"], report | change)
+    with pytest.raises(ValueError):
+        summarize(CATALOG["classifiers-circle"], classifier_result())
+
+
+def test_circle_composed_requires_all_links_and_distinct_binding_checks():
+    report = dict(
+        schema_id="hallmark.circle-composed-request-result/1",
+        status="passed",
+        backend="circle",
+        llm_proofs_verified=23,
+        residual_links=22,
+        fresh_llm_verifications=2,
+        classifier_proofs_verified=3,
+        qualified_backend=False,
+        hiding_claim=False,
+        hardware_claim="not-accepted",
+        classifier_scope="prompt",
+        safety_quality_claim=False,
+        host_join=True,
+        recursion=False,
+        classifier_verdicts=[1, 1, 0],
+        policy_release=False,
+        binding_rejections=[str(i) for i in range(16)],
+    )
+    assert summarize(CATALOG["composed-circle"], report)["cases"][0]["release"] is False
+    for change in (
+        {"residual_links": 21},
+        {"classifier_proofs_verified": 2},
+        {"binding_rejections": ["same"] * 16},
+        {"policy_release": True},
+    ):
+        with pytest.raises(ValueError):
+            summarize(CATALOG["composed-circle"], report | change)

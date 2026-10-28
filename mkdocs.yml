@@ -68,7 +68,7 @@ nav:
   - Reference:
       - Architecture and proof flows: docs/ARCHITECTURE.md
       - Classifier proof statement: docs/PROOFS.md
-      - Circle classifier experiment: docs/CIRCLE-CLASSIFIERS.md
+      - Circle classifier proofs: docs/CIRCLE-CLASSIFIERS.md
       - Supported API: docs/spec/02-public-api.md
       - Original software contract: docs/SPEC.md
       - Proposed private / hardware v1: SPEC.md

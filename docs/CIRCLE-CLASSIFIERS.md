@@ -1,4 +1,4 @@
-# Experimental Circle STARK classifier proofs
+# Circle STARK classifier proofs — the default
 
 The new backend produces real, serialized STWO proofs for the existing literal
 rule, four-hidden-unit integer MLP and contextual byte CNN. A fresh verifier
@@ -17,29 +17,26 @@ acceptance results. The subsequent [matched CPU comparison](CLASSIFIER-BENCHMARK
 passes all 144 measured proofs plus the composed LLM request. Its warm nine-proof
 workflow medians are 298.88 s for Circle and 781.25 s for gnark, with substantial
 memory/artifact trade-offs and different security profiles. Both research paths
-are retained; gnark remains the default for `make e2e`.
+are retained; Circle is now the default for `make e2e` under
+[decision 0085](decisions/0085-circle-default.md). Default selection does not
+change the backend’s unqualified research status.
 
 ## Run the acceptance workflow
 
 Use an Apple Silicon Mac, CPython 3.12.12, uv 0.9.18 and Rust's
-`nightly-2025-07-14` toolchain. The Python training extra supplies the existing
-export adapter; this workflow does not retrain or download a model. Allow
-30 GiB for the sampled worker-memory stop. Reserve up to 4 GiB for outputs
-and keep another 8 GiB free: plan for at least 12 GiB before starting, plus
-dependency/build caches. The driver stops if free space falls below 8 GiB.
-The recorded acceptance runs take about two minutes with retained model inputs;
-the first Rust build takes additional time. This is an observed run, not a
-portable performance guarantee.
-
-First run `make e2e` locally to obtain the admitted frozen classifier models.
-Its controller writes `proofs/enrollment-pin.json` before proving. Retain that
-hash outside the output directory while the preparation is under your control.
-Then pass that directory and your saved hash (replace both placeholders):
+`nightly-2025-07-14` toolchain. The default workflow trains the frozen models and exports their integer graphs;
+it never generates Groth16 setup or proofs. Allow a 30-GiB sampled worker-memory
+stop, up to 4 GiB of proof outputs, and at least 12 GiB free plus build caches.
+The proof driver stops below 8 GiB free. Run:
 
 ```bash
-make e2e BACKEND=circle \
-  CLASSIFIER_RUN=runs/e2e-<your-run> \
-  CLASSIFIER_ENROLLMENT=<your-saved-enrollment-sha256>
+make e2e
+```
+
+To reuse only the exact hash-pinned quantizations from a caller-owned run:
+
+```bash
+make e2e CLASSIFIER_RUN=runs/e2e-circle-<your-run>
 ```
 
 The target builds the locked prover and a verifier without the prover feature,
@@ -57,13 +54,14 @@ partial outputs. Inspect the named worker's `stderr.txt` first; do not replace
 a failed directory or adopt an enrollment hash supplied only by a prover.
 
 The [recorded Make reproduction](../research/evidence/circle-make-e2e-2026-10-27.json)
-executes this exact entrypoint, builds both locked targets and passes all nine
+executes the earlier explicit-backend entrypoint, builds both locked targets and passes all nine
 proofs and rejection checks. Its driver takes 97.81 s excluding compilation;
 this Mac command check is separate from the matched HF measurements.
 
 ## Replay the baseline and check constraint failures
 
-After the original `make e2e`, replay its frozen native contract and freshly
+The following legacy comparison commands require preparation from
+`make e2e BACKEND=gnark`; they are not prerequisites for the default. Replay its frozen native contract and freshly
 verify its nine retained gnark proofs:
 
 ```bash
@@ -75,7 +73,7 @@ uv run --locked --python 3.12.12 python scripts/check_classifier_comparison.py \
 The command prints a new evidence directory. Passing output records nine fresh
 cryptographic checks, zero newly generated proofs, 10 input boundaries, 20 scalar
 cases, 18 cross-request rejections and three roster rejections. Original proof
-generation belongs to the preceding `make e2e`; this replay is not a benchmark.
+generation belongs to the preceding `make e2e BACKEND=gnark`; this replay is not a benchmark.
 
 After the Circle acceptance workflow, retain its `caller-pin.json` hash while
 the enrollment is under your control. Keep the binaries built by
@@ -347,6 +345,12 @@ caller freezes their enrollment and all expected public fields before upload;
 Linux preprocessing must match the retained Mac roots byte for byte.
 
 ## LLM request composition
+
+The default entrypoint is now `make e2e-composed`: it prepares native classifiers
+without Groth16 setup and joins three new Circle proofs to freshly checked SASH
+proofs. See the [current run guide](COMPOSED-DEMO.md). The lower-level checker and
+11.13-second observation below belong to the earlier retained campaign, excluding
+native verifier compilation and fresh classifier proving.
 
 ```mermaid
 flowchart TD

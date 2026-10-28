@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import importlib
 import json
+import os
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -54,7 +55,9 @@ def admission(e2e, hardware, workflow, maximum, *, gpu=None, build_reused=False)
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--workflow", choices=("llm", "gpu", "composed"), required=True)
+    parser.add_argument(
+        "--workflow", choices=("llm", "gpu", "composed", "composed-circle"), required=True
+    )
     parser.add_argument("--max-cost-usd", required=True)
     parser.add_argument("--monitor-dir", type=Path, required=True)
     parser.add_argument("--llm-run", type=Path)
@@ -71,7 +74,7 @@ def main():
     sys.path.insert(0, str(root / "scripts"))
     e2e = importlib.import_module("run_llm_e2e")
     gpu = importlib.import_module("run_llm_gpu") if args.workflow == "gpu" else None
-    paid = args.workflow != "composed" or args.llm_run is None
+    paid = args.workflow not in {"composed", "composed-circle"} or args.llm_run is None
     if paid:
         from huggingface_hub import HfApi
 
@@ -106,8 +109,12 @@ def main():
             build_run=args.build_run,
         )
     else:
-        importlib.import_module("run_composed").run(
-            llm_run=args.llm_run, classifier_run=args.classifier_run
+        driver = "run_circle_composed" if args.workflow == "composed-circle" else "run_composed"
+        importlib.import_module(driver).run(
+            llm_run=args.llm_run,
+            classifier_run=args.classifier_run,
+            enrollment=os.environ.get("LLM_ENROLLMENT"),
+            trusted_key=os.environ.get("LLM_TRUST_KEY"),
         )
 
 

@@ -90,10 +90,18 @@ original `v1.0.0` tag remain unchanged. The
 [clarification receipt](../research/evidence/mlp-model-card-clarification-2026-10-27.json)
 records anonymous file verification and the old/new revision identities.
 
+Both current model cards now describe Circle STARK as the default, at
+[MLP card revision `5309557`](https://huggingface.co/abdelstark/hallmark-byte-mlp/commit/53095579fdad5ca1ebeb3754ff3317ca6484a281)
+and [CNN card revision `810059e`](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn/commit/810059ec5fa6c7e43602af119f014ed56029ee25).
+Only `README.md` and its manifest hash entry changed. Weights, thresholds and the
+original pinned releases above are unchanged. The
+[Circle-default acceptance receipt](../research/evidence/circle-default-2026-10-28.json)
+records old/new revisions and exact uploaded hashes.
+
 The [publication receipt](../research/evidence/hub-model-publication-2026-10-27.json)
 lists every released file, byte count and SHA-256. The per-repository
 `manifest.json` records data/source identities and release authority.
-Quantization pins match the existing [end-to-end driver](../scripts/run_e2e.py).
+Quantization pins match the frozen export pins used by the [default controller](../scripts/run_circle_e2e.py).
 Regenerated `model.json` bytes match the retained proof-circuit inputs exactly.
 
 ## Model cards and validation

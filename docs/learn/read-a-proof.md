@@ -43,10 +43,11 @@ admitted prompt bytes. Hashing, coverage, integer arithmetic and threshold
 comparison belong to the relation.
 
 **Caller expectations:** exact request context, classifier/program identity,
-circuit and verification key. The caller reconstructs expected public inputs.
+program, preprocessing roots and concrete proof parameters. The caller reconstructs expected public inputs.
 
-**Cryptographic checks:** dedicated Groth16 equations, checked by separate
-py-ecc arithmetic against those inputs.
+**Cryptographic checks:** dedicated Circle STARK proofs checked by fresh
+proof-only STWO processes against those inputs and the enrolled preprocessing.
+The optional gnark comparison uses separate py-ecc pairing arithmetic.
 
 **Outside the claim:** training history, a useful safety policy or a confidential
 input capture mechanism. The combined demo limit is 96 UTF-8 bytes.

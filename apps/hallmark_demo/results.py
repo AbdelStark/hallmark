@@ -10,6 +10,9 @@ METRICS = {
     "cross_request_rejections": "Substitution rejections",
     "mutations_rejected": "Mutations rejected",
     "fresh_verifications": "Fresh honest checks",
+    "direct_public_mutations_rejected": "Public-input rejections",
+    "roster_rejections": "Roster rejections",
+    "residual_links": "Residual links",
     "arithmetic_cases": "Arithmetic cases",
     "matched": "Software cases",
     "baseline_mutations_rejected": "Baseline mutations rejected",
@@ -58,7 +61,48 @@ def summarize(workflow, report):
         require(report.get("status") == "passed" or report.get("passed") is True, "passing status")
     kind = "integrity"
     rows = []
-    if workflow.id == "classifiers":
+    if workflow.id == "classifiers-circle":
+        exact(
+            report,
+            backend="circle",
+            proofs_verified=9,
+            cross_request_rejections=18,
+            direct_public_mutations_rejected=63,
+            roster_rejections=3,
+            intermediate_parity=True,
+            qualified_backend=False,
+            hardware_claim="not-accepted",
+            hiding_claim=False,
+        )
+        rows = cases(report)
+        require(
+            len(rows) == 3 and all(r.get("proofs_verified") == 3 for r in rows),
+            "nine verified Circle classifier proofs",
+        )
+    elif workflow.id == "composed-circle":
+        exact(
+            report,
+            backend="circle",
+            llm_proofs_verified=23,
+            residual_links=22,
+            fresh_llm_verifications=2,
+            classifier_proofs_verified=3,
+            qualified_backend=False,
+            hiding_claim=False,
+            hardware_claim="not-accepted",
+            classifier_scope="prompt",
+            safety_quality_claim=False,
+            host_join=True,
+            recursion=False,
+        )
+        rejected = report.get("binding_rejections")
+        require(
+            isinstance(rejected, list) and len(rejected) == 16 and len(set(rejected)) == 16,
+            "sixteen distinct binding rejections",
+        )
+        rows = cases(report)
+        require(len(rows) == 1, "one composed Circle case")
+    elif workflow.id == "classifiers":
         exact(
             report,
             proofs_verified=9,

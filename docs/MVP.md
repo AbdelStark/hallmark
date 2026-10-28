@@ -9,8 +9,10 @@ links the inspected sources, artifacts, results and future issues.
 
 For command selection, end-to-end diagrams and the division between circuit
 checks and caller checks, read [architecture and proof flows](ARCHITECTURE.md).
-It also explains the pinned SASH integration and why classifiers currently use
-Groth16 while LLM inference uses Circle STARK.
+Circle STARK now defaults for both LLM inference and classifiers, through SASH
+and direct STWO respectively. Gnark remains an explicit comparison backend.
+[Decision 0085](decisions/0085-circle-default.md) records this later default change;
+the original MVP acceptance below retains its historical measurements.
 
 ```text
 Model:    TinyLlama-1.1B-Chat-v1.0, pinned y-attnout-w12 quantization
@@ -66,7 +68,7 @@ failures. Raw checkpoints, keys and run directories stay out of Git.
 | Complete short response | Eight answer tokens through EOS, 23 real proof segments and 22 links | [LLM result and failure history](../research/evidence/llm-response-composition-2026-10-23.json) |
 | Specialized integrity proof | SASH Circle STARK/GKR inference relation; no general-purpose zkVM | [Proof statement](LLM-PROOF.md#the-statement) |
 | Caller-owned expectations and negative checks | Original verifier: two honest checks and 14 rejections; native: two and 36 | [Fresh run](../research/evidence/fresh-composed-2026-10-25.json), [native boundary tests](../research/evidence/native-proof-boundaries-2026-10-23.json) |
-| Reproducible end-to-end workflow | Fresh witnesses/proofs, training/exports, nine classifier control proofs and three composed proofs | [Fresh Make run](COMPOSED-DEMO.md#recorded-fresh-preparation) |
+| Reproducible end-to-end workflow | Fresh witnesses/proofs, training/exports, nine classifier control proofs and three composed proofs | [Fresh Make run](COMPOSED-DEMO.md#historical-gnark-composition-fresh-preparation) |
 | Multiple classifier architectures | Rule, trained MLP and trained CNN; 18 control substitutions reject; 405 control and 399 composed arithmetic outcomes match | [Classifier proof explanation](PROOFS.md), [composed workflow](COMPOSED-DEMO.md) |
 | Explicit parameter authority | Same signed case/source/key authorization checked five times through the final join; invalid authorization fails before preparation | [Signed composition](COMPOSED-DEMO.md#signed-llm-parameters) |
 | Public, reusable source | MIT project source, public repository, locked environments and passing source/install CI | [Licence](../LICENSE.md), [packaging](PACKAGING.md), [acceptance audit](../research/evidence/integrity-mvp-completion-2026-10-25.json) |

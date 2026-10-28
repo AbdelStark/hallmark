@@ -1,6 +1,35 @@
 # Research state
 
-Updated: 2026-10-27. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-28. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## Circle-first defaults — local acceptance passed
+
+Circle STARK is the owner-selected default for `make e2e`, `make e2e-composed`,
+the web/TUI workbench, README, current guides and both published model cards.
+[Decision 0085](../docs/decisions/0085-circle-default.md) records the scope;
+[numeric acceptance](evidence/circle-default-2026-10-28.json) pins exact sources,
+commands, outputs and failures. Neither default classifier path generates
+Groth16 setup/proofs first. `BACKEND=gnark` and old app workflow IDs remain
+explicit comparisons with their original schemas and history.
+
+Bare `make e2e` freshly trains/exports, generates and freshly verifies nine
+Circle proofs; 63 public-input mutations, 18 substitutions and three invalid
+rosters reject. It takes 320.68 s including local training/build checks. Default
+retained LLM composition takes 266.29 s including native verifier compilation:
+23 SASH proofs, 22 links, two honest checks, 36 LLM mutations, three new Circle
+classifier proofs, three fresh outer-join verifications and 16 binding rejections.
+Verdicts `[1,1,0]` give integrity pass and policy release false. These are single
+Mac acceptance observations, not new matched benchmark measurements.
+
+A browser-launched retained-model run makes nine new proofs with the same
+rejections in 97.94 s. Both interfaces select Circle first; 56 app tests pass,
+and actual desktop/mobile results were inspected. Core validation passes 2,588
+tests with 50 optional/platform skips; strict docs and core distribution gates
+pass. Exact-head hosted/merge/Pages receipts are tracked with this change.
+No new cloud jobs or compute spend were needed. Both HF card-only updates leave
+weights and original release tags unchanged. All 55 LLM source pins and the
+Circle engine/compiler identity remain unchanged. No hiding, hardware,
+independent qualification or useful-policy claim is added.
 
 ## Circle classifier comparison — verified implementation
 
@@ -8,8 +37,8 @@ Epic [#112](https://github.com/AbdelStark/hallmark/issues/112) has a complete
 experimental direct-STWO path for the unchanged rule, four-unit integer MLP and
 contextual CNN. It preserves complete 0–96-byte inputs, salted canonical SHA-256,
 strict integer decisions and caller-owned context/model/enrollment checks.
-`make e2e BACKEND=circle` exposes the same nine-proof control workflow; gnark
-remains the default. No core inference arithmetic, model, threshold or historical
+The completed experiment exposed the nine-proof control workflow with explicit
+`BACKEND=circle`; the later default change is tracked above. No core inference arithmetic, model, threshold or historical
 result is changed. [Implementation and commands](../docs/CIRCLE-CLASSIFIERS.md).
 The [actual Make reproduction](evidence/circle-make-e2e-2026-10-27.json) freshly
 builds both locked targets and passes all nine proofs and rejection checks;
@@ -30,7 +59,8 @@ proofs are 292-byte binary / 1.91–2.16 MB JSON. Gnark parsing dominates its
 stateless command, while its instrumented proving stage is shorter on the
 representative control. Stage boundaries, verifier implementations, encodings
 and security profiles differ. Recommendation: retain both research paths, keep
-gnark default; no equal-security speed or production qualification claim.
+gnark default at the time. The owner subsequently selected Circle; no
+equal-security speed or production qualification claim follows.
 
 Three additional Circle proofs join the retained TinyLlama request. Fresh Mac
 verification checks those, 23 SASH proofs and 22 links, and rejects 16 changed

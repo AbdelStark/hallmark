@@ -1,5 +1,12 @@
 # Classifier backend benchmark
 
+**Current default:** Circle STARK, selected by the owner in
+[decision 0085](decisions/0085-circle-default.md). This frozen report retains its
+original gnark-default recommendation as experimental history. The default
+controller now prepares models without a Groth16 bootstrap; its timings are not
+the measurements reported here.
+
+
 Recorded 2026-10-27. **Retain both research paths; keep gnark as the default.**
 The exact rule, integer MLP and contextual CNN work under both backends, including
 the same complete 96-byte relation and salted SHA-256 input commitment.

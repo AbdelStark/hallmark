@@ -158,6 +158,5 @@ def test_make_keeps_validation_as_default():
     explicit = e2e.subprocess.check_output(
         ["make", "--no-print-directory", "-n", "e2e"], cwd=e2e.ROOT, text=True
     )
-    assert explicit.strip() == (
-        "uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py"
-    )
+    assert "scripts/run_circle_e2e.py" in explicit
+    assert "scripts/run_e2e.py" not in explicit

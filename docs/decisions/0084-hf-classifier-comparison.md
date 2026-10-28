@@ -1,5 +1,8 @@
 # 0084: Isolated HF CPU fallback for the classifier comparison
 
+Operational default superseded by [0085](0085-circle-default.md): Circle is now
+the owner-selected default. This document retains the frozen experiment.
+
 Date: 2026-10-27. Status: prepared; no job started at this decision's creation.
 
 The Mac passes the complete classifier proof and adversarial gates, but its

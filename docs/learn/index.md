@@ -8,7 +8,7 @@ questions they leave unanswered. No cryptography background is assumed.
 |---|---|---|
 | **1. [From inference to a claim](computation-and-claims.md)** | What does a proof establish? | Separate computation, model identity, input provenance and policy quality |
 | **2. [Read a proof statement](read-a-proof.md)** | What exactly must be true? | Identify public expectations, witnesses and checks in each Hallmark flow |
-| **3. [Two proof systems](proof-systems.md)** | Why Circle STARKs here and Groth16 there? | Compare their roles without confusing unlike workloads |
+| **3. [Circle and the comparison backend](proof-systems.md)** | Why SASH for LLMs, direct STWO for classifiers, and an optional gnark baseline? | Compare their roles without confusing unlike workloads |
 | **4. [Verify one request](one-request.md)** | How do the pieces meet? | Follow the three classifier cases and the composed LLM request |
 
 ## Vocabulary {#the-smallest-useful-vocabulary}

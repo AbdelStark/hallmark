@@ -1,14 +1,14 @@
 # Choose a workflow
 
-`make e2e` trains and proves classifiers locally. Use `make e2e-llm` to prove
+Circle STARK is the default. `make e2e` trains and proves classifiers locally. Use `make e2e-llm` to prove
 the TinyLlama response, or choose another workflow below.
 
 | I want to… | Command | Where / resources | Success signal |
 |---|---|---|---|
 | Check software contracts | `make check-conformance` | Linux/macOS; core environment; no account | 156 matched cases, 32 unavailable full-evidence obligations; no proof |
 | Run a published classifier | `scripts/predict_published_classifier.py` | Linux/macOS; core for MLP, train extra for CNN | Integer score after checking model hashes; native inference only |
-| Train, prove and verify classifiers | `make e2e` | Apple Silicon Mac; 12 GiB free; uv 0.9.18 | Nine proofs, three expected decisions, 18 substitution rejections |
-| Prove the same classifiers with Circle STARK | `make e2e BACKEND=circle CLASSIFIER_RUN=… CLASSIFIER_ENROLLMENT=…` | Mac; admitted model preparation, pinned Rust toolchain; 12 GiB plus build caches | Nine new proofs and fresh checks; [guide](CIRCLE-CLASSIFIERS.md), [matched CPU results](CLASSIFIER-BENCHMARK.md) |
+| Train, prove and verify classifiers | `make e2e` | Apple Silicon Mac; 12 GiB free; uv 0.9.18 | Nine Circle proofs, 63 public-input and 18 substitution rejections |
+| Compare the gnark baseline | `make e2e BACKEND=gnark` | Mac; 12 GiB free; pinned Go acquisition | Nine Groth16 proofs with separate py-ecc verification |
 | Prove a complete TinyLlama response | `make e2e-llm` | Mac preparation; 32 GB RAM, 16 GiB free; HF CPU jobs | 23 new segments, two honest verifications, 14 rejected mutations |
 | Verify retained LLM proofs locally | `make verify-llm LLM_RUN=…` | Mac; native Rust toolchain; 8 GiB free; no HF credentials | Two honest checks, 36 rejected mutations |
 | Measure SIMD/CUDA proving | `make benchmark-llm-gpu …` | Mac controller; HF CPU/H200 jobs; completed caller-owned LLM run | Matched full runs, 69 identical artifacts, fresh CPU/Mac checks |
@@ -41,13 +41,13 @@ proof or run hardware attestation.
 
 ## A local proof workflow
 
-With Git, Make, curl, uv 0.9.18 and an Apple Silicon Mac:
+With Git, Make, uv 0.9.18, Rust nightly-2025-07-14 and an Apple Silicon Mac:
 
 ```sh
 make e2e
 ```
 
-Allow about 20 minutes plus dependency/build time on the recorded M4 Max.
+Allow several minutes plus the first Rust build; the sampled worker cap is 30 GiB.
 No GPU, token, cloud account or pretrained checkpoint is needed.
 [Read the outputs and troubleshooting guide](DEMO.md).
 

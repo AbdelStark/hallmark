@@ -1,5 +1,5 @@
 ---
-title: Verifiable inference, explained
+title: Circle STARK verifiable inference, explained
 description: Run the TinyLlama and classifier proof workflows, learn what their verifiers check, and inspect the benchmark evidence.
 template: home.html
 hide:
@@ -52,8 +52,9 @@ floating-point model, hardware provenance and witness hiding are unproven.
 | Byte MLP | 1,033 parameters; byte counts and four hidden ReLU units | [Hugging Face ↗](https://huggingface.co/abdelstark/hallmark-byte-mlp) |
 | Contextual byte CNN | 4,161 parameters; causal convolution and masked max pooling | [Hugging Face ↗](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn) |
 
-Both are trained from scratch on synthetic fixtures. Dedicated gnark/Groth16
-circuits prove decisions from their integer exports.
+Both are trained from scratch on synthetic fixtures. Dedicated **STWO Circle
+STARK** circuits prove decisions from their integer exports by default. Gnark
+remains an explicit comparison backend.
 [Download a pinned model](docs/MODELS.md), inspect its model card, or
 [train and prove it yourself](docs/DEMO.md). These are research classifiers,
 not operational safety filters.
@@ -65,6 +66,7 @@ not operational safety filters.
 | Same-H200 CUDA proving | **53.94 s**, versus 547.75 s SIMD: **10.15×** | [Generated constraints, zero fallback](docs/GPU-BENCHMARK.md#generated-constraint-result) |
 | Complete segment commands | **155.89 s**, versus 679.49 s SIMD: **4.36×** | [What is included](docs/GPU-BENCHMARK.md#generated-constraint-result) |
 | Native Mac verification | **3.40–3.53 s** per honest check, after compilation | [Compiled enrollment boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac) |
+| Circle classifier workflow | **4.98 min warm median**, nine proofs | [Matched CPU study; 19.96 GB maximum sampled RSS](docs/CLASSIFIER-BENCHMARK.md) |
 | LLM serialized proofs | **738 MB** across all 23 files | [Artifact and workflow costs](docs/LLM-PROOF.md#measured-results) |
 
 One fixed H200 pair is not a performance distribution. Witness/interaction

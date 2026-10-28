@@ -84,3 +84,47 @@ def test_gpu_dispatch_preserves_named_credit_and_build_arguments(tmp_path, monke
     assert calls == [
         ((Path("runs/llm"),), dict(balance="6.00", maximum="5.00", build_run=Path("runs/build")))
     ]
+
+
+def test_retained_circle_composition_preserves_authority_without_paid_admission(
+    tmp_path, monkeypatch
+):
+    import sys
+
+    from hallmark_demo import execute
+
+    monitor = tmp_path / "runs/workbench/0123456789ab"
+    monitor.mkdir(parents=True)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("LLM_ENROLLMENT", "caller-enrollment.cbor")
+    monkeypatch.setenv("LLM_TRUST_KEY", "caller-public-key")
+    calls = []
+    composed = SimpleNamespace(run=lambda **kw: calls.append(kw))
+    monkeypatch.setattr(execute.importlib, "import_module", lambda name: composed)
+    monkeypatch.setattr(execute, "admission", lambda *a, **kw: pytest.fail("paid admission"))
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "execute",
+            "--root",
+            str(tmp_path),
+            "--workflow",
+            "composed-circle",
+            "--max-cost-usd",
+            "2.50",
+            "--monitor-dir",
+            str(monitor),
+            "--llm-run",
+            "runs/llm",
+        ],
+    )
+    execute.main()
+    assert calls == [
+        dict(
+            llm_run=Path("runs/llm"),
+            classifier_run=None,
+            enrollment="caller-enrollment.cbor",
+            trusted_key="caller-public-key",
+        )
+    ]

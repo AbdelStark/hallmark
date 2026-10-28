@@ -51,7 +51,18 @@ def trace_parity(kind, trace, row):
         raise ValueError("compiled/native intermediate parity failed: " + kind)
 
 
-def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, output):
+def run(
+    prepared,
+    original_pin,
+    prover,
+    prover_pin,
+    verifier,
+    verifier_pin,
+    output,
+    *,
+    native_preparation=False,
+    llm=False,
+):
     for binary, pin in ((prover, prover_pin), (verifier, verifier_pin)):
         if comparison.sha(read_regular(binary, 128 * 1024**2)) != pin:
             raise ValueError("caller binary pin mismatch")
@@ -84,6 +95,8 @@ def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, outp
             engine_sources=engine_sources,
             backend=backend_id.hex(),
             original_enrollment_pin=original_pin,
+            preparation_kind="native-only" if native_preparation else "legacy-gnark",
+            composed=llm,
             prover_sha256=prover_pin,
             verifier_sha256=verifier_pin,
             python=sys.version,
@@ -133,12 +146,29 @@ def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, outp
         return work
 
     try:
-        exported, originals, old_policy, _, _ = comparison.admitted(prepared, original_pin)
+        if native_preparation:
+            import circle_inputs
+
+            exported, originals, old_policy = circle_inputs.admit(prepared, original_pin)
+        else:
+            exported, originals, old_policy, _, _ = comparison.admitted(prepared, original_pin)
         originals_by_case = {}
-        for case in corpus["requests"]:
-            opening, expected = comparison.request(prepared / "proofs", case["id"])
-            originals_by_case[case["id"]] = (opening, expected)
-        opening, expected = originals_by_case["allow"]
+        if llm:
+            import composed_input
+
+            expected, opening = composed_input.request(old_policy)
+            composed_input.check_request(opening, expected)
+            originals_by_case["llm-response"] = (opening, expected)
+            initial = common.evaluate(originals, old_policy, opening, expected)
+            requested_cases = [dict(id="llm-response", verdicts=[r["public"][99] for r in initial])]
+        else:
+            requested_cases = corpus["requests"]
+            for case in requested_cases:
+                opening, expected = comparison.request(
+                    prepared / ("requests" if native_preparation else "proofs"), case["id"]
+                )
+                originals_by_case[case["id"]] = (opening, expected)
+        opening, expected = next(iter(originals_by_case.values()))
         baseline_rows = common.evaluate(originals, old_policy, opening, expected)
         programs, engines = {}, {}
         for kind, row in zip(backend.KINDS, baseline_rows, strict=True):
@@ -157,11 +187,13 @@ def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, outp
             del circuit, trace
         enrollment = backend.enroll(engines, originals)
         enrollment_pin = comparison.sha(enrollment)
+        if native_preparation and enrollment_pin != circle_inputs.ENROLLMENT_PIN:
+            raise ValueError("Circle enrollment differs from the independently admitted default")
         write_new(output / "caller-enrollment.json", enrollment)
         json_new(output / "caller-pin.json", dict(sha256=enrollment_pin, before_proving=True))
         records, policy, _ = backend.resolve(enrollment, enrollment_pin, originals, old_policy)
         cases = {}
-        for case in corpus["requests"]:
+        for case in requested_cases:
             name = case["id"]
             opening, original_expected = originals_by_case[name]
             expected = backend.expected_request(original_expected, policy)
@@ -270,7 +302,7 @@ def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, outp
                         rejected.append(name + ":" + other + ":" + kind)
                     else:
                         raise ValueError("accepted cross-request classifier substitution")
-        opening, expected, bundle = cases["allow"]
+        opening, expected, bundle = next(iter(cases.values()))
         for label, proofs in (
             ("missing", bundle["proofs"][:2]),
             ("duplicate", [bundle["proofs"][0]] * 3),
@@ -296,12 +328,29 @@ def run(prepared, original_pin, prover, prover_pin, verifier, verifier_pin, outp
             or engine_sources != backend.source_identity()[1]
         ):
             raise ValueError("source changed during classifier acceptance")
+        binding_rejections = []
+        if llm:
+            from check_circle_composed import binding_negatives
+
+            binding_rejections = binding_negatives(
+                enrollment, enrollment_pin, originals, old_policy, opening, expected, bundle
+            )
         result = dict(
             schema_id="hallmark.circle-classifier-acceptance/1",
             status="passed",
-            fresh_proofs=9,
-            fresh_proof_only_verifications=9,
-            direct_public_mutations_rejected=63,
+            fresh_proofs=len(cases) * 3,
+            fresh_proof_only_verifications=len(cases) * 3,
+            direct_public_mutations_rejected=len(cases) * 21,
+            binding_rejections=binding_rejections,
+            cases=[
+                dict(
+                    name=name,
+                    verdicts=[p["public"][99] for p in b["proofs"]],
+                    release=all(p["public"][99] == 1 for p in b["proofs"]),
+                    proofs_verified=3,
+                )
+                for name, (_, _, b) in cases.items()
+            ],
             cross_request_rejections=rejected,
             roster_rejections=3,
             intermediate_parity=True,

@@ -152,19 +152,27 @@ recorded examples is not a global float/integer equivalence theorem.
 ## Proof integration
 
 These exact weights appear in Hallmark's 96-byte, three-classifier demo.
-`make e2e` trains/reproduces the frozen exports, creates fresh Groth16/BLS12-381
-setups and nine proofs, and checks them using separate py-ecc arithmetic.
-Model download/inference is independent of that proof workflow.
-The 292-byte proof encoding excludes keys, enrollment, statements and model data.
+`make e2e` now defaults to **STWO Circle STARK**: it trains/reproduces the frozen
+integer exports, pins public preprocessing and generates nine proofs with fresh
+proof-only verification. No Groth16 setup or proofs run first. Model download
+and native inference are independent of the proof workflow.
 
-A valid proof establishes the enrolled computation, not the usefulness of its
-policy. The caller must independently enroll the model/program/circuit/key,
-reconstruct the expected request and bind the public inputs. Current research
-setup is not an independently reviewed ceremony or a production qualification.
+The recorded Circle proofs are 1.91–2.16 MB canonical JSON, excluding enrollment,
+statements and model data. `make e2e BACKEND=gnark` preserves the explicit
+Groth16/BLS12-381 comparison, with separate py-ecc verification and 292-byte
+binary proofs. Encodings, memory and security profiles differ; proof sizes alone
+do not rank proof systems.
 
-[Exact classifier statement](https://github.com/AbdelStark/hallmark/blob/9b74e1c6b6e90de2d226556aa637936a61a0757b/docs/PROOFS.md) ·
-[Proof composition evidence](https://github.com/AbdelStark/hallmark/blob/9b74e1c6b6e90de2d226556aa637936a61a0757b/research/evidence/w28-trained-common-proofs-2026-10-22.json) ·
-[End-to-end demo](https://github.com/AbdelStark/hallmark/blob/9b74e1c6b6e90de2d226556aa637936a61a0757b/docs/DEMO.md)
+A valid proof establishes the enrolled computation, not policy usefulness.
+The caller independently enrolls the model/program/preprocessing, reconstructs
+the expected request and binds public inputs. No hiding, hardware provenance
+or independent security qualification is claimed. Weights and thresholds are
+unchanged by this documentation update; original release revisions remain valid.
+
+[Current classifier statement](https://github.com/AbdelStark/hallmark/blob/main/docs/PROOFS.md) ·
+[Circle classifier guide](https://github.com/AbdelStark/hallmark/blob/main/docs/CIRCLE-CLASSIFIERS.md) ·
+[Original Groth16 evidence](https://github.com/AbdelStark/hallmark/blob/9b74e1c6b6e90de2d226556aa637936a61a0757b/research/evidence/w28-trained-common-proofs-2026-10-22.json) ·
+[Current end-to-end demo](https://github.com/AbdelStark/hallmark/blob/main/docs/DEMO.md)
 
 ## Licence, provenance and contact
 

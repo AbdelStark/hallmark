@@ -1,6 +1,9 @@
 # Terminal and web workbench
 
-Both interfaces have passed real proof-workflow acceptance. The
+Circle STARK is the default in both interfaces. The
+[current Circle acceptance](../research/evidence/circle-default-2026-10-28.json)
+records a real browser-launched nine-proof run and default-selection checks.
+Both interfaces have passed real proof-workflow acceptance. The earlier
 [QA record](../research/evidence/demo-workbench-2026-10-27.json) pins the inputs,
 result hashes and checks; [decision 0082](decisions/0082-demo-workbench.md)
 records the implementation boundary.
@@ -9,9 +12,13 @@ The workbench launches the same drivers as `make e2e`, `make e2e-llm` and the
 other documented workflows. It adds a shared run history, observed stage
 progress, local resource charts, logs, results and artifact downloads.
 
+![Default Circle classifier result: nine verified proofs, 63 public-input rejections, 18 substitutions and three roster rejections.](assets/workbench-circle.png)
+
+An earlier fresh TinyLlama run shows the separate LLM workflow:
+
 ![Browser result view from the fresh TinyLlama run: twenty-three proof segments, two honest verification checks, fourteen rejected mutations and three completed jobs with deleted buckets.](assets/workbench-web.png)
 
-The terminal reads the same controller. Here it shows the classifier campaign:
+The terminal reads the same controller. This earlier capture shows the retained gnark comparison campaign:
 
 ![Terminal result view for a real classifier campaign, with workflow selection, retained history, result tabs and keyboard controls.](assets/workbench-tui.svg)
 
@@ -45,11 +52,13 @@ multi-user job service.
 
 | Workflow | Execution and result |
 |---|---|
-| Classifier proofs | Fresh training/export, nine Groth16 proofs, separate py-ecc verification and rejection checks; Apple Silicon Mac |
+| Circle STARK classifiers — default | Fresh training/export or pinned model reuse; nine direct-STWO proofs with fresh proof-only verification and rejection checks; Apple Silicon Mac |
+| End-to-end Circle STARK | 23 freshly verified SASH LLM proofs plus three new STWO classifier proofs for the same request; no Groth16 bootstrap |
 | TinyLlama response | Fixed quantized model/prompt; 23 SASH segments and fresh checks; bounded paid HF CPU jobs |
 | Verify retained LLM proofs | Rebuild caller-enrolled native verifier and check an existing bundle; local Mac, no paid job |
-| One request, both proof systems | Freshly verify LLM proofs and bind classifier proofs to the same request; retained inputs can avoid new paid work |
+| Mixed-backend comparison | Freshly verify LLM proofs and bind classifier proofs to the same request; retained inputs can avoid new paid work |
 | CPU/GPU prover benchmark | Matched SIMD/CUDA execution on one H200; retained admitted preparation, live prepaid balance and capped paid jobs |
+| gnark classifier baseline | Explicit nine-proof Groth16 comparison with separate py-ecc verification; old run IDs remain unchanged |
 | Software conformance | Small software check; generates no cryptographic proof |
 
 The fixed LLM prompt and quantized model are shown before launch. Arbitrary
