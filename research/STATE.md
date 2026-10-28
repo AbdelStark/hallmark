@@ -11,6 +11,15 @@ repeat before paid execution; classifier backend compatibility is a separate
 implementation gate. No new GPU result is accepted yet. Historical L1/C1/J1
 measurements remain unchanged.
 
+Classifier candidate [0088](../docs/decisions/0088-classifier-cuda-measurement.md)
+adds an isolated CUDA overlay on stock STWO 2.2.0 and a specialized gate AIR
+kernel. Rust CUDA-feature checks pass, one CPU control matches C1 proof bytes,
+and all nine native programs/witnesses/public inputs reconstruct exactly.
+Local validation passes 2,611 tests with 50 optional/platform skips. Device
+execution, full proof/mutation acceptance and measured timings remain pending;
+no compile-only result is counted as a GPU measurement. The CPU classifier and
+55-file LLM verifier identities remain unchanged.
+
 ## Public Circle reference collection — local acceptance and publication passed
 
 The owner requested complete Circle headline numbers with actual proof/log and

@@ -1,0 +1,585 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -13,7 +13,7 @@
+ edition = "2021"
+ name = "stwo"
+ version = "2.2.0"
+-build = false
++build = "build.rs"
+ autolib = false
+ autobins = false
+ autoexamples = false
+@@ -27,6 +27,7 @@
+ ignored = ["stwo-std-shims"]
+ 
+ [features]
++cuda = ["prover", "dep:ark-std"]
+ default = ["std"]
+ parallel = [
+     "rayon",
+@@ -251,3 +252,10 @@
+ future-incompatible = "deny"
+ nonstandard-style = "deny"
+ rust-2018-idioms = "deny"
++
++[dependencies.ark-std]
++version = "0.3.0"
++optional = true
++
++[build-dependencies]
++cmake = "0.1.50"
+--- a/build.rs
++++ b/build.rs
+@@ -1,10 +1,11 @@
+ use std::path::PathBuf;
+ fn main() {
++    if std::env::var_os("CARGO_FEATURE_CUDA").is_none() { return; }
+     #[cfg(target_os = "macos")]
+     std::process::exit(0);
+     let dst = cmake::Config::new("src/stwo_cuda/cuda")
+         .profile("Release")
+-        .build_arg("--jobs=16")
++        .build_arg("--jobs=2")
+         .build();
+     println!("cargo:rustc-link-search=native={}", dst.display());
+     println!("cargo:rustc-link-lib=static=stwo_cuda");
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -14,3 +14,6 @@
+ pub mod prover;
+ #[cfg(feature = "tracing")]
+ pub mod tracing;
++
++#[cfg(feature = "cuda")]
++pub mod stwo_cuda;
+--- a/src/prover/backend/cuda/backend.rs
++++ b/src/prover/backend/cuda/backend.rs
+@@ -8,8 +8,7 @@
+ use crate::core::{
+     channel::{Blake2sChannel, Blake2sM31Channel, Poseidon252Channel},
+     proof_of_work::GrindOps,
+-    vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sM31MerkleChannel},
+-    vcs::poseidon252_merkle::Poseidon252MerkleChannel,
++    vcs_lifted::blake2_merkle::{Blake2sMerkleChannel, Blake2sM31MerkleChannel},
+ };
+ use crate::stwo_cuda::bindings;
+ 
+@@ -49,10 +48,3 @@
+ 
+ impl BackendForChannel<Blake2sM31MerkleChannel> for CudaBackend {}
+ 
+-impl GrindOps<Poseidon252Channel> for CudaBackend {
+-    fn grind(channel: &Poseidon252Channel, pow_bits: u32) -> u64 {
+-        SimdBackend::grind(channel, pow_bits)
+-    }
+-}
+-
+-impl BackendForChannel<Poseidon252MerkleChannel> for CudaBackend {}
+--- a/src/prover/backend/cuda/blake2s.rs
++++ b/src/prover/backend/cuda/blake2s.rs
+@@ -2,9 +2,7 @@
+ 
+ use crate::prover::backend::{Col, Column, ColumnOps, CpuBackend};
+ use crate::core::vcs::blake2_hash::{Blake2sHash, reduce_to_m31};
+-use crate::core::vcs::blake2_merkle::{Blake2sMerkleHasher, Blake2sM31MerkleHasher};
+ use crate::core::vcs_lifted::blake2_merkle::Blake2sMerkleHasherGeneric;
+-use crate::prover::vcs::ops::MerkleOps;
+ use crate::prover::vcs_lifted::ops::MerkleOpsLifted;
+ 
+ use crate::stwo_cuda::{bindings, base_field_vec::BaseFieldVec, blake_2s_hash_vec::Blake2sHashVec};
+@@ -15,85 +13,6 @@
+ 
+     fn bit_reverse_column(_column: &mut Self::Column) {
+         unimplemented!()
+-    }
+-}
+-
+-impl MerkleOps<Blake2sMerkleHasher> for CudaBackend {
+-    fn commit_on_layer(
+-        log_size: u32,
+-        prev_layer: Option<&Blake2sHashVec>,
+-        columns: &[&BaseFieldVec],
+-    ) -> Blake2sHashVec {
+-        let size = 1 << log_size;
+-        let number_of_columns = columns.len();
+-
+-        let result: Blake2sHashVec = Blake2sHashVec::new_uninitialized(size);
+-        unsafe {
+-            Self::commit_on_layer_using_gpu(
+-                size,
+-                number_of_columns,
+-                columns,
+-                prev_layer,
+-                result.device_ptr,
+-            );
+-        }
+-
+-        result
+-    }
+-}
+-
+-impl MerkleOps<Blake2sM31MerkleHasher> for CudaBackend {
+-    fn commit_on_layer(
+-        log_size: u32,
+-        prev_layer: Option<&Blake2sHashVec>,
+-        columns: &[&BaseFieldVec],
+-    ) -> Blake2sHashVec {
+-        let result = <CudaBackend as MerkleOps<Blake2sMerkleHasher>>::commit_on_layer(
+-            log_size, prev_layer, columns,
+-        );
+-        // Apply M31 reduction to each hash on CPU (result is copied back)
+-        let mut hashes = result.to_vec();
+-        for hash in hashes.iter_mut() {
+-            hash.0 = reduce_to_m31(hash.0);
+-        }
+-        Blake2sHashVec::from_vec(hashes)
+-    }
+-}
+-
+-impl CudaBackend {
+-    unsafe fn commit_on_layer_using_gpu(
+-        size: usize,
+-        number_of_columns: usize,
+-        columns: &[&BaseFieldVec],
+-        prev_layer: Option<&Blake2sHashVec>,
+-        result_pointer: *const Blake2sHash,
+-    ) {
+-        let device_column_pointers_vector: Vec<*const u32> =
+-            columns.iter().map(|column| column.device_ptr).collect();
+-
+-        let device_column_pointers: *const *const u32 =
+-            bindings::copy_device_pointer_vec_from_host_to_device(
+-                device_column_pointers_vector.as_ptr(),
+-                number_of_columns,
+-            );
+-
+-        if let Some(previous_layer) = prev_layer {
+-            bindings::commit_on_layer_with_previous(
+-                size,
+-                number_of_columns,
+-                device_column_pointers,
+-                previous_layer.device_ptr,
+-                result_pointer as *mut Blake2sHash,
+-            );
+-        } else {
+-            bindings::commit_on_first_layer(
+-                size,
+-                number_of_columns,
+-                device_column_pointers,
+-                result_pointer as *mut Blake2sHash,
+-            );
+-        }
+-        bindings::cuda_free_memory(device_column_pointers as *const c_void);
+     }
+ }
+ 
+@@ -257,8 +176,7 @@
+     use crate::prover::backend::{Column, CpuBackend};
+     use crate::core::fields::m31::{BaseField, M31};
+     use crate::core::vcs::blake2_merkle::Blake2sMerkleHasher;
+-    use crate::prover::vcs::ops::MerkleOps;
+-
++
+     use crate::stwo_cuda::base_field_vec::BaseFieldVec;
+     use crate::stwo_cuda::blake_2s_hash_vec::Blake2sHashVec;
+     use crate::prover::backend::cuda::CudaBackend;
+@@ -467,3 +385,17 @@
+         assert_eq!(gpu_hashes, cpu_hashes);
+     }
+ }
++
++impl crate::prover::vcs_lifted::ops::PackLeavesOps for CudaBackend {
++    fn pack_leaves_input(values: &[&BaseFieldVec; 4]) -> [BaseFieldVec; 16] {
++        let n = values[0].len();
++        assert!(n >= 4 && values.iter().all(|c| c.len() == n));
++        let result = std::array::from_fn(|_| BaseFieldVec::new_uninitialized(n / 4));
++        unsafe {
++            let inputs = values.map(|c| c.device_ptr);
++            let outputs: [*const u32; 16] = std::array::from_fn(|i| result[i].device_ptr);
++            bindings::hallmark_pack(inputs.as_ptr(), outputs.as_ptr(), n as u32);
++        }
++        result
++    }
++}
+--- a/src/prover/backend/cuda/column.rs
++++ b/src/prover/backend/cuda/column.rs
+@@ -50,13 +50,9 @@
+         Self::get_data(self, index)
+     }
+ 
+-    fn batch_at(&self, indices: &[usize]) -> Vec<BaseField> {
+-        self.batch_get(indices)
+-    }
+-
+-    fn batch_at_multi(columns: &[&Self], indices: &[usize]) -> Vec<BaseField> {
+-        Self::batch_gather_multi(columns, indices)
+-    }
++
++
++
+ 
+     fn set(&mut self, _index: usize, _value: BaseField) {
+         Self::set_data(self, _index, _value);
+@@ -195,9 +191,7 @@
+     }
+ 
+     /// Optimized batch retrieval for GPU backend
+-    fn batch_at(&self, indices: &[usize]) -> Vec<Blake2sHash> {
+-        self.batch_get(indices)
+-    }
++
+ 
+     fn split_at_mid(self) -> (Self, Self) {
+         let mid = self.size / 2;
+--- a/src/prover/backend/cuda/fri.rs
++++ b/src/prover/backend/cuda/fri.rs
+@@ -1,4 +1,4 @@
+-use crate::core::fri::CIRCLE_TO_LINE_FOLD_STEP;
++
+ use crate::core::fields::qm31::SecureField;
+ use crate::prover::poly::circle::SecureEvaluation;
+ use crate::prover::line::LineEvaluation;
+@@ -46,13 +46,12 @@
+     }
+ 
+     fn fold_circle_into_line(
+-        dst: &mut LineEvaluation<Self>,
+         src: &SecureEvaluation<Self, BitReversedOrder>,
+         alpha: SecureField,
+         twiddles: &TwiddleTree<Self>,
+-    ) {
++    ) -> LineEvaluation<Self> {
+         let n = src.len();
+-        assert_eq!(n >> CIRCLE_TO_LINE_FOLD_STEP, dst.len());
++        let dst = LineEvaluation::new_zero(crate::core::poly::line::LineDomain::new(crate::core::circle::Coset::half_odds(n.ilog2() - 1)));
+ 
+         unsafe {
+             let gpu_domain = twiddles.itwiddles.device_ptr;
+@@ -66,6 +65,7 @@
+                 CudaSecureColumn::from(&dst.values).device_ptr(),
+             );
+         }
++        dst
+     }
+ 
+     fn decompose(
+--- a/src/prover/backend/cuda/mod.rs
++++ b/src/prover/backend/cuda/mod.rs
+@@ -6,7 +6,7 @@
+ mod fri;
+ mod lookups;
+ pub mod poly;
+-pub mod poseidon252;
++
+ mod quotient;
+ mod secure_column;
+ 
+--- a/src/prover/backend/cuda/poly.rs
++++ b/src/prover/backend/cuda/poly.rs
+@@ -1,3 +1,4 @@
++use crate::stwo_cuda::bindings;
+ use crate::stwo_cuda::bindings::CudaSecureField;
+ use crate::prover::backend::cuda::CudaBackend;
+ use ark_std::log2;
+@@ -305,12 +306,6 @@
+         }
+     }
+ 
+-    fn batch_eval_at_point(
+-        polys: &[&CircleCoefficients<Self>],
+-        point: CirclePoint<SecureField>,
+-    ) -> Vec<SecureField> {
+-        cuda_batch_eval_at_point(polys, point)
+-    }
+ 
+     fn eval_at_point_by_folding(
+         evals: &CircleEvaluation<Self, BaseField, BitReversedOrder>,
+@@ -333,8 +328,7 @@
+         let secure_col = SecureColumnByCoords::from_base_field_col(&evals.values);
+         let secure_eval = SecureEvaluation::new(evals.domain, secure_col);
+ 
+-        CudaBackend::fold_circle_into_line(
+-            &mut layer_evaluation,
++        layer_evaluation = CudaBackend::fold_circle_into_line(
+             &secure_eval,
+             folding_alphas.pop().unwrap(),
+             twiddles,
+@@ -454,11 +448,16 @@
+         CircleEvaluation::new(domain, values)
+     }
+ 
++    fn evaluate_into(poly: &CircleCoefficients<Self>, domain: CircleDomain, twiddles: &TwiddleTree<Self>, _buffer: BaseFieldVec) -> CircleEvaluation<Self, BaseField, BitReversedOrder> {
++        Self::evaluate(poly, domain, twiddles)
++    }
++
+     fn evaluate_polynomials(
+         polynomials: ColumnVec<CircleCoefficients<Self>>,
+         log_blowup_factor: u32,
+         twiddles: &TwiddleTree<Self>,
+         store_polynomials_coefficients: bool,
++        _pool: &crate::prover::mempool::BaseColumnPool<Self>,
+     ) -> Vec<Poly<Self>> {
+         // Build indexed list with extended log_size for grouping.
+         let mut indexed: Vec<(usize, u32, CircleDomain, CircleCoefficients<Self>)> = polynomials
+@@ -1372,3 +1371,22 @@
+         }
+     }
+ }
++
++impl crate::prover::poly::twiddles::TwiddleBuffer<BitReversedOrder> for BaseFieldVec {
++    fn empty() -> Self { Self::new_uninitialized(0) }
++    fn extract_subdomain_twiddles(&self, domain_log_size: u32, subdomain_log_size: u32) -> Self {
++        let k = self.size.ilog2();
++        assert!(subdomain_log_size <= domain_log_size && domain_log_size - 1 <= k);
++        let size = 1usize << (subdomain_log_size - 1);
++        let out = Self::new_uninitialized(size);
++        let mut offset = 0;
++        for layer in 0..subdomain_log_size - 1 {
++            let start = self.size - (self.size >> (k - domain_log_size + 1 + layer));
++            let len = size >> (layer + 1);
++            unsafe { bindings::copy_uint32_t_vec_from_device_to_device(self.device_ptr.add(start), out.device_ptr.add(offset), len as u32); }
++            offset += len;
++        }
++        unsafe { bindings::copy_uint32_t_vec_from_device_to_device(self.device_ptr.add(self.size - 1), out.device_ptr.add(size - 1), 1); }
++        out
++    }
++}
+--- a/src/prover/backend/cuda/quotient.rs
++++ b/src/prover/backend/cuda/quotient.rs
+@@ -19,8 +19,9 @@
+         columns: &[&CircleEvaluation<Self, BaseField, BitReversedOrder>],
+         sample_batches: &[ColumnSampleBatch],
+         accumulated_numerators_vec: &mut Vec<AccumulatedNumerators<Self>>,
++        log_blowup_factor: u32,
+     ) {
+-        let size = columns[0].len();
++        let size = columns[0].len() >> log_blowup_factor;
+ 
+         // Precompute line coefficients on CPU (small data, sequential dependency)
+         let quotient_consts = quotient_constants(sample_batches);
+@@ -83,16 +84,16 @@
+ 
+     fn compute_quotients_and_combine(
+         accs: Vec<AccumulatedNumerators<Self>>,
+-        _lifting_log_size: u32,
++        lifting_log_size: u32,
++        log_blowup_factor: u32,
++        twiddles: &crate::prover::poly::twiddles::TwiddleTree<Self>,
+     ) -> SecureEvaluation<Self, BitReversedOrder> {
+-        let max_log_size = accs
+-            .iter()
+-            .map(|x| x.partial_numerators_acc.len())
+-            .max()
+-            .unwrap()
+-            .ilog2();
++        use crate::prover::poly::circle::PolyOps;
++        use crate::prover::poly::twiddles::{TwiddleBuffer, TwiddleTree};
++        let full_domain = CanonicCoset::new(lifting_log_size).circle_domain();
++        let domain = full_domain.split(log_blowup_factor).0;
++        let max_log_size = domain.log_size();
+         let max_size = 1u32 << max_log_size;
+-        let domain = CanonicCoset::new(max_log_size).circle_domain();
+ 
+         // Compute half_coset parameters
+         let half_coset = domain.half_coset;
+@@ -137,7 +138,16 @@
+             );
+         }
+ 
+-        SecureEvaluation::new(domain, result)
++        let sub_twiddles = TwiddleTree {
++            root_coset: domain.half_coset,
++            twiddles: TwiddleBuffer::empty(),
++            itwiddles: twiddles.itwiddles.extract_subdomain_twiddles(lifting_log_size, domain.log_size()),
++        };
++        let values = SecureColumnByCoords { columns: result.columns.map(|c| {
++            let poly = CircleEvaluation::<Self, BaseField, BitReversedOrder>::new(domain, c).interpolate_with_twiddles(&sub_twiddles);
++            poly.evaluate_with_twiddles(full_domain, twiddles).values
++        }) };
++        SecureEvaluation::new(full_domain, values)
+     }
+ }
+ 
+--- a/src/prover/backend/mod.rs
++++ b/src/prover/backend/mod.rs
+@@ -64,3 +64,6 @@
+     /// Splits the column into two halves.
+     fn split_at_mid(self) -> (Self, Self);
+ }
++
++#[cfg(feature = "cuda")]
++pub mod cuda;
+--- a/src/stwo_cuda/bindings.rs
++++ b/src/stwo_cuda/bindings.rs
+@@ -766,3 +766,5 @@
+         }
+     }
+ }
++
++extern "C" { pub fn hallmark_pack(inputs: *const *const u32, outputs: *const *const u32, n: u32); }
+--- a/src/stwo_cuda/cuda/CMakeLists.txt
++++ b/src/stwo_cuda/cuda/CMakeLists.txt
+@@ -71,161 +71,10 @@
+         gkr.cu
+         mle.cu
+         timer.cu
+-        evaluate_constraints.cu
+-        evaluate_common.cu
+-        evaluate_poseidon_constraint.cu
+-        evaluate_wide_fibonacci.cu
+         prefix_sum.cu
+         cuda_mem_pool.cu
+-        # stwo-cairo AIR components
+-        constraints/opcodes/evaluate_blake_compress_opcode.cu
+-        # Range checks
+-        constraints/range_check/evaluate_range_check_3_3_3_3_3.cu
+-        constraints/range_check/evaluate_range_check_3_6_6_3.cu
+-        constraints/range_check/evaluate_range_check_4_3.cu
+-        constraints/range_check/evaluate_range_check_4_4.cu
+-        constraints/range_check/evaluate_range_check_4_4_4_4.cu
+-        constraints/range_check/evaluate_range_check_6.cu
+-        constraints/range_check/evaluate_range_check_8.cu
+-        constraints/range_check/evaluate_range_check_9_9.cu
+-        constraints/range_check/evaluate_range_check_9_9_b.cu
+-        constraints/range_check/evaluate_range_check_9_9_c.cu
+-        constraints/range_check/evaluate_range_check_9_9_d.cu
+-        constraints/range_check/evaluate_range_check_9_9_e.cu
+-        constraints/range_check/evaluate_range_check_9_9_f.cu
+-        constraints/range_check/evaluate_range_check_9_9_g.cu
+-        constraints/range_check/evaluate_range_check_9_9_h.cu
+-        constraints/range_check/evaluate_range_check_11.cu
+-        constraints/range_check/evaluate_range_check_12.cu
+-        constraints/range_check/evaluate_range_check_18.cu
+-        constraints/range_check/evaluate_range_check_18_b.cu
+-        constraints/range_check/evaluate_range_check_19.cu
+-        constraints/range_check/evaluate_range_check_19_b.cu
+-        constraints/range_check/evaluate_range_check_19_c.cu
+-        constraints/range_check/evaluate_range_check_19_d.cu
+-        constraints/range_check/evaluate_range_check_19_e.cu
+-        constraints/range_check/evaluate_range_check_19_f.cu
+-        constraints/range_check/evaluate_range_check_19_g.cu
+-        constraints/range_check/evaluate_range_check_19_h.cu
+-        constraints/range_check/evaluate_range_check_20.cu
+-        constraints/range_check/evaluate_range_check_felt_252_width_27.cu
+-        constraints/range_check/evaluate_range_check_7_2_5.cu
+-        # Range check builtins
+-        constraints/builtin/evaluate_range_check_builtin_bits_96.cu
+-        constraints/builtin/evaluate_range_check_builtin_bits_128.cu
+-        constraints/evaluate_blake_g.cu
+-        # Builtins
+-        constraints/builtin/evaluate_add_mod_builtin.cu
+-        constraints/builtin/evaluate_bitwise_builtin.cu
+-        constraints/builtin/evaluate_mul_mod_builtin.cu
+-        constraints/builtin/evaluate_cube_252.cu
+-        constraints/builtin/evaluate_pedersen_builtin.cu
+-        constraints/builtin/evaluate_pedersen_builtin_narrow_windows.cu
+-        constraints/builtin/evaluate_poseidon_builtin.cu
+-        #pedersen
+-        constraints/pedersen/evaluate_pedersen_points_table.cu
+-        constraints/pedersen/evaluate_partial_ec_mul.cu
+-        constraints/pedersen/evaluate_pedersen_aggregator.cu
+-        constraints/pedersen/evaluate_partial_ec_mul_window_bits_18.cu
+-        constraints/pedersen/evaluate_pedersen_points_table_window_bits_18.cu
+-        constraints/pedersen/evaluate_pedersen_aggregator_window_bits_9.cu
+-        constraints/pedersen/evaluate_partial_ec_mul_window_bits_9.cu
+-        constraints/pedersen/evaluate_pedersen_points_table_window_bits_9.cu
+-        pedersen_table_init.cu
+-        pedersen_table_small_init.cu
+-        #poseidon
+-        constraints/poseidon/evaluate_poseidon_round_keys.cu
+-        constraints/poseidon/evaluate_poseidon_full_round_chain.cu
+-        constraints/poseidon/evaluate_poseidon_aggregator.cu
+-        constraints/poseidon/evaluate_poseidon_3_partial_rounds_chain.cu
+-        # Verify / bitwise XOR components
+-        constraints/verify/evaluate_verify_bitwise_xor_4.cu
+-        constraints/verify/evaluate_verify_bitwise_xor_7.cu
+-        constraints/verify/evaluate_verify_bitwise_xor_8.cu
+-        constraints/verify/evaluate_verify_bitwise_xor_8_b.cu
+-        constraints/verify/evaluate_verify_bitwise_xor_9.cu
+-        constraints/verify/evaluate_verify_bitwise_xor_12.cu
+-        constraints/verify/evaluate_verify_instruction.cu
+-        constraints/evaluate_triple_xor_32.cu
+-        constraints/evaluate_blake_round_sigma.cu
+-        constraints/evaluate_memory_address_to_id.cu
+-        constraints/evaluate_memory_id_to_big.cu
+-        constraints/evaluate_blake_round.cu
+-        #opcode
+-        constraints/opcodes/evaluate_add_opcode.cu
+-        constraints/opcodes/evaluate_add_ap_opcode.cu
+-        constraints/opcodes/evaluate_add_opcode_small.cu
+-        constraints/opcodes/evaluate_assert_eq_opcode.cu
+-        constraints/opcodes/evaluate_assert_eq_opcode_double_deref.cu
+-        constraints/opcodes/evaluate_assert_eq_opcode_imm.cu
+-        constraints/opcodes/evaluate_call_opcode.cu
+-        constraints/opcodes/evaluate_call_opcode_rel_imm.cu
+-        constraints/opcodes/evaluate_ret_opcode.cu
+-        constraints/opcodes/evaluate_jump_opcode.cu
+-        constraints/opcodes/evaluate_jump_opcode_double_deref.cu
+-        constraints/opcodes/evaluate_jump_opcode_rel_imm.cu
+-        constraints/opcodes/evaluate_jump_opcode_rel.cu
+-        constraints/opcodes/evaluate_jnz_opcode.cu
+-        constraints/opcodes/evaluate_jnz_opcode_non_taken.cu
+-        constraints/opcodes/evaluate_jnz_opcode_taken.cu
+-        constraints/opcodes/evaluate_mul_opcode.cu
+-        constraints/opcodes/evaluate_mul_opcode_small.cu
+-        constraints/opcodes/evaluate_generic_opcode.cu
+-        constraints/opcodes/evaluate_qm_31_add_mul_opcode.cu
+-        witness/gen_blake_g_trace.cu
+-        witness/gen_add_opcode_trace.cu
+-        witness/gen_add_opcode_small_trace.cu
+-        witness/gen_add_ap_opcode_trace.cu
+-        witness/gen_assert_eq_opcode_trace.cu
+-        witness/gen_assert_eq_opcode_double_deref_trace.cu
+-        witness/gen_assert_eq_opcode_imm_trace.cu
+-        witness/gen_triple_xor_32_trace.cu
+-        witness/gen_verify_bitwise_xor_trace.cu
+-        witness/gen_blake_round_trace.cu
+-        witness/gen_memory_address_to_id_trace.cu
+-        witness/gen_blake_round_sigma_trace.cu
+-        witness/gen_memory_id_to_big_trace.cu
+-        witness/gen_range_check_vector.cu
+-        witness/gen_blake_compress_opcode_trace.cu
+-        witness/gen_call_opcode_trace.cu
+-        witness/gen_call_opcode_rel_imm_trace.cu
+-        witness/gen_generic_opcode_trace.cu
+-        witness/gen_jnz_opcode_trace.cu
+-        witness/gen_jnz_opcode_taken_trace.cu
+-        witness/gen_jump_opcode_trace.cu
+-        witness/gen_jump_opcode_double_deref_trace.cu
+-        witness/gen_jump_opcode_rel_trace.cu
+-        witness/gen_jump_opcode_rel_imm_trace.cu
+-        witness/gen_mul_opcode_trace.cu
+-        witness/gen_mul_opcode_small_trace.cu
+-        witness/gen_qm_31_add_mul_opcode_trace.cu
+-        witness/gen_ret_opcode_trace.cu
+-        witness/gen_add_mod_builtin_trace.cu
+-        witness/gen_mul_mod_builtin_trace.cu
+-        witness/gen_bitwise_builtin_trace.cu
+-        witness/gen_range_check_builtin_bits_96_trace.cu
+-        witness/gen_range_check_builtin_bits_128_trace.cu
+-        witness/gen_poseidon_builtin_trace.cu
+-        witness/gen_poseidon_aggregator_trace.cu
+-        witness/gen_verify_instruction_trace.cu
+-        witness/gen_cube_252_trace.cu
+-        witness/gen_poseidon_full_round_chain_trace.cu
+-        witness/gen_poseidon_3_partial_rounds_chain_trace.cu
+-        witness/gen_range_check_felt_252_width_27_trace.cu
+-        witness/gen_partial_ec_mul_trace.cu
+-        witness/gen_partial_ec_mul_wb18_trace.cu
+-        witness/gen_pedersen_points_table_trace.cu
+-        witness/gen_pedersen_builtin_trace.cu
+-        witness/gen_pedersen_builtin_narrow_trace.cu
+-        witness/gen_poseidon_builtin_split_trace.cu
+-        witness/gen_pedersen_aggregator_wb18_trace.cu
+-        witness/gen_partial_ec_mul_wb9_trace.cu
+-        witness/gen_pedersen_aggregator_wb9_trace.cu
+-        witness/gen_pedersen_points_table_wb9_trace.cu
+-        # NOTE: gen_pedersen_table_on_gpu.cu is excluded due to multiple definition conflicts
+-        # with ec_ops.cuh and pedersen_table.cuh. The GPU table generation feature is experimental
+-        # and requires header refactoring to work properly.
+-        witness/gen_preprocessed_columns_on_gpu.cu
++        hallmark.cu
++
+ )
+ set_target_properties(stwo_cuda PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+ set_target_properties(stwo_cuda PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON)

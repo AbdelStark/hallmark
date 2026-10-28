@@ -1,0 +1,85 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -6,6 +6,7 @@
+ publish = false
+ 
+ [features]
++cuda = ["stwo/cuda"]
+ default = []
+ prover = ["stwo/prover", "stwo/parallel", "stwo-constraint-framework/prover", "stwo-constraint-framework/parallel"]
+ 
+@@ -28,3 +29,6 @@
+ 
+ [profile.release]
+ codegen-units = 1
++
++[patch.crates-io]
++stwo = { path = "../stwo" }
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -387,3 +387,6 @@
+         assert!(p.validate().is_err());
+     }
+ }
++
++#[cfg(feature = "cuda")]
++pub mod gpu_component;
+--- a/src/prover.rs
++++ b/src/prover.rs
+@@ -4,14 +4,20 @@
+ use stwo::prover::backend::simd::column::BaseColumn;
+ use stwo::prover::backend::simd::m31::LOG_N_LANES;
+ use stwo::prover::backend::simd::qm31::PackedSecureField;
+-use stwo::prover::backend::simd::SimdBackend;
++#[cfg(not(feature = "cuda"))]
++use stwo::prover::backend::simd::SimdBackend as DeviceBackend;
++#[cfg(feature = "cuda")]
++use stwo::prover::backend::cuda::CudaBackend as DeviceBackend;
++use stwo::prover::backend::Column;
+ use stwo::prover::poly::circle::{CircleEvaluation, PolyOps};
+ use stwo::prover::poly::BitReversedOrder;
+ use stwo::prover::CommitmentSchemeProver;
+ use stwo_constraint_framework::LogupTraceGenerator;
+ 
+-type Evaluation = CircleEvaluation<SimdBackend, M31, BitReversedOrder>;
++type Evaluation = CircleEvaluation<DeviceBackend, M31, BitReversedOrder>;
+ fn eval(log: u32, col: BaseColumn) -> Evaluation {
++    #[cfg(feature = "cuda")]
++    let col = col.to_cpu().into_iter().collect();
+     CircleEvaluation::new(CanonicCoset::new(log).circle_domain(), col)
+ }
+ fn columns(program: &Program) -> Vec<BaseColumn> {
+@@ -21,8 +27,8 @@
+         .map(|c| c.into_iter().collect())
+         .collect()
+ }
+-fn twiddles(log: u32) -> stwo::prover::poly::twiddles::TwiddleTree<SimdBackend> {
+-    SimdBackend::precompute_twiddles(
++fn twiddles(log: u32) -> stwo::prover::poly::twiddles::TwiddleTree<DeviceBackend> {
++    DeviceBackend::precompute_twiddles(
+         CanonicCoset::new(config(log).lifting_log_size.unwrap())
+             .circle_domain()
+             .half_coset,
+@@ -129,10 +135,12 @@
+     }
+     tick("interaction_generation");
+     let mut tree = scheme.tree_builder();
++    #[cfg(feature = "cuda")]
++    let trace = trace.into_iter().map(|e| CircleEvaluation::new(e.domain, e.values.to_cpu().into_iter().collect())).collect();
+     tree.extend_evals(trace);
+     tree.commit(&mut channel);
+     tick("interaction_commitment");
+-    #[cfg(test)]
++    #[cfg(all(test, not(feature = "cuda")))]
+     {
+         let polys = scheme.trees.as_ref().map(|tree| {
+             tree.polynomials
+@@ -155,6 +163,8 @@
+         );
+     }
+     let air = component(log, wires, sum);
++    #[cfg(feature = "cuda")]
++    let air = crate::gpu_component::DeviceComponent(air);
+     let proof = stwo::prover::prove(&[&air], &mut channel, scheme)?;
+     tick("stark_proving");
+     eprintln!(

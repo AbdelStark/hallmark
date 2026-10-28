@@ -1,0 +1,14 @@
+STWO 2.2.0: StarkWare Industries Ltd., Apache-2.0.
+https://github.com/starkware-libs/stwo/tree/289c20de80b7c7f508de9c46151fb81dae404154
+The registry archive and stock verifier/core are pinned by Cargo.lock checksum.
+
+NitrooZK-stwo: AntChain OpenLabs, Apache-2.0.
+https://github.com/AntChainOpenLabs/NitrooZK-stwo/tree/41c2a05bdb1fc3e3762bc7804108e8bc269bb6fc
+CUDA backend/buffers and primitive kernels are copied into an ignored generated
+STWO 2.2.0 source tree by prepare_classifier_gpu.py. Original licence files travel
+with that tree. stwo22.patch adds the optional feature, adapts the API/FRI packing
+and subdomain quotient path, and excludes unrelated Cairo constraint kernels.
+No stock CPU verifier/core source is changed. Hallmark's gate AIR stays shared
+with the default CPU path; component.rs and hallmark.cu specialize GPU evaluation.
+Witness/base/interaction construction remains on the host. This is a research
+candidate; a compile check is not device execution or backend qualification.

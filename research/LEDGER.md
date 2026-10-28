@@ -5495,3 +5495,28 @@ The source-pinned utility is published at `5fe56cdb459366850e83162769f8373451131
 New paid jobs: zero. No hardware, hiding, independent qualification, useful policy
 or equal-security performance claim. Final tests/package/docs and exact-head
 CI/merge/Pages receipts are recorded on the delivery PR.
+
+## 2026-10-28: fresh GPU proving repeat and classifier CUDA preparation
+
+Decisions [0087](../docs/decisions/0087-gpu-proving-repeat.md) and
+[0088](../docs/decisions/0088-classifier-cuda-measurement.md) freeze the owner-requested
+LLM repeat and separate classifier GPU candidate. Historical L1/C1/J1 numbers
+and default Mac classifier sources remain unchanged. The LLM build is active;
+no new device performance result is accepted in this preparation milestone.
+
+Local evidence: `runs/gpu-repeat-make-check-v1.log`, 2,611 passed / 50 skipped;
+`runs/classifier-gpu-source-check-v2.log`, locked CUDA-feature Rust check passed;
+`runs/port22-rule.log`, a real 1,935,860-byte CPU proof matches C1 byte for byte;
+`runs/classifier-gpu-input-reconstruction-v2.log`, all nine native cases match.
+Caller/native and upstream pins are in decision 0088 and ignored source/input
+manifests. CPU backend identity remains c035913b3196640797273bb0c22c2e69b09dee2a790d128be51287a6351ded7d;
+LLM verifier remains 8567c911d686b13b09032b75e1fc041e6bbcc9407cb2755b60746112102b342a.
+
+Preserved preliminary failures: a relative `runpy` launcher path fails the LLM
+controller before protocol creation or any job; the absolute-path launcher fixes
+that without changing the controller. Nitroo's direct older dependency fails
+API/proof-format compilation, so the candidate uses an additive 2.2 overlay.
+The first local classifier reconstruction lacks optional NumPy and stops before
+any upload; the locked train-extra environment passes. Overlay compiler/lint
+iterations are retained. GPU correctness, performance, distribution and backend
+qualification do not follow from these local checks.
