@@ -1,6 +1,6 @@
 ---
 title: Circle STARK verifiable inference, explained
-description: Run the TinyLlama and classifier proof workflows, learn what their verifiers check, and inspect the benchmark evidence.
+description: Download actual Circle STARK proofs, inspect stage timings and machine records, and verify the TinyLlama and classifier reference runs.
 template: home.html
 hide:
   - navigation
@@ -63,15 +63,19 @@ not operational safety filters.
 
 | Observation | Recorded result | Read it in context |
 |---|---|---|
-| Same-H200 CUDA proving | **53.94 s**, versus 547.75 s SIMD: **10.15×** | [Generated constraints, zero fallback](docs/GPU-BENCHMARK.md#generated-constraint-result) |
-| Complete segment commands | **155.89 s**, versus 679.49 s SIMD: **4.36×** | [What is included](docs/GPU-BENCHMARK.md#generated-constraint-result) |
-| Native Mac verification | **3.40–3.53 s** per honest check, after compilation | [Compiled enrollment boundary](docs/LLM-PROOF.md#verify-retained-proofs-on-your-mac) |
-| Circle classifier workflow | **4.98 min warm median**, nine proofs | [Matched CPU study; 19.96 GB maximum sampled RSS](docs/CLASSIFIER-BENCHMARK.md) |
-| LLM serialized proofs | **738 MB** across all 23 files | [Artifact and workflow costs](docs/LLM-PROOF.md#measured-results) |
+| L1 GPU proving-session timer | **53.94 s**, versus 547.75 s SIMD | [Session boundary and raw segment logs](docs/REFERENCE-RUN.md#l1-complete-tinyllama-response) |
+| L1 complete segment commands | **155.89 s**, versus 679.49 s SIMD | Includes loading, generation, proving, inline verification and serialization |
+| L1 full-bundle verification | **84.32 s** CPU grid on H200 host; **3.40–3.53 s** compiled-root Mac checks | [Different preprocessing, same proof payload](docs/REFERENCE-RUN.md#l1-complete-tinyllama-response) |
+| L1 actual LLM proof JSON | **737,858,641 bytes** across 23 proofs | [Download proofs, statements and claims](https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/llm-proofs.tar.gz) |
+| C1 nine classifier proofs | **24.061 s** final STWO calls; **50.028 s** complete prover processes | [Every stage and per-proof record on M4 Max](docs/REFERENCE-RUN.md#c1-default-classifier-workflow) |
+| C1 classifier verification / size | **0.807 s** in nine fresh verifier processes; **18,063,779 proof bytes** | [Actual proofs, caller inputs and logs](https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/reference-records.tar.gz) |
+| C1 complete controller | **302.96 s**, including fresh training/build/proofs/checks | Excludes uv bootstrap; one instrumented reference observation |
 
-One fixed H200 pair is not a performance distribution. Witness/interaction
-generation stays on CPU. Verification timings use different preprocessing;
-classifier and LLM workloads are not a matched backend comparison.
+L1 and C1 are separate component runs, not one measured fresh end-to-end
+workflow. One H200 pair and one Mac reference run are not timing distributions.
+Interaction work is nested inside SASH’s session timer and stays on CPU.
+Classifier final-STWO timers use a different boundary. Verification times use
+different preprocessing; proof-only classifier times exclude native caller reruns.
 [Read the evidence map](docs/research/index.md) for raw JSON, controls and missing claims.
 
 ## Research status {#research-with-an-inspectable-trail}

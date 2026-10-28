@@ -2,6 +2,43 @@
 
 Updated: 2026-10-28. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Public Circle reference collection — local acceptance and publication passed
+
+The owner requested complete Circle headline numbers with actual proof/log and
+machine resources. [Decision 0086](../docs/decisions/0086-public-circle-reference.md)
+fixes baseline, scope and acceptance. The [reference guide](../docs/REFERENCE-RUN.md)
+and [numeric receipt](evidence/circle-reference-2026-10-28.json) distinguish L1
+(H200 matched pair), C1 (fresh Mac classifier controller) and J1 (retained-input
+composition). They are not one measured fresh end-to-end GPU invocation.
+
+[Discussion #133](https://github.com/AbdelStark/hallmark/discussions/133) indexes
+all stage tables, machine/job details and source-pinned verification commands.
+The [artifact release](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28)
+contains actual 23 LLM proof files plus 46 statements/claims, nine fresh classifier
+controls, three composed classifier proofs and 988 exact supporting files. All four
+assets were downloaded without authentication and matched their byte counts and
+SHA-256. The external manifest pin is recorded in the guide and Discussion.
+
+The fresh C1 controller takes 302.96 s: MLP 1.95 s, CNN 172.94 s, Rust builds
+24.82/9.57 s and proof campaign 93.50 s. Nine final STWO proving calls total
+24.061 s; complete prover commands total 50.028 s; proof-only verifier processes
+total 0.807 s; actual proof files total 18,063,779 bytes. Peak sampled worker-tree
+RSS is 23.45 GB. These are one local observation, not timing distributions.
+The retained L1 CUDA session timer is 53.94 s, including interaction work;
+complete commands are 155.89 s and separate CPU grid verification 84.32 s.
+The raw 23-proof payload is 737,858,641 bytes. Reused/unrecorded stages remain
+explicit; SASH and classifier internal proving timers use different boundaries.
+
+Fresh archive-based cryptographic verification takes 219.25 s including native
+compilation: all 23 LLM proofs twice, all 36 LLM mutations rejected, and all 12
+classifier proofs checked in fresh proof-only processes with caller reconstruction.
+The first helper attempt passed LLM checks but incorrectly charged input archives
+to its work quota, failing before classifier checks. Failure is retained; generated
+Circle work now has its own 128-MiB budget. The 55-file LLM and Circle backend
+identities, models and thresholds are unchanged. No new paid job, hiding, hardware,
+independent qualification or policy-quality claim. Final repo/CI/Pages delivery is
+tracked on this change's PR.
+
 ## Circle-first defaults — local acceptance passed
 
 Circle STARK is the owner-selected default for `make e2e`, `make e2e-composed`,

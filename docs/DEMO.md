@@ -1,5 +1,10 @@
 # Run the Circle STARK classifier demo
 
+The [C1 reference](REFERENCE-RUN.md#c1-default-classifier-workflow) publishes all
+nine actual proofs, every stage/per-proof time, machine details and raw logs.
+Its instrumented controller takes 302.96 s; older acceptance observations below
+retain their original commands and timing boundaries.
+
 ```sh
 make e2e
 ```

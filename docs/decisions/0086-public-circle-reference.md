@@ -1,6 +1,6 @@
 # 0086: Publish verifiable Circle reference artifacts and complete stage numbers
 
-Date: 2026-10-28. Status: owner requested; acceptance in progress.
+Date: 2026-10-28. Status: owner requested; local crypto acceptance and artifact publication passed.
 
 The README must distinguish proof-kernel time, complete proving commands,
 verification, preparation, checks and total workflow time. Every number needs a
@@ -35,3 +35,12 @@ retained proofs and caches. Use new directories; preserve failures. Publication
 is explicitly authorized by the owner's request for a public reference Discussion
 and all necessary proof/log artifacts. This is a research artifact release, not
 security qualification or policy adoption.
+
+
+[Numeric acceptance](../../research/evidence/circle-reference-2026-10-28.json),
+[reference guide](../REFERENCE-RUN.md) and
+[Discussion #133](https://github.com/AbdelStark/hallmark/discussions/133) retain the
+fresh C1 observation, actual proof assets and archive-based verification. All four
+assets pass anonymous download/hash checks. The first quota-scoping helper failure
+is preserved. Source/math/model identities are unchanged; final CI/Pages delivery
+is tracked on the associated PR.

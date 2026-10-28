@@ -66,6 +66,7 @@ nav:
       - Current state: research/STATE.md
       - Research ledger: research/LEDGER.md
   - Reference:
+      - Reference proofs and timings: docs/REFERENCE-RUN.md
       - Architecture and proof flows: docs/ARCHITECTURE.md
       - Classifier proof statement: docs/PROOFS.md
       - Circle classifier proofs: docs/CIRCLE-CLASSIFIERS.md

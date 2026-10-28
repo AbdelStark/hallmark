@@ -1,5 +1,11 @@
 # Research evidence map
 
+Start with the [public Circle reference collection](../REFERENCE-RUN.md): actual
+proof bytes, stage-by-stage timings, raw logs, machine/job records, external
+manifest pins and a proof-only verification command. Its L1/C1/J1 runs are kept
+separate from repeated performance studies.
+
+
 Use the records below to check model and input identities, measurements and
 failed attempts behind the reported results.
 

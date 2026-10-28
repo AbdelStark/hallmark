@@ -82,9 +82,14 @@ def test_make_defaults_circle_and_preserves_explicit_gnark(target, driver, legac
 def test_composition_rejects_authority_or_incomplete_llm_before_classifier_proving(
     tmp_path, monkeypatch, bad_authority
 ):
+    from types import SimpleNamespace
+
     import run_circle_composed as composed
 
     monkeypatch.setattr(composed, "ROOT", tmp_path)
+    monkeypatch.setattr(
+        composed.shutil, "disk_usage", lambda _: SimpleNamespace(free=128 * 1024**3)
+    )
     monkeypatch.setattr(composed.verify_llm, "read_enrollment", lambda *a: (None, None))
     monkeypatch.setattr(composed.verify_llm, "source_inventory", lambda: {})
     monkeypatch.setattr(composed.verify_llm, "verifier_identity", lambda _: bytes(32))

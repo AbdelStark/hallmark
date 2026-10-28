@@ -5445,3 +5445,53 @@ and three stale-anchor failures are retained in the acceptance record. Exact-hea
 CI, merge and Pages delivery are recorded on the change's PR. Default selection
 adds no independent security qualification, hiding, hardware, recursive proof or
 policy-quality claim; the MLP remains always-allow in this fixed input domain.
+
+
+## 2026-10-28: public Circle reference proofs and stage accounting
+
+Owner request: replace incomplete headline accounting with actual proofs,
+all stages, verification/size/resource details and a public Discussion.
+[Decision 0086](../docs/decisions/0086-public-circle-reference.md) fixes baseline
+`9bea024dc7d4604f17d53c915b64bc4a23c408b5`, frozen semantics, mutable observer/
+publication paths and local resource limits. The [numeric receipt](evidence/circle-reference-2026-10-28.json)
+precedes prose and retains all derived rows, source identities, artifact hashes,
+public asset digests, anonymous downloads and verification receipts.
+
+C1 is a predeclared first fresh local timing observation, not a selected best run:
+302.96 s observed controller, including frozen training and initially empty Rust
+target builds, excluding uv bootstrap. Nine proofs total 18,063,779 JSON bytes;
+final STWO calls 24.061 s, complete prover processes 50.028 s, fresh proof-only
+verifier processes 0.807 s. Each internal stage and all per-proof rows are retained.
+The proof campaign rejects 63 changed public statements, 18 substitutions and
+three invalid rosters. Source/core/compiler identities and both selected integer
+exports match baseline. No fitting, threshold or evaluation-selection change.
+
+L1 is the retained 2026-10-26 H200 pair. Raw per-segment logs reproduce 53.94 s
+CUDA session timing, 155.89 s complete commands and 84.32 s separate CPU grid
+verification on the H200 host. Source audit establishes that interaction work is
+nested inside the SASH session timer; classifier final-call timing uses another
+boundary. Fresh L1 preparation and isolated serialization/transfer totals were
+not recorded, so remain null. The original build-job running interval is separate.
+J1 is retained LLM composition, not new GPU proving. Never pool the machines,
+component runs or repeated HF classifier benchmark into one end-to-end latency.
+
+[Discussion #133](https://github.com/AbdelStark/hallmark/discussions/133) and the
+[artifact release](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28)
+publish the actual 23 LLM proofs, three composed classifier proofs and nine
+classifier controls, caller statements/enrollment and 988 exact supporting files.
+Known credential values and credential/private-path patterns were checked without
+printing values. Checkpoints, witness archives, executables, caches and private
+business material are excluded. Original Hallmark metadata/fixtures/exports are
+MIT; no new data source or checkpoint upload. Anonymous downloads of all four
+assets match byte counts and SHA-256. Proof sizes and gzip/evidence-bundle sizes
+are reported separately.
+
+Fresh verification of the exact archive set passes in 219.25 s including native
+build, two complete honest LLM checks, all 36 LLM mutations and 12 fresh Circle
+classifier checks. First helper attempt passed LLM checks then failed before
+classifier launch because input archives consumed its generated-output quota;
+that failure is preserved and the output quota now covers only verification work.
+The source-pinned utility is published at `5fe56cdb459366850e83162769f8373451131b7d`.
+New paid jobs: zero. No hardware, hiding, independent qualification, useful policy
+or equal-security performance claim. Final tests/package/docs and exact-head
+CI/merge/Pages receipts are recorded on the delivery PR.
