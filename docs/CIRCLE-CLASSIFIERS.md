@@ -1,5 +1,10 @@
 # Circle STARK classifier proofs — the default
 
+The separate [A100 classifier GPU benchmark](CLASSIFIER-GPU-BENCHMARK.md) passes
+54 proofs under the unchanged stock verifier. Median nine-proof command sums
+are 92.41 s CPU / 22.22 s CUDA across three pairs. The optional CUDA candidate
+does not change the stock Mac default or historical CPU comparisons.
+
 The new backend produces real, serialized STWO proofs for the existing literal
 rule, four-hidden-unit integer MLP and contextual byte CNN. A fresh verifier
 process checks each proof using enrollment and public inputs retained by the
