@@ -1,0 +1,57 @@
+{
+  "schema_id": "hallmark.pr135-recovery/1",
+  "date": "2026-10-28",
+  "source_commit": "3d9196c0ca32b0bad1a9f248fb9ce14596893a79",
+  "status": "local-recovery-passed-device-run-pending",
+  "llm_repeat": {
+    "job_id": "6ae1e6f83fb22a235dd3ee6f",
+    "stage": "ERROR",
+    "message": "Job timeout",
+    "timeout_seconds": 3600,
+    "bucket_present": false,
+    "log_retained": true,
+    "full_worker_artifacts_recovered": false
+  },
+  "reference_manifest_sha256": "2ea625c25d8305d6f006f6b492cffb066e93b5d7e8d92d7da6269156c5c1e6e8",
+  "reference_members_checked": 988,
+  "native_preparation_sha256": "3eab49c2a4a97a3e7d4daaefbbdc4c68a09ae7ba2d9a0d438c803cc7efcb13cd",
+  "reconstructed_cases": 9,
+  "program_and_witness_hashes_match_published_cost_records": true,
+  "admitted_input_files": 104,
+  "stock_fixture": {
+    "passed": true,
+    "seconds": 0.2182262090000222,
+    "proof_sha256": "ef8cf1f3335390b54dc75cf75209182bbe78a909e829e103445a52af810f06da",
+    "prover_sha256": "7767d358108af505238a62c34741e419186882734e1077a93b8106a992e90af4",
+    "verifier_sha256": "2f6986d15f7773654066be603d39b39f4f3f534e3e338fcaf06ea6bd80c15b35"
+  },
+  "validation": {
+    "focused_tests_passed": 45,
+    "make_check_passed": 2612,
+    "make_check_skipped": 50,
+    "make_check_seconds": 163.81,
+    "software_conformance_matches": 156,
+    "package_check": "passed with pinned uv 0.9.18",
+    "initial_package_failure": "system uv 0.13.6 violates tool version gate"
+  },
+  "new_paid_jobs": 0,
+  "gpu_classifier_proofs": 0,
+  "current_credit_balance": null,
+  "paid_run_dependency": "Decision 0088 requires a current credit balance check; .env authentication works and account is prepaid/canPay true, but CLI does not expose numeric balance and browser is logged out.",
+  "artifact_sha256": {
+    "runs/pr135-recovery/llm-build-job.json": "6d9d51048a4bc6037b3656f2fa9fda4abcca31bc1802804380e76657b7b43128",
+    "runs/pr135-recovery/llm-build.log": "a4900c135cea89b44ed44d8cd1e3362acd162561e93a2cf7c05e8099d778bf2d",
+    "runs/pr135-recovery/reference-manifest.json": "2ea625c25d8305d6f006f6b492cffb066e93b5d7e8d92d7da6269156c5c1e6e8",
+    "runs/pr135-recovery/reference-records.tar.gz": "8fcee7279b7d5ef5581407e917959b86ca174683468ee341dd2690bd736c5dcb",
+    "runs/pr135-recovery/reconstruction.json": "a61e5320431568c685027599026799d2a151c04ae71844a7a8b1b4dd81a8dd1b",
+    "runs/pr135-recovery/reconstruction-protocol.json": "536aca593fef839055803ce2de56b276fbb8a5ef5c5ed5d83ef6d0cfba17d5a8",
+    "runs/pr135-recovery/stock-fixture-result.json": "1790089c6e919776aa8a5d7c5c1de190f28066d16fd985020456804a0734f794",
+    "runs/pr135-recovery/make-check.log": "be9fd69cbdbf64d0cd8e3c3a0f79ecf3540eb01f1fb19f31148e737970c25397",
+    "runs/pr135-recovery/package-check.log": "1bb81c1b044d22aba9adcaaa217e1258918bf58ac60fc186babd69406230468f",
+    "runs/pr135-recovery/package-check-pinned.log": "060b06ed6e14eac666fed289176ffbfe1ea05f01c27fb735bd2f4f603365752b",
+    "runs/pr135-recovery/admitted-inputs/admission.json": "82dee8b7fbad0ecc6822105242175c251bd5614f2b4b403f5b1fca71530d011f",
+    "runs/pr135-recovery/admitted-inputs/inputs.tar.gz": "11544ec54e415adc942af01dcec85d00b0cac73170fe80e9fbc26172aae72d44",
+    "runs/pr135-recovery/admitted-inputs/inputs-inventory.json": "326219ed0ae922b945cf4361debe92e73c298d22dbda7b9b92812f3cd40a60e3",
+    "runs/pr135-recovery/admitted-inputs/native-reconstruction.json": "3058bb5be3586737db952796b89a30c414eac219dc17ca7e52b1a9cdc4c6a2d1"
+  }
+}

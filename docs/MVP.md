@@ -9,7 +9,7 @@ For command selection, end-to-end diagrams and the division between circuit
 checks and caller checks, read [architecture and proof flows](ARCHITECTURE.md).
 Circle STARK now proves both LLM inference and classifiers, through SASH
 and direct STWO respectively. [Decision 0085](decisions/0085-circle-default.md)
-and [decision 0087](decisions/0087-remove-pairing-backend.md) record these later
+and [decision 0090](decisions/0090-remove-pairing-backend.md) record these later
 changes; the original MVP acceptance below retains its historical measurements.
 
 ```text

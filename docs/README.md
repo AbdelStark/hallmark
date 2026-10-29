@@ -14,6 +14,7 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 
 | Document | Purpose |
 |---|---|
+| [Performance](PERFORMANCE.md) | Every measurement with its run, machine and timer boundary; how the timers nest; what was never measured |
 | [Architecture and proof flows](ARCHITECTURE.md) | Make target matrix, classifier/LLM/composition diagrams, exact proof boundaries, SASH source/patch ownership and backend trade-offs |
 | [MVP scope and acceptance](MVP.md) | Completed fixed-case integrity scope, evidence matrix and deferred v1 roadmap |
 | [Composed LLM/classifier demo](COMPOSED-DEMO.md) | `make e2e-composed`; fresh verification and classifier proofs over one exact request |
@@ -52,7 +53,7 @@ For the current demo, the shortest design trail is:
 2. [0059: contextual byte CNN](decisions/0059-contextual-byte-cnn-screen.md)
 3. [0060: revised synthetic screen](decisions/0060-contextual-screen-followup.md)
 4. [0085: Circle STARK default](decisions/0085-circle-default.md)
-5. [0087: Circle STARK is the only classifier backend](decisions/0087-remove-pairing-backend.md)
+5. [0090: Circle STARK is the only classifier backend](decisions/0090-remove-pairing-backend.md)
 
 ## Inspect the research record
 

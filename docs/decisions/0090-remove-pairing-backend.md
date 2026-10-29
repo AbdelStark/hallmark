@@ -1,4 +1,4 @@
-# 0087: Circle STARK is the only classifier proof backend
+# 0090: Circle STARK is the only classifier proof backend
 
 Date: 2026-10-29. Status: owner-requested; local acceptance below.
 

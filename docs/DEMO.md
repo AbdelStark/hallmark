@@ -51,6 +51,8 @@ smaller software-only path on either platform.
 
 ## Flow and output
 
+![The classifier workflow: train, export, compile and enroll once; then build the witness, prove with STWO, verify in a fresh process and bind the result, nine times.](assets/figures/classifier-pipeline.svg)
+
 ```mermaid
 flowchart TD
     D[Frozen synthetic training data] --> T[Train and export exact integer MLP and CNN]
@@ -78,6 +80,8 @@ allow: generated rule proof
 ...
 PASS: 9 Circle proofs freshly verified. Results: .../result.json
 ```
+
+![Nine proofs, nine verdicts: the allow request passes all three classifiers; the CNN blocks the contextual case; the rule blocks the BAD-prefixed case. Every proof verifies.](assets/figures/verdict-matrix.svg)
 
 | Request | Rule / MLP / CNN verdicts | All-pass policy |
 |---|---|---|

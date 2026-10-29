@@ -7,7 +7,7 @@ caller statements, enrollment, source hashes, resource samples and job receipts
 are included. This is a collection of explicitly named component runs, not one
 uninterrupted fresh GPU-plus-classifier run.
 
-[Download artifacts](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28) · [Discussion and verification receipt](https://github.com/AbdelStark/hallmark/discussions/133)
+[Download artifacts](https://github.com/AbdelStark/hallmark/releases/tag/circle-reference-2026-10-28) · [Discussion and verification receipt](https://github.com/AbdelStark/hallmark/discussions/133) · [How to read the timings](PERFORMANCE.md)
 
 ## Runs and machines
 
@@ -32,6 +32,8 @@ The pinned `TinyLlama-1.1B-Chat-v1.0` uses disclosed `y-attnout-w12` quantizatio
 It proves “The capital of France is Paris.” from the fixed France question:
 eight output tokens including EOS, 22 transformer layers plus final norm/head,
 23 proofs, 22 residual links and seven generated-input links.
+
+![TinyLlama proving on one H200: CUDA cuts the proving session from 547.75 s to 53.94 s (10.15×); complete segment commands go from 679.49 s to 155.89 s (4.36×); trace generation is unchanged.](assets/figures/perf-llm-gpu.svg)
 
 | Measurement, all 23 segments | CPU / SIMD | GPU / CUDA | Boundary |
 |---|---:|---:|---|
@@ -62,6 +64,10 @@ witness and interaction generation remain on CPU.
 | Complete cached-build benchmark controller | 2,086.78 s | SIMD and CUDA runs, fixtures, transport, root/grid checks and CPU/Mac suites |
 | Isolated input parsing / serialization / transfer totals | **Not separately recorded** | Included in enclosing command/controller walls; no zero-cost claim |
 
+![Stacked bars for the CPU and GPU complete segment commands: trace generation, proving session, inline verification and a remainder by subtraction.](assets/figures/perf-llm-timers.svg)
+
+![Dumbbell chart, log scale: proving-session seconds per segment on CPU and GPU. Ratios range from 3.2× to 28.7×; segments L0 to L2 are much slower on CPU.](assets/figures/perf-llm-segments.svg)
+
 Do not add these rows: some are nested and others belong to separate jobs or
 postflights. Lower-level FRI, Merkle and constraint timers are retained in each segment’s
 `result.point.phases` and in the numeric receipt. These profiler timers overlap;
@@ -78,6 +84,8 @@ C1 freshly trains and exports the frozen models, builds the locked prover and
 proof-only verifier, then generates and verifies all nine control proofs.
 Dependency caches are populated; the Rust target directory starts empty. This
 is **one local reference observation**, not the repeated HF benchmark.
+
+![One fresh classifier run, zoomed in: of the 302.96 s run, CNN training takes 172.94 s and the proof campaign 93.50 s; inside it, nine prover commands take 50.03 s, of which final STWO proving is 24.06 s.](assets/figures/perf-classifier-c1.svg)
 
 | Outer stage | Wall time | Boundary |
 |---|---:|---|
@@ -157,7 +165,7 @@ software release. Its tag identifies the repository baseline before this
 reference-documentation change; it is not every component’s measured commit. Use a checkout
 of the verification utility’s publication commit (pinned below and in the Discussion);
 later commits change the native LLM verifier identity
-([decision 0087](decisions/0087-remove-pairing-backend.md)). No weights, witnesses, trusted remote
+([decision 0090](decisions/0090-remove-pairing-backend.md)). No weights, witnesses, trusted remote
 executable or HF credential are needed. Native verification requires the
 [Mac/Rust prerequisites](LLM-PROOF.md#verify-retained-proofs-on-your-mac), uv 0.9.18,
 Python 3.12.12, the train extra for classifier public-input reconstruction,

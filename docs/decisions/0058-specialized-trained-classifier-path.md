@@ -10,7 +10,7 @@ foreground work. GCP is not a dependency of classifier proving. Genuine hardware
 provenance remains a separate extension; an ordinary GPU rental is not attestation.
 Private account details and credentials stay outside this repository.
 
-The proof library then in use (removed by 0087) supplied dedicated circuits; it
+The proof library then in use (removed by 0090) supplied dedicated circuits; it
 does not execute a VM here. Keep those circuits as correctness baselines rather
 than assuming their maximum-size synthetic cost is a scalable encoder design.
 Use the specialized-path review

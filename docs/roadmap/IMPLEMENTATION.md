@@ -21,7 +21,7 @@ tracks Circle STARK proofs for the current rule/MLP/CNN. Its five tasks are
 [#116](https://github.com/AbdelStark/hallmark/issues/116) (CNN) and
 [#117](https://github.com/AbdelStark/hallmark/issues/117) (common workflow and benchmarks).
 Circle STARK is now the only classifier proof backend
-([decision 0087](../decisions/0087-remove-pairing-backend.md)). This is integrity-only
+([decision 0090](../decisions/0090-remove-pairing-backend.md)). This is integrity-only
 work, not a replacement for the private-v1 obligations below. The
 [current architecture](../ARCHITECTURE.md) describes the working backends.
 

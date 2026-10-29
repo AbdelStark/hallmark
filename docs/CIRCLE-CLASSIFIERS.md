@@ -1,5 +1,12 @@
 # Circle STARK classifier proofs
 
+![The classifier workflow: train, export, compile and enroll once; then build the witness, prove with STWO, verify in a fresh process and bind the result, nine times.](assets/figures/classifier-pipeline.svg)
+
+The separate [A100 classifier GPU benchmark](CLASSIFIER-GPU-BENCHMARK.md) passes
+54 proofs under the unchanged stock verifier. Median nine-proof command sums
+are 92.41 s CPU / 22.22 s CUDA across three pairs. The optional CUDA candidate
+does not change the stock Mac default or historical CPU comparisons.
+
 The classifier backend produces real, serialized STWO proofs for the existing literal
 rule, four-hidden-unit integer MLP and contextual byte CNN. A fresh verifier
 process checks each proof using enrollment and public inputs retained by the
@@ -14,7 +21,7 @@ A second acceptance run confirms those counts. Full-length conformance adds
 three passing proofs and rejects 21 invalid witnesses in real STWO constraints;
 an omitted dense edge rejects at program-pin admission. These are exploratory
 acceptance results. Circle is the only classifier backend under
-[decision 0087](decisions/0087-remove-pairing-backend.md); this does not change
+[decision 0090](decisions/0090-remove-pairing-backend.md); this does not change
 its unqualified research status.
 
 ## Run the acceptance workflow
@@ -85,6 +92,8 @@ verdicts fail the gate equations. These fixtures test the arithmetic boundary,
 not whether the trained models can attain each score.
 
 ## What the proof establishes
+
+![What one classifier proof states: a witness of prompt bytes, salt and intermediate values; four constrained steps; a public statement of 100 fields.](assets/figures/classifier-statement.svg)
 
 Each circuit covers the complete input up to 96 UTF-8 bytes. Oversized inputs
 reject. No floating-point inference, truncated prefix, alternative hash or native

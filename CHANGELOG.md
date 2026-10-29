@@ -10,7 +10,16 @@ classifier proof backend. Rename the shared worker sandbox to `hallmark._worker`
 (`hallmark.worker-cost/1`). Narrow the native LLM verifier inventory to the 17
 files it loads, which changes its identity. Move the rule program records to
 `fixtures/rule-program.json` without changing classifier or program identities.
-See [decision 0087](docs/decisions/0087-remove-pairing-backend.md).
+See [decision 0090](docs/decisions/0090-remove-pairing-backend.md).
+
+Rework the README, reference guides and documentation site around generated
+figures: system overview, LLM and classifier proof statements, pipelines,
+verdicts, trust boundary, composition and six performance charts. Figures are
+rendered from `research/evidence/` by `scripts/render_figures.py`, adapt to dark
+mode and are checked for staleness in tests. Add a performance guide that names
+each run's machine and timer boundary, shows how the timers nest and lists what
+was never measured. Correct the learning page that still described the former
+backend as the default. No measurement, proof relation or evidence record changes.
 
 Make Circle STARK the default for classifiers, LLM composition, workbench and
 documentation. `make e2e` prepares frozen native models and generates nine STWO

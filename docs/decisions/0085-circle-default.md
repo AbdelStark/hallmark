@@ -1,7 +1,7 @@
 # 0085: Circle STARK is the default research workflow
 
 Date: 2026-10-28. Status: owner-selected; local acceptance passed, delivery checks tracked on PR.
-Superseded by [0087](0087-remove-pairing-backend.md): the pairing backend was removed.
+Superseded by [0090](0090-remove-pairing-backend.md): the pairing backend was removed.
 
 The owner explicitly selects Circle STARK as the default and base case for
 commands, demos, headlines and documentation. This supersedes the operational

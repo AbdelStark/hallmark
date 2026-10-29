@@ -43,6 +43,7 @@ questions they leave unanswered. No cryptography background is assumed.
 
 For each timing, check which computation and inputs were used, which verifier
 ran, and which stages the measurement includes. Hallmark's 53.94 s GPU figure
-covers summed proving stages; preparation and verification take additional time.
+covers summed proving sessions; preparation and verification take additional
+time. The [performance guide](../PERFORMANCE.md) shows how every timer nests.
 
 Continue with [from inference to a claim](computation-and-claims.md).

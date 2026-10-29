@@ -4,7 +4,7 @@ Updated: 2026-10-29. Phase: MIT-licensed research software in a public repositor
 
 ## Single classifier backend — removal of the pairing backend
 
-2026-10-29. At the owner's request, [decision 0087](../docs/decisions/0087-remove-pairing-backend.md)
+2026-10-29. At the owner's request, [decision 0090](../docs/decisions/0090-remove-pairing-backend.md)
 removes the former classifier proof backend, its comparison benchmark,
 `hallmark qualify`, the `proof-artifacts` CI job and the two app workflows that
 depended on it. Circle STARK (STWO) is the only classifier proof backend;
@@ -22,6 +22,39 @@ a new owner signature, and the `circle-reference-2026-10-28` release verifies at
 its own tag. The shared worker sandbox is `hallmark._worker`. Acceptance is
 recorded in the decision and its PR. No security, hiding, hardware or
 qualification claim changes.
+
+## Classifier CUDA benchmark — accepted A100 experiment
+
+PR #135's optional CUDA classifier prover passes [decision 0089](../docs/decisions/0089-classifier-a100-capacity-fallback.md).
+The [report](../docs/CLASSIFIER-GPU-BENCHMARK.md) and [numeric evidence](evidence/classifier-gpu-benchmark-2026-10-28.json)
+retain all 54 proofs' measurements, 378 rejected public-input mutations, 54
+fresh Linux checks and 54 fresh stock Mac checks against unchanged C1 caller
+inputs. All proof bytes match C1. CUDA executes 27 classifier AIR calls with
+zero CPU AIR fallback. This is fixed-case research, not backend qualification.
+
+On one A100-SXM4-80GB / Xeon 8275CL host, with four Rayon threads, median
+nine-proof command sums are **92.406 s CPU / 22.216 s CUDA (4.16×)** over three
+pairs. Median summed final STWO calls are 44.310 / 7.550 s (5.87×), inside those
+commands. Peak sampled Rust RSS is 19.456 / 0.624 GB; sampled VRAM peaks at
+18.25 GiB. Per nine-case suite, proof JSON remains 18,063,779 bytes. Host witness
+and interaction generation remain CPU work. Training/preparation and native
+builds are reused; these are not fresh full-workflow or Mac speedup measurements.
+
+The audit rehashes 1,612 retained files / 133,042,187 bytes; five temporary buckets
+are deleted. Rounded running compute totals USD 0.37 under the combined USD 5
+ceiling, not an invoice. Preserve the H200 allocation canceled while queued and
+the first A100 worker's pre-proof executable-permission failure. Corrected local
+binary staging rechecks bytes before execution; the successful A100 native build
+is admitted by source-content/native-target and retained binary hashes.
+
+The owner explicitly approved continuing without the inaccessible numeric credit
+check; balance remains null. Fresh-clone [recovery](evidence/pr135-recovery-2026-10-28.json)
+rechecks the public manifest and reconstructs all nine C1 programs/witnesses.
+Local checks pass 2,613 tests with 50 skips; core packaging and strict docs gates
+pass. Exact-head hosted delivery is tracked on PR #135. The separate LLM repeat build timed out at 3,600 seconds; no fresh LLM
+GPU performance result is claimed. Stock classifier/core/verifier and 55-file
+LLM identities, models, thresholds and proof parameters remain unchanged. No
+hiding, hardware, independent qualification or useful-policy claim is added.
 
 ## Public Circle reference collection — local acceptance and publication passed
 
@@ -279,7 +312,7 @@ substitute for original private/hardware v1 qualification. Runtime, model,
 evaluation and historical evidence remain unchanged; no proving/cloud run is
 needed for this documentation/tracker change.
 
-The README now surfaces [recorded headline results](../README.md#recorded-results-at-a-glance):
+The README now surfaces [recorded headline results](../README.md#performance):
 model/response size, proving and verification times, serialized proof size and
 fresh workflow costs. These summarize existing evidence, with hardware and
 preprocessing caveats; they introduce no new benchmark or backend comparison.

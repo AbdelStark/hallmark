@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="960" height="380" role="img" aria-labelledby="t d">
+<title id="t">Proving-session time per segment</title>
+<desc id="d">Dumbbell chart on a logarithmic axis, one column per segment, CPU and GPU proving-session seconds. Per-segment ratios range from 3.2× to 28.7×.</desc>
+<style>svg{--bg:#f7f4ec;--panel:#fffdf8;--ink:#203c35;--text:#2b3d36;--muted:#5b6860;--faint:#8d988f;--line:#d4d9cc;--grid:#e4e6dc;--soft:#ebede2;--soft2:#dde3d4;--layer:#c9d8cb;--accent:#b5532f;--accent-soft:#f4e0d6;--proved:#2e6b52;--proved-soft:#e2ece3;--caller:#94680f;--caller-soft:#f5ebcf;--out:#8d988f;--out-soft:#efeee7;--s1:#3a6fb0;--s2:#c8602f;--s3:#249c70;--s4:#d9a01c;--cpu:#a3aba4}@media (prefers-color-scheme:dark){svg{--bg:#172822;--panel:#1c3029;--ink:#e6ebdc;--text:#d9e2d4;--muted:#a7b6a9;--faint:#7d8c80;--line:#3a4d41;--grid:#26392f;--soft:#22372d;--soft2:#2b4337;--layer:#33503f;--accent:#f0b398;--accent-soft:#4a2e24;--proved:#86c9a6;--proved-soft:#1f3d2e;--caller:#e2b85c;--caller-soft:#3a3320;--out:#7d8c80;--out-soft:#203029;--s1:#4f86c9;--s2:#d26a3a;--s3:#2aa577;--s4:#b98c18;--cpu:#66756a}}text{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--text);font-size:14px}.e{font-size:11px;font-weight:700;letter-spacing:.13em;fill:var(--muted)}.h{font-size:20px;font-weight:600;fill:var(--ink);letter-spacing:-.01em}.b{font-size:14px}.bs{font-size:13px}.s{font-size:12px;fill:var(--muted)}.bb{font-size:14px;font-weight:650;fill:var(--ink)}.hb{font-size:16px;font-weight:650;fill:var(--ink)}.m{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}.mb{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:700;fill:var(--ink)}.mbig{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:18px;font-weight:600;fill:var(--ink)}.big{font-size:24px;font-weight:600;fill:var(--ink)}.acc{fill:var(--accent)}.ink{fill:var(--ink)}.mut{fill:var(--muted)}.prv{fill:var(--proved)}.cal{fill:var(--caller)}.w{font-weight:650}.onw{fill:#ffffff}.ond{fill:#1d1a10}.f-bg{fill:var(--bg)}.k-bg{stroke:var(--bg)}.f-panel{fill:var(--panel)}.k-panel{stroke:var(--panel)}.f-ink{fill:var(--ink)}.k-ink{stroke:var(--ink)}.f-text{fill:var(--text)}.k-text{stroke:var(--text)}.f-muted{fill:var(--muted)}.k-muted{stroke:var(--muted)}.f-faint{fill:var(--faint)}.k-faint{stroke:var(--faint)}.f-line{fill:var(--line)}.k-line{stroke:var(--line)}.f-grid{fill:var(--grid)}.k-grid{stroke:var(--grid)}.f-soft{fill:var(--soft)}.k-soft{stroke:var(--soft)}.f-soft2{fill:var(--soft2)}.k-soft2{stroke:var(--soft2)}.f-layer{fill:var(--layer)}.k-layer{stroke:var(--layer)}.f-accent{fill:var(--accent)}.k-accent{stroke:var(--accent)}.f-accent_soft{fill:var(--accent-soft)}.k-accent_soft{stroke:var(--accent-soft)}.f-proved{fill:var(--proved)}.k-proved{stroke:var(--proved)}.f-proved_soft{fill:var(--proved-soft)}.k-proved_soft{stroke:var(--proved-soft)}.f-caller{fill:var(--caller)}.k-caller{stroke:var(--caller)}.f-caller_soft{fill:var(--caller-soft)}.k-caller_soft{stroke:var(--caller-soft)}.f-out{fill:var(--out)}.k-out{stroke:var(--out)}.f-out_soft{fill:var(--out-soft)}.k-out_soft{stroke:var(--out-soft)}.f-s1{fill:var(--s1)}.k-s1{stroke:var(--s1)}.f-s2{fill:var(--s2)}.k-s2{stroke:var(--s2)}.f-s3{fill:var(--s3)}.k-s3{stroke:var(--s3)}.f-s4{fill:var(--s4)}.k-s4{stroke:var(--s4)}.f-cpu{fill:var(--cpu)}.k-cpu{stroke:var(--cpu)}</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-faint"/></marker><marker id="ai" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect width="960" height="380" rx="10" class="f-bg"/>
+<text x="40" y="44" class="e">L1 · PROVING-SESSION TIME PER SEGMENT, LOG SCALE</text>
+<text x="40" y="72" class="h">Per-segment speedup ranges from 3.2× to 28.7×; three early CPU segments dominate</text>
+<circle cx="645" cy="99.5" r="5" class="f-cpu"/>
+<text x="658" y="104" class="bs">CPU · SIMD</text>
+<circle cx="755.2" cy="99.5" r="5" class="f-s2"/>
+<text x="768.2" y="104" class="bs">GPU · CUDA</text>
+<path d="M90 300L920 300" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="304" class="s" text-anchor="end">1 s</text>
+<path d="M90 277.5L920 277.5" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="281.5" class="s" text-anchor="end">2</text>
+<path d="M90 247.75L920 247.75" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="251.75" class="s" text-anchor="end">5</text>
+<path d="M90 225.25L920 225.25" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="229.25" class="s" text-anchor="end">10</text>
+<path d="M90 202.75L920 202.75" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="206.75" class="s" text-anchor="end">20</text>
+<path d="M90 173L920 173" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="177" class="s" text-anchor="end">50</text>
+<path d="M90 150.5L920 150.5" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="154.5" class="s" text-anchor="end">100</text>
+<path d="M90 128L920 128" class="k-grid" fill="none" stroke-width="1" stroke-linecap="round"/>
+<text x="80" y="132" class="s" text-anchor="end">200 s</text>
+<path d="M108.04 244.79L108.04 135.82" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="108.04" cy="135.82" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="108.04" cy="244.79" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="108.04" y="320" class="s" text-anchor="middle">L0</text>
+<path d="M144.13 257.86L144.13 158.11" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="144.13" cy="158.11" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="144.13" cy="257.86" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="144.13" y="320" class="s" text-anchor="middle">L1</text>
+<path d="M180.22 268L180.22 178.31" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="180.22" cy="178.31" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="180.22" cy="268" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="180.22" y="320" class="s" text-anchor="middle">L2</text>
+<path d="M216.3 278.8L216.3 213.42" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="216.3" cy="213.42" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="216.3" cy="278.8" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="216.3" y="320" class="s" text-anchor="middle">L3</text>
+<path d="M252.39 278.33L252.39 214.15" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="252.39" cy="214.15" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="252.39" cy="278.33" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="252.39" y="320" class="s" text-anchor="middle">L4</text>
+<path d="M288.48 278.57L288.48 214.26" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="288.48" cy="214.26" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="288.48" cy="278.57" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="288.48" y="320" class="s" text-anchor="middle">L5</text>
+<path d="M324.57 276.35L324.57 213.49" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="324.57" cy="213.49" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="324.57" cy="276.35" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="324.57" y="320" class="s" text-anchor="middle">L6</text>
+<path d="M360.65 276.21L360.65 212.38" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="360.65" cy="212.38" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="360.65" cy="276.21" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="360.65" y="320" class="s" text-anchor="middle">L7</text>
+<path d="M396.74 273.01L396.74 196.64" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="396.74" cy="196.64" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="396.74" cy="273.01" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="396.74" y="320" class="s" text-anchor="middle">L8</text>
+<path d="M432.83 274.75L432.83 225.67" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="432.83" cy="225.67" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="432.83" cy="274.75" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="432.83" y="320" class="s" text-anchor="middle">L9</text>
+<path d="M468.91 278.28L468.91 224.86" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="468.91" cy="224.86" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="468.91" cy="278.28" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="468.91" y="320" class="s" text-anchor="middle">L10</text>
+<path d="M505 275.91L505 211.71" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="505" cy="211.71" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="505" cy="275.91" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="505" y="320" class="s" text-anchor="middle">L11</text>
+<path d="M541.09 278.26L541.09 225.44" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="541.09" cy="225.44" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="541.09" cy="278.26" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="541.09" y="320" class="s" text-anchor="middle">L12</text>
+<path d="M577.17 276.84L577.17 212.84" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="577.17" cy="212.84" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="577.17" cy="276.84" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="577.17" y="320" class="s" text-anchor="middle">L13</text>
+<path d="M613.26 276.84L613.26 212.74" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="613.26" cy="212.74" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="613.26" cy="276.84" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="613.26" y="320" class="s" text-anchor="middle">L14</text>
+<path d="M649.35 277.46L649.35 214.08" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="649.35" cy="214.08" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="649.35" cy="277.46" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="649.35" y="320" class="s" text-anchor="middle">L15</text>
+<path d="M685.43 277.34L685.43 212.99" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="685.43" cy="212.99" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="685.43" cy="277.34" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="685.43" y="320" class="s" text-anchor="middle">L16</text>
+<path d="M721.52 278.93L721.52 225.15" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="721.52" cy="225.15" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="721.52" cy="278.93" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="721.52" y="320" class="s" text-anchor="middle">L17</text>
+<path d="M757.61 277.17L757.61 212.4" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="757.61" cy="212.4" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="757.61" cy="277.17" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="757.61" y="320" class="s" text-anchor="middle">L18</text>
+<path d="M793.7 280.66L793.7 226.61" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="793.7" cy="226.61" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="793.7" cy="280.66" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="793.7" y="320" class="s" text-anchor="middle">L19</text>
+<path d="M829.78 277.25L829.78 214.42" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="829.78" cy="214.42" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="829.78" cy="277.25" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="829.78" y="320" class="s" text-anchor="middle">L20</text>
+<path d="M865.87 276.66L865.87 227.09" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="865.87" cy="227.09" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="865.87" cy="276.66" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="865.87" y="320" class="s" text-anchor="middle">L21</text>
+<path d="M901.96 256.9L901.96 219.22" class="k-line" fill="none" stroke-width="2" stroke-linecap="round"/>
+<circle cx="901.96" cy="219.22" r="4.5" stroke-width="2" class="f-cpu k-bg"/>
+<circle cx="901.96" cy="256.9" r="4.5" stroke-width="2" class="f-s2 k-bg"/>
+<text x="901.96" y="320" class="s" text-anchor="middle">head</text>
+<text x="118.04" y="139.82" class="m">157.21 s</text>
+<text x="118.04" y="248.79" class="m">5.48 s</text>
+<text x="40" y="346" class="s"><tspan x="40" dy="0">Segments L0–L2 take 278.78 s of the 547.75 s SIMD session total. Excluding them, the summed ratio would be 6.39× rather than 10.15×.</tspan><tspan x="40" dy="16">This is a sensitivity check, not a replacement headline; the record does not isolate why the early SIMD segments are slower.</tspan></text>
+</svg>

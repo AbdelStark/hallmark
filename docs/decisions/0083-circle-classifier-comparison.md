@@ -2,7 +2,7 @@
 
 Operational default superseded by [0085](0085-circle-default.md): Circle is now
 the owner-selected default. This document retains its original protocol and results.
-Superseded by [0087](0087-remove-pairing-backend.md): the pairing backend was removed.
+Superseded by [0090](0090-remove-pairing-backend.md): the pairing backend was removed.
 
 Date: 2026-10-27. Status: frozen protocol executed.
 Implementation/evidence for epic #112 and #113–#117 are recorded below.
@@ -80,7 +80,7 @@ cases, host, threads, storage floor and failure handling before candidate
 measurement. Preserve failed samples. The matched comparison campaign
 (`circle-classifiers-matched-v1`), its sample schedule, timing overlay, scripts
 and report were removed with the pairing backend under
-[0087](0087-remove-pairing-backend.md); they remain in git history at
+[0090](0090-remove-pairing-backend.md); they remain in git history at
 `b7b8376b584836f29066708b663006c2cae7328e`.
 
 The earlier acceptance/conformance trials had protocol files written before
@@ -119,5 +119,5 @@ the retained-LLM join, and initially retained Circle experimentally behind the
 earlier default. In that stateless harness Circle had lower complete-workflow
 time, with higher memory and larger proof files than the baseline. Concrete security profiles remain unqualified.
 [0085](0085-circle-default.md) made Circle the default and
-[0087](0087-remove-pairing-backend.md) removed the baseline. No original
+[0090](0090-remove-pairing-backend.md) removed the baseline. No original
 classifier arithmetic, weights, thresholds or historical measurements are changed.

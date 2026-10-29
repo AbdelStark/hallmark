@@ -16,6 +16,8 @@ control first. Classifiers inspect the **prompt**; the response and LLM model
 identity are bound into their shared context. Composition is a host check, not a
 recursive aggregate proof.
 
+![Composition: the opened request feeds a freshly verified 23-segment LLM bundle and three new classifier proofs; a host join checks they share the request and rejects 16 changed bindings. Integrity passes; the CNN blocks, so release is false.](assets/figures/composition.svg)
+
 ```mermaid
 flowchart TD
     E[Caller-owned prompt, response, model and enrollment] --> L[Fresh native checks: 23 SASH proofs and 22 links]
@@ -66,7 +68,7 @@ runs three more proof-only verifications and **16 distinct binding/roster checks
 The source is [run_circle_composed.py](../scripts/run_circle_composed.py), reusing
 [run_circle_e2e.py](../scripts/run_circle_e2e.py) and the original pinned SASH
 verification driver. The LLM verifier inventory lists the 17 files it loads
-([decision 0087](decisions/0087-remove-pairing-backend.md)). The
+([decision 0090](decisions/0090-remove-pairing-backend.md)). The
 [architecture guide](ARCHITECTURE.md) distinguishes dependencies and patches.
 
 ## Signed LLM parameters
@@ -153,7 +155,7 @@ provisioning and classifier enrollment remain caller trust boundaries. A model
 identity does not prove training history or authentic context capture. There is
 no protected release path, private witness claim, hardware receipt or independent
 security qualification. [Classifier statement](PROOFS.md),
-[LLM statement](LLM-PROOF.md#the-statement), [backend decision](decisions/0087-remove-pairing-backend.md).
+[LLM statement](LLM-PROOF.md#the-statement), [backend decision](decisions/0090-remove-pairing-backend.md).
 
 ## Recorded Circle acceptance
 
