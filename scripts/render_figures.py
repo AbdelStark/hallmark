@@ -6,7 +6,6 @@ fixed case definitions. `--check` fails when a committed figure is stale.
 
 import argparse
 import json
-import statistics
 import sys
 from collections.abc import Callable, Iterable, Sequence
 from html import escape
