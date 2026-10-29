@@ -108,6 +108,10 @@ NATIVE_BOUNDARY_CASES = [
         "proof column shape mismatch",
     ),
 ]
+# Native statement checks: every proof still verifies, and the grid's own comparison rejects.
+NATIVE_PROMPT_FAILURE = "the id at position 0 is not the one that reaches it"
+NATIVE_MODEL_FAILURE = "and the manifest says " + "0" * 64
+NATIVE_STATEMENT_FAILURES = (NATIVE_PROMPT_FAILURE, NATIVE_MODEL_FAILURE)
 
 
 def write_mutated(path, value):
@@ -241,10 +245,11 @@ def main(root, work):
         )
         assert accepted == accept, name
         if not accept:
+            all_proofs_verify = native_failure in NATIVE_STATEMENT_FAILURES
             assert (
                 p.returncode != 0
                 and v["all_chain"] is False
-                and v["verified"]["accepted"] < 23
+                and (v["verified"]["accepted"] == 23) is all_proofs_verify
                 and v["failures"]
             ), name
         if native_failure is not None:
@@ -255,6 +260,7 @@ def main(root, work):
             "accepted": accepted,
             "stage": "real verifier",
             "seconds": row["seconds"],
+            "proofs_accepted": v["verified"]["accepted"],
             "failures": v["failures"],
         }
         cases.append(result)
@@ -379,6 +385,16 @@ def main(root, work):
                 ),
                 native_failure="unenrolled shape",
             )
+            mutate(
+                "native-changed-prompt",
+                lambda d, e: e["prompt_ids"].__setitem__(0, 530),
+                native_failure=NATIVE_PROMPT_FAILURE,
+            )
+            mutate(
+                "native-changed-model-root",
+                lambda d, e: e["roots"][0].__setitem__("model_root", "0" * 64),
+                native_failure=NATIVE_MODEL_FAILURE,
+            )
             for name, filename, keys, operation, failure in NATIVE_BOUNDARY_CASES:
                 mutate(
                     name,
@@ -390,7 +406,7 @@ def main(root, work):
                 assert hashlib.file_digest(f, "sha256").hexdigest() == row["sha256"], (
                     "control proof changed during mutations"
                 )
-        assert len(cases) == (38 if native else 16) and sum(x["accepted"] for x in cases) == 2
+        assert len(cases) == (40 if native else 16) and sum(x["accepted"] for x in cases) == 2
         (out / "result.json").write_text(
             json.dumps(
                 {
