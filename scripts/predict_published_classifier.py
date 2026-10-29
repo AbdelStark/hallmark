@@ -5,11 +5,11 @@ import hashlib
 import json
 from pathlib import Path
 
-import run_contextual_proof as cnn
-import run_trained_mlp as mlp
+import contextual_proof as cnn
+import trained_mlp as mlp
 from run_e2e import EXPORTS
 
-from hallmark._gnark_probe import read_regular
+from hallmark._worker import read_regular
 from hallmark.integer_graph import IntegerGraph
 from hallmark.mlp_training import MlpQuantization
 

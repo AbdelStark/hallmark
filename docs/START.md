@@ -1,6 +1,6 @@
 # Choose a workflow
 
-Circle STARK is the default. `make e2e` trains and proves classifiers locally. Use `make e2e-llm` to prove
+`make e2e` trains and proves classifiers locally. Use `make e2e-llm` to prove
 the TinyLlama response, or choose another workflow below.
 
 | I want to… | Command | Where / resources | Success signal |
@@ -8,7 +8,6 @@ the TinyLlama response, or choose another workflow below.
 | Check software contracts | `make check-conformance` | Linux/macOS; core environment; no account | 156 matched cases, 32 unavailable full-evidence obligations; no proof |
 | Run a published classifier | `scripts/predict_published_classifier.py` | Linux/macOS; core for MLP, train extra for CNN | Integer score after checking model hashes; native inference only |
 | Train, prove and verify classifiers | `make e2e` | Apple Silicon Mac; 12 GiB free; uv 0.9.18 | Nine Circle proofs, 63 public-input and 18 substitution rejections |
-| Compare the gnark baseline | `make e2e BACKEND=gnark` | Mac; 12 GiB free; pinned Go acquisition | Nine Groth16 proofs with separate py-ecc verification |
 | Prove a complete TinyLlama response | `make e2e-llm` | Mac preparation; 32 GB RAM, 16 GiB free; HF CPU jobs | 23 new segments, two honest verifications, 14 rejected mutations |
 | Verify retained LLM proofs locally | `make verify-llm LLM_RUN=…` | Mac; native Rust toolchain; 8 GiB free; no HF credentials | Two honest checks, 36 rejected mutations |
 | Measure SIMD/CUDA proving | `make benchmark-llm-gpu …` | Mac controller; HF CPU/H200 jobs; completed caller-owned LLM run | Matched full runs, 69 identical artifacts, fresh CPU/Mac checks |

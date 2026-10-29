@@ -3,10 +3,10 @@
 [Download and verify the actual J1 proof collection](REFERENCE-RUN.md#j1-same-request-composition),
 including the LLM bundle, three classifier proofs, public inputs and job logs.
 
-Circle STARK is the default throughout this workflow: **SASH** proves the fixed
+Circle STARK is used throughout this workflow: **SASH** proves the fixed
 quantized TinyLlama response; **direct STWO** proves the rule, byte MLP and byte
-CNN decisions on its exact prompt. No Groth16 setup, general-purpose zkVM or
-hardware attestation is involved.
+CNN decisions on its exact prompt. No general-purpose zkVM or hardware
+attestation is involved.
 
 The request is fixed: “Name the capital of France in one short sentence.” →
 “The capital of France is Paris.” The complete answer through EOS has **23 LLM
@@ -21,7 +21,7 @@ recursive aggregate proof.
 ```mermaid
 flowchart TD
     E[Caller-owned prompt, response, model and enrollment] --> L[Fresh native checks: 23 SASH proofs and 22 links]
-    E --> C[Prepare frozen classifier models without Groth16]
+    E --> C[Prepare frozen classifier models]
     C --> P[Three new STWO Circle STARK proofs on this prompt]
     E --> V[Fresh proof-only classifier verification]
     P --> V
@@ -67,7 +67,8 @@ runs three more proof-only verifications and **16 distinct binding/roster checks
 
 The source is [run_circle_composed.py](../scripts/run_circle_composed.py), reusing
 [run_circle_e2e.py](../scripts/run_circle_e2e.py) and the original pinned SASH
-verification driver. The 55-file LLM verifier identity is unchanged. The
+verification driver. The LLM verifier inventory lists the 17 files it loads
+([decision 0090](decisions/0090-remove-pairing-backend.md)). The
 [architecture guide](ARCHITECTURE.md) distinguishes dependencies and patches.
 
 ## Signed LLM parameters
@@ -154,98 +155,13 @@ provisioning and classifier enrollment remain caller trust boundaries. A model
 identity does not prove training history or authentic context capture. There is
 no protected release path, private witness claim, hardware receipt or independent
 security qualification. [Classifier statement](PROOFS.md),
-[LLM statement](LLM-PROOF.md#the-statement), [current default decision](decisions/0085-circle-default.md).
+[LLM statement](LLM-PROOF.md#the-statement), [backend decision](decisions/0090-remove-pairing-backend.md).
 
-## Recorded Circle default acceptance
+## Recorded Circle acceptance
 
-The actual default retained-input Make command completed in **266.29 s**,
+The actual retained-input Make command completed in **266.29 s**,
 including a fresh native LLM verifier build and its complete mutation suite.
 All 23 LLM proofs, 22 links, three newly generated classifier proofs and three
 outer-join proof checks pass; all 16 binding checks reject. No paid job starts.
 This is one Mac acceptance observation with populated dependency caches, not a
 latency distribution. [Numeric receipt and source pins](../research/evidence/circle-default-2026-10-28.json).
-
-## Explicit gnark comparison
-
-```sh
-make e2e-composed BACKEND=gnark \
-  LLM_RUN=/path/to/llm-e2e-run \
-  CLASSIFIER_RUN=/path/to/gnark-e2e-run
-```
-
-This preserves the original SASH-plus-Groth16 controller and result schema.
-Its retained classifier preparation must come from `make e2e BACKEND=gnark`;
-it uses fresh circuit-specific local setups and separate py-ecc verification.
-The following recorded campaigns belong to that historical mixed-backend path.
-Their timings, keys, 399/405-case arithmetic checks and eleven binding checks
-are **not** measurements or check counts for today's Circle default.
-
-## Historical gnark composition: fresh preparation
-
-On 2026-10-25, the actual `make e2e-composed` command passed with neither
-`LLM_RUN` nor `CLASSIFIER_RUN`. It generated new LLM witnesses/proofs, trained and
-exported the classifiers, ran the control campaign and produced three new proofs
-for the LLM request.
-
-| Stage | Measured wall time |
-|---|---:|
-| Complete Make command | 4,010.05 s (66 min 50 s) |
-| LLM preparation, build, proving and original verification | 1,963.89 s |
-| Native build and 38-case verification suite | 222.25 s |
-| Fresh classifier preparation and nine-proof control | 1,148.42 s |
-| Three composed classifier proofs and checks | 672.15 s |
-
-The original verifier accepted both honest checks and rejected all 14 mutations.
-The native verifier accepted two honest checks and rejected all 36 mutations.
-The classifier control verified nine proofs, rejected all 18 cross-request
-substitutions and matched all 405 arithmetic outcomes. The composed campaign
-verified three proofs, rejected eleven binding mutations and matched all 399
-arithmetic outcomes. Verdicts were `[1, 1, 0]`; integrity passed and the synthetic
-policy blocked. The final opening reconstructs exactly the public-input jobs
-given to the separate pairing verifier.
-
-All 69 LLM proof/statement/claim files match the earlier accepted bundle and all
-five fresh LLM campaigns byte for byte. Both selected model exports and all three
-circuit identities match the baseline. The new classifier setup keys differ from
-the previously recorded campaigns.
-
-The successful command added 12.31 GiB of allocated storage and peaked at
-13.52 GiB summed local descendant RSS, sampled once per second. Its cloud compute
-bound was $0.31. The full study's bound was $1.55, including earlier attempts;
-these are conservative compute bounds, not invoices. All fifteen cloud jobs are
-completed and every temporary bucket is independently confirmed absent.
-
-Three failed full commands and one deliberate interruption preceded the complete
-success. Checkpoint downloading raised the inherited file-descriptor limit, which
-stalled nested sandbox execution. Go build IDs and included-assembly paths then
-made the classifier binary depend on its build location. Worker child limits and
-cache-correct assembler path normalization resolve those observed integration
-failures while preserving explicit binary admission. The
-[decision and failure history](decisions/0074-fresh-composed-reproduction.md) and
-[raw numeric evidence](../research/evidence/fresh-composed-2026-10-25.json)
-retain every attempt, source/input identity and resource amendment.
-
-Dependency/download caches were not cleared. Disposable worker OS-package
-inventories are retained; their package resolution is not fully hermetic. These
-are diagnostic observations on an Apple M4 Max, with other host activity
-uncontrolled, not latency distributions or independent security qualification.
-
-## Historical gnark composition: retained reproduction
-
-Two fresh local campaigns with retained preparation passed on an Apple M4 Max:
-
-| Campaign | Composed controller | Native LLM build/check suite | Classifier setup/proof/check suite |
-|---|---:|---:|---:|
-| First | 856.00 s | 206.46 s | 649.36 s |
-| Confirmatory Make invocation | 850.12 s | 205.10 s | 644.62 s |
-
-Each campaign produced three new classifier setups and proofs. All three keys
-differ between campaigns; both model and circuit inventories match. Each rejected
-36 LLM mutations and eleven composition mutations, and matched 399 classifier
-arithmetic outcomes. The final openings reconstruct the exact public-input jobs
-given to the separate pairing verifier. New cloud jobs and spend were zero.
-
-These earlier campaigns measure retained preparation; the fresh default command
-is recorded above. They are diagnostic observations with other host activity
-uncontrolled. [Raw results, source/input hashes and limits](../research/evidence/composed-request-2026-10-25.json)
-distinguish retained LLM proof bytes from freshly generated classifier proofs.

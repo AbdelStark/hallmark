@@ -22,8 +22,7 @@ Hallmark proves two kinds of computation and checks them against one request:
 
 The verifier checks every proof against model and program identities the
 caller pinned before proving, then checks that both proofs refer to the same
-request. Circle STARK is the default everywhere; gnark/Groth16 stays available
-as an explicit comparison backend.
+request. Circle STARK is the only proof system.
 
 This is a fixed-case **research integrity MVP**: one prompt, one model, public
 witnesses, no hardware attestation. [Where the proof ends](#where-the-proof-ends)
@@ -96,8 +95,7 @@ the rule and CNN provide the blocks. [Model limits](docs/MODELS.md).
 | Path | Cryptographic statement | Caller responsibilities |
 |---|---|---|
 | **LLM — SASH Circle STARK** | The enrolled quantized model computes the complete greedy answer through EOS: embedding, every transformer layer, final normalization and output argmax, with all segment and token links checked | Enroll model, shape and calibration roots and the exact token case before proving; check tokenization and detokenization outside the circuit |
-| **Classifiers — STWO Circle STARK (default)** | The rule, MLP or CNN arithmetic on the complete 96-byte input, plus its exact salted SHA-256 commitment | Enroll the circuit, preprocessing and backend identities before proving; rebuild expected public inputs and the complete roster ([details](docs/CIRCLE-CLASSIFIERS.md)) |
-| **Classifiers — gnark/Groth16 comparison** | The same logical relation on BLS12-381 | Rebuild public inputs; check circuit, key, model and context binding |
+| **Classifiers — STWO Circle STARK** | The rule, MLP or CNN arithmetic on the complete 96-byte input, plus its exact salted SHA-256 commitment | Enroll the circuit, preprocessing and backend identities before proving; rebuild expected public inputs and the complete roster ([details](docs/CIRCLE-CLASSIFIERS.md)) |
 | **Composition — host verification** | Both verified relations refer to the same opened request | Check the shared prompt/response context; combine verified verdicts with `all-pass` |
 
 The classifier caller currently reruns native inference to derive the expected
@@ -218,18 +216,6 @@ Three CPU/CUDA pairs of the unchanged C1 circuits; all 54 proofs pass the stock
 verifier and match the C1 proof bytes. Training, witness preparation and
 verification are excluded. [Method, all 54 checks and resource records](docs/CLASSIFIER-GPU-BENCHMARK.md).
 
-### Circle versus gnark
-
-![Circle versus gnark: warm nine-proof workflow medians 298.88 s versus 781.25 s; Circle proofs are about 2 MB against 292 bytes, and Circle peaks near 20 GB of memory against 2.65 GB.](docs/assets/figures/perf-backends.svg)
-
-A separate matched study on an 8-vCPU HF CPU worker: three fresh and five warm
-workflows per backend, 144 proofs. Circle is faster end to end because each stateless
-gnark command spends most of its time parsing the assignment, R1CS and proving
-key; gnark's proofs are roughly 7,000 times smaller and its proving step alone
-is shorter. The backends differ in
-security assumptions and verifier implementation, so this is not an
-equal-security ranking. [All ranges, stages and raw samples](docs/CLASSIFIER-BENCHMARK.md).
-
 ### J1 — both proofs, one request
 
 The retained-input composed command takes **266.29 s**: native LLM workflow
@@ -274,7 +260,6 @@ substitutions and three invalid rosters** must reject. Expect the benign request
 to pass, the CNN to block the contextual one and the rule to block the marker
 one. Allow a few minutes plus the first Rust build, and room for the 30-GiB
 sampled worker cap. No GPU, token or pretrained weights are needed.
-`make e2e BACKEND=gnark` runs the Groth16 baseline instead.
 [Outputs and troubleshooting](docs/DEMO.md).
 
 ### The TinyLlama answer
@@ -376,8 +361,7 @@ release. [Download and run the models](docs/MODELS.md#download-and-run) ·
   reject. Synthetic accuracy is not a useful safety policy: the frozen CNN blocks
   the ordinary LLM prompt in the composed demo.
 - **Unreviewed cryptography.** Circle proofs use caller-enrolled public
-  preprocessing; the gnark baseline uses a local circuit-specific setup, not a
-  reviewed ceremony. Neither backend has independent security qualification, and
+  preprocessing. Neither prover has independent security qualification, and
   results say so: `qualified_backend: false`, `hiding_claim: false`,
   `hardware_claim: "not-accepted"`.
 - **Bounded measurements.** Proof sizes exclude enrollment and keys. GPU timings
@@ -424,8 +408,8 @@ make package-check-train
 `make check` covers the lockfile, lint, formatting, strict typing, tests,
 documentation and software conformance. A core environment may skip optional
 training; the train gate requires it. Package checks build and install fresh
-wheel and sdist artifacts. CI checks a fresh synthetic proof with separate
-arithmetic; it does not run paid GPU jobs or the full Mac demos.
+wheel and sdist artifacts. CI checks a Circle gate proof in a separate verifier
+process; it does not run paid GPU jobs or the full Mac demos.
 
 | Path | Responsibility |
 |---|---|
@@ -433,8 +417,6 @@ arithmetic; it does not run paid GPU jobs or the full Mac demos.
 | `scripts/` | Experiment controllers, reproducible workflows, validation and figures |
 | `research/probes/sash/` | Pinned SASH adapters, patches and the fixed LLM case |
 | `research/probes/circle/` | STWO gate AIR, prover and proof-only verifier |
-| `research/probes/gnark/` | Groth16 comparison circuits and negative fixtures |
-| `research/probes/py_ecc/` | Separate Groth16 proof decoder and pairing verifier |
 | `fixtures/` · `tests/` | Synthetic data, frozen protocols, arithmetic and rejection checks |
 | `docs/` · `research/` | Guides, decisions, numeric evidence and the research ledger |
 

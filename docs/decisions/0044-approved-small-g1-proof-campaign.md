@@ -17,7 +17,7 @@ historical proofs cannot qualify the new build. Mutable paths are a fresh local
 controller copy, build/output directories and evidence. The default dependency,
 candidate patch, circuit, vector semantics and rejection expectations stay fixed.
 
-Copy `scripts/check_gnark_input_scale.py` into a new run directory. Change its
+Copy the input-scale checker (since removed; see 0090) into a new run directory. Change its
 roster deadline from 420 to 240 seconds, omit maximum-capacity compilation and
 report that omission explicitly. Preserve all eight small proofs at capacities
 8 and 256, all 18 invalid witnesses, all 33 public-input mutations, the field

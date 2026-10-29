@@ -1,4 +1,3 @@
 tests/vectors/v1/objects/* binary
 # Unified-diff context includes original tabs and empty context lines.
-research/probes/circle/gnark-timing.patch whitespace=-blank-at-eol,-space-before-tab
 research/probes/circle-gpu/*.patch whitespace=-blank-at-eol,-space-before-tab

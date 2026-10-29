@@ -28,4 +28,3 @@ def test_headline_numbers_come_from_the_reference_record():
     assert "24.06 s" in figures["perf-classifier-c1.svg"]
     assert "18,063,779 bytes" in figures["perf-classifier-c1.svg"]
     assert "4.16×" in figures["perf-classifier-gpu.svg"]
-    assert "298.88 s" in figures["perf-backends.svg"]

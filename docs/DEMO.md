@@ -12,7 +12,7 @@ make e2e
 The default trains the MLP and contextual byte CNN on frozen synthetic data,
 exports their exact integer graphs, builds the locked STWO prover and proof-only
 verifier, and proves the rule, MLP and CNN on three fixed requests. **Nine real
-Circle STARK proofs** are freshly verified. No Groth16 setup runs first. No GPU,
+Circle STARK proofs** are freshly verified. No GPU,
 API token, cloud account, pretrained checkpoint or hardware attestation is needed.
 
 This command proves **classifiers only**. Use [`make e2e-llm`](LLM-PROOF.md) for
@@ -46,8 +46,7 @@ and screens the frozen models, checks both quantization hashes, and builds the
 prover and a verifier with the prover feature disabled. It pins source/binary
 bytes and independently admitted Circle enrollment before proving.
 
-The full controller is Mac-only. Linux proof evidence is recorded separately in
-the [matched benchmark](CLASSIFIER-BENCHMARK.md). `make check-conformance` is the
+The full controller is Mac-only. `make check-conformance` is the
 smaller software-only path on either platform.
 
 ## Flow and output
@@ -96,7 +95,7 @@ substitutions** and **three invalid rosters**, and checks native/circuit trace
 parity. The frozen MLP always allows in this domain; the rule and CNN supply
 block controls. These synthetic models do not establish a useful safety policy.
 
-## Retained inputs and explicit baseline
+## Retained inputs
 
 Reuse only the exact hash-pinned quantizations from a caller-owned run:
 
@@ -105,26 +104,13 @@ make e2e CLASSIFIER_RUN=runs/e2e-circle-<your-run>
 ```
 
 This still creates new requests, enrollment, proofs and fresh verifications.
-It accepts no saved pass flag, proving key or executable from that run.
-
-For the separate gnark/Groth16 comparison:
-
-```sh
-make e2e BACKEND=gnark
-```
-
-That legacy controller acquires pinned Go, makes circuit-specific local setups,
-verifies with separate py-ecc arithmetic and runs its 405-case arithmetic corpus.
-It typically needs about 20 minutes plus builds on the recorded M4 Max. Its
-292-byte binary proofs and lower memory are trade-offs against Circle's larger
-JSON proofs and public preprocessing. [Matched measurements](CLASSIFIER-BENCHMARK.md)
-retain their original timing and security boundaries.
+It accepts no saved pass flag or executable from that run.
 
 ## Evidence, bounds and failures
 
 | Artifact in the printed directory | Contents |
 |---|---|
-| `protocol.json` | Source hashes, environment, time budget; `groth16_setup: false` |
+| `protocol.json` | Source hashes, environment, time budget |
 | `result.json` / `failure.json` | Complete success or failed stage and error type |
 | `mlp-training/`, `cnn-training/` | Fresh training records, or admitted frozen quantizations |
 | `native-preparation.json`, `native-preparation-pin.json` | Caller-owned model/request preparation, pinned before proving |
@@ -145,18 +131,18 @@ change during execution. Inspect the printed training/build log or
 `proofs/failure.json` and the failing worker's `stderr.txt`. Keep the evidence;
 do not tune on test data or replace expected hashes to force a pass.
 
-Implementation: [default controller](../scripts/run_circle_e2e.py),
+Implementation: [controller](../scripts/run_circle_e2e.py),
 [native preparation](../scripts/circle_inputs.py),
 [Circle proof/check driver](../scripts/run_circle_classifiers.py),
 [exact circuits and ownership](CIRCLE-CLASSIFIERS.md). Caller enrollment must come
 from trusted inputs; hashes in an arbitrary prover bundle cannot authenticate it.
 No hiding, independent security qualification or hardware provenance is claimed.
 
-## Recorded default acceptance
+## Recorded acceptance
 
-The actual bare `make e2e` command passes with fresh training and no Groth16
-bootstrap: nine proofs, 63 public-input rejections, 18 substitutions and three
+The actual bare `make e2e` command passes with fresh training:
+nine proofs, 63 public-input rejections, 18 substitutions and three
 invalid rosters. The complete local controller took **320.68 s** on the recorded
 M4 Max with populated dependency caches. A browser-launched run reusing only the
-model exports took **97.94 s**. These single acceptance observations are not the
-matched performance study. [Commands, hashes and limitations](../research/evidence/circle-default-2026-10-28.json).
+model exports took **97.94 s**. These are single acceptance observations.
+[Commands, hashes and limitations](../research/evidence/circle-default-2026-10-28.json).

@@ -27,29 +27,6 @@ retains an output-token alias accepted by the earlier native boundary and four
 malformed-shape crashes; all now reject explicitly. The caller already rejected
 that alias. No matched cross-hardware speedup or independent security review is claimed.
 
-## Matched classifier backend comparison
-
-The [2026-10-27 CPU report](CLASSIFIER-BENCHMARK.md) compares the same frozen
-rule, MLP and CNN over three requests with three fresh and five warm workflows
-per backend. Each observation generates and verifies nine proofs. All 144
-measured proofs pass fresh Linux verification and separate Mac postflight
-checks. Three additional Circle proofs join the retained TinyLlama request,
-with fresh verification of its 23 segments and 22 links.
-
-Warm workflow medians are **781.25 s gnark / 298.88 s Circle**; fresh medians are
-1,248.51 / 428.41 s. Circle reaches **19.96 GB** sampled process-tree RSS versus
-2.65 GB for gnark, and its JSON proofs are 1.91–2.16 MB versus 292-byte gnark
-binary proofs. The report retains ranges/IQR and explains that parsing dominates
-the stateless gnark command; isolated proving-stage rankings differ. These are
-implementation measurements with different security/encoding profiles, not an
-equal-security speed claim. Circle is now the owner-selected default; gnark remains an explicit comparison.
-The original experiment’s recommendation and all measured data are retained in
-the [historical report](CLASSIFIER-BENCHMARK.md).
-The [raw evidence](../research/evidence/circle-classifiers-benchmark-2026-10-27.json)
-preserves all samples, source/resource hashes and failed provisioning fixtures.
-
-The earlier Mac classifier/model observations below remain separate and unchanged.
-
 ## Models and task
 
 The exact seed-17 MLP and CNN checkpoints/quantized exports are now
@@ -116,84 +93,18 @@ new held-out evaluation. See the [evaluation contract](EVALUATION.md).
 
 ## Real proof composition
 
-Two fresh campaigns used the same frozen models and three cases, with fresh
-setup keys. Each campaign generated nine proofs: rule, MLP and CNN for each case.
-A separately implemented py-ecc verifier checked the exact caller-reconstructed
-public inputs. The caller-side controller still supplies the trusted mapping
-between model, program, circuit and key.
-
-| Measure | Recorded result |
-|---|---|
-| Original proofs | 18 total; all verified |
-| Three-proof sets | 6 total; expected all-pass decisions matched |
-| Cross-request substitutions | 36 rejected |
-| Separate arithmetic corpus | 810 cases matched expected outcomes |
-| Reproduction | Both models, all three circuits and decisions matched |
-| Setup keys | Six distinct verification keys across the two campaigns |
-| Prompt capacity | 0–96 UTF-8 bytes; larger inputs reject |
-| Proof encoding | 292 bytes per proof; verification key 5,536 bytes |
-
-Per classifier and campaign, the arithmetic corpus has four accepted controls,
-109 algebraic rejections and 22 malformed-input rejections. Accepted controls
-include jointly negated Groth16 A/B points, which preserve their pairing. Proof
-byte uniqueness is not an acceptance requirement.
-
-| Circuit | Constraints | Scope |
-|---|---:|---|
-| Rule | 321,617 | Complete admitted prompt and literal decision |
-| Trained MLP | 325,123 | Complete admitted prompt and learned integer graph |
-| Trained CNN | 975,708 | Complete admitted prompt and learned integer graph |
-
-All use dedicated gnark Groth16/BLS12-381 circuits. There is no general-purpose
-zkVM. A 292-byte proof is not a 292-byte evidence bundle: keys, enrollment,
-expectations, openings and model metadata are separate.
-
-## Measured cost
-
-Recorded host: Apple M4 Max, 48 GiB RAM, macOS arm64. Proof workers use at most
-four threads; training uses one BLAS/OpenMP thread. These two local observations
-are not a throughput benchmark or a latency distribution.
-
-| Combined campaign | Wall time | Peak worker RSS | Retained output |
-|---|---:|---:|---:|
-| 1 | 882.75 s | 2.134 GB | 2.575 GB |
-| 2 | 869.34 s | 2.143 GB | 2.575 GB |
-
-GB here is decimal. Time includes fresh setup, proof generation, separate
-verification and mutation checks. It excludes dependency acquisition, training
-and any real LLM inference or hardware path. Peak worker RSS is not total machine
-memory. New cloud compute cost for these campaigns was zero.
-
-[Complete composition evidence](../research/evidence/w28-trained-common-proofs-2026-10-22.json)
-contains input identities, raw numeric costs, per-worker records and failure notes.
-The earlier [CNN proof campaign](../research/evidence/w18-contextual-cnn-proofs-2026-10-22.json)
-also tested capacity boundaries and invalid witnesses. The
-[trained MLP campaign](../research/evidence/w18-trained-mlp-proofs-2026-10-22.json)
-retains its separate 8/1,024-byte experiments; those capacities do not enlarge the
-combined demo's 96-byte limit.
-
-## Walkthrough reproduction
-
-The [documentation reproduction](../research/evidence/docs-demo-reproduction-2026-10-22.json)
-ran all nine shell blocks in the [original demo guide](https://github.com/AbdelStark/hallmark/blob/7e7eab1c1c514d7e584e44f811af7fe80574a42e/docs/DEMO.md) from a fresh worktree,
-including a fresh toolchain download, both training runs and new setup keys.
-Nine proofs verified, all three decisions matched, 18 cross-request substitutions
-rejected and 405 arithmetic cases matched. Models and circuits match the original
-composition study above. Source hashes remained unchanged throughout execution.
-This is an additional engineering reproduction, not new held-out quality evidence
-or a controlled performance benchmark.
-
-The [one-command reproduction](../research/evidence/e2e-entrypoint-2026-10-22.json)
-then ran `make e2e` with the same frozen inputs. It passed the same nine proofs,
-18 substitution rejections and 405 arithmetic outcomes, with matching model and
-circuit identities. The driver took 19.20 minutes including pinned
-preparation and training; the proof campaign took 15.93 minutes.
-These remain engineering observations, not an additional quality study.
+The [C1 reference run](REFERENCE-RUN.md#c1-default-classifier-workflow) uses the
+same frozen models and three cases. It generates nine Circle STARK proofs: rule,
+MLP and CNN for each case. Fresh proof-only verifiers check them, and the run
+rejects 63 changed public inputs, 18 cross-request substitutions and three
+invalid rosters. The caller-side controller still supplies the trusted mapping
+between model, program, circuit and enrollment. Inputs are limited to 0–96 UTF-8
+bytes; larger inputs reject. [Circle classifier details](CIRCLE-CLASSIFIERS.md).
 
 ## What remains open
 
-- **Qualification:** authenticated compiler/program mapping, key enrollment,
-  setup custody and independent security/hiding review.
+- **Qualification:** authenticated compiler/program mapping, preprocessing
+  enrollment and independent security/hiding review.
 - **Operational verification:** an admitted B1 adapter and full acceptance path;
   the research binding helper is not a production acceptance API.
 - **Model quality:** admitted real-data evaluation, stronger contextual models,

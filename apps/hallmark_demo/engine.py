@@ -536,7 +536,6 @@ class RunManager:
             "source-pins.json",
             "environment.json",
             "proofs/result.json",
-            "classifiers/result.json",
             "mlp-training/results.json",
             "cnn-training/results.json",
         ):

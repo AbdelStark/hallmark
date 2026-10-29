@@ -6,8 +6,9 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-import run_trained_mlp as trained
+import trained_mlp as trained
 
+from hallmark.classifier_manifest import ClassifierManifest
 from hallmark.integer_mlp import MlpWeights
 from hallmark.mlp_training import MlpQuantization
 from hallmark.wire import H
@@ -35,6 +36,24 @@ def exported():
     return trained.export(q)
 
 
+def manifest(exported, tag="k"):
+    return ClassifierManifest(
+        schema_id="hallmark/classifier/1",
+        kind="mlp",
+        program=exported["program"].identity(),
+        weights=exported["program"].weights.sha256,
+        tokenizer=None,
+        input_profile=exported["profile"].identity(),
+        arithmetic=exported["arithmetic"].identity(),
+        threshold=0,
+        scope="prompt",
+        labels=("fixture-benign", "fixture-marker"),
+        backend=H("backend", tag),
+        verifier_key=H("key", tag),
+        setup=H("setup", tag),
+    )
+
+
 @pytest.mark.parametrize(
     "capacity,prompt,score,chunks",
     [
@@ -59,7 +78,7 @@ def exported():
     ],
 )
 def test_exact_export_inputs_and_chunk_scores(exported, capacity, prompt, score, chunks):
-    c = trained.classifier(exported, b"k" * 5536, "c" * 64)
+    c = manifest(exported)
     row, metadata = trained.native_row(exported, c, capacity, prompt, 0)
     assert metadata["native_score"] == score
     assert metadata["verdict"] == (score < 0)
@@ -75,63 +94,20 @@ def test_exact_export_inputs_and_chunk_scores(exported, capacity, prompt, score,
             ],
         )
     )
-    assert len(row["units"]) == capacity
-    assert len(row["encoded"]) == 2 * capacity + 6
     assert len(row["trace"]) == ((capacity + 511) // 512) * 14
-    assert sum(row["unit_active"]) == len(prompt.encode())
-    assert all(x == 0 for x in row["encoded"][row["positions"][-1] :])
 
 
 def test_enrollment_changes_bind_all_public_inputs(exported):
-    a = trained.classifier(exported, b"k" * 5536, "c" * 64)
-    b = trained.classifier(exported, b"j" * 5536, "c" * 64)
+    a, b = manifest(exported, "k"), manifest(exported, "j")
     assert a.identity() != b.identity()
     x, _ = trained.native_row(exported, a, 8, "B", 0)
     y, _ = trained.native_row(exported, b, 8, "B", 0)
     assert x["public"][:96] != y["public"][:96]
     assert x["public"][96:] == y["public"][96:]
-    assert trained.classifier(exported, b"k" * 5536, "d" * 64).identity() != a.identity()
 
 
 @pytest.mark.parametrize("capacity,prompt", [(8, "x" * 9), (1024, "é" * 513), (32, "x")])
 def test_capacity_rejects_without_truncation(exported, capacity, prompt):
-    c = trained.classifier(exported, b"k" * 5536, "c" * 64)
+    c = manifest(exported)
     with pytest.raises(ValueError, match="capacity"):
         trained.native_row(exported, c, capacity, prompt, 0)
-
-
-def test_bad_key_rejects(exported):
-    with pytest.raises(ValueError, match="key"):
-        trained.classifier(exported, b"k", "c" * 64)
-
-
-def test_bad_binary_is_rejected_before_output(monkeypatch, tmp_path):
-    monkeypatch.setattr(trained.platform, "system", lambda: "Darwin")
-    monkeypatch.setattr(trained.platform, "machine", lambda: "arm64")
-    binary = tmp_path / "binary"
-    binary.write_bytes(b"invalid")
-    with pytest.raises(ValueError, match="binary pin"):
-        trained.run(binary, "0" * 64, Path(sys.executable), tmp_path / "output")
-    assert not (tmp_path / "output").exists()
-
-
-def test_cli_preserves_verifier_virtual_environment(monkeypatch, tmp_path):
-    interpreter = tmp_path / "venv/bin/python"
-    interpreter.parent.mkdir(parents=True)
-    interpreter.symlink_to(sys.executable)
-    calls = []
-    monkeypatch.setattr(trained, "run", lambda *args: calls.append(args))
-    trained.main(
-        [
-            "--binary",
-            str(tmp_path / "probe"),
-            "--expected-binary",
-            "0" * 64,
-            "--verifier-python",
-            str(interpreter),
-            "--output",
-            str(tmp_path / "output"),
-        ]
-    )
-    assert calls[0][2] == interpreter
-    assert calls[0][2] != interpreter.resolve()

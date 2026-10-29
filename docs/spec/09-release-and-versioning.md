@@ -43,8 +43,7 @@ the linked review records all distribution hashes, licence metadata, target
 platforms and primary advisory sources. This software selection is not approval
 for operational signing-root custody. New model-runtime, tokenizer, proof and
 hardware dependencies require explicit admission. Reviewed proof/guard dependencies
-are recorded in the [dependency inventory](../DEPENDENCIES.md) and
-[probe guide](../../research/probes/gnark/README.md). Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
+are recorded in the [dependency inventory](../DEPENDENCIES.md). Their implementation issues must record exact package/source/image revisions, hashes, licence review, security review and supported Python/platforms before installation. Qualification decides the finite dependency set; no `latest`, remote model code, dynamic code fetch or unpinned fallback is allowed. This is an explicit admission gate, not a claim of a completed integration.
 
 ## Contributor and automation workflow
 

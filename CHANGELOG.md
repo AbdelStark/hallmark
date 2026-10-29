@@ -2,21 +2,29 @@
 
 ## Unreleased
 
+Remove the former classifier proof backend: its Go circuits, separate Python
+verifier, `BACKEND` Make dispatch, `hallmark qualify`, the matched comparison
+benchmark, the `proof-artifacts` CI job, the two dependent app workflows and its
+backend-only decisions, proposals and evidence. Circle STARK is the only
+classifier proof backend. Rename the shared worker sandbox to `hallmark._worker`
+(`hallmark.worker-cost/1`). Narrow the native LLM verifier inventory to the 17
+files it loads, which changes its identity. Move the rule program records to
+`fixtures/rule-program.json` without changing classifier or program identities.
+See [decision 0090](docs/decisions/0090-remove-pairing-backend.md).
+
 Rework the README, reference guides and documentation site around generated
 figures: system overview, LLM and classifier proof statements, pipelines,
 verdicts, trust boundary, composition and six performance charts. Figures are
 rendered from `research/evidence/` by `scripts/render_figures.py`, adapt to dark
 mode and are checked for staleness in tests. Add a performance guide that names
 each run's machine and timer boundary, shows how the timers nest and lists what
-was never measured. Correct the learning page that still described the Groth16
-flow as the default. No measurement, proof relation or evidence record changes.
+was never measured. Correct the learning page that still described the former
+backend as the default. No measurement, proof relation or evidence record changes.
 
 Make Circle STARK the default for classifiers, LLM composition, workbench and
 documentation. `make e2e` prepares frozen native models and generates nine STWO
-proofs without a Groth16 bootstrap. `make e2e-composed` joins 23 SASH proofs to
-three new Circle classifier proofs. Preserve explicit `BACKEND=gnark` comparison
-commands, historical benchmark records, old app run IDs and the 55-file LLM
-verifier identity.
+proofs. `make e2e-composed` joins 23 SASH proofs to three new Circle classifier
+proofs.
 
 Add `make e2e-composed` to verify the proved TinyLlama response and three fresh
 classifier proofs over one opened request. Reuse caller-owned preparation with
@@ -52,36 +60,13 @@ and model/data/results guide; distinguish current proof evidence from historical
 baseline status. Adopt the MIT licence at the owner's explicit request and update package metadata
 and current licence guidance. Runtime, model and evaluator semantics are unchanged.
 
-Add an opt-in, pinned gnark Boolean-wire cache experiment with original/patched
-circuit-byte comparisons, cache boundary tests and separate proof/cost evidence.
-Keep the upstream dependency default and full-graph qualification gates unchanged.
-
-Constrain commitment coverage with exact Boolean prefixes and retain malformed
-mask prover attempts. Preserve native memory-sampler error codes so normal child
-teardown does not become a false monitor failure. Full-input feasibility and
-backend qualification remain separate gates.
-
 Stop optional proof workers using live macOS RSS samples with conservative
 headroom, preserve cutoff/failure costs and handle child-exit signal races.
 Sampling and post-exit checks do not provide a hard memory quota.
 
-Add an optional complete-input commitment scaling probe with canonical indexed
-CBOR packing, small real proofs and bounded maximum-size compilation. Keep
-proof results and resource failures distinct; no backend
-or encoder qualification follows.
-
-Add `hallmark qualify` with an externally pinned protocol, safe input snapshots
-and a shared deadline/storage budget across the existing real-proof probes. Keep
-standalone commands compatible. Passing available stages reports incomplete with
-exit 3; full-encoder and independent qualification evidence remain unavailable.
-
 Add the RFC-0005 backend declaration, caller-enrolled file/program/hiding-claim
 checks, a synthetic schema/vector and installed-package checks. These bind
-declarations without executing or selecting a backend. Separate local proof
-probes retain genuine small-circuit results, failures and measured costs.
-Extend those probes with an exhaustive fixed integer attention/feed-forward
-block, including masked lookup/normalization, residuals and signed pooling.
-This remains operator-block evidence, not complete encoder qualification.
+declarations without executing or selecting a backend.
 
 Add caller-pinned group evaluation reports with fixed slices, all training seeds,
 10,000 paired root-group resamples and separate float/integer drift. Preserve

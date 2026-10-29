@@ -3,7 +3,7 @@
 import secrets
 from pathlib import Path
 
-from hallmark._gnark_probe import digest, read_regular
+from hallmark._worker import digest, read_regular
 from hallmark.integrity import parse_json
 from hallmark.openings import TranscriptOpening
 from hallmark.policy import RequestExpectation

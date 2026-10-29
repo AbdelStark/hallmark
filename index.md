@@ -86,7 +86,7 @@ claims.
 | Contextual byte CNN | 4,161 parameters; causal convolution and masked max pooling | [Hugging Face ↗](https://huggingface.co/abdelstark/hallmark-contextual-byte-cnn) |
 
 Both are trained from scratch on synthetic fixtures. Dedicated **STWO Circle
-STARK** circuits prove decisions from their integer exports; gnark remains an
-explicit comparison backend. [Download a pinned model](docs/MODELS.md), read its
-model card, or [train and prove it yourself](docs/DEMO.md). These are research
-classifiers, not operational safety filters.
+STARK** circuits prove decisions from their integer exports.
+[Download a pinned model](docs/MODELS.md), read its model card, or
+[train and prove it yourself](docs/DEMO.md). These are research classifiers,
+not operational safety filters.

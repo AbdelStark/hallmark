@@ -26,8 +26,7 @@ provenance, arbitrary-model support or independent security qualification.
 | Generated-constraint CUDA proves the complete fixed case | [GPU JSON](../../research/evidence/llm-gpu-generated-constraints-2026-10-26.json), [protocol and measurements](../GPU-BENCHMARK.md#generated-constraint-result) | One same-H200 SIMD/CUDA pair; CPU witness generation; retained failed telemetry attempt |
 | Earlier CUDA configuration was slower | [Fallback-baseline JSON](../../research/evidence/llm-gpu-benchmark-2026-10-26.json) | Real proofs, but 1,710 CPU constraint fallback calls |
 | Fresh CPU-only LLM workflow reproduces the response | [Reproduction JSON](../../research/evidence/llm-e2e-reproduction-2026-10-23.json), [LLM guide](../LLM-PROOF.md) | Fixed model/quantization/token case, not arbitrary prompts |
-| Dedicated classifier proofs bind one request | [Composition JSON](../../research/evidence/w28-trained-common-proofs-2026-10-22.json), [results](../RESULTS.md#real-proof-composition) | Synthetic task, fresh research setup, caller-enrolled mapping |
-| Exact classifiers work under both proof backends | [Matched CPU report](../CLASSIFIER-BENCHMARK.md), [all raw samples and hashes](../../research/evidence/circle-classifiers-benchmark-2026-10-27.json) | 144 measured proofs, fresh Mac postflight and Circle/LLM join; stateless harness, different security profiles, 96-byte synthetic scope |
+| Dedicated classifier proofs bind one request | [Circle acceptance JSON](../../research/evidence/circle-default-2026-10-28.json), [results](../RESULTS.md#real-proof-composition) | Synthetic task, caller-enrolled mapping |
 | Released weights match the proved models | [Publication receipt](../../research/evidence/hub-model-publication-2026-10-27.json), [model releases](../MODELS.md) | No new training or quality evaluation; native inference is not proof generation |
 
 ## H200 timing boundaries {#read-the-h200-result-correctly}

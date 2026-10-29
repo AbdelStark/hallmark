@@ -5,6 +5,7 @@ import sys
 from fractions import Fraction
 from pathlib import Path
 
+import circle_inputs
 import classifier_comparison as comparison
 
 
@@ -42,10 +43,10 @@ def mlp_bounds(model, capacity):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--classifier-run", type=Path, required=True)
-    parser.add_argument("--expected-enrollment", required=True)
+    parser.add_argument("--expected-preparation", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    exported, records, _, _, _ = comparison.admitted(args.classifier_run, args.expected_enrollment)
+    exported, records, _ = circle_inputs.admit(args.classifier_run, args.expected_preparation)
     report = mlp_bounds(exported["mlp"]["model"], 96)
     threshold = records[1]["classifier"].threshold
     report |= dict(
@@ -67,7 +68,7 @@ if __name__ == "__main__":
             name: comparison.sha((comparison.ROOT / name).read_bytes())
             for name in (
                 "scripts/classifier_comparison.py",
-                "scripts/run_trained_mlp.py",
+                "scripts/trained_mlp.py",
                 "src/hallmark/mlp_export.py",
                 "src/hallmark/classifier_manifest.py",
             )

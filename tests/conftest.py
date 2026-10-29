@@ -72,3 +72,42 @@ def model() -> LinearArtifact:
         threshold=2,
         scale=128,
     )
+
+
+@pytest.fixture(scope="session")
+def synthetic_exports() -> dict:
+    """Tiny synthetic MLP/CNN exports in the frozen shapes; not the published models."""
+    pytest.importorskip("numpy")
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import contextual_cnn as cnn
+    import contextual_proof
+    import trained_mlp
+
+    from hallmark.data import load_records
+    from hallmark.integer_mlp import MlpWeights
+    from hallmark.mlp_training import MlpQuantization
+
+    q = MlpQuantization(
+        schema_id="hallmark.mlp-quantization/1",
+        checkpoint="0" * 64,
+        weights=MlpWeights(
+            schema_id="hallmark/mlp-weights/1",
+            hidden_weights=((0,) * 256,) * 4,
+            hidden_bias=(0,) * 4,
+            output_weights=(1, 0, 0, 0),
+            output_bias=-1,
+        ),
+        first_fraction=0,
+        last_fraction=0,
+        hidden_scale=1,
+        score_scale=1,
+    )
+    trained = cnn.train(
+        load_records(ROOT / "fixtures/contextual-scope.jsonl")[:2], 17, channels=32, stop=1
+    )
+    return {
+        "mlp": trained_mlp.export(q),
+        "encoder": contextual_proof.export(cnn.quantize(trained["parameters"])),
+    }

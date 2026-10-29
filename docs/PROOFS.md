@@ -3,12 +3,11 @@
 For the pretrained TinyLlama response, see [the LLM proof statement](LLM-PROOF.md).
 This page explains the classifier proofs exercised by `make e2e`.
 
-The default uses **direct-STWO Circle STARKs**, with Hallmark’s dedicated
+Classifiers use **direct-STWO Circle STARKs**, with Hallmark’s dedicated
 SHA-256/integer/classifier circuits. The LLM uses SASH’s specialized Circle STARK
-application. [Architecture](ARCHITECTURE.md#classifiers-make-e2e) shows the default
+application. [Architecture](ARCHITECTURE.md#classifiers-make-e2e) shows the
 flow; [Circle classifier details](CIRCLE-CLASSIFIERS.md) give concrete parameters
-and ownership. `make e2e BACKEND=gnark` explicitly selects the older Groth16
-comparison. Both paths establish the following logical relation.
+and ownership. The proofs establish the following logical relation.
 
 **For a fixed integer classifier and a particular prompt, the proof checks that
 running that classifier on those bytes gives the stated pass/block verdict.**
@@ -79,7 +78,7 @@ software checks.
 | Classifier weights and graph | Fixed rule and frozen seed-17 integer exports, compiled into each circuit | Caller enrollment pins program, public preprocessing and proof parameters; the proof checks the compiled relation |
 | Threshold and verdict | Enrolled classifier and caller's expected computation | Caller pins the threshold; circuit enforces the decision |
 | Request context and classifier identity | Caller-owned request, transcript and enrollment | Caller reconstructs these public fields; proof verification binds them to this proof |
-| Circle enrollment | Program, preprocessing roots and concrete parameters, pinned before proving | Fresh proof-only verifier checks against caller-owned enrollment; the optional gnark comparison instead uses a setup verification key |
+| Circle enrollment | Program, preprocessing roots and concrete parameters, pinned before proving | Fresh proof-only verifier checks against caller-owned enrollment |
 | `release` | Three checked verdicts | Host code computes `rule_pass AND mlp_pass AND cnn_pass` |
 
 Each proof has **100 logical public integers**: 32 bytes of context digest, 32 bytes
@@ -95,8 +94,8 @@ recompute the input digest and classifier arithmetic. They range-check the
 context and classifier digest bytes, but do not recompute the full transcript
 context, classifier identity or derivation of the per-classifier salt. Those
 links are established by the caller's reconstruction and its trusted mapping
-from program to compiled circuit and key. A digest or key supplied only by an
-untrusted prover cannot establish that mapping.
+from program to compiled circuit and enrollment. A digest or enrollment supplied
+only by an untrusted prover cannot establish that mapping.
 
 All three classifiers use the same caller-owned prompt and request context.
 Their input digests differ because their profiles and derived salts differ. The
@@ -119,17 +118,10 @@ There are two stages, both required:
    Any failure prevents a successful result.
 
 Nine proofs means one per classifier for each of three requests, not an
-aggregate proof of training or policy. The default rejects 63 changed public
+aggregate proof of training or policy. The run rejects 63 changed public
 statements, 18 cross-request substitutions and three invalid rosters. Trace
 parity and the separate constraint-failure study supplement those real proofs;
 they do not establish independent security qualification.
-
-The explicit gnark comparison instead calls
-[trained_common_input.py](../scripts/trained_common_input.py) for binding, then
-[verify_set.py](../research/probes/py_ecc/verify_set.py) for separate Groth16
-pairing arithmetic. It has different setup, encodings, checks and performance.
-See the [matched report](CLASSIFIER-BENCHMARK.md), rather than mixing its
-405-case arithmetic count with Circle’s default rejection counts.
 
 ## What a successful run does not prove
 
@@ -146,13 +138,12 @@ See the [matched report](CLASSIFIER-BENCHMARK.md), rather than mixing its
 - **Private inference.** The caller sees the transcript, and local artifacts
   contain witnesses. Public model constants and locally generated salts are not a
   private deployment. This is an opened-input research path, not a hiding claim.
-- **Production trust.** Compiler/program-to-key enrollment, setup custody, an
-  accepted setup ceremony, independent security/hiding review and an operational
-  verifier adapter remain qualification gates.
+- **Production trust.** Compiler/program-to-preprocessing enrollment, independent
+  security/hiding review and an operational verifier adapter remain qualification
+  gates.
 
 `release: true` means only that the three proved classifier verdicts pass. The
 run retains `qualified_backend: false` and `hardware_claim: "not-accepted"`.
 
-For exact default circuits, see the [Circle source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership).
-For reproduction and evidence, see the [demo](DEMO.md) and
-[comparison report](CLASSIFIER-BENCHMARK.md).
+For exact circuits, see the [Circle source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership).
+For reproduction and evidence, see the [demo](DEMO.md).

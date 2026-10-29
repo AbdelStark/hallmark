@@ -6,7 +6,6 @@ fixed case definitions. `--check` fails when a committed figure is stale.
 
 import argparse
 import json
-import statistics
 import sys
 from collections.abc import Callable, Iterable, Sequence
 from html import escape
@@ -1377,76 +1376,6 @@ def perf_classifier_gpu() -> Fig:
     return f
 
 
-def perf_backends() -> Fig:
-    b = load("circle-classifiers-benchmark-2026-10-27.json")["byte_audit"]["raw_samples"]
-    samples: dict[tuple[str, str], list[float]] = {}
-    peak: dict[str, float] = {}
-    for s in b:
-        samples.setdefault((s["phase"], s["backend"]), []).append(s["full_wall_seconds"])
-        if s["phase"] == "warm":
-            rss = s["sampled_process_tree_peak_rss_bytes"]
-            peak[s["backend"]] = max(peak.get(s["backend"], 0), rss)
-    med = {k: statistics.median(v) for k, v in samples.items()}
-    warm = med[("warm", "gnark")] / med[("warm", "circle")]
-    f = Fig(
-        960,
-        404,
-        "Circle versus gnark classifier workflows",
-        "Every sample of the nine-proof workflow for each backend and phase, with medians: "
-        f"warm Circle {seconds(med[('warm', 'circle')])}, warm gnark "
-        f"{seconds(med[('warm', 'gnark')])}; fresh Circle {seconds(med[('fresh', 'circle')])}, "
-        f"fresh gnark {seconds(med[('fresh', 'gnark')])}.",
-    )
-    header(
-        f,
-        "HF cpu-upgrade · 8 vCPU · nine-proof classifier workflow",
-        f"Circle finishes {warm:.2f}× sooner, with megabyte proofs and about 20 GB of memory",
-    )
-    legend(f, 150, 108, [("f-s1", "STWO Circle STARK"), ("f-s3", "gnark Groth16")], dot=True)
-    x0, x1, top = 150, 450, 140
-    sx = axis(f, x0, x1, top - 10, top + 4 * 44 - 16, 1300, 260)
-    f.text(560, 128, "median", "s", "end")
-    rows = [("fresh", "gnark"), ("fresh", "circle"), ("warm", "gnark"), ("warm", "circle")]
-    for i, (phase, backend) in enumerate(rows):
-        y = top + i * 44 + 8
-        f.text(40, y + 5, f"{phase} · {'Circle' if backend == 'circle' else 'gnark'}", "bs")
-        cls = "f-s1" if backend == "circle" else "f-s3"
-        for v in samples[(phase, backend)]:
-            f.circle(x0 + sx(v), y, 5, cls, ring=True)
-        mx = x0 + sx(med[(phase, backend)])
-        f.line(mx, y - 12, mx, y + 12, "k-ink", 2)
-        f.text(560, y + 4, seconds(med[(phase, backend)]), "m", "end")
-    f.text(x0, top + 4 * 44 + 18, "full workflow wall time per sample · tick = median", "s")
-
-    # Proof sizes and per-proof verifier medians: the warm tables in CLASSIFIER-BENCHMARK.md.
-    table = [
-        ("Proof size", "292 B", "1.91–2.16 MB"),
-        ("Peak tree RSS, warm", f"{peak['gnark'] / 1e9:.2f} GB", f"{peak['circle'] / 1e9:.2f} GB"),
-        ("Verifier process", "3.47–4.04 s", "0.29–0.38 s"),
-        ("Setup", "per-circuit", "enrolled public"),
-        ("", "trusted setup", "preprocessing"),
-    ]
-    f.text(768, 128, "gnark", "bb", "middle")
-    f.text(870, 128, "Circle", "bb", "middle")
-    for i, (label, a, c) in enumerate(table):
-        y = 156 + i * 30 - (12 if i == 4 else 0)
-        if label:
-            f.line(600, y - 20, 920, y - 20, "k-grid")
-        f.text(600, y, label, "s")
-        f.text(768, y, a, "m" if i < 3 else "s", "middle")
-        f.text(870, y, c, "m" if i < 3 else "s", "middle")
-    f.text(600, 300, "Per-proof medians, warm runs. gnark", "s")
-    f.text(600, 316, "verifies with pure-Python py-ecc.", "s")
-    note(
-        f,
-        366,
-        "Three fresh and five warm workflows per backend, every sample shown, 2026-10-27. The "
-        "backends have different security assumptions and verifier implementations: this is a "
-        "workflow comparison, not an equal-security ranking.",
-    )
-    return f
-
-
 FIGURES: dict[str, Callable[[], Fig]] = {
     "overview": overview,
     "llm-statement": llm_statement,
@@ -1461,7 +1390,6 @@ FIGURES: dict[str, Callable[[], Fig]] = {
     "perf-llm-segments": perf_llm_segments,
     "perf-classifier-c1": perf_classifier_c1,
     "perf-classifier-gpu": perf_classifier_gpu,
-    "perf-backends": perf_backends,
 }
 
 

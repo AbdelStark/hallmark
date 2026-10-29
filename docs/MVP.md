@@ -3,16 +3,14 @@
 The owner-selected **fixed-case LLM integrity MVP is complete**. It proves a short
 response from a real pretrained, disclosed quantized model and verifies the
 proofs without requiring hardware attestation or witness hiding.
-[Decision 0076](decisions/0076-integrity-mvp-scope.md) records that scope;
-[the numeric acceptance audit](../research/evidence/integrity-mvp-completion-2026-10-25.json)
-links the inspected sources, artifacts, results and future issues.
+[Decision 0076](decisions/0076-integrity-mvp-scope.md) records that scope.
 
 For command selection, end-to-end diagrams and the division between circuit
 checks and caller checks, read [architecture and proof flows](ARCHITECTURE.md).
-Circle STARK now defaults for both LLM inference and classifiers, through SASH
-and direct STWO respectively. Gnark remains an explicit comparison backend.
-[Decision 0085](decisions/0085-circle-default.md) records this later default change;
-the original MVP acceptance below retains its historical measurements.
+Circle STARK now proves both LLM inference and classifiers, through SASH
+and direct STWO respectively. [Decision 0085](decisions/0085-circle-default.md)
+and [decision 0090](decisions/0090-remove-pairing-backend.md) record these later
+changes; the original MVP acceptance below retains its historical measurements.
 
 ```text
 Model:    TinyLlama-1.1B-Chat-v1.0, pinned y-attnout-w12 quantization
@@ -55,7 +53,7 @@ caller-enrolled shape roots; the original Linux verifier derives them at runtime
 is optional and requires a public key obtained through the caller's own channel.
 
 For the [full LLM/classifier composition](COMPOSED-DEMO.md), run
-`make e2e-composed`. The complete fresh workflow is recorded at 66 min 50 s.
+`make e2e-composed`.
 For the local synthetic classifier pipeline alone, run `make e2e`; it needs no
 cloud account. Each invocation gets a new evidence directory and preserves
 failures. Raw checkpoints, keys and run directories stay out of Git.
@@ -64,18 +62,16 @@ failures. Raw checkpoints, keys and run directories stay out of Git.
 
 | Requirement | Verified result | Evidence |
 |---|---|---|
-| Real pretrained LLM and disclosed quantization | Pinned Apache-2.0 TinyLlama checkpoint; all eight model files rehashed; `y-attnout-w12` | [Case](../research/probes/sash/response-case.json), [audit](../research/evidence/integrity-mvp-completion-2026-10-25.json) |
+| Real pretrained LLM and disclosed quantization | Pinned Apache-2.0 TinyLlama checkpoint; all eight model files rehashed; `y-attnout-w12` | [Case](../research/probes/sash/response-case.json) |
 | Complete short response | Eight answer tokens through EOS, 23 real proof segments and 22 links | [LLM result and failure history](../research/evidence/llm-response-composition-2026-10-23.json) |
 | Specialized integrity proof | SASH Circle STARK/GKR inference relation; no general-purpose zkVM | [Proof statement](LLM-PROOF.md#the-statement) |
-| Caller-owned expectations and negative checks | Original verifier: two honest checks and 14 rejections; native: two and 36 | [Fresh run](../research/evidence/fresh-composed-2026-10-25.json), [native boundary tests](../research/evidence/native-proof-boundaries-2026-10-23.json) |
-| Reproducible end-to-end workflow | Fresh witnesses/proofs, training/exports, nine classifier control proofs and three composed proofs | [Fresh Make run](COMPOSED-DEMO.md#historical-gnark-composition-fresh-preparation) |
-| Multiple classifier architectures | Rule, trained MLP and trained CNN; 18 control substitutions reject; 405 control and 399 composed arithmetic outcomes match | [Classifier proof explanation](PROOFS.md), [composed workflow](COMPOSED-DEMO.md) |
+| Caller-owned expectations and negative checks | Original verifier: two honest checks and 14 rejections; native: two and 36 | [Fresh run](decisions/0074-fresh-composed-reproduction.md), [native boundary tests](../research/evidence/native-proof-boundaries-2026-10-23.json) |
+| Reproducible end-to-end workflow | Fresh witnesses/proofs, training/exports, nine classifier control proofs and three composed proofs | [Fresh Make run](decisions/0074-fresh-composed-reproduction.md) |
+| Multiple classifier architectures | Rule, trained MLP and trained CNN; 18 control substitutions reject | [Classifier proof explanation](PROOFS.md), [composed workflow](COMPOSED-DEMO.md) |
 | Explicit parameter authority | Same signed case/source/key authorization checked five times through the final join; invalid authorization fails before preparation | [Signed composition](COMPOSED-DEMO.md#signed-llm-parameters) |
-| Public, reusable source | MIT project source, public repository, locked environments and passing source/install CI | [Licence](../LICENSE.md), [packaging](PACKAGING.md), [acceptance audit](../research/evidence/integrity-mvp-completion-2026-10-25.json) |
+| Public, reusable source | MIT project source, public repository, locked environments and passing source/install CI | [Licence](../LICENSE.md), [packaging](PACKAGING.md) |
 
-The audit confirms the current code matches the executed proving and verification
-sources. It preserves historical source identities rather than relabeling old
-runs. Local repository, required-training and installed-package gates remain
+Local repository, required-training and installed-package gates remain
 separate from cryptographic proof evidence. The 32 unavailable full-hybrid
 conformance cases are future v1 obligations, not passing MVP checks.
 

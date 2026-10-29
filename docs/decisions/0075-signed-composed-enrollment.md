@@ -19,7 +19,7 @@ reused to authorize changed controller bytes.
 
 ## Boundary
 
-`run_composed.py` accepts the same `--enrollment` / `--trusted-key` arguments and
+The composed controller accepts the same `--enrollment` / `--trusted-key` arguments and
 `LLM_ENROLLMENT` / `LLM_TRUST_KEY` environment variables as the native verifier.
 Either input requires the other. The caller independently supplies the public
 key; no key is obtained from the signed record or proof bundle.
@@ -82,7 +82,7 @@ harness incorrectly expected WireError rather than the correct SIGNATURE_INVALID
 HallmarkError for a tampered signature. Its failed harness, inputs and logs remain
 retained; no full campaign had started. Source behavior was not changed to pass it.
 
-[Numeric evidence](../../research/evidence/signed-composed-2026-10-25.json)
+Numeric evidence
 precedes this interpretation. The signer remains a disposable integration key.
 No operational custody, revocation/rollback, classifier-policy adoption, independent
 security/hiding review or hardware claim follows.

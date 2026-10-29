@@ -9,7 +9,7 @@ import classifier_comparison as comparison
 
 def test_frozen_cases_protocol_and_scalar_semantics():
     plan, corpus = comparison.documents()
-    assert plan["repetitions"] == {"fresh": 3, "warm": 5}
+    assert plan["capacity_bytes"] == 96 and plan["circle"]["fri_queries"] == 80
     assert comparison.scalar_conformance(corpus) == 20
     assert [r["verdicts"] for r in corpus["requests"]] == [[1, 1, 1], [1, 1, 0], [0, 1, 1]]
     assert len(corpus["rejection_boundary"]) == 13

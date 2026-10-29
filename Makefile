@@ -16,23 +16,13 @@ docs:
 docs-serve:
 	uv run --locked --project website python scripts/build_docs.py --serve
 
-BACKEND ?= circle
 e2e:
-ifeq ($(BACKEND),circle)
-	$(MAKE) e2e-circle
-else ifeq ($(BACKEND),gnark)
-	uv run --locked --python 3.12.12 --extra train python scripts/run_e2e.py
-else
-	@echo 'BACKEND must be gnark or circle'; exit 2
-endif
+	uv run --locked --python 3.12.12 --extra train python scripts/run_circle_e2e.py $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
 
-.PHONY: circle-build e2e-circle
+.PHONY: circle-build
 circle-build:
 	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --bin circle-prove -j 4
 	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 4
-
-e2e-circle:
-	uv run --locked --python 3.12.12 --extra train python scripts/run_circle_e2e.py $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
 
 e2e-llm:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10
@@ -41,13 +31,7 @@ benchmark-llm-gpu:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_gpu.py --llm-run "$(LLM_RUN)" --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 5.00 $(if $(GPU_BUILD_RUN),--build-run "$(GPU_BUILD_RUN)")
 
 e2e-composed:
-ifeq ($(BACKEND),circle)
 	uv run --locked --python 3.12.12 --extra train --extra llm python scripts/run_circle_composed.py $(if $(LLM_RUN),--llm-run "$(LLM_RUN)") $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
-else ifeq ($(BACKEND),gnark)
-	uv run --locked --python 3.12.12 --extra train --extra llm python scripts/run_composed.py $(if $(LLM_RUN),--llm-run "$(LLM_RUN)") $(if $(CLASSIFIER_RUN),--classifier-run "$(CLASSIFIER_RUN)")
-else
-	@echo 'BACKEND must be circle or gnark'; exit 2
-endif
 
 verify-llm:
 	uv run --locked --python 3.12.12 python scripts/verify_llm.py --run "$(LLM_RUN)"

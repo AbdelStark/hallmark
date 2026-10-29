@@ -10,13 +10,17 @@ from hallmark_demo.results import summarize
 
 def classifier_result():
     return dict(
-        schema_id="hallmark.e2e-result/1",
+        schema_id="hallmark.circle-e2e-result/1",
         status="passed",
+        backend="circle",
         proofs_verified=9,
         cross_request_rejections=18,
-        arithmetic_cases=405,
+        direct_public_mutations_rejected=63,
+        roster_rejections=3,
+        intermediate_parity=True,
         qualified_backend=False,
         hardware_claim="not-accepted",
+        hiding_claim=False,
         cases=[
             dict(name=name, verdicts=values, proofs_verified=3, release=all(values))
             for name, values in [
@@ -29,7 +33,7 @@ def classifier_result():
 
 
 def test_shared_view_separates_validity_from_policy():
-    summary = summarize(CATALOG["classifiers"], classifier_result())
+    summary = summarize(CATALOG["classifiers-circle"], classifier_result())
     assert summary["title"] == "Verification passed"
     assert [c["release"] for c in summary["cases"]] == [True, False, False]
     assert summary["metrics"][0]["value"] == 9
@@ -49,14 +53,14 @@ def test_shared_view_separates_validity_from_policy():
 def test_partial_or_changed_reports_cannot_claim_verification(change):
     report = classifier_result() | change
     with pytest.raises(ValueError):
-        summarize(CATALOG["classifiers"], report)
+        summarize(CATALOG["classifiers-circle"], report)
 
 
 def test_policy_release_must_match_verified_verdicts():
     report = classifier_result()
     report["cases"][1]["release"] = True
     with pytest.raises(ValueError):
-        summarize(CATALOG["classifiers"], report)
+        summarize(CATALOG["classifiers-circle"], report)
 
 
 def test_recorded_gpu_result_uses_real_numeric_evidence():
@@ -75,25 +79,16 @@ def test_recorded_gpu_result_uses_real_numeric_evidence():
 
 
 def test_circle_default_requires_complete_cryptographic_checks():
-    report = classifier_result() | dict(
-        schema_id="hallmark.circle-e2e-result/1",
-        backend="circle",
-        direct_public_mutations_rejected=63,
-        roster_rejections=3,
-        intermediate_parity=True,
-        hiding_claim=False,
-    )
+    report = classifier_result()
     assert len(summarize(CATALOG["classifiers-circle"], report)["cases"]) == 3
     for change in (
-        {"backend": "gnark"},
+        {"backend": "other"},
         {"direct_public_mutations_rejected": 62},
         {"roster_rejections": 2},
         {"intermediate_parity": False},
     ):
         with pytest.raises(ValueError):
             summarize(CATALOG["classifiers-circle"], report | change)
-    with pytest.raises(ValueError):
-        summarize(CATALOG["classifiers-circle"], classifier_result())
 
 
 def test_circle_composed_requires_all_links_and_distinct_binding_checks():

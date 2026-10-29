@@ -10,10 +10,10 @@ foreground work. GCP is not a dependency of classifier proving. Genuine hardware
 provenance remains a separate extension; an ordinary GPU rental is not attestation.
 Private account details and credentials stay outside this repository.
 
-Gnark currently supplies the arithmetic proof library for dedicated circuits; it
+The proof library then in use (removed by 0090) supplied dedicated circuits; it
 does not execute a VM here. Keep those circuits as correctness baselines rather
 than assuming their maximum-size synthetic cost is a scalable encoder design.
-Use the [specialized-path review](../../research/proposals/backend-v1/specialized-paths.md)
+Use the specialized-path review
 to choose the next complete relation. Do not port a decoder prover to an encoder
 by changing only weights, or claim a complete audit while skipping attention.
 

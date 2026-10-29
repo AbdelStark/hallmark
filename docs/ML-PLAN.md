@@ -45,9 +45,6 @@ MLP calibration/evaluation. The guard uses a
 chunk coverage and separately calibrated maximum margins. Its real-weight
 authored probes are engineering evidence only. The full roster, admitted real-data runs, teacher inference,
 encoder training, distillation, QAT and proving remain unfinished on this branch.
-The bounded synthetic [rule and MLP probes](decisions/0024-bounded-mlp-proof-probe.md)
-and attention block are separate real-proof backend experiments; none qualifies
-a complete encoder or operational classifier.
 
 ## Operator and system bake-off
 

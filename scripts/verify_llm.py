@@ -19,7 +19,7 @@ from pathlib import Path
 from run_e2e import sha, write_json
 from run_llm_e2e import fetch, require
 
-from hallmark._gnark_probe import (
+from hallmark._worker import (
     MAX_OPEN_FILES,
     limit_open_files,
     read_regular,
@@ -41,7 +41,21 @@ def source_inventory():
         Path(__file__),
         ROOT / "scripts/run_e2e.py",
         ROOT / "scripts/run_llm_e2e.py",
-        *sorted((ROOT / "src/hallmark").glob("*.py")),
+        # The hallmark modules this verifier imports; unrelated package edits keep its identity.
+        *(
+            ROOT / "src/hallmark" / (name + ".py")
+            for name in (
+                "__init__",
+                "_worker",
+                "classifier_manifest",
+                "contracts",
+                "errors",
+                "integrity",
+                "llm_enrollment",
+                "manifests",
+                "wire",
+            )
+        ),
         ROOT / "uv.lock",
         PROBE / "response-case.json",
         PROBE / "native-verifier.patch",

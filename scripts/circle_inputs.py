@@ -6,7 +6,7 @@ from pathlib import Path
 import classifier_comparison as comparison
 import trained_common_input as common
 
-from hallmark._gnark_probe import read_regular, write_new
+from hallmark._worker import read_regular, write_new
 from hallmark.classifier_manifest import ClassifierManifest
 from hallmark.integrity import parse_json
 from hallmark.openings import TranscriptOpening

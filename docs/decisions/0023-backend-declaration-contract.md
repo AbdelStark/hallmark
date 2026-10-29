@@ -1,7 +1,7 @@
 # 0023 — Backend declarations and external file pins
 
 Date: 2026-10-20. Scope: W18 / issue #19; additive contracts after
-[the local probes](0022-local-proof-probes.md). Historical results are unchanged.
+the local probes. Historical results are unchanged.
 
 Implement the exact RFC-0005 `BackendQualification` record in
 `hallmark.backend`, with identity `H("backend", record)`. The name identifies

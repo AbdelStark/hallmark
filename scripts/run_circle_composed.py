@@ -18,7 +18,7 @@ import verify_llm
 from check_circle_composed import binding_negatives, joined_jobs
 from check_circle_engine import encode
 
-from hallmark._gnark_probe import RunBudget, invoke, read_regular, write_new
+from hallmark._worker import RunBudget, invoke, read_regular, write_new
 
 ROOT = Path(__file__).resolve().parents[1]
 

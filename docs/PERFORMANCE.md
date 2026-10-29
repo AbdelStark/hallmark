@@ -18,10 +18,9 @@ behind each number are in [reference runs](REFERENCE-RUN.md).
 | Run | Workload | Machine | Date | It is | It is not |
 |---|---|---|---|---|---|
 | **L1** | TinyLlama answer, 23 segments, CPU then GPU | HF Jobs, one NVIDIA H200, 23 vCPUs, 4 Rayon threads | 2026-10-26 | One matched SIMD/CUDA pair with shared inputs | A latency distribution, or a fresh preparation |
-| **C1** | Classifier workflow: train, build, nine proofs | Apple M4 Max, 16 CPUs, 48 GiB, 4 prover threads | 2026-10-28 | One fresh instrumented run | The repeated HF benchmark |
+| **C1** | Classifier workflow: train, build, nine proofs | Apple M4 Max, 16 CPUs, 48 GiB, 4 prover threads | 2026-10-28 | One fresh instrumented run | A latency distribution |
 | **J1** | L1 proofs re-verified + three new classifier proofs | Same Mac | 2026-10-28 | Host composition of retained LLM proofs | Fresh GPU proving |
 | **A100** | The nine C1 classifier proofs, CPU and CUDA | HF Jobs, one A100-SXM4-80GB, 12-vCPU quota | 2026-10-28 | Three matched pairs | A full workflow; training and witnesses are reused |
-| **Backend study** | Nine-proof workflow, Circle and gnark | HF `cpu-upgrade`, 8 vCPU, AMD EPYC 7R13 | 2026-10-27 | Three fresh + five warm workflows per backend | An equal-security ranking |
 
 ## The headline numbers
 
@@ -34,7 +33,6 @@ behind each number are in [reference runs](REFERENCE-RUN.md).
 | **0.807 s** | C1 | Nine fresh proof-only verifier processes | The caller's native rerun, not timed separately |
 | **302.96 s** | C1 | The whole classifier controller, training included | uv bootstrap, outside the timer |
 | **92.41 → 22.22 s** | A100 | Nine complete prover commands, CPU → CUDA, median of three pairs | The C1 Mac timings |
-| **298.88 s** | Backend study | Median warm nine-proof Circle workflow | C1's 302.96 s, which includes training on a different machine |
 
 ## TinyLlama on one H200 (L1)
 
@@ -143,24 +141,6 @@ ratio (4.16×) is lower than the final-call ratio (5.87×) because the commands
 also contain host work, such as base and interaction trace generation.
 [Full report](CLASSIFIER-GPU-BENCHMARK.md).
 
-## Circle versus gnark
-
-![Circle versus gnark: every sample of the nine-proof workflow; warm medians 298.88 s versus 781.25 s.](assets/figures/perf-backends.svg)
-
-| Per proof, warm, `allow` request | gnark / Groth16 | Circle / STWO |
-|---|---:|---:|
-| Proof size | 292 bytes | 1.91–2.16 MB |
-| Engine proving, rule | 4.32 s | 8.82 s |
-| Complete prover command, rule | 54.20 s | 17.84 s |
-| Fresh verifier process, range over all requests | 3.47–4.04 s | 0.29–0.38 s |
-| Peak tree RSS, warm workflow | 2.65 GB | 19.96 GB |
-
-Groth16 proves faster and produces tiny proofs, but each stateless gnark command
-spends 47–126 s parsing its assignment, R1CS and proving key. Circle rebuilds
-its preprocessing every time, which costs far less. The verifier rows compare
-pure-Python py-ecc against native Rust, so they say little about the
-cryptography itself. [Every sample, stage and range](CLASSIFIER-BENCHMARK.md).
-
 ## Composition (J1)
 
 | Stage | Seconds |
@@ -183,7 +163,6 @@ cryptography itself. [Every sample, stage and range](CLASSIFIER-BENCHMARK.md).
 | LLM proof bundle, 23 files | 737,858,641 bytes |
 | Classifier proof, one Circle JSON file | 1.93–2.15 MB |
 | Classifier proofs, nine files | 18,063,779 bytes |
-| Groth16 classifier proof | 292 bytes |
 
 | Peak sampled memory | Value |
 |---|---:|
@@ -203,7 +182,7 @@ high-water marks, not hard limits.
   commands, never assumed to be free.
 - **GPU verification.** Every verifier above runs on a CPU.
 - **Latency distributions.** L1 and C1 are single observations. The A100 study
-  has three pairs and the backend study eight workflows per backend.
+  has three pairs.
 - **A saving over native rerun.** The classifier caller reruns native inference
   to rebuild expected verdicts; no timing shows verification beating a rerun.
 

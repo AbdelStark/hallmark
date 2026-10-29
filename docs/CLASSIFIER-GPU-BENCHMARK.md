@@ -52,7 +52,7 @@ The suite table instead sums each repetition before taking a median. Pair order
 is CPU/CUDA, CUDA/CPU, CPU/CUDA. The arithmetic fixture warms the driver; OS
 caches are shared. Three suite samples are descriptive, not a reliable latency
 distribution. These measurements are separate from the published Mac C1
-controller and the older HF Circle/gnark workflow comparison.
+controller.
 
 ## Proof acceptance and retained resources
 

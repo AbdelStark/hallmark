@@ -2,16 +2,17 @@ import sys
 from pathlib import Path
 
 from test_trained_mlp import exported as exported
+from test_trained_mlp import manifest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-import run_trained_mlp as native
+import trained_mlp as native
 from check_circle_engine import encode
 from circle_classifiers import mlp
 from run_circle_classifiers import trace_parity
 
 
 def test_complete_counts_native_parity_and_witness_independent_program(exported):
-    classifier = native.classifier(exported, b"k" * 5536, "c" * 64)
+    classifier = manifest(exported)
     program = None
     for prompt in ("", "B", "A" * 96, "é" * 48):
         row, _ = native.native_row(exported, classifier, 1024, prompt, 0)
