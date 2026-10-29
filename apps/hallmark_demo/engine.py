@@ -706,7 +706,8 @@ class RunManager:
         ):
             return
         try:
-            os.killpg(run["pid"], signal.SIGINT)
+            # uv forwards SIGINT itself; a group signal would interrupt the driver's cleanup.
+            os.kill(run["pid"], signal.SIGINT)
             run["cancel_signalled"] = True
         except ProcessLookupError:
             pass

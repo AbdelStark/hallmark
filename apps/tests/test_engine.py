@@ -1,5 +1,6 @@
 import fcntl
 import json
+import sys
 import time
 from pathlib import Path
 
@@ -156,6 +157,33 @@ def test_local_stop_escalates_for_an_unresponsive_process(runner, monkeypatch):
     manager.cancel(run["id"])
     done = wait(manager, run["id"])
     assert done["status"] == "cancelled" and not alive(done["pid"], done["process_created"])
+
+
+def test_stop_through_uv_delivers_one_interrupt_and_cleanup_completes(runner, monkeypatch):
+    from hallmark_demo import engine
+
+    manager, script = runner
+    if not manager.uv.is_file():
+        pytest.skip("uv is not installed beside the app interpreter")
+    script.write_text(
+        "import signal,time\nfrom pathlib import Path\n"
+        "def handler(*_):\n"
+        "    with open('runs/signals.log','a') as f: f.write('SIGINT\\n')\n"
+        "    raise KeyboardInterrupt\n"
+        "signal.signal(signal.SIGINT,handler)\n"
+        "try:\n    print('Ready',flush=True)\n    time.sleep(60)\n"
+        "except KeyboardInterrupt:\n    time.sleep(1.5)\n    Path('runs/cleanup.done').touch()\n"
+    )
+    command = [str(manager.uv), "run", "--no-project", "--offline"]
+    command += ["--python", sys.executable, "python", str(script)]
+    monkeypatch.setattr(engine, "plan", lambda *a: dict(command=command, paid=True, ceiling="0"))
+    run = manager.start("fixture", {})
+    wait(manager, run["id"], lambda r: any(e["message"] == "Ready" for e in r["events"]))
+    manager.cancel(run["id"])
+    done = wait(manager, run["id"])
+    assert done["status"] == "cancelled"
+    assert (manager.root / "runs/cleanup.done").is_file()
+    assert (manager.root / "runs/signals.log").read_text() == "SIGINT\n"
 
 
 def test_stage_logs_are_streamed_and_redacted(runner):
