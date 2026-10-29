@@ -102,8 +102,13 @@ make verify-llm LLM_RUN=runs/llm-e2e-...
 ```
 
 This builds a native Apple Silicon verifier and checks all 23 proofs twice, then
-runs 36 rejection checks: the 14 original mutations, two enrollment mutations and
-20 direct native checks for field aliases, malformed shapes and configuration drift.
+runs 38 rejection checks: the 14 original mutations, two enrollment mutations, two
+statement mutations and 20 direct native checks for field aliases, malformed shapes
+and configuration drift. The statement mutations hand the native verifier a changed
+prompt and a changed model root while skipping the Python caller guard, so the
+verifier's own `--prompt` and `--expect-model-roots` comparisons must reject them.
+On the published reference proofs, both were rejected by the native verifier itself,
+with all 23 proofs still accepted ([evidence](../research/evidence/llm-native-mutations-2026-10-29.json)).
 It needs 8 GiB free storage, the pinned Rust toolchain and the same Python setup.
 Building can download locked Rust dependencies. Verification is sandboxed and
 offline; it uses no model weights, witness, HF token or paid compute. Results and
