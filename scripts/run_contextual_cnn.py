@@ -1,7 +1,6 @@
 """Run the frozen synthetic context screen with train/calibration/test separation."""
 
 import argparse
-import hashlib
 import importlib.metadata
 import math
 import resource
@@ -11,7 +10,7 @@ from pathlib import Path
 
 import contextual_cnn as cnn
 
-from hallmark._worker import json_new, read_regular, write_new
+from hallmark._worker import digest, json_new, read_regular, write_new
 from hallmark.data import dataset_summary, load_records
 from hallmark.evaluation import calibrate_threshold, metrics
 from hallmark.integer_encoder import execute_encoder
@@ -21,8 +20,7 @@ from hallmark.openings import TranscriptOpening
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def sha(raw):
-    return hashlib.sha256(raw).hexdigest()
+sha = digest
 
 
 def source_record():

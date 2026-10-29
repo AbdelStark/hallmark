@@ -68,7 +68,7 @@ binaries it built; the conformance command checks their hashes against that
 run's protocol before using them. Replace the paths and both saved pins:
 
 ```bash
-uv run --locked --python 3.12.12 python scripts/check_circle_classifiers.py \
+uv run --locked --python 3.12.12 --extra train python scripts/check_circle_classifiers.py \
   --classifier-run runs/e2e-circle-<your-run> \
   --expected-preparation <your-saved-native-preparation-sha256> \
   --circle-run runs/e2e-circle-<your-run>/proofs \

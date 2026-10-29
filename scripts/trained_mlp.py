@@ -9,7 +9,7 @@ from hallmark.policy import RequestExpectation
 from hallmark.receipts import ProofInputs
 from hallmark.wire import H
 
-CASES = {8: ("", "A", "B"), 1024: ("A" * 512, "B" * 512, "A" * 512 + "B" * 512)}
+CASES = (8, 1024)
 
 
 def export(quantization):

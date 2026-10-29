@@ -1,6 +1,5 @@
 """Frozen classifier inputs, exports and scalar conformance; no proof backend here."""
 
-import hashlib
 import json
 from fractions import Fraction
 from pathlib import Path
@@ -9,9 +8,8 @@ import contextual_proof as cnn
 import trained_mlp as mlp
 from run_e2e import EXPORTS
 
-from hallmark._worker import read_regular
+from hallmark._worker import digest, read_regular
 from hallmark.classifier_manifest import _rescale
-from hallmark.integer_graph import IntegerGraph
 from hallmark.integrity import parse_json
 from hallmark.mlp_training import MlpQuantization
 from hallmark.openings import TranscriptOpening
@@ -22,8 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/circle-classifiers"
 
 
-def sha(raw):
-    return hashlib.sha256(raw).hexdigest()
+sha = digest
 
 
 def encoded(value):
@@ -58,6 +55,8 @@ def exports(directory):
             if kind == "mlp"
             else cnn.export(parse_json(raw.decode()))
         )
+    # Static node ranges bound only post-rescale values; reject intermediate i32 overflow here.
+    cnn_integer_bounds(values["encoder"])
     return values
 
 
@@ -86,37 +85,6 @@ def scalar_conformance(corpus):
     ):
         raise ValueError("strict threshold boundary mismatch")
     return len(corpus["rounding"]) + len(scalar["relu"]) + len(scalar["strict_threshold"])
-
-
-def native_scorer(values):
-    """Inference without request admission, commitments or caller recomputation."""
-    e = values["mlp"]
-    model = e["model"]
-    graph = IntegerGraph(
-        e["arithmetic"],
-        parameters=e["parameters"],
-        constants={
-            "w1": tuple(x for row in model["hidden_weights"] for x in row),
-            "b1": tuple(model["hidden_bias"]),
-            "w2": tuple(model["output_weights"]),
-            "b2": (model["output_bias"],),
-        },
-    )
-
-    def score(prompt):
-        raw = prompt.encode("utf-8")
-        if len(raw) > 96:
-            raise ValueError("comparison capacity exceeded")
-        mlp_score = graph.evaluate({"counts": tuple(raw.count(i) for i in range(256))})["score"][0]
-        cnn_score = values["encoder"]["graph"].evaluate(
-            {
-                "tokens": tuple(raw) + (0,) * (96 - len(raw)),
-                "mask": (1,) * len(raw) + (0,) * (96 - len(raw)),
-            }
-        )["score"][0]
-        return [int(b"BAD" in raw), mlp_score, cnn_score]
-
-    return score
 
 
 def cnn_integer_bounds(exported):

@@ -163,6 +163,7 @@ def _rescale(value: int, source: int, target: int) -> int:
 def _node_contract(
     node: NodeSpec, tensors: dict[str, TensorSpec], parameters: OperatorParameters
 ) -> None:
+    """Bound post-rescale ranges only; intermediate int32 overflow fails closed at runtime."""
     inputs = [tensors[name] for name in node.inputs]
     a = inputs[0]
     out = tensors[node.output]
