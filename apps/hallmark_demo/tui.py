@@ -67,7 +67,7 @@ class Workbench(App):
         Binding("n", "setup", "New run"),
         Binding("w", "web", "Open web"),
         Binding("e", "export", "Export"),
-        Binding("q", "quit_safely", "Quit"),
+        Binding("q", "quit", "Quit"),
     ]
     CSS = """
     Screen { background: #f6f4ed; color: #203c35; }
@@ -327,7 +327,7 @@ class Workbench(App):
     def guide(self):
         webbrowser.open("https://github.com/AbdelStark/hallmark/blob/main/" + self.workflow["docs"])
 
-    def action_quit_safely(self):
+    def action_quit(self):  # Also reached by the built-in ctrl+q binding.
         if self.owns_server and any(r["status"] in ACTIVE for r in self.runs):
             self.push_screen(QuitRun(), lambda confirmed: self.exit() if confirmed else None)
         else:
