@@ -124,6 +124,31 @@ class RegistryBody(_Artifact):
         return len(tag).to_bytes(4, "big") + tag + self.encode()
 
 
+def validate_successor(previous: RegistryBody, candidate: RegistryBody) -> None:
+    """Retain every identity/review; retirement can only become earlier."""
+    if type(previous) is not RegistryBody or type(candidate) is not RegistryBody:
+        raise HallmarkError("INPUT_INVALID", "enroll")
+    previous, candidate = previous._validated(), candidate._validated()
+    if (
+        candidate.sequence != previous.sequence + 1
+        or candidate.previous != previous.identity()
+        or candidate.issued_at < previous.issued_at
+    ):
+        raise HallmarkError("REGISTRY_INVALID", "enroll")
+    entries = {(entry.kind, entry.digest): entry for entry in candidate.entries}
+    for old in previous.entries:
+        new = entries.get((old.kind, old.digest))
+        if (
+            new is None
+            or new.model_copy(update={"retired_at": old.retired_at}) != old
+            or (
+                old.retired_at is not None
+                and (new.retired_at is None or new.retired_at > old.retired_at)
+            )
+        ):
+            raise HallmarkError("REGISTRY_INVALID", "enroll")
+
+
 class RegistrySignature(_Record):
     key_id: Digest32
     signature: Annotated[
@@ -256,6 +281,9 @@ def enroll(
         if body.issued_at < last_issued or body.issued_at > now:
             raise HallmarkError("STALE_EVIDENCE", "enroll")
         candidate.verify_signatures(trust)
+        # The checkpoint stores only a digest, so the first step's body cannot be compared.
+        if index:
+            validate_successor(history[index - 1].body, body)
         if time.monotonic() > deadline:
             raise HallmarkError("LIMIT_EXCEEDED", "enroll")
         current = RegistryState(

@@ -204,6 +204,23 @@ def test_rollback_equivocation_minimum_and_skipped_history() -> None:
             enroll(snapshot, trust, checkpoint, 150, history=history)
 
 
+def test_history_enforces_successor_rules() -> None:
+    zero = registry_body()
+    entries = zero.entries
+    retired = (*entries[:3], entries[3].model_copy(update={"retired_at": 120}), entries[4])
+    one = registry_body(sequence=1, previous=zero.identity(), entries=retired)
+    revived = registry_body(sequence=2, previous=one.identity())
+    dropped = registry_body(sequence=2, previous=one.identity(), entries=(*retired[:3], retired[4]))
+    for final in (revived, dropped):
+        with pytest.raises(HallmarkError, match="REGISTRY_INVALID"):
+            enroll(sign(final), trust_policy(), state(zero), 150, history=(sign(one),))
+    earlier = (*entries[:3], entries[3].model_copy(update={"retired_at": 110}), entries[4])
+    two = registry_body(sequence=2, previous=one.identity(), entries=earlier)
+    three = registry_body(sequence=3, previous=two.identity(), entries=earlier)
+    result = enroll(sign(three), trust_policy(), state(zero), 150, history=(sign(one), sign(two)))
+    assert "model" not in {entry.kind for entry in result.admitted}
+
+
 def test_intermediate_signatures_future_and_nonmonotonic_times() -> None:
     zero, one, two = chain()
     invalid = one.model_copy(

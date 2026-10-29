@@ -5,9 +5,16 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
-from hallmark.enrollment import Enrollment, RegistryState, SignedRegistry, TrustPolicy, enroll
+from hallmark.enrollment import (
+    Enrollment,
+    RegistryState,
+    SignedRegistry,
+    TrustPolicy,
+    enroll,
+    validate_successor,
+)
 from hallmark.errors import HallmarkError
-from hallmark.registry import SignedTransition, enroll_transition, validate_successor
+from hallmark.registry import SignedTransition, enroll_transition
 from hallmark.registry_store import _connect
 from hallmark.wire import WireLimits
 

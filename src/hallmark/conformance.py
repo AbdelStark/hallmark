@@ -2,7 +2,6 @@
 
 import hashlib
 import os
-import stat
 from pathlib import Path
 from typing import Annotated, Literal, Self
 
@@ -13,7 +12,14 @@ from hallmark.contracts import Identifier
 from hallmark.enrollment import TrustPolicy
 from hallmark.errors import ERROR_CODES, ErrorCode, HallmarkError
 from hallmark.integrity import parse_json
-from hallmark.manifests import ArtifactDigest, Digest32, FileRef, _Artifact, _Record
+from hallmark.manifests import (
+    ArtifactDigest,
+    Digest32,
+    FileRef,
+    _Artifact,
+    _Record,
+    _verify_file,
+)
 from hallmark.policy import RequestExpectation
 from hallmark.wire import H, WireError, WireValue
 
@@ -312,35 +318,14 @@ def _read_file(root: Path, ref: FileRef) -> bytes:
     ref = ref._validated()
     if ref.size > MAX_INPUT_BYTES:
         raise WireError("LIMIT_EXCEEDED")
-    parent = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     try:
-        parts = ref.path.split("/")
-        for part in parts[:-1]:
-            child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
-            os.close(parent)
-            parent = child
-        fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
-        with os.fdopen(fd, "rb") as handle:
-            before = os.fstat(handle.fileno())
-            if (
-                not stat.S_ISREG(before.st_mode)
-                or before.st_nlink != 1
-                or before.st_size != ref.size
-            ):
-                raise WireError("INPUT_INVALID")
-            raw = handle.read(ref.size + 1)
-            after = os.fstat(handle.fileno())
-        if (
-            len(raw) != ref.size
-            or hashlib.sha256(raw).digest() != ref.sha256
-            or after.st_nlink != 1
-            or (before.st_size, before.st_mtime_ns, before.st_ctime_ns)
-            != (after.st_size, after.st_mtime_ns, after.st_ctime_ns)
-        ):
-            raise WireError("INPUT_INVALID")
-        return raw
+        return _verify_file(root_fd, ref, set(), retain=True)
+    except HallmarkError:
+        pass
     finally:
-        os.close(parent)
+        os.close(root_fd)
+    raise WireError("INPUT_INVALID")
 
 
 def load_corpus(path: Path) -> Corpus:
