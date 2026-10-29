@@ -1,5 +1,6 @@
 import fcntl
 import json
+import sys
 import time
 from pathlib import Path
 
@@ -109,6 +110,24 @@ def test_missing_process_is_not_restarted(runner, root, workflow):
         manager.closed = True
 
 
+def test_failed_recovery_marks_the_run_interrupted(runner, root, workflow):
+    manager, _ = runner
+    run = wait(manager, manager.start("fixture", {})["id"])
+    manager.close(grace=0)
+    saved = root / "runs/workbench" / run["id"] / "state.json"
+    data = json.loads(saved.read_text())
+    data.update(status="running", pid=99999999, process_created=0)
+    saved.write_text(json.dumps(data))
+    (saved.parent / "driver.log").unlink()
+    recovered = RunManager(root, workflows={"fixture": workflow})
+    try:
+        assert recovered.snapshot(run["id"])["status"] == "interrupted"
+        assert json.loads(saved.read_text())["status"] == "interrupted"
+        assert recovered.start("fixture", {})["status"] == "running"
+    finally:
+        recovered.close(grace=2)
+
+
 def test_cancelled_cloud_run_requires_cleanup_evidence(runner):
     manager, script = runner
     script.write_text(
@@ -158,6 +177,33 @@ def test_local_stop_escalates_for_an_unresponsive_process(runner, monkeypatch):
     assert done["status"] == "cancelled" and not alive(done["pid"], done["process_created"])
 
 
+def test_stop_through_uv_delivers_one_interrupt_and_cleanup_completes(runner, monkeypatch):
+    from hallmark_demo import engine
+
+    manager, script = runner
+    if not manager.uv.is_file():
+        pytest.skip("uv is not installed beside the app interpreter")
+    script.write_text(
+        "import signal,time\nfrom pathlib import Path\n"
+        "def handler(*_):\n"
+        "    with open('runs/signals.log','a') as f: f.write('SIGINT\\n')\n"
+        "    raise KeyboardInterrupt\n"
+        "signal.signal(signal.SIGINT,handler)\n"
+        "try:\n    print('Ready',flush=True)\n    time.sleep(60)\n"
+        "except KeyboardInterrupt:\n    time.sleep(1.5)\n    Path('runs/cleanup.done').touch()\n"
+    )
+    command = [str(manager.uv), "run", "--no-project", "--offline"]
+    command += ["--python", sys.executable, "python", str(script)]
+    monkeypatch.setattr(engine, "plan", lambda *a: dict(command=command, paid=True, ceiling="0"))
+    run = manager.start("fixture", {})
+    wait(manager, run["id"], lambda r: any(e["message"] == "Ready" for e in r["events"]))
+    manager.cancel(run["id"])
+    done = wait(manager, run["id"])
+    assert done["status"] == "cancelled"
+    assert (manager.root / "runs/cleanup.done").is_file()
+    assert (manager.root / "runs/signals.log").read_text() == "SIGINT\n"
+
+
 def test_stage_logs_are_streamed_and_redacted(runner):
     manager, script = runner
     script.write_text(
@@ -190,7 +236,9 @@ def test_api_and_receipt_do_not_leak_report_secrets_or_credit_balance(runner):
     assert done["status"] == "succeeded"
     assert done["result"]["secret"] == "[redacted]"
     manager.runs[done["id"]]["parameters"]["balance"] = "123.45"
-    assert "balance" not in manager.receipt(done["id"])["run"]["parameters"]
+    manager.runs[done["id"]]["command"] += ["--credit-balance-usd", "123.45"]
+    receipt = manager.receipt(done["id"])
+    assert "balance" not in receipt["run"]["parameters"] and "123.45" not in json.dumps(receipt)
     with pytest.raises(ValueError, match="sensitive"):
         manager.artifact(
             done["id"], next(a["id"] for a in done["artifacts"] if a["name"] == "result.json")
@@ -207,7 +255,8 @@ def test_report_reader_rejects_ambiguous_nonobject_or_nonfinite_json(root, raw):
         read_json(path)
 
 
-def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkeypatch):
+@pytest.mark.parametrize("error", [OSError, KeyError])
+def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkeypatch, error):
     manager, script = runner
     script.write_text(script.read_text().replace("time.sleep(.2)", "time.sleep(.7)"))
     sample = manager._sample
@@ -216,7 +265,7 @@ def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkey
     def flaky(run):
         if not observed:
             observed.append(run["pid"])
-            raise OSError("temporary process observation failure")
+            raise error("temporary process observation failure")
         return sample(run)
 
     monkeypatch.setattr(manager, "_sample", flaky)
@@ -234,6 +283,8 @@ def test_partial_price_plan_is_retried_and_artifact_ids_stay_stable(runner):
     current = wait(manager, run["id"], lambda r: bool(r["output"]))
     output = Path(current["output"])
     (output / "protocol.json").write_text("{}")
+    (output / "mlp-training").mkdir()
+    (output / "mlp-training/result.json").write_text("{}")
     price = manager.directory / run["id"] / "resource-plan.json"
     price.write_text("{")
     first = wait(manager, run["id"], lambda r: bool(r["artifacts"]))
@@ -244,6 +295,7 @@ def test_partial_price_plan_is_retried_and_artifact_ids_stay_stable(runner):
     assert done["resource_plan"] == {"bound": 1}
     assert next(a["id"] for a in done["artifacts"] if a["name"] == "protocol.json") == protocol_id
     assert manager.artifact(run["id"], protocol_id) == (b"{}", "protocol.json")
+    assert "mlp-training/result.json" in {a["name"] for a in done["artifacts"]}
 
 
 def test_unowned_storage_is_preserved(root):

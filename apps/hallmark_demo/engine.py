@@ -163,7 +163,11 @@ class RunManager:
                         run["status"] = "detached"
                         self._monitor_thread(run["id"])
                     else:
-                        self._finish(run, None)
+                        try:
+                            self._finish(run, None)
+                        except (ValueError, KeyError, TypeError, OSError):
+                            # A missing log or old state must not leave a run active forever.
+                            run.update(status="failed", ended_at=now(), ended_unix=time.time())
                         if run["status"] == "failed":
                             run["status"] = "interrupted"
                             run["error"] = (
@@ -230,10 +234,10 @@ class RunManager:
             )
             return self._redact_view(run)
 
-    def checks(self, workflow, parameters=None):
+    def checks(self, workflow):
         if workflow not in self.workflows:
             raise ValueError("Unknown workflow")
-        return preflight(self.root, self.workflows[workflow], self.uv, parameters)
+        return preflight(self.root, self.workflows[workflow], self.uv)
 
     def start(self, workflow_id, parameters):
         with self.lock:
@@ -252,7 +256,7 @@ class RunManager:
             workflow = self.workflows[workflow_id]
             self.redact = Redactor(self.root)
             prepared = plan(self.root, workflow, parameters, self.uv)
-            checks = self.checks(workflow_id, prepared.get("parameters"))
+            checks = self.checks(workflow_id)
             if any(not check["ok"] for check in checks):
                 raise ValueError(
                     "Preflight failed: "
@@ -533,10 +537,9 @@ class RunManager:
             "result.json",
             "failure.json",
             "protocol.json",
-            "source-pins.json",
             "environment.json",
             "proofs/result.json",
-            "mlp-training/results.json",
+            "mlp-training/result.json",
             "cnn-training/results.json",
         ):
             path = root / relative
@@ -559,9 +562,7 @@ class RunManager:
         cleanup_required = False
         folders = [root, *(Path(p) for p in run.get("child_outputs", []))]
         for parent, phase in (
-            (parent, phase)
-            for parent in folders
-            for phase in ("build", "prove", "benchmark", "verify")
+            (parent, phase) for parent in folders for phase in ("build", "prove", "verify")
         ):
             folder = parent / phase
             try:
@@ -682,7 +683,7 @@ class RunManager:
                     else:
                         self._finish(run, code)
                         return
-                except (ValueError, OSError, psutil.Error) as error:
+                except Exception as error:  # Any escape would end monitoring with the run active.
                     self._event(run, "error", str(error))
                     if isinstance(error, MonitoringLimitError) and live:
                         self.cancel(key)
@@ -706,7 +707,8 @@ class RunManager:
         ):
             return
         try:
-            os.killpg(run["pid"], signal.SIGINT)
+            # uv forwards SIGINT itself; a group signal would interrupt the driver's cleanup.
+            os.kill(run["pid"], signal.SIGINT)
             run["cancel_signalled"] = True
         except ProcessLookupError:
             pass
@@ -741,6 +743,7 @@ class RunManager:
     def receipt(self, key):
         run = self.snapshot(key)
         run["parameters"] = {k: v for k, v in run["parameters"].items() if k != "balance"}
+        run.pop("command")  # GPU commands carry --credit-balance-usd.
         return dict(
             schema_id="hallmark.demo-receipt/1",
             exported_at=now(),

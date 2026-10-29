@@ -10,7 +10,7 @@ import pytest
 from hallmark_demo import engine
 from hallmark_demo.client import Client
 from hallmark_demo.server import DemoServer
-from hallmark_demo.tui import Workbench
+from hallmark_demo.tui import QuitRun, Workbench
 
 
 @pytest.fixture
@@ -98,6 +98,24 @@ def test_terminal_keyboard_runs_workflow_and_reads_same_api(interface_server):
             await pilot.pause()
             assert app.query_one("#setup").display
             await pilot.press("q")
+
+    asyncio.run(exercise())
+
+
+def test_terminal_ctrl_q_confirms_before_stopping_an_active_run(interface_server, root):
+    (root / "software.py").write_text("import time\ntime.sleep(30)\n")
+    interface_server.manager.start("conformance", {})
+
+    async def exercise():
+        app = Workbench(Client(interface_server.origin), owns_server=True)
+        async with app.run_test() as pilot:
+            await app.refresh_runs()
+            await pilot.press("ctrl+q")
+            await pilot.pause()
+            assert isinstance(app.screen, QuitRun)
+            await pilot.click("#keep")
+            await pilot.pause()
+            assert app.is_running
 
     asyncio.run(exercise())
 
