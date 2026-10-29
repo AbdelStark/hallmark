@@ -746,6 +746,7 @@ class RunManager:
     def receipt(self, key):
         run = self.snapshot(key)
         run["parameters"] = {k: v for k, v in run["parameters"].items() if k != "balance"}
+        run.pop("command")  # GPU commands carry --credit-balance-usd.
         return dict(
             schema_id="hallmark.demo-receipt/1",
             exported_at=now(),

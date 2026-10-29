@@ -236,7 +236,9 @@ def test_api_and_receipt_do_not_leak_report_secrets_or_credit_balance(runner):
     assert done["status"] == "succeeded"
     assert done["result"]["secret"] == "[redacted]"
     manager.runs[done["id"]]["parameters"]["balance"] = "123.45"
-    assert "balance" not in manager.receipt(done["id"])["run"]["parameters"]
+    manager.runs[done["id"]]["command"] += ["--credit-balance-usd", "123.45"]
+    receipt = manager.receipt(done["id"])
+    assert "balance" not in receipt["run"]["parameters"] and "123.45" not in json.dumps(receipt)
     with pytest.raises(ValueError, match="sensitive"):
         manager.artifact(
             done["id"], next(a["id"] for a in done["artifacts"] if a["name"] == "result.json")
