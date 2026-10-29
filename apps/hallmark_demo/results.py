@@ -13,7 +13,6 @@ METRICS = {
     "direct_public_mutations_rejected": "Public-input rejections",
     "roster_rejections": "Roster rejections",
     "residual_links": "Residual links",
-    "arithmetic_cases": "Arithmetic cases",
     "matched": "Software cases",
     "baseline_mutations_rejected": "Baseline mutations rejected",
     "native_enrollment_mutations_rejected": "Enrollment mutations rejected",

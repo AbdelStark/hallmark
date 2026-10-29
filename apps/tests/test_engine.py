@@ -283,6 +283,8 @@ def test_partial_price_plan_is_retried_and_artifact_ids_stay_stable(runner):
     current = wait(manager, run["id"], lambda r: bool(r["output"]))
     output = Path(current["output"])
     (output / "protocol.json").write_text("{}")
+    (output / "mlp-training").mkdir()
+    (output / "mlp-training/result.json").write_text("{}")
     price = manager.directory / run["id"] / "resource-plan.json"
     price.write_text("{")
     first = wait(manager, run["id"], lambda r: bool(r["artifacts"]))
@@ -293,6 +295,7 @@ def test_partial_price_plan_is_retried_and_artifact_ids_stay_stable(runner):
     assert done["resource_plan"] == {"bound": 1}
     assert next(a["id"] for a in done["artifacts"] if a["name"] == "protocol.json") == protocol_id
     assert manager.artifact(run["id"], protocol_id) == (b"{}", "protocol.json")
+    assert "mlp-training/result.json" in {a["name"] for a in done["artifacts"]}
 
 
 def test_unowned_storage_is_preserved(root):

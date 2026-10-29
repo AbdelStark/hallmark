@@ -537,10 +537,9 @@ class RunManager:
             "result.json",
             "failure.json",
             "protocol.json",
-            "source-pins.json",
             "environment.json",
             "proofs/result.json",
-            "mlp-training/results.json",
+            "mlp-training/result.json",
             "cnn-training/results.json",
         ):
             path = root / relative
@@ -563,9 +562,7 @@ class RunManager:
         cleanup_required = False
         folders = [root, *(Path(p) for p in run.get("child_outputs", []))]
         for parent, phase in (
-            (parent, phase)
-            for parent in folders
-            for phase in ("build", "prove", "benchmark", "verify")
+            (parent, phase) for parent in folders for phase in ("build", "prove", "verify")
         ):
             folder = parent / phase
             try:
