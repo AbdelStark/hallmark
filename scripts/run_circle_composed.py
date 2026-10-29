@@ -108,7 +108,7 @@ def run(*, llm_run=None, classifier_run=None, enrollment=None, trusted_key=None)
         if run_e2e.sha(binary) != proof_protocol["verifier_sha256"]:
             raise ValueError("caller verifier binary changed after proof creation")
         budget = RunBudget(
-            output, time.monotonic() + 900, 240, 240, 900, 4, 4 * 1024**3, 256 * 1024**2
+            output, time.monotonic() + 900, 240, 240, 900, 4 * 1024**3, 256 * 1024**2
         )
         for job in jobs:
             work = output / ("verify-" + job["kind"])

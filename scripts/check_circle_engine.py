@@ -42,7 +42,7 @@ def run(
     output.mkdir(mode=0o700)
     output = output.resolve()
     started = time.monotonic()
-    budget = RunBudget(output, started + 600, 600, 180, 600, 4, 16 * 1024**3, 4 * 1024**3)
+    budget = RunBudget(output, started + 600, 600, 180, 600, 16 * 1024**3, 4 * 1024**3)
     json_new(
         output / "protocol.json",
         dict(

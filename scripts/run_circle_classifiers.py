@@ -72,7 +72,7 @@ def run(
     plan, corpus = comparison.documents()
     if shutil.disk_usage(ROOT).free < plan["limits"]["min_free_storage_bytes"]:
         raise ValueError("classifier acceptance requires at least 8 GiB free storage")
-    budget = RunBudget(output, started + 1800, 600, 180, 1800, 4, 30 * 1024**3, 4 * 1024**3)
+    budget = RunBudget(output, started + 1800, 600, 180, 1800, 30 * 1024**3, 4 * 1024**3)
     source_paths = [
         *sorted((ROOT / "src/hallmark").glob("*.py")),
         *sorted((ROOT / "scripts").glob("*circle*.py")),
