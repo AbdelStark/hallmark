@@ -33,3 +33,15 @@ def test_scalar_contract_does_not_silently_accept_changed_rounding():
     corpus["rounding"][0]["expected"] += 1
     with pytest.raises(ValueError, match="rounding contract"):
         comparison.scalar_conformance(corpus)
+
+
+@pytest.mark.train
+def test_cnn_admission_bound_rejects_possible_i32_overflow(synthetic_exports):
+    from hallmark.wire import decode, encode
+
+    exported = synthetic_exports["encoder"]
+    assert comparison.cnn_integer_bounds(exported)["head_max_absolute_partial_or_product"] < 2**31
+    weights = decode(exported["weights"])
+    weights["tensors"]["convolution-w"] = [2**31] * len(weights["tensors"]["convolution-w"])
+    with pytest.raises(ValueError, match="i32 bounds"):
+        comparison.cnn_integer_bounds(dict(exported, weights=encode(weights)))

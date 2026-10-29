@@ -13,7 +13,7 @@ jobs:
         with:
           persist-credentials: false
       - run: rustup toolchain install nightly-2025-07-14 --profile minimal
-      - run: cargo +nightly-2025-07-14 test --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --lib -j 2
+      - run: cargo +nightly-2025-07-14 test --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --tests -j 2
       - run: cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --features prover --bin circle-prove -j 2
       - run: cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 2
       - name: Verify a serialized gate proof in a separate verifier process
