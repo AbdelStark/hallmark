@@ -163,7 +163,11 @@ class RunManager:
                         run["status"] = "detached"
                         self._monitor_thread(run["id"])
                     else:
-                        self._finish(run, None)
+                        try:
+                            self._finish(run, None)
+                        except (ValueError, KeyError, TypeError, OSError):
+                            # A missing log or old state must not leave a run active forever.
+                            run.update(status="failed", ended_at=now(), ended_unix=time.time())
                         if run["status"] == "failed":
                             run["status"] = "interrupted"
                             run["error"] = (
@@ -682,7 +686,7 @@ class RunManager:
                     else:
                         self._finish(run, code)
                         return
-                except (ValueError, OSError, psutil.Error) as error:
+                except Exception as error:  # Any escape would end monitoring with the run active.
                     self._event(run, "error", str(error))
                     if isinstance(error, MonitoringLimitError) and live:
                         self.cancel(key)

@@ -110,6 +110,24 @@ def test_missing_process_is_not_restarted(runner, root, workflow):
         manager.closed = True
 
 
+def test_failed_recovery_marks_the_run_interrupted(runner, root, workflow):
+    manager, _ = runner
+    run = wait(manager, manager.start("fixture", {})["id"])
+    manager.close(grace=0)
+    saved = root / "runs/workbench" / run["id"] / "state.json"
+    data = json.loads(saved.read_text())
+    data.update(status="running", pid=99999999, process_created=0)
+    saved.write_text(json.dumps(data))
+    (saved.parent / "driver.log").unlink()
+    recovered = RunManager(root, workflows={"fixture": workflow})
+    try:
+        assert recovered.snapshot(run["id"])["status"] == "interrupted"
+        assert json.loads(saved.read_text())["status"] == "interrupted"
+        assert recovered.start("fixture", {})["status"] == "running"
+    finally:
+        recovered.close(grace=2)
+
+
 def test_cancelled_cloud_run_requires_cleanup_evidence(runner):
     manager, script = runner
     script.write_text(
@@ -235,7 +253,8 @@ def test_report_reader_rejects_ambiguous_nonobject_or_nonfinite_json(root, raw):
         read_json(path)
 
 
-def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkeypatch):
+@pytest.mark.parametrize("error", [OSError, KeyError])
+def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkeypatch, error):
     manager, script = runner
     script.write_text(script.read_text().replace("time.sleep(.2)", "time.sleep(.7)"))
     sample = manager._sample
@@ -244,7 +263,7 @@ def test_transient_observation_failure_does_not_cancel_or_restart(runner, monkey
     def flaky(run):
         if not observed:
             observed.append(run["pid"])
-            raise OSError("temporary process observation failure")
+            raise error("temporary process observation failure")
         return sample(run)
 
     monkeypatch.setattr(manager, "_sample", flaky)
