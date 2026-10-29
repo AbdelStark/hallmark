@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+Fix every finding of the 2026-10-29 audit (#159, decision 0091): startup-inclusive
+paid ceilings counted once ($2.50 for CLI and composed LLM runs), the `DELETED`
+job stage, GPU preflights and cleanup tests; workbench Stop, recovery, receipt,
+quit and preflight fixes; registry successor enforcement; sandboxed signals
+confined to the worker's sandbox; the verifier time limit; CNN int32 admission
+bound; restored worker tests, a CNN circuit test and Rust verifier rejection tests
+in CI; two native LLM statement mutations. Remove the unused `pytest-cov`
+dependency and the remaining pairing-backend leftovers. The LLM verifier identity
+becomes `39d2ee50…`; the Circle backend identity is unchanged.
+
 Remove the former classifier proof backend: its Go circuits, separate Python
 verifier, `BACKEND` Make dispatch, `hallmark qualify`, the matched comparison
 benchmark, the `proof-artifacts` CI job, the two dependent app workflows and its

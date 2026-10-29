@@ -21,7 +21,7 @@ hallmark = "hallmark.cli:main"
 
 [dependency-groups]
 build = ["hatchling==1.32.4", "packaging==26.3", "pathspec==1.1.1", "pluggy==1.7.0", "tomlkit==0.15.2", "trove-classifiers==2026.9.21.13"]
-dev = ["mypy>=1.15,<2", "pytest>=8.3,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1"]
+dev = ["mypy>=1.15,<2", "pytest>=8.3,<10", "ruff>=0.11,<1"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hallmark"]
@@ -50,10 +50,3 @@ ignore_missing_imports = true
 testpaths = ["tests"]
 addopts = "-ra --strict-markers"
 markers = ["train: requires the train extra, uses only synthetic local fixtures"]
-
-[tool.coverage.run]
-source = ["hallmark"]
-branch = true
-
-[tool.coverage.report]
-show_missing = true

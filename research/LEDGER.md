@@ -3195,3 +3195,23 @@ Pass criteria: `make check` and train/app/docs gates pass, and bare `make e2e`
 produces nine freshly verified Circle proofs with the same caller enrollment pin.
 Acceptance results are recorded in the decision and its PR. No security, hiding,
 hardware or qualification claim changes.
+
+## 2026-10-29: audit fixes
+
+Owner request: fix every finding of the whole-repository audit, with dedicated
+issues (#138–#158, tracking #159) and strict validation on main. Six PRs
+(#160–#165) were split by file ownership; this record's PR adds
+[decision 0091](../docs/decisions/0091-audit-fixes.md), the dependency removal and
+the [numeric validation](evidence/audit-fixes-validation-2026-10-29.json).
+Hypothesis: every finding is fixed without changing the Circle backend identity,
+enrollment pin, models, thresholds or proof relations. Pass criterion: all local
+gates, a fresh `make e2e`, the documented conformance command, native
+verification of the published LLM proofs, and hosted CI.
+
+Result on main `1bc6b72`: `make e2e` 253.87 s, nine fresh proofs and all 84
+rejections; conformance 187.60 s, ten boundaries and 22 constraint rejections;
+native LLM verification 203.59 s, all 38 mutations rejected with identity
+`39d2ee50…5879ef`. Circle backend identity `c035913b…1ded7d` and pin `56c29c74…`
+are unchanged. Retained failure: one stale local mypy cache error, cleared.
+The CLI LLM ceiling rises from $2.10 to the workbench's existing $2.50 because the
+startup-inclusive worst case is $2.27. No cloud job or spend.
