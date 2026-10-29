@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 import pytest
-from test_trained_common import fixture as fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import circle_backend as backend
@@ -17,17 +16,9 @@ import run_circle_e2e
 pytestmark = pytest.mark.train
 
 
-def test_native_preparation_has_identical_circle_enrollment_without_keys(fixture):
-    _, _, exports, _, legacy, _, *_ = fixture
-    native, policy = circle_inputs.native_templates(exports)
+def test_native_templates_carry_no_keys_and_enroll(synthetic_exports):
+    native, policy = circle_inputs.native_templates(synthetic_exports)
     assert all("key" not in n for n in native)
-    for before, after in zip(legacy, native, strict=True):
-        before = before["classifier"].model_dump()
-        after = after["classifier"].model_dump()
-        for field in ("backend", "verifier_key", "setup"):
-            before.pop(field)
-            after.pop(field)
-        assert before == after
     engines = {
         kind: comparison.encoded(
             dict(
@@ -38,12 +29,16 @@ def test_native_preparation_has_identical_circle_enrollment_without_keys(fixture
         )
         for i, kind in enumerate(backend.KINDS)
     }
-    assert backend.enroll(engines, native) == backend.enroll(engines, legacy)
+    raw = backend.enroll(engines, native)
+    records, _, _ = backend.resolve(raw, comparison.sha(raw), native, policy)
+    assert [r["classifier"].backend for r in records] == [backend.source_identity()[0]] * 3
     assert policy.max_prompt_bytes == 96
 
 
-def test_native_preparation_rejects_changed_request_and_pin(fixture, tmp_path, monkeypatch):
-    exports = fixture[2]
+def test_native_preparation_rejects_changed_request_and_pin(
+    synthetic_exports, tmp_path, monkeypatch
+):
+    exports = synthetic_exports
     monkeypatch.setattr(comparison, "exports", lambda _: copy.deepcopy(exports))
     monkeypatch.setattr(comparison, "EXPORTS", {})
     pin = circle_inputs.create(tmp_path)
@@ -63,19 +58,12 @@ def test_circle_unsupported_host_stops_before_output(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "target,driver,legacy",
-    [
-        ("e2e", "run_circle_e2e.py", "run_e2e.py"),
-        ("e2e-composed", "run_circle_composed.py", "run_composed.py"),
-    ],
+    "target,driver", [("e2e", "run_circle_e2e.py"), ("e2e-composed", "run_circle_composed.py")]
 )
-def test_make_defaults_circle_and_preserves_explicit_gnark(target, driver, legacy):
+def test_make_targets_run_circle(target, driver):
     root = Path(__file__).resolve().parents[1]
     command = ["make", "--no-print-directory", "-n", target]
-    default = subprocess.check_output(command, cwd=root, text=True)
-    baseline = subprocess.check_output([*command, "BACKEND=gnark"], cwd=root, text=True)
-    assert driver in default and legacy not in default
-    assert legacy in baseline and driver not in baseline
+    assert driver in subprocess.check_output(command, cwd=root, text=True)
 
 
 @pytest.mark.parametrize("bad_authority", [True, False])

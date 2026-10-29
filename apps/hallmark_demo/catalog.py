@@ -57,27 +57,6 @@ class Workflow:
         return asdict(self)
 
 
-ENV = Stage(
-    "prepare",
-    "Prepare environment",
-    (
-        "python-packages",
-        "download-go",
-        "go-version",
-        "download-modules",
-        "verify-modules",
-        "verifier-env",
-        "verifier-packages",
-    ),
-)
-CLASSIFIERS = (
-    ENV,
-    Stage("compile", "Compile classifier circuits", ("build-circuits",)),
-    Stage("mlp", "Train and export MLP", ("mlp-training",)),
-    Stage("cnn", "Train and export CNN", ("cnn-training",)),
-    Stage("prove", "Prove and independently verify", ("proofs",)),
-    Stage("checks", "Check binding and arithmetic", ("check-results",)),
-)
 LLM_EXAMPLE = Example(
     title="Fixed TinyLlama case",
     prompt="Name the capital of France in one short sentence.",
@@ -172,20 +151,6 @@ WORKFLOWS = (
         local_when="llm_run",
     ),
     Workflow(
-        id="classifiers",
-        title="gnark classifier baseline",
-        summary="Train an MLP and CNN; prove three classifiers on three requests.",
-        scheme="gnark / Groth16",
-        claim="Nine execution proofs, verified with separate py-ecc arithmetic.",
-        duration="About 20 min + builds",
-        disk_gib=12,
-        paid_ceiling=None,
-        fields=(),
-        stages=CLASSIFIERS,
-        schema="hallmark.e2e-result/1",
-        docs="docs/DEMO.md",
-    ),
-    Workflow(
         id="llm",
         title="TinyLlama response",
         summary="Prove the fixed short answer through EOS using bounded HF CPU jobs.",
@@ -226,31 +191,6 @@ WORKFLOWS = (
         example=LLM_EXAMPLE,
     ),
     Workflow(
-        id="composed",
-        title="Mixed-backend comparison",
-        summary="Verify the LLM bundle and bind three fresh classifier proofs to its request.",
-        scheme="Circle STARK + Groth16",
-        claim="Host composition over a common request; no recursive aggregation.",
-        duration="About 1 hour from scratch",
-        disk_gib=32,
-        paid_ceiling="2.50",
-        fields=(LLM_RUN, CLASSIFIER_RUN, replace(LLM_COST, read_only=True)),
-        stages=(
-            Stage(
-                "prepare",
-                "Prepare classifiers and LLM",
-                ("python-packages", "build-circuits", "mlp-training", "cnn-training", "proofs"),
-            ),
-            Stage("verify", "Fresh LLM verification", ("Building the verifier", "verify-llm")),
-            Stage("prove", "Prove classifiers on this request", ("classifiers",)),
-            Stage("checks", "Check common-request binding", ("check-results",)),
-        ),
-        schema="hallmark.composed-request-result/1",
-        docs="docs/COMPOSED-DEMO.md",
-        example=LLM_EXAMPLE,
-        local_when="llm_run",
-    ),
-    Workflow(
         id="gpu",
         title="CPU / GPU prover benchmark",
         summary="Run matched SIMD and CUDA proving on one H200, then verify.",
@@ -286,12 +226,6 @@ WORKFLOWS = (
         docs="docs/START.md",
         mac_only=False,
     ),
-)
-# Preserve legacy IDs and result schemas for retained workbench history.
-WORKFLOWS = (
-    tuple(w for w in WORKFLOWS if w.id not in {"classifiers", "composed", "conformance"})
-    + tuple(w for w in WORKFLOWS if w.id in {"classifiers", "composed"})
-    + tuple(w for w in WORKFLOWS if w.id == "conformance")
 )
 CATALOG = {item.id: item for item in WORKFLOWS}
 
@@ -359,15 +293,12 @@ def plan(root, workflow, parameters, uv):
         args += ["--extra", "train", "python", "scripts/run_circle_e2e.py"]
         if classifier:
             args += ["--classifier-run", str(classifier)]
-    elif workflow.id == "classifiers":
-        args += ["--extra", "train", "python", "scripts/run_e2e.py"]
     elif workflow.id == "llm":
         args += ["--extra", "llm", "python", "scripts/run_llm_e2e.py", "--max-cost-usd", maximum]
     elif workflow.id == "verify-llm":
         args += ["python", "scripts/verify_llm.py", "--run", str(llm)]
-    elif workflow.id in {"composed", "composed-circle"}:
-        driver = "run_circle_composed.py" if workflow.id == "composed-circle" else "run_composed.py"
-        args += ["--extra", "train", "--extra", "llm", "python", "scripts/" + driver]
+    elif workflow.id == "composed-circle":
+        args += ["--extra", "train", "--extra", "llm", "python", "scripts/run_circle_composed.py"]
         if llm:
             args += ["--llm-run", str(llm)]
             paid = False
@@ -403,7 +334,7 @@ def plan(root, workflow, parameters, uv):
         ]
     else:
         raise ValueError("Workflow has no command adapter")
-    adapter = workflow.id in {"llm", "gpu", "composed", "composed-circle"}
+    adapter = workflow.id in {"llm", "gpu", "composed-circle"}
     if adapter:
         index = next(i for i, item in enumerate(args) if item.startswith("scripts/"))
         args[index : index + 1] = [
@@ -413,7 +344,7 @@ def plan(root, workflow, parameters, uv):
             "--workflow",
             workflow.id,
         ]
-        if workflow.id in {"composed", "composed-circle"}:
+        if workflow.id == "composed-circle":
             args += ["--max-cost-usd", maximum]
     return dict(
         command=args,

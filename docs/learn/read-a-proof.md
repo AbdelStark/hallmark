@@ -47,7 +47,6 @@ program, preprocessing roots and concrete proof parameters. The caller reconstru
 
 **Cryptographic checks:** dedicated Circle STARK proofs checked by fresh
 proof-only STWO processes against those inputs and the enrolled preprocessing.
-The optional gnark comparison uses separate py-ecc pairing arithmetic.
 
 **Outside the claim:** training history, a useful safety policy or a confidential
 input capture mechanism. The combined demo limit is 96 UTF-8 bytes.

@@ -16,11 +16,12 @@ import time
 from pathlib import Path
 
 import circle_backend as backend
+import circle_inputs
 import classifier_comparison as comparison
 import trained_common_input as common
 from check_circle_engine import encode
 
-from hallmark._gnark_probe import RunBudget, invoke, json_new, read_regular, write_new
+from hallmark._worker import RunBudget, invoke, json_new, read_regular, write_new
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,7 +61,6 @@ def run(
     verifier_pin,
     output,
     *,
-    native_preparation=False,
     llm=False,
 ):
     for binary, pin in ((prover, prover_pin), (verifier, verifier_pin)):
@@ -78,10 +78,9 @@ def run(
         *sorted((ROOT / "scripts").glob("*circle*.py")),
         ROOT / "scripts/classifier_comparison.py",
         ROOT / "scripts/trained_common_input.py",
-        ROOT / "scripts/run_contextual_proof.py",
-        ROOT / "scripts/run_trained_mlp.py",
+        ROOT / "scripts/contextual_proof.py",
+        ROOT / "scripts/trained_mlp.py",
         ROOT / "scripts/contextual_cnn.py",
-        ROOT / "scripts/common_input.py",
         ROOT / "configs/circle-classifiers/plan.json",
         ROOT / "configs/circle-classifiers/corpus.json",
     ]
@@ -95,7 +94,7 @@ def run(
             engine_sources=engine_sources,
             backend=backend_id.hex(),
             original_enrollment_pin=original_pin,
-            preparation_kind="native-only" if native_preparation else "legacy-gnark",
+            preparation_kind="native-only",
             composed=llm,
             prover_sha256=prover_pin,
             verifier_sha256=verifier_pin,
@@ -146,12 +145,7 @@ def run(
         return work
 
     try:
-        if native_preparation:
-            import circle_inputs
-
-            exported, originals, old_policy = circle_inputs.admit(prepared, original_pin)
-        else:
-            exported, originals, old_policy, _, _ = comparison.admitted(prepared, original_pin)
+        exported, originals, old_policy = circle_inputs.admit(prepared, original_pin)
         originals_by_case = {}
         if llm:
             import composed_input
@@ -164,9 +158,7 @@ def run(
         else:
             requested_cases = corpus["requests"]
             for case in requested_cases:
-                opening, expected = comparison.request(
-                    prepared / ("requests" if native_preparation else "proofs"), case["id"]
-                )
+                opening, expected = comparison.request(prepared / "requests", case["id"])
                 originals_by_case[case["id"]] = (opening, expected)
         opening, expected = next(iter(originals_by_case.values()))
         baseline_rows = common.evaluate(originals, old_policy, opening, expected)
@@ -187,7 +179,7 @@ def run(
             del circuit, trace
         enrollment = backend.enroll(engines, originals)
         enrollment_pin = comparison.sha(enrollment)
-        if native_preparation and enrollment_pin != circle_inputs.ENROLLMENT_PIN:
+        if enrollment_pin != circle_inputs.ENROLLMENT_PIN:
             raise ValueError("Circle enrollment differs from the independently admitted default")
         write_new(output / "caller-enrollment.json", enrollment)
         json_new(output / "caller-pin.json", dict(sha256=enrollment_pin, before_proving=True))
@@ -380,7 +372,7 @@ def main():
     for name in ("classifier-run", "prover", "verifier"):
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--output", type=Path)
-    for name in ("expected-enrollment", "expected-prover", "expected-verifier"):
+    for name in ("expected-preparation", "expected-prover", "expected-verifier"):
         parser.add_argument("--" + name, required=True)
     a = parser.parse_args()
     if a.output is None:
@@ -390,7 +382,7 @@ def main():
     print("Evidence: " + str(a.output.resolve()), flush=True)
     result = run(
         a.classifier_run.resolve(),
-        a.expected_enrollment,
+        a.expected_preparation,
         a.prover.resolve(),
         a.expected_prover,
         a.verifier.resolve(),

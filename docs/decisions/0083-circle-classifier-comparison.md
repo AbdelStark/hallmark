@@ -2,8 +2,9 @@
 
 Operational default superseded by [0085](0085-circle-default.md): Circle is now
 the owner-selected default. This document retains its original protocol and results.
+Superseded by [0087](0087-remove-pairing-backend.md): the pairing backend was removed.
 
-Date: 2026-10-27. Status: frozen protocol executed; retain both research paths with gnark default.
+Date: 2026-10-27. Status: frozen protocol executed.
 Implementation/evidence for epic #112 and #113–#117 are recorded below.
 
 ## Gate and frozen baseline
@@ -15,8 +16,7 @@ comparison. No speed advantage is assumed. Baseline is main
 `0b7fcf256e2b1da7f89578014bcc86e6737fc3f5`.
 
 The first acceptance gate is #113: executable frozen model/caller/corpus admission,
-native and actual gnark replay with fresh py-ecc verification, and the complete
-benchmark protocol. The full epic remains open until all three real STARK paths,
+native replay and the complete benchmark protocol. The full epic remains open until all three real STARK paths,
 nine-proof workflows, common-request LLM composition and repeated measurements
 pass. An infeasible candidate is a preserved result, not completion.
 
@@ -58,8 +58,7 @@ interpretations. A field equality alone does not establish an integer equality.
 The [engine review](../../research/circle-classifier-engine-review.md) selects
 pinned direct STWO 2.2.0, separately from SASH's Llama application. The experimental
 candidate passes complete rule/MLP/CNN acceptance; it is not an adopted backend
-and is not production-qualified. The [completed comparison](../CLASSIFIER-BENCHMARK.md)
-records repeated matched results and the retain-both recommendation. Reuse the Circle
+and is not production-qualified. Reuse the Circle
 FFT/FRI/Merkle/constraint framework, with specialized classifier and exact SHA-256
 constraints. There is no general-purpose VM.
 
@@ -71,39 +70,23 @@ input binding is separate from the engine's Blake2s transcript/Merkle hashes.
 
 Concrete FRI/lookup parameters and their soundness assumptions must accompany
 the results. M31/QM31 statistical bounds and implementation assumptions do not
-establish equal security to BLS12-381 Groth16. Neither path gains witness hiding,
+establish a concrete security level. The Circle path gains no witness hiding,
 hardware provenance, an audited setup ceremony or production qualification here.
 
 ## Measurements and resource bounds
 
-[The versioned plan](../../configs/circle-classifiers/plan.json) freezes all three
-cases, at least three fresh and five warm repetitions per case/backend, ordering,
-cache definitions, stages, numeric schema, failure handling and Mac resource caps
-before candidate measurement. Fresh means a fresh workspace including setup and
-preprocessing, with OS caches explicitly uncontrolled. Warm means new proof and
-fresh verifier, reusing admitted preparation only. Preserve failed samples and
-report successful counts plus median, range and IQR.
-
-The formal campaign identity is `circle-classifiers-matched-v1`, with sample IDs
-`fresh-00-gnark` through `fresh-02-circle` and `warm-00-gnark` through
-`warm-04-circle`, alternating backend order by repetition. The plan specifies the
-raw workflow/case/proof record fields, unavailable-value representation, shared
-costs and native timing scope. Each fresh workflow compiles from an empty object
-cache; installed toolchains, downloaded dependency sources and OS caches are
-reused and disclosed. Only successful derived object caches may be removed after
-their binary, byte counts and source/build records are retained. Failed builds
-stay intact. APFS clones preserve independently hashed regular input files while
-sharing physical blocks; materialization time remains measured.
-
-The gnark timing overlay applies only to an isolated source copy and adds
-observations around the existing compile, setup, witness, prove and serialization
-calls. It cannot alter the canonical source or enrolled circuit. Match its R1CS
-hashes against the frozen gnark baseline before admitting samples.
+[The versioned plan](../../configs/circle-classifiers/plan.json) freezes the three
+cases, host, threads, storage floor and failure handling before candidate
+measurement. Preserve failed samples. The matched comparison campaign
+(`circle-classifiers-matched-v1`), its sample schedule, timing overlay, scripts
+and report were removed with the pairing backend under
+[0087](0087-remove-pairing-backend.md); they remain in git history at
+`b7b8376b584836f29066708b663006c2cae7328e`.
 
 The earlier acceptance/conformance trials had protocol files written before
 execution, but precede publication of this decision commit. They are exploratory,
 retained under their original identities, and excluded from the formal matched
-sample set. Commit this decision and the frozen plan before starting that campaign.
+sample set.
 
 Report compilation, setup/preprocessing, model commitments, witness generation,
 proving, serialization, proof-only verification, caller binding and total wall
@@ -131,11 +114,10 @@ candidate pass, silently adopt a backend or waive any acceptance criterion.
 
 ## Measured outcome
 
-The [HF campaign and raw evidence](../CLASSIFIER-BENCHMARK.md) pass all 144
-measured proofs, fresh Mac postflight and the retained-LLM join. Keep gnark
-default and retain Circle experimentally. Lower complete-workflow time in this
-stateless harness trades against higher memory and larger proof files; gnark's
-instrumented proving stage is shorter on the representative control, while its
-combined assignment/R1CS/key parsing dominates its command. Concrete security
-profiles remain unequal/unqualified. No original classifier arithmetic, weights,
-thresholds or historical measurements are changed.
+The matched campaign passed all 144 measured proofs, a fresh Mac postflight and
+the retained-LLM join, and initially retained Circle experimentally behind the
+earlier default. In that stateless harness Circle had lower complete-workflow
+time, with higher memory and larger proof files than the baseline. Concrete security profiles remain unqualified.
+[0085](0085-circle-default.md) made Circle the default and
+[0087](0087-remove-pairing-backend.md) removed the baseline. No original
+classifier arithmetic, weights, thresholds or historical measurements are changed.

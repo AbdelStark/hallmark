@@ -8,16 +8,15 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import circle_backend as backend
-import common_input as original
+import circle_inputs
 from classifier_comparison import encoded, sha
+
+pytestmark = pytest.mark.train
 
 
 @pytest.fixture
-def enrollment():
-    old = encoded(
-        original.enroll({kind: bytes([i + 1]) * 5536 for i, kind in enumerate(original.KINDS)})
-    )
-    records, policy = original.resolve(old, sha(old))
+def enrollment(synthetic_exports):
+    records, policy = circle_inputs.native_templates(synthetic_exports)
     engines = {
         kind: encoded(
             dict(

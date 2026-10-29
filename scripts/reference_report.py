@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from hallmark._gnark_probe import write_new
+from hallmark._worker import write_new
 
 
 def load(path):

@@ -2,9 +2,8 @@
 
 2026-10-25. Issue #106. The retained-preparation composition in decision 0073
 passed twice. **Outcome:** the complete fresh default command passes in 4,010.05
-seconds after the descriptor and assembly-path fixes. The
-[numeric record](../../research/evidence/fresh-composed-2026-10-25.json) preserves
-three failed full runs, one deliberately interrupted run and one full success.
+seconds after the descriptor and assembly-path fixes. The numeric record
+preserves three failed full runs, one deliberately interrupted run and one full success.
 The original hypotheses and rejected candidates below remain part of the record.
 
 ## Frozen hypothesis

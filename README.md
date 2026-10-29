@@ -4,7 +4,7 @@
 
 [![Documentation](https://img.shields.io/badge/Docs-GitHub%20Pages-203c35?style=for-the-badge&logo=readthedocs&logoColor=white)](https://abdelstark.github.io/hallmark/)
 [![Research checks](https://img.shields.io/github/actions/workflow/status/AbdelStark/hallmark/check.yml?branch=main&style=for-the-badge&label=checks&logo=githubactions&logoColor=white)](https://github.com/AbdelStark/hallmark/actions/workflows/check.yml)
-[![Default prover: Circle STARK](https://img.shields.io/badge/Default_Prover-Circle_STARK-203c35?style=for-the-badge)](docs/CIRCLE-CLASSIFIERS.md)
+[![Prover: Circle STARK](https://img.shields.io/badge/Prover-Circle_STARK-203c35?style=for-the-badge)](docs/CIRCLE-CLASSIFIERS.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-566b55?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE.md)
 
 [![Hugging Face: Byte MLP](https://img.shields.io/badge/Hugging%20Face-Byte%20MLP-ffd21e?style=for-the-badge&logo=huggingface&logoColor=203c35)](https://huggingface.co/abdelstark/hallmark-byte-mlp)
@@ -15,9 +15,7 @@
 Hallmark proves a complete short response from a pinned, quantized
 **TinyLlama-1.1B** using **SASH Circle STARKs**, and proves rule, MLP and CNN
 classifier decisions using dedicated **STWO Circle STARK** circuits.
-Circle is the default throughout the CLI and workbench; **gnark/Groth16** remains
-an explicit comparison backend. A composed demo
-binds both to the same caller-owned request.
+A composed demo binds both to the same caller-owned request.
 
 **LLM · 23 Circle proofs · 53.94 s GPU proving session · 3.40–3.53 s compiled-root Mac verification · 737.86 MB proof JSON.**
 
@@ -91,7 +89,7 @@ transport for the **737,858,641-byte proof payload plus statements/claims**.
 **Apple M4 Max · 16 logical CPUs · 48 GiB RAM · macOS arm64 · four prover threads.**
 One fresh instrumented default controller on 2026-10-28, with populated dependency
 caches and an initially empty Rust target directory. It trains the frozen MLP/CNN
-and proves all three classifiers on all three control requests. No Groth16 setup.
+and proves all three classifiers on all three control requests.
 
 | Stage | C1 measurement | Boundary |
 |---|---:|---|
@@ -128,16 +126,6 @@ bindings/rosters**. Integrity passes; verdicts `[1,1,0]` make policy release fal
 It reuses LLM proof bytes and is **not fresh GPU proving**.
 [Exact join, timings and files](docs/REFERENCE-RUN.md#j1-same-request-composition).
 
-### Repeated classifier comparison — separate HF CPU experiment
-
-The original matched study retains three fresh and five warm workflows/backend,
-144 generated proofs and fresh Linux/Mac checks. Warm nine-proof medians are
-**298.88 s Circle / 781.25 s gnark** on HF `cpu-upgrade` (AMD EPYC 7R13; 8 provider
-vCPUs / 32 GB). Its 2.61× workflow ratio is not an equal-security proof-system
-ranking. Different machines and timing scopes prevent pooling those medians
-with C1. Gnark remains an explicit comparison backend.
-[All ranges, IQR, stages, sizes and raw samples](docs/CLASSIFIER-BENCHMARK.md).
-
 ## What exactly is proved?
 
 The current LLM case is:
@@ -150,8 +138,7 @@ Response: The capital of France is Paris.
 | Path | Cryptographic statement | Caller responsibilities |
 |---|---|---|
 | **LLM — SASH Circle STARK** | The enrolled quantized model computes the complete greedy answer through EOS: embedding, every transformer layer, final normalization and output argmax, with all segment/token links checked | Enroll expected model, shape and calibration roots and the exact token case; check pinned tokenization/detokenization outside the circuit |
-| **Classifiers — STWO Circle STARK (default)** | The same rule, MLP and CNN arithmetic, complete 96-byte input and exact salted SHA-256 commitment; nine real proofs pass fresh verification | Enroll fixed circuit/preprocessing and backend-specific identities before proving; reconstruct expected public inputs and complete roster; [details](docs/CIRCLE-CLASSIFIERS.md) |
-| **Classifiers — gnark/Groth16 comparison on BLS12-381** | A fixed integer rule, MLP or CNN computes its stated verdict on the complete admitted prompt bytes, including input hashing, arithmetic and threshold comparison | Reconstruct public inputs from the expected request; check circuit/key/model/context binding |
+| **Classifiers — STWO Circle STARK** | The same rule, MLP and CNN arithmetic, complete 96-byte input and exact salted SHA-256 commitment; nine real proofs pass fresh verification | Enroll fixed circuit/preprocessing and backend-specific identities before proving; reconstruct expected public inputs and complete roster; [details](docs/CIRCLE-CLASSIFIERS.md) |
 | **Composition — host verification** | Both verified relations refer to the same opened request | Check the common prompt/response context and combine verified classifier verdicts with `all-pass` |
 
 A valid proof can establish a **block** verdict. Proof validity is separate from
@@ -235,14 +222,13 @@ make e2e
 One command trains the MLP and byte CNN, exports the frozen integer graphs,
 builds the locked STWO prover and proof-only verifier, and generates **nine Circle
 STARK proofs**. It freshly verifies each proof and rejects **63 public-input
-mutations, 18 cross-request substitutions and three invalid rosters**. No Groth16
-setup or proofs run first. Use `make e2e BACKEND=gnark` for that explicit baseline.
+mutations, 18 cross-request substitutions and three invalid rosters**.
 
 Expect the benign case to pass, the contextual case to be blocked by the CNN,
 and the marker case to be blocked by the rule. Each invocation prints a fresh
 `runs/` result path; failures return nonzero and preserve logs. Allow roughly
 **several minutes plus the first Rust build**; allow the 30-GiB sampled worker
-memory cap. Historical matched timings above are a separate harness.
+memory cap.
 [Prerequisites, outputs and troubleshooting](docs/DEMO.md).
 
 ### Prove the complete pretrained LLM response
@@ -347,9 +333,8 @@ not a Hallmark-trained release.
 - **Synthetic classifiers.** Inputs are limited to **96 UTF-8 bytes** and oversized
   prompts reject. Synthetic accuracy does not establish a useful safety policy.
   The frozen CNN blocks the ordinary LLM prompt in the composed demo.
-- **Research enrollment and review.** Default Circle proofs use caller-enrolled
-  public preprocessing. The optional gnark baseline uses circuit-specific local
-  setup, not an independently reviewed ceremony. Neither backend has independent security
+- **Research enrollment and review.** Circle proofs use caller-enrolled
+  public preprocessing. The backend has no independent security
   qualification. `qualified_backend: false`, `hiding_claim: false` and
   `hardware_claim: "not-accepted"` remain explicit.
 - **Measured boundaries.** Proof size excludes enrollment/keys. GPU timings are
@@ -359,11 +344,9 @@ not a Hallmark-trained release.
 The [MVP acceptance matrix](docs/MVP.md) distinguishes completed integrity work
 from the original private/hardware v1 roadmap. The
 [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
-completed rule/MLP/CNN proofs, the [matched CPU comparison](docs/CLASSIFIER-BENCHMARK.md)
-and retained-LLM composition. [Decision 0085](docs/decisions/0085-circle-default.md)
-selects Circle as the default. Its lower workflow time in the recorded harness
-comes with larger proofs, higher memory and different security assumptions.
-Gnark remains available for comparisons.
+completed rule/MLP/CNN proofs and retained-LLM composition.
+[Decision 0087](docs/decisions/0087-remove-pairing-backend.md) makes Circle the
+only classifier proof backend.
 
 ## Documentation
 
@@ -374,7 +357,7 @@ Gnark remains available for comparisons.
 | Inspect the exact LLM relation and reproduction | [LLM proof guide](docs/LLM-PROOF.md) |
 | Reproduce GPU timings or audit their boundaries | [GPU benchmark](docs/GPU-BENCHMARK.md) |
 | Inspect classifier circuits, public inputs and caller checks | [Classifier proofs](docs/PROOFS.md) |
-| Inspect the default STWO rule/MLP/CNN path | [Circle STARK classifiers](docs/CIRCLE-CLASSIFIERS.md) |
+| Inspect the STWO rule/MLP/CNN path | [Circle STARK classifiers](docs/CIRCLE-CLASSIFIERS.md) |
 | Download trained weights and reproduce native inference | [Published models, cards and pinned revisions](docs/MODELS.md) |
 | Assess model/data quality, counts and failed screens | [Results and limitations](docs/RESULTS.md) |
 | Run the joined workflow | [Composed demo](docs/COMPOSED-DEMO.md) |
@@ -400,16 +383,14 @@ make package-check-train
 `make check` covers lock, lint, formatting, strict typing, tests, documentation
 and software conformance. A core environment may skip optional training;
 the train gate requires execution. Package checks build/install fresh wheel and
-sdist artifacts. CI checks a fresh synthetic proof with separate arithmetic;
-it does not run paid GPU jobs or the full Mac demos.
+sdist artifacts. CI verifies a fresh Circle gate proof in a separate verifier
+process; it does not run paid GPU jobs or the full Mac demos.
 
 | Path | Responsibility |
 |---|---|
 | `src/hallmark/` | Contracts, native integer runtimes, training and binding |
 | `scripts/` | Experiment controllers, reproducible workflows and validation |
 | `research/probes/sash/` | Pinned SASH adapters, patches and fixed LLM case |
-| `research/probes/gnark/` | Dedicated Go circuits and negative fixtures |
-| `research/probes/py_ecc/` | Separate Groth16 proof decoder and pairing verifier |
 | `fixtures/` · `tests/` | Synthetic data, frozen protocols, arithmetic and rejection checks |
 | `docs/` · `research/` | Guides, design decisions, numeric evidence and ledger |
 

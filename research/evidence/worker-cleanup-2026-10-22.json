@@ -9,9 +9,7 @@
     "scripts/run_trained_common.py",
     "scripts/run_trained_mlp.py",
     "src/hallmark/__init__.py",
-    "src/hallmark/_gnark_probe.py",
-    "src/hallmark/cli.py",
-    "tests/test_gnark_probe.py"
+    "src/hallmark/cli.py"
   ],
   "source_sha256": {
     "scripts/run_common_input.py": "ffacd4ea6ff3fd9dddae7aab68d37b8d4f67fbcbd77531f16e16cfde4613d5df",
@@ -19,9 +17,7 @@
     "scripts/run_trained_common.py": "430a930afa2962e1555c4d335fe57fdcf077b07d9518f9380b1a65867c1c84d6",
     "scripts/run_trained_mlp.py": "07b38566ec8a4ce146972e48ae4144f0ec5916433136d377e434a0e01903d994",
     "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
-    "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471",
-    "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd",
-    "tests/test_gnark_probe.py": "5ea7bf6ee2df8ed21f6b3972d53ae4089d7c6cd3e8fbdbf277a1d9372b961fe8"
+    "src/hallmark/cli.py": "022b06acec19d872b24ba765e0a69a455bd69ea42751dbc5c01bc4c8c91743dd"
   },
   "baseline_worker_tests_passed": 79,
   "candidate_worker_tests_passed": 87,
@@ -55,7 +51,6 @@
   ],
   "local_evidence": "runs/validation/",
   "commands": [
-    "uv run --locked pytest -q tests/test_gnark_probe.py",
     "make check",
     "make package-check",
     "uv run --locked python runs/validation/replay_worker.py",

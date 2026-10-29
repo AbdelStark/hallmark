@@ -6,7 +6,7 @@ import tempfile
 import time
 from pathlib import Path
 
-from hallmark._gnark_probe import RunBudget, digest, invoke, json_new, read_regular, write_new
+from hallmark._worker import RunBudget, digest, invoke, json_new, read_regular, write_new
 
 ROOT = Path(__file__).resolve().parents[1]
 P = 2**31 - 1

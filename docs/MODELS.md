@@ -132,7 +132,7 @@ MIT covers original models, code and authored fixtures under
 [decision 0063](decisions/0063-mit-license.md). Frozen data and training records
 keep historical `fixture-only` / `LicenseRef-Proprietary` labels and hashes;
 each Hub release includes a notice explaining the later grant.
-No private data, setup keys or third-party model checkpoints are republished.
+No private data or third-party model checkpoints are republished.
 
 A model download does not authenticate training history, enroll a circuit/key,
 or prove an inference. Read the [classifier statement](PROOFS.md) for public

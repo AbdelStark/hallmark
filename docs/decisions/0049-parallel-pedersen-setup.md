@@ -7,7 +7,7 @@ Pedersen setup computes each base's scalar multiple serially. This is a plausibl
 setup bottleneck, not a measured attribution: the active baseline's phase logs
 are buffered until the controller exits. Keep that experiment unchanged.
 
-The [candidate patch](../../research/proposals/backend-v1/pedersen-parallel.patch)
+The candidate patch
 uses the dependency's existing `parallel.Execute` over disjoint output ranges,
 with `runtime.GOMAXPROCS(0)` as its worker upper bound. Randomness, scalar, base
 order, point arithmetic, key serialization and circuit relation stay fixed. Apply
@@ -17,7 +17,7 @@ SHA-256 are allowlisted; the bootstrap also verifies the complete module invento
 An absent candidate keeps the previous execution path. Compile-only plans cannot
 opt into this maximum-setup candidate.
 
-The [local evidence](../../research/evidence/w18-pedersen-parallel-2026-10-21.json)
+The local evidence
 records a protocol frozen before each phase. Sixteen sizes at one, two and four
 workers produce identical complete setup bytes to the original serial function;
 the bases remain unchanged. Empty outer slices also match. Both ordinary and
@@ -31,7 +31,7 @@ witnesses, all 33 public-field mutations, a field alias, changed proof and wrong
 key reject. Setup circuit byte hashes match the frozen baseline. All eight proofs
 replay under separately retained key/proof/native-input pins. A verifier built with
 the original, unmodified dependency modules passes 43 further cases: eight valid
-proofs, 33 public changes, the alias and altered proof. This shares gnark's verifier
+proofs, 33 public changes, the alias and altered proof. This shares the proof library's verifier
 implementation and is not an independent verifier or security review.
 
 The small roster takes 185.746 seconds and peaks at 1,246,986,240 bytes worker RSS.

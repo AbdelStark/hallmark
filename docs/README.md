@@ -42,7 +42,7 @@ before using a command or relying on a capability.
 | [Evaluation](EVALUATION.md) | Data lineage, split isolation, calibration, metrics and claim boundaries |
 | [Implementation tracker](roadmap/IMPLEMENTATION.md) | Work-item dependencies and links to live issues |
 | [Reference proofs and timings](REFERENCE-RUN.md) | Download actual LLM/classifier proofs, verify them and audit every stage, machine and job |
-| [Circle STARK classifiers](CIRCLE-CLASSIFIERS.md) | Default rule/MLP/CNN proofs, circuit/caller boundary, STWO source ownership and matched benchmark |
+| [Circle STARK classifiers](CIRCLE-CLASSIFIERS.md) | Rule/MLP/CNN proofs, circuit/caller boundary and STWO source ownership |
 | [Specification checks](SPEC-CHECK.md) | Local links, requirement coverage and explicit live tracker audit |
 | [Dependency notices](DEPENDENCIES.md) | Reviewed software versions, licences and redistribution limits |
 
@@ -51,12 +51,8 @@ For the current demo, the shortest design trail is:
 1. [0058: specialized trained classifier path](decisions/0058-specialized-trained-classifier-path.md)
 2. [0059: contextual byte CNN](decisions/0059-contextual-byte-cnn-screen.md)
 3. [0060: revised synthetic screen](decisions/0060-contextual-screen-followup.md)
-4. [0061: complete CNN proof](decisions/0061-complete-contextual-cnn-proof.md)
-5. [0062: three trained classifiers on one request](decisions/0062-trained-common-request-proofs.md)
-
-The [Go probe guide](../research/probes/gnark/README.md) covers individual circuit
-experiments. The [separate verifier guide](../research/probes/py_ecc/README.md)
-describes its supported proof encoding and pairing checks.
+4. [0085: Circle STARK default](decisions/0085-circle-default.md)
+5. [0087: Circle STARK is the only classifier backend](decisions/0087-remove-pairing-backend.md)
 
 ## Inspect the research record
 
@@ -70,7 +66,7 @@ describes its supported proof encoding and pairing checks.
 - [Source packet](../research/source/README.md): dated design material, preserved
   separately from later normative decisions.
 
-Raw run directories, setup keys, proofs and unreviewed checkpoints stay local.
+Raw run directories, proofs and unreviewed checkpoints stay local.
 The explicitly approved [model releases](MODELS.md) publish an enumerated set of
 original synthetic checkpoints/exports on Hugging Face. Public evidence files
 contain numeric summaries and hashes. A recorded hash is an identity check;

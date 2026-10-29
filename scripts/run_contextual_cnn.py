@@ -11,7 +11,7 @@ from pathlib import Path
 
 import contextual_cnn as cnn
 
-from hallmark._gnark_probe import json_new, read_regular, write_new
+from hallmark._worker import json_new, read_regular, write_new
 from hallmark.data import dataset_summary, load_records
 from hallmark.evaluation import calibrate_threshold, metrics
 from hallmark.integer_encoder import execute_encoder

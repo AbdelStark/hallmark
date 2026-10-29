@@ -3,11 +3,11 @@
 For both proof relations over one opened request, use the
 [composed LLM/classifier workflow](COMPOSED-DEMO.md): `make e2e-composed`.
 Supplying caller-owned `LLM_RUN` and `CLASSIFIER_RUN` preparation avoids new cloud
-jobs while retaining fresh LLM verification, classifier setups and proofs.
+jobs while retaining fresh LLM verification and classifier proofs.
 
 For the complete current training/proof path, start with the [demo walkthrough](DEMO.md).
 This guide retains focused commands and historical experiments; their capacities
-and evidence boundaries differ. See [results](RESULTS.md) for the current comparison.
+and evidence boundaries differ. See [results](RESULTS.md) for current measurements.
 For pretrained LLM inference, use [the `make e2e-llm` guide](LLM-PROOF.md#run-it):
 local witness preparation, bounded HF CPU jobs and retained proof-only verification.
 To verify a retained proof bundle locally, use
@@ -37,9 +37,9 @@ runs cannot pass. Plain `make check` retains the optional-training boundary.
 The supported interpreter matrix is CPython 3.12, 3.13 and 3.14, with 3.12 as
 the default local pin. Linux and macOS run core/package and required-train/installed
 train gates on each version; see [reproducible packaging](PACKAGING.md). CI runs core checks/package installation and a separate
-required-training job on each interpreter. The Python jobs are software fixture checks. A separate proof-artifact job builds
-a pinned synthetic encoder proof and checks it with separate arithmetic; it does
-not run the full Mac campaign or establish hardware/operational qualification.
+required-training job on each interpreter. The Python jobs are software fixture checks. A separate Circle fixture job builds
+the locked prover and verifier and checks a serialized gate proof in a separate
+verifier process; it does not run the full Mac campaign or establish hardware/operational qualification.
 
 CI has read-only repository permissions, disables persisted checkout credentials,
 and has no secrets, self-hosted runners or transcript/artifact uploads. Push, PR
@@ -496,85 +496,6 @@ nonlinear tables, limits and approximations. The native result cannot satisfy
 W18 qualification, W12 qualified-encoder admission, a real proof, safety quality
 or independent verification. Keep prior experiments and missing results intact.
 
-## Common-input synthetic proofs
-
-`scripts/run_common_input.py` connects the three fixed native classifiers to
-fresh actual keys and a shared caller-bound transcript. It is a Mac arm64
-research controller, with an eight-byte input capacity and the limits in
-[decision 0057](decisions/0057-common-input-program-enrollment.md). It does not
-run inference, produce hardware evidence, admit a backend, or accept a policy.
-
-Use the already reviewed Go toolchain/dependency pins to build
-`research/probes/gnark` into a local binary. Use a separate Python environment
-installed from `research/probes/py_ecc/requirements.txt` with `--require-hashes`;
-the main locked environment remains unchanged. Record the binary's SHA-256
-outside the output directory, then run with a fresh directory:
-
-```sh
-uv run --locked python scripts/run_common_input.py \
-  --binary /absolute/path/to/probe --expected-binary "$PROBE_SHA256" \
-  --verifier-python /absolute/path/to/verifier-env/bin/python \
-  --output runs/common-input-fresh
-```
-
-The runner checks exact compiled relations, sets up three keys, and writes
-`enrollment.json` and its separately retained pin before any proving worker.
-It derives complete classifier manifests and a policy from those real keys,
-reconstructs native public inputs, and verifies each three-proof case with
-separate arithmetic. The first `allow` case must pass before either rejection
-case runs. Each case retains its caller expectation/opening, native assignments,
-proof bundle, separate-verifier jobs, worker plans and raw costs. Eighteen
-cross-request proof substitutions and the fixed arithmetic-negative roster for
-each key must reject before `result.json` is written. Failures retain
-`failure.json` and all preceding artifacts; use a new directory for a retry.
-
-For a separate caller-side binding check, `common_input.check_bundle` takes the
-externally retained enrollment hash, caller-owned `TranscriptOpening` and
-`RequestExpectation`, and candidate bundle bytes. It returns exactly three
-pairing jobs, **not acceptance**. Pin those job bytes and pass them to
-`research/probes/py_ecc/verify_set.py --jobs jobs.json --expected-jobs HASH`
-using the reviewed separate environment. Do not substitute openings, expectations
-or enrollment hashes supplied only by a prover for caller-owned values.
-
-A `release` value in these research bundles is only the native all-pass decision.
-The encoder is the frozen synthetic pass-all control; the two rejecting cases
-exercise rule/MLP composition, not useful safety classification. The separate
-verifier is experimental and unaudited. Neither a successful run nor its local
-setup keys establish production enrollment, setup security, zero knowledge,
-hardware provenance or full MVP completion.
-
-## Trained MLP proof fixture
-
-`scripts/run_trained_mlp.py` connects the existing three-seed trainer and integer
-exporter to a dedicated byte-weight lookup circuit. It requires Mac arm64 and
-the reviewed Go binary and separate verifier environment described above. The
-fixed authored data, threshold, capacities and limits are in
-[decision 0058](decisions/0058-specialized-trained-classifier-path.md).
-
-```sh
-OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
-uv run --locked --extra train python scripts/run_trained_mlp.py \
-  --binary /absolute/path/to/probe --expected-binary "$PROBE_SHA256" \
-  --verifier-python /absolute/path/to/verifier-env/bin/python \
-  --output runs/trained-mlp-fresh
-```
-
-Keep the verifier's virtual-environment invocation path; resolving its Python
-symlink to the base interpreter loses that environment's packages. Record source,
-environment and binary hashes outside the fresh output before running. The
-controller trains and exports seeds 17/29/43, enrolls the exact model/circuit/key
-before each batch, and runs all eight-byte proofs before the 1,024-byte roster.
-The larger roster must show both decisions under threshold zero. Each batch
-requires three proofs, three unsatisfied witness mutations and separate pairing
-verification with the existing malformed/public-input/key/proof corpus.
-
-Inspect each worker's `plan.json`, `cost.json`, result files and stderr. Any
-failure retains the preceding artifacts; restart only into a new directory.
-Repeat with fresh training and setup keys, comparing export identities, scores
-and negative rosters. Checkpoints and raw runs remain local. This proves a
-bounded synthetic execution relation; it does not measure task quality, prove
-the profile's 32,768-byte maximum, or qualify setup, hiding or hardware provenance.
-
 ## Trained contextual CNN screen
 
 The authored scope task and two immutable protocols are described in
@@ -611,84 +532,6 @@ near-threshold quantization flips and source/label lineage. `make package-check-
 also trains/exports the smallest 32-channel fixture against the installed wheel.
 
 This training command produces a 96-byte local-context software candidate and
-rejects longer inputs. The following sections separately reproduce its real
+rejects longer inputs. The [demo](DEMO.md) separately reproduces its real
 proof and research enrollment; training alone does not provide them. The artificial run/quote grammar and small,
 shared-vocabulary groups do not establish a real-world safety operating point.
-
-## Proving the selected contextual CNN
-
-[Decision 0061](decisions/0061-complete-contextual-cnn-proof.md) freezes the
-follow-up's preselected seed-17 quantization, program and threshold. The controller
-rejects a different export; retraining to a different artifact requires a new
-model identity and experiment. Keep the trained quantization/checkpoint local.
-
-Build the reviewed probe with the pinned Go toolchain and enroll its binary hash.
-Use the separately installed, hash-pinned py-ecc environment described above.
-The interpreter argument must preserve its virtual-environment invocation path.
-Then run on the admitted Mac into an unused directory:
-
-```sh
-OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
-uv run --locked --extra train python scripts/run_contextual_proof.py \
-  --binary "$PROBE_BINARY" --expected-binary "$PROBE_SHA256" \
-  --verifier-python "$VERIFIER_PYTHON" \
-  --quantization "$CNN_TRAIN/17/quantization.json" \
-  --output runs/contextual-proof-fresh
-```
-
-The controller checks the learned graph against the original native program,
-requires the frozen full-length pair's decision contrast, and enrolls each actual
-circuit/key before proving. It runs three small proofs first, nine witness
-rejections and the separate arithmetic corpus; only then does it run three
-capacity-96 proofs. The re-encoded-input mutation updates the commitment while
-retaining the wrong neural trace. Success requires an unsatisfied constraint for
-every negative assignment, not merely a child-process error.
-
-Inspect each worker's `plan.json`, `cost.json`, raw proof and verifier output.
-Record source/environment/binary pins before execution and compare afterward.
-Repeat in a fresh directory with new setup keys; compare model/circuit, scores,
-verdicts and rejection rosters. Preserve all failures. The controller enforces
-7,200 seconds overall, four worker threads, 8 GiB worker RSS and 8 GiB output;
-check the 256 GiB total retained-checkout ceiling before launching. No new cloud
-compute is required for the documented Mac path.
-
-These are complete proofs of the admitted synthetic CNN computation. They do not
-qualify its task quality, setup custody, hiding, compiler/enrollment authenticity,
-hardware provenance, response generation or the full hybrid verifier.
-
-## Trained classifiers on one opened request
-
-[Decision 0062](decisions/0062-trained-common-request-proofs.md) composes the
-literal rule, frozen seed-17 trained MLP and screened seed-17 contextual CNN.
-It preserves the old eight-byte fixture and admits up to 96 complete prompt bytes.
-Reproduce the model exports using the MLP training fixture and contextual-v2
-command above; the controller requires their exact frozen quantization hashes.
-Use the reviewed probe binary and separately pinned verifier environment:
-
-```sh
-OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
-uv run --locked --extra train python scripts/run_trained_common.py \
-  --binary "$PROBE_BINARY" --expected-binary "$PROBE_SHA256" \
-  --verifier-python "$VERIFIER_PYTHON" \
-  --mlp-quantization "$MLP_TRAIN/seed-17/quantization.json" \
-  --cnn-quantization "$CNN_TRAIN/17/quantization.json" \
-  --output runs/trained-common-fresh
-```
-
-The binary must include `scaled-rule-* 96`, `trained-mlp-* 96` and `contextual-* 96`.
-The controller sets up all three relations, retains the exact circuit/key/model
-roster and pins enrollment before producing nine proofs across three fixed cases.
-For each case it reconstructs every public input from one caller-owned opening,
-checks the all-pass decision and verifies all three proofs in a separate py-ecc
-process. It then rejects all 18 cross-request substitutions and runs the
-separate arithmetic mutation corpus for each classifier. The result is research
-proof composition: `release` is the classifier gate, with hardware explicitly
-unaccepted and backend qualification false. The response is authored fixture text.
-
-Keep the external enrollment digest, exact exports, circuit roster, requests,
-proofs, worker costs and separate-verifier output. A bundle-provided enrollment
-hash is not a trust anchor. The Python binding helper returns pairing jobs, never
-cryptographic acceptance. Repeat into a new directory with fresh setup keys and
-compare model/circuit identities and decisions. Check the total retained checkout
-limit before each launch; per-run limits are 7,200 seconds, four worker threads,
-8 GiB RSS and 8 GiB output. No private inputs or cloud jobs are needed.

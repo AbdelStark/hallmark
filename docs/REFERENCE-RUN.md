@@ -130,11 +130,6 @@ The raw artifact kind `encoder` denotes the contextual byte CNN.
 | rule-block / mlp | 1.153 | 1.836 | 3.938 | 0.050 | 1,948,783 |
 | rule-block / encoder | 3.092 | 3.967 | 8.359 | 0.051 | 2,109,186 |
 
-The repeated [HF CPU comparison](CLASSIFIER-BENCHMARK.md) is a separate experiment:
-eight workflows per backend on AMD EPYC 7R13 / `cpu-upgrade`, with different
-per-process costs and no training inside its sample timer. Its 298.88 s warm
-Circle median must not be mixed with C1’s Mac stage observations.
-
 ## J1: same-request composition
 
 The retained-input default command takes **266.29 s**. Its native LLM workflow
@@ -160,8 +155,9 @@ is host composition, with no recursive proof, hiding or hardware claim.
 The artifact release is a **research proof collection**, not a qualified
 software release. Its tag identifies the repository baseline before this
 reference-documentation change; it is not every component’s measured commit. Use a checkout
-containing this guide and `scripts/verify_reference.py`; the Discussion pins the
-verification utility’s publication commit. No weights, witnesses, trusted remote
+of the verification utility’s publication commit (pinned below and in the Discussion);
+later commits change the native LLM verifier identity
+([decision 0087](decisions/0087-remove-pairing-backend.md)). No weights, witnesses, trusted remote
 executable or HF credential are needed. Native verification requires the
 [Mac/Rust prerequisites](LLM-PROOF.md#verify-retained-proofs-on-your-mac), uv 0.9.18,
 Python 3.12.12, the train extra for classifier public-input reconstruction,

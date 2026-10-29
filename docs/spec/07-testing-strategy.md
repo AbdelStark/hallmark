@@ -65,7 +65,6 @@ make package-check
 make check-spec
 make check-conformance
 make check-independent
-hallmark qualify PROTOCOL --output FRESH_DIRECTORY
 ```
 
 `check-conformance` runs offline vectors and clearly separates real-evidence cases requiring local inputs. `check-independent` runs the independent executable against the same frozen corpus. Gated hardware/proof execution requires a pinned protocol and approved host; it is never silently triggered by ordinary CI or a PR.

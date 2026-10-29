@@ -1,18 +1,16 @@
 # Architecture: what runs, what is proved
 
-Hallmark defaults to **Circle STARK**: SASH for quantized TinyLlama inference,
+Hallmark uses **Circle STARK**: SASH for quantized TinyLlama inference,
 direct STWO for rule/MLP/CNN classifiers. The composed workflow freshly checks
 both against one caller-owned request in host code; it does not recursively
-aggregate proofs. Gnark/Groth16 remains an explicit comparison backend.
-[Decision 0085](decisions/0085-circle-default.md) changes the operational default,
-not the models, arithmetic, historical measurements or research qualification.
+aggregate proofs. [Decision 0087](decisions/0087-remove-pairing-backend.md)
+makes Circle the only classifier backend; models and arithmetic are unchanged.
 
 ## Choose the workflow
 
 | Command | Actual computation | Proofs and verification | Where it runs |
 |---|---|---|---|
-| `make e2e` | Train/export an MLP and CNN; evaluate them plus a fixed rule on three synthetic prompts | **9 STWO Circle STARK proofs**, checked by fresh proof-only processes | Mac; no LLM, credentials, Groth16 setup or paid jobs |
-| `make e2e BACKEND=gnark` | Explicit classifier comparison | **9 Groth16 proofs**, separate py-ecc verification | Mac; pinned Go and circuit-specific setup |
+| `make e2e` | Train/export an MLP and CNN; evaluate them plus a fixed rule on three synthetic prompts | **9 STWO Circle STARK proofs**, checked by fresh proof-only processes | Mac; no LLM, credentials or paid jobs |
 | `make e2e-llm` | Generate the fixed eight-token TinyLlama answer, including EOS | **23 SASH proof segments**, linked and verified by SASH | Mac preparation; three sequential paid HF **CPU** jobs |
 | `make verify-llm LLM_RUN=…` | Check retained LLM proofs; no new inference or proving | Same 23 segments, using an adapted native verifier | Mac; no weights, full witness or HF credentials |
 | `make benchmark-llm-gpu …` | Reuse frozen public witnesses; compare complete SIMD and CUDA proving | Same 23 SASH segments per backend, byte equality and fresh CPU/Mac verification | HF CPU build, one H200 measurement job, separate CPU verification, Mac verification |
@@ -31,7 +29,7 @@ checks, device sampling and cache policy.
 ```mermaid
 flowchart TD
     D[Frozen synthetic fixtures] --> T[Train MLP and CNN or admit exact frozen quantizations]
-    T --> M[Native rule, MLP and CNN exports; no Groth16 bootstrap] --> C[Compile fixed gates: exact SHA-256 and integer operators]
+    T --> M[Native rule, MLP and CNN exports] --> C[Compile fixed gates: exact SHA-256 and integer operators]
     C --> E[Caller pins program, preprocessing root and parameters before proving]
     X[Caller-owned bytes, salt and request expectations] --> W[Construct complete classifier witnesses]
     C --> W
@@ -44,28 +42,25 @@ flowchart TD
     V --> A[Verified verdicts and separate all-pass policy decision]
 ```
 
-The graphs constrain the same complete 96-byte input, salted canonical SHA-256
-commitment and integer decisions as the gnark path. The 100 logical public
+The graphs constrain the complete 96-byte input, salted canonical SHA-256
+commitment and integer decisions. The 100 logical public
 fields use 103 M31 transport values: two threshold limbs replace one 32-bit
 value, and public zero/one wires supply the other two values. Context semantics
-and native expectation reconstruction remain caller checks. Backend-specific
-enrollment changes classifier/context identities; semantic parity does not mean
-byte-identical public statements across backends.
+and native expectation reconstruction remain caller checks.
 
 This path uses the pinned **STWO 2.2.0 dependency**, with Hallmark's gate AIR,
 LogUp wiring and SHA/integer/classifier compiler. It does not run SASH's Llama
 application or a general-purpose VM. Caller-enrolled public preprocessing
-replaces Groth16's circuit-specific setup; this supplies no security-equivalence
-or witness-hiding claim. The frozen MLP is always-allow within this input domain;
+supplies no security or witness-hiding claim. The frozen MLP is always-allow within this input domain;
 the rule and CNN provide the workflow's block controls.
 
 The [Circle guide](CIRCLE-CLASSIFIERS.md) gives source ownership, concrete proof
-parameters, commands, conformance failures and matched results.
-The default [composed controller](../scripts/run_circle_composed.py) joins three Circle classifier proofs to the
+parameters, commands and conformance failures.
+The [composed controller](../scripts/run_circle_composed.py) joins three Circle classifier proofs to the
 retained SASH LLM bundle: all 26 proofs and 22 residual links verify freshly,
 with 16 changed-binding rejections. This remains host composition.
 
-Default orchestration is [run_circle_e2e.py](../scripts/run_circle_e2e.py).
+Orchestration is [run_circle_e2e.py](../scripts/run_circle_e2e.py).
 [Native preparation](../scripts/circle_inputs.py) validates the fixed model hashes
 and creates caller-owned controls. The [proof driver](../scripts/run_circle_classifiers.py)
 compiles all gates, pins binary/source identities and checks the independently
@@ -78,61 +73,6 @@ input hashing; training history is outside the proof. See [the public statement]
 Caller reconstruction binds context, model, classifier and policy; the caller
 currently reruns native inference to derive expected verdicts. This is not yet
 a demonstration of cheaper verification than rerunning these small classifiers.
-
-## Explicit gnark comparison: `make e2e BACKEND=gnark`
-
-```mermaid
-flowchart TD
-    D[Frozen authored synthetic data] --> T[Train MLP and CNN; export exact integer graphs]
-    T --> C[Custom gnark circuits with fixed weights]
-    R[Fixed byte rule] --> C
-    C --> S[Compile R1CS; fresh Groth16 setup per classifier]
-    S --> E[Caller pins circuits and verification keys before proving]
-    E --> P[Three requests times three classifiers: nine proofs]
-    X[Caller-owned request opening and expected context] --> P
-    P --> V[Separate py-ecc proof decoder and pairing verifier]
-    X --> H[Reconstruct public inputs and check enrollment]
-    H --> V
-    V --> A[Host combines verified verdicts with all-pass]
-```
-
-For the MLP and CNN the inference relation is:
-
-```text
-x = complete admitted prompt bytes                 # 0–96 UTF-8 bytes
-score = fixed_integer_classifier(x)
-verdict = 1 if score < threshold else 0             # equality blocks
-salted_SHA256(canonical_input(x)) = expected_input_digest
-```
-
-The literal rule passes exactly when `BAD` appears nowhere, including across
-chunk boundaries. The circuits constrain complete input coverage, lengths,
-padding, input hashing, integer operations/ranges/rounding, activations, masks,
-aggregation and verdict. Weights are circuit constants. Training history is
-outside the proof.
-
-There are **100 public fields**: context digest (32 bytes), classifier identity
-(32), input digest (32), unit count, chunk count, encoded signed threshold and
-verdict. Context and classifier digests are bound public fields, not identities
-reconstructed inside the circuit. The caller checks their meaning against its
-own request, enrolled program and key. Salt derivation is also a caller check.
-See [the exact statement and trust boundary](PROOFS.md).
-
-The current caller **reruns native classifier inference** to derive expected
-verdicts. The workflow therefore does not demonstrate a verification cost saving
-over rerunning these small models. The separate py-ecc verifier checks the actual
-Groth16 equations; it does not share gnark's verifier implementation.
-
-The standalone response is authored fixture text, not generated by an LLM.
-Classifiers inspect the **prompt only**. In composition, the response is bound
-into their request context; it is not classified.
-
-Implementation: [controller](../scripts/run_e2e.py),
-[common-request proving](../scripts/run_trained_common.py),
-[custom circuits and Groth16 calls](../research/probes/gnark/graph.go),
-[separate verifier](../research/probes/py_ecc/README.md).
-Groth16 uses BLS12-381 and a circuit-specific setup. Fresh local setup is research
-setup, not an independently reviewed ceremony.
 
 ## LLM: `make e2e-llm`
 
@@ -233,44 +173,30 @@ This is host composition, not protected response release or hardware provenance.
 It proves computation under admitted parameters, not policy quality, authentic
 capture, training history, operational authorization or real-world safety.
 
-## Why two backends? What changes next?
+## Trade-offs and next steps
 
-The owner selected Circle STARK as the base case after both classifier paths
-passed the [matched CPU comparison](CLASSIFIER-BENCHMARK.md) and the Circle/SASH
-same-request join. Both default classifier commands prepare native models
-without a Groth16 bootstrap. SASH and direct STWO are specialized applications
-within the same proof family, not interchangeable prover binaries.
-
-Gnark remains useful for its separate pairing verifier and compact proofs.
-The frozen report’s original gnark-default recommendation is historical; the
-[owner-selected default](decisions/0085-circle-default.md) does not rewrite it.
+SASH and direct STWO are specialized applications within the same proof family,
+not interchangeable prover binaries.
 
 | Current path | Useful property | Remaining trade-off |
 |---|---|---|
-| gnark/Groth16 classifiers | Complete existing circuits and separate py-ecc verification; 292-byte serialized proofs in this profile | Circuit-specific trusted setup; local setup has not undergone an independent ceremony |
 | SASH Circle STARK LLM | Working specialized quantized transformer proofs; no general-purpose VM | Large fixed-case bundle, public parameter enrollment and shared prover/verifier implementation |
-| Default STWO Circle STARK classifiers | Complete repeated rule/MLP/CNN workflow and retained-LLM join; exact input hashing and integer operators | Higher memory and much larger JSON proofs; repeated per-proof preprocessing; no backend qualification |
+| STWO Circle STARK classifiers | Complete repeated rule/MLP/CNN workflow and retained-LLM join; exact input hashing and integer operators | Higher memory and much larger JSON proofs; repeated per-proof preprocessing; no backend qualification |
 
-Circle's full workflow is faster in this stateless harness, where gnark parsing
-dominates its complete command. The security profiles and verifier implementations
-differ; there is no equal-security performance claim. Classifier and 1.1B LLM
-proof sizes/timings remain different workloads.
+Classifier and 1.1B LLM proof sizes/timings remain different workloads.
 
 The [Circle STARK classifier epic #112](https://github.com/AbdelStark/hallmark/issues/112)
-tracks the implementation and comparison:
+tracks the implementation:
 
 1. [#113](https://github.com/AbdelStark/hallmark/issues/113): freeze/replay the identical relation, exports, inputs, failures and measurement protocol.
 2. [#114](https://github.com/AbdelStark/hallmark/issues/114): complete byte-rule proof, including the existing SHA-256 commitment and caller binding.
 3. [#115](https://github.com/AbdelStark/hallmark/issues/115): exact trained integer MLP proof.
 4. [#116](https://github.com/AbdelStark/hallmark/issues/116): complete contextual byte CNN proof.
-5. [#117](https://github.com/AbdelStark/hallmark/issues/117): common workflow, composed request and repeated matched benchmarks against gnark and native execution.
+5. [#117](https://github.com/AbdelStark/hallmark/issues/117): common workflow, composed request and repeated benchmarks.
 
 The classifier implementation uses direct STWO 2.2.0 as a dependency, separately
 from SASH's pinned Llama application/fork. It adapts the upstream gate-AIR/LogUp
 patterns and adds Hallmark's own SHA-256/integer/classifier circuits. The
 [source map](CIRCLE-CLASSIFIERS.md#code-and-dependency-ownership) explains ownership.
-The report separates setup/preprocessing, witness preparation, proving,
-serialization, proof-only verification, caller binding/native rerun, total time,
-memory and artifact sizes, with explicit security parameters and resource caps.
 The epic is integrity-only. It does not reopen the completed [MVP](MVP.md) or
 silently satisfy the broader private/hardware v1 requirements.

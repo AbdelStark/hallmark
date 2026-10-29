@@ -387,8 +387,7 @@
         "research/probes/sash/verify_response.py": "a9f2d31cf1012d69e65749ba8f38729bada54346f63acc879765d05361bbb85d",
         "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
         "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
-        "scripts/verify_llm.py": "0133b5fc2f57a092c0c31b23159dc3f4f30d3fa4439e6ab93c75f203f1b68928",
-        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+        "scripts/verify_llm.py": "0133b5fc2f57a092c0c31b23159dc3f4f30d3fa4439e6ab93c75f203f1b68928"
       },
       "verification": {
         "exit_code": 0,
@@ -666,8 +665,7 @@
         "research/probes/sash/verify_response.py": "a9f2d31cf1012d69e65749ba8f38729bada54346f63acc879765d05361bbb85d",
         "scripts/run_e2e.py": "58cc29d593a10eefa962bc194f4fbf57e8a9bfb6e91050fa39b305f41b080013",
         "scripts/run_llm_e2e.py": "0c3c7d25f63d2ab498346549009c844af6c2c37e7a75063af831199a413bc949",
-        "scripts/verify_llm.py": "4f6cb2f6990cff7c27c566524a14e296221f12ec9d5c23c7ff2e1e42d2c30436",
-        "src/hallmark/_gnark_probe.py": "5818ee4bcc6b078ab6282d4e9326b9d3304b85600823947462e81e60eb341471"
+        "scripts/verify_llm.py": "4f6cb2f6990cff7c27c566524a14e296221f12ec9d5c23c7ff2e1e42d2c30436"
       },
       "verification": {
         "exit_code": 0,

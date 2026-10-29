@@ -102,20 +102,6 @@ def summarize(workflow, report):
         )
         rows = cases(report)
         require(len(rows) == 1, "one composed Circle case")
-    elif workflow.id == "classifiers":
-        exact(
-            report,
-            proofs_verified=9,
-            cross_request_rejections=18,
-            arithmetic_cases=405,
-            qualified_backend=False,
-            hardware_claim="not-accepted",
-        )
-        rows = cases(report)
-        require(
-            len(rows) == 3 and all(r.get("proofs_verified") == 3 for r in rows),
-            "nine verified classifier proofs",
-        )
     elif workflow.id == "llm":
         exact(
             report,
@@ -139,19 +125,6 @@ def summarize(workflow, report):
             qualified_backend=False,
             security_review=False,
         )
-    elif workflow.id == "composed":
-        exact(
-            report,
-            llm_proofs_verified=23,
-            classifier_proofs_verified=3,
-            arithmetic_cases=399,
-            qualified_backend=False,
-            hiding_claim=False,
-            classifier_scope="prompt",
-            safety_quality_claim=False,
-        )
-        rows = cases(report)
-        require(len(rows) == 1, "one composed classifier case")
     elif workflow.id == "conformance":
         kind = "software"
         exact(report, software_passed=True, matched=156, mismatched=0, all_required_executed=False)

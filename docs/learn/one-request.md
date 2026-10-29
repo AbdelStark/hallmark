@@ -17,16 +17,16 @@ For a small software-only check on Linux/macOS, follow
 ```mermaid
 flowchart TD
     D[Frozen synthetic fixtures] --> T[Train MLP / CNN and export integer models]
-    T --> C[Dedicated circuits + fresh research setup]
-    E[Caller-owned request and expected identities] --> P[Three requests × three classifier proofs]
+    T --> C[Compile gates and enroll public preprocessing]
+    E[Caller-owned request and expected identities] --> P[Three requests × three Circle STARK proofs]
     C --> P
-    P --> V[Separate py-ecc verification]
+    P --> V[Fresh proof-only STWO verification]
     E --> V
     V --> G[Host all-pass gate over verified verdicts]
 ```
 
 The caller reconstructs public inputs from its expected request. Before
-interpreting the verdicts, it checks the classifier, program, circuit and key
+interpreting the verdicts, it checks the classifier, program, preprocessing and proof parameters
 against identities chosen outside the proof bundle. Running a downloaded
 Hugging Face model computes a score without these proof or enrollment checks.
 
@@ -52,8 +52,8 @@ The driver prints a fresh local `runs/e2e-…` path. Read its
 
 - training records and original/resumed checkpoints;
 - quantizations and integer model identities;
-- fresh circuit/setup keys and proof files;
-- independent arithmetic-verifier results;
+- caller enrollment, its pin and proof files;
+- fresh proof-only verifier results;
 - cross-request substitution and arithmetic checks.
 
 The retained model exports are also available as

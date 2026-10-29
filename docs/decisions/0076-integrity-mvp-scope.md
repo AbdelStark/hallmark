@@ -27,7 +27,7 @@ or safety-quality flag is changed.
 ## Acceptance audit
 
 [The acceptance page](../MVP.md) maps these requirements to inspected evidence.
-[The numeric audit](../../research/evidence/integrity-mvp-completion-2026-10-25.json)
+The numeric audit
 checks all 207 current runtime sources, all 55 native verifier sources, all 20
 sources of the freshly executed LLM proving pipeline, all eight downloaded model
 files including the real checkpoint, and all 69 retained proof/statement/claim

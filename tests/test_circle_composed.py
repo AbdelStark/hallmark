@@ -5,10 +5,10 @@ import sys
 from pathlib import Path
 
 import pytest
-from test_trained_common import fixture as fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import circle_backend as circle
+import circle_inputs
 import composed_input
 import trained_common_input as common
 from check_circle_composed import binding_negatives, joined_jobs
@@ -17,8 +17,8 @@ from classifier_comparison import encoded, sha
 pytestmark = pytest.mark.train
 
 
-def test_circle_composed_exact_statement_and_rejected_bindings(fixture):
-    _, _, _, _, originals, old_policy, *_ = fixture
+def test_circle_composed_exact_statement_and_rejected_bindings(synthetic_exports):
+    originals, old_policy = circle_inputs.native_templates(synthetic_exports)
     engines = {
         kind: encoded(
             dict(

@@ -1,6 +1,5 @@
-"""Bounded Mac proof workers and the pinned cubic installation probe."""
+"""Bounded, sandboxed Mac proof workers with retained cost records."""
 
-import argparse
 import ctypes
 import hashlib
 import json
@@ -17,9 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, NoReturn
 
-MODULUS = 52435875175126190479447740508185965837690552500527637822603658699938581184513
 MAX_FILE = 16 * 1024 * 1024
-MAX_BINARY = 128 * 1024 * 1024
 MAX_OPEN_FILES = 4096
 CASE_SECONDS = 45
 
@@ -69,28 +66,6 @@ class RunBudget:
                 if total > self.max_output_bytes:
                     raise MemoryError("qualification storage budget")
         return total
-
-
-def run_cli(check: Callable[..., dict[str, Any]], *, fixture: bool) -> int:
-    class Parser(argparse.ArgumentParser):
-        def error(self, message: str) -> NoReturn:
-            raise ValueError("invalid arguments")
-
-    parser = Parser(description="Pinned local proof probe; no backend qualification.")
-    parser.add_argument("--binary", required=True, type=Path)
-    parser.add_argument("--expected-binary", required=True)
-    parser.add_argument("--output", required=True, type=Path)
-    if fixture:
-        parser.add_argument("--fixture", required=True, type=Path)
-        parser.add_argument("--expected-fixture", required=True)
-    try:
-        args = parser.parse_args()
-        result = check(**vars(args))
-    except (Exception, KeyboardInterrupt):
-        print(json.dumps({"status": "failed", "qualified_backend": False}))
-        return 3
-    print(json.dumps({key: value for key, value in result.items() if key != "cases"}))
-    return 0
 
 
 def digest(raw: bytes) -> str:
@@ -156,20 +131,6 @@ def stream_regular(path: Path, limit: int, *, destination: Path | None = None) -
                 target.flush()
                 os.fsync(target.fileno())
         return {"sha256": hashed.hexdigest(), "bytes": size}
-
-
-@dataclass(frozen=True)
-class PinnedArtifact:
-    path: Path
-    sha256: str
-    size: int
-
-    def copy_to(self, destination: Path, limit: int) -> None:
-        if self.size > limit:
-            raise ValueError("invalid artifact size")
-        observed = stream_regular(self.path, self.size, destination=destination)
-        if observed != {"sha256": self.sha256, "bytes": self.size}:
-            raise ValueError("artifact pin mismatch")
 
 
 def write_new(path: Path, raw: bytes, mode: int = 0o600) -> None:
@@ -283,8 +244,6 @@ def invoke(
     write_new(work / "sandbox.sb", profile.encode())
     environment = {
         "PATH": "/usr/bin:/bin",
-        "GOMAXPROCS": str(budget.threads if budget else 4),
-        "GOMEMLIMIT": str(min(1024**3, budget.max_rss_bytes // 2)) if budget else "1GiB",
         "LANG": "C",
         "TZ": "UTC",
         "TMPDIR": str(work),
@@ -293,7 +252,7 @@ def invoke(
     json_new(
         work / "plan.json",
         {
-            "schema_id": "hallmark.gnark-probe-attempt/1",
+            "schema_id": "hallmark.worker-attempt/1",
             "argv": command,
             "environment": environment,
             "wall_limit_seconds": seconds,
@@ -362,7 +321,7 @@ def invoke(
             process.returncode = os.waitstatus_to_exitcode(status)
             raise
     result = {
-        "schema_id": "hallmark.gnark-probe-cost/1",
+        "schema_id": "hallmark.worker-cost/1",
         "exit_code": process.returncode,
         "timed_out": timed_out,
         "memory_limit_exceeded": memory_limit_exceeded,
@@ -381,188 +340,3 @@ def invoke(
     if memory_limit_exceeded or memory_monitor_failed or usage.ru_maxrss > max_rss:
         raise MemoryError("qualification worker memory budget")
     return result
-
-
-def run_case(
-    binary: Path,
-    work: Path,
-    args: list[str],
-    inputs: dict[str, bytes | PinnedArtifact],
-    produced: Sequence[str],
-    *,
-    budget: RunBudget,
-    max_file: int,
-    costs: list[dict[str, Any]],
-    read_paths: Sequence[Path] = (),
-) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Run a fresh proof case; retain costs before checking its output and unchanged inputs."""
-    work.mkdir(mode=0o700)
-    for filename, value in inputs.items():
-        if isinstance(value, PinnedArtifact):
-            value.copy_to(work / filename, max_file)
-        else:
-            write_new(work / filename, value)
-    cost = invoke(
-        binary,
-        work,
-        args,
-        seconds=budget.case_seconds,
-        cpu_seconds=budget.cpu_seconds,
-        max_file=max_file,
-        budget=budget,
-        read_paths=read_paths,
-    )
-    costs.append(dict(name=work.name, **cost))
-    if cost["exit_code"] != 0:
-        raise ValueError("proof worker failed: " + work.name)
-    allowed = set(inputs) | set(produced) | {"sandbox.sb", "plan.json", "stdout.txt", "stderr.txt"}
-    if set(cost["files"]) != allowed:
-        raise ValueError("unexpected worker artifact inventory")
-    for filename, value in inputs.items():
-        expected = (
-            dict(bytes=value.size, sha256=value.sha256)
-            if isinstance(value, PinnedArtifact)
-            else dict(bytes=len(value), sha256=digest(value))
-        )
-        if cost["files"][filename] != expected:
-            raise ValueError("worker changed an input")
-    report: dict[str, Any] = json.loads(read_regular(work / "stdout.txt", 1024**2).splitlines()[-1])
-    if report.get("status") != "passed":
-        raise ValueError("worker did not pass")
-    return cost, report
-
-
-def check(
-    binary: Path, expected_binary: str, output: Path, *, budget: RunBudget | None = None
-) -> dict[str, Any]:
-    if platform.system() != "Darwin" or platform.machine() != "arm64":
-        raise ValueError("this admitted probe requires macOS arm64")
-    raw_binary = read_regular(binary, MAX_BINARY)
-    if len(expected_binary) != 64 or digest(raw_binary) != expected_binary:
-        raise ValueError("binary identity mismatch")
-    output.mkdir(mode=0o700)
-    output = output.resolve()
-    binary = output / "probe"
-    write_new(binary, raw_binary, 0o500)
-    dyld = read_regular(Path("/System/Library/Sandbox/Profiles/dyld-support.sb"), MAX_FILE)
-    json_new(
-        output / "protocol.json",
-        {
-            "schema_id": "hallmark.gnark-installation-protocol/1",
-            "binary_sha256": expected_binary,
-            "runner_sha256": digest(Path(__file__).read_bytes()),
-            "dyld_support_sha256": digest(dyld),
-            "platform": platform.platform(),
-            "statement": "private uint8 x, public uint32 y; y=x^3+x+5",
-            "proof_system": "Groth16",
-            "curve": "BLS12-381",
-            "setup": "fresh local research setup; no independent ceremony",
-            "qualified_backend": False,
-            "private_inputs": False,
-            "limits": {
-                "total_seconds": 900,
-                "case_seconds": CASE_SECONDS,
-                "go_threads": 4,
-                "go_memory_soft_limit": "1GiB",
-                "per_file_bytes": MAX_FILE,
-            },
-            "limitations": [
-                "Live RSS sampling, post-exit checks and Go's soft limit are not OS memory quotas.",
-                "No general hostile-worker memory or disk quota claim.",
-                "No Hallmark statement, full encoder, independent verifier or trusted setup claim.",
-            ],
-        },
-    )
-    started = time.monotonic()
-    cases: list[dict[str, Any]] = []
-
-    def case(
-        name: str,
-        args: list[str],
-        inputs: dict[str, bytes],
-        outputs: Sequence[str],
-        expected_exit: int = 0,
-    ) -> dict[str, bytes]:
-        if time.monotonic() - started > 900 - CASE_SECONDS:
-            raise TimeoutError("probe budget exhausted")
-        work = output / name
-        work.mkdir(mode=0o700)
-        for filename, raw in inputs.items():
-            write_new(work / filename, raw)
-        result = invoke(binary, work, args, budget=budget)
-        cases.append({"name": name, **result})
-        expected_names = {*inputs, *outputs, "sandbox.sb", "plan.json", "stdout.txt", "stderr.txt"}
-        if (
-            result["exit_code"] != expected_exit
-            or result["timed_out"]
-            or set(result["files"]) != expected_names
-            or result["max_rss_bytes"] > 16 * 1024**3
-            or result["user_seconds"] + result["system_seconds"] > 40
-        ):
-            raise ValueError("probe process or inventory failed")
-        result_doc = json.loads(read_regular(work / "stdout.txt", 4096))
-        if (
-            set(result_doc) != {"schema_id", "status", "constraints", "elapsed_ns"}
-            or result_doc["schema_id"] != "hallmark.gnark-installation-probe/1"
-            or result_doc["status"] != ("passed" if expected_exit == 0 else "failed")
-            or type(result_doc["constraints"]) is not int
-            or result_doc["constraints"] < 0
-            or type(result_doc["elapsed_ns"]) is not int
-            or result_doc["elapsed_ns"] < 0
-        ):
-            raise ValueError("invalid probe result")
-        return {name: read_regular(work / name, MAX_FILE) for name in outputs}
-
-    try:
-        setup = case("setup", ["setup"], {}, ["circuit.r1cs", "pk.bin", "vk.bin"])
-        key_pin = digest(setup["vk.bin"])
-        proving = {name: setup[name] for name in ("circuit.r1cs", "pk.bin")}
-        proof = case("prove", ["prove", "3", "35"], proving, ["proof.bin"])
-        verifier = {"vk.bin": setup["vk.bin"], "proof.bin": proof["proof.bin"]}
-        case("verify", ["verify", "35"], verifier, [])
-        case("changed-input", ["verify", "36"], verifier, [], 1)
-        case("wrong-witness", ["prove", "3", "34"], proving, [], 1)
-        case("out-of-range-witness", ["prove", "256", "35"], proving, [], 1)
-        case("field-alias", ["verify", str(MODULUS + 35)], verifier, [], 1)
-        case("noncanonical-integer", ["verify", "035"], verifier, [], 1)
-        altered = bytes([proof["proof.bin"][0] ^ 1]) + proof["proof.bin"][1:]
-        case("changed-proof", ["verify", "35"], verifier | {"proof.bin": altered}, [], 1)
-        case(
-            "trailing-proof",
-            ["verify", "35"],
-            verifier | {"proof.bin": proof["proof.bin"] + b"\0"},
-            [],
-            1,
-        )
-        other_setup = case("other-setup", ["setup"], {}, ["circuit.r1cs", "pk.bin", "vk.bin"])
-        if digest(other_setup["vk.bin"]) == key_pin:
-            raise ValueError("independent random setups unexpectedly agree")
-        case("wrong-key", ["verify", "35"], verifier | {"vk.bin": other_setup["vk.bin"]}, [], 1)
-        repeated = case("prove-again", ["prove", "3", "35"], proving, ["proof.bin"])
-        if repeated == proof:
-            raise ValueError("repeated randomized proof unexpectedly agrees")
-        case("verify-again", ["verify", "35"], verifier | repeated, [])
-        for x in (0, 255):
-            y = x**3 + x + 5
-            boundary = case(f"prove-{x}", ["prove", str(x), str(y)], proving, ["proof.bin"])
-            case(f"verify-{x}", ["verify", str(y)], verifier | boundary, [])
-        report = {
-            "schema_id": "hallmark.gnark-installation-result/1",
-            "status": "passed",
-            "qualified_backend": False,
-            "binary_sha256": expected_binary,
-            "setup_vk_sha256": key_pin,
-            "circuit_sha256": digest(setup["circuit.r1cs"]),
-            "proof_sha256": digest(proof["proof.bin"]),
-            "proof_bytes": len(proof["proof.bin"]),
-            "cases": cases,
-            "elapsed_seconds": time.monotonic() - started,
-        }
-        json_new(output / "result.json", report)
-        return report
-    except BaseException:
-        json_new(
-            output / "failure.json",
-            {"schema_id": "hallmark.gnark-installation-failure/1", "cases": cases},
-        )
-        raise

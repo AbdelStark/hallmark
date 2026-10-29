@@ -43,7 +43,7 @@ nav:
       - A learning path: docs/learn/index.md
       - From inference to a claim: docs/learn/computation-and-claims.md
       - Read a proof statement: docs/learn/read-a-proof.md
-      - Two proof systems: docs/learn/proof-systems.md
+      - Circle STARK proof paths: docs/learn/proof-systems.md
       - Verify one request: docs/learn/one-request.md
   - Guides:
       - Choose a workflow: docs/START.md
@@ -60,7 +60,6 @@ nav:
   - Research:
       - Evidence map: docs/research/index.md
       - Results and limitations: docs/RESULTS.md
-      - Classifier backend benchmark: docs/CLASSIFIER-BENCHMARK.md
       - Evaluation contract: docs/EVALUATION.md
       - MVP acceptance: docs/MVP.md
       - Current state: research/STATE.md

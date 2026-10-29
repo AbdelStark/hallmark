@@ -1,18 +1,15 @@
-"""Frozen classifier comparison inputs and conformance; no new proof backend here."""
+"""Frozen classifier inputs, exports and scalar conformance; no proof backend here."""
 
-import copy
 import hashlib
 import json
-import time
 from fractions import Fraction
 from pathlib import Path
 
-import run_contextual_proof as cnn
-import run_trained_mlp as mlp
-import trained_common_input as common
+import contextual_proof as cnn
+import trained_mlp as mlp
 from run_e2e import EXPORTS
 
-from hallmark._gnark_probe import read_regular
+from hallmark._worker import read_regular
 from hallmark.classifier_manifest import _rescale
 from hallmark.integer_graph import IntegerGraph
 from hallmark.integrity import parse_json
@@ -39,14 +36,13 @@ def documents():
     plan = parse_json(read_regular(CONFIG / "plan.json", 65536).decode())
     corpus = parse_json(read_regular(CONFIG / "corpus.json", 65536).decode())
     if (
-        plan["schema_id"] != "hallmark.classifier-backend-plan/1"
+        plan["schema_id"] != "hallmark.circle-classifier-plan/1"
         or corpus["schema_id"] != "hallmark.classifier-backend-corpus/1"
         or plan["capacity_bytes"] != 96
-        or plan["repetitions"] != {"fresh": 3, "warm": 5}
         or [r["id"] for r in corpus["requests"]] != plan["case_ids"]
         or plan["threads"] != 4
     ):
-        raise ValueError("comparison plan or corpus changed without a new identity")
+        raise ValueError("classifier plan or corpus changed without a new identity")
     return plan, corpus
 
 
@@ -63,20 +59,6 @@ def exports(directory):
             else cnn.export(parse_json(raw.decode()))
         )
     return values
-
-
-def admitted(directory, expected_enrollment):
-    """Caller pins the original enrollment; a prover result flag is never consumed."""
-    values = exports(directory)
-    root = directory / "proofs"
-    raw = read_regular(root / "enrollment.json", 65536)
-    circuits = parse_json(read_regular(root / "circuit-pins.json", 65536).decode())
-    records, policy = common.resolve(raw, expected_enrollment, values, circuits)
-    for kind, record in zip(common.KINDS, records, strict=True):
-        vk = read_regular(root / ("setup-" + kind) / "vk.bin", 65536)
-        if vk != record["key"]:
-            raise ValueError("enrolled key differs from retained preparation")
-    return values, records, policy, circuits, raw
 
 
 def request(root, name):
@@ -189,136 +171,4 @@ def cnn_integer_bounds(exported):
         head_maximum=high,
         head_max_absolute_partial_or_product=head_peak,
         method="Per-site vocabulary extrema; independent sites; conservative, not tight/reachable",
-    )
-
-
-def native_contract(directory, expected_enrollment):
-    plan, corpus = documents()
-    values, records, policy, circuits, enrollment = admitted(directory, expected_enrollment)
-    proof_root = directory / "proofs"
-    score = native_scorer(values)
-    cases, bundles = [], {}
-    elapsed = []
-    for case in corpus["requests"]:
-        name = case["id"]
-        opening, expected = request(proof_root, name)
-        if opening.prompt != case["prompt"]:
-            raise ValueError("frozen caller prompt changed")
-        started = time.perf_counter()
-        native_scores = score(opening.prompt)
-        inference_seconds = time.perf_counter() - started
-        started = time.perf_counter()
-        rows = common.evaluate(records, policy, opening, expected)
-        elapsed.append(time.perf_counter() - started)
-        if [r["public"][99] for r in rows] != case["verdicts"]:
-            raise ValueError("frozen native verdict mismatch")
-        if native_scores != [
-            int(not case["verdicts"][0]),
-            rows[1]["trace"][-1],
-            rows[2]["trace"][-1],
-        ]:
-            raise ValueError("inference-only versus bound execution mismatch")
-        raw = read_regular(proof_root / (name + "-bundle.json"), 65536)
-        jobs = common.check_bundle(
-            enrollment, expected_enrollment, values, circuits, opening, expected, raw
-        )
-        bundles[name] = raw
-        cases.append(
-            dict(
-                id=name,
-                verdicts=case["verdicts"],
-                scores=native_scores,
-                native_inference_seconds=inference_seconds,
-                request=dict(
-                    opening_cbor_hex=opening.encode().hex(),
-                    expected_cbor_hex=expected.encode().hex(),
-                ),
-                public=[r["public"] for r in rows],
-                jobs=jobs,
-            )
-        )
-    opening, expected = request(proof_root, corpus["requests"][0]["id"])
-    boundaries = []
-    for case in corpus["input_boundaries"]:
-        prompt = case["unit"] * case["repeat"] + case["suffix"]
-        changed = opening.model_copy(update={"prompt": prompt})
-        try:
-            rows = common.evaluate(records, policy, changed, expected)
-        except ValueError:
-            if case["accepted"]:
-                raise
-            boundaries.append(dict(id=case["id"], admitted=False, byte_count=len(prompt.encode())))
-        else:
-            if not case["accepted"] or rows[0]["public"][99] != case["rule_verdict"]:
-                raise ValueError("input boundary contract mismatch")
-            boundaries.append(
-                dict(
-                    id=case["id"],
-                    admitted=True,
-                    byte_count=len(prompt.encode()),
-                    verdicts=[r["public"][99] for r in rows],
-                    trace_sha256=[sha(encoded(r["trace"])) for r in rows],
-                )
-            )
-    cross = []
-    for target in corpus["requests"]:
-        opening, expected = request(proof_root, target["id"])
-        for source in corpus["requests"]:
-            if source["id"] == target["id"]:
-                continue
-            for family in range(3):
-                changed = parse_json(bundles[target["id"]].decode())
-                changed["proofs"][family] = parse_json(bundles[source["id"]].decode())["proofs"][
-                    family
-                ]
-                try:
-                    common.check_bundle(
-                        enrollment,
-                        expected_enrollment,
-                        values,
-                        circuits,
-                        opening,
-                        expected,
-                        encoded(changed),
-                    )
-                except ValueError:
-                    cross.append([target["id"], source["id"], family])
-                else:
-                    raise ValueError("cross-request classifier accepted")
-    for roster in ([], ["rule", "mlp"], ["rule", "mlp", "mlp"]):
-        original = parse_json(bundles[corpus["requests"][0]["id"]].decode())
-        by_kind = {r["kind"]: r for r in original["proofs"]}
-        changed = copy.deepcopy(original)
-        changed["proofs"] = [by_kind[k] for k in roster]
-        opening, expected = request(proof_root, corpus["requests"][0]["id"])
-        try:
-            common.check_bundle(
-                enrollment,
-                expected_enrollment,
-                values,
-                circuits,
-                opening,
-                expected,
-                encoded(changed),
-            )
-        except ValueError:
-            pass
-        else:
-            raise ValueError("incomplete/duplicate classifier roster accepted")
-    return dict(
-        schema_id="hallmark.classifier-comparison-contract/1",
-        plan=plan,
-        plan_sha256=sha((CONFIG / "plan.json").read_bytes()),
-        corpus_sha256=sha((CONFIG / "corpus.json").read_bytes()),
-        enrollment_sha256=expected_enrollment,
-        model_pins={k: sha(encoded(v["model"])) for k, v in values.items()},
-        program_identities={k: v["program"].identity().hex() for k, v in values.items()},
-        cases=cases,
-        boundaries=boundaries,
-        cnn_integer_bounds=cnn_integer_bounds(values["encoder"]),
-        scalar_cases=scalar_conformance(corpus),
-        cross_request_rejections=cross,
-        roster_rejections=3,
-        exploratory_native_binding_seconds=elapsed,
-        qualified_backend=False,
     )

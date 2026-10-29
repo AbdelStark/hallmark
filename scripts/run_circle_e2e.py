@@ -1,4 +1,4 @@
-"""Default local Circle STARK workflow, with native model preparation and no Groth16 setup."""
+"""Default local Circle STARK workflow with caller-owned native model preparation."""
 
 import argparse
 import os
@@ -15,7 +15,7 @@ import classifier_comparison as comparison
 import run_circle_classifiers
 import run_e2e
 
-from hallmark._gnark_probe import read_regular, write_new
+from hallmark._worker import read_regular, write_new
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -57,7 +57,6 @@ def run(classifier_run=None, *, llm=False):
             seconds=7200,
             fresh_training=classifier_run is None,
             composed=llm,
-            groth16_setup=False,
             cloud_cost_minor=0,
         ),
     )
@@ -142,7 +141,6 @@ def run(classifier_run=None, *, llm=False):
             verifier,
             run_e2e.sha(verifier),
             output / "proofs",
-            native_preparation=True,
             llm=llm,
         )
         expected_count = 3 if llm else 9

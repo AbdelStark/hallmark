@@ -1,24 +1,22 @@
-# Circle STARK by default, gnark for comparison
+# Circle STARK for LLMs and classifiers
 
-Hallmark defaults to Circle STARKs: SASH for the quantized LLM and direct STWO
-for classifiers. Gnark/Groth16 remains an explicit comparison backend. The classifier paths now
-have a [matched CPU comparison](../CLASSIFIER-BENCHMARK.md) of the same computation.
+Hallmark proves with Circle STARKs: SASH for the quantized LLM and direct STWO
+for classifiers. The two paths share the proof family but prove different
+computations with different provers.
 
 ## The current division
 
-| | LLM path | Default classifier path | Comparison classifier path |
-|---|---|---|---|
-| Backend | SASH Circle STARK | Direct STWO 2.2.0 Circle STARK | gnark Groth16 / BLS12-381 |
-| Workload | Complete fixed quantized TinyLlama response | Same complete classifiers and 96-byte semantics | Rule, trained MLP and contextual byte CNN |
-| Proof structure | 23 linked segments | One fixed-gate proof per classifier/request | One dedicated proof per classifier/request |
-| Verification | SASH; Linux and adapted Mac variants | Fresh native STWO processes; shared engine/AIR implementation | Separate py-ecc decoder and pairing arithmetic |
-| Setup/enrollment | Expected model, shape and calibration roots | Public preprocessing, program/model mapping and concrete parameters | Research setup plus circuit/key/model mapping |
-| Recorded proof files | 738 MB across 23 proofs | 1.91–2.16 MB canonical JSON per proof | 292 bytes per proof |
-| Matched classifier comparison | Separate workload | Same cases, host and thread budget | Three fresh/five warm workflows |
+| | LLM path | Classifier path |
+|---|---|---|
+| Backend | SASH Circle STARK | Direct STWO 2.2.0 Circle STARK |
+| Workload | Complete fixed quantized TinyLlama response | Rule, trained MLP and contextual byte CNN; 96-byte demo semantics |
+| Proof structure | 23 linked segments | One fixed-gate proof per classifier/request |
+| Verification | SASH; Linux and adapted Mac variants | Fresh native STWO processes; shared engine/AIR implementation |
+| Setup/enrollment | Expected model, shape and calibration roots | Public preprocessing, program/model mapping and concrete parameters |
+| Recorded proof files | 738 MB across 23 proofs | 1.91–2.16 MB canonical JSON per proof |
 
-LLM/classifier artifact sizes cover different computations. The classifier
-comparison fixes the computation, but encodings, soundness parameters and
-implementation costs still differ. A proof-size ratio alone is insufficient.
+LLM/classifier artifact sizes cover different computations. A proof-size ratio
+between them is not a meaningful comparison.
 
 ## Circle STARKs: a small-field route
 
@@ -39,21 +37,6 @@ by Haböck, Levit and Papini, then
 The construction's mathematical properties do not replace a security review
 of this implementation, parameters and composition.
 
-## Groth16: a circuit-specific route
-
-Groth16 is a pairing-based proof system for arithmetic circuit satisfiability.
-Its construction uses a circuit-specific reference string. The verifier checks
-a small collection of group elements using a pairing equation.
-
-Hallmark compiles dedicated classifier circuits with gnark. A separate py-ecc
-verifier decodes the proofs and checks the Groth16 equations. Each local demo
-creates a fresh setup; that setup has not had an independently reviewed ceremony.
-
-Read [Groth's original paper](https://eprint.iacr.org/2016/260) and
-[the classifier relation](../PROOFS.md). Groth16 supports zero knowledge, but
-Hallmark has not qualified witness privacy across its data handling, parameters,
-proofs and host composition.
-
 ## A fair comparison needs the same claim
 
 Before comparing prover backends, freeze:
@@ -63,16 +46,6 @@ Before comparing prover backends, freeze:
 - honest verification and mutation/rejection gates;
 - hardware, threads, preprocessing and timing boundaries;
 - proof, key, enrollment and transfer sizes.
-
-The [completed classifier report](../CLASSIFIER-BENCHMARK.md) follows this plan
-and retains every sample and failed provisioning fixture. Circle's complete
-workflow is faster in that stateless harness, while using more memory and much
-larger proofs. Gnark's combined parsing stage dominates its command; its
-instrumented proving stage is shorter on the representative control. The report
-keeps the internal timing boundaries and security assumptions explicit, and
-originally recommended retaining both with gnark default. The owner subsequently
-selected Circle for all default workflows in [decision 0085](../decisions/0085-circle-default.md);
-the experiment and its measurements remain unchanged.
 
 ## The same-host GPU comparison {#what-the-gpu-result-does-show}
 

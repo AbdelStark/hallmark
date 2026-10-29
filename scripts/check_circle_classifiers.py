@@ -10,12 +10,13 @@ import time
 from pathlib import Path
 
 import circle_backend as backend
+import circle_inputs
 import classifier_comparison as comparison
 import trained_common_input as common
 from check_circle_engine import encode
 from run_circle_classifiers import trace_parity
 
-from hallmark._gnark_probe import RunBudget, invoke, json_new, read_regular, write_new
+from hallmark._worker import RunBudget, invoke, json_new, read_regular, write_new
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -25,10 +26,10 @@ def run(prepared, original_pin, circle_run, circle_pin, prover, verifier, output
     for binary, key in ((prover, "prover_sha256"), (verifier, "verifier_sha256")):
         if comparison.sha(read_regular(binary, 128 * 1024**2)) != protocol[key]:
             raise ValueError("acceptance binary pin mismatch")
-    exported, originals, old_policy, _, _ = comparison.admitted(prepared, original_pin)
+    exported, originals, old_policy = circle_inputs.admit(prepared, original_pin)
     enrollment = read_regular(circle_run / "caller-enrollment.json", 65536)
     records, policy, engines = backend.resolve(enrollment, circle_pin, originals, old_policy)
-    opening, original_expected = comparison.request(prepared / "proofs", "allow")
+    opening, original_expected = comparison.request(prepared / "requests", "allow")
     expected = backend.expected_request(original_expected, policy)
     _, corpus = comparison.documents()
     output.mkdir(mode=0o700)
@@ -43,7 +44,7 @@ def run(prepared, original_pin, circle_run, circle_pin, prover, verifier, output
             backend=identity.hex(),
             sources=sources,
             script_sha256=comparison.sha(Path(__file__).read_bytes()),
-            original_enrollment=original_pin,
+            native_preparation=original_pin,
             circle_enrollment=circle_pin,
             prover_sha256=protocol["prover_sha256"],
             verifier_sha256=protocol["verifier_sha256"],
@@ -258,12 +259,12 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     for name in ("classifier-run", "circle-run", "prover", "verifier", "output"):
         p.add_argument("--" + name, type=Path, required=True)
-    for name in ("expected-enrollment", "expected-circle-enrollment"):
+    for name in ("expected-preparation", "expected-circle-enrollment"):
         p.add_argument("--" + name, required=True)
     a = p.parse_args()
     result = run(
         a.classifier_run.resolve(),
-        a.expected_enrollment,
+        a.expected_preparation,
         a.circle_run.resolve(),
         a.expected_circle_enrollment,
         a.prover.resolve(),

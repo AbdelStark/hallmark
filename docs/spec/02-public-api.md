@@ -290,10 +290,9 @@ Protocol functions accept admitted immutable values, never implicit trust from t
 ```text
 hallmark verify BUNDLE --trust TRUST --expected REQUEST [--opening OPENING]
 hallmark inspect BUNDLE
-hallmark qualify PROTOCOL --output FRESH_DIRECTORY
 ```
 
-`verify` writes one versioned `VerificationResult` JSON document, exits 0 only if the caller's required claims and policy pass, 1 on a validly parsed but rejected claim, 2 on invalid input/configuration, and 3 on unavailable/failed execution. `inspect` outputs bounded identifiers and evidence presence with `verified:false`; it must not infer authenticity. These commands remain targets; `registry-check` is implemented above. `qualify` requires a preapproved resource protocol.
+`verify` writes one versioned `VerificationResult` JSON document, exits 0 only if the caller's required claims and policy pass, 1 on a validly parsed but rejected claim, 2 on invalid input/configuration, and 3 on unavailable/failed execution. `inspect` outputs bounded identifiers and evidence presence with `verified:false`; it must not infer authenticity. These commands remain targets; `registry-check` is implemented above.
 
 The gateway is a local/controlled-host library boundary, not a general hosted API:
 
