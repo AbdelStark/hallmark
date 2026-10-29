@@ -36,7 +36,7 @@ make e2e-llm
 ```
 
 Preparation runs locally. Three sequential HF CPU jobs build, prove and verify
-under a **$2.10 timeout-based ceiling**, without adding funds. The recorded fresh
+under a **$2.50 startup-inclusive ceiling**, without adding funds. The recorded fresh
 LLM phase took 32 min 44 s; its compute bound was $0.31, not an invoice. These
 are case observations with populated caches, not a latency distribution.
 

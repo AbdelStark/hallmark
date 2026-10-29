@@ -13,15 +13,6 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-CREATION_SECONDS = 600
-
-
-def inclusive_phases(phases):
-    return {
-        name: (flavor, seconds + CREATION_SECONDS, threads, memory)
-        for name, (flavor, seconds, threads, memory) in phases.items()
-    }
-
 
 def admission(e2e, hardware, workflow, maximum, *, gpu=None, build_reused=False):
     phases = e2e.PHASES
@@ -29,7 +20,7 @@ def admission(e2e, hardware, workflow, maximum, *, gpu=None, build_reused=False)
         phases = {
             name: value for name, value in gpu.PHASES.items() if name != "build" or not build_reused
         }
-    bound = e2e.planned_cost(hardware, maximum, inclusive_phases(phases))
+    bound = e2e.planned_cost(hardware, maximum, phases)
     return dict(
         schema_id="hallmark.demo-hf-plan/1",
         observed_at=datetime.now(UTC).isoformat(),
@@ -42,7 +33,7 @@ def admission(e2e, hardware, workflow, maximum, *, gpu=None, build_reused=False)
             name: dict(
                 flavor=value[0],
                 worker_seconds=value[1],
-                creation_seconds=CREATION_SECONDS,
+                creation_seconds=e2e.CREATION_SECONDS,
                 threads=value[2],
                 memory_gib=value[3],
                 rate_micro_usd_minute=hardware[value[0]].unit_cost_micro_usd,

@@ -99,8 +99,9 @@ uv run --locked --extra train --extra llm python scripts/run_classifier_gpu.py \
 `--build-run runs/<prior-campaign>` admits a matching retained native build.
 The recorded corrected campaign uses `runs/classifier-gpu-399bl9ec` as its build
 and writes `runs/classifier-gpu-sm11ii3z`. The owner explicitly approved the
-recorded credit-check exception; its balance remains null. Normal reproduction
-uses the checked balance above and its own provider authority.
+recorded one-off credit-check exception; its balance remains null. That flag is
+removed: reproduction requires the checked balance above and its own provider
+authority.
 
 Stock classifier/core/verifier sources, models, thresholds, SHA-256 commitment,
 proof parameters and C1 enrollment remain unchanged. The optional CUDA crate

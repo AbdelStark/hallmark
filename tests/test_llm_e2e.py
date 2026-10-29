@@ -22,14 +22,21 @@ def hardware():
     }
 
 
-def test_budget_includes_all_jobs_and_reserve():
-    assert e2e.planned_cost(hardware(), "2.10") == 1_960_000
+def test_budget_includes_all_jobs_startup_windows_and_reserve():
+    # 40 + 70 + 40 billed minutes (timeouts plus one 600 s window each) and one cent.
+    assert e2e.planned_cost(hardware(), "2.50") == 2_270_000
     with pytest.raises(ValueError, match="exceed"):
-        e2e.planned_cost(hardware(), "1.95")
+        e2e.planned_cost(hardware(), "2.26")
     expensive = hardware()
     expensive["cpu-performance"].unit_cost_micro_usd *= 2
     with pytest.raises(ValueError, match="exceed"):
-        e2e.planned_cost(expensive, "2.10")
+        e2e.planned_cost(expensive, "2.50")
+
+
+def test_startup_window_is_counted_exactly_once():
+    one_minute = {"job": ("cpu-performance", 60, 1, 1)}
+    # (1 + 10) minutes at 31,667 µ$/min rounds up to $0.35, plus the $0.01 reserve.
+    assert e2e.planned_cost(hardware(), "1", one_minute) == 360_000
 
 
 @pytest.mark.parametrize("value", ["NaN", "Infinity", "-1", "0", "not-a-price"])
@@ -124,6 +131,76 @@ def test_uncertain_job_creation_preserves_bucket_and_never_retries(tmp_path):
     assert api.attempts == 1
     assert not api.deleted
     assert (tmp_path / "build/bucket.json").is_file()
+
+
+class ScriptedJob(CreationTimeout):
+    """A created job whose inspected stages (or raised errors) follow a fixed script."""
+
+    def __init__(self, script):
+        super().__init__()
+        self.script = list(script)
+        self.cancelled = 0
+
+    def run_job(self, **kwargs):
+        return SimpleNamespace(id="fixture-job")
+
+    def inspect_job(self, **kwargs):
+        assert self.script, "polled past the scripted stages"
+        step = self.script.pop(0)
+        if isinstance(step, BaseException):
+            raise step
+        return SimpleNamespace(
+            status=SimpleNamespace(stage=step), started_at=None, finished_at=None
+        )
+
+    def cancel_job(self, **kwargs):
+        self.cancelled += 1
+
+    def fetch_job_logs(self, **kwargs):
+        return []
+
+    def list_bucket_tree(self, *args, **kwargs):
+        return []
+
+    def download_bucket_files(self, *args, **kwargs):
+        pass
+
+
+@pytest.mark.parametrize(
+    "script,cancelled,deleted,error,match",
+    [
+        # Polling keeps failing after the job exists: cancel, then clean up the bucket.
+        ([ConnectionError("lost")] * 3 + ["CANCELED"], 1, True, ConnectionError, "lost"),
+        # A provider-side deletion is terminal: no cancel, bucket cleaned, failure raised.
+        (["RUNNING", "DELETED"], 0, True, ValueError, "build failed"),
+        # Ctrl-C, then a cancel that never terminates: the live job's bucket is retained.
+        ([KeyboardInterrupt()] + ["RUNNING"] * 30, 1, False, ValueError, "remains live"),
+    ],
+    ids=["poll-error", "deleted", "cancel-never-terminal"],
+)
+def test_created_job_failures_cancel_and_clean_up_as_intended(
+    tmp_path, monkeypatch, script, cancelled, deleted, error, match
+):
+    pytest.importorskip("huggingface_hub")
+    monkeypatch.setattr(e2e.time, "sleep", lambda _: None)
+    script_path = tmp_path / "build.sh"
+    script_path.write_text("exit 1\n")
+    api = ScriptedJob(script)
+    (tmp_path / "protocol.json").write_text(json.dumps({"source_files": {}}))
+    with pytest.raises(error, match=match):
+        e2e.cloud_job(
+            api,
+            "fixture-owner",
+            "build",
+            {"build_prover.sh": script_path},
+            dict(source=dict(revision="f" * 40), image="fixture"),
+            hardware(),
+            tmp_path,
+        )
+    assert api.cancelled == cancelled
+    assert api.deleted is deleted
+    assert not api.script
+    assert (tmp_path / "build/retention.json").is_file() is deleted
 
 
 def test_retention_rejects_remote_path_escape(tmp_path):

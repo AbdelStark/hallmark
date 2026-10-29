@@ -66,9 +66,8 @@ Paid runs read `HF_TOKEN` on the server from its environment or ignored `.env`.
 The browser never asks for or receives the token. Cost caps, price checks,
 active-job guards, balance checks and cleanup remain in the existing drivers.
 The app's startup-inclusive ceilings are $2.50 for a fresh LLM/composed run
-and $5 for the GPU benchmark. They differ from the original CLI's $2.10
-worker-timeout-only LLM estimate: the app reserves another 600 seconds of
-provider creation/cancellation time per phase. `resource-plan.json` records the
+and $5 for the GPU benchmark, the same as the CLI. Each bound reserves another
+600 seconds of provider creation/cancellation time per phase. `resource-plan.json` records the
 live rates and bound before work starts. The GPU balance field requires a freshly
 checked prepaid balance. No app retry
 starts another cloud job automatically.

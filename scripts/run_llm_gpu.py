@@ -5,6 +5,7 @@ import json
 import platform
 import re
 import shutil
+import subprocess
 import tarfile
 import tempfile
 import time
@@ -24,16 +25,10 @@ PHASES = {
 }
 
 
-def planned_cost(hardware, maximum, phases=PHASES):
-    # HF bills Starting too; reserve the full extra creation/cancellation window.
-    bounds = {name: (p[0], p[1] + 600, p[2], p[3]) for name, p in phases.items()}
-    return e2e.planned_cost(hardware, maximum, bounds)
-
-
 def credit_guard(balance, ceiling):
     try:
         amount = Decimal(balance)
-    except InvalidOperation:
+    except (InvalidOperation, TypeError):
         raise ValueError("invalid independently checked credit balance") from None
     e2e.require(
         amount.is_finite() and amount >= Decimal(ceiling) / 1_000_000,
@@ -133,7 +128,13 @@ def run(previous, balance, maximum, build_run=None):
         (platform.system(), platform.machine()) == ("Darwin", "arm64"),
         "GPU benchmark controller requires an Apple Silicon Mac for native verification",
     )
-    e2e.require(shutil.which("cargo") is not None, "Install Rust before starting paid jobs")
+    # verify_llm builds the native verifier with this toolchain after the paid jobs.
+    try:
+        toolchain = ["cargo", "+" + verify_llm.TOOLCHAIN, "-V"]
+        pinned = subprocess.run(toolchain, capture_output=True, timeout=60).returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        pinned = False
+    e2e.require(pinned, f"Install Rust {verify_llm.TOOLCHAIN} before starting paid jobs")
 
     from huggingface_hub import HfApi
 
@@ -148,7 +149,7 @@ def run(previous, balance, maximum, build_run=None):
     namespace = api.whoami()["name"]
     e2e.require(re.fullmatch(r"[A-Za-z0-9-]+", namespace) is not None, "invalid HF namespace")
     hardware = {h.name: h for h in api.list_jobs_hardware()}
-    ceiling = planned_cost(hardware, maximum, phases)
+    ceiling = e2e.planned_cost(hardware, maximum, phases)
     credit_guard(balance, ceiling)
     e2e.require(hardware["h200"].ram == "256 GB", "review changed H200 host memory")
     e2e.require(

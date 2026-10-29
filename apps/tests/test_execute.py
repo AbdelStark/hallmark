@@ -21,12 +21,12 @@ def hardware():
     }
 
 
-def test_startup_cost_guard_closes_the_original_timeout_only_gap(e2e):
-    assert e2e.planned_cost(hardware(), "2.10") == 1960000
+def test_startup_cost_guard_counts_the_window_exactly_once(e2e):
     with pytest.raises(ValueError, match="cost ceiling"):
         admission(e2e, hardware(), "llm", "2.10")
     plan = admission(e2e, hardware(), "llm", "2.50")
-    assert plan["conservative_bound_micro_usd"] == 2270000
+    # The admission and the CLI driver share one startup-inclusive bound.
+    assert plan["conservative_bound_micro_usd"] == e2e.planned_cost(hardware(), "2.50") == 2270000
     assert plan["automatic_retries"] == 0
     assert plan["phases"]["prove"]["worker_seconds"] == 3600
     assert plan["phases"]["prove"]["creation_seconds"] == 600

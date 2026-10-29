@@ -41,7 +41,7 @@ make e2e-composed
 ```
 
 Fresh LLM proving starts the existing bounded paid HF CPU jobs with the CLI's
-**$2.10 timeout-based ceiling**, using prepaid credits and `HF_TOKEN`. Classifier
+**$2.50 startup-inclusive ceiling**, using prepaid credits and `HF_TOKEN`. Classifier
 preparation and proofs run locally. There is no new payment or account setup.
 
 For a local run with retained LLM proofs:

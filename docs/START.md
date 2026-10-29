@@ -56,7 +56,7 @@ No GPU, token, cloud account or pretrained checkpoint is needed.
 
 Set your HF token in the environment or ignored `.env`, check prepaid credits,
 then use the [LLM workflow](LLM-PROOF.md#run-it). It starts three sequential paid
-CPU jobs, under a **$2.10 timeout-based cost ceiling**.
+CPU jobs, under a **$2.50 startup-inclusive cost ceiling**.
 
 The [GPU benchmark](GPU-BENCHMARK.md#run-it) is separate: it reuses a completed
 reviewed public witness archive and starts CPU/H200 jobs under a **$5 ceiling**.

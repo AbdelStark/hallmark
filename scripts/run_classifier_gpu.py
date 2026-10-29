@@ -17,10 +17,11 @@ import trained_common_input as common
 from check_circle_engine import encode
 from prepare_classifier_gpu import PROBE
 from run_e2e import sha, write_json
-from run_llm_gpu import credit_guard, planned_cost
+from run_llm_gpu import credit_guard
 
 ROOT = Path(__file__).resolve().parents[1]
 PHASES = {"build": ("cpu-upgrade", 1800, 4, 28), "prove": ("h200", 1800, 4, 210)}
+VERIFIER = ROOT / "research/probes/circle/target/release/circle-verify"
 BINARIES = {"circle-prove-cpu", "circle-prove-cuda", "circle-verify"}
 ROSTER = {
     f"{case}-{kind}"
@@ -147,13 +148,17 @@ def run(
     source,
     balance,
     *,
-    owner_approved_credit_exception=False,
     gpu_flavor="h200",
     build_run=None,
 ):
     from huggingface_hub import HfApi
 
     cloud.require(shutil.disk_usage(ROOT).free >= 16 * 1024**3, "16 GiB free storage required")
+    # The proofs are only checked after the paid jobs; build the verifier before starting them.
+    cloud.require(
+        VERIFIER.is_file() and not VERIFIER.is_symlink(),
+        "Build circle-verify (make circle-build) before starting paid jobs",
+    )
     api = HfApi(token=cloud.token())
     namespace = api.whoami()["name"]
     hardware = {h.name: h for h in api.list_jobs_hardware()}
@@ -165,11 +170,8 @@ def run(
         and hardware["cpu-upgrade"].ram == "32 GB",
         "hardware allocation changed",
     )
-    ceiling = planned_cost(hardware, "5.00", phases)
-    if owner_approved_credit_exception:
-        cloud.require(balance is None, "credit exception cannot claim a checked balance")
-    else:
-        credit_guard(balance, ceiling)
+    ceiling = cloud.planned_cost(hardware, "5.00", phases)
+    credit_guard(balance, ceiling)
     cloud.require(
         not [j for j in api.list_jobs(namespace=namespace) if j.status.stage not in cloud.TERMINAL],
         "another HF job is active",
@@ -197,7 +199,6 @@ def run(
             phases=phases,
             gpu_flavor=gpu_flavor,
             balance_check_usd=balance,
-            owner_approved_credit_check_exception=owner_approved_credit_exception,
             cost_ceiling_micro_usd=ceiling,
             source=source_pins,
             native_preparation_pin=native_pin,
@@ -300,7 +301,6 @@ def run(
             result["passed"] and len(result["measurements"]) == 54, "GPU campaign incomplete"
         )
         measurement_roster(result["measurements"])
-        verifier = ROOT / "research/probes/circle/target/release/circle-verify"
         for row in result["measurements"]:
             stem = f"{row['iteration']}-{row['backend']}-{row['case']}"
             case_name, kind = row["case"].rsplit("-", 1)
@@ -315,7 +315,7 @@ def run(
             begin = time.monotonic()
             checked = subprocess.run(
                 [
-                    verifier,
+                    VERIFIER,
                     folder / "enrollment.json",
                     row["enrollment_sha256"],
                     folder / "public.json",
@@ -350,9 +350,7 @@ if __name__ == "__main__":
     p.add_argument("--prepared", type=Path, required=True)
     p.add_argument("--native-preparation-pin", required=True)
     p.add_argument("--source", type=Path, required=True)
-    credit = p.add_mutually_exclusive_group(required=True)
-    credit.add_argument("--credit-balance-usd")
-    credit.add_argument("--owner-approved-credit-check-exception", action="store_true")
+    p.add_argument("--credit-balance-usd", required=True)
     p.add_argument("--gpu-flavor", choices=("h200", "a100-large"), default="h200")
     p.add_argument("--build-run", type=Path)
     a = p.parse_args()
@@ -361,7 +359,6 @@ if __name__ == "__main__":
         a.native_preparation_pin,
         a.source.resolve(),
         a.credit_balance_usd,
-        owner_approved_credit_exception=a.owner_approved_credit_check_exception,
         gpu_flavor=a.gpu_flavor,
         build_run=a.build_run.resolve() if a.build_run else None,
     )
