@@ -19,6 +19,7 @@ from hallmark.enrollment import (
     TrustPolicy,
     _verify_signatures,
     enroll,
+    validate_successor,
 )
 from hallmark.errors import HallmarkError
 from hallmark.manifests import ArtifactDigest, Digest32, _Record
@@ -76,31 +77,6 @@ def sign_snapshot(
         limits=WireLimits(max_bytes=trust.limits.bundle_bytes, nesting=trust.limits.nesting)
     )
     return signed
-
-
-def validate_successor(previous: RegistryBody, candidate: RegistryBody) -> None:
-    """Retain every identity/review; retirement can only become earlier."""
-    if type(previous) is not RegistryBody or type(candidate) is not RegistryBody:
-        raise HallmarkError("INPUT_INVALID", "enroll")
-    previous, candidate = previous._validated(), candidate._validated()
-    if (
-        candidate.sequence != previous.sequence + 1
-        or candidate.previous != previous.identity()
-        or candidate.issued_at < previous.issued_at
-    ):
-        raise HallmarkError("REGISTRY_INVALID", "enroll")
-    entries = {(entry.kind, entry.digest): entry for entry in candidate.entries}
-    for old in previous.entries:
-        new = entries.get((old.kind, old.digest))
-        if (
-            new is None
-            or new.model_copy(update={"retired_at": old.retired_at}) != old
-            or (
-                old.retired_at is not None
-                and (new.retired_at is None or new.retired_at > old.retired_at)
-            )
-        ):
-            raise HallmarkError("REGISTRY_INVALID", "enroll")
 
 
 def next_snapshot(
