@@ -17,6 +17,7 @@ METRICS = {
     "baseline_mutations_rejected": "Baseline mutations rejected",
     "native_enrollment_mutations_rejected": "Enrollment mutations rejected",
     "native_boundary_mutations_rejected": "Boundary mutations rejected",
+    "native_statement_mutations_rejected": "Statement mutations rejected",
 }
 
 
@@ -121,6 +122,7 @@ def summarize(workflow, report):
             baseline_mutations_rejected=14,
             native_enrollment_mutations_rejected=2,
             native_boundary_mutations_rejected=20,
+            native_statement_mutations_rejected=2,
             qualified_backend=False,
             security_review=False,
         )

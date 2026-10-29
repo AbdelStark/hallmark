@@ -378,7 +378,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             cwd=worker,
         )
         report = json.loads((worker / "output/result.json").read_text())
-        require(report["passed"] is True and len(report["cases"]) == 38, "incomplete suite")
+        require(report["passed"] is True and len(report["cases"]) == 40, "incomplete suite")
         require(sum(c["accepted"] for c in report["cases"]) == 2, "incorrect suite outcomes")
         require(all(sha(ROOT / name) == pin for name, pin in frozen.items()), "source changed")
         authority = check_enrollment("after-verification")
@@ -392,6 +392,7 @@ print(json.dumps(dict(fork=True, outside_file_denied=True, network_denied=True))
             baseline_mutations_rejected=14,
             native_enrollment_mutations_rejected=2,
             native_boundary_mutations_rejected=20,
+            native_statement_mutations_rejected=2,
             seconds=time.monotonic() - started,
             verifier_sha256=sha(binary),
             shape_root_source="compiled-enrollment",

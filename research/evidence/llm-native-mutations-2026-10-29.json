@@ -1,0 +1,1134 @@
+{
+  "assets": {
+    "anonymous_https": true,
+    "downloads": [
+      {
+        "bytes": 355320899,
+        "name": "llm-proofs.tar.gz",
+        "sha256": "b59ac71636fd9f654cc4d5c26b5673d97671b925345b75b58e24ca1fc52e33ab",
+        "url": "https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/llm-proofs.tar.gz",
+        "used_as": "proofs.tar.gz"
+      },
+      {
+        "bytes": 93363516,
+        "name": "reference-records.tar.gz",
+        "sha256": "8fcee7279b7d5ef5581407e917959b86ca174683468ee341dd2690bd736c5dcb",
+        "url": "https://github.com/AbdelStark/hallmark/releases/download/circle-reference-2026-10-28/reference-records.tar.gz",
+        "used_as": "member llm/proof-inventory.json only"
+      }
+    ],
+    "hashes_match_pinned_release": true,
+    "pinned_by": "research/evidence/circle-reference-2026-10-28.json",
+    "proof_inventory_sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+    "release": "circle-reference-2026-10-28",
+    "upstream_source_sha256": "98f3fbdcb2359898804ce06752db29afd046452704dcc5722c6bf18801827abe"
+  },
+  "case_sha256": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+  "cases": [
+    {
+      "accepted": true,
+      "name": "honest-0",
+      "native_exit_code": 0,
+      "native_failures": [],
+      "proofs_accepted": 23,
+      "python_pre_check_ran": true,
+      "rejection_stage": null,
+      "seconds": 3.4975357090006582
+    },
+    {
+      "accepted": true,
+      "name": "honest-1",
+      "native_exit_code": 0,
+      "native_failures": [],
+      "proofs_accepted": 23,
+      "python_pre_check_ran": true,
+      "rejection_stage": null,
+      "seconds": 3.3296524999968824
+    },
+    {
+      "accepted": false,
+      "name": "changed-prompt",
+      "python_pre_check_ran": true,
+      "reason": "wrong input tokens",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0009246250046999194
+    },
+    {
+      "accepted": false,
+      "name": "changed-answer",
+      "python_pre_check_ran": true,
+      "reason": "wrong input tokens",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0007698329936829396
+    },
+    {
+      "accepted": false,
+      "name": "changed-model",
+      "python_pre_check_ran": true,
+      "reason": "wrong model_root",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0006827500037616119
+    },
+    {
+      "accepted": false,
+      "name": "changed-calibration",
+      "python_pre_check_ran": true,
+      "reason": "unenrolled parameters",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0006588329997612163
+    },
+    {
+      "accepted": false,
+      "name": "missing-layer",
+      "python_pre_check_ran": true,
+      "reason": "missing or extra proof files",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.00014650000230176374
+    },
+    {
+      "accepted": false,
+      "name": "wrong-layer-coordinate",
+      "python_pre_check_ran": true,
+      "reason": "wrong layer",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.001215000003867317
+    },
+    {
+      "accepted": false,
+      "name": "changed-final-output",
+      "python_pre_check_ran": true,
+      "reason": "wrong output tokens",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.01359841600060463
+    },
+    {
+      "accepted": false,
+      "name": "token-alias",
+      "python_pre_check_ran": true,
+      "reason": "invalid token IDs",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0006681249942630529
+    },
+    {
+      "accepted": false,
+      "name": "boolean-token",
+      "python_pre_check_ran": true,
+      "reason": "invalid token IDs",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0006949160015210509
+    },
+    {
+      "accepted": false,
+      "name": "open-scale-profile",
+      "python_pre_check_ran": true,
+      "reason": "open-scale matmul profile",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0006558329987456091
+    },
+    {
+      "accepted": false,
+      "name": "weaker-security",
+      "python_pre_check_ran": true,
+      "reason": "wrong security parameters",
+      "rejection_stage": "python-pre-check",
+      "seconds": 0.0007167919975472614
+    },
+    {
+      "accepted": false,
+      "name": "altered-proof",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: sum-check invalid in layer 1: sum does not match the claim in round 0 (sum (195505714 + 2110612255i) + (1235022576 + 1574705970i)u, claim (1248543304 + 33220148i) + (477864488 + 1892554444i)u)\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": true,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.275351292002597
+    },
+    {
+      "accepted": false,
+      "name": "altered-residual-boundary",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L10: the chunk proof does not verify: {\"derived\":\"1d8d4104f1a331433c64fe39096a083ad8adbf482b8dde726d94636a856bb009\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": true,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.3173226670041913
+    },
+    {
+      "accepted": false,
+      "name": "altered-output-claim",
+      "native_exit_code": 1,
+      "native_failures": [
+        "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": true,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2133803339966107
+    },
+    {
+      "accepted": false,
+      "name": "native-unknown-shape",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the shape root was not enrolled for the statement and /Users/abdel/dev/hallmark/.claude/worktrees/agent-a73b0b8a3eeaf48a1/runs/llm-verify-82ihwpzv/verification/output/native-unknown-shape-roots.json: unenrolled shape f5210675cf68a28b5338c4ef856343f11ec37e2993b71e1cdf6718c8da1f61ac\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.20673129199713
+    },
+    {
+      "accepted": false,
+      "name": "native-changed-calibration",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the shape root was not enrolled for the statement and /Users/abdel/dev/hallmark/.claude/worktrees/agent-a73b0b8a3eeaf48a1/runs/llm-verify-82ihwpzv/verification/output/native-changed-calibration-roots.json: unenrolled shape a5fabfd84cc0531c24a3693c02f784af640115bdcc146a9735d5ec0b2e574f00\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.223841999999422
+    },
+    {
+      "accepted": false,
+      "name": "native-changed-prompt",
+      "native_exit_code": 1,
+      "native_failures": [
+        "the id at position 0 is not the one that reaches it: {\"block\":0,\"got\":529,\"kind\":\"prompt\",\"pos\":0,\"t\":0,\"tag\":\"B0L0\",\"want\":530}"
+      ],
+      "proofs_accepted": 23,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.3257959999973536
+    },
+    {
+      "accepted": false,
+      "name": "native-changed-model-root",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the statement declares model_root a45136572e13045f3415eb12e82c437a0a83f276fb2699765b32f70c00c3de34 for layer 0, and the manifest says 0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "proofs_accepted": 23,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2961076659994433
+    },
+    {
+      "accepted": false,
+      "name": "claim-head-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "head: the chunk proof does not verify: {\"derived\":\"3119373feaf0611ffaa7275ba4a6d031e33eeb3e2710ff41b1a9582431a8e73f\",\"embed\":true,\"embed_tok\":true,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":false,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.1560022920020856
+    },
+    {
+      "accepted": false,
+      "name": "claim-embedding-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":false,\"error\":\"OodsNotMatching\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.254443457997695
+    },
+    {
+      "accepted": false,
+      "name": "sample-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(TooFewQueriedValues)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2518092499958584
+    },
+    {
+      "accepted": false,
+      "name": "query-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(RootMismatch)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.243670415999077
+    },
+    {
+      "accepted": false,
+      "name": "column-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(RootMismatch)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2347431250018417
+    },
+    {
+      "accepted": false,
+      "name": "fri-polynomial-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Merkle(TooFewQueriedValues)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2578432919981424
+    },
+    {
+      "accepted": false,
+      "name": "empty-commitments",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2241599580011098
+    },
+    {
+      "accepted": false,
+      "name": "empty-samples",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2522141250010463
+    },
+    {
+      "accepted": false,
+      "name": "empty-decommitments",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2242430839978624
+    },
+    {
+      "accepted": false,
+      "name": "empty-queries",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof tree count mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.169757708994439
+    },
+    {
+      "accepted": false,
+      "name": "empty-fri-layers",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Fri(InvalidNumFriLayers)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.212981457996648
+    },
+    {
+      "accepted": false,
+      "name": "empty-fri-witness",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":\"7da3534f535fe416c9d9aa0e8f765e3da5ac8c772d0ef35e6f303103c099466f\",\"embed\":true,\"embed_tok\":true,\"error\":\"Fri(FirstLayerEvaluationsInvalid)\",\"head_binding\":true,\"head_tok\":true,\"root\":true,\"shape_root\":true,\"stark\":false,\"sums\":true}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2937764169982984
+    },
+    {
+      "accepted": false,
+      "name": "config-queries",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.27023070800351
+    },
+    {
+      "accepted": false,
+      "name": "config-blowup",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2081675410008756
+    },
+    {
+      "accepted": false,
+      "name": "config-pow",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof configuration mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.185173375000886
+    },
+    {
+      "accepted": false,
+      "name": "empty-gkr",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"the key tiles' GKR proof: unparseable GKR proof: EOF while parsing a value at line 1 column 0\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.1247097499945085
+    },
+    {
+      "accepted": false,
+      "name": "input-token-field-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"token ID outside enrolled vocabulary\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}",
+        "the id at position 0 is not the one that reaches it: {\"block\":0,\"got\":2147484176,\"kind\":\"prompt\",\"pos\":0,\"t\":0,\"tag\":\"B0L0\",\"want\":529}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.1150303749964223
+    },
+    {
+      "accepted": false,
+      "name": "output-token-field-alias",
+      "native_exit_code": 1,
+      "native_failures": [
+        "head: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"token ID outside enrolled vocabulary\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.0456781670000055
+    },
+    {
+      "accepted": false,
+      "name": "empty-fixed-sizes",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"claims shape mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.2246467910008505
+    },
+    {
+      "accepted": false,
+      "name": "empty-fixed-column-sizes",
+      "native_exit_code": 1,
+      "native_failures": [
+        "B0L0: the chunk proof does not verify: {\"derived\":null,\"embed\":false,\"embed_tok\":false,\"error\":\"proof column shape mismatch\",\"head_binding\":false,\"head_tok\":false,\"root\":false,\"shape_root\":null,\"stark\":false,\"sums\":false}"
+      ],
+      "proofs_accepted": 22,
+      "python_pre_check_ran": false,
+      "rejection_stage": "native-verifier",
+      "seconds": 3.202598208001291
+    }
+  ],
+  "cloud_cost_usd": 0,
+  "cloud_jobs_started": 0,
+  "commands": [
+    "curl -fsSL -o <dir>/proofs.tar.gz <release>/llm-proofs.tar.gz",
+    "curl -fsSL -o reference-records.tar.gz <release>/reference-records.tar.gz",
+    "tar -xzf reference-records.tar.gz llm/proof-inventory.json; cp to <dir>/",
+    "uv run --locked --python 3.12.12 python scripts/verify_llm.py --run <dir>"
+  ],
+  "counts": {
+    "baseline_mutations_rejected": 14,
+    "cases": 40,
+    "honest_accepted": 2,
+    "mutations_rejected": 38,
+    "native_boundary_mutations_rejected": 20,
+    "native_enrollment_mutations_rejected": 2,
+    "native_statement_mutations_rejected": 2,
+    "rejected_by_stage": {
+      "native-verifier": 27,
+      "python-pre-check": 11
+    }
+  },
+  "elapsed_seconds": {
+    "build": 98.38858462500502,
+    "controller": 201.59210137500486,
+    "honest_checks": [
+      3.4975357090006582,
+      3.3296524999968824
+    ],
+    "verification_suite": 101.13880412500293,
+    "worker": 101.08909220899659
+  },
+  "hardware_claim": "none: no hardware attestation or provenance is claimed",
+  "hf_api_used": false,
+  "hiding_claim": false,
+  "host": {
+    "cpu": "Apple M4 Max",
+    "memory_bytes": 51539607552,
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.12.12",
+    "rustc": "rustc 1.90.0-nightly (e9182f195 2025-07-13)",
+    "uv_version": "0.9.18"
+  },
+  "independent_security_review": false,
+  "issue": 152,
+  "limits": "Fixed public case. Sampled RSS is not an OS quota. Timings are one Mac run, not a benchmark or cross-hardware comparison.",
+  "native_patch_sha256": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+  "new_native_mutations": [
+    {
+      "edit": "caller prompt_ids[0] := 530; Python caller guard skipped",
+      "name": "native-changed-prompt",
+      "native_check": "boundary-grid --prompt comparison",
+      "python_counterpart": "changed-prompt (rejected by pre-check: wrong input tokens)"
+    },
+    {
+      "edit": "caller roots[0].model_root := \"0\"*64; Python caller guard skipped",
+      "name": "native-changed-model-root",
+      "native_check": "boundary-grid --expect-model-roots comparison",
+      "python_counterpart": "changed-model (rejected by pre-check: wrong model_root)"
+    }
+  ],
+  "passed": true,
+  "peak_rss_bytes": {
+    "build": 2460958720,
+    "verification_suite": 589889536
+  },
+  "proof_files_unchanged": true,
+  "proofs_regenerated": false,
+  "qualified_backend": false,
+  "raw": {
+    "build/command.json": {
+      "bytes": 169,
+      "sha256": "764da86898fc4e7359abdb03e3a8982c6e48368b48957973ccd7ab0640c9e095"
+    },
+    "build/cost.json": {
+      "bytes": 187,
+      "sha256": "6ade6e9c4b46a54b7306945b470ce476ea6a7453b58e8392801d2875e7b7bab3"
+    },
+    "build/output.log": {
+      "bytes": 16653,
+      "sha256": "7e7f42298082a8d25c87e4ffcc38f2be33ef8430e8f9ee43e4045952e432b379"
+    },
+    "patch/command.json": {
+      "bytes": 204,
+      "sha256": "89c2199dab780a775800eb6a499b7358ebdd23daae00beae56f82a0333f5b1bf"
+    },
+    "patch/cost.json": {
+      "bytes": 186,
+      "sha256": "9c301cf703cc0bd4fc4d8a05b3d2bbf0a2d17c75330761f9224b3de35b4c4b22"
+    },
+    "patch/output.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "protocol.json": {
+      "bytes": 2211,
+      "sha256": "628a9b8d3389cad482ffd5ae590f5e05c6f0a87e2e8cbdd8cd25e8ab46b03375"
+    },
+    "result.json": {
+      "bytes": 664,
+      "sha256": "d31ff2971b21100a0aee4ec5a514e06cfc6c45e2609303e9d9b46b9eaceec870"
+    },
+    "sandbox-control/command.json": {
+      "bytes": 1199,
+      "sha256": "ee3c18b949922c55576365fdd6d91b0c31ff05065043928880a9284df2a7930e"
+    },
+    "sandbox-control/cost.json": {
+      "bytes": 186,
+      "sha256": "63255bfb95e119dbb887ee4ccc0da3bdff73f9ecbd67011301c00906521b85fc"
+    },
+    "sandbox-control/output.log": {
+      "bytes": 68,
+      "sha256": "2dcb417b5eb77665a1bded09f8eb033e72fa9e1c240e839403b943633022c53a"
+    },
+    "verification/expected.json": {
+      "bytes": 25422,
+      "sha256": "229586caa61f4ab107302f0775e0bda1ee19720d315f71d5138ad4b53de35def"
+    },
+    "verification/output/altered-output-claim-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/altered-output-claim-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/altered-output-claim.stderr": {
+      "bytes": 1958,
+      "sha256": "50e5cf37247c5567923659d7771c3717a80259bebcc0848a0f17ba02e5019839"
+    },
+    "verification/output/altered-output-claim.stdout": {
+      "bytes": 52453,
+      "sha256": "e69a780a18d798172729f1816eccfa92310dd6de36fc0e3cce04113c09853d4e"
+    },
+    "verification/output/altered-proof-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/altered-proof-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/altered-proof.stderr": {
+      "bytes": 2104,
+      "sha256": "9232e2b20e966eb426c039600fb831b7543a0816f657cce518cbaaba46b2fe8b"
+    },
+    "verification/output/altered-proof.stdout": {
+      "bytes": 52661,
+      "sha256": "500087262feb75fb1295220c18170b64e3f13a38c955f25132559a4ba1f972d3"
+    },
+    "verification/output/altered-residual-boundary-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/altered-residual-boundary-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/altered-residual-boundary.stderr": {
+      "bytes": 2029,
+      "sha256": "5919114099b9d019fa3443470c3d6f09146464787b8fdb88ecd1216423162e88"
+    },
+    "verification/output/altered-residual-boundary.stdout": {
+      "bytes": 52624,
+      "sha256": "f54ce2414e0627256fc9aba4d6b7cadab63658c8096339a11fbcfbff15f683e0"
+    },
+    "verification/output/cases.json": {
+      "bytes": 16121,
+      "sha256": "e06dab8318a257c2c7a019919103f2d2cc266d746aa65477f8ec1905b7ac691b"
+    },
+    "verification/output/claim-embedding-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/claim-embedding-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/claim-embedding-alias.stderr": {
+      "bytes": 1958,
+      "sha256": "46ae30ddc4b163853fc96c3db3ce1bf4147de1479e68e64e89584bf5967f7aee"
+    },
+    "verification/output/claim-embedding-alias.stdout": {
+      "bytes": 52459,
+      "sha256": "19d138ec3ff4f31230f53251c2936587bb7f0417061857534218571e54dc6d63"
+    },
+    "verification/output/claim-head-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/claim-head-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/claim-head-alias.stderr": {
+      "bytes": 1958,
+      "sha256": "50e5cf37247c5567923659d7771c3717a80259bebcc0848a0f17ba02e5019839"
+    },
+    "verification/output/claim-head-alias.stdout": {
+      "bytes": 52399,
+      "sha256": "53094b497dd1386ca9de9b62c36503d0535a8a2e82a7af9b66af770791b81a2a"
+    },
+    "verification/output/column-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/column-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/column-alias.stderr": {
+      "bytes": 1962,
+      "sha256": "63ce1fd714988ad0ac860ef6eec5b3137d8c579e1a6141167580defd6c40d700"
+    },
+    "verification/output/column-alias.stdout": {
+      "bytes": 52380,
+      "sha256": "279f3d156cc0728b9a6e1393da81c4ac01ab013a60ae8368ddbfe4517a488051"
+    },
+    "verification/output/commands.json": {
+      "bytes": 41274,
+      "sha256": "27f1e3fe67c916211d5b364b4210301850ef29a952010bf185f303b64a532278"
+    },
+    "verification/output/config-blowup-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/config-blowup-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/config-blowup.stderr": {
+      "bytes": 1914,
+      "sha256": "c276ae5736692cf5da7c2c11846f5f7a5f6df915516c3e8638696df0e7174266"
+    },
+    "verification/output/config-blowup.stdout": {
+      "bytes": 52278,
+      "sha256": "24273368c14651380b9634a868c282ba45f1d3e5a234c916b8b0131aa70c6bc9"
+    },
+    "verification/output/config-pow-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/config-pow-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/config-pow.stderr": {
+      "bytes": 1914,
+      "sha256": "399dd21757a0cb1a72c3bbb1999825e272c6b0734eb2d6f935bf8a1216184994"
+    },
+    "verification/output/config-pow.stdout": {
+      "bytes": 52250,
+      "sha256": "26a1ac2dce809490fe71da5d72449d9b945bed8620bc1f520279b62e4bfbb36f"
+    },
+    "verification/output/config-queries-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/config-queries-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/config-queries.stderr": {
+      "bytes": 1914,
+      "sha256": "20a2a44381c8604f1f75fd0351c89550b76651629de14d7c6d24d829f71e7807"
+    },
+    "verification/output/config-queries.stdout": {
+      "bytes": 52285,
+      "sha256": "a2047aaa67baea92923aee40c174e1de08aa20d0e2ee6dd8217c98b295d504a0"
+    },
+    "verification/output/empty-commitments-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-commitments-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-commitments.stderr": {
+      "bytes": 1958,
+      "sha256": "edc03cbefa902767444e06b2039973636d93c70f8e83779a80eef4e49d765b4c"
+    },
+    "verification/output/empty-commitments.stdout": {
+      "bytes": 52343,
+      "sha256": "f11ac8359027e9d5682b366045b285bbf6a6eb0eb690136805caf765a2e6c6b8"
+    },
+    "verification/output/empty-decommitments-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-decommitments-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-decommitments.stderr": {
+      "bytes": 1911,
+      "sha256": "3b11942e3f07542ae7d401ea5b31239fc40712b6993a10eca35f3ee0be5d38e2"
+    },
+    "verification/output/empty-decommitments.stdout": {
+      "bytes": 52337,
+      "sha256": "7457c740b91fc7224dbc0913e1c1c6b67e930d5b28157ecb33aeb549746cbec7"
+    },
+    "verification/output/empty-fixed-column-sizes-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-fixed-column-sizes-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-fixed-column-sizes.stderr": {
+      "bytes": 1913,
+      "sha256": "4e3204ae529441b761c30ec7d56f1f2faa75ea7abd68ff92413abbf934ae6a1e"
+    },
+    "verification/output/empty-fixed-column-sizes.stdout": {
+      "bytes": 52390,
+      "sha256": "73274f9155985aebd520a13f758a569919217f04e42e57598060a50472a245b5"
+    },
+    "verification/output/empty-fixed-sizes-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-fixed-sizes-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-fixed-sizes.stderr": {
+      "bytes": 1954,
+      "sha256": "30cf8bb83e476984614b470b4661c9043de11b8d212ef0187083e09b9c15e70c"
+    },
+    "verification/output/empty-fixed-sizes.stdout": {
+      "bytes": 52546,
+      "sha256": "273c9762d3a72a4b56df9dd90481465651622e776273b6457825d78ee25d83ad"
+    },
+    "verification/output/empty-fri-layers-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-fri-layers-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-fri-layers.stderr": {
+      "bytes": 1966,
+      "sha256": "479cc88e11c1771e2ac26d08fd00cf206adafdfc81fdf7781d4861f6f31916e0"
+    },
+    "verification/output/empty-fri-layers.stdout": {
+      "bytes": 52427,
+      "sha256": "2b156532cd3ae0800fc11e1455dba33f69ead55f2bd53b9751222339aa6456d7"
+    },
+    "verification/output/empty-fri-witness-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-fri-witness-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-fri-witness.stderr": {
+      "bytes": 1975,
+      "sha256": "1841b898a2badeb2718f7ebc1c6ffc48c99da6ccb18cda896d1b0ec60601d4b4"
+    },
+    "verification/output/empty-fri-witness.stdout": {
+      "bytes": 52456,
+      "sha256": "eec750c0833b06c25de2e10cbcbec410c3ee72cb415fed4baeec1ba42ca82b96"
+    },
+    "verification/output/empty-gkr-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-gkr-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-gkr.stderr": {
+      "bytes": 1979,
+      "sha256": "bf7ee34c80317e8ce14547e8b9517e05b3cc4eb2d714e0c83706a2aefd2cc2d3"
+    },
+    "verification/output/empty-gkr.stdout": {
+      "bytes": 52374,
+      "sha256": "1a69e1014538da58187b49924fff9e8900db3652e5f4e113e8dcfd8dfbd88bd7"
+    },
+    "verification/output/empty-queries-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-queries-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-queries.stderr": {
+      "bytes": 1911,
+      "sha256": "f0edf10115bd13b72828b797a242aa5174b335ad49fc7c137ff4d04987b8bbdb"
+    },
+    "verification/output/empty-queries.stdout": {
+      "bytes": 52269,
+      "sha256": "4cb3dffc98652ce4344d2c5c93a1ed92f82cdc7bc3026384070216e4ff9ccd1d"
+    },
+    "verification/output/empty-samples-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/empty-samples-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/empty-samples.stderr": {
+      "bytes": 1911,
+      "sha256": "17db8757be6e19c1c3f2923e24aacab9840a15e8f4d201118ad7b1a39a07fa8f"
+    },
+    "verification/output/empty-samples.stdout": {
+      "bytes": 52274,
+      "sha256": "65345c65f8025bb548ecee69f59819796344488f21f1918b11138cfdd59eadaf"
+    },
+    "verification/output/fri-polynomial-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/fri-polynomial-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/fri-polynomial-alias.stderr": {
+      "bytes": 1969,
+      "sha256": "45705a1877a905822790f0bd4224ff516021ae31398c8b8fc6e041d87ece7276"
+    },
+    "verification/output/fri-polynomial-alias.stdout": {
+      "bytes": 52476,
+      "sha256": "b8a3ec6730a39acdb97f4c05659c881e17f663891b6bd7dd5157736cedd3a26e"
+    },
+    "verification/output/honest-0-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/honest-0-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/honest-0.stderr": {
+      "bytes": 1669,
+      "sha256": "27d3a78ad435c2d3939b8bd7b601417e9a491efdf03076f4e66f9fdcb3cc096d"
+    },
+    "verification/output/honest-0.stdout": {
+      "bytes": 51772,
+      "sha256": "260bdf2ab64ad6fc5254cc5b98fc5ca43a7ab0f1d106f077a8879f8e2e148f58"
+    },
+    "verification/output/honest-1-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/honest-1-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/honest-1.stderr": {
+      "bytes": 1669,
+      "sha256": "56d24c01976e7adcaedd9709b6217d968ac7a6b9dae474b933da494fec262958"
+    },
+    "verification/output/honest-1.stdout": {
+      "bytes": 51774,
+      "sha256": "8875c3b6fc590656a7e6b10f6235ad65b741b3a772b1be81c5dc3e94ad528590"
+    },
+    "verification/output/input-token-field-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/input-token-field-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/input-token-field-alias.stderr": {
+      "bytes": 2069,
+      "sha256": "1e948d6ab9f1f1eea92ed186dccba3ad344dd3854b3d333a9350fadaf25c9840"
+    },
+    "verification/output/input-token-field-alias.stdout": {
+      "bytes": 52743,
+      "sha256": "b8472620e1f0d90df0bb67556b21cfb310db85365e4f4342a44dceaada024877"
+    },
+    "verification/output/native-changed-calibration-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/native-changed-calibration-roots.json": {
+      "bytes": 16660,
+      "sha256": "7531bea015b44bea6a2f5b7b9c31be147afd42561b25b159d38916792bbacc3b"
+    },
+    "verification/output/native-changed-calibration.stderr": {
+      "bytes": 2391,
+      "sha256": "5d3b88ef5fba510adf0882e1b777cbfdb88fc5a817d103c1b6c73e73ad48e071"
+    },
+    "verification/output/native-changed-calibration.stdout": {
+      "bytes": 52927,
+      "sha256": "8c732d0502e07afbb7f990f709d2e2c81721daaebe844e782e40ad674b14f77b"
+    },
+    "verification/output/native-changed-model-root-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/native-changed-model-root-roots.json": {
+      "bytes": 16660,
+      "sha256": "ef49e3aadbce52a9834950219025e2c8c8804a2ca2de2df9b8caaa8daeeca3ea"
+    },
+    "verification/output/native-changed-model-root.stderr": {
+      "bytes": 1895,
+      "sha256": "bc795053032192fc710aa301d3a7cb25bdf4f87bc7f17a8e666d35b570ec1146"
+    },
+    "verification/output/native-changed-model-root.stdout": {
+      "bytes": 52167,
+      "sha256": "cc143535cf2c649cac9305d7067b93c3b56877a240e05ca1e3e38152f1b8139e"
+    },
+    "verification/output/native-changed-prompt-prompt.json": {
+      "bytes": 145,
+      "sha256": "021affb212aa4eb1c71505daa7629897d2582581e9c6a52ac42b054b7abc801a"
+    },
+    "verification/output/native-changed-prompt-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/native-changed-prompt.stderr": {
+      "bytes": 1819,
+      "sha256": "f29196c354729d1030f97a4d5751a816e4134011e8cfae077ec67a71392a3903"
+    },
+    "verification/output/native-changed-prompt.stdout": {
+      "bytes": 52241,
+      "sha256": "18c4d1537c2851df2e253f9ce44db7a56c9462456088ed29aecd5729d53ed61b"
+    },
+    "verification/output/native-unknown-shape-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/native-unknown-shape-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/native-unknown-shape.stderr": {
+      "bytes": 2385,
+      "sha256": "9c06205deea0ac2096eff52b1dd0e7a6c528c3fc4b371848d84584532efd9e1a"
+    },
+    "verification/output/native-unknown-shape.stdout": {
+      "bytes": 52855,
+      "sha256": "ce29574cd885259cf17acbda07b7902c4ecbd15bfc07e0db17fd6515c6a66073"
+    },
+    "verification/output/output-token-field-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/output-token-field-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/output-token-field-alias.stderr": {
+      "bytes": 1922,
+      "sha256": "f17633807a45671c8c36858522a728cb382fd33e961992a7d5bb4aa9307208c8"
+    },
+    "verification/output/output-token-field-alias.stdout": {
+      "bytes": 52404,
+      "sha256": "7e516ade30012a60ef5952923d3a7d4240b46f0c97dfb0204ac5e012c5f14a59"
+    },
+    "verification/output/query-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/query-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/query-alias.stderr": {
+      "bytes": 1962,
+      "sha256": "5db3135094ffbaf1185320980057d577aceb5891c2bb7f8ea341f6ed5b755a31"
+    },
+    "verification/output/query-alias.stdout": {
+      "bytes": 52366,
+      "sha256": "861f1d4a631d24fa2a31ae268ed4941c63f89da3a2e21f578c5949349a6b87b1"
+    },
+    "verification/output/result.json": {
+      "bytes": 17226,
+      "sha256": "1c350dd2a6dc99aee4cb6a9f8ca8f57b29d1f06d52c3343a707ee66ff6a5dfbe"
+    },
+    "verification/output/sample-alias-prompt.json": {
+      "bytes": 145,
+      "sha256": "f5cdbc69687a87415eeb86131fadcd60b6e284c9d79bee382093635b4c622c1c"
+    },
+    "verification/output/sample-alias-roots.json": {
+      "bytes": 16660,
+      "sha256": "25ff1a2bf4b6606e29755f5eaa170b93af38de844394e4f490d88ef675b65edf"
+    },
+    "verification/output/sample-alias.stderr": {
+      "bytes": 1969,
+      "sha256": "bd00feaaa896d30d6d74ce67241dbc0f8ac2b9af1f451f2cf30cf9679ad92e0c"
+    },
+    "verification/output/sample-alias.stdout": {
+      "bytes": 52389,
+      "sha256": "51901a913a099d740de0766dadbc6ca0f20539e986edea9e8106666d9892762b"
+    },
+    "verification/proof-inventory.json": {
+      "bytes": 9470,
+      "sha256": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2"
+    },
+    "verification/protocol.json": {
+      "bytes": 875,
+      "sha256": "83c5f7c64e30878de8887feb4bfc753a74721a89fc460469b7871db13aee9045"
+    },
+    "verification/sandbox.sb": {
+      "bytes": 747,
+      "sha256": "72d2b546d6770ae9956efe41360fee69564849072729fbf39acc044655cc6db8"
+    },
+    "verify/command.json": {
+      "bytes": 981,
+      "sha256": "2aff314358c0ea1e7279a10a4d198acf398d9a0065b6fd3c653ffc6e0e7fd53b"
+    },
+    "verify/cost.json": {
+      "bytes": 187,
+      "sha256": "e55c8dd58e5e5f9046a49967c7ce99c0dfe5271fd762d46a2b61355f8468e186"
+    },
+    "verify/output.log": {
+      "bytes": 15535,
+      "sha256": "1a888e79d2b5b98231f33b6e1ba31b5af8aeac8bcdf6b487c25405e3ecd0188c"
+    }
+  },
+  "recorded_at": "2026-10-29",
+  "rejection_stage_proof": "Both new cases record caller_checks=false (verify_response.py never called the Python bundle check), a nonzero native exit code, 23/23 cryptographically accepted proofs and the native verifier's own named failure; the worker asserts all four",
+  "result": {
+    "baseline_mutations_rejected": 14,
+    "cloud_cost_usd": 0,
+    "fresh_verifications": 2,
+    "native_boundary_mutations_rejected": 20,
+    "native_enrollment_mutations_rejected": 2,
+    "native_statement_mutations_rejected": 2,
+    "parameter_authority": {
+      "kind": "checkout-case"
+    },
+    "passed": true,
+    "proofs": 23,
+    "qualified_backend": false,
+    "residual_links": 22,
+    "response": "The capital of France is Paris.",
+    "schema_id": "hallmark.native-llm-result/1",
+    "seconds": 201.59210137500486,
+    "security_review": false,
+    "shape_root_source": "compiled-enrollment",
+    "verifier_sha256": "896d8025288665cfc56af6594ad49e9641915f5a2ec3d3371b879f5000075eb8"
+  },
+  "run_directory": "runs/llm-verify-82ihwpzv",
+  "schema_id": "hallmark.native-llm-mutation-evidence/1",
+  "scope": "Published circle-reference-2026-10-28 TinyLlama proof bundle; native Mac verifier with compiled shape enrollment; two new native-only statement mutations",
+  "source_commit": "2e2a0ff2720c24b74a75b3710bbeaa77af22dfff",
+  "source_commit_scope": "Commit containing the worker, controller and caller code that ran; documentation and this record were added afterward and are outside the verifier source inventory",
+  "source_files": {
+    "research/probes/sash/check_response.py": "c2f81d67a5c5872208a1023155e6bfc9deb8c0ab7bd575b0e90c6615c6939499",
+    "research/probes/sash/native-verifier.patch": "96a8a38d1199939d883a29471de9cd603d0aa4ed9708d456067e63b4c5b9d666",
+    "research/probes/sash/response-case.json": "2ca533976d119b656a987bd1750472132b22abb71eb59593b64f53413eb70075",
+    "research/probes/sash/verify_response.py": "66911bf27241c2a0f49fbdab7e4dbae77d244460a3c77cc9af013b2d36846cc7",
+    "scripts/run_e2e.py": "603c385aa1fffbc6581aeec23f58db7b696cde2e971c121e47cc3b483289ad7d",
+    "scripts/run_llm_e2e.py": "bdc150f24694fd669a5e92fecde9a2f06e7b9c401374f3963eb722b5528a68cc",
+    "scripts/verify_llm.py": "d3231cc69ef98b0cdea6adfe357c1b5f334d8cf1b7235d2971e588d8d16e70be",
+    "src/hallmark/__init__.py": "edbf1357ae9796a28ee10b746891eb738cef66f83fd9df24aedca7269ca5fea0",
+    "src/hallmark/_worker.py": "ca048f88b75efbd1c0064ad86f2a24b54b269a70a99da9eecc303ade5200670a",
+    "src/hallmark/classifier_manifest.py": "e7f0768eb179d495ce15d9d61b8509d82127571da99a083b2974f899ba58a11b",
+    "src/hallmark/contracts.py": "b525017523694a3b89a94b9ac6b6dbf0d53bda0c799fbacbcc0697319807a1de",
+    "src/hallmark/errors.py": "b49752a6b2c1d486b4ff7b71c859876caae41f7830adaa42d845e682f8d7e7b6",
+    "src/hallmark/integrity.py": "4141293fa9c89aa9f079d29f066afbab56c28948cb756d612324d3e403f046c8",
+    "src/hallmark/llm_enrollment.py": "b02c3b3d793646dc9207839de950b5e921541c1add165e484932c7deceec8de5",
+    "src/hallmark/manifests.py": "e48c4dfdc0d10ff67e79be9cc414fa26f42bd06ef7f0241a0de2b430ee79552e",
+    "src/hallmark/wire.py": "48c90a3e0205b32a2c6d142b20ace1d37578cd7221640fa85328881098402586",
+    "uv.lock": "735979dc0c8d6d33a84ecd8150b9257b61b25a323bb133e81fe63847faba53f5"
+  },
+  "source_revision": "eb95bfa887299d1637550228d42086c27cbb2b3b",
+  "toolchain": "nightly-2025-07-14",
+  "tracking_issue": 159,
+  "verifier_bytes": 2156976,
+  "verifier_identity": "f2f6e5161f5de461652724d67bbc822ee4762babc25fb234745d5e457e305431",
+  "verifier_identity_note": "Differs from the published reference manifest's llm_verifier_identity because the worker and controller changed (decision 0090); verify_llm.run was called directly",
+  "verifier_sha256": "896d8025288665cfc56af6594ad49e9641915f5a2ec3d3371b879f5000075eb8"
+}

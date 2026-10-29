@@ -59,7 +59,7 @@ Dependencies may require initial network access. Proofs are verified afresh;
 a saved success flag never substitutes for a cryptographic check.
 
 The controller validates LLM parameter authority before preparation and after
-composition; the native LLM driver runs two honest verifications and all 36
+composition; the native LLM driver runs two honest verifications and all 38
 mutation checks. The classifier driver enrolls all three fixed programs before
 proving, freshly verifies each proof, rejects 21 changed public statements and
 three invalid rosters, and checks native/circuit trace parity. The outer join
