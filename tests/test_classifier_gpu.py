@@ -7,6 +7,7 @@ import sys
 import tarfile
 import time
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -131,3 +132,52 @@ def test_bucket_binary_without_execute_mode_is_staged_and_runs(tmp_path):
     assert result["exit_code"] == 0
     assert (tmp_path / "execution/stdout.txt").read_text() == "staged-ok"
     assert source.stat().st_mode & 0o111 == 0
+
+
+@pytest.fixture
+def offline(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        run_classifier_gpu.shutil, "disk_usage", lambda _: SimpleNamespace(free=2**40)
+    )
+    verifier = tmp_path / "circle-verify"
+    monkeypatch.setattr(run_classifier_gpu, "VERIFIER", verifier)
+    return verifier
+
+
+def no_api(**kwargs):
+    pytest.fail("HF API used before preflight")
+
+
+@pytest.mark.parametrize("kind", ["missing", "directory", "symlink"])
+def test_missing_verifier_rejects_before_any_hf_call(tmp_path, monkeypatch, offline, kind):
+    if kind == "directory":
+        offline.mkdir()
+    elif kind == "symlink":
+        (tmp_path / "real").write_bytes(b"binary")
+        offline.symlink_to(tmp_path / "real")
+    monkeypatch.setitem(sys.modules, "huggingface_hub", SimpleNamespace(HfApi=no_api))
+    with pytest.raises(ValueError, match="circle-verify"):
+        run_classifier_gpu.run(tmp_path, "pin", tmp_path, "100")
+
+
+@pytest.mark.parametrize("balance", [None, "", "NaN", "3.36"])
+def test_missing_or_insufficient_balance_rejects_before_jobs_are_listed(
+    tmp_path, monkeypatch, offline, balance
+):
+    offline.write_bytes(b"binary")
+    monkeypatch.setenv("HF_TOKEN", "hf_offline_fixture")
+    hardware = [
+        SimpleNamespace(name="h200", cpu="23 vCPU", ram="256 GB", unit_cost_micro_usd=83333),
+        SimpleNamespace(name="cpu-upgrade", cpu="8 vCPU", ram="32 GB", unit_cost_micro_usd=500),
+    ]
+    for item in hardware:
+        item.unit_label = "minute"
+    api = SimpleNamespace(
+        whoami=lambda: {"name": "fixture-owner"},
+        list_jobs_hardware=lambda: hardware,
+        list_jobs=lambda **kw: pytest.fail("jobs listed without a checked balance"),
+    )
+    monkeypatch.setitem(sys.modules, "huggingface_hub", SimpleNamespace(HfApi=lambda **kw: api))
+    # Startup-inclusive bound: 40 min CPU Upgrade + 40 min H200 + reserve = $3.37.
+    with pytest.raises(ValueError, match="credit"):
+        run_classifier_gpu.run(tmp_path, "pin", tmp_path, balance)

@@ -237,7 +237,7 @@ Python packages are not published; work from the checkout.
 | I want to… | Command | Needs | Cost |
 |---|---|---|---|
 | Train, prove and verify classifiers | `make e2e` | Apple Silicon Mac, 12 GiB free | Local only |
-| Prove the TinyLlama answer | `make e2e-llm` | Mac with 32 GB RAM, 16 GiB free, HF token and credits | ≤ $2.10 of HF CPU jobs |
+| Prove the TinyLlama answer | `make e2e-llm` | Mac with 32 GB RAM, 16 GiB free, HF token and credits | ≤ $2.50 of HF CPU jobs |
 | Verify retained LLM proofs | `make verify-llm LLM_RUN=…` | Mac, Rust toolchain, 8 GiB free | Local, offline |
 | Reproduce the H200 measurement | `make benchmark-llm-gpu …` | A completed LLM run, HF credits | ≤ $5 of HF CPU/H200 jobs |
 | Bind both to one request | `make e2e-composed` | Both sets of prerequisites, 32 GiB free | Paid LLM jobs unless you reuse runs |
@@ -271,7 +271,7 @@ make e2e-llm
 ```
 
 Downloads the pinned 2.2-GB Apache-2.0 checkpoint, prepares the witness locally
-and starts **three sequential paid HF CPU jobs** under a **$2.10 timeout-based
+and starts **three sequential paid HF CPU jobs** under a **$2.50 startup-inclusive
 ceiling**. Success means 23 new proofs, two honest verifications and 14 rejected
 mutations. No local GPU is needed. [Run guide](docs/LLM-PROOF.md#run-it).
 

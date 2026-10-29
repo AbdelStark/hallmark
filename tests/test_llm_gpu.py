@@ -30,12 +30,27 @@ def test_unsupported_controller_rejects_before_sdk_or_paid_work(monkeypatch, sys
         gpu.run(Path("missing-inputs"), "0", "0")
 
 
-def test_missing_rust_rejects_before_sdk_or_paid_work(monkeypatch):
+@pytest.mark.parametrize("outcome", ["missing-cargo", "missing-toolchain", "hung"])
+def test_missing_pinned_rust_rejects_before_sdk_or_paid_work(monkeypatch, outcome):
     monkeypatch.setattr(gpu.platform, "system", lambda: "Darwin")
     monkeypatch.setattr(gpu.platform, "machine", lambda: "arm64")
-    monkeypatch.setattr(gpu.shutil, "which", lambda _: None)
-    with pytest.raises(ValueError, match="Rust before starting paid jobs"):
+    calls = []
+
+    def toolchain(argv, **kwargs):
+        calls.append(argv)
+        if outcome == "missing-cargo":
+            raise FileNotFoundError("cargo")
+        if outcome == "hung":
+            raise subprocess.TimeoutExpired(argv, 60)
+        return SimpleNamespace(returncode=1)
+
+    monkeypatch.setattr(gpu.subprocess, "run", toolchain)
+    monkeypatch.setitem(
+        sys.modules, "huggingface_hub", SimpleNamespace(HfApi=lambda **kw: pytest.fail("HF API"))
+    )
+    with pytest.raises(ValueError, match="nightly-2025-07-14 before starting paid jobs"):
         gpu.run(Path("missing-inputs"), "0", "0")
+    assert calls == [["cargo", "+nightly-2025-07-14", "-V"]]
 
 
 @pytest.fixture
@@ -57,17 +72,16 @@ def test_gpu_budget_is_bounded_and_does_not_change_cpu_defaults():
         name: SimpleNamespace(unit_label="minute", unit_cost_micro_usd=rate)
         for name, rate in (("cpu-upgrade", 500), ("h200", 83333), ("cpu-performance", 31667))
     }
-    assert e2e.planned_cost(hardware, "5", gpu.PHASES) == 3_810_000
-    assert gpu.planned_cost(hardware, "5") == 4_660_000
+    # Each phase is billed for its timeout plus one 600-second startup window:
+    # build 70 min, H200 55 min, verify 40 min (a doubled window would give $5.50).
+    assert e2e.planned_cost(hardware, "5", gpu.PHASES) == 4_660_000
     assert (
-        gpu.planned_cost(hardware, "5", {k: v for k, v in gpu.PHASES.items() if k != "build"})
+        e2e.planned_cost(hardware, "5", {k: v for k, v in gpu.PHASES.items() if k != "build"})
         == 4_620_000
     )
-    assert e2e.planned_cost(hardware, "2.10") == 1_960_000
+    assert e2e.planned_cost(hardware, "2.50") == 2_270_000
     with pytest.raises(ValueError, match="cost ceiling"):
-        e2e.planned_cost(hardware, "3.80", gpu.PHASES)
-    with pytest.raises(ValueError, match="cost ceiling"):
-        gpu.planned_cost(hardware, "4.65")
+        e2e.planned_cost(hardware, "4.65", gpu.PHASES)
     assert gpu.PHASES["prove"] == ("h200", 2700, 4, 210)
 
 

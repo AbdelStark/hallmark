@@ -21,7 +21,8 @@ from run_e2e import command, sha, write_json
 
 ROOT = Path(__file__).resolve().parents[1]
 PROBE = ROOT / "research/probes/sash"
-TERMINAL = {"COMPLETED", "ERROR", "CANCELED", "CANCELLED"}
+TERMINAL = {"COMPLETED", "ERROR", "CANCELED", "CANCELLED", "DELETED"}
+CREATION_SECONDS = 600
 PHASES = {
     "build": ("cpu-upgrade", 1800, 4, 28),
     "prove": ("cpu-performance", 3600, 16, 210),
@@ -67,7 +68,9 @@ def planned_cost(hardware, maximum, phases=None):
             and item.unit_cost_micro_usd > 0,
             "unsupported provider pricing",
         )
-        micros += ((math.ceil(seconds / 60) * item.unit_cost_micro_usd + 9999) // 10000) * 10000
+        # HF bills Starting too; reserve the full extra creation/cancellation window.
+        minutes = math.ceil((seconds + CREATION_SECONDS) / 60)
+        micros += ((minutes * item.unit_cost_micro_usd + 9999) // 10000) * 10000
     require(Decimal(micros) / 1_000_000 <= cap, "provider timeouts exceed the cost ceiling")
     return micros
 
@@ -259,7 +262,7 @@ def cloud_job(api, namespace, phase, inputs, case, hardware, output, env=None, *
                 url=f"https://huggingface.co/jobs/{namespace}/{job.id}",
             ),
         )
-        deadline = time.monotonic() + seconds + 600
+        deadline = time.monotonic() + seconds + CREATION_SECONDS
         failures = 0
         while True:
             if time.monotonic() >= deadline:
@@ -363,7 +366,7 @@ def run(maximum):
     output = Path(tempfile.mkdtemp(prefix="llm-e2e-", dir=ROOT / "runs"))
     print(
         f"Outputs: {output}\nThree CPU jobs; "
-        f"provider timeouts plus storage reserve: ${ceiling / 1e6:.5f}",
+        f"startup-inclusive timeouts plus storage reserve: ${ceiling / 1e6:.5f}",
         flush=True,
     )
     write_json(

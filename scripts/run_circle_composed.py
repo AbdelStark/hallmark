@@ -69,7 +69,7 @@ def run(*, llm_run=None, classifier_run=None, enrollment=None, trusted_key=None)
             frozen = output / "enrollment.cbor"
             write_new(frozen, signed)
         if llm_run is None:
-            llm_run = run_llm_e2e.run("2.10")
+            llm_run = run_llm_e2e.run("2.50")
         verified = verify_llm.run(
             Path(llm_run).resolve(), enrollment=frozen, trusted_key=trusted_key
         )

@@ -25,7 +25,7 @@ circle-build:
 	cargo +nightly-2025-07-14 build --manifest-path research/probes/circle/Cargo.toml --locked --release --no-default-features --bin circle-verify -j 4
 
 e2e-llm:
-	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.10
+	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_e2e.py --max-cost-usd 2.50
 
 benchmark-llm-gpu:
 	uv run --locked --python 3.12.12 --extra llm python scripts/run_llm_gpu.py --llm-run "$(LLM_RUN)" --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 5.00 $(if $(GPU_BUILD_RUN),--build-run "$(GPU_BUILD_RUN)")

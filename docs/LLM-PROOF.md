@@ -51,7 +51,8 @@ make e2e-llm
 ```
 
 This starts paid jobs. The command refuses current provider rates whose fixed
-timeouts exceed **$2.10**, including a storage reserve. It allows 30 minutes each
+timeouts, plus a 600-second startup/cancellation window per job, exceed
+**$2.50**, including a storage reserve. It allows 30 minutes each
 for build and verification on CPU Upgrade, and 60 minutes for proving on CPU
 Performance. Jobs run sequentially, with one attempt each. It does not add credits
 or configure recharge. Check your available credits before starting.
