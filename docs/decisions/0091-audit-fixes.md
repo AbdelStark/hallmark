@@ -40,7 +40,9 @@ unchanged. The native LLM verifier identity becomes `39d2ee50…5879ef`, because
 `_worker.py`, `run_llm_e2e.py`, `classifier_manifest.py` and `uv.lock` are in its
 inventory. Signed LLM enrollments need a new owner signature, as in 0090. The
 unused `pytest-cov` dependency is removed under a new
-[dependency review](../../research/evidence/dev-dependency-removal-2026-10-29.json).
+[dependency review](../../research/evidence/dev-dependency-removal-2026-10-29.json). The design-power plan
+reproduces unchanged under the new lock
+([lock-only refresh](../../research/evidence/dev-lock-design-power-refresh-2026-10-29.json)).
 
 ## Acceptance
 
