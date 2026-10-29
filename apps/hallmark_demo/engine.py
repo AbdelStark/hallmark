@@ -234,10 +234,10 @@ class RunManager:
             )
             return self._redact_view(run)
 
-    def checks(self, workflow, parameters=None):
+    def checks(self, workflow):
         if workflow not in self.workflows:
             raise ValueError("Unknown workflow")
-        return preflight(self.root, self.workflows[workflow], self.uv, parameters)
+        return preflight(self.root, self.workflows[workflow], self.uv)
 
     def start(self, workflow_id, parameters):
         with self.lock:
@@ -256,7 +256,7 @@ class RunManager:
             workflow = self.workflows[workflow_id]
             self.redact = Redactor(self.root)
             prepared = plan(self.root, workflow, parameters, self.uv)
-            checks = self.checks(workflow_id, prepared.get("parameters"))
+            checks = self.checks(workflow_id)
             if any(not check["ok"] for check in checks):
                 raise ValueError(
                     "Preflight failed: "

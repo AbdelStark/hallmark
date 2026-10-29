@@ -138,7 +138,7 @@ WORKFLOWS = (
         scheme="SASH + STWO / Circle STARK",
         claim="23 linked LLM proofs and three classifier proofs joined by the host; no recursion.",
         duration="Minutes with retained LLM proofs; about 1 hour fresh",
-        disk_gib=32,
+        disk_gib=12,  # The composed driver itself demands 32 GiB without a retained LLM run.
         paid_ceiling="2.50",
         fields=(LLM_RUN, CLASSIFIER_RUN, replace(LLM_COST, read_only=True)),
         stages=(
@@ -355,7 +355,7 @@ def plan(root, workflow, parameters, uv):
     )
 
 
-def preflight(root, workflow, uv, parameters=None):
+def preflight(root, workflow, uv):
     checks = []
 
     def add(label, ok, detail):
@@ -367,14 +367,11 @@ def preflight(root, workflow, uv, parameters=None):
         not workflow.mac_only or (platform.system(), platform.machine()) == ("Darwin", "arm64"),
         "Apple Silicon Mac" if workflow.mac_only else "macOS / Linux",
     )
-    required = workflow.disk_gib
-    if workflow.id == "composed-circle" and (parameters or {}).get("llm_run"):
-        required = 12
     free = shutil.disk_usage(root).free / 1024**3
     add(
         "Free storage",
-        free >= required,
-        f"{free:.1f} GiB available / {required} GiB required",
+        free >= workflow.disk_gib,
+        f"{free:.1f} GiB available / {workflow.disk_gib} GiB required",
     )
     try:
         version = subprocess.check_output([str(uv), "--version"], text=True, timeout=5).split()[:2]

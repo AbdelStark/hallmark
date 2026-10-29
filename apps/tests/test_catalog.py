@@ -51,3 +51,15 @@ def test_retained_composition_has_no_paid_execution(root):
     composed = plan(root, CATALOG["composed-circle"], {"llm_run": "runs/llm"}, Path("/tool/uv"))
     assert composed["paid"] is False and composed["ceiling"] == "0"
     assert "--llm-run" in composed["command"] and "composed-circle" in composed["command"]
+
+
+def test_composed_preflight_needs_only_retained_run_storage(root, monkeypatch):
+    from collections import namedtuple
+
+    from hallmark_demo import catalog
+
+    usage = namedtuple("usage", "total used free")
+    monkeypatch.setattr(catalog.shutil, "disk_usage", lambda _: usage(0, 0, 20 * 1024**3))
+    checks = catalog.preflight(root, CATALOG["composed-circle"], Path("/tool/uv"))
+    storage = next(c for c in checks if c["label"] == "Free storage")
+    assert storage["ok"] and storage["detail"].endswith("/ 12 GiB required")
