@@ -30,7 +30,6 @@ class RunBudget:
     case_seconds: int
     verify_seconds: int
     cpu_seconds: int
-    threads: int
     max_rss_bytes: int
     max_output_bytes: int
 
@@ -149,7 +148,8 @@ def sandbox_profile(binary: Path, work: Path) -> str:
 (deny default)
 (import "dyld-support.sb")
 (deny network*)
-(allow process-exec signal)
+(allow process-exec)
+(allow signal (target same-sandbox))
 (allow sysctl-read)
 (allow file-read-metadata)
 (allow file-read* file-map-executable
@@ -228,7 +228,7 @@ def invoke(
     if budget is not None:
         budget.inspect()
         seconds = min(seconds, budget.case_seconds, budget.deadline - time.monotonic())
-        if args and args[0].endswith("verify"):
+        if binary.name.endswith("verify"):
             seconds = min(seconds, budget.verify_seconds)
         cpu_seconds = min(cpu_seconds, budget.cpu_seconds)
     profile = sandbox_profile(binary, work)
@@ -332,7 +332,13 @@ def invoke(
         "user_seconds": usage.ru_utime,
         "system_seconds": usage.ru_stime,
         "max_rss_bytes": usage.ru_maxrss,
-        "files": {path.name: stream_regular(path, max_file) for path in sorted(work.iterdir())},
+        # TMPDIR is the work directory, so workers may leave directories: record them by name.
+        "files": {
+            path.name: (
+                None if stat.S_ISDIR(path.lstat().st_mode) else stream_regular(path, max_file)
+            )
+            for path in sorted(work.iterdir())
+        },
     }
     json_new(work / "cost.json", result)
     if budget is not None:

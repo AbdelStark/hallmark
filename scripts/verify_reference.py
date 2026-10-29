@@ -85,7 +85,7 @@ def run(directory, expected_manifest):
     binary = cargo.parent / "target/release/circle-verify"
     checks = output / "circle-checks"
     checks.mkdir()
-    budget = RunBudget(checks, time.monotonic() + 900, 120, 120, 900, 4, 4 * 1024**3, 128 * 1024**2)
+    budget = RunBudget(checks, time.monotonic() + 900, 120, 120, 900, 4 * 1024**3, 128 * 1024**2)
     counts = {"controls": 0, "composed": 0}
     for group in manifest["classifiers"]:
         if group["id"] not in counts:

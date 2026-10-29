@@ -35,7 +35,7 @@ def run(prepared, original_pin, circle_run, circle_pin, prover, verifier, output
     output.mkdir(mode=0o700)
     output = output.resolve()
     started = time.monotonic()
-    budget = RunBudget(output, started + 1800, 600, 180, 1800, 4, 30 * 1024**3, 1024**3)
+    budget = RunBudget(output, started + 1800, 600, 180, 1800, 30 * 1024**3, 1024**3)
     identity, sources = backend.source_identity()
     json_new(
         output / "protocol.json",
