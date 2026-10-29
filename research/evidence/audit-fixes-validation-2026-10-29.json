@@ -1,0 +1,106 @@
+{
+  "circle_backend_identity": "c035913b3196640797273bb0c22c2e69b09dee2a790d128be51287a6351ded7d",
+  "circle_conformance": {
+    "boundaries": 10,
+    "elapsed_seconds": 187.60286275000544,
+    "invalid_witnesses": 22,
+    "maximum_input_fresh_proofs": 3,
+    "maximum_input_fresh_verifications": 3,
+    "qualified_backend": false,
+    "status": "passed"
+  },
+  "circle_conformance_command": "documented docs/CIRCLE-CLASSIFIERS.md command against the e2e run above",
+  "date": "2026-10-29",
+  "e2e": {
+    "cases": [
+      {
+        "name": "allow",
+        "proofs_verified": 3,
+        "release": true,
+        "verdicts": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cnn-block",
+        "proofs_verified": 3,
+        "release": false,
+        "verdicts": [
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "name": "rule-block",
+        "proofs_verified": 3,
+        "release": false,
+        "verdicts": [
+          0,
+          1,
+          1
+        ]
+      }
+    ],
+    "circle_enrollment_pin": "56c29c74a4efa0443bff84cc516349b0369360e2feaf347b871b860b06cd635e",
+    "cross_request_rejections": 18,
+    "direct_public_mutations_rejected": 63,
+    "elapsed_seconds": 253.8683986670003,
+    "hardware_claim": "not-accepted",
+    "native_preparation_pin": "cfa9bdf7a9a63ac8d5d4425e9f8a776aaa10e3be438bc43f57ed8c900e6ed71b",
+    "proof_result_sha256": "930ff10aba911c9ff518e896b6d2e99d6f269c125d6311dd52e5017a33194a20",
+    "proofs_verified": 9,
+    "qualified_backend": false,
+    "roster_rejections": 3,
+    "status": "passed"
+  },
+  "e2e_command": "make e2e (uv 0.9.18, CPython 3.12.12, nightly-2025-07-14) at main 1bc6b72",
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "llm_verifier_identity": "39d2ee50ef0c38cdbfc8aecc8320b8543606a39cb6e5b04d3fac5e82bf5879ef",
+  "local_gates": {
+    "make check": "passed: 2,251 tests, 45 optional skips; spec, conformance and admission; clean mypy cache",
+    "make check-demo": "60 passed",
+    "make check-train": "63 passed",
+    "make docs": "147 pages, no issues",
+    "make package-check": "passed with uv 0.9.18 and the new dependency review"
+  },
+  "main_commit": "1bc6b72",
+  "merged_prs": [
+    160,
+    161,
+    162,
+    163,
+    164,
+    165
+  ],
+  "native_llm": {
+    "baseline_mutations_rejected": 14,
+    "cloud_cost_usd": 0,
+    "fresh_verifications": 2,
+    "native_boundary_mutations_rejected": 20,
+    "native_enrollment_mutations_rejected": 2,
+    "native_statement_mutations_rejected": 2,
+    "passed": true,
+    "proofs": 23,
+    "qualified_backend": false,
+    "residual_links": 22,
+    "seconds": 203.5873688749998,
+    "security_review": false,
+    "shape_root_source": "compiled-enrollment",
+    "verifier_sha256": "c341d98bd8bc5c1a474d2a41a653d83d6fd6c15a308f86c60df1d8e2e099c74e"
+  },
+  "native_llm_command": "scripts/verify_llm.py --run <published proofs> on main 1bc6b72 plus this record's dependency-lock change",
+  "native_llm_inputs": {
+    "proof-inventory.json": "a2b002f91ad30daba79e999780ab51d8fb7d46af20f947843ad64992d2880cd2",
+    "proofs.tar.gz": "b59ac71636fd9f654cc4d5c26b5673d97671b925345b75b58e24ca1fc52e33ab",
+    "source": "circle-reference-2026-10-28 release assets, anonymous download"
+  },
+  "notes": [
+    "A stale local .mypy_cache from another environment produced one false mypy error; mypy --no-incremental and a cleared cache pass.",
+    "No cloud jobs, spend, hardware, hiding or qualification claims."
+  ],
+  "schema_id": "hallmark.audit-fixes-validation/1",
+  "tracking_issue": 159
+}

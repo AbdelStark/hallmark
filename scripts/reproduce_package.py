@@ -126,7 +126,7 @@ def validate_build_inputs(files):
     locked = {p["name"]: p["version"] for p in lock["package"]}
     if any(locked.get(name) != version for name, version in expected.items()):
         raise ValueError("build dependency pins differ from lock")
-    review = json.loads(files["research/evidence/llm-extra-dependencies-2026-10-23.json"])
+    review = json.loads(files["research/evidence/dev-dependency-removal-2026-10-29.json"])
     reviewed = {p["name"]: p["version"] for p in review["packages"]}
     if (
         review["lock_sha256"] != digest(files["uv.lock"])

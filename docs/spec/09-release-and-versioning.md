@@ -32,7 +32,6 @@ These are actual declared constraints and lock selections, inspected at bootstra
 | hatchling | build `==1.32.4` | Exact backend plus all five build transitives in `build-system.requires` and the locked build group |
 | mypy | dev `>=1.15,<2`; 1.20.2 | Strict source typing |
 | pytest | dev `>=8.3,<10`; 9.1.1 | Offline tests |
-| pytest-cov | dev `>=6,<8`; 7.1.0 | Branch coverage diagnostics |
 | ruff | dev `>=0.11,<1`; 0.17.1 | Existing lint/format gate |
 | uv | CI pin 0.9.18 | Existing lock/install/build commands |
 

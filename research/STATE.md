@@ -2,6 +2,31 @@
 
 Updated: 2026-10-29. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
 
+## Audit fixes — merged and validated
+
+2026-10-29. The owner requested fixes for every finding of the whole-repository
+audit ([#159](https://github.com/AbdelStark/hallmark/issues/159)); PRs #160–#165
+and [decision 0091](../docs/decisions/0091-audit-fixes.md) record them. The audit
+found no wrong acceptance in the Circle path, wire decoder or signatures. Paid
+LLM ceilings now count the HF startup window once (CLI and composed paths use the
+workbench's $2.50; worst case $2.27); `DELETED` ends polling; GPU runs check
+local verifier prerequisites first; the one-off credit-check exception is gone.
+Workbench Stop no longer aborts driver cleanup, and recovery, receipt, quit and
+preflight bugs are fixed. Registry enrollment enforces successor rules; workers
+may signal only their own sandbox; the verifier time limit applies again; CNN
+admission rejects possible int32 overflow. Worker, CNN-circuit and Rust verifier
+rejection tests are in CI. The native LLM suite adds two statement mutations
+that the compiled verifier itself must reject (40 cases, 38 rejections).
+
+[Numeric validation](evidence/audit-fixes-validation-2026-10-29.json) on main
+`1bc6b72`: `make e2e` 253.87 s with nine fresh proofs and all rejections; the
+documented conformance command 187.60 s with 22 constraint rejections; native
+verification of the published LLM proofs 203.59 s with all 38 mutations
+rejected; all local gates pass. Circle backend identity and enrollment pin are
+unchanged. The LLM verifier identity is now `39d2ee50…5879ef`; signed LLM
+enrollments need a new owner signature. `pytest-cov` is removed under a new
+[dependency review](evidence/dev-dependency-removal-2026-10-29.json).
+
 ## Single classifier backend — removal of the pairing backend
 
 2026-10-29. At the owner's request, [decision 0090](../docs/decisions/0090-remove-pairing-backend.md)
@@ -14,7 +39,8 @@ history remains in git, and this file no longer describes the removed work.
 
 Circle circuit/compiler sources and engine identity, model exports, thresholds,
 rule program records (now `fixtures/rule-program.json`) and the caller enrollment
-pin are unchanged. Numeric evidence receipts stay byte-identical. The native LLM
+pin are unchanged. Remaining evidence receipts were pruned of the removed backend's
+entries only; their original bytes are at `b7b8376`. The native LLM
 verifier inventory now lists only the 17 files it loads, so its identity changes;
 statements below that the 55 LLM source pins were unchanged describe their own
 changes, not this one. Signed LLM enrollments bound to the earlier identity need

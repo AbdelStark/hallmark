@@ -280,7 +280,7 @@ def test_build_pins_and_metadata_review_cannot_drift(mutation):
         for name in (
             "pyproject.toml",
             "uv.lock",
-            "research/evidence/llm-extra-dependencies-2026-10-23.json",
+            "research/evidence/dev-dependency-removal-2026-10-29.json",
         )
     }
     if mutation == "build":
@@ -288,7 +288,7 @@ def test_build_pins_and_metadata_review_cannot_drift(mutation):
             b"hatchling==1.32.4", b"hatchling>=1", 1
         )
     elif mutation:
-        name = "research/evidence/llm-extra-dependencies-2026-10-23.json"
+        name = "research/evidence/dev-dependency-removal-2026-10-29.json"
         review = json.loads(files[name])
         if mutation == "review":
             review["packages"][0]["version"] = "0.0.0"

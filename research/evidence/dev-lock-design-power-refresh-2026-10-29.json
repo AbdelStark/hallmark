@@ -1,0 +1,69 @@
+{
+  "schema_id": "hallmark.admission-design-power/1",
+  "design": "inj-direct-design/1",
+  "source_sha256": "4709f9a788c39944fe5ba21fb64cb3b407563671638f1d93fb02b2a721df8866",
+  "lock_sha256": "5484416cb6b3430a886a312957b083ab02e4d6f613befd5497da3c1b715a92c8",
+  "command": "uv run --locked --extra train python scripts/plan_admission_power.py",
+  "environment": {
+    "python": "3.12.12",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "family_alpha": "0.05",
+  "bounds": 15,
+  "per_bound_alpha": "0.05/15",
+  "family_power_target": "0.9",
+  "per_bound_power_target": "1-0.10/15",
+  "independent_group_assumption": true,
+  "search_max_groups": 20000,
+  "rows": [
+    {
+      "endpoint": "fpr",
+      "null": 0.01,
+      "planning_alternative": 0.005,
+      "first_group_count": 7831,
+      "maximum_events": 55,
+      "conditional_power": 0.9935781319805781,
+      "exact_upper_bound_at_cutoff": 0.009999366893996582
+    },
+    {
+      "endpoint": "fnr",
+      "null": 0.1,
+      "planning_alternative": 0.05,
+      "first_group_count": 738,
+      "maximum_events": 52,
+      "conditional_power": 0.9939329457018801,
+      "exact_upper_bound_at_cutoff": 0.09986798626411857
+    },
+    {
+      "endpoint": "integer_regression",
+      "null": 0.02,
+      "planning_alternative": 0.005,
+      "first_group_count": 1375,
+      "maximum_events": 14,
+      "conditional_power": 0.9952265090837109,
+      "exact_upper_bound_at_cutoff": 0.01998829453653166
+    }
+  ],
+  "frozen_counts": [
+    {
+      "endpoint": "fpr",
+      "groups": 7831,
+      "maximum_events": 55,
+      "conditional_power": 0.9935781319805781
+    },
+    {
+      "endpoint": "fnr",
+      "groups": 1375,
+      "maximum_events": 107,
+      "conditional_power": 0.9999959635091363
+    },
+    {
+      "endpoint": "integer_regression",
+      "groups": 1375,
+      "maximum_events": 14,
+      "conditional_power": 0.9952265090837109
+    }
+  ],
+  "observed_model_performance": false
+}

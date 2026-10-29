@@ -43,7 +43,6 @@ such as “BSD License” is not a substitute for the full notice.
 | [cffi](https://pypi.org/project/cffi/2.1.1/) | 2.1.1 | MIT-0 |
 | [cloudpickle](https://pypi.org/project/cloudpickle/3.1.2/) | 3.1.2 | BSD-3-Clause |
 | [colorama](https://pypi.org/project/colorama/0.4.6/) | 0.4.6 | BSD License |
-| [coverage](https://pypi.org/project/coverage/7.16.2/) | 7.16.2 | Apache-2.0 |
 | [cryptography](https://pypi.org/project/cryptography/50.0.2/) | 50.0.2 | Apache-2.0 OR BSD-3-Clause |
 | [hatchling](https://pypi.org/project/hatchling/1.32.4/) | 1.32.4 | MIT |
 | [iniconfig](https://pypi.org/project/iniconfig/2.3.1/) | 2.3.1 | MIT |
@@ -61,7 +60,6 @@ such as “BSD License” is not a substitute for the full notice.
 | [pydantic-core](https://pypi.org/project/pydantic-core/2.50.1/) | 2.50.1 | MIT |
 | [pygments](https://pypi.org/project/pygments/2.21.0/) | 2.21.0 | BSD-2-Clause |
 | [pytest](https://pypi.org/project/pytest/9.1.1/) | 9.1.1 | MIT |
-| [pytest-cov](https://pypi.org/project/pytest-cov/7.1.0/) | 7.1.0 | MIT |
 | [ruff](https://pypi.org/project/ruff/0.17.1/) | 0.17.1 | MIT |
 | [scikit-learn](https://pypi.org/project/scikit-learn/1.9.1/) | 1.9.1 | BSD-3-Clause |
 | [scipy](https://pypi.org/project/scipy/1.18.1/) | 1.18.1 | BSD License |
@@ -128,7 +126,9 @@ The optional `llm` extra exposes the already locked `huggingface-hub==2.2.0`
 dependency for the foreground Jobs controller. The [2026-10-23 lock review](../research/evidence/llm-extra-dependencies-2026-10-23.json)
 checks that all 52 third-party package entries are unchanged and carries forward
 their earlier metadata and licence evidence; it does not claim a new upstream
-metadata observation. The [LLM workflow](LLM-PROOF.md)
+metadata observation. The [2026-10-29 review](../research/evidence/dev-dependency-removal-2026-10-29.json)
+removes the unused `pytest-cov` dev dependency and its `coverage` transitive; the
+remaining 50 entries and their evidence are copied unchanged. The [LLM workflow](LLM-PROOF.md)
 downloads the separately pinned SASH source, its locked Python witness environment
 and the Apache-2.0 TinyLlama checkpoint. The [source review](../research/real-llm-proof-plan.md)
 records their revisions and licence scope. These model files, the CUDA build image
