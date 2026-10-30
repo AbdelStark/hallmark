@@ -1,6 +1,12 @@
 # Research state
 
-Updated: 2026-10-29. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-10-30. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## Follow-ups after the audit
+
+2026-10-30. #168 re-sends a workbench Stop that the driver ignored during its
+first 0.2 s and lengthens the installed-package check timeout for CI; #167 adds
+agent conventions in `docs/agents/`. No protocol, identity or evidence changes.
 
 ## Audit fixes — merged and validated
 
