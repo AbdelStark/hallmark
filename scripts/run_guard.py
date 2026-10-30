@@ -5,8 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from check_selection import put
-
+from hallmark._worker import json_new
 from hallmark.cli import _Parser
 from hallmark.errors import HallmarkError, sanitize_exception
 from hallmark.guard import GuardSpec, LocalGuard
@@ -35,14 +34,14 @@ def run(args):
         raise ValueError("invalid engineering probes")
     args.output.mkdir(mode=0o700)
     try:
-        put(args.output / "inputs.json", inputs)
-        put(args.output / "spec.json", spec.model_dump(mode="json"))
+        json_new(args.output / "inputs.json", inputs)
+        json_new(args.output / "spec.json", spec.model_dump(mode="json"))
         guard = LocalGuard(args.assets, spec, expected_spec=args.expected_spec)
-        put(args.output / "runtime.json", guard.record)
+        json_new(args.output / "runtime.json", guard.record)
         scores = []
         for index, prompt in enumerate(inputs["prompts"]):
             score = guard.score(prompt)
-            put(args.output / f"score-{index:02}.json", score)
+            json_new(args.output / f"score-{index:02}.json", score)
             scores.append(score)
         result = {
             "schema_id": "hallmark/guard-probe-result/1",
@@ -55,10 +54,10 @@ def run(args):
             "proof_claim": False,
             "passed": all(s["chunks"][-1]["stop"] == s["token_count"] for s in scores),
         }
-        put(args.output / "result.json", result)
+        json_new(args.output / "result.json", result)
         return result
     except BaseException:
-        put(
+        json_new(
             args.output / "failure.json",
             {"schema_id": "hallmark/guard-probe-failure/1", "failed": True},
         )
