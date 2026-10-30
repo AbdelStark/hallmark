@@ -20,6 +20,8 @@ Use the current [run authority](research/AUTHORITY.json), updated by the owner's
 
 Protocol/evaluation changes require a decision in `docs/decisions/`, updated conformance tests and owner review before prior results are reused. An optimizer changes its candidate only; dataset and evaluator changes start a new experiment identity. CODEOWNERS signals review ownership; it is not branch-protection enforcement.
 
+Issue tracking, triage labels and domain docs follow [docs/agents](docs/agents/issue-tracker.md) ([labels](docs/agents/triage-labels.md), [domain](docs/agents/domain.md)).
+
 ## Completion and privacy
 
 Store source/config/environment hashes and raw numeric results before prose. New runs use new directories; preserve failures. Data source, licence, purpose and approval travel with every record. Secrets, raw private transcripts, real checkpoints, local runs and credentials stay out of git. Public research sources may be fetched by topic; private design text and partner details never enter search queries or external-model prompts.
