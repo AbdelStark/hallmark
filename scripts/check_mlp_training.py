@@ -2,11 +2,11 @@
 
 import hashlib
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
+from hallmark._worker import json_new
 from hallmark.classifier_manifest import ClassifierManifest, InputProfile
 from hallmark.cli import _Parser
 from hallmark.contracts import Record
@@ -24,14 +24,6 @@ from hallmark.mlp_training import (
     score_float_mlp,
 )
 from hallmark.openings import TranscriptOpening
-
-
-def put(path, value):
-    raw = (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb") as handle:
-        handle.write(raw)
-        handle.flush()
-        os.fsync(handle.fileno())
 
 
 def check(path, expected, output=None):
@@ -73,26 +65,26 @@ def check(path, expected, output=None):
     output.mkdir(mode=0o700)
     completed = []
     try:
-        put(output / "fixture.json", fixture)
-        put(output / "environment.json", runtime_record())
+        json_new(output / "fixture.json", fixture)
+        json_new(output / "environment.json", runtime_record())
         for cfg in configs:
             directory = output / f"seed-{cfg.seed}"
             directory.mkdir(mode=0o700)
-            put(directory / "config.json", cfg.model_dump(mode="json"))
+            json_new(directory / "config.json", cfg.model_dump(mode="json"))
             partial, first = fit_mlp(rows, cfg, steps=31)
-            put(directory / "partial.json", partial.model_dump(mode="json"))
+            json_new(directory / "partial.json", partial.model_dump(mode="json"))
             restored = MlpCheckpoint.model_validate_json((directory / "partial.json").read_bytes())
             resumed, second = fit_mlp(
                 rows, cfg, checkpoint=restored, expected_checkpoint=partial.identity()
             )
             fresh, history = fit_mlp(rows, cfg)
-            put(directory / "checkpoint.json", fresh.model_dump(mode="json"))
-            put(directory / "resumed.json", resumed.model_dump(mode="json"))
-            put(directory / "epochs.json", [s.model_dump(mode="json") for s in history])
+            json_new(directory / "checkpoint.json", fresh.model_dump(mode="json"))
+            json_new(directory / "resumed.json", resumed.model_dump(mode="json"))
+            json_new(directory / "epochs.json", [s.model_dump(mode="json") for s in history])
             if fresh != resumed or history != (*first, *second):
                 raise ValueError("resume mismatch")
             q = quantize_mlp(fresh, cfg)
-            put(directory / "quantization.json", q.model_dump(mode="json"))
+            json_new(directory / "quantization.json", q.model_dump(mode="json"))
             profile = InputProfile(
                 schema_id="hallmark/input-profile/1",
                 encoding="utf8-bytes",
@@ -112,7 +104,7 @@ def check(path, expected, output=None):
                 hidden_fraction=0,
                 last_fraction=q.last_fraction,
             )
-            put(
+            json_new(
                 directory / "export.json",
                 {
                     "program": program.model_dump(mode="json"),
@@ -184,7 +176,7 @@ def check(path, expected, output=None):
                 "final_loss": fresh.loss,
                 "scores": scores,
             }
-            put(directory / "result.json", result)
+            json_new(directory / "result.json", result)
             completed.append(result)
         result = {
             "schema_id": "hallmark.mlp-training-fixture-result/1",
@@ -201,10 +193,10 @@ def check(path, expected, output=None):
                 "admitted-real-data",
             ],
         }
-        put(output / "result.json", result)
+        json_new(output / "result.json", result)
         return result
     except BaseException:
-        put(
+        json_new(
             output / "failure.json",
             {
                 "schema_id": "hallmark.mlp-training-fixture-failure/1",

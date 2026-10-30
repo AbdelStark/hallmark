@@ -33,6 +33,8 @@ Core tests do not require scikit-learn; the training marker may skip if the extr
 at least one selected training test and successful setup, call and teardown for
 every selected training test; skips, xfails/xpasses and collection/setup-only
 runs cannot pass. Plain `make check` retains the optional-training boundary.
+`make check-llm` runs the offline LLM fixture tests with the locked llm extra, as
+the CI LLM fixture job does.
 
 The supported interpreter matrix is CPython 3.12, 3.13 and 3.14, with 3.12 as
 the default local pin. Linux and macOS run core/package and required-train/installed

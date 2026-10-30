@@ -57,7 +57,7 @@ jobs:
         with:
           version: '0.9.18'
       - run: uv sync --locked --extra llm
-      - run: uv run --locked --extra llm pytest tests/test_llm_e2e.py tests/test_sash_response.py
+      - run: make check-llm
   core:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
