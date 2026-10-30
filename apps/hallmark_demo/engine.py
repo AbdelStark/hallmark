@@ -420,6 +420,14 @@ class RunManager:
                 if any(marker in clean for marker in stage.markers):
                     self._stage(run, stage.id)
                     break
+        if clean.startswith("Exception ignored in:"):
+            run["ignored_exception"] = True
+        elif run.get("ignored_exception"):
+            if clean.startswith("KeyboardInterrupt"):
+                run["ignored_exception"] = False
+                run["cancel_signalled"] = False
+            elif clean != "Traceback (most recent call last):" and not line.startswith(" "):
+                run["ignored_exception"] = False
         if clean.startswith("{") and '"schema_id"' in clean:
             self._event(run, "log", "Structured report written by the workflow")
         else:
@@ -675,6 +683,14 @@ class RunManager:
                     self._tail(run)
                     self._tail_stage_logs(run)
                     self._inspect_output(run)
+                    if (
+                        live
+                        and run.get("cancel_signalled_startup")
+                        and time.time() - run["started_unix"] >= 0.2
+                    ):
+                        run["cancel_signalled_startup"] = False
+                        run["cancel_retried"] = True
+                        run["cancel_signalled"] = False
                     if run["cancel_requested"]:
                         self._signal_stop(run)
                     self._force_local_stop(run)
@@ -707,9 +723,16 @@ class RunManager:
         ):
             return
         try:
+            log = self.directory / run["id"] / "driver.log"
+            startup = (
+                not run.get("cancel_retried")
+                and time.time() - run["started_unix"] < 0.2
+                and (not log.is_file() or log.stat().st_size == 0)
+            )
             # uv forwards SIGINT itself; a group signal would interrupt the driver's cleanup.
             os.kill(run["pid"], signal.SIGINT)
             run["cancel_signalled"] = True
+            run["cancel_signalled_startup"] = startup
         except ProcessLookupError:
             pass
 

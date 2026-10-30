@@ -27,8 +27,8 @@ BUILD_EPOCH = "315532800"
 UV_VERSION = "0.9.18"
 
 
-def command(args, *, cwd, output, env):
-    result = subprocess.run(args, cwd=cwd, env=env, capture_output=True, timeout=55)
+def command(args, *, cwd, output, env, timeout=55):
+    result = subprocess.run(args, cwd=cwd, env=env, capture_output=True, timeout=timeout)
     output.write_bytes(result.stdout + result.stderr)
     if result.returncode:
         raise RuntimeError("package subprocess failed; inspect retained local log")
@@ -353,6 +353,7 @@ def main():
             cwd=output,
             output=output / "installed-check.log",
             env=env,
+            timeout=180 if (args.train or args.guard) else 90,
         )
         result = {
             "schema_id": "hallmark/package-check/1",

@@ -204,6 +204,36 @@ def test_stop_through_uv_delivers_one_interrupt_and_cleanup_completes(runner, mo
     assert (manager.root / "runs/signals.log").read_text() == "SIGINT\n"
 
 
+def test_stop_retries_when_interpreter_ignores_unraisable_interrupt(runner):
+    manager, script = runner
+    script.write_text(
+        "import signal,sys,time\n"
+        "count=0\n"
+        "def handler(*_):\n"
+        "    global count\n"
+        "    count+=1\n"
+        "    if count==1:\n"
+        "        sys.stderr.write(\n"
+        "            'Exception ignored in: '\n"
+        "            '<function _WeakValueDictionary.__init__.<locals>.KeyedRef.remove>\\n'\n"
+        "            'Traceback (most recent call last):\\n'\n"
+        "            '  File \"<frozen importlib._bootstrap>\", line 82, in remove\\n'\n"
+        "            'KeyboardInterrupt:\\n'\n"
+        "        )\n"
+        "        sys.stderr.flush()\n"
+        "        return\n"
+        "    raise KeyboardInterrupt\n"
+        "signal.signal(signal.SIGINT,handler)\n"
+        "print('Ready',flush=True)\n"
+        "time.sleep(30)\n"
+    )
+    run = manager.start("fixture", {})
+    wait(manager, run["id"], lambda r: any(e["message"] == "Ready" for e in r["events"]))
+    manager.cancel(run["id"])
+    done = wait(manager, run["id"])
+    assert done["status"] == "cancelled" and not alive(done["pid"], done["process_created"])
+
+
 def test_stage_logs_are_streamed_and_redacted(runner):
     manager, script = runner
     script.write_text(
