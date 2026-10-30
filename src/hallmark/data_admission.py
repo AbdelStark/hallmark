@@ -9,6 +9,7 @@ from typing import Annotated, Literal, Self
 
 from pydantic import Field, ValidationError, field_validator, model_validator
 
+from hallmark._worker import write_new
 from hallmark.admission import MAX_DOCUMENT_BYTES, MAX_REVIEW_BYTES, SourceApproval, StudyPolicy
 from hallmark.contracts import Identifier, Record
 from hallmark.errors import HallmarkError
@@ -596,11 +597,6 @@ def write_dataset(directory: Path, manifest: DatasetManifest, files: dict[str, b
         *sorted(files.items()),
         ("manifest.pending", _json(manifest.model_dump(mode="json"))),
     ):
-        with os.fdopen(
-            os.open(directory / name, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600), "wb"
-        ) as handle:
-            handle.write(raw)
-            handle.flush()
-            os.fsync(handle.fileno())
+        write_new(directory / name, raw)
     os.link(directory / "manifest.pending", directory / "manifest.json")
     (directory / "manifest.pending").unlink()

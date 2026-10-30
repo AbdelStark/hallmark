@@ -3,12 +3,12 @@
 import hashlib
 import importlib.metadata
 import json
-import os
 import platform
 import time
 from pathlib import Path
 from typing import Any, Literal
 
+from hallmark._worker import write_new
 from hallmark.admission import (
     CANDIDATES,
     AdmissionProtocol,
@@ -97,13 +97,6 @@ def _read_refs(root: Path, refs: tuple[FileRef, ...], cap: int) -> dict[str, byt
         raise WireError("LIMIT_EXCEEDED")
     # Roots and their parent directories are caller-owned, as for LocalGuard.
     return {r.path: _pinned_bytes(root / r.path, r.size, r.sha256.hex()) for r in refs}
-
-
-def _put(path: Path, value: Any) -> None:
-    with os.fdopen(os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600), "wb") as handle:
-        handle.write(json_bytes(value))
-        handle.flush()
-        os.fsync(handle.fileno())
 
 
 def _admit(
@@ -210,7 +203,7 @@ def run_comparisons(
         total = sum(p.stat().st_size for p in output.iterdir())
         if total + len(json_bytes(value)) + 4096 > protocol.budget.max_disk_bytes:
             raise HallmarkError("RESOURCE_EXHAUSTED", "store")
-        _put(path, value)
+        write_new(path, json_bytes(value))
 
     try:
         put(output / "plan.json", plan.model_dump(mode="json"))
@@ -310,5 +303,5 @@ def run_comparisons(
             if isinstance(exc, Exception)
             else HallmarkError("RESOURCE_EXHAUSTED", "execute")
         )
-        _put(output / "failure.json", error.as_dict())
+        write_new(output / "failure.json", json_bytes(error.as_dict()))
         raise

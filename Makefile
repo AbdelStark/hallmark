@@ -1,4 +1,4 @@
-.PHONY: demo-web demo-tui check-demo e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
+.PHONY: demo-web demo-tui check-demo e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-llm check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
 
 check:
 	uv lock --check
@@ -50,6 +50,9 @@ test:
 
 check-train:
 	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 uv run --locked --extra train pytest -m train --require-train
+
+check-llm:
+	HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 uv run --locked --extra llm pytest tests/test_llm_e2e.py tests/test_sash_response.py
 
 check-guard:
 	OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked --extra guard python scripts/check_guard.py

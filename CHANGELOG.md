@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Reuse `hallmark._worker.write_new`/`json_new` instead of five copied
+exclusive-write helpers (output bytes unchanged), and add `make check-llm` for
+the CI LLM fixture job.
+
 Workbench Stop pressed in the first 0.2 s of a run is re-sent once if the
 driver's interpreter ignored the early SIGINT, and the installed-package check
 gets 90 s (180 s with the train or guard extra) instead of 55 s (#168). Record

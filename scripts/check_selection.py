@@ -2,10 +2,10 @@
 
 import hashlib
 import json
-import os
 import sys
 from pathlib import Path
 
+from hallmark._worker import json_new
 from hallmark.baselines import baseline_runtime, split_rows, training_rows
 from hallmark.cli import _Parser
 from hallmark.comparison import calibrate_fitted, evaluate_fitted
@@ -14,14 +14,6 @@ from hallmark.data import validate_splits
 from hallmark.errors import HallmarkError, sanitize_exception
 from hallmark.integrity import parse_json, read_bytes
 from hallmark.selection import SelectionPlan, fit_candidate, grouped_selection
-
-
-def put(path, value):
-    with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "w") as handle:
-        json.dump(value, handle, indent=2, sort_keys=True, allow_nan=False)
-        handle.write("\n")
-        handle.flush()
-        os.fsync(handle.fileno())
 
 
 def check(path, expected, output=None):
@@ -55,10 +47,10 @@ def check(path, expected, output=None):
     output.mkdir(mode=0o700)
     completed = []
     try:
-        put(output / "fixture.json", fixture)
-        put(output / "environment.json", baseline_runtime())
+        json_new(output / "fixture.json", fixture)
+        json_new(output / "environment.json", baseline_runtime())
         selection = grouped_selection(training, plan)
-        put(output / "selection.json", selection)
+        json_new(output / "selection.json", selection)
         by_id = {c.id: c for c in plan.candidates}
         for winner in selection["selected"]:
             if winner["candidate"] is None:
@@ -67,12 +59,12 @@ def check(path, expected, output=None):
             directory.mkdir(mode=0o700)
             fitted = fit_candidate(training, by_id[winner["candidate"]], plan, winner["seed"])
             # Retain the final model identity before calibrating its threshold.
-            put(directory / "fit.json", fitted.record)
+            json_new(directory / "fit.json", fitted.record)
             fit_pin = fitted.record["identity"]
             calibrated = calibrate_fitted(
                 fitted, calibration, expected_fit=fit_pin, target_fpr="0.01"
             )
-            put(directory / "calibration.json", calibrated.model_dump(mode="json"))
+            json_new(directory / "calibration.json", calibrated.model_dump(mode="json"))
             evaluation = evaluate_fitted(
                 fitted,
                 calibrated,
@@ -80,7 +72,7 @@ def check(path, expected, output=None):
                 expected_fit=fit_pin,
                 expected_calibration=calibrated.identity(),
             )
-            put(directory / "evaluation.json", evaluation)
+            json_new(directory / "evaluation.json", evaluation)
             completed.append(
                 {
                     **winner,
@@ -109,10 +101,10 @@ def check(path, expected, output=None):
             "unavailable": [r["kind"] for r in selection["roster"] if r["status"] == "unavailable"],
             "w15_complete": False,
         }
-        put(output / "result.json", result)
+        json_new(output / "result.json", result)
         return result
     except BaseException:
-        put(
+        json_new(
             output / "failure.json",
             {
                 "schema_id": "hallmark/grouped-selection-fixture-failure/1",

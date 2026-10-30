@@ -1,10 +1,10 @@
 """Report caller-pinned held-out scores; this command never loads or selects a model."""
 
 import json
-import os
 import sys
 from pathlib import Path
 
+from hallmark._worker import json_new
 from hallmark.cli import _Parser
 from hallmark.contracts import Record
 from hallmark.errors import sanitize_exception
@@ -15,14 +15,6 @@ from hallmark.group_evaluation import (
     group_report,
 )
 from hallmark.integrity import parse_json, read_bytes
-
-
-def put(path, value):
-    with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "w") as handle:
-        json.dump(value, handle, sort_keys=True, indent=2, allow_nan=False)
-        handle.write("\n")
-        handle.flush()
-        os.fsync(handle.fileno())
 
 
 def main():
@@ -52,7 +44,7 @@ def main():
         source, provenance = read_bytes(args.source), read_bytes(args.provenance)
         args.output.mkdir(mode=0o700)
         created = True
-        put(args.output / "plan.json", plan.model_dump(mode="json"))
+        json_new(args.output / "plan.json", plan.model_dump(mode="json"))
         result = group_report(
             plan,
             rows,
@@ -61,7 +53,7 @@ def main():
             source=source,
             provenance=provenance,
         )
-        put(args.output / "report.json", result)
+        json_new(args.output / "report.json", result)
         print(
             json.dumps(
                 {"schema_id": result["schema_id"], "status": "reported", "quality_claim": False},
@@ -73,7 +65,7 @@ def main():
         error = sanitize_exception(exc, stage="execute").as_dict()
         if created:
             try:
-                put(args.output / "failure.json", error)
+                json_new(args.output / "failure.json", error)
             except OSError:
                 pass
         print(json.dumps(error), file=sys.stderr)
