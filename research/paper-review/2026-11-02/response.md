@@ -18,7 +18,7 @@ asked or not fully), **declined** (not changed, with the reason).
 | REV-06 | done | §4.2 pair counts rewritten, naming the comparable pairs under each reading. |
 | REV-07 | declined | Class numbers stay. They key Tables 1, 2, 5 and 6 and Figure 1; the text already says they are labels, not heights; mnemonic labels would collide with the RAILS labels compared in §6. |
 | REV-08 | done | Box 1 defines "not qualified" in prose and drops the configuration flags. |
-| REV-09 | declined for now | Whether the author's employer offers products in a compared evidence class is a fact only the author can state; the competing-interests text is unchanged pending the author. |
+| REV-09 | done | The author stated that Lucid Computing offers no product in any compared evidence class; the Competing Interests section now says so. |
 | REV-10 | partly | The original searches have no recorded query strings or counts, and §3 now says so. A documented search for the novelty statement was run on 2026-11-02 with per-query counts ([literature-check.md](literature-check.md)); per-strand counts for the original base cannot be reconstructed. |
 | REV-11 | done (no change) | The PDF and LaTeX carry the rendered Figure 1 (TikZ) and Figure 2 (`trust-boundary.png`); the Markdown keeps a figure specification by design. |
 | REV-12 | done | New "Granularity" list in §4.2: for soundness separated from K, K charged to replay (with and without soundness separated) and P split, which of Results 1–5 and the dashed edges hold and how many pairs above the bottom are incomparable; a further split of K is argued to only remove edges. §1, the abstract and §8 point to it, and §7.2 is now accurate. |
