@@ -6,7 +6,7 @@ with Hallmark as a worked illustration. Preprint draft, not peer reviewed.
 
 | File | What it is |
 |---|---|
-| [proofs-attestation-logs.pdf](proofs-attestation-logs.pdf) | The paper, 32 pages |
+| [proofs-attestation-logs.pdf](proofs-attestation-logs.pdf) | The paper, 33 pages |
 | [proofs-attestation-logs.md](proofs-attestation-logs.md) | Markdown edition, the text the LaTeX is generated from |
 | [main.tex](main.tex) | LaTeX source (pdflatex-compatible, numeric citations) |
 | [trust-boundary.png](trust-boundary.png) | Figure 2, rendered from `docs/assets/figures/trust-boundary.svg` |

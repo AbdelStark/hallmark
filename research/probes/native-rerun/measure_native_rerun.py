@@ -44,7 +44,17 @@ def timed(fn, reps, warmup):
 
 
 def host():
+    def out(*command):
+        result = subprocess.run(command, cwd=HERE, capture_output=True, text=True, check=False)
+        return result.stdout.strip() or None
+
+    if sys.platform == "darwin":
+        cpu_model = out("sysctl", "-n", "machdep.cpu.brand_string")
+    else:
+        cpu_model = platform.processor() or None
     return dict(
+        commit=out("git", "rev-parse", "HEAD"),
+        cpu_model=cpu_model,
         platform=platform.platform(),
         machine=platform.machine(),
         python=platform.python_version(),
