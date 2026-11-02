@@ -371,7 +371,7 @@ Abdelhamid Bakhta (sole author), following the Contributor Roles Taxonomy (CRedi
 
 ## Competing Interests
 
-The author is employed by Lucid Computing and developed Hallmark, a research experiment with a proof-of-concept implementation, as part of that employment. Hallmark is not a Lucid Computing product. The author declares no other competing interests.
+The author is employed by Lucid Computing and developed Hallmark, a research experiment with a proof-of-concept implementation, as part of that employment. Hallmark is not a Lucid Computing product, and Lucid Computing offers no product in any evidence class the paper compares. The author declares no other competing interests.
 
 ## Funding
 
