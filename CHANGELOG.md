@@ -5,6 +5,11 @@
 Add the paper "Proofs, Attestation and Logs" (sources and PDF) under
 `docs/paper/`, and the native rerun timings it reads (exp-R1,
 `research/evidence/native-rerun-*-2026-10-30.json`) with their probe script.
+Revise it after a final simulated five-reviewer panel (major revision): the
+findings are restated, replay-versus-proof and the auditor's view are scoped to
+stated conventions, NiyamAI and three attestation attacks are cited, and cost
+tables move to an appendix. The review records, the response to each item and
+a logged literature search are in `research/paper-review/2026-11-02/`.
 
 Reuse `hallmark._worker.write_new`/`json_new` instead of five copied
 exclusive-write helpers (output bytes unchanged), and add `make check-llm` for
