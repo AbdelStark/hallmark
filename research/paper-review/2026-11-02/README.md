@@ -27,6 +27,7 @@ file.
 | [panel-provenance.json](panel-provenance.json) | Typed panel provenance (`review-panel-provenance/1.0`) |
 | [response.md](response.md) | What the revision did for each roadmap item |
 | [literature-check.md](literature-check.md) | Verification of the sources reviewers recalled, and the logged novelty search |
+| [independent-check.md](independent-check.md) | A separate check of the revision against the roadmap; its findings were fixed before merging |
 
 The review's working copies lived in an ignored `runs/paper-panel/` folder, so
 paths there in [editorial-decision.md](editorial-decision.md) name

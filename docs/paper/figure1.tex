@@ -1,0 +1,31 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  cls/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, inner sep=4pt, minimum width=3.3cm},
+  note/.style={font=\scriptsize, align=left, text width=4.3cm},
+  edge/.style={-{Stealth[length=2.2mm]}, thick},
+  cond/.style={edge, dashed},
+  alt/.style={edge, dotted},
+]
+\node[cls] (N0) at (0,0) {0a self-report $\cdot$ 2 signed/logged record\\[-1pt]{\scriptsize\itshape $\tau = U$ (relies on operator $O$)}};
+\node[cls] (N3a) at (-4.9,2.4) {3a statistical / sampled\\[-1pt]{\scriptsize\itshape $\{E,P,K,L,Q\}$}};
+\node[cls] (N3b) at (0,2.4) {3b refereed / optimistic\\[-1pt]{\scriptsize\itshape $\{E,P,K,D,H\}$}};
+\node[cls] (N4) at (4.9,2.4) {4 hardware attestation\\[-1pt]{\scriptsize\itshape $\{E,P,K,W\}$}\\[-1pt]{\scriptsize\itshape $W$: $W_v$, $W_v{+}W_g$ or $W_c$}};
+\node[cls] (N1) at (-2.6,4.8) {1 replay\\[-1pt]{\scriptsize\itshape $\{E,P,D\}$}};
+\node[cls] (N5) at (2.6,4.8) {5 proofs\\[-1pt]{\scriptsize\itshape $\{E,P,K\}$}\\[-1pt]{\scriptsize\itshape $+N$ with a reference string}};
+\node[cls, dotted] (N0b) at (-5.3,-0.6) {0b black-box test\\[-1pt]{\scriptsize\itshape binds no request; not compared}};
+\draw[edge] (N0) -- (N3a);
+\draw[edge] (N0) -- (N3b);
+\draw[edge] (N0) -- (N4);
+\draw[edge] (N3b) -- (N1);
+\draw[cond] (N3a) to[bend left=12] (N5);
+\draw[cond] (N3b) -- (N5);
+\draw[cond] (N4) -- (N5);
+\draw[alt] (N0.east) -| (7.6,4.8) -- (N5.east);
+\node[anchor=east, font=\scriptsize, text width=2.6cm, align=right] at (7.45,1.2) {dotted: proof soundness separated from $K$};
+\node[note, above=1mm of N5] {Hallmark: class-5 relation at unqualified parameters; no hiding, attestation, gating or timing (Box~1)};
+\node[draw, font=\scriptsize, anchor=south west, inner sep=3pt] at (-6.9,5.9) {Integrity only. Gating and timing: Table~2.};
+\end{tikzpicture}
+\caption{Evidence classes ordered by inclusion of trust sets (the quotient of the order; integrity of the statement only). An arrow from $X$ up to $Y$ means $\tau(Y)\subseteq\tau(X)$: $Y$ needs no more trust than $X$. Only cover edges are drawn, and class numbers are labels, not heights. Two readings are drawn with equal weight. Dashed edges into class~5 hold only if proof-system soundness at the deployed parameters is counted within $K$ and no setup ceremony ($N$) is needed; if soundness is separated, class~5 is covered directly by the bottom class (dotted edge) and sits level with 3a, 3b and 4, so its drawn height follows the dashed reading for layout only. Replay (1) and proofs (5) are incomparable on this universe, as are 3a, 3b and 4; Section~4.2 gives the finer cuts that change this. For Proof-of-Guardrail (class~4), $W=W_c$ (AWS) and the classifier verdict is computed by an external API outside the measurement. What each class can say about gating and timing (Table~2) does not follow this order.}
+\label{fig:order}
+\end{figure}
