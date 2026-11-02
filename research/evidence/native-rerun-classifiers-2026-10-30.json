@@ -1,0 +1,96 @@
+{
+  "boundary": "one in-process native execute_* call per classifier and request; excludes artifact loading, export and witness construction",
+  "experiment_id": "exp-R1-native-rerun",
+  "host": {
+    "cpu_count": 16,
+    "machine": "arm64",
+    "omp_num_threads": "1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.12"
+  },
+  "rows": [
+    {
+      "classifier": "rule",
+      "max_s": 0.00030066698673181236,
+      "median_s": 0.00027385448629502207,
+      "min_s": 0.00024891700013540685,
+      "n": 50,
+      "request": "allow",
+      "verdict": true
+    },
+    {
+      "classifier": "mlp",
+      "max_s": 0.001039875001879409,
+      "median_s": 0.0009793124918360263,
+      "min_s": 0.0009571250120643526,
+      "n": 50,
+      "request": "allow",
+      "verdict": true
+    },
+    {
+      "classifier": "encoder",
+      "max_s": 0.20844529097666964,
+      "median_s": 0.20142424949153792,
+      "min_s": 0.19858612498501316,
+      "n": 50,
+      "request": "allow",
+      "verdict": true
+    },
+    {
+      "classifier": "rule",
+      "max_s": 0.00039895798545330763,
+      "median_s": 0.0002749580016825348,
+      "min_s": 0.00025087498943321407,
+      "n": 50,
+      "request": "cnn-block",
+      "verdict": true
+    },
+    {
+      "classifier": "mlp",
+      "max_s": 0.0011562499857973307,
+      "median_s": 0.0009798329992918298,
+      "min_s": 0.0009364580037072301,
+      "n": 50,
+      "request": "cnn-block",
+      "verdict": true
+    },
+    {
+      "classifier": "encoder",
+      "max_s": 0.20261262499843724,
+      "median_s": 0.19986214599339291,
+      "min_s": 0.1980232500063721,
+      "n": 50,
+      "request": "cnn-block",
+      "verdict": false
+    },
+    {
+      "classifier": "rule",
+      "max_s": 0.00033037501270882785,
+      "median_s": 0.0002842914836946875,
+      "min_s": 0.0002732080174610019,
+      "n": 50,
+      "request": "rule-block",
+      "verdict": false
+    },
+    {
+      "classifier": "mlp",
+      "max_s": 0.0010626250004861504,
+      "median_s": 0.0009913959947880358,
+      "min_s": 0.0009682500094641,
+      "n": 50,
+      "request": "rule-block",
+      "verdict": true
+    },
+    {
+      "classifier": "encoder",
+      "max_s": 0.2084847499791067,
+      "median_s": 0.20381081248342525,
+      "min_s": 0.20175445801578462,
+      "n": 50,
+      "request": "rule-block",
+      "verdict": true
+    }
+  ],
+  "run_dir": "/Users/abdel/dev/hallmark/runs/e2e-circle-i1i9nb1q",
+  "schema_id": "hallmark.paper.exp-R1-classifiers/1"
+}

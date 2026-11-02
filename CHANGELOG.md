@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Add the paper "Proofs, Attestation and Logs" (sources and PDF) under
+`docs/paper/`, and the native rerun timings it reads (exp-R1,
+`research/evidence/native-rerun-*-2026-10-30.json`) with their probe script.
+
 Reuse `hallmark._worker.write_new`/`json_new` instead of five copied
 exclusive-write helpers (output bytes unchanged), and add `make check-llm` for
 the CI LLM fixture job.
