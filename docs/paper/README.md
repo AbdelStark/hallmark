@@ -6,7 +6,7 @@ with Hallmark as a worked illustration. Preprint draft, not peer reviewed.
 
 | File | What it is |
 |---|---|
-| [proofs-attestation-logs.pdf](proofs-attestation-logs.pdf) | The paper, 32 pages |
+| [proofs-attestation-logs.pdf](proofs-attestation-logs.pdf) | The paper, 38 pages |
 | [proofs-attestation-logs.md](proofs-attestation-logs.md) | Markdown edition, the text the LaTeX is generated from |
 | [main.tex](main.tex) | LaTeX source (pdflatex-compatible, numeric citations) |
 | [trust-boundary.png](trust-boundary.png) | Figure 2, rendered from `docs/assets/figures/trust-boundary.svg` |
@@ -15,6 +15,8 @@ Build the PDF from this folder with `tectonic main.tex` or
 `pdflatex main.tex` (run twice).
 
 The paper's experiments read the frozen records under `research/evidence/`;
-its Data and Artifact Availability section maps each one. The code, research
+its Data and Artifact Availability section maps each one. The records of its
+final simulated review are in
+[`research/paper-review/2026-11-02/`](../../research/paper-review/2026-11-02/README.md). The code, research
 record and manuscript were produced with AI assistance; the paper's AI-Use
 Disclosure says how.
