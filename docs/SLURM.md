@@ -53,7 +53,7 @@ Two Apptainer definition files are provided:
 - Driver requirement: 570.x or later (native support)
 - **Recommended for clusters with driver 570.x**, including TDX nodes
 - New build identity (does not match existing HF evidence)
-- Located at: `slurm/apptainer-cuda12.def`
+- Located at: `slurm/apptainer-cuda12.8.def`
 
 Both profiles include:
 - Rust nightly-2025-07-14 with rustup 1.29.1

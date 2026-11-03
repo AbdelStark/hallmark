@@ -21,7 +21,7 @@ On clusters with driver 570.x, users can either:
 
 ## Decision
 
-Add a **second, explicitly versioned CUDA 12.8 build profile** alongside the existing CUDA 13.1 profile:
+Add a **second, explicitly versioned CUDA 12.8 build profile** alongside the existing CUDA 12.9.1 profile:
 
 ### CUDA 12.8.1 Profile (cuda12.8) — New, Recommended for Driver 570.x
 
@@ -84,7 +84,7 @@ Both profiles include:
 Same as existing GPU benchmarks:
 - All segments and links verify
 - Zero CPU constraint fallback
-- Proof bytes match published proofs (for CUDA 13.1 profile)
+- Proof bytes match published proofs (for CUDA 12.9.1 profile)
 - Fresh proof-only verification passes
 
 ## Consequences
@@ -94,7 +94,7 @@ Same as existing GPU benchmarks:
 - Two build profiles with explicit CUDA version and driver compatibility
 - Slurm users can select profile based on available driver version
 - CUDA 12.8 profile enables deployment on TDX nodes with driver 570.x
-- Existing CUDA 13.1 profile and evidence remain unchanged
+- Existing CUDA 12.9.1 profile and evidence remain unchanged
 - Same worker entry points (`scripts/run_llm_gpu.py`, `scripts/run_classifier_gpu.py`)
 - Generic Slurm templates with no hardcoded cluster details
 
@@ -165,8 +165,8 @@ Same as existing GPU benchmarks:
 ## References
 
 - NVIDIA CUDA Compatibility: https://docs.nvidia.com/deploy/cuda-compatibility/
-- Driver 570.211.01 supports CUDA 12.8.x
-- Driver 580.178.04 supports CUDA 13.1.x
+- 570-branch drivers support CUDA 12.8 natively; CUDA 12.9 requires forward compatibility
+- 580-branch drivers support CUDA 12.9 natively
 - Existing CUDA 12.9.1 image: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
   - Image config: `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`
   - Validated with driver 580.178.04 on HF Jobs
