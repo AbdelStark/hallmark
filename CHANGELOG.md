@@ -2,13 +2,15 @@
 
 ## Unreleased
 
-Add Slurm + Apptainer support for GPU workloads: two CUDA profiles (13.x for
-existing HF baseline validated with driver 580.x, 12.8.1 for driver 570.x+
-including TDX nodes), Apptainer definition files, sbatch templates for CPU
-smoke tests and GPU proving jobs, and a launcher script. Optional attestation
-hook script (`slurm/attest-hook.sh`) computes manifest hash and generates
-example commands for TDX quote (`tdx-quote`) and GPU attestation (`nvattest`)
-but does not execute privileged tools automatically. See
+Add Slurm + Apptainer support for GPU workloads: two CUDA profiles (12.9.1 for
+existing HF baseline validated with driver 580.x, 12.8.1 for native driver 570.x
+support including TDX nodes), Apptainer definition files, sbatch templates for CPU
+smoke tests and GPU proving jobs, and a launcher script. The existing 12.9.1 image
+(`CUDA_VERSION=12.9.1` per image config) can run on driver 570.x via CUDA forward
+compatibility (cuda-compat) but is unverified in TDX VMs; 12.8.1 is recommended for
+driver 570.x. Optional attestation hook script (`slurm/attest-hook.sh`) computes
+manifest hash and generates example commands for TDX quote (`tdx-quote`) and GPU
+attestation (`nvattest`) but does not execute privileged tools automatically. See
 [decision 0092](docs/decisions/0092-slurm-apptainer-cuda12-profile.md) and
 [Slurm guide](docs/SLURM.md).
 

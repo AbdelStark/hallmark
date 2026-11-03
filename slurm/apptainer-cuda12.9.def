@@ -36,14 +36,17 @@ From: nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ac
     export CUDAHOSTCXX=/usr/bin/g++
 
 %labels
-    hallmark.profile cuda13
-    hallmark.cuda_version 13.1
+    hallmark.profile cuda12.9
+    hallmark.cuda_version 12.9.1
     hallmark.rust_toolchain nightly-2025-07-14
     hallmark.rustup_version 1.29.1
     hallmark.uv_version 0.9.18
     hallmark.python_version 3.12
 
 %help
-    Hallmark GPU workload container based on CUDA 13.1.
+    Hallmark GPU workload container based on CUDA 12.9.1.
     This container includes Rust nightly-2025-07-14, rustup 1.29.1, uv 0.9.18, and Python 3.12.
+    Image: nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f
+    CUDA_VERSION=12.9.1, requires driver 535+ (datacenter GPUs).
+    On driver 570.x: runs via CUDA forward compatibility (cuda-compat), not natively.
     Use with Apptainer on Slurm compute nodes with NVIDIA GPUs.

@@ -24,30 +24,35 @@ This guide explains how to run Hallmark's GPU workloads (TinyLlama LLM prover vi
 
 This implementation supports:
 - H100 NVL with Intel TDX confidential VM
-  - NVIDIA driver 570.x or later (CUDA 12.8 compatible)
-  - CUDA 12.8.1 container profile
+  - NVIDIA driver 570.x (CUDA 12.8 native or 12.9 via forward compatibility)
+  - Recommended: CUDA 12.8.1 profile (native, new build identity)
+  - Alternative: CUDA 12.9.1 profile (via cuda-compat, preserves HF build identity)
 - H100 SXM (sm_90)
-  - NVIDIA driver 580.x or later
-  - Existing CUDA 13.x container profile (HF path)
+  - NVIDIA driver 535+, 550+, 560+, 565+, 570+ (datacenter GPUs)
+  - CUDA 12.9.1 container profile (existing HF path)
 
 ## Container Profiles
 
 Two Apptainer definition files are provided:
 
-### Existing CUDA Profile (cuda13)
+### CUDA 12.9.1 Profile (cuda12.9)
 
 - Based on `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
-- CUDA version: 13.x (per published benchmarks with driver 580.178.04; exact version unconfirmed)
-- Validated with driver 580.x
-- Compatible with existing HF Jobs workflow
-- Located at: `slurm/apptainer-cuda13.def`
+- CUDA version: 12.9.1 (per image config: `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`)
+- Driver requirement: `NVIDIA_REQUIRE_CUDA=cuda>=12.9` with datacenter branches 535, 550, 560, 565, 570
+- Validated with driver 580.178.04 on HF Jobs
+- Compatible with existing HF Jobs workflow and evidence
+- Located at: `slurm/apptainer-cuda12.9.def`
+- **On driver 570.x**: Runs via CUDA forward compatibility (cuda-compat libraries on LD_LIBRARY_PATH), not natively
+- **Note**: Forward compatibility unverified inside TDX confidential VMs
 
-### CUDA 12.8 Profile (cuda12)
+### CUDA 12.8.1 Profile (cuda12.8) — Recommended for 570.x Drivers
 
-- Based on `nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04`
+- Based on `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed`
 - CUDA version: 12.8.1
-- Requires driver 570.x or later
-- Compatible with older drivers including TDX nodes
+- Driver requirement: 570.x or later (native support)
+- **Recommended for clusters with driver 570.x**, including TDX nodes
+- New build identity (does not match existing HF evidence)
 - Located at: `slurm/apptainer-cuda12.def`
 
 Both profiles include:
@@ -57,6 +62,24 @@ Both profiles include:
 - CUDA toolkit and development libraries
 - Build tools (gcc, cmake, git, etc.)
 
+### Driver 570.x Choice
+
+On clusters with driver 570.x:
+
+1. **CUDA 12.8.1 (cuda12.8)** — Recommended:
+   - Native CUDA 12.8 support
+   - New build identity
+   - Simpler deployment (no cuda-compat setup)
+   - Verified for TDX confidential VMs
+
+2. **CUDA 12.9.1 (cuda12.9)** — Alternative:
+   - Requires CUDA forward compatibility
+   - Must ensure cuda-compat libraries on LD_LIBRARY_PATH inside container
+   - Preserves HF build identity
+   - Forward compatibility unverified inside TDX confidential VMs
+
+Unless preserving exact HF build identity is required, use cuda12.8 on driver 570.x.
+
 ## Building Container Images
 
 ### Build Command
@@ -64,11 +87,11 @@ Both profiles include:
 ```bash
 cd slurm
 
-# Build existing CUDA 13.x image (default)
-./hallmark-slurm.sh build-image --profile cuda13 --output hallmark-cuda13.sif
+# Build CUDA 12.9.1 image (default, existing HF baseline)
+./hallmark-slurm.sh build-image --profile cuda12.9 --output hallmark-cuda12.9.sif
 
-# Build CUDA 12.8 image (for older drivers)
-./hallmark-slurm.sh build-image --profile cuda12 --output hallmark-cuda12.sif
+# Build CUDA 12.8.1 image (recommended for driver 570.x)
+./hallmark-slurm.sh build-image --profile cuda12.8 --output hallmark-cuda12.8.sif
 ```
 
 The build process:
@@ -95,7 +118,7 @@ Validates data, checks conformance, and builds the Circle prover (CPU only). Thi
 ```bash
 ./hallmark-slurm.sh submit-cpu \
   --partition cpu \
-  --container hallmark-cuda13.sif \
+  --container hallmark-cuda12.9.sif \
   --work-dir /data/$USER/hallmark \
   --source /path/to/hallmark/repo
 ```
@@ -121,7 +144,7 @@ Runs the classifier proof campaign with CPU and CUDA backends.
 ```bash
 ./hallmark-slurm.sh submit-classifier \
   --partition gpu \
-  --container hallmark-cuda13.sif \
+  --container hallmark-cuda12.9.sif \
   --work-dir /data/$USER/hallmark \
   --prepared /data/$USER/prepared \
   --native-pin abc123def456 \
@@ -164,7 +187,7 @@ Runs the TinyLlama proving workflow with SIMD and CUDA backends.
 ```bash
 ./hallmark-slurm.sh submit-llm \
   --partition gpu \
-  --container hallmark-cuda13.sif \
+  --container hallmark-cuda12.9.sif \
   --work-dir /data/$USER/hallmark \
   --llm-run /data/$USER/llm-e2e-xyz \
   --credit-balance 10.00 \
@@ -339,8 +362,9 @@ To enable:
 ### Job Fails with "CUDA driver version"
 
 - Check `nvidia-smi` output on target nodes
-- Use `cuda12` profile for driver 570.x
-- Use `cuda13` profile for driver 580.x or later
+- Use `cuda12.8` profile for driver 570.x (native support)
+- Use `cuda12.9` profile for driver 535+ (datacenter GPUs)
+- Note: cuda12.9 on driver 570.x requires CUDA forward compatibility
 
 ### Job Fails with "CPU constraint fallback"
 
@@ -374,6 +398,7 @@ To enable:
 |--------|---------|-------------------|
 | Scheduler | Hugging Face managed | Slurm |
 | Container | Docker (nvidia/cuda) | Apptainer SIF |
+| CUDA version | 12.9.1 | 12.9.1 (cuda12.9) or 12.8.1 (cuda12.8) |
 | GPU allocation | HF flavor (h200, a100-large) | `--gres=gpu:1` |
 | Storage | Temporary HF bucket | User-owned persistent storage |
 | Networking | Outbound allowed | Cluster policy dependent |
@@ -388,8 +413,9 @@ The worker entry points (`scripts/run_llm_gpu.py`, `scripts/run_classifier_gpu.p
 - rustup: 1.29.1
 - uv: 0.9.18
 - Python: 3.12
-- Existing CUDA 13.x profile: Based on published HF image digest
-- CUDA 12.8 profile: nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+- CUDA 12.9.1 profile (cuda12.9): `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
+  - Image config: `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`
+- CUDA 12.8.1 profile (cuda12.8): `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed`
 
 ## Security Notes
 

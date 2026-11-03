@@ -16,7 +16,7 @@ Commands:
   submit-llm        Submit LLM GPU job
 
 Build image options:
-  --profile PROFILE   Image profile: cuda13 or cuda12 (default: cuda13)
+  --profile PROFILE   Image profile: cuda12.9 or cuda12.8 (default: cuda12.9)
   --output PATH       Output image path (default: ./hallmark-PROFILE.sif)
 
 Submit CPU options:
@@ -43,24 +43,24 @@ Submit LLM options:
 
 Examples:
   # Build CUDA 12.8 image
-  $0 build-image --profile cuda12 --output hallmark-cuda12.sif
+  $0 build-image --profile cuda12.8 --output hallmark-cuda12.8.sif
 
   # Submit CPU smoke test
-  $0 submit-cpu --partition cpu --container hallmark-cuda13.sif
+  $0 submit-cpu --partition cpu --container hallmark-cuda12.9.sif
 
   # Submit classifier GPU job
-  $0 submit-classifier --partition gpu --container hallmark-cuda13.sif \\
+  $0 submit-classifier --partition gpu --container hallmark-cuda12.9.sif \\
       --prepared /data/user/prepared --native-pin abc123 \\
       --source-dir /data/user/source
 
   # Submit LLM GPU job
-  $0 submit-llm --partition gpu --container hallmark-cuda13.sif \\
+  $0 submit-llm --partition gpu --container hallmark-cuda12.9.sif \\
       --llm-run /data/user/llm-e2e-xyz --credit-balance 10.00
 EOF
 }
 
 build_image() {
-    local profile="cuda13"
+    local profile="cuda12.9"
     local output=""
     
     while [[ $# -gt 0 ]]; do
@@ -80,8 +80,8 @@ build_image() {
         esac
     done
     
-    if [[ ! "$profile" =~ ^(cuda12|cuda13)$ ]]; then
-        echo "Error: Invalid profile. Must be cuda12 or cuda13" >&2
+    if [[ ! "$profile" =~ ^(cuda12\.8|cuda12\.9)$ ]]; then
+        echo "Error: Invalid profile. Must be cuda12.8 or cuda12.9" >&2
         exit 1
     fi
     

@@ -36,7 +36,7 @@ From: nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b
     export CUDAHOSTCXX=/usr/bin/g++
 
 %labels
-    hallmark.profile cuda12
+    hallmark.profile cuda12.8
     hallmark.cuda_version 12.8.1
     hallmark.rust_toolchain nightly-2025-07-14
     hallmark.rustup_version 1.29.1

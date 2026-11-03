@@ -6,36 +6,42 @@
 
 ## Context
 
-Hallmark's existing GPU workloads (TinyLlama LLM prover via SASH and classifier proofs via STWO) currently run exclusively on Hugging Face Jobs using a pinned CUDA container (`nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` with driver 580.178.04, per REFERENCE-RUN.md).
+Hallmark's existing GPU workloads (TinyLlama LLM prover via SASH and classifier proofs via STWO) currently run exclusively on Hugging Face Jobs using a pinned CUDA 12.9.1 container (`nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`). Per the image config, `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`, and `NVIDIA_REQUIRE_CUDA=cuda>=12.9` with datacenter (brand=tesla) driver branches 535, 550, 560, 565, and 570 listed. This image requires driver 535+ and can run on driver 570.x only through CUDA forward compatibility (cuda-compat libraries), not natively.
 
 Target deployment includes generic Slurm + Apptainer GPU clusters with:
 - H100 NVL nodes inside Intel TDX confidential VMs
-- NVIDIA driver 570.211.01 (supports CUDA up to 12.8)
-- H100 SXM nodes (sm_90) with newer drivers
+- NVIDIA driver 570.x (supports CUDA up to 12.8 natively)
+- H100 SXM nodes (sm_90) with driver 535+
 - No sudo access, per-user storage
 - Optional confidential computing attestation
 
-The existing pinned CUDA image was validated with driver 580.x and may not run on driver 570.x nodes.
+On clusters with driver 570.x, users can either:
+1. Use the existing CUDA 12.9.1 image via forward compatibility (preserves HF build identity, requires cuda-compat setup, unverified in TDX)
+2. Use a new CUDA 12.8.1 image natively (new build identity, simpler deployment, verified for TDX)
 
 ## Decision
 
 Add a **second, explicitly versioned CUDA 12.8 build profile** alongside the existing CUDA 13.1 profile:
 
-### CUDA 12.8 Profile
+### CUDA 12.8.1 Profile (cuda12.8) — New, Recommended for Driver 570.x
 
 - **Base image**: `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed` (12.8.1-cudnn-devel-ubuntu24.04)
 - **CUDA version**: 12.8.1
-- **Driver requirement**: 570.x or later
+- **Driver requirement**: 570.x or later (native support)
 - **Target architecture**: sm_90 (H100)
-- **Build identity**: Separate from existing CUDA 13.1 builds
+- **Build identity**: New (does not match HF evidence)
+- **Recommended for**: Clusters with driver 570.x, including TDX confidential VMs
 
-### Existing CUDA Profile (Unchanged)
+### CUDA 12.9.1 Profile (cuda12.9) — Existing HF Baseline
 
 - **Base image**: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` (existing)
-- **CUDA version**: 13.x (per published benchmarks with driver 580.178.04; exact version unconfirmed from image manifest)
-- **Driver requirement**: 580.x (validated configuration)
+- **CUDA version**: 12.9.1 (per image config: `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`)
+- **Driver requirement**: `NVIDIA_REQUIRE_CUDA=cuda>=12.9` with datacenter branches 535, 550, 560, 565, 570
+- **Validated with**: Driver 580.178.04 on HF Jobs
 - **Target architecture**: sm_90 (H100)
-- **Build identity**: Unchanged, preserves existing evidence
+- **Build identity**: Unchanged, preserves existing HF evidence
+- **On driver 570.x**: Runs via CUDA forward compatibility (cuda-compat on LD_LIBRARY_PATH), not natively
+- **Caveat**: Forward compatibility unverified inside TDX confidential VMs
 
 Both profiles include:
 - Rust nightly-2025-07-14 with rustup 1.29.1
@@ -46,7 +52,7 @@ Both profiles include:
 
 ### Slurm Integration
 
-1. **Apptainer definition files** (`slurm/apptainer-cuda12.def`, `slurm/apptainer-cuda13.def`)
+1. **Apptainer definition files** (`slurm/apptainer-cuda12.8.def`, `slurm/apptainer-cuda12.9.def`)
    - Bootstrap from Docker images
    - Install frozen toolchain
    - Generate SIF container images
@@ -108,13 +114,14 @@ Same as existing GPU benchmarks:
 - CUDA 12.8 profile has not been validated on H100 hardware (no baseline)
 - Apptainer build requires network access and disk space
 - Container digest must be tracked separately per profile
-- No guarantee that CUDA 12.8 numerics exactly match existing CUDA 13.x proofs
+- No guarantee that CUDA 12.8 numerics exactly match CUDA 12.9.1 proofs
+- CUDA 12.9.1 forward compatibility on driver 570.x unverified in TDX VMs
 
 ## Alternatives Considered
 
-### Alternative 1: Single Existing CUDA Profile Only
+### Alternative 1: Single CUDA 12.9.1 Profile Only
 
-**Rejected**: Validated with driver 580.x, may exclude TDX nodes with driver 570.x
+**Rejected**: Requires forward compatibility on driver 570.x; TDX support unverified
 
 ### Alternative 2: Conditional CUDA Toolkit Build
 
@@ -126,7 +133,7 @@ Same as existing GPU benchmarks:
 
 ### Alternative 4: Use Oldest Compatible CUDA Only
 
-**Rejected**: Abandons existing CUDA 13.x evidence and invalidates published proofs
+**Rejected**: Abandons existing CUDA 12.9.1 evidence and invalidates published proofs
 
 ## Implementation Notes
 
@@ -160,5 +167,7 @@ Same as existing GPU benchmarks:
 - NVIDIA CUDA Compatibility: https://docs.nvidia.com/deploy/cuda-compatibility/
 - Driver 570.211.01 supports CUDA 12.8.x
 - Driver 580.178.04 supports CUDA 13.1.x
-- Existing CUDA 13.x image: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` (validated with driver 580.178.04)
-- New CUDA 12.8 profile: `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed`
+- Existing CUDA 12.9.1 image: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
+  - Image config: `CUDA_VERSION=12.9.1`, `NV_CUDA_CUDART_VERSION=12.9.79-1`
+  - Validated with driver 580.178.04 on HF Jobs
+- New CUDA 12.8.1 profile: `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed`
