@@ -9,7 +9,11 @@ Revise it after a final simulated five-reviewer panel (major revision): the
 findings are restated, replay-versus-proof and the auditor's view are scoped to
 stated conventions, NiyamAI and three attestation attacks are cited, and cost
 tables move to an appendix. The review records, the response to each item and
-a logged literature search are in `research/paper-review/2026-11-02/`.
+a logged literature search are in `research/paper-review/2026-11-02/`. A final
+proofreading pass fixed three details against the evidence records (the
+classifier verifier range, the kind of the preserved failed run, and which
+experiments' proofs the release publishes), two trust-element slips and the
+reference formatting, and tightened the prose.
 
 Reuse `hallmark._worker.write_new`/`json_new` instead of five copied
 exclusive-write helpers (output bytes unchanged), and add `make check-llm` for
