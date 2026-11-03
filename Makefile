@@ -1,4 +1,4 @@
-.PHONY: demo-web demo-tui check-demo e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm check check-train check-llm check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
+.PHONY: demo-web demo-tui check-demo e2e e2e-llm benchmark-llm-gpu e2e-composed verify-llm verify-flashprove e2e-flashprove check check-train check-llm check-guard check-comparison check-conformance check-spec check-admission test package-check package-check-train package-check-guard package-check-comparison smoke docs docs-serve
 
 check:
 	uv lock --check
@@ -35,6 +35,12 @@ e2e-composed:
 
 verify-llm:
 	uv run --locked --python 3.12.12 python scripts/verify_llm.py --run "$(LLM_RUN)"
+
+verify-flashprove:
+	uv run --locked --python 3.12.12 python scripts/flashprove.py
+
+e2e-flashprove:
+	uv run --locked --python 3.12.12 --extra llm python scripts/run_flashprove_gpu.py --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 3.50
 
 check-admission:
 	uv run --locked python scripts/check_admission.py
