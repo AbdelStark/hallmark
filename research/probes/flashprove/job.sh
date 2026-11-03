@@ -80,7 +80,8 @@ install -o fp -g fp -m 400 /persist/source.json /home/fp/in/
 [ ! -e /persist/hc.tar.gz ] || install -o fp -g fp -m 400 /persist/hc.tar.gz /home/fp/in/
 install -o fp -g fp -m 500 /persist/build_prover.sh /home/fp/job.sh
 status=0
-runuser -u fp -- env -i HOME=/home/fp PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+# Keep the image PATH and LD_LIBRARY_PATH: the driver tools and libcuda live under /usr/local/nvidia.
+runuser -u fp -- env -i HOME=/home/fp PATH="$PATH" LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}" \
   PHASE="$HALLMARK_FLASHPROVE_PHASE" KIT="${HALLMARK_FLASHPROVE_KIT:-}" bash /home/fp/job.sh user || status=$?
 cp -R /home/fp/out/. /persist/
 exit "$status"

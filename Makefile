@@ -40,7 +40,7 @@ verify-flashprove:
 	uv run --locked --python 3.12.12 python scripts/flashprove.py
 
 e2e-flashprove:
-	uv run --locked --python 3.12.12 --extra llm python scripts/run_flashprove_gpu.py --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 3.50
+	uv run --locked --python 3.12.12 --extra llm python scripts/run_flashprove_gpu.py --credit-balance-usd "$(GPU_CREDIT_BALANCE_USD)" --max-cost-usd 3.50 $(if $(FLASHPROVE_BUILD_RUN),--build-run "$(FLASHPROVE_BUILD_RUN)")
 
 check-admission:
 	uv run --locked python scripts/check_admission.py

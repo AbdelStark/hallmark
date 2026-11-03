@@ -81,7 +81,7 @@ def mutations(verifier, case, commitment_id, output):
     return rows
 
 
-def run(balance, maximum):
+def run(balance, maximum, build_run=None):
     from huggingface_hub import HfApi
 
     cloud.require(shutil.disk_usage(ROOT).free >= 8 * 1024**3, "8 GiB free storage required")
@@ -102,7 +102,8 @@ def run(balance, maximum):
             and (hardware["cpu-xl"].cpu, hardware["cpu-xl"].ram) == ("16 vCPU", "124 GB"),
             "hardware allocation changed",
         )
-        ceiling = cloud.planned_cost(hardware, maximum, PHASES)
+        phases = {k: v for k, v in PHASES.items() if build_run is None or k == "prove"}
+        ceiling = cloud.planned_cost(hardware, maximum, phases)
         credit_guard(balance, ceiling)
         live = [
             j for j in api.list_jobs(namespace=namespace) if j.status.stage not in cloud.TERMINAL
@@ -118,7 +119,8 @@ def run(balance, maximum):
                     for p in sources
                     if p.is_file() and "__pycache__" not in p.parts
                 },
-                phases=PHASES,
+                phases=phases,
+                reused_build=None if build_run is None else str(build_run),
                 cost_ceiling_micro_usd=ceiling,
                 balance_check_usd=balance,
                 source=fp.PIN,
@@ -136,17 +138,29 @@ def run(balance, maximum):
             ),
         )
         shared = {"build_prover.sh": JOB, "source.json": fp.PROBE / "source.json"}
-        built = cloud.cloud_job(
-            api,
-            namespace,
-            "build",
-            shared,
-            case,
-            hardware,
-            output,
-            {"HALLMARK_FLASHPROVE_PHASE": "build"},
-            phases=PHASES,
-        )
+        if build_run is None:
+            built = cloud.cloud_job(
+                api,
+                namespace,
+                "build",
+                shared,
+                case,
+                hardware,
+                output,
+                {"HALLMARK_FLASHPROVE_PHASE": "build"},
+                phases=PHASES,
+            )
+            build_folder = output / "build"
+        else:
+            # A retained build is reused only for the same pinned source, byte for byte.
+            parent = json.loads((build_run / "protocol.json").read_text())
+            cloud.require(parent["source"] == fp.PIN, "reused build has another source pin")
+            build_folder = build_run / "build"
+            receipt = json.loads((build_folder / "retention.json").read_text())
+            cloud.require(receipt["stage"] == "COMPLETED", "reused build incomplete")
+            built = build_folder / "retained"
+            for name, record in receipt["outputs"].items():
+                cloud.require(sha(built / name) == record["sha256"], "reused build bytes changed")
         cloud.require(
             json.loads((built / "exit.json").read_text())["exit_code"] == 0, "build failed"
         )
@@ -183,7 +197,8 @@ def run(balance, maximum):
         )
         cloud.require(ok, "the local verifier did not accept the fresh proof")
         rejected = mutations(verifier, case_dir, commitment_id, output)
-        retained = {n: json.loads((output / n / "retention.json").read_text()) for n in PHASES}
+        folders = {"build": build_folder, "prove": output / "prove"}
+        retained = {n: json.loads((f / "retention.json").read_text()) for n, f in folders.items()}
         result = dict(
             passed=True,
             schema_id="hallmark.flashprove-gpu-result/1",
@@ -227,5 +242,6 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--credit-balance-usd", required=True)
     p.add_argument("--max-cost-usd", required=True)
+    p.add_argument("--build-run", type=Path, help="reuse this run's retained, hash-checked build")
     a = p.parse_args()
-    run(a.credit_balance_usd, a.max_cost_usd)
+    run(a.credit_balance_usd, a.max_cost_usd, a.build_run.resolve() if a.build_run else None)
