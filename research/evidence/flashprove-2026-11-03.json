@@ -1,0 +1,209 @@
+{
+  "schema_id": "hallmark.flashprove-evidence/1",
+  "recorded_at": "2026-11-03",
+  "decision": "docs/decisions/0092-flashprove-backend.md",
+  "source": {
+    "schema_id": "hallmark.flashprove-source/1",
+    "upstream": "https://github.com/anthropics/FlashProve",
+    "revision": "9e2bdd8ff5bf9c62f18263d7dac189b0400b260c",
+    "version": "0.16.0",
+    "licence": "Apache-2.0",
+    "url": "https://codeload.github.com/anthropics/FlashProve/tar.gz/9e2bdd8ff5bf9c62f18263d7dac189b0400b260c",
+    "sha256": "564eaf75ba9a2d3ebefa1bc35aa45b3f4990e4be74009bf8121641c7314e1a19",
+    "bytes": 157799758,
+    "verifier_source_digest": "93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595",
+    "image": "nvidia/cuda@sha256:0e1f7b8e96fa9ec5e36d4709a38c62df7b5665977446081811c12b8234d874bf",
+    "image_tag": "13.2.1-devel-ubuntu24.04 linux/amd64",
+    "cuda_toolkit": "cuda-toolkit[nvcc,cublas,cccl,crt,nvvm,cudart]==13.2.2",
+    "nvcc_release": "V13.2.86",
+    "examples": {
+      "accepted-proof": {
+        "commitment_id": "79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183",
+        "range": "60:64",
+        "next_token": 199
+      },
+      "full-size": {
+        "commitment_id": "7a285919b43961861d9839530c26725accf26aa6d74e3c2afa31b9dc6bcd18fe",
+        "range": "23:1024",
+        "next_token": 52599
+      }
+    },
+    "rejection_tables": [
+      [
+        "accepted-proof",
+        "altered_copies.tsv",
+        10
+      ],
+      [
+        "accepted-proof",
+        "every_kind_of_item.tsv",
+        79
+      ],
+      [
+        "accepted-proof-clipped-gap",
+        "altered_copies_clipped_gap.tsv",
+        10
+      ]
+    ],
+    "gpu_kit": {
+      "name": "target_small_f2_roomy",
+      "range": "15:64"
+    }
+  },
+  "workflow_revisions": {
+    "first_attempt": "cc8390e",
+    "corrected_prove": "02e81e6"
+  },
+  "local_verifier": {
+    "command": "make verify-flashprove",
+    "host": "macOS arm64 (Apple M4 Max)",
+    "seconds": 97.61,
+    "build": {
+      "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+      "recipe": "apple-clang",
+      "seconds": 22.028202207991853,
+      "sha256": "8a60b57d76271383409d9e9b08d9398df98aa5245897bbcbb989d394042f63d4",
+      "source_digest": "93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"
+    },
+    "examples": {
+      "accepted-proof": {
+        "exit_code": 0,
+        "seconds": 1.453,
+        "result": "result: outcome=verified commitment_id=79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183 range=60:64 checked_tokens=3 end_token=not_checked claim=exact-match policy=exact next_token=199 C=256 theta=256 cap=0 s=16 limits=exact request_tokens=64 leaf=0 commitment_assumed_rounds=49 record=1 work=32 least_round=128.00 least_round_without_work=96.23 build=93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"
+      },
+      "full-size": {
+        "exit_code": 0,
+        "seconds": 7.993,
+        "result": "result: outcome=verified commitment_id=7a285919b43961861d9839530c26725accf26aa6d74e3c2afa31b9dc6bcd18fe range=23:1024 checked_tokens=1000 end_token=not_checked claim=exact-match policy=exact next_token=52599 C=256 theta=256 cap=0 s=15 limits=exact request_tokens=1024 leaf=0 commitment_assumed_rounds=86 record=1 work=32 least_round=128.00 least_round_without_work=96.23 build=93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"
+      }
+    },
+    "rejection_tables": [
+      {
+        "example": "accepted-proof",
+        "exit_code": 0,
+        "last_line": "10 altered sets: all rejected",
+        "seconds": 6.06,
+        "table": "altered_copies.tsv"
+      },
+      {
+        "example": "accepted-proof",
+        "exit_code": 0,
+        "last_line": "79 altered sets: all rejected",
+        "seconds": 43.8,
+        "table": "every_kind_of_item.tsv"
+      },
+      {
+        "example": "accepted-proof-clipped-gap",
+        "exit_code": 0,
+        "last_line": "10 altered sets: all rejected",
+        "seconds": 5.76,
+        "table": "altered_copies_clipped_gap.tsv"
+      }
+    ],
+    "rejections": 99
+  },
+  "gpu_build": {
+    "job_id": "6aea16ea0e0338d1bb7f5fb6",
+    "flavor": "cpu-xl",
+    "running_seconds": 1520.507,
+    "compute_bound_micro_usd": 440000,
+    "nvcc": "V13.2.86",
+    "hc_tar_sha256": "e63f183dd311c7dffb5b4839c5e6551d163fe7a8565a84e221fbe06af66f2e11",
+    "binaries": [
+      "c92270bf4908fb180ae374dad7c614486411f4f00340a974ace582642a2d04e3  cp_commit",
+      "6c49315689825899804fdcfc2c9c545c6cec8be0e40ab0fc1e883e96cb7a2e7e  cp_prove",
+      "7f9efc1e86a848a3715c6cc870e465ac2a1c5e8fd1eac09e4809023de7604394  cp_verify"
+    ]
+  },
+  "failed_prove_attempt": {
+    "run": "runs/flashprove-gpu-g9nv07j3",
+    "job_id": "6aea1d1f0e0338d1bb7f630a",
+    "running_seconds": 80.046,
+    "compute_bound_micro_usd": 170000,
+    "cause": "worker account env -i dropped the image PATH (/usr/local/nvidia/bin): nvidia-smi not found, exit 127 before any commit or proof",
+    "fix": "pass the image PATH and LD_LIBRARY_PATH to the worker account; reuse the hash-checked retained build"
+  },
+  "gpu_prove": {
+    "job_id": "6aea1e650e0338d1bb7f6381",
+    "flavor": "h200",
+    "gpu": "NVIDIA H200, 9.0, 580.178.04, 0 MiB, 143771 MiB",
+    "host_cpu": "INTEL(R) XEON(R) PLATINUM 8581C CPU @ 2.10GHz",
+    "running_seconds": 74.363,
+    "compute_bound_micro_usd": 170000,
+    "example_wall_seconds": 22.28,
+    "example_max_rss_kib": 895472,
+    "kit": "target_small_f2_roomy",
+    "commitment_id": "64fbdc199c3bbd5ccf7b07c681ad2d01a97ca16e1c7a8149c5b59b1811e81e17",
+    "next_token": 284,
+    "checked_range": "15:64",
+    "checked_tokens": 48,
+    "proof_bytes": 4145980,
+    "proof_sha256": "5565ba83c1890f56f2b418b2b191911c15ed7cc7a186b5699ba67b60c99f011c",
+    "public_file_sha256": {
+      "config/KL.bin": "b8fb55ed7c70c4cdc7bac01e804dd0dc79349022ba7972957c7e50a29dc974a2",
+      "config/layout.txt": "a0cce649d992c6f17d1e27c68ac4b900b828ff6ef0bfe8da7c2491fed9f02225",
+      "config/policy.txt": "8d9ae1dda2e503550cafade93c54c1b8ecc8eb4b6dab3b843c72a478bb892d2f",
+      "example.proof": "5565ba83c1890f56f2b418b2b191911c15ed7cc7a186b5699ba67b60c99f011c",
+      "example.req": "55655047a089095c99fac8cd13c30481c011c13c1816f27874705098220fbbe5",
+      "example.y": "871cd8edd0dbd8de891216d6409fba14bb5f0f72b880c5fcc512218b282298fb",
+      "ivk/key.bin": "3943d6e948079ad8e32c59e7c2964da16d49dd626de42f884cce03029ca749e6",
+      "ivk/leaf/0.bin": "c6157e1d32a739f8579ffda255731a2a24b5ef51353d7deeb0c03d53e5ffed40"
+    },
+    "worker_verdict": "YES",
+    "worker_result_v1": "result-v1 status=0 claim=exact-match id=64fbdc199c3bbd5ccf7b07c681ad2d01a97ca16e1c7a8149c5b59b1811e81e17 bits=128 work=32 work-rounds=38 least-round=128.00 least-round-without-work=96.23 commitment-assumed-rounds=49 record=1 r=15 e=64 T=64 tokens=16..63 y=yes policy=exact-match C=256 theta=256 cap=0 s=16 sh=8 sT=4 F=24 above-clip=0 leaf=0 stages=key,leaf,request dw=8 build=93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595",
+    "mac_check": {
+      "exit_code": 0,
+      "seconds": 0.974,
+      "result": "result: outcome=verified commitment_id=64fbdc199c3bbd5ccf7b07c681ad2d01a97ca16e1c7a8149c5b59b1811e81e17 range=15:64 checked_tokens=48 end_token=not_checked claim=exact-match policy=exact next_token=284 C=256 theta=256 cap=0 s=16 limits=exact request_tokens=64 leaf=0 commitment_assumed_rounds=49 record=1 work=32 least_round=128.00 least_round_without_work=96.23 build=93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"
+    },
+    "mutations": [
+      {
+        "exit_code": 1,
+        "last_line": "NO: proof-refused",
+        "mutation": "proof-middle-bit"
+      },
+      {
+        "exit_code": 1,
+        "last_line": "NO: proof-refused",
+        "mutation": "proof-last-bit"
+      },
+      {
+        "exit_code": 1,
+        "last_line": "NO: reply-differs",
+        "mutation": "next-token"
+      },
+      {
+        "exit_code": 1,
+        "last_line": "NO: proof-refused",
+        "mutation": "request-first-token"
+      },
+      {
+        "exit_code": 1,
+        "last_line": "NO: key-refused",
+        "mutation": "key-bit"
+      },
+      {
+        "exit_code": 1,
+        "last_line": "NO: model-statement",
+        "mutation": "commitment-id"
+      }
+    ],
+    "secret_key_retained": false
+  },
+  "spend": {
+    "compute_bound_micro_usd_total": 780000,
+    "owner_approved_ceiling_usd": "13.00",
+    "controller_cap_usd": "3.50",
+    "owner_reported_balance_usd": "31",
+    "invoice": false,
+    "buckets_deleted": true
+  },
+  "not_claimed": [
+    "served model",
+    "Llama 4 Maverick",
+    "weight hiding",
+    "security level",
+    "backend qualification",
+    "soundness of cp_verify or the CUDA prover"
+  ]
+}

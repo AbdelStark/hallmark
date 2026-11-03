@@ -1,6 +1,6 @@
 # 0092: FlashProve as a pinned external proof backend
 
-Date: 2026-11-03. Status: owner-requested; local verifier path accepted; GPU run below.
+Date: 2026-11-03. Status: owner-requested; local verifier and H200 proving accepted.
 
 The owner asked for support of Anthropic's FlashProve prover
 ([announcement](https://www.anthropic.com/research/provable-inference),
@@ -73,3 +73,35 @@ Caller acceptance for the fresh proof:
 qualification, security level, or soundness of the C++ verifier or CUDA prover.
 The `bits=` figures cp_verify prints are its own accounting, not a security
 level. The Lean verifier (`tools/lean-verify`) is not run.
+
+## Results
+
+[Numeric evidence](../../research/evidence/flashprove-2026-11-03.json).
+
+**Local verifier** (Mac, Apple clang build): `make verify-flashprove` took 97.6 s,
+including the archive download and a 22 s compile. Both stored proofs were
+accepted (small 1.0 s; full size, 1,001 tokens, 8.8 s at 4.2 GB peak RSS), and
+all 99 altered sets were rejected.
+
+**Build** (cpu-xl job `6aea16ea0e0338d1bb7f5fb6`): 1,520.5 s, every unit
+compiled by nvcc V13.2.86, with a run path to the pip toolkit.
+
+**First prove attempt failed and is retained** (`runs/flashprove-gpu-g9nv07j3`,
+job `6aea1d1f0e0338d1bb7f630a`, 80 s). The worker account's `env -i` dropped the
+image `PATH`, so `nvidia-smi` (under `/usr/local/nvidia/bin`) was not found, and
+the job exited 127 before any commit or proof. Fix: keep the image `PATH` and
+`LD_LIBRARY_PATH` for that account, and reuse the retained build after
+rechecking its hashes (`--build-run`). One corrected prove job followed.
+
+**Prove** (H200 job `6aea1e650e0338d1bb7f6381`, 74.4 s billed running, driver
+580.178.04, Xeon Platinum 8581C with SHA-NI): upstream's commit, prove and
+verify example took 22.3 s wall time at 0.9 GB peak RSS. Commitment
+`64fbdc19…e81e17`; 48 checked tokens plus next token 284; proof 4,145,980 bytes.
+Linux `cp_verify` printed `YES`. The Mac verifier accepted the proof under the
+caller rule in 0.97 s. All six altered copies were rejected (`proof-refused` ×3,
+`reply-differs`, `key-refused`, `model-statement`). No `isk/` file was
+retained.
+
+Spend: the computed upper bounds total USD 0.78 (build 0.44, failed prove 0.17,
+prove 0.17), within the USD 3.50 cap and the owner's USD 13. These are not an
+invoice. All buckets were deleted after hash-checked retention.

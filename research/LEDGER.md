@@ -3215,3 +3215,18 @@ native LLM verification 203.59 s, all 38 mutations rejected with identity
 are unchanged. Retained failure: one stale local mypy cache error, cleared.
 The CLI LLM ceiling rises from $2.10 to the workbench's existing $2.50 because the
 startup-inclusive worst case is $2.27. No cloud job or spend.
+
+## 2026-11-03: FlashProve verifier and H200 proof of the synthetic small kit
+
+Hypothesis: upstream FlashProve at `9e2bdd8`, unchanged, verifies on the Mac and
+proves its synthetic small kit on an HF H200. Pass criterion: both stored proofs
+are accepted against caller-held values; all 99 upstream altered sets are
+rejected; a fresh H200 proof whose configuration and request match the pinned
+kit is accepted by Linux and Mac `cp_verify`; six altered copies are rejected.
+
+Result: passed ([decision 0092](../docs/decisions/0092-flashprove-backend.md),
+[evidence](evidence/flashprove-2026-11-03.json)). Mac suite 97.6 s. Build 1,520.5 s
+on cpu-xl. H200 example 22.3 s wall; proof 4,145,980 bytes; Mac check 0.97 s.
+Retained failure: the first prove job exited 127 (`nvidia-smi` not on the worker
+account's `PATH`) before any commit or proof. Spend bound USD 0.78, not an invoice.
+Synthetic weights only; no hiding, security-level or served-model claim.
