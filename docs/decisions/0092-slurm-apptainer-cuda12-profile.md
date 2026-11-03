@@ -6,7 +6,7 @@
 
 ## Context
 
-Hallmark's existing GPU workloads (TinyLlama LLM prover via SASH and classifier proofs via STWO) currently run exclusively on Hugging Face Jobs using a pinned CUDA 13.1 container (`nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` with driver 580.178.04).
+Hallmark's existing GPU workloads (TinyLlama LLM prover via SASH and classifier proofs via STWO) currently run exclusively on Hugging Face Jobs using a pinned CUDA container (`nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` with driver 580.178.04, per REFERENCE-RUN.md).
 
 Target deployment includes generic Slurm + Apptainer GPU clusters with:
 - H100 NVL nodes inside Intel TDX confidential VMs
@@ -15,7 +15,7 @@ Target deployment includes generic Slurm + Apptainer GPU clusters with:
 - No sudo access, per-user storage
 - Optional confidential computing attestation
 
-The existing pinned CUDA 13.1 image requires driver 580.x or later and will not run on driver 570.x nodes.
+The existing pinned CUDA image was validated with driver 580.x and may not run on driver 570.x nodes.
 
 ## Decision
 
@@ -29,11 +29,11 @@ Add a **second, explicitly versioned CUDA 12.8 build profile** alongside the exi
 - **Target architecture**: sm_90 (H100)
 - **Build identity**: Separate from existing CUDA 13.1 builds
 
-### CUDA 13.1 Profile (Unchanged)
+### Existing CUDA Profile (Unchanged)
 
 - **Base image**: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` (existing)
-- **CUDA version**: 13.1
-- **Driver requirement**: 580.x or later
+- **CUDA version**: 13.x (per published benchmarks with driver 580.178.04; exact version unconfirmed from image manifest)
+- **Driver requirement**: 580.x (validated configuration)
 - **Target architecture**: sm_90 (H100)
 - **Build identity**: Unchanged, preserves existing evidence
 
@@ -66,10 +66,12 @@ Both profiles include:
    - Contains: commit, image digest, CUDA version, driver version, `nvidia-smi -q`, `scontrol show job`, binary SHA-256s, timers
    - Same evidence shape as existing HF receipts
 
-5. **Optional attestation hooks** (off by default):
-   - Manifest hash computation (inputs + binaries + proofs + verifier nonce)
-   - Documented hook points for TDX quote (`tdx-attest --report-data`) and GPU attestation (`nvattest --nonce`)
-   - No privileged tool calls in default workflow
+5. **Optional attestation hook** (off by default):
+   - Script `slurm/attest-hook.sh` computes manifest hash (inputs + binaries + proofs + verifier nonce)
+   - Generates example commands for TDX quote (`tdx-quote <manifest-hash>`) and GPU attestation (`nvattest attest --device gpu --verifier local`)
+   - TDX quote requires sudo, runs as separate CPU-only job step
+   - GPU attestation nonce option syntax depends on nvattest version (must be checked against installed version)
+   - No privileged tool calls executed automatically
 
 ### Pass Criteria
 
@@ -96,8 +98,9 @@ Same as existing GPU benchmarks:
 - Multi-node or distributed GPU proving
 - Dynamic resource allocation
 - Integration with cluster-specific accounting systems
-- Actual TDX quote generation (hook documented but not executed)
-- GPU attestation verification (hook documented but not executed)
+- Actual TDX quote generation (hook script provided but not executed automatically)
+- GPU attestation execution (hook script provided but not executed automatically)
+- Verification of nvattest nonce option availability (depends on installed version)
 
 ### Risks
 
@@ -105,13 +108,13 @@ Same as existing GPU benchmarks:
 - CUDA 12.8 profile has not been validated on H100 hardware (no baseline)
 - Apptainer build requires network access and disk space
 - Container digest must be tracked separately per profile
-- No guarantee that CUDA 12.8 numerics exactly match CUDA 13.1 proofs
+- No guarantee that CUDA 12.8 numerics exactly match existing CUDA 13.x proofs
 
 ## Alternatives Considered
 
-### Alternative 1: Single CUDA 13.1 Profile Only
+### Alternative 1: Single Existing CUDA Profile Only
 
-**Rejected**: Requires driver 580.x, excludes TDX nodes with driver 570.x
+**Rejected**: Validated with driver 580.x, may exclude TDX nodes with driver 570.x
 
 ### Alternative 2: Conditional CUDA Toolkit Build
 
@@ -123,7 +126,7 @@ Same as existing GPU benchmarks:
 
 ### Alternative 4: Use Oldest Compatible CUDA Only
 
-**Rejected**: Abandons existing CUDA 13.1 evidence and invalidates published proofs
+**Rejected**: Abandons existing CUDA 13.x evidence and invalidates published proofs
 
 ## Implementation Notes
 
@@ -139,10 +142,10 @@ Same as existing GPU benchmarks:
 
 - [ ] Owner approval of CUDA 12.8 profile introduction
 - [ ] Decision record merged
-- [ ] Apptainer definitions frozen with pinned base digests
-- [ ] Documentation complete (SLURM.md, README, AGENTS.md)
-- [ ] CHANGELOG entry
-- [ ] Version bump if required by project convention
+- [x] Apptainer definitions frozen with pinned base digests
+- [x] Documentation complete (SLURM.md, README, AGENTS.md)
+- [x] CHANGELOG entry
+- [x] Version bump: Not required. Python package version (0.1.0) and Rust crate version (0.1.0) remain unchanged. This adds an optional deployment path without modifying the core proof relation, protocol, or existing evidence. Version bumps in this repository track protocol/evidence changes (per decisions 0088, 0089), not deployment infrastructure additions. New container profiles are tracked by their base image digests and documented in CHANGELOG.
 
 ## Related
 
@@ -157,5 +160,5 @@ Same as existing GPU benchmarks:
 - NVIDIA CUDA Compatibility: https://docs.nvidia.com/deploy/cuda-compatibility/
 - Driver 570.211.01 supports CUDA 12.8.x
 - Driver 580.178.04 supports CUDA 13.1.x
-- Existing CUDA 13.1 image: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
+- Existing CUDA 13.x image: `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f` (validated with driver 580.178.04)
 - New CUDA 12.8 profile: `nvidia/cuda@sha256:24c8e3581ea6330038b0d374920721983312627f8adbfcf390bdb4b399d280ed`

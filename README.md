@@ -309,7 +309,7 @@ cd slurm
   --llm-run /data/$USER/llm-e2e-xyz --credit-balance 10.00
 ```
 
-Two CUDA profiles are available: **cuda13** (CUDA 13.1, driver 580.x+) for
+Two CUDA profiles are available: **cuda13** (CUDA 13.x, driver 580.x+) for
 compatibility with existing HF Jobs evidence, and **cuda12** (CUDA 12.8.1,
 driver 570.x+) for clusters with older drivers including TDX confidential VMs.
 Optional attestation hooks are documented but off by default. [Slurm guide](docs/SLURM.md).

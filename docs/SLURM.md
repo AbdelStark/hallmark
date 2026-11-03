@@ -18,27 +18,27 @@ This guide explains how to run Hallmark's GPU workloads (TinyLlama LLM prover vi
 - **GPU nodes**: For CUDA proving workloads
   - H100 NVL or H100 SXM recommended (sm_90)
   - NVIDIA driver 570.x or later (supports CUDA 12.8+)
-  - Driver 580.x or later (supports CUDA 13.1)
+  - Driver 580.x or later
 
-### Tested Configurations
+### Target Configurations
 
-This implementation has been tested with:
+This implementation supports:
 - H100 NVL with Intel TDX confidential VM
-  - NVIDIA driver 570.211.01 (CUDA 12.8 compatible)
+  - NVIDIA driver 570.x or later (CUDA 12.8 compatible)
   - CUDA 12.8.1 container profile
 - H100 SXM (sm_90)
-  - NVIDIA driver 580.x
-  - CUDA 13.1 container profile (existing HF path)
+  - NVIDIA driver 580.x or later
+  - Existing CUDA 13.x container profile (HF path)
 
 ## Container Profiles
 
 Two Apptainer definition files are provided:
 
-### CUDA 13.1 Profile (cuda13)
+### Existing CUDA Profile (cuda13)
 
 - Based on `nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f`
-- CUDA version: 13.1
-- Requires driver 580.x or later
+- CUDA version: 13.x (per published benchmarks with driver 580.178.04; exact version unconfirmed)
+- Validated with driver 580.x
 - Compatible with existing HF Jobs workflow
 - Located at: `slurm/apptainer-cuda13.def`
 
@@ -64,7 +64,7 @@ Both profiles include:
 ```bash
 cd slurm
 
-# Build CUDA 13.1 image (default)
+# Build existing CUDA 13.x image (default)
 ./hallmark-slurm.sh build-image --profile cuda13 --output hallmark-cuda13.sif
 
 # Build CUDA 12.8 image (for older drivers)
@@ -223,13 +223,13 @@ The `run-record.json` file contains:
 ```json
 {
   "schema_id": "hallmark.slurm-*-result/1",
-  "job_id": "12345",
+  "job_id": "<slurm-job-id>",
   "exit_code": 0,
   "elapsed_seconds": 7200,
-  "cuda_version": "12.8",
-  "driver_version": "570.211.01",
-  "gpu_name": "NVIDIA H100",
-  "completed_at": "2026-11-03T12:00:00+00:00"
+  "cuda_version": "<cuda-version>",
+  "driver_version": "<driver-version>",
+  "gpu_name": "<gpu-model>",
+  "completed_at": "<iso8601-timestamp>"
 }
 ```
 
@@ -274,52 +274,59 @@ scancel <jobid>
 
 ## Confidential Computing Support
 
-For confidential computing nodes (e.g., Intel TDX), optional attestation hooks are available.
+For confidential computing nodes (e.g., Intel TDX), an optional attestation hook script is provided.
 
-### Attestation Hook Points
+### Attestation Hook Script
 
-The run record generation includes documented hook points for:
+`slurm/attest-hook.sh` computes a manifest hash but **does NOT execute attestation tools automatically**.
 
-1. **TDX Quote with Report Data**
-   - Compute manifest hash of inputs, binaries, proofs, and verifier nonce
-   - Pass as report data to TDX quote generation tool
-   - Example: `tdx-attest --report-data <manifest-hash>`
+Usage:
+```bash
+./slurm/attest-hook.sh <output-dir> \
+  <input-hashes-file> \
+  <binary-hashes-file> \
+  <proof-hashes-file> \
+  <verifier-nonce>
+```
 
-2. **NVIDIA GPU Attestation**
-   - Use manifest hash as nonce for GPU attestation
-   - Example: `nvattest --nonce <manifest-hash>`
+Outputs:
+- `manifest-hash.txt`: 64-character hex hash for attestation
+- `attest-commands.sh`: Example attestation commands (not executed)
+
+### Attestation Commands
+
+The hook generates example commands for:
+
+1. **TDX Quote Generation** (requires sudo, CPU-only job step):
+   ```bash
+   sudo -n tdx-quote <64-hex-manifest-hash> > tdx-quote.bin
+   
+   # Optional: Event log
+   sudo -n tdx-quote --event-log <64-hex-manifest-hash> > tdx-quote-events.bin
+   ```
+
+2. **NVIDIA GPU Attestation**:
+   ```bash
+   nvattest attest --device gpu --verifier local > gpu-attest-local.json
+   # Or: --verifier remote
+   ```
+   
+   **Note**: The nonce option syntax depends on the installed nvattest version. Consult NVIDIA nvattest documentation for your specific driver version.
 
 ### Enabling Attestation (Optional)
 
 Attestation is **off by default** and requires:
-1. Access to privileged attestation tools (`tdx-attest`, `nvattest`)
-2. Appropriate node permissions
+1. Access to privileged attestation tools (`tdx-quote`, `nvattest`)
+2. Appropriate node permissions and security review
 3. Manual integration into job scripts
 
 To enable:
-1. Modify the sbatch script to compute the manifest hash
-2. Call attestation tools after proof generation
-3. Append attestation results to `run-record.json`
+1. Run `attest-hook.sh` after proof generation
+2. Review generated `attest-commands.sh`
+3. Manually execute attestation commands with proper authorization
+4. Append attestation results to `run-record.json`
 
-Example manifest computation:
-
-```bash
-# Compute run manifest hash
-manifest_hash=$(cat \
-  <inputs-hash> \
-  <binary-hashes> \
-  <proof-hashes> \
-  <verifier-nonce> \
-  | sha256sum | cut -d' ' -f1)
-
-# (Optional) Call TDX attestation
-tdx-attest --report-data "$manifest_hash" > tdx-quote.bin
-
-# (Optional) Call GPU attestation
-nvattest --nonce "$manifest_hash" > gpu-attestation.json
-```
-
-**Important**: Do not call privileged tools without explicit authorization and proper security review.
+**Important**: Do not call privileged tools without explicit authorization and proper security review. TDX quote generation requires sudo access and should run as a separate CPU-only job step.
 
 ## Troubleshooting
 
@@ -381,7 +388,7 @@ The worker entry points (`scripts/run_llm_gpu.py`, `scripts/run_classifier_gpu.p
 - rustup: 1.29.1
 - uv: 0.9.18
 - Python: 3.12
-- CUDA 13.1 profile: Based on published HF image digest
+- Existing CUDA 13.x profile: Based on published HF image digest
 - CUDA 12.8 profile: nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
 
 ## Security Notes
