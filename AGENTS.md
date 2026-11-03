@@ -18,6 +18,8 @@ Publication of additional private material, new collaborators, uploads of transc
 
 Use the current [run authority](research/AUTHORITY.json), updated by the owner's 2026-10-20 approval. It permits licence-reviewed public assets and bounded local research, with HF Jobs as a conditional GPU fallback. Prefer the Mac; record exact inputs and consumed resources before each run. It is a declaration, not an OS sandbox. Unresolved source rights block that source, not unrelated implementation; preparation of hardware/reviewer options does not authorize procurement or contact.
 
+GPU workloads may also run on generic Slurm + Apptainer clusters (see [docs/SLURM.md](docs/SLURM.md)). Two CUDA profiles are maintained: CUDA 13.1 (existing HF baseline) and CUDA 12.8 (for clusters with driver 570.x). Cluster-specific parameters (partition, reservation, nodelist, constraint) are configurable; no organization or site names belong in code or docs.
+
 Protocol/evaluation changes require a decision in `docs/decisions/`, updated conformance tests and owner review before prior results are reused. An optimizer changes its candidate only; dataset and evaluator changes start a new experiment identity. CODEOWNERS signals review ownership; it is not branch-protection enforcement.
 
 Issue tracking, triage labels and domain docs follow [docs/agents](docs/agents/issue-tracker.md) ([labels](docs/agents/triage-labels.md), [domain](docs/agents/domain.md)).
