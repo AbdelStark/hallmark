@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        curl \
+        ca-certificates \
+        git \
+        pkg-config \
+        python3 \
+        python3-pip \
+        time \
+        file
+
+    curl -fLsS --max-time 120 https://static.rust-lang.org/rustup/archive/1.29.1/x86_64-unknown-linux-gnu/rustup-init -o /tmp/rustup-init
+    curl -fLsS --max-time 120 https://static.rust-lang.org/rustup/archive/1.29.1/x86_64-unknown-linux-gnu/rustup-init.sha256 -o /tmp/rustup-init.sha256
+    (cd /tmp && sha256sum -c rustup-init.sha256)
+    chmod +x /tmp/rustup-init
+    /tmp/rustup-init -y --profile minimal --default-toolchain nightly-2025-07-14 --no-modify-path
+    rm /tmp/rustup-init /tmp/rustup-init.sha256
+
+    curl -fLsS --max-time 120 https://astral.sh/uv/0.9.18/install.sh | sh -s -- --no-modify-path
+    
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+
+%environment
+    export PATH=/root/.cargo/bin:/root/.local/bin:$PATH
+    export RUSTFLAGS='-C target-cpu=x86-64-v3'
+    export CARGO_BUILD_JOBS=4
+    export RAYON_NUM_THREADS=4
+    export CUDAHOSTCXX=/usr/bin/g++
+
+%labels
+    hallmark.profile cuda12.9
+    hallmark.cuda_version 12.9.1
+    hallmark.rust_toolchain nightly-2025-07-14
+    hallmark.rustup_version 1.29.1
+    hallmark.uv_version 0.9.18
+    hallmark.python_version 3.12
+
+%help
+    Hallmark GPU workload container based on CUDA 12.9.1.
+    This container includes Rust nightly-2025-07-14, rustup 1.29.1, uv 0.9.18, and Python 3.12.
+    Image: nvidia/cuda@sha256:e542739fcaa4f45da5add8c4cf5769783a61628b2518304a5bbe4ace468b8c8f
+    CUDA_VERSION=12.9.1, requires driver 535+ (datacenter GPUs).
+    On driver 570.x: runs via CUDA forward compatibility (cuda-compat), not natively.
+    Use with Apptainer on Slurm compute nodes with NVIDIA GPUs.

@@ -297,6 +297,23 @@ make benchmark-llm-gpu \
 Starts paid HF CPU/H200 jobs under a **$5 single-run ceiling**. It reuses the
 frozen public witness, builds generated CUDA kernels, compares SIMD and CUDA on
 one H200, and verifies the GPU proofs in fresh CPU and Mac processes.
+
+### Slurm + Apptainer clusters
+
+GPU workloads can also run on generic Slurm clusters with Apptainer:
+
+```sh
+cd slurm
+./hallmark-slurm.sh build-image --profile cuda12.8 --output hallmark-cuda12.8.sif
+./hallmark-slurm.sh submit-llm --partition gpu --container hallmark-cuda12.8.sif \
+  --llm-run /data/$USER/llm-e2e-xyz --credit-balance 10.00
+```
+
+Two CUDA profiles are available: **cuda12.9** (CUDA 12.9.1, existing HF baseline,
+driver 535+) and **cuda12.8** (CUDA 12.8.1, native support for driver 570.x,
+recommended for TDX confidential VMs). The cuda12.9 profile can run on driver 570.x
+via CUDA forward compatibility but requires cuda-compat setup. Optional attestation
+hooks are documented but off by default. [Slurm guide](docs/SLURM.md).
 `GPU_BUILD_RUN=…` reuses a matching build. [Run plan, costs and failures](docs/GPU-BENCHMARK.md).
 
 ### Both proofs, one request
