@@ -1,0 +1,36 @@
+{
+  "schema_id": "hallmark.flashprove-source/1",
+  "upstream": "https://github.com/anthropics/FlashProve",
+  "revision": "9e2bdd8ff5bf9c62f18263d7dac189b0400b260c",
+  "version": "0.16.0",
+  "licence": "Apache-2.0",
+  "url": "https://codeload.github.com/anthropics/FlashProve/tar.gz/9e2bdd8ff5bf9c62f18263d7dac189b0400b260c",
+  "sha256": "564eaf75ba9a2d3ebefa1bc35aa45b3f4990e4be74009bf8121641c7314e1a19",
+  "bytes": 157799758,
+  "verifier_source_digest": "93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595",
+  "image": "nvidia/cuda@sha256:0e1f7b8e96fa9ec5e36d4709a38c62df7b5665977446081811c12b8234d874bf",
+  "image_tag": "13.2.1-devel-ubuntu24.04 linux/amd64",
+  "cuda_toolkit": "cuda-toolkit[nvcc,cublas,cccl,crt,nvvm,cudart]==13.2.2",
+  "nvcc_release": "V13.2.86",
+  "examples": {
+    "accepted-proof": {
+      "commitment_id": "79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183",
+      "range": "60:64",
+      "next_token": 199
+    },
+    "full-size": {
+      "commitment_id": "7a285919b43961861d9839530c26725accf26aa6d74e3c2afa31b9dc6bcd18fe",
+      "range": "23:1024",
+      "next_token": 52599
+    }
+  },
+  "rejection_tables": [
+    ["accepted-proof", "altered_copies.tsv", 10],
+    ["accepted-proof", "every_kind_of_item.tsv", 79],
+    ["accepted-proof-clipped-gap", "altered_copies_clipped_gap.tsv", 10]
+  ],
+  "gpu_kit": {
+    "name": "target_small_f2_roomy",
+    "range": "15:64"
+  }
+}

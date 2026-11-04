@@ -1,6 +1,25 @@
 # Research state
 
-Updated: 2026-10-30. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-11-03. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## FlashProve backend — local verifier and H200 proof accepted
+
+2026-11-03. At the owner's request, [decision 0092](../docs/decisions/0092-flashprove-backend.md)
+adds Anthropic's FlashProve (pinned `9e2bdd8`, v0.16.0, Apache-2.0, unchanged) as
+an external backend driven by command-line adapters, as SASH is. `make
+verify-flashprove` builds `cp_verify` on the Mac. It accepts both stored upstream
+proofs against caller-held values and rejects all 99 of upstream's altered sets,
+in 97.6 s. `make e2e-flashprove` built the prover on HF cpu-xl in 1,520 s, then
+committed to and proved upstream's synthetic small kit on one H200. The proof
+covers 48 checked tokens plus the next token and is 4,145,980 bytes. Linux and
+Mac `cp_verify` accepted it, and six altered copies were rejected. A first prove
+attempt failed before proving: the worker account lost the driver `PATH`. It is
+retained. Computed spend bound USD 0.78, not an invoice
+([evidence](evidence/flashprove-2026-11-03.json)).
+
+FlashProve proves MoE models only, so the TinyLlama LLM path stays SASH. No
+Maverick or other gated weights, weight-hiding, security-level, qualification or
+served-model claim. No existing identity, enrollment, model or threshold changes.
 
 ## Follow-ups after the audit
 

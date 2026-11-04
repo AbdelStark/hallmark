@@ -451,6 +451,32 @@
         "cpu-upgrade",
         "h200"
       ]
+    },
+    "flashprove_small_kit": {
+      "recorded_at": "2026-11-03",
+      "approval_ref": "docs/decisions/0092-flashprove-backend.md",
+      "authority_basis": "Owner explicitly asked to run FlashProve's small-model prover on an HF GPU and approved a USD 13 ceiling on 2026-11-03; the controller's tighter USD 3.50 cap is agent-selected.",
+      "owner_approved_ceiling_minor": 1300,
+      "single_run_ceiling_minor": 350,
+      "currency": "USD-cent",
+      "flavors": [
+        "cpu-xl",
+        "h200"
+      ],
+      "build_seconds": 3600,
+      "gpu_seconds": 900,
+      "additional_creation_seconds_per_phase": 600,
+      "max_jobs_per_run": 2,
+      "concurrent_jobs": 1,
+      "owner_reported_balance_usd": "31",
+      "weights": "upstream synthetic small kit only; no Llama 4 Maverick or other gated weights",
+      "public_inputs_only": true,
+      "secret_key_retained": false,
+      "automatic_retries": 0,
+      "top_up_authorized": false,
+      "private_uploads": false,
+      "ongoing_schedulers": false,
+      "prior_runs_and_budgets_preserved": true
     }
   }
 }

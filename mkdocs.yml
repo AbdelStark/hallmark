@@ -53,6 +53,7 @@ nav:
       - Train and prove classifiers: docs/DEMO.md
       - Prove a TinyLlama response: docs/LLM-PROOF.md
       - Measure GPU proving: docs/GPU-BENCHMARK.md
+      - Verify FlashProve proofs: docs/FLASHPROVE.md
       - Compose the proofs: docs/COMPOSED-DEMO.md
       - Resume an experiment: docs/OPERATIONS.md
   - Models:
