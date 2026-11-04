@@ -454,7 +454,7 @@
     },
     "flashprove_small_kit": {
       "recorded_at": "2026-11-03",
-      "approval_ref": "docs/decisions/0092-flashprove-backend.md",
+      "approval_ref": "docs/decisions/0093-flashprove-backend.md",
       "authority_basis": "Owner explicitly asked to run FlashProve's small-model prover on an HF GPU and approved a USD 13 ceiling on 2026-11-03; the controller's tighter USD 3.50 cap is agent-selected.",
       "owner_approved_ceiling_minor": 1300,
       "single_run_ceiling_minor": 350,

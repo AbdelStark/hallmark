@@ -1,10 +1,30 @@
 # Research state
 
-Updated: 2026-11-03. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+Updated: 2026-11-04. Phase: MIT-licensed research software in a public repository, with dedicated classifier and quantized LLM proofs, not a deployed or fully verified hybrid system. AI-assisted code and research initialization.
+
+## SASH and FlashProve comparison — recorded
+
+2026-11-04. [SASH and FlashProve compared](../docs/PROVER-COMPARISON.md) sets the
+two LLM provers side by side from recorded runs, with a source pointer for every
+figure ([evidence](evidence/prover-comparison-2026-11-04.json)). `make
+compare-provers` re-timed raw `cp_verify` on the Mac, five calls per proof:
+0.63 s for the fresh H200 proof, and 7.88 s at a 4.23 GB peak for the stored
+1,000-token Maverick-shaped proof. No paid compute and no new proof. The two
+backends prove different statements on different models, so the comparison claims
+no prover speed ratio. Decision 0093 now cites these timings in place of
+unrecorded ones.
+
+## Slurm + Apptainer profiles — merged, proposed, not run
+
+2026-11-03. [PR #181](https://github.com/AbdelStark/hallmark/pull/181) adds
+[Slurm guide](../docs/SLURM.md) templates and CUDA 12.8.1 and 12.9.1 Apptainer
+profiles. [Decision 0092](../docs/decisions/0092-slurm-apptainer-cuda12-profile.md)
+is still **proposed**. No cluster run, evidence record or new build identity is
+recorded. The FlashProve decision was renumbered 0093 to resolve the clash.
 
 ## FlashProve backend — local verifier and H200 proof accepted
 
-2026-11-03. At the owner's request, [decision 0092](../docs/decisions/0092-flashprove-backend.md)
+2026-11-03, merged in [PR #182](https://github.com/AbdelStark/hallmark/pull/182). At the owner's request, [decision 0093](../docs/decisions/0093-flashprove-backend.md)
 adds Anthropic's FlashProve (pinned `9e2bdd8`, v0.16.0, Apache-2.0, unchanged) as
 an external backend driven by command-line adapters, as SASH is. `make
 verify-flashprove` builds `cp_verify` on the Mac. It accepts both stored upstream

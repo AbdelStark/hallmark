@@ -1,6 +1,8 @@
-# 0092: FlashProve as a pinned external proof backend
+# 0093: FlashProve as a pinned external proof backend
 
 Date: 2026-11-03. Status: owner-requested; local verifier and H200 proving accepted.
+Merged in [PR #182](https://github.com/AbdelStark/hallmark/pull/182). Numbered 0093
+because the Slurm profile decision merged first as 0092.
 
 The owner asked for support of Anthropic's FlashProve prover
 ([announcement](https://www.anthropic.com/research/provable-inference),
@@ -80,8 +82,11 @@ level. The Lean verifier (`tools/lean-verify`) is not run.
 
 **Local verifier** (Mac, Apple clang build): `make verify-flashprove` took 97.6 s,
 including the archive download and a 22 s compile. Both stored proofs were
-accepted (small 1.0 s; full size, 1,001 tokens, 8.8 s at 4.2 GB peak RSS), and
-all 99 altered sets were rejected.
+accepted through `check_proof.py` (small 1.45 s; full size, 1,001 tokens,
+7.99 s), and all 99 altered sets were rejected. A later re-timing of raw
+`cp_verify` (five calls each, 2026-11-04) gave medians of 0.62 s and 7.88 s,
+with a peak of 4.23 GB for the full-size proof
+([comparison](../PROVER-COMPARISON.md)).
 
 **Build** (cpu-xl job `6aea16ea0e0338d1bb7f5fb6`): 1,520.5 s, every unit
 compiled by nvcc V13.2.86, with a run path to the pip toolkit.

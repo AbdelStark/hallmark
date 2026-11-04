@@ -9,14 +9,16 @@ Anyone can check the proof on a CPU in seconds, without the weights.
 
 Hallmark drives FlashProve as a pinned external backend: upstream commit
 `9e2bdd8` (v0.16.0, Apache-2.0), unchanged, called through command-line adapters
-([decision 0092](decisions/0092-flashprove-backend.md)). FlashProve proves MoE
+([decision 0093](decisions/0093-flashprove-backend.md)). FlashProve proves MoE
 models only, so Hallmark's dense TinyLlama response stays on
-[SASH](LLM-PROOF.md).
+[SASH](LLM-PROOF.md). [SASH and FlashProve compared](PROVER-COMPARISON.md) sets
+the two side by side.
 
 | Command | What it does | Needs |
 |---|---|---|
 | `make verify-flashprove` | Builds `cp_verify`, checks the two stored upstream proofs, runs 99 rejection cases | Mac or Linux, a C++17 compiler, about 5 GB RAM, no GPU, no spend |
 | `make e2e-flashprove GPU_CREDIT_BALANCE_USD=…` | Builds the prover, commits to and proves the small synthetic kit on one HF H200, rechecks the proof here | `HF_TOKEN`, prepaid HF credit; worst case USD 3.27 |
+| `make compare-provers FLASHPROVE_RUN=…` | Re-times `cp_verify` on three proofs and gathers the recorded SASH and FlashProve figures | A passed `e2e-flashprove` run; no spend |
 
 ## Verify stored proofs
 
@@ -40,6 +42,9 @@ On Linux the build is upstream `verifier/build.sh`. On macOS, Hallmark compiles
 the same source with Apple clang, using the same macros and source digest, and
 labels the result `apple-clang`. Results go to a fresh `runs/flashprove-verify-*`
 directory.
+
+On an Apple M4 Max, raw `cp_verify` takes 0.62 s on the small proof and 7.88 s
+with a 4.23 GB peak on the full-size one (medians of five calls).
 
 ## Prove on a GPU
 

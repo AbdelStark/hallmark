@@ -139,6 +139,11 @@ end-to-end latency, and a single run is not a distribution. MB and GB are
 decimal; GiB is binary. [Every stage and raw file](docs/REFERENCE-RUN.md) ·
 [how to read these numbers](docs/PERFORMANCE.md).
 
+FlashProve, a second LLM prover for Mixture-of-Experts models, has its own
+H200 run on a synthetic model. It is set beside L1 in
+[SASH and FlashProve compared](docs/PROVER-COMPARISON.md); no row there is a
+like-for-like speed claim.
+
 ### L1 — the TinyLlama answer on one NVIDIA H200
 
 ![TinyLlama proving on one H200: CUDA cuts the proving session from 547.75 s to 53.94 s (10.15×); complete segment commands go from 679.49 s to 155.89 s (4.36×); trace generation is unchanged.](docs/assets/figures/perf-llm-gpu.svg)
@@ -240,6 +245,8 @@ Python packages are not published; work from the checkout.
 | Prove the TinyLlama answer | `make e2e-llm` | Mac with 32 GB RAM, 16 GiB free, HF token and credits | ≤ $2.50 of HF CPU jobs |
 | Verify retained LLM proofs | `make verify-llm LLM_RUN=…` | Mac, Rust toolchain, 8 GiB free | Local, offline |
 | Reproduce the H200 measurement | `make benchmark-llm-gpu …` | A completed LLM run, HF credits | ≤ $5 of HF CPU/H200 jobs |
+| Verify stored FlashProve proofs | `make verify-flashprove` | Mac or Linux, C++17 compiler, 5 GB RAM | Local, no GPU |
+| Prove FlashProve's small synthetic kit | `make e2e-flashprove …` | HF token and credits | ≤ $3.50 of HF CPU/H200 jobs |
 | Bind both to one request | `make e2e-composed` | Both sets of prerequisites, 32 GiB free | Paid LLM jobs unless you reuse runs |
 | Check software contracts only | `make check-conformance` | Linux or macOS | Local, no proof |
 
@@ -401,6 +408,7 @@ of larger proofs, more memory and different security assumptions.
 | Inspect the exact LLM relation | [LLM proof guide](docs/LLM-PROOF.md) |
 | Inspect classifier circuits and public inputs | [Classifier proofs](docs/PROOFS.md) · [Circle details](docs/CIRCLE-CLASSIFIERS.md) |
 | Reproduce GPU timings | [LLM on H200](docs/GPU-BENCHMARK.md) · [classifiers on A100](docs/CLASSIFIER-GPU-BENCHMARK.md) |
+| Compare the two LLM provers | [FlashProve](docs/FLASHPROVE.md) · [SASH and FlashProve compared](docs/PROVER-COMPARISON.md) |
 | Run the joined workflow | [Composed demo](docs/COMPOSED-DEMO.md) |
 | Assess model and data quality | [Results and limitations](docs/RESULTS.md) |
 | Find any contract or research record | [Documentation index](docs/README.md) |
