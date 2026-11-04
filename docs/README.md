@@ -22,6 +22,8 @@ same opened request; [results](RESULTS.md) preserve measurements and limitations
 | [TinyLlama response proof](LLM-PROOF.md) | `make e2e-llm`, local verification, signed parameter enrollment and exact inference relation |
 | [GPU prover measurements](GPU-BENCHMARK.md#generated-constraint-result) | H200 matched pair: 53.94 s CUDA proving, 10.15× over SIMD; generated constraints, zero CPU fallback, cost/timing boundaries and reproduction |
 | [FlashProve proofs](FLASHPROVE.md) | Pinned upstream FlashProve: `make verify-flashprove` on the Mac, H200 proving of the synthetic small kit (4.1 MB proof, 48 tokens) |
+| [SASH and FlashProve compared](PROVER-COMPARISON.md) | What each prover proves, and proof size, verify time, prover cost on Hallmark's runs; `make compare-provers` |
+| [Slurm + Apptainer](SLURM.md) | CUDA 12.8.1 and 12.9.1 container profiles, sbatch templates and launcher for generic GPU clusters ([decision 0092](decisions/0092-slurm-apptainer-cuda12-profile.md), proposed) |
 | [End-to-end demo](DEMO.md) | Train, export, prove and separately verify three classifiers on one Mac |
 | [Published classifier models](MODELS.md) | Hugging Face cards/weights, immutable revisions, hash-checked inference and publication receipt |
 | [Results and limitations](RESULTS.md) | Model/data notes, measured results, failed experiments and evidence links |

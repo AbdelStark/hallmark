@@ -30,6 +30,8 @@ Three roles, kept apart on purpose:
 | `make benchmark-llm-gpu …` | Reuse frozen public witnesses; compare complete SIMD and CUDA proving | Same 23 SASH segments per backend, byte equality and fresh CPU/Mac verification | HF CPU build, one H200 measurement job, separate CPU verification, Mac verification |
 | `make e2e-composed` | Fresh LLM workflow, fresh classifier preparation, then classify the LLM prompt | **23 SASH segments + 3 STWO Circle classifier proofs** | Both workflows plus fresh native LLM verification |
 | `make e2e-composed LLM_RUN=… CLASSIFIER_RUN=…` | Reuse caller-owned preparation; freshly verify LLM proofs and prove classifiers for that request | Retained **23 SASH segments + 3 new Circle classifier proofs** | Mac; no paid jobs or checkpoint download |
+| `make verify-flashprove` | Check two stored upstream FlashProve proofs; no inference or proving | 2 FlashProve proofs accepted, 99 altered sets rejected | Mac or Linux; no GPU or credentials |
+| `make e2e-flashprove …` | Commit to and prove upstream's synthetic small MoE kit | **1 FlashProve proof**, checked on the worker and the Mac, 6 altered copies rejected | HF cpu-xl build, one H200 job, Mac verification |
 
 These are counts for the current fixed cases, not arbitrary-model support.
 See [classifier prerequisites](DEMO.md), [LLM prerequisites and cost ceiling](LLM-PROOF.md#run-it)

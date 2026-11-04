@@ -3224,9 +3224,26 @@ are accepted against caller-held values; all 99 upstream altered sets are
 rejected; a fresh H200 proof whose configuration and request match the pinned
 kit is accepted by Linux and Mac `cp_verify`; six altered copies are rejected.
 
-Result: passed ([decision 0092](../docs/decisions/0092-flashprove-backend.md),
+Result: passed ([decision 0093](../docs/decisions/0093-flashprove-backend.md),
 [evidence](evidence/flashprove-2026-11-03.json)). Mac suite 97.6 s. Build 1,520.5 s
 on cpu-xl. H200 example 22.3 s wall; proof 4,145,980 bytes; Mac check 0.97 s.
 Retained failure: the first prove job exited 127 (`nvidia-smi` not on the worker
 account's `PATH`) before any commit or proof. Spend bound USD 0.78, not an invoice.
 Synthetic weights only; no hiding, security-level or served-model claim.
+
+## 2026-11-04: SASH and FlashProve comparison
+
+Hypothesis: the recorded SASH L1 and FlashProve H200 runs can be set side by side
+with every figure traced to an evidence path. Raw `cp_verify` re-timing on the Mac
+also settles decision 0093's unrecorded verifier timings. Pass criterion: every
+`cp_verify` call returns `YES`, every recorded figure resolves in checked-in
+evidence, and no like-for-like prover claim is made.
+
+Result: passed ([comparison](../docs/PROVER-COMPARISON.md),
+[evidence](evidence/prover-comparison-2026-11-04.json), run
+`runs/prover-comparison-tdnrr1rm`). Medians of five calls on an Apple M4 Max:
+small stored proof 0.62 s, fresh H200 proof 0.63 s, full-size proof 7.88 s
+(peak 4.23 GB). Decision 0093 had said 1.0 s, 8.8 s and 4.2 GB; it now cites the
+`check_proof.py` timings (1.45 s, 7.99 s) and this re-timing. The FlashProve
+decision is renumbered 0092 → 0093 because #181 merged its Slurm decision as
+0092 first. No spend.

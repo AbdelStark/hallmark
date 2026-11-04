@@ -54,6 +54,7 @@ nav:
       - Prove a TinyLlama response: docs/LLM-PROOF.md
       - Measure GPU proving: docs/GPU-BENCHMARK.md
       - Verify FlashProve proofs: docs/FLASHPROVE.md
+      - Run on Slurm clusters: docs/SLURM.md
       - Compose the proofs: docs/COMPOSED-DEMO.md
       - Resume an experiment: docs/OPERATIONS.md
   - Models:
@@ -69,6 +70,7 @@ nav:
       - Research ledger: research/LEDGER.md
   - Reference:
       - Performance, read correctly: docs/PERFORMANCE.md
+      - SASH and FlashProve compared: docs/PROVER-COMPARISON.md
       - Reference proofs and timings: docs/REFERENCE-RUN.md
       - Architecture and proof flows: docs/ARCHITECTURE.md
       - Classifier proof statement: docs/PROOFS.md

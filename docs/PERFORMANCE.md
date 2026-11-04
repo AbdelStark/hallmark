@@ -154,6 +154,16 @@ also contain host work, such as base and interaction trace generation.
 
 [Exact join](REFERENCE-RUN.md#j1-same-request-composition).
 
+## FlashProve beside SASH
+
+FlashProve, the second LLM prover, proves a different statement about a
+different model, so its timings are not another row of L1. Its H200 run proved
+48 tokens of a synthetic MoE in a 22.28 s example, which also commits and
+verifies; the proof is 4,145,980 bytes. On the M4 Max, `cp_verify` takes 0.63 s
+on it and 7.88 s on upstream's stored 1,000-token Maverick-shaped proof.
+[SASH and FlashProve compared](PROVER-COMPARISON.md) has the full table and its
+limits.
+
 ## Sizes and memory
 
 | Artifact | Size |

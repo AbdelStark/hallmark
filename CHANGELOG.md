@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Add FlashProve as a pinned external proof backend for Mixture-of-Experts models:
+`make verify-flashprove` checks the stored upstream proofs on a Mac, and
+`make e2e-flashprove` proves upstream's synthetic small kit on one HF H200
+([decision 0093](docs/decisions/0093-flashprove-backend.md),
+[guide](docs/FLASHPROVE.md)). Add `make compare-provers` and
+[SASH and FlashProve compared](docs/PROVER-COMPARISON.md), which re-times the
+FlashProve verifier and sets it beside the recorded SASH figures.
+
 Add Slurm + Apptainer support for GPU workloads: two CUDA profiles (12.9.1 for
 existing HF baseline validated with driver 580.x, 12.8.1 for native driver 570.x
 support including TDX nodes), Apptainer definition files, sbatch templates for CPU

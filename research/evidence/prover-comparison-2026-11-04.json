@@ -1,0 +1,204 @@
+{
+  "schema_id": "hallmark.prover-comparison/1",
+  "recorded_at": "2026-11-04",
+  "command": "make compare-provers FLASHPROVE_RUN=runs/flashprove-gpu-mkyyi01a",
+  "run": "runs/prover-comparison-tdnrr1rm",
+  "doc": "docs/PROVER-COMPARISON.md",
+  "derived": {
+    "flashprove_proof_bytes_per_checked_token": 86374.58333333333,
+    "sash_checked_tokens": 8,
+    "sash_proof_bytes_per_checked_token": 92232330.125
+  },
+  "flashprove_run": "runs/flashprove-gpu-mkyyi01a",
+  "flashprove_verifier": {
+    "cases": {
+      "accepted-proof": {
+        "max_rss_bytes": 207257600,
+        "max_seconds": 0.653044666047208,
+        "median_seconds": 0.6166453330079094,
+        "min_seconds": 0.6112145419465378,
+        "proof_bytes": 4145300,
+        "runs": [
+          {
+            "max_rss_bytes": 204505088,
+            "seconds": 0.653044666047208
+          },
+          {
+            "max_rss_bytes": 203816960,
+            "seconds": 0.6166453330079094
+          },
+          {
+            "max_rss_bytes": 206913536,
+            "seconds": 0.6164443750167266
+          },
+          {
+            "max_rss_bytes": 207257600,
+            "seconds": 0.6311749169835821
+          },
+          {
+            "max_rss_bytes": 202211328,
+            "seconds": 0.6112145419465378
+          }
+        ]
+      },
+      "fresh-h200": {
+        "max_rss_bytes": 205373440,
+        "max_seconds": 0.6428283749846742,
+        "median_seconds": 0.6312263750005513,
+        "min_seconds": 0.620239624986425,
+        "proof_bytes": 4145980,
+        "runs": [
+          {
+            "max_rss_bytes": 203751424,
+            "seconds": 0.6311465000035241
+          },
+          {
+            "max_rss_bytes": 203784192,
+            "seconds": 0.6380345420911908
+          },
+          {
+            "max_rss_bytes": 199524352,
+            "seconds": 0.620239624986425
+          },
+          {
+            "max_rss_bytes": 202752000,
+            "seconds": 0.6312263750005513
+          },
+          {
+            "max_rss_bytes": 205373440,
+            "seconds": 0.6428283749846742
+          }
+        ]
+      },
+      "full-size": {
+        "max_rss_bytes": 4230594560,
+        "max_seconds": 8.231481709051877,
+        "median_seconds": 7.8841435419162735,
+        "min_seconds": 7.785716542042792,
+        "proof_bytes": 18779540,
+        "runs": [
+          {
+            "max_rss_bytes": 4230594560,
+            "seconds": 7.785716542042792
+          },
+          {
+            "max_rss_bytes": 3959635968,
+            "seconds": 7.808673708001152
+          },
+          {
+            "max_rss_bytes": 4208967680,
+            "seconds": 7.8841435419162735
+          },
+          {
+            "max_rss_bytes": 4174217216,
+            "seconds": 7.964339209022
+          },
+          {
+            "max_rss_bytes": 4159733760,
+            "seconds": 8.231481709051877
+          }
+        ]
+      }
+    },
+    "repeats": 5,
+    "sha256": "8a60b57d76271383409d9e9b08d9398df98aa5245897bbcbb989d394042f63d4",
+    "threads": "cp_verify default (no -j)"
+  },
+  "host": {
+    "cpu": "Apple M4 Max",
+    "machine": "arm64",
+    "system": "Darwin"
+  },
+  "like_for_like": false,
+  "recorded": {
+    "flashprove_build_seconds": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_build.running_seconds",
+      "value": 1520.507
+    },
+    "flashprove_checked_tokens": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_prove.checked_tokens",
+      "value": 48
+    },
+    "flashprove_example_rss_kib": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_prove.example_max_rss_kib",
+      "value": 895472
+    },
+    "flashprove_example_wall_seconds": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_prove.example_wall_seconds",
+      "value": 22.28
+    },
+    "flashprove_proof_bytes": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_prove.proof_bytes",
+      "value": 4145980
+    },
+    "flashprove_prove_job_bound_micro_usd": {
+      "source": "research/evidence/flashprove-2026-11-03.json#gpu_prove.compute_bound_micro_usd",
+      "value": 170000
+    },
+    "sash_build_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#failed_attempts.0.phase_receipts.build.running_seconds",
+      "value": 1815.943
+    },
+    "sash_linux_verify_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#cpu_proof_only_verification.cases.0.seconds",
+      "value": 77.60738258299534
+    },
+    "sash_mac_verify_rss_bytes": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#native_verification.verification_cost.sampled_process_group_peak_rss_bytes",
+      "value": 520552448
+    },
+    "sash_mac_verify_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#native_verification.cases.0.seconds",
+      "value": 3.5314562497660518
+    },
+    "sash_proof_archive_gzip_bytes": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#proof_archive_bytes",
+      "value": 355320899
+    },
+    "sash_proof_bytes": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.1.serialized_proof_bytes",
+      "value": 737858641
+    },
+    "sash_prove_job_bound_micro_usd": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#phase_receipts.prove.compute_bound_micro_usd",
+      "value": 1750000
+    },
+    "sash_prove_session_cuda_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.1.prove_seconds",
+      "value": 53.941293719
+    },
+    "sash_prove_session_simd_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.0.prove_seconds",
+      "value": 547.7488381659999
+    },
+    "sash_prover_gpu_mib": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.1.gpu_peak_memory_mib",
+      "value": 69293
+    },
+    "sash_prover_host_rss_bytes": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.1.sampled_peak_rss_bytes",
+      "value": 8074182656
+    },
+    "sash_segment_commands_cuda_seconds": {
+      "source": "research/evidence/llm-gpu-generated-constraints-2026-10-26.json#result.measurements.1.commands_seconds",
+      "value": 155.88884442707058
+    }
+  },
+  "upstream_reported_not_reproduced": {
+    "source": "FlashProve 9e2bdd8 guide/performance.md",
+    "model": "Llama 4 Maverick (public 4-bit conversion), one H100 80 GB, 24 CPUs, 1,024-token prompts, n=3",
+    "seconds_per_request_batch_1": 58.796,
+    "seconds_per_request_batch_24": 9.206,
+    "tokens_per_second_batch_24": 111.23,
+    "mean_proof_bytes": 18780000,
+    "commit_minutes": 39,
+    "cp_verify_one_thread_seconds": 21
+  },
+  "not_claimed": [
+    "like-for-like speed",
+    "security comparison",
+    "served model",
+    "weight hiding",
+    "Maverick proving by Hallmark"
+  ]
+}
